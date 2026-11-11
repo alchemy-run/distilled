@@ -75,9 +75,9 @@ export interface LogFilter {
   /** Match operator. */
   op: LogFilterOp | (string & {});
   /** Used with `op: in`. */
-  values?: LogFilterValuesList;
+  values?: LogFilterValuesList | undefined;
   /** Used with the body operators. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Filters applied to log entries. Multiple filters are combined with AND. */
 export type BranchLogsRequestFiltersList = Array<LogFilter>;
@@ -90,20 +90,20 @@ export interface BranchLogsRequest {
   /** End time */
   end: string;
   /** Filters applied to log entries. Multiple filters are combined with AND. */
-  filters?: BranchLogsRequestFiltersList;
-  limit?: number;
+  filters?: BranchLogsRequestFiltersList | undefined;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Log level enumeration */
 export type LogLevel = "debug" | "info" | "warning" | "error";
 export interface LogEntry {
   timestamp: string;
   instanceID: string;
-  level?: LogLevel;
+  level?: LogLevel | undefined;
   message: string;
   /** Name of the PostgreSQL process that emitted the log */
-  process?: string;
+  process?: string | undefined;
 }
 export type BranchLogsLogsList = Array<LogEntry>;
 /** A collection of logs for each of the instances of a branch */
@@ -151,7 +151,7 @@ export interface BranchMetricsRequest {
   /** List of metric names to query. */
   metrics: BranchMetricsRequestMetricsList;
   /** List of instance IDs to query */
-  instances?: BranchMetricsRequestInstancesList;
+  instances?: BranchMetricsRequestInstancesList | undefined;
   /** List of aggregations to get, this is how the data-points within the interval are aggregated. Each one will generate a separate time-series per metric in the response. */
   aggregations: BranchMetricsRequestAggregationsList;
 }
@@ -212,11 +212,11 @@ export interface OrganizationSSODomain {
   /** Whether control of the domain has been proven through DNS */
   verified: boolean;
   /** The DNS record that proves control of the domain. It must stay published while the domain is verified. */
-  verification?: OrganizationSSODomainVerification | null;
+  verification?: OrganizationSSODomainVerification | null | undefined;
   /** When the daily recheck first found the record missing from a verified domain. */
-  missing_since?: string | null;
+  missing_since?: string | null | undefined;
   /** When the domain stops being verified if the record is still missing. */
-  revokes_at?: string | null;
+  revokes_at?: string | null | undefined;
 }
 export interface CreateBillingCheckoutSessionRequest {
   /** Unique identifier for a specific organization */
@@ -243,10 +243,10 @@ export interface ScaleToZeroConfiguration {
 }
 /** Details about the branch continuous backup configuration */
 export interface BackupConfiguration {
-  /** how long are we keeping the backups around for */
-  retentionPeriod?: number;
-  /** time of day/week when we are taking a full backup */
-  backupTime?: string;
+  /** Number of days of point-in-time recovery to guarantee. You can restore the branch to any point within this many days. To provide this, the most recent full backup taken before the start of the window is always kept, along with all changes made after it. Because of this, restore points older than retentionPeriod are sometimes available, but how far back they go depends on the backup schedule and is not guaranteed. */
+  retentionPeriod?: number | undefined;
+  /** When to take a full backup, in UTC, in the format D:HH:MM. D is * for every day, or 0-6 for one day of the week (0 is Sunday). If it is not set, a random time on Sunday between 02:00 and 05:59 is used. */
+  backupTime?: string | undefined;
 }
 /** The mode used to discriminate between types of branches. */
 export type CreateBranchRequestMode = "inherit" | "custom";
@@ -258,9 +258,9 @@ export interface CreateBranchRequest {
   /** Human-readable name for the new branch */
   name: string;
   /** Optional description for the branch purpose or contents. An empty string is stored as no description. */
-  description?: string;
-  scaleToZero?: ScaleToZeroConfiguration;
-  backupConfiguration?: BackupConfiguration;
+  description?: string | undefined;
+  scaleToZero?: ScaleToZeroConfiguration | undefined;
+  backupConfiguration?: BackupConfiguration | undefined;
   /** The mode used to discriminate between types of branches. */
   mode: CreateBranchRequestMode | (string & {});
 }
@@ -271,15 +271,15 @@ export interface BranchShortMetadata {
   /** Human-readable name of the branch */
   name: string;
   /** Optional description of the branch purpose or contents */
-  description?: string;
+  description?: string | undefined;
   /** Timestamp when the branch was created */
   createdAt: string;
   /** Timestamp when the branch was last updated */
   updatedAt: string;
   /** Identifier of the parent branch if this is a derived branch, null otherwise */
-  parentID?: string | null;
+  parentID?: string | null | undefined;
   /** Deprecated: retrieve the connection string from the branch credentials endpoint (GET .../branches/{branchID}/credentials) instead. The hostname in this connection string carries a -deprecated marker in its first DNS label. */
-  connectionString?: string | Redacted.Redacted<string> | null;
+  connectionString?: string | Redacted.Redacted<string> | null | undefined;
   /** Geographic region where the branch is deployed */
   region: string;
   /** Whether the branch allows public access without authentication */
@@ -350,17 +350,17 @@ export interface OrganizationStatus {
   /** Indicates if the organization has been disabled by an admin */
   disabled_by_admin: boolean;
   /** Reason for the current admin status */
-  admin_reason?: string;
+  admin_reason?: string | undefined;
   /** Indicates the status of the organization from a billing perspective */
   billing_status: OrganizationStatusBillingStatus;
   /** Reason for the current billing status */
-  billing_reason?: string;
+  billing_reason?: string | undefined;
   /** Usage tier of the organization. t1 is the default for new organizations, t2 is assigned when a valid payment method is on file. */
   usage_tier: OrganizationStatusUsageTier;
   /** Timestamp of the last update to the organization's status */
   last_updated: string;
   /** Timestamp when the organization was created */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Marketplace provider associated with an organization. */
 export type OrganizationMarketplaceProvider = "aws";
@@ -373,7 +373,7 @@ export interface Organization {
   /** Current status of the organization */
   status: OrganizationStatus;
   /** Marketplace provider for this organization (e.g. "aws"), if billed through a marketplace */
-  marketplace?: OrganizationMarketplaceProvider | null;
+  marketplace?: OrganizationMarketplaceProvider | null | undefined;
 }
 /** Optional scopes assigned to the API key */
 export type CreateOrganizationAPIKeyRequestScopesList = Array<string>;
@@ -386,13 +386,13 @@ export interface CreateOrganizationAPIKeyRequest {
   organizationID: string;
   name: string;
   /** Expiration date for the API key, null for no expiry */
-  expiry?: string | null;
+  expiry?: string | null | undefined;
   /** Optional scopes assigned to the API key */
-  scopes?: CreateOrganizationAPIKeyRequestScopesList;
+  scopes?: CreateOrganizationAPIKeyRequestScopesList | undefined;
   /** Limit access to these projects */
-  projects?: CreateOrganizationAPIKeyRequestProjectsList;
+  projects?: CreateOrganizationAPIKeyRequestProjectsList | undefined;
   /** Limit access to these branches */
-  branches?: CreateOrganizationAPIKeyRequestBranchesList;
+  branches?: CreateOrganizationAPIKeyRequestBranchesList | undefined;
 }
 export type FullAPIKeyScopesList = Array<string>;
 /** Projects this API key has access to */
@@ -416,9 +416,9 @@ export interface FullAPIKey {
   /** The actual API key token */
   token: string;
   /** ID of the user that created this API key */
-  created_by?: string | null;
+  created_by?: string | null | undefined;
   /** ID of the API key that created this API key */
-  created_by_key?: string | null;
+  created_by_key?: string | null | undefined;
 }
 export interface CreateOrganizationAPIKeyResponse {
   key: FullAPIKey;
@@ -431,7 +431,7 @@ export interface CreateOrganizationInvitationRequest {
   /** Email address of the user to invite */
   email: string;
   /** Role the user holds once they accept the invitation. Optional; when omitted, the least privileged role offered applies */
-  role?: OrganizationRoleName | (string & {});
+  role?: OrganizationRoleName | (string & {}) | undefined;
 }
 export interface CreateOrganizationInvitationResponse {}
 /** Which identity provider this is. `google` pins the login to a Google Workspace domain and `microsoft` to a single Entra tenant, taken from the issuer; `oidc` is the fallback for anything else that speaks OpenID Connect. */
@@ -443,7 +443,7 @@ export interface CreateOrganizationSSOProviderRequest {
   /** The verified email domain this provider will serve. */
   domain: string;
   /** OIDC issuer URL. Required for `oidc`, and for `microsoft` where it names the Entra tenant; ignored for `google`. Must be https, and must serve a /.well-known/openid-configuration document naming itself as the issuer. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** OAuth client ID the organization registered with the provider */
   client_id: string;
   /** OAuth client secret. Write-only: it is stored in Keycloak and is never returned by this API. */
@@ -461,7 +461,7 @@ export interface OrganizationSSOProvider {
   /** Whether members on this domain are sent to this provider automatically, leaving no other way in. Registering a provider does not set this; it is enabled separately. */
   enforced: boolean;
   /** OIDC issuer URL, without the /.well-known suffix. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** OAuth client ID the organization registered with the provider. */
   client_id: string;
 }
@@ -474,7 +474,7 @@ export interface CidrEntry {
   /** IP address or CIDR block (e.g., "192.168.0.0/24") */
   cidr: string;
   /** Optional label for the CIDR entry */
-  description?: string;
+  description?: string | undefined;
 }
 export type IPFilteringConfigurationCidrList = Array<CidrEntry>;
 /** Configuration for IP filtering on project branches */
@@ -486,14 +486,14 @@ export interface IPFilteringConfiguration {
 /** Configuration details for a project, including its scale to zero settings */
 export interface ProjectConfiguration {
   scaleToZero: ProjectScaleToZeroConfiguration;
-  ipFiltering?: IPFilteringConfiguration;
+  ipFiltering?: IPFilteringConfiguration | undefined;
 }
 export interface CreateProjectRequest {
   /** Unique identifier of the organization to create the project in */
   organizationID: string;
   /** Human-readable name for the new project */
   name: string;
-  configuration?: ProjectConfiguration;
+  configuration?: ProjectConfiguration | undefined;
 }
 /** Details of a project including its ID, name, and creation/update timestamps */
 export interface Project {
@@ -516,13 +516,13 @@ export type CreateUserAPIKeyRequestBranchesList = Array<string>;
 export interface CreateUserAPIKeyRequest {
   name: string;
   /** Expiration date for the API key, null for no expiry */
-  expiry?: string | null;
+  expiry?: string | null | undefined;
   /** Optional scopes assigned to the API key */
-  scopes?: CreateUserAPIKeyRequestScopesList;
+  scopes?: CreateUserAPIKeyRequestScopesList | undefined;
   /** Limit access to these projects */
-  projects?: CreateUserAPIKeyRequestProjectsList;
+  projects?: CreateUserAPIKeyRequestProjectsList | undefined;
   /** Limit access to these branches */
-  branches?: CreateUserAPIKeyRequestBranchesList;
+  branches?: CreateUserAPIKeyRequestBranchesList | undefined;
 }
 export interface CreateUserAPIKeyResponse {
   key: FullAPIKey;
@@ -549,9 +549,9 @@ export interface DeleteInstallationRequest {
   /** Vercel installation id (icfg_...). */
   installationId: string;
   /** Whether to delete the installation's resources along with the installation. */
-  cascadeResourceDeletion?: boolean;
+  cascadeResourceDeletion?: boolean | undefined;
   /** The reason for deleting the installation. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface DeleteInstallationResponse {}
 export interface DeleteOrganizationRequest {
@@ -632,7 +632,7 @@ export interface ClusterLifecycle {
   /** Current operational state of the cluster (ready, creating, updating, etc.) */
   state: ClusterLifecycleState;
   /** Reason for the current lifecycle state, especially useful for non-ready states */
-  reason?: string;
+  reason?: string | undefined;
   /** Current phase within the lifecycle process */
   phase: string;
 }
@@ -656,8 +656,8 @@ export interface BranchStatus {
   /** Type of status of the branch */
   statusType: BranchStatusStatusType;
   /** Human-readable message explaining the current status */
-  message?: string;
-  lifecycle?: ClusterLifecycle;
+  message?: string | undefined;
+  lifecycle?: ClusterLifecycle | undefined;
   /** Total number of database instances in the cluster */
   instanceCount: number;
   /** Number of database instances that are ready and operational */
@@ -676,7 +676,7 @@ export interface ClusterConfiguration {
   /** Geographic region where the cluster will be deployed */
   region: string;
   /** Branch storage in GiB (gigabytes) */
-  storage?: number;
+  storage?: number | undefined;
   /** The instance type according to the xata instance types available */
   instanceType: string;
   /** PostgreSQL image to use for the database instances */
@@ -684,9 +684,11 @@ export interface ClusterConfiguration {
   /** Number of replicas in the branch. Every child branch is created with no replicas. This can be updated. */
   replicas: number;
   /** Arbitrary PostgreSQL configuration parameters for the cluster */
-  postgresConfigurationParameters?: ClusterConfigurationPostgresConfigurationParametersMap;
+  postgresConfigurationParameters?:
+    | ClusterConfigurationPostgresConfigurationParametersMap
+    | undefined;
   /** List of PostgreSQL extensions and libraries to preload */
-  preloadLibraries?: ClusterConfigurationPreloadLibrariesList;
+  preloadLibraries?: ClusterConfigurationPreloadLibrariesList | undefined;
 }
 /** Detailed metadata about a branch, including its status and configuration */
 export interface BranchMetadata {
@@ -695,13 +697,13 @@ export interface BranchMetadata {
   /** Human-readable name of the branch */
   name: string;
   /** Optional description of the branch purpose or contents */
-  description?: string;
+  description?: string | undefined;
   /** Timestamp when the branch was created */
   createdAt: string;
   /** Timestamp when the branch was last updated */
   updatedAt: string;
   /** Identifier of the parent branch if this is a derived branch, null otherwise */
-  parentID?: string | null;
+  parentID?: string | null | undefined;
   /** Geographic region where the branch is deployed */
   region: string;
   status: BranchStatus;
@@ -713,7 +715,7 @@ export interface BranchMetadata {
   backupsEnabled: boolean;
   scaleToZero: ScaleToZeroConfiguration;
   configuration: ClusterConfiguration;
-  backupConfiguration?: BackupConfiguration;
+  backupConfiguration?: BackupConfiguration | undefined;
 }
 export interface GetBackupRequest {
   /** Unique identifier of the organization containing the project */
@@ -727,12 +729,12 @@ export interface GetBackupRequest {
 export interface BackupMetadata {
   /** unique identifier for the backup */
   id: string;
-  /** the branchID the branch associated with the backup */
+  /** ID of the branch that the backup belongs to */
   branchID: string;
-  /** the earlies point in time available for restoring the branch */
-  earliestRestore?: string;
-  /** the latest point in time available for restoring the branch */
-  latestRestore?: string;
+  /** The earliest point in time that the branch can be restored to. It is absent until the first backup of the branch completes. */
+  earliestRestore?: string | undefined;
+  /** The latest point in time that the branch is known to be restorable to. It is updated from the archived WAL at most every five minutes, so it can be several minutes behind the current time. It is absent until the first backup of the branch completes. */
+  latestRestore?: string | undefined;
   /** description of the backup */
   description: string;
 }
@@ -802,9 +804,9 @@ export interface GetBillingInvoicesRequest {
   /** Unique identifier for a specific organization */
   organizationID: string;
   /** Pagination cursor from a previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of invoices to fetch */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type BillingInvoiceStatus = "draft" | "issued" | "paid" | "void" | "synced";
 export interface BillingInvoice {
@@ -847,7 +849,7 @@ export interface GetBranchCredentialsRequest {
   projectID: string;
   branchID: string;
   /** Username that the credentials requested for, defaults to `xata` */
-  username?: string;
+  username?: string | undefined;
 }
 /** Credentials and connection details for accessing a branch */
 export interface BranchCredentials {
@@ -886,11 +888,11 @@ export type PostgresConfigParameterAcceptableRangeEnumValuesList = Array<string>
 /** Information about the acceptable range of values for this parameter */
 export interface PostgresConfigParameterAcceptableRange {
   /** Minimum allowed value (if applicable) */
-  minValue?: string;
+  minValue?: string | undefined;
   /** Maximum allowed value (if applicable) */
-  maxValue?: string;
+  maxValue?: string | undefined;
   /** List of allowed enum values (if applicable) */
-  enumValues?: PostgresConfigParameterAcceptableRangeEnumValuesList;
+  enumValues?: PostgresConfigParameterAcceptableRangeEnumValuesList | undefined;
 }
 /** The source of the default value */
 export type PostgresConfigParameterDefaultValueSource = "postgres" | "instance_type";
@@ -905,7 +907,7 @@ export interface PostgresConfigParameter {
   /** The section/category this parameter belongs to */
   section: string;
   /** Information about the acceptable range of values for this parameter */
-  acceptableRange?: PostgresConfigParameterAcceptableRange;
+  acceptableRange?: PostgresConfigParameterAcceptableRange | undefined;
   /** The default value for this parameter */
   defaultValue: string;
   /** The source of the default value */
@@ -917,7 +919,7 @@ export interface PostgresConfigParameter {
   /** Optional recommendation for this parameter (currently empty) */
   recommendation: string;
   /** Whether a database restart is required for this parameter change to take effect */
-  restartRequired?: boolean;
+  restartRequired?: boolean | undefined;
 }
 /** Array of PostgreSQL configuration parameters with detailed information */
 export type PostgresConfigDetailsParametersList = Array<PostgresConfigParameter>;
@@ -958,9 +960,9 @@ export interface OrganizationInvitation {
   /** Email address of the invited user */
   email: string;
   /** First name of the invited user */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** Last name of the invited user */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** Timestamp when the invitation was created */
   created_at: string;
   /** Timestamp when the invitation expires */
@@ -1075,7 +1077,7 @@ export interface GetResourceRequest {
 }
 /** User-inputted metadata based on the registered metadata schema. */
 export type ResourceMetadataMap = { [key: string]: unknown | undefined };
-/** A provisioned Vercel Marketplace resource. Matches Vercel's Partner API "Get Resource" response. Secrets/connection info are returned by Provision Resource, not here. The optional billingPlan, protocolSettings, and notification fields are not yet populated. */
+/** A provisioned Vercel Marketplace resource. Matches Vercel's Partner API "Get Resource" response. Secrets/connection info are returned by Provision Resource, not here. */
 export interface Resource {
   /** The partner-specific resource id. */
   id: string;
@@ -1110,11 +1112,11 @@ export interface ListBillingPlansForProductRequest {
   /** Vercel product slug (e.g. xata-postgres). */
   productSlug: string;
   /** Opaque metadata forwarded by Vercel. */
-  metadata?: string;
+  metadata?: string | undefined;
 }
 export interface PlanDetail {
   label: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type BillingPlanDetailsList = Array<PlanDetail>;
 export type BillingPlanHighlightedDetailsList = Array<PlanDetail>;
@@ -1132,20 +1134,20 @@ export interface BillingPlan {
   name: string;
   description: string;
   /** Plan scope; installation-level plans require enablement on the integration. */
-  scope?: string;
+  scope?: string | undefined;
   /** Subscription plans only. false means the plan is completely free. */
-  paymentMethodRequired?: boolean;
+  paymentMethodRequired?: boolean | undefined;
   /** Subscription + paymentMethodRequired. Amount used to test the payment method; never charged. */
-  preauthorizationAmount?: number;
+  preauthorizationAmount?: number | undefined;
   /** Subscription + paymentMethodRequired. Amount invoiced immediately at sign-up (decimal USD string). */
-  initialCharge?: string;
+  initialCharge?: string | undefined;
   /** Display cost for fixed-cost plans, e.g. "$20.00/month". Omitted for usage-based plans. */
-  cost?: string;
-  details?: BillingPlanDetailsList;
-  highlightedDetails?: BillingPlanHighlightedDetailsList;
-  quote?: BillingPlanQuoteList;
-  effectiveDate?: string;
-  disabled?: boolean;
+  cost?: string | undefined;
+  details?: BillingPlanDetailsList | undefined;
+  highlightedDetails?: BillingPlanHighlightedDetailsList | undefined;
+  quote?: BillingPlanQuoteList | undefined;
+  effectiveDate?: string | undefined;
+  disabled?: boolean | undefined;
 }
 export type ListBillingPlansResponsePlansList = Array<BillingPlan>;
 /** The billing plans available for a product. */
@@ -1165,13 +1167,13 @@ export interface BranchListMetadata {
   /** Human-readable name of the branch */
   name: string;
   /** Optional description of the branch purpose or contents */
-  description?: string;
+  description?: string | undefined;
   /** Timestamp when the branch was created */
   createdAt: string;
   /** Timestamp when the branch was last updated */
   updatedAt: string;
   /** Identifier of the parent branch if this is a derived branch, null otherwise */
-  parentID?: string | null;
+  parentID?: string | null | undefined;
   /** Geographic region where the branch is deployed */
   region: string;
   /** Whether the branch allows public access without authentication */
@@ -1191,7 +1193,7 @@ export interface ListExtensionsRequest {
   /** Image for which we list extensions */
   image: string;
   /** Region to list extensions for image in */
-  region?: string;
+  region?: string | undefined;
 }
 /** type of installation */
 export type ExtensionType = "extension" | "plugin" | "module";
@@ -1230,7 +1232,7 @@ export interface ListImagesRequest {
   /** Unique identifier of the organization to check image availability */
   organizationID: string;
   /** Region to check image availability for organization */
-  region?: string;
+  region?: string | undefined;
 }
 /** region where this instance type is available */
 export type ImageRegionList = Array<string>;
@@ -1243,7 +1245,7 @@ export interface Image {
   /** full postgres version */
   fullVersion: string;
   /** region where this instance type is available */
-  region?: ImageRegionList;
+  region?: ImageRegionList | undefined;
 }
 /** Array of available images with their properties */
 export type ListImagesResponseImagesList = Array<Image>;
@@ -1302,9 +1304,9 @@ export interface APIKeyPreview {
   /** Timestamp of the last time the key was used (null if never) */
   last_used: string | null;
   /** ID of the user that created this API key */
-  created_by?: string | null;
+  created_by?: string | null | undefined;
   /** ID of the API key that created this API key */
-  created_by_key?: string | null;
+  created_by_key?: string | null | undefined;
 }
 /** Array of API keys for the organization */
 export type ListOrganizationAPIKeysResponseKeysList = Array<APIKeyPreview>;
@@ -1317,19 +1319,19 @@ export interface ListOrganizationInvitationsRequest {
   /** Unique identifier for a specific organization */
   organizationID: string;
   /** Filter invitations by status */
-  status?: ListOrganizationInvitationsRequestStatus | (string & {});
+  status?: ListOrganizationInvitationsRequestStatus | (string & {}) | undefined;
   /** Filter invitations by email address */
-  email?: string;
+  email?: string | undefined;
   /** Filter invitations by first name */
-  first_name?: string;
+  first_name?: string | undefined;
   /** Filter invitations by last name */
-  last_name?: string;
+  last_name?: string | undefined;
   /** Search invitations by email or name */
-  search?: string;
+  search?: string | undefined;
   /** Index of the first result to return (0-based offset for pagination) */
-  first?: number;
+  first?: number | undefined;
   /** Maximum number of results to return */
-  max?: number;
+  max?: number | undefined;
 }
 export type ListOrganizationInvitationsResponseInvitationsList = Array<OrganizationInvitation>;
 export interface ListOrganizationInvitationsResponse {
@@ -1430,15 +1432,15 @@ export interface ProvisionResourceRequest {
   /** Selected Vercel billing plan id. */
   billingPlanId: string;
   /** Partner-provided identifier indicating the source of provisioning. */
-  externalId?: string;
+  externalId?: string | undefined;
 }
 /** User-inputted metadata based on the registered metadata schema. */
 export type ProvisionedResourceMetadataMap = { [key: string]: unknown | undefined };
 /** Per-environment values that override value for that Vercel environment. */
 export interface SecretEnvironmentOverrides {
-  development?: string;
-  preview?: string;
-  production?: string;
+  development?: string | undefined;
+  preview?: string | undefined;
+  production?: string | undefined;
 }
 /** A connection secret exposed as an environment variable on connected Vercel projects. */
 export interface Secret {
@@ -1447,7 +1449,7 @@ export interface Secret {
   /** Default value, used when no per-environment override applies. */
   value: string;
   /** Per-environment values that override value for that Vercel environment. */
-  environmentOverrides?: SecretEnvironmentOverrides;
+  environmentOverrides?: SecretEnvironmentOverrides | undefined;
 }
 /** Connection secrets that become environment variables on connected projects. */
 export type ProvisionedResourceSecretsList = Array<Secret>;
@@ -1475,21 +1477,21 @@ export interface QueryItem {
   /** SQL query to execute. */
   query: string;
   /** Positional parameters for the query. */
-  params?: QueryItemParamsList;
+  params?: QueryItemParamsList | undefined;
   /** Override array mode for this individual query. */
-  arrayMode?: boolean;
+  arrayMode?: boolean | undefined;
 }
 /** Array of queries for batch execution within a single transaction. */
 export type QueryRequestQueriesList = Array<QueryItem>;
 export interface QueryRequest {
   /** SQL query to execute (single query mode). */
-  query?: string;
+  query?: string | undefined;
   /** Positional parameters for the query (`$1`, `$2`, ...). */
-  params?: QueryRequestParamsList;
+  params?: QueryRequestParamsList | undefined;
   /** Array of queries for batch execution within a single transaction. */
-  queries?: QueryRequestQueriesList;
+  queries?: QueryRequestQueriesList | undefined;
   /** Override array mode for this query (single query mode only). */
-  arrayMode?: boolean;
+  arrayMode?: boolean | undefined;
 }
 /** PostgreSQL column metadata from the row description message. */
 export interface FieldDefinition {
@@ -1583,10 +1585,12 @@ export interface RestoreFromBackupRequest {
   /** Human-readable name of the branch */
   name: string;
   /** Optional description of the branch purpose or contents */
-  description?: string;
-  scaleToZero?: ScaleToZeroConfiguration;
-  backupConfiguration?: BackupConfiguration;
-  configuration?: ClusterConfiguration;
+  description?: string | undefined;
+  scaleToZero?: ScaleToZeroConfiguration | undefined;
+  backupConfiguration?: BackupConfiguration | undefined;
+  configuration?: ClusterConfiguration | undefined;
+  /** Point in time to restore the source branch to. It must be in the recovery window that getBackup reports, from earliestRestore to latestRestore. If it is not set, the new branch is restored to the end of the archived WAL at the time the restore runs. */
+  targetTime?: string | undefined;
 }
 export interface RotateBranchCredentialsRequest {
   organizationID: string;
@@ -1606,11 +1610,11 @@ export interface SendMcpRequestRequest {
   /** JSON-RPC protocol version. Always `2.0`. */
   jsonrpc: SendMcpRequestRequestJsonrpc | (string & {});
   /** Request identifier, echoed on the response. Omitted for notifications. */
-  id?: SendMcpRequestRequestId;
+  id?: SendMcpRequestRequestId | undefined;
   /** MCP method, such as `initialize`, `tools/list`, or `tools/call`. */
   method: string;
   /** Method parameters as defined by the MCP specification. */
-  params?: SendMcpRequestRequestParamsMap;
+  params?: SendMcpRequestRequestParamsMap | undefined;
 }
 /** JSON-RPC protocol version. Always `2.0`. */
 export type JSONRPCResponseJsonrpc = "2.0";
@@ -1625,7 +1629,7 @@ export interface JSONRPCError {
   /** Short description of the error. */
   message: string;
   /** Additional error detail. */
-  data?: unknown;
+  data?: unknown | undefined;
 }
 /** A JSON-RPC 2.0 response. Exactly one of `result` or `error` is present. */
 export interface JSONRPCResponse {
@@ -1634,8 +1638,8 @@ export interface JSONRPCResponse {
   /** Identifier of the request this responds to. */
   id: JSONRPCResponseId;
   /** Method result as defined by the MCP specification. */
-  result?: JSONRPCResponseResultMap;
-  error?: JSONRPCError;
+  result?: JSONRPCResponseResultMap | undefined;
+  error?: JSONRPCError | undefined;
 }
 export interface SetOrganizationMemberRoleRequest {
   /** Unique identifier for a specific organization */
@@ -1678,25 +1682,27 @@ export interface UpdateBranchRequest {
   /** Unique identifier of the branch to update */
   branchID: string;
   /** New name for the branch */
-  name?: string;
+  name?: string | undefined;
   /** New description for the branch. Send an empty string to clear it. */
-  description?: string;
+  description?: string | undefined;
   /** Number of database replicas to scale to */
-  replicas?: number;
+  replicas?: number | undefined;
   /** Branch storage in GiB (gigabytes). The maximum allowed value depends on the organization's storage limit. */
-  storage?: number;
+  storage?: number | undefined;
   /** New instance type for the branch */
-  instanceType?: string;
-  backupConfiguration?: BackupConfiguration;
+  instanceType?: string | undefined;
+  backupConfiguration?: BackupConfiguration | undefined;
   /** Enabled when the branch should be hibernated, disabled if it needs to be reactivated. */
-  hibernate?: boolean;
-  scaleToZero?: ScaleToZeroConfiguration;
+  hibernate?: boolean | undefined;
+  scaleToZero?: ScaleToZeroConfiguration | undefined;
   /** Arbitrary PostgreSQL configuration parameters for the cluster */
-  postgresConfigurationParameters?: UpdateBranchRequestPostgresConfigurationParametersMap;
+  postgresConfigurationParameters?:
+    | UpdateBranchRequestPostgresConfigurationParametersMap
+    | undefined;
   /** List of PostgreSQL extensions and libraries to preload */
-  preloadLibraries?: UpdateBranchRequestPreloadLibrariesList;
+  preloadLibraries?: UpdateBranchRequestPreloadLibrariesList | undefined;
   /** PostgreSQL image to use for the database instances */
-  image?: string;
+  image?: string | undefined;
 }
 export interface UpdateGithubAppInstallationRequest {
   /** Unique identifier of the organization */
@@ -1720,9 +1726,9 @@ export interface UpdateOrganizationRequest {
   /** Unique identifier for a specific organization */
   organizationID: string;
   /** Unique identifier for the organization to update */
-  id?: string;
+  id?: string | undefined;
   /** New name for the organization */
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateOrganizationSSOProviderRequest {
   /** Unique identifier for a specific organization */
@@ -1730,7 +1736,7 @@ export interface UpdateOrganizationSSOProviderRequest {
   /** Alias identifying one of the organization's SSO identity providers */
   providerAlias: string;
   /** OIDC issuer URL. Required for `oidc`, and for `microsoft` where it names the Entra tenant; ignored for `google`. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** OAuth client ID the organization registered with the provider */
   client_id: string;
   /** OAuth client secret. Write-only: it is stored in Keycloak and is never returned by this API. */
@@ -1738,8 +1744,8 @@ export interface UpdateOrganizationSSOProviderRequest {
 }
 /** Partial configuration update for a project */
 export interface UpdateProjectConfiguration {
-  scaleToZero?: ProjectScaleToZeroConfiguration;
-  ipFiltering?: IPFilteringConfiguration;
+  scaleToZero?: ProjectScaleToZeroConfiguration | undefined;
+  ipFiltering?: IPFilteringConfiguration | undefined;
 }
 export interface UpdateProjectRequest {
   /** Unique identifier of the organization containing the project */
@@ -1747,8 +1753,8 @@ export interface UpdateProjectRequest {
   /** Unique identifier of the project to update */
   projectID: string;
   /** New name for the project */
-  name?: string;
-  configuration?: UpdateProjectConfiguration;
+  name?: string | undefined;
+  configuration?: UpdateProjectConfiguration | undefined;
 }
 /** Scopes granted to the installation. */
 export type UpsertInstallationRequestScopesList = Array<string>;
@@ -1763,16 +1769,16 @@ export interface InstallationCredentials {
 /** Contact details for the account. */
 export interface InstallationAccountContact {
   email: string;
-  name?: string;
+  name?: string | undefined;
 }
 /** The Vercel account/team installing the integration. */
 export interface InstallationAccount {
   /** Team name (absent for personal accounts). */
-  name?: string;
+  name?: string | undefined;
   /** URL of the account on Vercel. */
   url: string;
   /** Contact details for the account. */
-  contact?: InstallationAccountContact;
+  contact?: InstallationAccountContact | undefined;
 }
 export interface UpsertInstallationRequest {
   /** Vercel installation id (icfg_...). */
@@ -2802,7 +2808,7 @@ export const provisionResource: API.OperationMethod<
 }));
 
 export type QueryError = BadRequest | Forbidden | NotFound | Conflict | XataOpError;
-/** Execute SQL query Execute a single SQL query or a batch of queries against a PostgreSQL branch. **Authentication:** send the branch's PostgreSQL connection string in the `Connection-String` header. The control-plane API key (Bearer token) is **not** accepted on the gateway host. **Routing:** the target branch, region, and endpoint type are taken from the hostname embedded in the connection string, which must match the request host. See the `Connection-String` security scheme for the host format. **Single query:** provide `query` (and optional `params`) at the top level. **Batch:** provide `queries` as an array of query objects, or send the request body as a JSON array. Batch queries execute within a single transaction. */
+/** Execute SQL query Execute a single SQL query or a batch of queries against a PostgreSQL branch. **Authentication:** send the branch's PostgreSQL connection string in the `Connection-String` header. The control-plane API key (Bearer token) is **not** accepted on the gateway host. **Routing:** the target branch, region, and endpoint type are taken from the hostname embedded in the connection string, which must match the request host. See the `Connection-String` security scheme for the host format. **Single query:** provide `query` (and optional `params`) at the top level. **Batch:** provide `queries` as an array of query objects, or send the request body as a JSON array. Batch queries execute within a single transaction. **Errors:** PostgreSQL errors return 400 with their SQLSTATE in `code` and their diagnostic fields. A 503 means the gateway could not reach the database: `08001` when a connection cannot be established and `08006` when an established connection fails. A 503 does not guarantee that replaying a write is safe: a connection failure can leave its outcome unknown. */
 export const query: API.OperationMethod<QueryRequest, QueryResponse, QueryError, XataOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(1171, __c73, 3) as any as S.Schema<QueryRequest>,
@@ -2883,7 +2889,7 @@ export const resendOrganizationInvitation: API.OperationMethod<
 }));
 
 export type RestoreFromBackupError = BadRequest | NotFound | XataOpError;
-/** Create a new branch from a backup of another branch Creates a new backup branch within the specified project. */
+/** Create a new branch from a backup of another branch Creates a new branch from the continuous backup of the source branch. The source branch does not change. The new branch is created in the region and cell of the source branch, and its parentID is the source branch. */
 export const restoreFromBackup: API.OperationMethod<
   RestoreFromBackupRequest,
   BranchShortMetadata,
@@ -4972,6 +4978,7 @@ function __c78(j: number): any {
           scaleToZero: S.optional(__S(1568, __c98, 0)),
           backupConfiguration: S.optional(__S(1584, __c99, 0)),
           configuration: S.optional(__S(448, __c28, 0)),
+          targetTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

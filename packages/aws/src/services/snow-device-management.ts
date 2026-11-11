@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -137,25 +138,27 @@ export interface CancelTaskInput {
   taskId: string;
 }
 export interface CancelTaskOutput {
-  taskId?: string;
+  taskId?: string | undefined;
 }
 export type TargetList = string[];
 export interface Unlock {}
 export interface Reboot {}
-export type Command = { unlock: Unlock; reboot?: never } | { unlock?: never; reboot: Reboot };
+export type Command =
+  | { unlock: Unlock; reboot?: undefined }
+  | { unlock?: undefined; reboot: Reboot };
 export type TaskDescriptionString = string;
 export type TagMap = { [key: string]: string | undefined };
 export type IdempotencyToken = string;
 export interface CreateTaskInput {
   targets: string[];
   command: Command;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateTaskOutput {
-  taskId?: string;
-  taskArn?: string;
+  taskId?: string | undefined;
+  taskArn?: string | undefined;
 }
 export type ManagedDeviceId = string;
 export interface DescribeDeviceInput {
@@ -165,40 +168,40 @@ export type UnlockState = string;
 export type PhysicalConnectorType = string;
 export type IpAddressAssignment = string;
 export interface PhysicalNetworkInterface {
-  physicalNetworkInterfaceId?: string;
-  physicalConnectorType?: string;
-  ipAddressAssignment?: string;
-  ipAddress?: string;
-  netmask?: string;
-  defaultGateway?: string;
-  macAddress?: string;
+  physicalNetworkInterfaceId?: string | undefined;
+  physicalConnectorType?: string | undefined;
+  ipAddressAssignment?: string | undefined;
+  ipAddress?: string | undefined;
+  netmask?: string | undefined;
+  defaultGateway?: string | undefined;
+  macAddress?: string | undefined;
 }
 export type PhysicalNetworkInterfaceList = PhysicalNetworkInterface[];
 export interface Capacity {
-  name?: string;
-  unit?: string;
-  total?: number;
-  used?: number;
-  available?: number;
+  name?: string | undefined;
+  unit?: string | undefined;
+  total?: number | undefined;
+  used?: number | undefined;
+  available?: number | undefined;
 }
 export type CapacityList = Capacity[];
 export interface SoftwareInformation {
-  installedVersion?: string;
-  installingVersion?: string;
-  installState?: string;
+  installedVersion?: string | undefined;
+  installingVersion?: string | undefined;
+  installState?: string | undefined;
 }
 export interface DescribeDeviceOutput {
-  lastReachedOutAt?: Date;
-  lastUpdatedAt?: Date;
-  tags?: { [key: string]: string | undefined };
-  managedDeviceId?: string;
-  managedDeviceArn?: string;
-  deviceType?: string;
-  associatedWithJob?: string;
-  deviceState?: string;
-  physicalNetworkInterfaces?: PhysicalNetworkInterface[];
-  deviceCapacities?: Capacity[];
-  software?: SoftwareInformation;
+  lastReachedOutAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  managedDeviceId?: string | undefined;
+  managedDeviceArn?: string | undefined;
+  deviceType?: string | undefined;
+  associatedWithJob?: string | undefined;
+  deviceState?: string | undefined;
+  physicalNetworkInterfaces?: PhysicalNetworkInterface[] | undefined;
+  deviceCapacities?: Capacity[] | undefined;
+  software?: SoftwareInformation | undefined;
 }
 export type InstanceIdsList = string[];
 export interface DescribeDeviceEc2Input {
@@ -207,52 +210,52 @@ export interface DescribeDeviceEc2Input {
 }
 export type InstanceStateName = string;
 export interface InstanceState {
-  code?: number;
-  name?: string;
+  code?: number | undefined;
+  name?: string | undefined;
 }
 export type AttachmentStatus = string;
 export interface EbsInstanceBlockDevice {
-  attachTime?: Date;
-  deleteOnTermination?: boolean;
-  status?: string;
-  volumeId?: string;
+  attachTime?: Date | undefined;
+  deleteOnTermination?: boolean | undefined;
+  status?: string | undefined;
+  volumeId?: string | undefined;
 }
 export interface InstanceBlockDeviceMapping {
-  deviceName?: string;
-  ebs?: EbsInstanceBlockDevice;
+  deviceName?: string | undefined;
+  ebs?: EbsInstanceBlockDevice | undefined;
 }
 export type InstanceBlockDeviceMappingList = InstanceBlockDeviceMapping[];
 export interface SecurityGroupIdentifier {
-  groupId?: string;
-  groupName?: string;
+  groupId?: string | undefined;
+  groupName?: string | undefined;
 }
 export type SecurityGroupIdentifierList = SecurityGroupIdentifier[];
 export interface CpuOptions {
-  coreCount?: number;
-  threadsPerCore?: number;
+  coreCount?: number | undefined;
+  threadsPerCore?: number | undefined;
 }
 export interface Instance {
-  imageId?: string;
-  amiLaunchIndex?: number;
-  instanceId?: string;
-  state?: InstanceState;
-  instanceType?: string;
-  privateIpAddress?: string;
-  publicIpAddress?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  blockDeviceMappings?: InstanceBlockDeviceMapping[];
-  securityGroups?: SecurityGroupIdentifier[];
-  cpuOptions?: CpuOptions;
-  rootDeviceName?: string;
+  imageId?: string | undefined;
+  amiLaunchIndex?: number | undefined;
+  instanceId?: string | undefined;
+  state?: InstanceState | undefined;
+  instanceType?: string | undefined;
+  privateIpAddress?: string | undefined;
+  publicIpAddress?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  blockDeviceMappings?: InstanceBlockDeviceMapping[] | undefined;
+  securityGroups?: SecurityGroupIdentifier[] | undefined;
+  cpuOptions?: CpuOptions | undefined;
+  rootDeviceName?: string | undefined;
 }
 export interface InstanceSummary {
-  instance?: Instance;
-  lastUpdatedAt?: Date;
+  instance?: Instance | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type InstanceSummaryList = InstanceSummary[];
 export interface DescribeDeviceEc2Output {
-  instances?: InstanceSummary[];
+  instances?: InstanceSummary[] | undefined;
 }
 export interface DescribeExecutionInput {
   taskId: string;
@@ -261,101 +264,101 @@ export interface DescribeExecutionInput {
 export type ExecutionId = string;
 export type ExecutionState = string;
 export interface DescribeExecutionOutput {
-  taskId?: string;
-  executionId?: string;
-  managedDeviceId?: string;
-  state?: string;
-  startedAt?: Date;
-  lastUpdatedAt?: Date;
+  taskId?: string | undefined;
+  executionId?: string | undefined;
+  managedDeviceId?: string | undefined;
+  state?: string | undefined;
+  startedAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export interface DescribeTaskInput {
   taskId: string;
 }
 export type TaskState = string;
 export interface DescribeTaskOutput {
-  taskId?: string;
-  taskArn?: string;
-  targets?: string[];
-  state?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  completedAt?: Date;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  taskId?: string | undefined;
+  taskArn?: string | undefined;
+  targets?: string[] | undefined;
+  state?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  completedAt?: Date | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListDeviceResourcesInput {
   managedDeviceId: string;
-  type?: string;
-  maxResults?: number;
-  nextToken?: string;
+  type?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ResourceSummary {
   resourceType: string;
-  arn?: string;
-  id?: string;
+  arn?: string | undefined;
+  id?: string | undefined;
 }
 export type ResourceSummaryList = ResourceSummary[];
 export interface ListDeviceResourcesOutput {
-  resources?: ResourceSummary[];
-  nextToken?: string;
+  resources?: ResourceSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type JobId = string;
 export interface ListDevicesInput {
-  jobId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  jobId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DeviceSummary {
-  managedDeviceId?: string;
-  managedDeviceArn?: string;
-  associatedWithJob?: string;
-  tags?: { [key: string]: string | undefined };
+  managedDeviceId?: string | undefined;
+  managedDeviceArn?: string | undefined;
+  associatedWithJob?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DeviceSummaryList = DeviceSummary[];
 export interface ListDevicesOutput {
-  devices?: DeviceSummary[];
-  nextToken?: string;
+  devices?: DeviceSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListExecutionsInput {
   taskId: string;
-  state?: string;
-  maxResults?: number;
-  nextToken?: string;
+  state?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ExecutionSummary {
-  taskId?: string;
-  executionId?: string;
-  managedDeviceId?: string;
-  state?: string;
+  taskId?: string | undefined;
+  executionId?: string | undefined;
+  managedDeviceId?: string | undefined;
+  state?: string | undefined;
 }
 export type ExecutionSummaryList = ExecutionSummary[];
 export interface ListExecutionsOutput {
-  executions?: ExecutionSummary[];
-  nextToken?: string;
+  executions?: ExecutionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTasksInput {
-  state?: string;
-  maxResults?: number;
-  nextToken?: string;
+  state?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface TaskSummary {
   taskId: string;
-  taskArn?: string;
-  state?: string;
-  tags?: { [key: string]: string | undefined };
+  taskArn?: string | undefined;
+  state?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TaskSummaryList = TaskSummary[];
 export interface ListTasksOutput {
-  tasks?: TaskSummary[];
-  nextToken?: string;
+  tasks?: TaskSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
@@ -383,7 +386,7 @@ export type CancelTaskError =
  * `CancelTask` operation changes the task's state.
  */
 export const cancelTask: API.OperationMethod<
-  CancelTaskInput,
+  CancelTaskInput & RegionInput,
   CancelTaskOutput,
   CancelTaskError,
   Credentials | HttpClient.HttpClient
@@ -416,7 +419,7 @@ export type CreateTaskError =
  * Instructs one or more devices to start a task, such as unlocking or rebooting.
  */
 export const createTask: API.OperationMethod<
-  CreateTaskInput,
+  CreateTaskInput & RegionInput,
   CreateTaskOutput,
   CreateTaskError,
   Credentials | HttpClient.HttpClient
@@ -450,7 +453,7 @@ export type DescribeDeviceError =
  * addresses, and lock status.
  */
 export const describeDevice: API.OperationMethod<
-  DescribeDeviceInput,
+  DescribeDeviceInput & RegionInput,
   DescribeDeviceOutput,
   DescribeDeviceError,
   Credentials | HttpClient.HttpClient
@@ -484,7 +487,7 @@ export type DescribeDeviceEc2InstancesError =
  * Amazon Web Services Cloud and include a subset of the available fields.
  */
 export const describeDeviceEc2Instances: API.OperationMethod<
-  DescribeDeviceEc2Input,
+  DescribeDeviceEc2Input & RegionInput,
   DescribeDeviceEc2Output,
   DescribeDeviceEc2InstancesError,
   Credentials | HttpClient.HttpClient
@@ -516,7 +519,7 @@ export type DescribeExecutionError =
  * Checks the status of a remote task running on one or more target devices.
  */
 export const describeExecution: API.OperationMethod<
-  DescribeExecutionInput,
+  DescribeExecutionInput & RegionInput,
   DescribeExecutionOutput,
   DescribeExecutionError,
   Credentials | HttpClient.HttpClient
@@ -548,7 +551,7 @@ export type DescribeTaskError =
  * Checks the metadata for a given task on a device.
  */
 export const describeTask: API.OperationMethod<
-  DescribeTaskInput,
+  DescribeTaskInput & RegionInput,
   DescribeTaskOutput,
   DescribeTaskError,
   Credentials | HttpClient.HttpClient
@@ -580,7 +583,7 @@ export type ListDeviceResourcesError =
  * Returns a list of the Amazon Web Services resources available for a device. Currently, Amazon EC2 instances are the only supported resource type.
  */
 export const listDeviceResources: API.PaginatedOperationMethod<
-  ListDeviceResourcesInput,
+  ListDeviceResourcesInput & RegionInput,
   ListDeviceResourcesOutput,
   ListDeviceResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -619,7 +622,7 @@ export type ListDevicesError =
  * enabled in the Amazon Web Services Region where the command is run.
  */
 export const listDevices: API.PaginatedOperationMethod<
-  ListDevicesInput,
+  ListDevicesInput & RegionInput,
   ListDevicesOutput,
   ListDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -657,7 +660,7 @@ export type ListExecutionsError =
  * Returns the status of tasks for one or more target devices.
  */
 export const listExecutions: API.PaginatedOperationMethod<
-  ListExecutionsInput,
+  ListExecutionsInput & RegionInput,
   ListExecutionsOutput,
   ListExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -694,7 +697,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a managed device or task.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -719,7 +722,7 @@ export type ListTasksError =
  * Returns a list of tasks that can be filtered by state.
  */
 export const listTasks: API.PaginatedOperationMethod<
-  ListTasksInput,
+  ListTasksInput & RegionInput,
   ListTasksOutput,
   ListTasksError,
   Credentials | HttpClient.HttpClient,
@@ -755,7 +758,7 @@ export type TagResourceError =
  * Adds or replaces tags on a device or task.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -779,7 +782,7 @@ export type UntagResourceError =
  * Removes a tag from a device or task.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

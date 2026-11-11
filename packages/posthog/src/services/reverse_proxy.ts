@@ -55,7 +55,7 @@ export interface CreateProxyRecordRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** The custom domain to proxy through, e.g. 'e.example.com'. Must be a valid subdomain you control. */
-  domain?: string;
+  domain?: string | undefined;
 }
 /** * `waiting` - Waiting * `issuing` - Issuing * `valid` - Valid * `warning` - Warning * `erroring` - Erroring * `deleting` - Deleting * `timed_out` - Timed Out */
 export type ProxyRecordStatusEnum =
@@ -68,25 +68,25 @@ export type ProxyRecordStatusEnum =
   | "timed_out";
 export interface ProxyRecord {
   /** Unique identifier for the proxy record. */
-  id?: string;
+  id?: string | undefined;
   /** The custom domain to proxy through, e.g. 'e.example.com'. Must be a valid subdomain you control. */
-  domain?: string;
+  domain?: string | undefined;
   /** The CNAME target to add as a DNS record for your domain. Point your domain's CNAME to this value. */
-  target_cname?: string;
+  target_cname?: string | undefined;
   /** HTTPS URL that requests to the proxy domain root redirect to, or null when disabled. */
-  root_redirect_url?: string | null;
+  root_redirect_url?: string | null | undefined;
   /** Whether this managed proxy supports a redirect from its root URL. */
-  root_redirect_supported?: boolean;
+  root_redirect_supported?: boolean | undefined;
   /** Current provisioning status. Values: waiting (DNS verification pending), issuing (SSL certificate being issued), valid (proxy is live and working), warning (proxy has issues but is operational), erroring (proxy setup failed), deleting (removal in progress), timed_out (DNS verification timed out). * `waiting` - Waiting * `issuing` - Issuing * `valid` - Valid * `warning` - Warning * `erroring` - Erroring * `deleting` - Deleting * `timed_out` - Timed Out */
-  status?: ProxyRecordStatusEnum;
+  status?: ProxyRecordStatusEnum | undefined;
   /** Human-readable status message with details about errors or warnings, if any. */
-  message?: string | null;
+  message?: string | null | undefined;
   /** When this proxy record was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** When this proxy record was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** ID of the user who created this proxy record. */
-  created_by?: number;
+  created_by?: number | undefined;
 }
 export interface CreateProxyRecordsDiagnoseRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -136,7 +136,7 @@ export interface DiagnosticCheckResult {
   /** Customer-facing explanation of the check's outcome. */
   detail: string;
   /** Concrete remediation steps when the check failed; null when there's nothing actionable. */
-  remediation?: DiagnosticRemediation | null;
+  remediation?: DiagnosticRemediation | null | undefined;
 }
 /** Per-check results in execution order. */
 export type DiagnosticReportChecksList = Array<DiagnosticCheckResult>;
@@ -160,9 +160,9 @@ export interface ListProxyRecordsRequest {
 }
 export type ProxyRecordListResponseResultsList = Array<ProxyRecord>;
 export interface ProxyRecordListResponse {
-  results?: ProxyRecordListResponseResultsList;
+  results?: ProxyRecordListResponseResultsList | undefined;
   /** Maximum number of proxy records allowed for this organization's current plan. */
-  max_proxy_records?: number;
+  max_proxy_records?: number | undefined;
 }
 export interface ProxyRecordsDestroyRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -183,7 +183,7 @@ export interface UpdateProxyRecordsPartialRequest {
   /** A UUID string identifying this proxy record. */
   id: string;
   /** HTTPS URL that requests to the proxy domain root redirect to, or null to disable the redirect. The URL must use the same registrable domain as the managed proxy. */
-  root_redirect_url?: string;
+  root_redirect_url?: string | undefined;
 }
 export type CreateProxyRecordError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Create a new managed reverse proxy. Provide the domain you want to proxy through. The response includes the CNAME target you need to add as a DNS record. Once the CNAME is configured, the proxy will be automatically verified and provisioned. */

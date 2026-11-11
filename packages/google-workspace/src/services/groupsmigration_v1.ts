@@ -88,9 +88,9 @@ export interface InsertArchiveRequest {
 /** JSON response template for groups migration API. */
 export interface Groups {
   /** The kind of insert resource this is. */
-  kind?: string;
+  kind?: string | undefined;
   /** The status of the insert request. */
-  responseCode?: string;
+  responseCode?: string | undefined;
 }
 export type InsertArchiveError =
   | NotFound

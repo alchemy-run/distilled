@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Compute",
   service: "Compute",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -42,13 +43,13 @@ export interface ApproveVirtualMachineScaleSetRollingUpgradeRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
-  instanceIds?: ApproveVirtualMachineScaleSetRollingUpgradeRequestInstanceIdsList;
+  instanceIds?: ApproveVirtualMachineScaleSetRollingUpgradeRequestInstanceIdsList | undefined;
 }
 export interface ApproveVirtualMachineScaleSetRollingUpgradeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ApproveVirtualMachineScaleSetVMRollingUpgradeRequest {
   /** The ID of the target subscription. */
@@ -62,15 +63,15 @@ export interface ApproveVirtualMachineScaleSetVMRollingUpgradeRequest {
 }
 export interface ApproveVirtualMachineScaleSetVMRollingUpgradeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type AvailabilitySetsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export interface AvailabilitySetPropertiesInputVirtualMachinesItem {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
 }
 /** A list of references to all virtual machines in the availability set. */
 export type AvailabilitySetPropertiesInputVirtualMachinesList =
@@ -80,60 +81,62 @@ export type AvailabilitySetPropertiesInputProximityPlacementGroup =
 /** Specifies Redeploy related Scheduled Event related configurations. */
 export interface UserInitiatedRedeploy {
   /** Specifies Redeploy Scheduled Event related configurations. */
-  automaticallyApprove?: boolean;
+  automaticallyApprove?: boolean | undefined;
 }
 /** Specifies Reboot related Scheduled Event related configurations. */
 export interface UserInitiatedReboot {
   /** Specifies Reboot Scheduled Event related configurations. */
-  automaticallyApprove?: boolean;
+  automaticallyApprove?: boolean | undefined;
 }
 /** Specifies eventGridAndResourceGraph related Scheduled Event related configurations. */
 export interface EventGridAndResourceGraph {
   /** Specifies if event grid and resource graph is enabled for Scheduled event related configurations. */
-  enable?: boolean;
+  enable?: boolean | undefined;
   /** Specifies the api-version to determine which Scheduled Events configuration schema version will be delivered. */
-  scheduledEventsApiVersion?: string;
+  scheduledEventsApiVersion?: string | undefined;
 }
 export interface ScheduledEventsAdditionalPublishingTargets {
   /** The configuration parameters used while creating eventGridAndResourceGraph Scheduled Event setting. */
-  eventGridAndResourceGraph?: EventGridAndResourceGraph;
+  eventGridAndResourceGraph?: EventGridAndResourceGraph | undefined;
 }
 /** Specifies if Scheduled Events should be auto-approved when all instances are down. */
 export interface AllInstancesDown {
   /** Specifies if Scheduled Events should be auto-approved when all instances are down. its default value is true */
-  automaticallyApprove?: boolean;
+  automaticallyApprove?: boolean | undefined;
 }
 /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations. */
 export interface ScheduledEventsPolicy {
   /** The configuration parameters used while creating userInitiatedRedeploy scheduled event setting creation. */
-  userInitiatedRedeploy?: UserInitiatedRedeploy;
+  userInitiatedRedeploy?: UserInitiatedRedeploy | undefined;
   /** The configuration parameters used while creating userInitiatedReboot scheduled event setting creation. */
-  userInitiatedReboot?: UserInitiatedReboot;
+  userInitiatedReboot?: UserInitiatedReboot | undefined;
   /** The configuration parameters used while publishing scheduledEventsAdditionalPublishingTargets. */
-  scheduledEventsAdditionalPublishingTargets?: ScheduledEventsAdditionalPublishingTargets;
+  scheduledEventsAdditionalPublishingTargets?:
+    | ScheduledEventsAdditionalPublishingTargets
+    | undefined;
   /** The configuration parameters used while creating AllInstancesDown scheduled event setting creation. */
-  allInstancesDown?: AllInstancesDown;
+  allInstancesDown?: AllInstancesDown | undefined;
 }
 /** The instance view of a resource. */
 export interface AvailabilitySetPropertiesInput {
   /** Update Domain count. */
-  platformUpdateDomainCount?: number;
+  platformUpdateDomainCount?: number | undefined;
   /** Fault Domain count. */
-  platformFaultDomainCount?: number;
+  platformFaultDomainCount?: number | undefined;
   /** A list of references to all virtual machines in the availability set. */
-  virtualMachines?: AvailabilitySetPropertiesInputVirtualMachinesList;
-  proximityPlacementGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  virtualMachines?: AvailabilitySetPropertiesInputVirtualMachinesList | undefined;
+  proximityPlacementGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. */
-  scheduledEventsPolicy?: ScheduledEventsPolicy;
+  scheduledEventsPolicy?: ScheduledEventsPolicy | undefined;
 }
 /** Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is currently on, you need to deallocate the VMs in the scale set before you modify the SKU name. */
 export interface Sku {
   /** The sku name. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic** */
-  tier?: string;
+  tier?: string | undefined;
   /** Specifies the number of virtual machines in the scale set. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface AvailabilitySetsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -143,13 +146,13 @@ export interface AvailabilitySetsCreateOrUpdateRequest {
   /** The name of the availability set. */
   availabilitySetName: string;
   /** Resource tags. */
-  tags?: AvailabilitySetsCreateOrUpdateRequestTagsMap;
+  tags?: AvailabilitySetsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The instance view of a resource. */
-  properties?: AvailabilitySetPropertiesInput;
+  properties?: AvailabilitySetPropertiesInput | undefined;
   /** Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for virtual machines with managed disks and 'Classic' for virtual machines with unmanaged disks. Default value is 'Classic'. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -158,17 +161,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AvailabilitySetsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -184,15 +187,15 @@ export type StatusLevelTypes = "Info" | "Warning" | "Error";
 /** Instance view status. */
 export interface InstanceViewStatus {
   /** The status code. */
-  code?: string;
+  code?: string | undefined;
   /** The level code. */
-  level?: StatusLevelTypes | (string & {});
+  level?: StatusLevelTypes | (string & {}) | undefined;
   /** The short localizable label for the status. */
-  displayStatus?: string;
+  displayStatus?: string | undefined;
   /** The detailed status message, including for alerts and error messages. */
-  message?: string;
+  message?: string | undefined;
   /** The time of the status. */
-  time?: string;
+  time?: string | undefined;
 }
 /** The resource status information. */
 export type AvailabilitySetPropertiesStatusesList = Array<InstanceViewStatus>;
@@ -201,50 +204,50 @@ export type DefaultVirtualMachineScaleSetInfoDefaultVirtualMachineScaleSet =
 /** Indicates the target Virtual Machine ScaleSet properties upon triggering a seamless migration without downtime of the VMs via the ConvertToVirtualMachineScaleSet API. */
 export interface DefaultVirtualMachineScaleSetInfo {
   /** Indicates if the the maximum capacity of the default migrated Virtual Machine Scale Set after its migration will be constrained to a limited number of VMs. */
-  constrainedMaximumCapacity?: boolean;
-  defaultVirtualMachineScaleSet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  constrainedMaximumCapacity?: boolean | undefined;
+  defaultVirtualMachineScaleSet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
 }
 export type VirtualMachineScaleSetMigrationInfoMigrateToVirtualMachineScaleSet =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
 /** Describes the Availability Set properties related to migration to Flexible Virtual Machine Scale Set. */
 export interface VirtualMachineScaleSetMigrationInfo {
   /** Indicates the target Virtual Machine ScaleSet properties upon triggering a seamless migration without downtime of the VMs via the ConvertToVirtualMachineScaleSet API. */
-  defaultVirtualMachineScaleSetInfo?: DefaultVirtualMachineScaleSetInfo;
-  migrateToVirtualMachineScaleSet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  defaultVirtualMachineScaleSetInfo?: DefaultVirtualMachineScaleSetInfo | undefined;
+  migrateToVirtualMachineScaleSet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
 }
 /** The instance view of a resource. */
 export interface AvailabilitySetProperties {
   /** Update Domain count. */
-  platformUpdateDomainCount?: number;
+  platformUpdateDomainCount?: number | undefined;
   /** Fault Domain count. */
-  platformFaultDomainCount?: number;
+  platformFaultDomainCount?: number | undefined;
   /** A list of references to all virtual machines in the availability set. */
-  virtualMachines?: AvailabilitySetPropertiesVirtualMachinesList;
-  proximityPlacementGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  virtualMachines?: AvailabilitySetPropertiesVirtualMachinesList | undefined;
+  proximityPlacementGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** The resource status information. */
-  statuses?: AvailabilitySetPropertiesStatusesList;
+  statuses?: AvailabilitySetPropertiesStatusesList | undefined;
   /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. */
-  scheduledEventsPolicy?: ScheduledEventsPolicy;
+  scheduledEventsPolicy?: ScheduledEventsPolicy | undefined;
   /** Describes the migration properties on the Availability Set. */
-  virtualMachineScaleSetMigrationInfo?: VirtualMachineScaleSetMigrationInfo;
+  virtualMachineScaleSetMigrationInfo?: VirtualMachineScaleSetMigrationInfo | undefined;
 }
 export interface AvailabilitySetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AvailabilitySetsCreateOrUpdateResponseTagsMap;
+  tags?: AvailabilitySetsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The instance view of a resource. */
-  properties?: AvailabilitySetProperties;
+  properties?: AvailabilitySetProperties | undefined;
   /** Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for virtual machines with managed disks and 'Classic' for virtual machines with unmanaged disks. Default value is 'Classic'. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** The type of operation performed by Bulk Actions. */
 export type ResourceOperationType =
@@ -257,16 +260,16 @@ export type ResourceOperationType =
 /** The retry settings for a bulk action. */
 export interface RetryPolicy {
   /** The maximum number of retry attempts. */
-  retryCount?: number;
+  retryCount?: number | undefined;
   /** The period, in minutes, during which Bulk Actions can retry the operation. */
-  retryWindowInMinutes?: number;
+  retryWindowInMinutes?: number | undefined;
   /** The operation that Bulk Actions attempts when the requested operation fails. */
-  onFailureAction?: ResourceOperationType | (string & {});
+  onFailureAction?: ResourceOperationType | (string & {}) | undefined;
 }
 /** The execution settings for a bulk action. */
 export interface ExecutionParameters {
   /** The retry settings for the bulk action. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
 }
 /** The Azure resource IDs of the target virtual machines. */
 export type ResourcesIdsList = Array<string>;
@@ -322,45 +325,45 @@ export interface FallbackOperationInfo {
   /** The status of the additional operation. */
   status: string;
   /** The error returned when the additional operation did not succeed. */
-  error?: ResourceOperationError;
+  error?: ResourceOperationError | undefined;
 }
 /** The status and settings for an operation on one virtual machine. */
 export interface ResourceOperationDetails {
   /** The operation ID used to track the action for this virtual machine. */
   operationId: string;
   /** The virtual machine's Azure resource ID. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The type of operation performed on the virtual machine. */
-  opType?: ResourceOperationDetailsOpType;
+  opType?: ResourceOperationDetailsOpType | undefined;
   /** The subscription ID associated with the bulk action. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The requested deadline for the operation. */
-  deadline?: string;
+  deadline?: string | undefined;
   /** Specifies whether the deadline time indicates the time at which the operation should start or should be complete. */
-  deadlineType?: ResourceOperationDetailsDeadlineType;
+  deadlineType?: ResourceOperationDetailsDeadlineType | undefined;
   /** The current state of the operation. */
-  state?: ResourceOperationDetailsState;
+  state?: ResourceOperationDetailsState | undefined;
   /** The time zone used to interpret the operation deadline. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Contains error details if the operation does not succeed. */
-  resourceOperationError?: ResourceOperationError;
+  resourceOperationError?: ResourceOperationError | undefined;
   /** Information about the fallback operation attempted after the requested operation did not succeed. */
-  fallbackOperationInfo?: FallbackOperationInfo;
+  fallbackOperationInfo?: FallbackOperationInfo | undefined;
   /** The date and time when the operation completed. */
-  completedAt?: string;
+  completedAt?: string | undefined;
   /** The retry settings for the bulk action. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
 }
 /** The result of a bulk action for one virtual machine. */
 export interface ResourceOperation {
   /** The virtual machine Azure resource ID. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** A code that identifies the error for the virtual machine operation. */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** A message that describes the error for the virtual machine operation. */
-  errorDetails?: string;
+  errorDetails?: string | undefined;
   /** The virtual machine operation details. */
-  operation?: ResourceOperationDetails;
+  operation?: ResourceOperationDetails | undefined;
 }
 /** The result for each virtual machine. */
 export type DeallocateResourceOperationResponseResultsList = Array<ResourceOperation>;
@@ -373,7 +376,7 @@ export interface DeallocateResourceOperationResponse {
   /** The Azure region where Bulk Actions processes the request. */
   location: string;
   /** The result for each virtual machine. */
-  results?: DeallocateResourceOperationResponseResultsList;
+  results?: DeallocateResourceOperationResponseResultsList | undefined;
 }
 export interface BulkVirtualMachineBulkOperationHibernateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -398,7 +401,7 @@ export interface HibernateResourceOperationResponse {
   /** The Azure region where Bulk Actions processes the request. */
   location: string;
   /** The result for each virtual machine. */
-  results?: HibernateResourceOperationResponseResultsList;
+  results?: HibernateResourceOperationResponseResultsList | undefined;
 }
 export interface CancelAvailabilitySetMigrationToVirtualMachineScaleSetRequest {
   /** The ID of the target subscription. */
@@ -419,9 +422,9 @@ export interface CancelVirtualMachineScaleSetRollingUpgradeRequest {
 }
 export interface CancelVirtualMachineScaleSetRollingUpgradeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CapacityReservationGroupsCreateOrUpdateRequestTagsMap = {
@@ -434,16 +437,16 @@ export type ResourceSharingProfileSubscriptionIdsList =
   Array<AvailabilitySetPropertiesInputVirtualMachinesItem>;
 export interface ResourceSharingProfile {
   /** Specifies an array of subscription resource IDs that capacity reservation group is shared with. Block Capacity Reservations does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
-  subscriptionIds?: ResourceSharingProfileSubscriptionIdsList;
+  subscriptionIds?: ResourceSharingProfileSubscriptionIdsList | undefined;
 }
 /** Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations that enable a VM to consume capacity only from this capacity block when it is associated using a capacity reservation group, 'Targeted' for reservations that enable a VM to consume capacity from an explicitly associated capacity reservation group and fall back to the publicly available capacity if the reservation is full, and 'Open' for reservations that a VM consumes when it is eligible from an implicitly associated capacity reservation group with the matching VM size and zone without associating that capacity reservation group and fall back to the publicly available capacity if the reservation is full. Future capacity reservations can be created in 'Targeted' or 'Open' capacity reservation groups. The reservation type is immutable and cannot be changed after the capacity reservation group is created. */
 export type ReservationType = "Targeted" | "Block" | "Open";
 /** capacity reservation group Properties. */
 export interface CapacityReservationGroupPropertiesInput {
-  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. The capacity reservation group resource can generally be shared across subscriptions belonging to a single Azure AAD tenant or across AAD tenants if there is a trust relationship established between the tenants. Block capacity reservation does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
-  sharingProfile?: ResourceSharingProfile;
+  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. The capacity reservation group resource can be shared only across subscriptions belonging to the same Microsoft Entra ID tenant. Sharing across tenants is not supported. Block capacity reservation does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  sharingProfile?: ResourceSharingProfile | undefined;
   /** Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations that enable a VM to consume capacity only from this capacity block when it is associated using a capacity reservation group, 'Targeted' for reservations that enable a VM to consume capacity from an explicitly associated capacity reservation group and fall back to the publicly available capacity if the reservation is full, and 'Open' for reservations that a VM consumes when it is eligible from an implicitly associated capacity reservation group with the matching VM size and zone without associating that capacity reservation group and fall back to the publicly available capacity if the reservation is full. The reservation type is immutable and cannot be changed after the capacity reservation group is created. */
-  reservationType?: ReservationType | (string & {});
+  reservationType?: ReservationType | (string & {}) | undefined;
 }
 /** The availability zones. */
 export type CapacityReservationGroupsCreateOrUpdateRequestZonesList = Array<string>;
@@ -455,13 +458,13 @@ export interface CapacityReservationGroupsCreateOrUpdateRequest {
   /** The name of the capacity reservation group. */
   capacityReservationGroupName: string;
   /** Resource tags. */
-  tags?: CapacityReservationGroupsCreateOrUpdateRequestTagsMap;
+  tags?: CapacityReservationGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** capacity reservation group Properties. */
-  properties?: CapacityReservationGroupPropertiesInput;
+  properties?: CapacityReservationGroupPropertiesInput | undefined;
   /** The availability zones. */
-  zones?: CapacityReservationGroupsCreateOrUpdateRequestZonesList;
+  zones?: CapacityReservationGroupsCreateOrUpdateRequestZonesList | undefined;
 }
 /** Resource tags. */
 export type CapacityReservationGroupsCreateOrUpdateResponseTagsMap = {
@@ -489,11 +492,13 @@ export type CapacityReservationUtilizationUsedReservedCountBySubscriptionMap = {
 /** Represents the capacity reservation utilization in terms of resources allocated. */
 export interface CapacityReservationUtilization {
   /** The value provides the current capacity of the VM size which was reserved successfully and for which the customer is getting billed. Minimum api-version: 2022-08-01. */
-  currentCapacity?: number;
+  currentCapacity?: number | undefined;
   /** A list of all virtual machines resource ids allocated against the capacity reservation. */
-  virtualMachinesAllocated?: CapacityReservationUtilizationVirtualMachinesAllocatedList;
+  virtualMachinesAllocated?: CapacityReservationUtilizationVirtualMachinesAllocatedList | undefined;
   /** For open capacity reservations, this provides a map of the used reserved capacity count keyed by the subscription id (a GUID) that is consuming the capacity, i.e. each entry maps a consuming subscription id to the count of reserved capacity it is currently using. This is populated only for open capacity reservations and is not reported for targeted and block capacity reservations, which instead report allocation through virtualMachinesAllocated. Minimum api-version: 2026-04-01. */
-  usedReservedCountBySubscription?: CapacityReservationUtilizationUsedReservedCountBySubscriptionMap;
+  usedReservedCountBySubscription?:
+    | CapacityReservationUtilizationUsedReservedCountBySubscriptionMap
+    | undefined;
 }
 /** The resource status information. */
 export type CapacityReservationInstanceViewWithNameStatusesList = Array<InstanceViewStatus>;
@@ -509,18 +514,18 @@ export type ReservationState =
 /** Details related to the current state for a Future capacity reservation. */
 export interface CapacityReservationStateInfo {
   /** The current state of the capacity reservation. */
-  reservationState?: ReservationState;
+  reservationState?: ReservationState | undefined;
 }
 /** The instance view of a capacity reservation that includes the name of the capacity reservation. It is used for the response to the instance view of a capacity reservation group. */
 export interface CapacityReservationInstanceViewWithName {
   /** Unutilized capacity of the capacity reservation. */
-  utilizationInfo?: CapacityReservationUtilization;
+  utilizationInfo?: CapacityReservationUtilization | undefined;
   /** The resource status information. */
-  statuses?: CapacityReservationInstanceViewWithNameStatusesList;
+  statuses?: CapacityReservationInstanceViewWithNameStatusesList | undefined;
   /** The reservation state information for a capacity reservation, this detail is primarily provided for Future capacity reservations. Minimum API version: 2026-04-01. */
-  reservationStateInfo?: CapacityReservationStateInfo;
+  reservationStateInfo?: CapacityReservationStateInfo | undefined;
   /** The name of the capacity reservation. */
-  name?: string;
+  name?: string | undefined;
 }
 /** List of instance view of the capacity reservations under the capacity reservation group. */
 export type CapacityReservationGroupInstanceViewCapacityReservationsList =
@@ -532,42 +537,44 @@ export type CapacityReservationGroupInstanceViewSharedSubscriptionIdsList =
   Array<AvailabilitySetPropertiesInputVirtualMachinesItem>;
 export interface CapacityReservationGroupInstanceView {
   /** List of instance view of the capacity reservations under the capacity reservation group. */
-  capacityReservations?: CapacityReservationGroupInstanceViewCapacityReservationsList;
+  capacityReservations?: CapacityReservationGroupInstanceViewCapacityReservationsList | undefined;
   /** List of the subscriptions that the capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
-  sharedSubscriptionIds?: CapacityReservationGroupInstanceViewSharedSubscriptionIdsList;
+  sharedSubscriptionIds?: CapacityReservationGroupInstanceViewSharedSubscriptionIdsList | undefined;
 }
 /** capacity reservation group Properties. */
 export interface CapacityReservationGroupProperties {
   /** A list of all capacity reservation resource ids that belong to capacity reservation group. */
-  capacityReservations?: CapacityReservationGroupPropertiesCapacityReservationsList;
+  capacityReservations?: CapacityReservationGroupPropertiesCapacityReservationsList | undefined;
   /** A list of references to all virtual machines associated to the capacity reservation group. */
-  virtualMachinesAssociated?: CapacityReservationGroupPropertiesVirtualMachinesAssociatedList;
+  virtualMachinesAssociated?:
+    | CapacityReservationGroupPropertiesVirtualMachinesAssociatedList
+    | undefined;
   /** The capacity reservation group instance view which has the list of instance views for all the capacity reservations that belong to the capacity reservation group. */
-  instanceView?: CapacityReservationGroupInstanceView;
-  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. The capacity reservation group resource can generally be shared across subscriptions belonging to a single Azure AAD tenant or across AAD tenants if there is a trust relationship established between the tenants. Block capacity reservation does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
-  sharingProfile?: ResourceSharingProfile;
+  instanceView?: CapacityReservationGroupInstanceView | undefined;
+  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. The capacity reservation group resource can be shared only across subscriptions belonging to the same Microsoft Entra ID tenant. Sharing across tenants is not supported. Block capacity reservation does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  sharingProfile?: ResourceSharingProfile | undefined;
   /** Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations that enable a VM to consume capacity only from this capacity block when it is associated using a capacity reservation group, 'Targeted' for reservations that enable a VM to consume capacity from an explicitly associated capacity reservation group and fall back to the publicly available capacity if the reservation is full, and 'Open' for reservations that a VM consumes when it is eligible from an implicitly associated capacity reservation group with the matching VM size and zone without associating that capacity reservation group and fall back to the publicly available capacity if the reservation is full. The reservation type is immutable and cannot be changed after the capacity reservation group is created. */
-  reservationType?: ReservationType;
+  reservationType?: ReservationType | undefined;
 }
 /** The availability zones. */
 export type CapacityReservationGroupsCreateOrUpdateResponseZonesList = Array<string>;
 export interface CapacityReservationGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CapacityReservationGroupsCreateOrUpdateResponseTagsMap;
+  tags?: CapacityReservationGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** capacity reservation group Properties. */
-  properties?: CapacityReservationGroupProperties;
+  properties?: CapacityReservationGroupProperties | undefined;
   /** The availability zones. */
-  zones?: CapacityReservationGroupsCreateOrUpdateResponseZonesList;
+  zones?: CapacityReservationGroupsCreateOrUpdateResponseZonesList | undefined;
 }
 /** Resource tags. */
 export type CapacityReservationsCreateOrUpdateRequestTagsMap = {
@@ -576,16 +583,16 @@ export type CapacityReservationsCreateOrUpdateRequestTagsMap = {
 /** Defines the schedule for Block and Future capacity reservations. Specifies the schedule during which capacity reservation is active and VM or VMSS resource can be allocated using reservation. For Block capacity reservations, the scheduleProfile, start, and end fields are immutable after creation. Please refer to https://aka.ms/blockcapacityreservation for more details. Minimum API version for Block capacity reservations: 2025-04-01. Future capacity reservations must use this property with only a start time, which can be changed until the 'modifiableUntil' time. Please refer to https://aka.ms/futurecapacityreservation for more details. Minimum API version for Future capacity reservations: 2026-04-01. */
 export interface ScheduleProfileInput {
   /** The required start date for Block or Future capacity reservations. Block capacity reservations: Must be today or within 56 days in the future. For same-day scheduling, requests must be submitted before 11:30 AM UTC. Future capacity reservations: Must be at least 7 days in the future, and maximum 6 months in the future. Minimum API version for Future capacity reservations: 2026-04-01. Example: 2025-06-27, applicable for both Block and Future capacity reservations. */
-  start?: string;
+  start?: string | undefined;
   /** The required end date for Block capacity reservations. Must be after the start date, with a duration of either 1-14 whole days or 3-26 whole weeks. Example: 2025-06-28. */
-  end?: string;
+  end?: string | undefined;
   /** The minimum number of days that must pass after the start date before a Future capacity reservation can be updated or deleted once it has been committed. Will be populated with a default value if not provided. */
-  minimumCommitmentDays?: number;
+  minimumCommitmentDays?: number | undefined;
 }
 /** Properties of the Capacity reservation. */
 export interface CapacityReservationPropertiesInput {
   /** Defines the schedule for Block and Future capacity reservations. Specifies the schedule during which capacity reservation is active and VM or VMSS resource can be allocated using reservation. For Block capacity reservations, the scheduleProfile, start, and end fields are immutable after creation. Please refer to https://aka.ms/blockcapacityreservation for more details. Minimum API version for Block capacity reservations: 2025-04-01. Future capacity reservations must use this property with only a start time, which can be changed until the 'modifiableUntil' time. Please refer to https://aka.ms/futurecapacityreservation for more details. Minimum API version for Future capacity reservations: 2026-04-01. */
-  scheduleProfile?: ScheduleProfileInput;
+  scheduleProfile?: ScheduleProfileInput | undefined;
 }
 /** The availability zones. */
 export type CapacityReservationsCreateOrUpdateRequestZonesList = Array<string>;
@@ -599,15 +606,15 @@ export interface CapacityReservationsCreateOrUpdateRequest {
   /** The name of the capacity reservation. */
   capacityReservationName: string;
   /** Resource tags. */
-  tags?: CapacityReservationsCreateOrUpdateRequestTagsMap;
+  tags?: CapacityReservationsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Capacity reservation. */
-  properties?: CapacityReservationPropertiesInput;
+  properties?: CapacityReservationPropertiesInput | undefined;
   /** SKU of the resource for which capacity needs be reserved. The SKU name and capacity is required to be set. For Block capacity reservations, sku.capacity can only accept values 1, 2, 4, 8, 16, 32, 64. Currently VM Skus with the capability called 'CapacityReservationSupported' set to true are supported. When 'CapacityReservationSupported' is true, the SKU capability also specifies the 'SupportedCapacityReservationTypes', which lists the types of capacity reservations (such as Targeted or Block) that the SKU supports. Refer to List Microsoft.Compute SKUs in a region (https://docs.microsoft.com/rest/api/compute/resourceskus/list) for supported values. */
   sku: Sku;
   /** The availability zones. */
-  zones?: CapacityReservationsCreateOrUpdateRequestZonesList;
+  zones?: CapacityReservationsCreateOrUpdateRequestZonesList | undefined;
 }
 /** Resource tags. */
 export type CapacityReservationsCreateOrUpdateResponseTagsMap = {
@@ -623,67 +630,69 @@ export type CapacityReservationInstanceViewStatusesList = Array<InstanceViewStat
 /** The instance view of a capacity reservation that provides as snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations. */
 export interface CapacityReservationInstanceView {
   /** Unutilized capacity of the capacity reservation. */
-  utilizationInfo?: CapacityReservationUtilization;
+  utilizationInfo?: CapacityReservationUtilization | undefined;
   /** The resource status information. */
-  statuses?: CapacityReservationInstanceViewStatusesList;
+  statuses?: CapacityReservationInstanceViewStatusesList | undefined;
   /** The reservation state information for a capacity reservation, this detail is primarily provided for Future capacity reservations. Minimum API version: 2026-04-01. */
-  reservationStateInfo?: CapacityReservationStateInfo;
+  reservationStateInfo?: CapacityReservationStateInfo | undefined;
 }
 /** Defines the schedule for Block and Future capacity reservations. Specifies the schedule during which capacity reservation is active and VM or VMSS resource can be allocated using reservation. For Block capacity reservations, the scheduleProfile, start, and end fields are immutable after creation. Please refer to https://aka.ms/blockcapacityreservation for more details. Minimum API version for Block capacity reservations: 2025-04-01. Future capacity reservations must use this property with only a start time, which can be changed until the 'modifiableUntil' time. Please refer to https://aka.ms/futurecapacityreservation for more details. Minimum API version for Future capacity reservations: 2026-04-01. */
 export interface ScheduleProfile {
   /** The required start date for Block or Future capacity reservations. Block capacity reservations: Must be today or within 56 days in the future. For same-day scheduling, requests must be submitted before 11:30 AM UTC. Future capacity reservations: Must be at least 7 days in the future, and maximum 6 months in the future. Minimum API version for Future capacity reservations: 2026-04-01. Example: 2025-06-27, applicable for both Block and Future capacity reservations. */
-  start?: string;
+  start?: string | undefined;
   /** The required end date for Block capacity reservations. Must be after the start date, with a duration of either 1-14 whole days or 3-26 whole weeks. Example: 2025-06-28. */
-  end?: string;
+  end?: string | undefined;
   /** The minimum number of days that must pass after the start date before a Future capacity reservation can be updated or deleted once it has been committed. Will be populated with a default value if not provided. */
-  minimumCommitmentDays?: number;
+  minimumCommitmentDays?: number | undefined;
   /** The date/time until which a Future capacity reservation can be updated or deleted. Read-only. */
-  modifiableUntil?: string;
+  modifiableUntil?: string | undefined;
 }
 /** Properties of the Capacity reservation. */
 export interface CapacityReservationProperties {
   /** A unique id generated and assigned to the capacity reservation by the platform which does not change throughout the lifetime of the resource. */
-  reservationId?: string;
+  reservationId?: string | undefined;
   /** Specifies the value of fault domain count that Capacity Reservation supports for requested VM size. **Note:** The fault domain count specified for a resource (like virtual machines scale set) must be less than or equal to this value if it deploys using capacity reservation. Minimum api-version: 2022-08-01. */
-  platformFaultDomainCount?: number;
+  platformFaultDomainCount?: number | undefined;
   /** A list of all virtual machine resource ids that are associated with the capacity reservation. */
-  virtualMachinesAssociated?: CapacityReservationPropertiesVirtualMachinesAssociatedList;
+  virtualMachinesAssociated?:
+    | CapacityReservationPropertiesVirtualMachinesAssociatedList
+    | undefined;
   /** The date time when the capacity reservation was last updated. */
-  provisioningTime?: string;
+  provisioningTime?: string | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The Capacity reservation instance view. */
-  instanceView?: CapacityReservationInstanceView;
+  instanceView?: CapacityReservationInstanceView | undefined;
   /** Specifies the time at which the Capacity Reservation resource was created. Minimum api-version: 2021-11-01. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
   /** Defines the schedule for Block and Future capacity reservations. Specifies the schedule during which capacity reservation is active and VM or VMSS resource can be allocated using reservation. For Block capacity reservations, the scheduleProfile, start, and end fields are immutable after creation. Please refer to https://aka.ms/blockcapacityreservation for more details. Minimum API version for Block capacity reservations: 2025-04-01. Future capacity reservations must use this property with only a start time, which can be changed until the 'modifiableUntil' time. Please refer to https://aka.ms/futurecapacityreservation for more details. Minimum API version for Future capacity reservations: 2026-04-01. */
-  scheduleProfile?: ScheduleProfile;
+  scheduleProfile?: ScheduleProfile | undefined;
 }
 /** The availability zones. */
 export type CapacityReservationsCreateOrUpdateResponseZonesList = Array<string>;
 export interface CapacityReservationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CapacityReservationsCreateOrUpdateResponseTagsMap;
+  tags?: CapacityReservationsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Capacity reservation. */
-  properties?: CapacityReservationProperties;
+  properties?: CapacityReservationProperties | undefined;
   /** SKU of the resource for which capacity needs be reserved. The SKU name and capacity is required to be set. For Block capacity reservations, sku.capacity can only accept values 1, 2, 4, 8, 16, 32, 64. Currently VM Skus with the capability called 'CapacityReservationSupported' set to true are supported. When 'CapacityReservationSupported' is true, the SKU capability also specifies the 'SupportedCapacityReservationTypes', which lists the types of capacity reservations (such as Targeted or Block) that the SKU supports. Refer to List Microsoft.Compute SKUs in a region (https://docs.microsoft.com/rest/api/compute/resourceskus/list) for supported values. */
   sku: Sku;
   /** The availability zones. */
-  zones?: CapacityReservationsCreateOrUpdateResponseZonesList;
+  zones?: CapacityReservationsCreateOrUpdateResponseZonesList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CaptureVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -703,19 +712,19 @@ export interface CaptureVirtualMachineRequest {
 export type CaptureVirtualMachineResponseResourcesList = Array<unknown>;
 export interface CaptureVirtualMachineResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** the schema of the captured virtual machine */
-  _schema?: string;
+  _schema?: string | undefined;
   /** the version of the content */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
   /** parameters of the captured virtual machine */
-  parameters?: unknown;
+  parameters?: unknown | undefined;
   /** a list of resource items of the captured virtual machine */
-  resources?: CaptureVirtualMachineResponseResourcesList;
+  resources?: CaptureVirtualMachineResponseResourcesList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type ContainerServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -747,7 +756,7 @@ export type ContainerServiceMasterProfileInputCount = 1 | 3 | 5;
 /** Profile for the container service master. */
 export interface ContainerServiceMasterProfileInput {
   /** Number of masters (VMs) in the container service cluster. Allowed values are 1, 3, and 5. The default value is 1. */
-  count?: ContainerServiceMasterProfileInputCount | (number & {});
+  count?: ContainerServiceMasterProfileInputCount | (number & {}) | undefined;
   /** DNS prefix to be used to create the FQDN for master. */
   dnsPrefix: string;
 }
@@ -852,21 +861,21 @@ export interface ContainerServiceDiagnosticsProfileInput {
 /** Properties of the container service. */
 export interface ContainerServicePropertiesInput {
   /** Properties of the orchestrator. */
-  orchestratorProfile?: ContainerServiceOrchestratorProfile;
+  orchestratorProfile?: ContainerServiceOrchestratorProfile | undefined;
   /** Properties for custom clusters. */
-  customProfile?: ContainerServiceCustomProfile;
+  customProfile?: ContainerServiceCustomProfile | undefined;
   /** Properties for cluster service principals. */
-  servicePrincipalProfile?: ContainerServiceServicePrincipalProfile;
+  servicePrincipalProfile?: ContainerServiceServicePrincipalProfile | undefined;
   /** Properties of master agents. */
   masterProfile: ContainerServiceMasterProfileInput;
   /** Properties of the agent pool. */
   agentPoolProfiles: ContainerServicePropertiesInputAgentPoolProfilesList;
   /** Properties of Windows VMs. */
-  windowsProfile?: ContainerServiceWindowsProfile;
+  windowsProfile?: ContainerServiceWindowsProfile | undefined;
   /** Properties of Linux VMs. */
   linuxProfile: ContainerServiceLinuxProfile;
   /** Properties of the diagnostic agent. */
-  diagnosticsProfile?: ContainerServiceDiagnosticsProfileInput;
+  diagnosticsProfile?: ContainerServiceDiagnosticsProfileInput | undefined;
 }
 export interface ContainerServicesCreateOrUpdateRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -878,8 +887,8 @@ export interface ContainerServicesCreateOrUpdateRequest {
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: ContainerServicesCreateOrUpdateRequestTagsMap;
-  properties?: ContainerServicePropertiesInput;
+  tags?: ContainerServicesCreateOrUpdateRequestTagsMap | undefined;
+  properties?: ContainerServicePropertiesInput | undefined;
 }
 /** Resource tags */
 export type ContainerServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -888,11 +897,11 @@ export type ContainerServiceMasterProfileCount = 1 | 3 | 5;
 /** Profile for the container service master. */
 export interface ContainerServiceMasterProfile {
   /** Number of masters (VMs) in the container service cluster. Allowed values are 1, 3, and 5. The default value is 1. */
-  count?: ContainerServiceMasterProfileCount;
+  count?: ContainerServiceMasterProfileCount | undefined;
   /** DNS prefix to be used to create the FQDN for master. */
   dnsPrefix: string;
   /** FQDN for the master. */
-  fqdn?: string;
+  fqdn?: string | undefined;
 }
 /** Size of agent VMs. */
 export type ContainerServiceAgentPoolProfileVmSize =
@@ -954,7 +963,7 @@ export interface ContainerServiceAgentPoolProfile {
   /** DNS prefix to be used to create the FQDN for the agent pool. */
   dnsPrefix: string;
   /** FQDN for the agent pool. */
-  fqdn?: string;
+  fqdn?: string | undefined;
 }
 /** Properties of the agent pool. */
 export type ContainerServicePropertiesAgentPoolProfilesList =
@@ -964,7 +973,7 @@ export interface ContainerServiceVMDiagnostics {
   /** Whether the VM diagnostic agent is provisioned on the VM. */
   enabled: boolean;
   /** The URI of the storage account where diagnostics are stored. */
-  storageUri?: string;
+  storageUri?: string | undefined;
 }
 export interface ContainerServiceDiagnosticsProfile {
   /** Profile for the container service VM diagnostic agent. */
@@ -973,36 +982,36 @@ export interface ContainerServiceDiagnosticsProfile {
 /** Properties of the container service. */
 export interface ContainerServiceProperties {
   /** the current deployment or provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Properties of the orchestrator. */
-  orchestratorProfile?: ContainerServiceOrchestratorProfile;
+  orchestratorProfile?: ContainerServiceOrchestratorProfile | undefined;
   /** Properties for custom clusters. */
-  customProfile?: ContainerServiceCustomProfile;
+  customProfile?: ContainerServiceCustomProfile | undefined;
   /** Properties for cluster service principals. */
-  servicePrincipalProfile?: ContainerServiceServicePrincipalProfile;
+  servicePrincipalProfile?: ContainerServiceServicePrincipalProfile | undefined;
   /** Properties of master agents. */
   masterProfile: ContainerServiceMasterProfile;
   /** Properties of the agent pool. */
   agentPoolProfiles: ContainerServicePropertiesAgentPoolProfilesList;
   /** Properties of Windows VMs. */
-  windowsProfile?: ContainerServiceWindowsProfile;
+  windowsProfile?: ContainerServiceWindowsProfile | undefined;
   /** Properties of Linux VMs. */
   linuxProfile: ContainerServiceLinuxProfile;
   /** Properties of the diagnostic agent. */
-  diagnosticsProfile?: ContainerServiceDiagnosticsProfile;
+  diagnosticsProfile?: ContainerServiceDiagnosticsProfile | undefined;
 }
 export interface ContainerServicesCreateOrUpdateResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: ContainerServicesCreateOrUpdateResponseTagsMap;
-  properties?: ContainerServiceProperties;
+  tags?: ContainerServicesCreateOrUpdateResponseTagsMap | undefined;
+  properties?: ContainerServiceProperties | undefined;
 }
 export interface ConvertAvailabilitySetToVirtualMachineScaleSetRequest {
   /** The ID of the target subscription. */
@@ -1012,13 +1021,13 @@ export interface ConvertAvailabilitySetToVirtualMachineScaleSetRequest {
   /** The name of the availability set. */
   availabilitySetName: string;
   /** Specifies information about the Virtual Machine Scale Set that the Availability Set should be converted to. */
-  virtualMachineScaleSetName?: string;
+  virtualMachineScaleSetName?: string | undefined;
 }
 export interface ConvertAvailabilitySetToVirtualMachineScaleSetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ConvertVirtualMachineScaleSetToSinglePlacementGroupRequest {
   /** The ID of the target subscription. */
@@ -1028,7 +1037,7 @@ export interface ConvertVirtualMachineScaleSetToSinglePlacementGroupRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** Id of the placement group in which you want future virtual machine instances to be placed. To query placement group Id, please use Virtual Machine Scale Set VMs - Get API. If not provided, the platform will choose one with maximum number of virtual machine instances. */
-  activePlacementGroupId?: string;
+  activePlacementGroupId?: string | undefined;
 }
 export interface ConvertVirtualMachineScaleSetToSinglePlacementGroupResponse {}
 export interface ConvertVirtualMachineToManagedDisksRequest {
@@ -1041,14 +1050,14 @@ export interface ConvertVirtualMachineToManagedDisksRequest {
 }
 export interface ConvertVirtualMachineToManagedDisksResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The API entity reference. */
 export interface ApiEntityReference {
   /** The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/... */
-  id?: string;
+  id?: string | undefined;
 }
 /** List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included. */
 export type RestorePointPropertiesInputExcludeDisksList = Array<ApiEntityReference>;
@@ -1070,61 +1079,61 @@ export type SecurityEncryptionTypes =
 /** Specifies the security profile settings for the managed disk. **Note:** It can only be set for Confidential VMs. */
 export interface VMDiskSecurityProfile {
   /** Specifies the EncryptionType of the managed disk. It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, VMGuestStateOnly for encryption of just the VMGuestState blob, and NonPersistedTPM for not persisting firmware state in the VMGuestState blob.. **Note:** It can be set for only Confidential VMs. */
-  securityEncryptionType?: SecurityEncryptionTypes | (string & {});
+  securityEncryptionType?: SecurityEncryptionTypes | (string & {}) | undefined;
   /** Specifies the customer managed disk encryption set resource id for the managed disk that is used for Customer Managed Key encrypted ConfidentialVM OS Disk and VMGuest blob. */
-  diskEncryptionSet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  diskEncryptionSet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
 }
 /** Determines how to handle disks with slow I/O. */
 export type AvailabilityPolicyDiskDelay = "None" | "AutomaticReattach";
 /** In the case of an availability or connectivity issue with the disk, specify the behavior of your VM. */
 export interface DiskAvailabilityPolicy {
   /** Determines how to handle disks with slow I/O. */
-  actionOnDiskDelay?: AvailabilityPolicyDiskDelay | (string & {});
+  actionOnDiskDelay?: AvailabilityPolicyDiskDelay | (string & {}) | undefined;
 }
 /** Policy for accessing the disk via network. */
 export type NetworkAccessPolicy = "AllowAll" | "AllowPrivate" | "DenyAll";
 /** Specifies the properties of a managed disk that can be set at the time of implicit creation of the disk. */
 export interface ManagedDiskProperties {
   /** Performance tier of the disk (e.g., P4, S10) as described here: https://azure.microsoft.com/en-us/pricing/details/managed-disks/. Does not apply to Ultra disks. */
-  tier?: string;
+  tier?: string | undefined;
   /** Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks. */
-  burstingEnabled?: boolean;
+  burstingEnabled?: boolean | undefined;
   /** Set this flag to true to get a boost on the performance target of the disk deployed. This flag can only be set on disk creation time and cannot be disabled after enabled. */
-  performancePlus?: boolean;
+  performancePlus?: boolean | undefined;
   /** Setting this property to true improves reliability and performance of data disks that are frequently (more than 5 times a day) detached from one virtual machine and attached to another. This property should not be set for disks that are not detached and attached frequently as it causes the disks to not align with the fault domain of the virtual machine. */
-  optimizedForFrequentAttach?: boolean;
+  optimizedForFrequentAttach?: boolean | undefined;
   /** In the case of an availability or connectivity issue with the disk, specify the behavior of your VM. */
-  availabilityPolicy?: DiskAvailabilityPolicy;
+  availabilityPolicy?: DiskAvailabilityPolicy | undefined;
   /** The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time. Applies to data disks only. */
-  maxShares?: number;
+  maxShares?: number | undefined;
   /** Policy for accessing the disk via network. */
-  networkAccessPolicy?: NetworkAccessPolicy | (string & {});
+  networkAccessPolicy?: NetworkAccessPolicy | (string & {}) | undefined;
   /** Azure resource Id of the DiskAccess resource for using private endpoints on disks. */
-  diskAccessId?: string;
+  diskAccessId?: string | undefined;
   /** The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes. */
-  diskIOPSReadOnly?: number;
+  diskIOPSReadOnly?: number | undefined;
   /** The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. */
-  diskMBpsReadOnly?: number;
+  diskMBpsReadOnly?: number | undefined;
   /** Logical sector size in bytes for Ultra Disks. Supported values are 512 and 4096. 4096 is the default. */
-  logicalSectorSize?: number;
+  logicalSectorSize?: number | undefined;
 }
 /** Specifies additional properties for a managed disk that can be set at the time of implicit creation of the disk. */
 export interface AdditionalDiskProperties {
   /** Specifies the managed disk properties that can be set at the time of implicit creation of the disk. */
-  managedDiskProperties?: ManagedDiskProperties;
+  managedDiskProperties?: ManagedDiskProperties | undefined;
 }
 /** The parameters of a managed disk. */
 export interface ManagedDiskParameters {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. */
-  storageAccountType?: StorageAccountTypes | (string & {});
+  storageAccountType?: StorageAccountTypes | (string & {}) | undefined;
   /** Specifies the customer managed disk encryption set resource id for the managed disk. */
-  diskEncryptionSet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  diskEncryptionSet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies the security profile for the managed disk. */
-  securityProfile?: VMDiskSecurityProfile;
+  securityProfile?: VMDiskSecurityProfile | undefined;
   /** Specifies additional properties for the managed disk that can be set at the time of implicit creation of the disk. This property is not captured for Restore Points. */
-  additionalDiskProperties?: AdditionalDiskProperties;
+  additionalDiskProperties?: AdditionalDiskProperties | undefined;
 }
 /** The type of key used to encrypt the data of the disk restore point. */
 export type RestorePointEncryptionType =
@@ -1134,30 +1143,30 @@ export type RestorePointEncryptionType =
 /** Encryption at rest settings for disk restore point. It is an optional property that can be specified in the input while creating a restore point. */
 export interface RestorePointEncryption {
   /** Describes the parameter of customer managed disk encryption set resource id that can be specified for disk. **Note:** The disk encryption set resource id can only be specified for managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details. */
-  diskEncryptionSet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  diskEncryptionSet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** The type of key used to encrypt the data of the disk restore point. */
-  type?: RestorePointEncryptionType | (string & {});
+  type?: RestorePointEncryptionType | (string & {}) | undefined;
 }
 /** Disk Restore Point details. */
 export interface DiskRestorePointAttributesInput {
   /** Encryption at rest settings for disk restore point. It is an optional property that can be specified in the input while creating a restore point. */
-  encryption?: RestorePointEncryption;
+  encryption?: RestorePointEncryption | undefined;
   /** Resource Id of the source disk restore point. */
-  sourceDiskRestorePoint?: ApiEntityReference;
+  sourceDiskRestorePoint?: ApiEntityReference | undefined;
 }
 /** Describes an Operating System disk. */
 export interface RestorePointSourceVMOSDiskInput {
   /** Gets the managed disk details */
-  managedDisk?: ManagedDiskParameters;
+  managedDisk?: ManagedDiskParameters | undefined;
   /** Contains Disk Restore Point properties. */
-  diskRestorePoint?: DiskRestorePointAttributesInput;
+  diskRestorePoint?: DiskRestorePointAttributesInput | undefined;
 }
 /** Describes a data disk. */
 export interface RestorePointSourceVMDataDiskInput {
   /** Contains the managed disk details. */
-  managedDisk?: ManagedDiskParameters;
+  managedDisk?: ManagedDiskParameters | undefined;
   /** Contains Disk Restore Point properties. */
-  diskRestorePoint?: DiskRestorePointAttributesInput;
+  diskRestorePoint?: DiskRestorePointAttributesInput | undefined;
 }
 /** Gets the data disks of the VM captured at the time of the restore point creation. */
 export type RestorePointSourceVMStorageProfileInputDataDisksList =
@@ -1165,14 +1174,14 @@ export type RestorePointSourceVMStorageProfileInputDataDisksList =
 /** Describes the storage profile. */
 export interface RestorePointSourceVMStorageProfileInput {
   /** Gets the OS disk of the VM captured at the time of the restore point creation. */
-  osDisk?: RestorePointSourceVMOSDiskInput;
+  osDisk?: RestorePointSourceVMOSDiskInput | undefined;
   /** Gets the data disks of the VM captured at the time of the restore point creation. */
-  dataDisks?: RestorePointSourceVMStorageProfileInputDataDisksList;
+  dataDisks?: RestorePointSourceVMStorageProfileInputDataDisksList | undefined;
 }
 /** Describes the properties of the Virtual Machine for which the restore point was created. The properties provided are a subset and the snapshot of the overall Virtual Machine properties captured at the time of the restore point creation. */
 export interface RestorePointSourceMetadataInput {
   /** Gets the storage profile. */
-  storageProfile?: RestorePointSourceVMStorageProfileInput;
+  storageProfile?: RestorePointSourceVMStorageProfileInput | undefined;
 }
 /** ConsistencyMode of the RestorePoint. Can be specified in the input while creating a restore point. For now, only CrashConsistent is accepted as a valid input. Please refer to https://aka.ms/RestorePoints for more details. */
 export type ConsistencyModeTypes =
@@ -1182,17 +1191,17 @@ export type ConsistencyModeTypes =
 /** The restore point properties. */
 export interface RestorePointPropertiesInput {
   /** List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included. */
-  excludeDisks?: RestorePointPropertiesInputExcludeDisksList;
+  excludeDisks?: RestorePointPropertiesInputExcludeDisksList | undefined;
   /** Gets the details of the VM captured at the time of the restore point creation. */
-  sourceMetadata?: RestorePointSourceMetadataInput;
+  sourceMetadata?: RestorePointSourceMetadataInput | undefined;
   /** ConsistencyMode of the RestorePoint. Can be specified in the input while creating a restore point. For now, only CrashConsistent is accepted as a valid input. Please refer to https://aka.ms/RestorePoints for more details. */
-  consistencyMode?: ConsistencyModeTypes | (string & {});
+  consistencyMode?: ConsistencyModeTypes | (string & {}) | undefined;
   /** Gets the creation time of the restore point. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
   /** Resource Id of the source restore point from which a copy needs to be created. */
-  sourceRestorePoint?: ApiEntityReference;
+  sourceRestorePoint?: ApiEntityReference | undefined;
   /** This property determines the time in minutes the snapshot is retained as instant access for restoring Premium SSD v2 or Ultra disk with fast restore performance in this restore point. */
-  instantAccessDurationMinutes?: number;
+  instantAccessDurationMinutes?: number | undefined;
 }
 export interface CreateRestorePointRequest {
   /** The ID of the target subscription. */
@@ -1204,7 +1213,7 @@ export interface CreateRestorePointRequest {
   /** The name of the restore point. */
   restorePointName: string;
   /** The restore point properties. */
-  properties?: RestorePointPropertiesInput;
+  properties?: RestorePointPropertiesInput | undefined;
 }
 /** List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included. */
 export type RestorePointPropertiesExcludeDisksList = Array<ApiEntityReference>;
@@ -1379,20 +1388,20 @@ export type VirtualMachineSizeTypes =
 /** Specifies VM Size Property settings on the virtual machine. */
 export interface VMSizeProperties {
   /** Specifies the number of vCPUs available for the VM. When this property is not specified in the request body the default behavior is to set it to the value of vCPUs available for that VM size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list). */
-  vCPUsAvailable?: number;
+  vCPUsAvailable?: number | undefined;
   /** Specifies the vCPU to physical core ratio. When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the VM Size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list). **Setting this property to 1 also means that hyper-threading is disabled.** */
-  vCPUsPerCore?: number;
+  vCPUsPerCore?: number | undefined;
 }
 /** Specifies the processor frequency behavior for the virtual machine. See each member for the behavior it controls. */
 export type ProcessorMode = "Deterministic" | "Opportunistic";
 /** Specifies the hardware settings for the virtual machine. */
 export interface HardwareProfile {
   /** Specifies the size of the virtual machine. The enum data type is currently deprecated and will be removed by December 23rd 2023. The recommended way to get the list of available sizes is using these APIs: [List all available virtual machine sizes in an availability set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes), [List all available virtual machine sizes in a region]( https://docs.microsoft.com/rest/api/compute/resourceskus/list), [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes). The available VM sizes depend on region and availability set. */
-  vmSize?: VirtualMachineSizeTypes | (string & {});
+  vmSize?: VirtualMachineSizeTypes | (string & {}) | undefined;
   /** Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-07-01. This feature is still in preview mode and is not supported for VirtualMachineScaleSet. Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details. */
-  vmSizeProperties?: VMSizeProperties;
+  vmSizeProperties?: VMSizeProperties | undefined;
   /** Specifies the processor mode for the virtual machine or virtual machine scale set. Optional; if omitted, the platform default applies (currently Deterministic). This property can be updated on a running VM or VMSS without deallocation or reboot. Minimum api-version: 2026-04-01. */
-  processorMode?: ProcessorMode | (string & {});
+  processorMode?: ProcessorMode | (string & {}) | undefined;
 }
 /** Gets the Operating System type. */
 export type OperatingSystemType = "Windows" | "Linux";
@@ -1413,58 +1422,58 @@ export interface KeyVaultKeyReference {
 /** Describes a Encryption Settings for a Disk */
 export interface DiskEncryptionSettings {
   /** Specifies the location of the disk encryption key, which is a Key Vault Secret. */
-  diskEncryptionKey?: KeyVaultSecretReference;
+  diskEncryptionKey?: KeyVaultSecretReference | undefined;
   /** Specifies the location of the key encryption key in Key Vault. */
-  keyEncryptionKey?: KeyVaultKeyReference;
+  keyEncryptionKey?: KeyVaultKeyReference | undefined;
   /** Specifies whether disk encryption should be enabled on the virtual machine. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Specifies the caching requirements. Possible values are: **None,** **ReadOnly,** **ReadWrite.** The default values are: **None for Standard storage. ReadOnly for Premium storage** */
 export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
 /** Disk Restore Point details. */
 export interface DiskRestorePointAttributes {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Encryption at rest settings for disk restore point. It is an optional property that can be specified in the input while creating a restore point. */
-  encryption?: RestorePointEncryption;
+  encryption?: RestorePointEncryption | undefined;
   /** Resource Id of the source disk restore point. */
-  sourceDiskRestorePoint?: ApiEntityReference;
+  sourceDiskRestorePoint?: ApiEntityReference | undefined;
 }
 /** Describes an Operating System disk. */
 export interface RestorePointSourceVMOSDisk {
   /** Gets the Operating System type. */
-  osType?: OperatingSystemType;
+  osType?: OperatingSystemType | undefined;
   /** Gets the disk encryption settings. */
-  encryptionSettings?: DiskEncryptionSettings;
+  encryptionSettings?: DiskEncryptionSettings | undefined;
   /** Gets the disk name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the caching type. */
-  caching?: CachingTypes;
+  caching?: CachingTypes | undefined;
   /** Gets the disk size in GB. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** Gets the managed disk details */
-  managedDisk?: ManagedDiskParameters;
+  managedDisk?: ManagedDiskParameters | undefined;
   /** Contains Disk Restore Point properties. */
-  diskRestorePoint?: DiskRestorePointAttributes;
+  diskRestorePoint?: DiskRestorePointAttributes | undefined;
   /** Shows true if the disk is write-accelerator enabled. */
-  writeAcceleratorEnabled?: boolean;
+  writeAcceleratorEnabled?: boolean | undefined;
 }
 /** Describes a data disk. */
 export interface RestorePointSourceVMDataDisk {
   /** Gets the logical unit number. */
-  lun?: number;
+  lun?: number | undefined;
   /** Gets the disk name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the caching type. */
-  caching?: CachingTypes;
+  caching?: CachingTypes | undefined;
   /** Gets the initial disk size in GB for blank data disks, and the new desired size for existing OS and Data disks. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** Contains the managed disk details. */
-  managedDisk?: ManagedDiskParameters;
+  managedDisk?: ManagedDiskParameters | undefined;
   /** Contains Disk Restore Point properties. */
-  diskRestorePoint?: DiskRestorePointAttributes;
+  diskRestorePoint?: DiskRestorePointAttributes | undefined;
   /** Shows true if the disk is write-accelerator enabled. */
-  writeAcceleratorEnabled?: boolean;
+  writeAcceleratorEnabled?: boolean | undefined;
 }
 /** Gets the data disks of the VM captured at the time of the restore point creation. */
 export type RestorePointSourceVMStorageProfileDataDisksList = Array<RestorePointSourceVMDataDisk>;
@@ -1473,11 +1482,11 @@ export type DiskControllerTypes = "SCSI" | "NVMe";
 /** Describes the storage profile. */
 export interface RestorePointSourceVMStorageProfile {
   /** Gets the OS disk of the VM captured at the time of the restore point creation. */
-  osDisk?: RestorePointSourceVMOSDisk;
+  osDisk?: RestorePointSourceVMOSDisk | undefined;
   /** Gets the data disks of the VM captured at the time of the restore point creation. */
-  dataDisks?: RestorePointSourceVMStorageProfileDataDisksList;
+  dataDisks?: RestorePointSourceVMStorageProfileDataDisksList | undefined;
   /** Gets the disk controller type of the VM captured at the time of the restore point creation. */
-  diskControllerType?: DiskControllerTypes;
+  diskControllerType?: DiskControllerTypes | undefined;
 }
 export type PassNames = "OobeSystem";
 export type ComponentNames = "Microsoft-Windows-Shell-Setup";
@@ -1486,13 +1495,13 @@ export type SettingNames = "AutoLogon" | "FirstLogonCommands";
 /** Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied. */
 export interface AdditionalUnattendContent {
   /** The pass name. Currently, the only allowable value is OobeSystem. */
-  passName?: PassNames | (string & {});
+  passName?: PassNames | (string & {}) | undefined;
   /** The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup. */
-  componentName?: ComponentNames | (string & {});
+  componentName?: ComponentNames | (string & {}) | undefined;
   /** Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and AutoLogon. */
-  settingName?: SettingNames | (string & {});
+  settingName?: SettingNames | (string & {}) | undefined;
   /** Specifies the XML formatted content that is added to the unattend.xml file for the specified path and component. The XML must be less than 4KB and must include the root element for the setting or feature that is being inserted. */
-  content?: string;
+  content?: string | undefined;
 }
 /** Specifies additional base-64 encoded XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. */
 export type WindowsConfigurationAdditionalUnattendContentList = Array<AdditionalUnattendContent>;
@@ -1509,67 +1518,67 @@ export type WindowsVMGuestPatchAutomaticByPlatformRebootSetting =
 /** Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Windows patch settings. */
 export interface WindowsVMGuestPatchAutomaticByPlatformSettings {
   /** Specifies the reboot setting for all AutomaticByPlatform patch installation operations. */
-  rebootSetting?: WindowsVMGuestPatchAutomaticByPlatformRebootSetting | (string & {});
+  rebootSetting?: WindowsVMGuestPatchAutomaticByPlatformRebootSetting | (string & {}) | undefined;
   /** Enables customer to schedule patching without accidental upgrades */
-  bypassPlatformSafetyChecksOnUserSchedule?: boolean;
+  bypassPlatformSafetyChecksOnUserSchedule?: boolean | undefined;
 }
 /** Specifies settings related to VM Guest Patching on Windows. */
 export interface PatchSettings {
   /** Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual machine scale set with OrchestrationMode as Flexible.<br /><br /> Possible values are:<br /><br /> **Manual** - You control the application of patches to a virtual machine. You do this by applying patches manually inside the VM. In this mode, automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br /> **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true */
-  patchMode?: WindowsVMGuestPatchMode | (string & {});
+  patchMode?: WindowsVMGuestPatchMode | (string & {}) | undefined;
   /** Enables customers to patch their Azure VMs without requiring a reboot. For enableHotpatching, the 'provisionVMAgent' must be set to true and 'patchMode' must be set to 'AutomaticByPlatform'. */
-  enableHotpatching?: boolean;
+  enableHotpatching?: boolean | undefined;
   /** Specifies the mode of VM Guest patch assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine.<br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true. */
-  assessmentMode?: WindowsPatchAssessmentMode | (string & {});
+  assessmentMode?: WindowsPatchAssessmentMode | (string & {}) | undefined;
   /** Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on Windows. */
-  automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
+  automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings | undefined;
 }
 /** Specifies the protocol of WinRM listener. Possible values are: **http,** **https.** */
 export type ProtocolTypes = "Http" | "Https";
 /** Describes Protocol and thumbprint of Windows Remote Management listener */
 export interface WinRMListener {
   /** Specifies the protocol of WinRM listener. Possible values are: **http,** **https.** */
-  protocol?: ProtocolTypes | (string & {});
+  protocol?: ProtocolTypes | (string & {}) | undefined;
   /** This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br> "data":"<Base64-encoded-certificate>",<br> "dataType":"pfx",<br> "password":"<pfx-file-password>"<br>} <br> To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
-  certificateUrl?: string;
+  certificateUrl?: string | undefined;
 }
 /** The list of Windows Remote Management listeners */
 export type WinRMConfigurationListenersList = Array<WinRMListener>;
 /** Describes Windows Remote Management configuration of the VM */
 export interface WinRMConfiguration {
   /** The list of Windows Remote Management listeners */
-  listeners?: WinRMConfigurationListenersList;
+  listeners?: WinRMConfigurationListenersList | undefined;
 }
 /** Specifies Windows operating system settings on the virtual machine. */
 export interface WindowsConfiguration {
   /** Indicates whether virtual machine agent should be provisioned on the virtual machine. When this property is not specified in the request body, it is set to true by default. This will ensure that VM Agent is installed on the VM so that extensions can be added to the VM later. */
-  provisionVMAgent?: boolean;
+  provisionVMAgent?: boolean | undefined;
   /** Indicates whether Automatic Updates is enabled for the Windows virtual machine. Default value is true. For virtual machine scale sets, this property can be updated and updates will take effect on OS reprovisioning. */
-  enableAutomaticUpdates?: boolean;
+  enableAutomaticUpdates?: boolean | undefined;
   /** Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time". Possible values can be [TimeZoneInfo.Id](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id) value from time zones returned by [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.getsystemtimezones). */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Specifies additional base-64 encoded XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. */
-  additionalUnattendContent?: WindowsConfigurationAdditionalUnattendContentList;
+  additionalUnattendContent?: WindowsConfigurationAdditionalUnattendContentList | undefined;
   /** [Preview Feature] Specifies settings related to VM Guest Patching on Windows. */
-  patchSettings?: PatchSettings;
+  patchSettings?: PatchSettings | undefined;
   /** Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell. */
-  winRM?: WinRMConfiguration;
+  winRM?: WinRMConfiguration | undefined;
   /** Indicates whether VMAgent Platform Updates are enabled for the Windows Virtual Machine. */
-  enableVMAgentPlatformUpdates?: boolean;
+  enableVMAgentPlatformUpdates?: boolean | undefined;
 }
 /** Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed. */
 export interface SshPublicKey {
   /** Specifies the full path on the created VM where ssh public key is stored. If the file already exists, the specified key is appended to the file. Example: /home/user/.ssh/authorized_keys */
-  path?: string;
+  path?: string | undefined;
   /** SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit and in ssh-rsa format. For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure]https://docs.microsoft.com/azure/virtual-machines/linux/create-ssh-keys-detailed). */
-  keyData?: string;
+  keyData?: string | undefined;
 }
 /** The list of SSH public keys used to authenticate with linux based VMs. */
 export type SshConfigurationPublicKeysList = Array<SshPublicKey>;
 /** SSH configuration for Linux based VMs running on Azure */
 export interface SshConfiguration {
   /** The list of SSH public keys used to authenticate with linux based VMs. */
-  publicKeys?: SshConfigurationPublicKeysList;
+  publicKeys?: SshConfigurationPublicKeysList | undefined;
 }
 /** Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual machine scale set with OrchestrationMode as Flexible.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - The virtual machine's default patching configuration is used. <br /><br /> **AutomaticByPlatform** - The virtual machine will be automatically updated by the platform. The property provisionVMAgent must be true */
 export type LinuxVMGuestPatchMode = "ImageDefault" | "AutomaticByPlatform";
@@ -1584,96 +1593,96 @@ export type LinuxVMGuestPatchAutomaticByPlatformRebootSetting =
 /** Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Linux patch settings. */
 export interface LinuxVMGuestPatchAutomaticByPlatformSettings {
   /** Specifies the reboot setting for all AutomaticByPlatform patch installation operations. */
-  rebootSetting?: LinuxVMGuestPatchAutomaticByPlatformRebootSetting | (string & {});
+  rebootSetting?: LinuxVMGuestPatchAutomaticByPlatformRebootSetting | (string & {}) | undefined;
   /** Enables customer to schedule patching without accidental upgrades */
-  bypassPlatformSafetyChecksOnUserSchedule?: boolean;
+  bypassPlatformSafetyChecksOnUserSchedule?: boolean | undefined;
 }
 /** Specifies settings related to VM Guest Patching on Linux. */
 export interface LinuxPatchSettings {
   /** Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual machine scale set with OrchestrationMode as Flexible.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - The virtual machine's default patching configuration is used. <br /><br /> **AutomaticByPlatform** - The virtual machine will be automatically updated by the platform. The property provisionVMAgent must be true */
-  patchMode?: LinuxVMGuestPatchMode | (string & {});
+  patchMode?: LinuxVMGuestPatchMode | (string & {}) | undefined;
   /** Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine. <br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true. */
-  assessmentMode?: LinuxPatchAssessmentMode | (string & {});
+  assessmentMode?: LinuxPatchAssessmentMode | (string & {}) | undefined;
   /** Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on Linux. */
-  automaticByPlatformSettings?: LinuxVMGuestPatchAutomaticByPlatformSettings;
+  automaticByPlatformSettings?: LinuxVMGuestPatchAutomaticByPlatformSettings | undefined;
 }
 /** Specifies the Linux operating system settings on the virtual machine. For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
 export interface LinuxConfiguration {
   /** Specifies whether password authentication should be disabled. */
-  disablePasswordAuthentication?: boolean;
+  disablePasswordAuthentication?: boolean | undefined;
   /** Specifies the ssh key configuration for a Linux OS. */
-  ssh?: SshConfiguration;
+  ssh?: SshConfiguration | undefined;
   /** Indicates whether virtual machine agent should be provisioned on the virtual machine. When this property is not specified in the request body, default behavior is to set it to true. This will ensure that VM Agent is installed on the VM so that extensions can be added to the VM later. */
-  provisionVMAgent?: boolean;
+  provisionVMAgent?: boolean | undefined;
   /** [Preview Feature] Specifies settings related to VM Guest Patching on Linux. */
-  patchSettings?: LinuxPatchSettings;
+  patchSettings?: LinuxPatchSettings | undefined;
   /** Indicates whether VMAgent Platform Updates is enabled for the Linux virtual machine. Default value is false. */
-  enableVMAgentPlatformUpdates?: boolean;
+  enableVMAgentPlatformUpdates?: boolean | undefined;
 }
 export type VaultSecretGroupSourceVault = AvailabilitySetPropertiesInputVirtualMachinesItem;
 /** Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM. */
 export interface VaultCertificate {
   /** This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br> "data":"<Base64-encoded-certificate>",<br> "dataType":"pfx",<br> "password":"<pfx-file-password>"<br>} <br> To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
-  certificateUrl?: string;
+  certificateUrl?: string | undefined;
   /** For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account. For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file and &lt;UppercaseThumbprint&gt;.prv for private key. Both of these files are .pem formatted. */
-  certificateStore?: string;
+  certificateStore?: string | undefined;
 }
 /** The list of key vault references in SourceVault which contain certificates. */
 export type VaultSecretGroupVaultCertificatesList = Array<VaultCertificate>;
 /** Describes a set of certificates which are all in the same Key Vault. */
 export interface VaultSecretGroup {
-  sourceVault?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  sourceVault?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** The list of key vault references in SourceVault which contain certificates. */
-  vaultCertificates?: VaultSecretGroupVaultCertificatesList;
+  vaultCertificates?: VaultSecretGroupVaultCertificatesList | undefined;
 }
 /** Specifies set of certificates that should be installed onto the virtual machine. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
 export type OSProfileSecretsList = Array<VaultSecretGroup>;
 /** Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is provisioned. */
 export interface OSProfile {
   /** Specifies the host OS name of the virtual machine. This name cannot be updated after the VM is created. **Max-length (Windows):** 15 characters. **Max-length (Linux):** 64 characters. For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/azure-resource-manager/management/resource-name-rules). */
-  computerName?: string;
+  computerName?: string | undefined;
   /** Specifies the name of the administrator account. <br><br> This property cannot be updated after the VM is created. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1 character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters. */
-  adminUsername?: string;
+  adminUsername?: string | undefined;
   /** Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection) */
-  adminPassword?: string | Redacted.Redacted<string>;
+  adminPassword?: string | Redacted.Redacted<string> | undefined;
   /** Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. **Note: Do not pass any secrets or passwords in customData property.** This property cannot be updated after the VM is created. The property 'customData' is passed to the VM to be saved as a file, for more information see [Custom Data on Azure VMs](https://azure.microsoft.com/blog/custom-data-and-cloud-init-on-windows-azure/). For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init). */
-  customData?: string;
+  customData?: string | undefined;
   /** Specifies Windows operating system settings on the virtual machine. */
-  windowsConfiguration?: WindowsConfiguration;
+  windowsConfiguration?: WindowsConfiguration | undefined;
   /** Specifies the Linux operating system settings on the virtual machine. For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
-  linuxConfiguration?: LinuxConfiguration;
+  linuxConfiguration?: LinuxConfiguration | undefined;
   /** Specifies set of certificates that should be installed onto the virtual machine. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
-  secrets?: OSProfileSecretsList;
+  secrets?: OSProfileSecretsList | undefined;
   /** Specifies whether extension operations should be allowed on the virtual machine. This may only be set to False when no extensions are present on the virtual machine. */
-  allowExtensionOperations?: boolean;
+  allowExtensionOperations?: boolean | undefined;
   /** Optional property which must either be set to True or omitted. */
-  requireGuestProvisionSignal?: boolean;
+  requireGuestProvisionSignal?: boolean | undefined;
 }
 /** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. You can easily view the output of your console log. Azure also enables you to see a screenshot of the VM from the hypervisor. */
 export interface BootDiagnostics {
   /** Whether boot diagnostics should be enabled on the Virtual Machine. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Uri of the storage account to use for placing the console output and screenshot. If storageUri is not specified while enabling boot diagnostics, managed storage will be used. */
-  storageUri?: string;
+  storageUri?: string | undefined;
 }
 /** Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15. */
 export interface DiagnosticsProfile {
   /** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. **NOTE**: If storageUri is being specified then ensure that the storage account is in the same region and subscription as the VM. You can easily view the output of your console log. Azure also enables you to see a screenshot of the VM from the hypervisor. */
-  bootDiagnostics?: BootDiagnostics;
+  bootDiagnostics?: BootDiagnostics | undefined;
 }
 /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. Minimum api-version: 2020-12-01. */
 export interface UefiSettings {
   /** Specifies whether secure boot should be enabled on the virtual machine. Minimum api-version: 2020-12-01. */
-  secureBootEnabled?: boolean;
+  secureBootEnabled?: boolean | undefined;
   /** Specifies whether vTPM should be enabled on the virtual machine. Minimum api-version: 2020-12-01. */
-  vTpmEnabled?: boolean;
+  vTpmEnabled?: boolean | undefined;
 }
 /** Specifies the VM securityType; UefiSettings are enabled only when set to TrustedLaunch or ConfidentialVM, and returns a Standard value starting API version 2025-11-01. */
 export type SecurityTypes = "Standard" | "TrustedLaunch" | "ConfidentialVM";
 /** Specifies the Managed Identity used by ADE to get access token for keyvault operations. */
 export interface EncryptionIdentity {
   /** Specifies ARM Resource ID of one of the user identities associated with the VM. */
-  userAssignedIdentityResourceId?: string;
+  userAssignedIdentityResourceId?: string | undefined;
 }
 /** Specifies the mode that ProxyAgent will execute on if the feature is enabled. ProxyAgent will start to audit or monitor but not enforce access control over requests to host endpoints in Audit mode, while in Enforce mode it will enforce access control. The default value is Enforce mode. */
 export type Mode = "Audit" | "Enforce";
@@ -1682,64 +1691,64 @@ export type Modes = "Audit" | "Enforce" | "Disabled";
 /** Specifies particular host endpoint settings. */
 export interface HostEndpointSettings {
   /** Specifies the execution mode. In Audit mode, the system acts as if it is enforcing the access control policy, including emitting access denial entries in the logs but it does not actually deny any requests to host endpoints. In Enforce mode, the system will enforce the access control and it is the recommended mode of operation. */
-  mode?: Modes | (string & {});
+  mode?: Modes | (string & {}) | undefined;
   /** Specifies the InVMAccessControlProfileVersion resource id in the format of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{profile}/versions/{version} */
-  inVMAccessControlProfileReferenceId?: string;
+  inVMAccessControlProfileReferenceId?: string | undefined;
   /** When set to true, instructs the GuestProxyAgent inside the VM to load additional access control rules defined in a local file on the VM. */
-  useLocalFileRules?: boolean;
+  useLocalFileRules?: boolean | undefined;
 }
 /** Specifies ProxyAgent settings for the virtual machine or virtual machine scale set. Minimum api-version: 2023-09-01. */
 export interface ProxyAgentSettings {
   /** Specifies whether ProxyAgent feature should be enabled on the virtual machine or virtual machine scale set. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Specifies the mode that ProxyAgent will execute on. Warning: this property has been deprecated, please specify 'mode' under particular hostendpoint setting. */
-  mode?: Mode | (string & {});
+  mode?: Mode | (string & {}) | undefined;
   /** Increase the value of this property allows users to reset the key used for securing communication channel between guest and host. */
-  keyIncarnationId?: number;
+  keyIncarnationId?: number | undefined;
   /** Specifies the Wire Server endpoint settings while creating the virtual machine or virtual machine scale set. Minimum api-version: 2024-03-01. */
-  wireServer?: HostEndpointSettings;
+  wireServer?: HostEndpointSettings | undefined;
   /** Specifies the IMDS endpoint settings while creating the virtual machine or virtual machine scale set. Minimum api-version: 2024-03-01. */
-  imds?: HostEndpointSettings;
+  imds?: HostEndpointSettings | undefined;
   /** Specify whether to implicitly install the ProxyAgent Extension. This option is currently applicable only for Linux Os. */
-  addProxyAgentExtension?: boolean;
+  addProxyAgentExtension?: boolean | undefined;
 }
 /** Specifies the Security profile settings for the virtual machine or virtual machine scale set. */
 export interface SecurityProfile {
   /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. Minimum api-version: 2020-12-01. */
-  uefiSettings?: UefiSettings;
+  uefiSettings?: UefiSettings | undefined;
   /** This property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp disk at host itself. The default behavior is: The Encryption at host will be disabled unless this property is set to true for the resource. */
-  encryptionAtHost?: boolean;
+  encryptionAtHost?: boolean | undefined;
   /** Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. The default behavior is: UefiSettings will not be enabled unless this property is set and is not Standard. If not specified, Standard will be returned starting api version 2025-11-01. */
-  securityType?: SecurityTypes | (string & {});
+  securityType?: SecurityTypes | (string & {}) | undefined;
   /** Specifies the Managed Identity used by ADE to get access token for keyvault operations. */
-  encryptionIdentity?: EncryptionIdentity;
+  encryptionIdentity?: EncryptionIdentity | undefined;
   /** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2023-09-01. */
-  proxyAgentSettings?: ProxyAgentSettings;
+  proxyAgentSettings?: ProxyAgentSettings | undefined;
 }
 /** Specifies the HyperVGeneration Type */
 export type HyperVGenerationTypes = "V1" | "V2";
 /** Describes the properties of the Virtual Machine for which the restore point was created. The properties provided are a subset and the snapshot of the overall Virtual Machine properties captured at the time of the restore point creation. */
 export interface RestorePointSourceMetadata {
   /** Gets the hardware profile. */
-  hardwareProfile?: HardwareProfile;
+  hardwareProfile?: HardwareProfile | undefined;
   /** Gets the storage profile. */
-  storageProfile?: RestorePointSourceVMStorageProfile;
+  storageProfile?: RestorePointSourceVMStorageProfile | undefined;
   /** Gets the OS profile. */
-  osProfile?: OSProfile;
+  osProfile?: OSProfile | undefined;
   /** Gets the diagnostics profile. */
-  diagnosticsProfile?: DiagnosticsProfile;
+  diagnosticsProfile?: DiagnosticsProfile | undefined;
   /** Gets the license type, which is for bring your own license scenario. */
-  licenseType?: string;
+  licenseType?: string | undefined;
   /** Gets the virtual machine unique id. */
-  vmId?: string;
+  vmId?: string | undefined;
   /** Gets the security profile. */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** Location of the VM from which the restore point was created. */
-  location?: string;
+  location?: string | undefined;
   /** UserData associated with the source VM for which restore point is captured, which is a base-64 encoded value. */
-  userData?: string;
+  userData?: string | undefined;
   /** HyperVGeneration of the source VM for which restore point is captured. */
-  hyperVGeneration?: HyperVGenerationTypes;
+  hyperVGeneration?: HyperVGenerationTypes | undefined;
 }
 /** The state of snapshot which determines the access availability of the snapshot. */
 export type CommonSnapshotAccessState =
@@ -1751,71 +1760,71 @@ export type CommonSnapshotAccessState =
 /** The instance view of a disk restore point. */
 export interface DiskRestorePointReplicationStatus {
   /** The resource status information. */
-  status?: InstanceViewStatus;
+  status?: InstanceViewStatus | undefined;
   /** Replication completion percentage. */
-  completionPercent?: number;
+  completionPercent?: number | undefined;
 }
 /** The instance view of a disk restore point. */
 export interface DiskRestorePointInstanceView {
   /** Disk restore point Id. */
-  id?: string;
+  id?: string | undefined;
   /** The state of snapshot which determines the access availability of the snapshot. */
-  snapshotAccessState?: CommonSnapshotAccessState;
+  snapshotAccessState?: CommonSnapshotAccessState | undefined;
   /** The disk restore point replication status information. */
-  replicationStatus?: DiskRestorePointReplicationStatus;
+  replicationStatus?: DiskRestorePointReplicationStatus | undefined;
 }
 /** The disk restore points information. */
 export type RestorePointInstanceViewDiskRestorePointsList = Array<DiskRestorePointInstanceView>;
-/** The resource status information. */
+/** The aggregate status information for the restore point. The list may include separate aggregate entries for replication and, in supported API versions, Instant Access, as applicable. For more information about Instant Access, see [Use virtual machine restore points](https://learn.microsoft.com/azure/virtual-machines/virtual-machines-create-restore-points#instant-access). */
 export type RestorePointInstanceViewStatusesList = Array<InstanceViewStatus>;
 /** The instance view of a restore point. */
 export interface RestorePointInstanceView {
   /** The disk restore points information. */
-  diskRestorePoints?: RestorePointInstanceViewDiskRestorePointsList;
-  /** The resource status information. */
-  statuses?: RestorePointInstanceViewStatusesList;
+  diskRestorePoints?: RestorePointInstanceViewDiskRestorePointsList | undefined;
+  /** The aggregate status information for the restore point. The list may include separate aggregate entries for replication and, in supported API versions, Instant Access, as applicable. For more information about Instant Access, see [Use virtual machine restore points](https://learn.microsoft.com/azure/virtual-machines/virtual-machines-create-restore-points#instant-access). */
+  statuses?: RestorePointInstanceViewStatusesList | undefined;
 }
 /** The restore point properties. */
 export interface RestorePointProperties {
   /** List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included. */
-  excludeDisks?: RestorePointPropertiesExcludeDisksList;
+  excludeDisks?: RestorePointPropertiesExcludeDisksList | undefined;
   /** Gets the details of the VM captured at the time of the restore point creation. */
-  sourceMetadata?: RestorePointSourceMetadata;
+  sourceMetadata?: RestorePointSourceMetadata | undefined;
   /** Gets the provisioning state of the restore point. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** ConsistencyMode of the RestorePoint. Can be specified in the input while creating a restore point. For now, only CrashConsistent is accepted as a valid input. Please refer to https://aka.ms/RestorePoints for more details. */
-  consistencyMode?: ConsistencyModeTypes;
+  consistencyMode?: ConsistencyModeTypes | undefined;
   /** Gets the creation time of the restore point. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
   /** Resource Id of the source restore point from which a copy needs to be created. */
-  sourceRestorePoint?: ApiEntityReference;
+  sourceRestorePoint?: ApiEntityReference | undefined;
   /** The restore point instance view. */
-  instanceView?: RestorePointInstanceView;
+  instanceView?: RestorePointInstanceView | undefined;
   /** This property determines the time in minutes the snapshot is retained as instant access for restoring Premium SSD v2 or Ultra disk with fast restore performance in this restore point. */
-  instantAccessDurationMinutes?: number;
+  instantAccessDurationMinutes?: number | undefined;
 }
 export interface CreateRestorePointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The restore point properties. */
-  properties?: RestorePointProperties;
+  properties?: RestorePointProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateSshPublicKeyRequestTagsMap = { [key: string]: string | undefined };
 /** Properties of the SSH public key. */
 export interface SshPublicKeyResourceProperties {
   /** SSH public key used to authenticate to a virtual machine through ssh. If this property is not initially provided when the resource is created, the publicKey property will be populated when generateKeyPair is called. If the public key is provided upon resource creation, the provided public key needs to be at least 2048-bit and in ssh-rsa format. */
-  publicKey?: string;
+  publicKey?: string | undefined;
 }
 export interface CreateSshPublicKeyRequest {
   /** The ID of the target subscription. */
@@ -1825,45 +1834,45 @@ export interface CreateSshPublicKeyRequest {
   /** The name of the SSH public key. */
   sshPublicKeyName: string;
   /** Resource tags. */
-  tags?: CreateSshPublicKeyRequestTagsMap;
+  tags?: CreateSshPublicKeyRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the SSH public key. */
-  properties?: SshPublicKeyResourceProperties;
+  properties?: SshPublicKeyResourceProperties | undefined;
 }
 /** Resource tags. */
 export type CreateSshPublicKeyResponseTagsMap = { [key: string]: string | undefined };
 export interface CreateSshPublicKeyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSshPublicKeyResponseTagsMap;
+  tags?: CreateSshPublicKeyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the SSH public key. */
-  properties?: SshPublicKeyResourceProperties;
+  properties?: SshPublicKeyResourceProperties | undefined;
 }
 /** Resource tags. */
 export type DedicatedHostGroupsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Enables or disables a capability on the dedicated host group. Minimum api-version: 2022-03-01. */
 export interface DedicatedHostGroupPropertiesAdditionalCapabilities {
   /** The flag that enables or disables a capability to have UltraSSD Enabled Virtual Machines on Dedicated Hosts of the Dedicated Host Group. For the Virtual Machines to be UltraSSD Enabled, UltraSSDEnabled flag for the resource needs to be set true as well. The value is defaulted to 'false' when not provided. Please refer to https://docs.microsoft.com/en-us/azure/virtual-machines/disks-enable-ultra-ssd for more details on Ultra SSD feature. **Note:** The ultraSSDEnabled setting can only be enabled for Host Groups that are created as zonal. Minimum api-version: 2022-03-01. */
-  ultraSSDEnabled?: boolean;
+  ultraSSDEnabled?: boolean | undefined;
 }
 /** Dedicated Host Group Properties. */
 export interface DedicatedHostGroupPropertiesInput {
   /** Number of fault domains that the host group can span. */
   platformFaultDomainCount: number;
   /** Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. Minimum api-version: 2020-06-01. */
-  supportAutomaticPlacement?: boolean;
+  supportAutomaticPlacement?: boolean | undefined;
   /** Enables or disables a capability on the dedicated host group. Minimum api-version: 2022-03-01. */
-  additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
+  additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities | undefined;
 }
 /** The availability zones. */
 export type DedicatedHostGroupsCreateOrUpdateRequestZonesList = Array<string>;
@@ -1875,13 +1884,13 @@ export interface DedicatedHostGroupsCreateOrUpdateRequest {
   /** The name of the dedicated host group. */
   hostGroupName: string;
   /** Resource tags. */
-  tags?: DedicatedHostGroupsCreateOrUpdateRequestTagsMap;
+  tags?: DedicatedHostGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Dedicated Host Group Properties. */
-  properties?: DedicatedHostGroupPropertiesInput;
+  properties?: DedicatedHostGroupPropertiesInput | undefined;
   /** The availability zones. */
-  zones?: DedicatedHostGroupsCreateOrUpdateRequestZonesList;
+  zones?: DedicatedHostGroupsCreateOrUpdateRequestZonesList | undefined;
 }
 /** Resource tags. */
 export type DedicatedHostGroupsCreateOrUpdateResponseTagsMap = {
@@ -1895,68 +1904,68 @@ export type DedicatedHostGroupPropertiesHostsList =
 /** Represents the dedicated host unutilized capacity in terms of a specific VM size. */
 export interface DedicatedHostAllocatableVM {
   /** VM size in terms of which the unutilized capacity is represented. */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** Maximum number of VMs of size vmSize that can fit in the dedicated host's remaining capacity. */
-  count?: number;
+  count?: number | undefined;
 }
 /** The unutilized capacity of the dedicated host represented in terms of each VM size that is allowed to be deployed to the dedicated host. */
 export type DedicatedHostAvailableCapacityAllocatableVMsList = Array<DedicatedHostAllocatableVM>;
 /** Dedicated host unutilized capacity. */
 export interface DedicatedHostAvailableCapacity {
   /** The unutilized capacity of the dedicated host represented in terms of each VM size that is allowed to be deployed to the dedicated host. */
-  allocatableVMs?: DedicatedHostAvailableCapacityAllocatableVMsList;
+  allocatableVMs?: DedicatedHostAvailableCapacityAllocatableVMsList | undefined;
 }
 /** The resource status information. */
 export type DedicatedHostInstanceViewWithNameStatusesList = Array<InstanceViewStatus>;
 /** The instance view of a dedicated host that includes the name of the dedicated host. It is used for the response to the instance view of a dedicated host group. */
 export interface DedicatedHostInstanceViewWithName {
   /** Specifies the unique id of the dedicated physical machine on which the dedicated host resides. */
-  assetId?: string;
+  assetId?: string | undefined;
   /** Unutilized capacity of the dedicated host. */
-  availableCapacity?: DedicatedHostAvailableCapacity;
+  availableCapacity?: DedicatedHostAvailableCapacity | undefined;
   /** The resource status information. */
-  statuses?: DedicatedHostInstanceViewWithNameStatusesList;
+  statuses?: DedicatedHostInstanceViewWithNameStatusesList | undefined;
   /** The name of the dedicated host. */
-  name?: string;
+  name?: string | undefined;
 }
 /** List of instance view of the dedicated hosts under the dedicated host group. */
 export type DedicatedHostGroupInstanceViewHostsList = Array<DedicatedHostInstanceViewWithName>;
 export interface DedicatedHostGroupInstanceView {
   /** List of instance view of the dedicated hosts under the dedicated host group. */
-  hosts?: DedicatedHostGroupInstanceViewHostsList;
+  hosts?: DedicatedHostGroupInstanceViewHostsList | undefined;
 }
 /** Dedicated Host Group Properties. */
 export interface DedicatedHostGroupProperties {
   /** Number of fault domains that the host group can span. */
   platformFaultDomainCount: number;
   /** A list of references to all dedicated hosts in the dedicated host group. */
-  hosts?: DedicatedHostGroupPropertiesHostsList;
+  hosts?: DedicatedHostGroupPropertiesHostsList | undefined;
   /** The dedicated host group instance view, which has the list of instance view of the dedicated hosts under the dedicated host group. */
-  instanceView?: DedicatedHostGroupInstanceView;
+  instanceView?: DedicatedHostGroupInstanceView | undefined;
   /** Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. Minimum api-version: 2020-06-01. */
-  supportAutomaticPlacement?: boolean;
+  supportAutomaticPlacement?: boolean | undefined;
   /** Enables or disables a capability on the dedicated host group. Minimum api-version: 2022-03-01. */
-  additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
+  additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities | undefined;
 }
 /** The availability zones. */
 export type DedicatedHostGroupsCreateOrUpdateResponseZonesList = Array<string>;
 export interface DedicatedHostGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DedicatedHostGroupsCreateOrUpdateResponseTagsMap;
+  tags?: DedicatedHostGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Dedicated Host Group Properties. */
-  properties?: DedicatedHostGroupProperties;
+  properties?: DedicatedHostGroupProperties | undefined;
   /** The availability zones. */
-  zones?: DedicatedHostGroupsCreateOrUpdateResponseZonesList;
+  zones?: DedicatedHostGroupsCreateOrUpdateResponseZonesList | undefined;
 }
 /** Resource tags. */
 export type DedicatedHostsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1968,11 +1977,11 @@ export type DedicatedHostLicenseTypes =
 /** Properties of the dedicated host. */
 export interface DedicatedHostPropertiesInput {
   /** Fault domain of the dedicated host within a dedicated host group. */
-  platformFaultDomain?: number;
+  platformFaultDomain?: number | undefined;
   /** Specifies whether the dedicated host should be replaced automatically in case of a failure. The value is defaulted to 'true' when not provided. */
-  autoReplaceOnFailure?: boolean;
+  autoReplaceOnFailure?: boolean | undefined;
   /** Specifies the software license type that will be applied to the VMs deployed on the dedicated host. Possible values are: **None,** **Windows_Server_Hybrid,** **Windows_Server_Perpetual.** The default value is: **None.** */
-  licenseType?: DedicatedHostLicenseTypes | (string & {});
+  licenseType?: DedicatedHostLicenseTypes | (string & {}) | undefined;
 }
 export interface DedicatedHostsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1984,11 +1993,11 @@ export interface DedicatedHostsCreateOrUpdateRequest {
   /** The name of the dedicated host. */
   hostName: string;
   /** Resource tags. */
-  tags?: DedicatedHostsCreateOrUpdateRequestTagsMap;
+  tags?: DedicatedHostsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the dedicated host. */
-  properties?: DedicatedHostPropertiesInput;
+  properties?: DedicatedHostPropertiesInput | undefined;
   /** SKU of the dedicated host for Hardware Generation and VM family. Only name is required to be set. List Microsoft.Compute SKUs for a list of possible values. */
   sku: Sku;
 }
@@ -2004,54 +2013,54 @@ export type DedicatedHostInstanceViewStatusesList = Array<InstanceViewStatus>;
 /** The instance view of a dedicated host. */
 export interface DedicatedHostInstanceView {
   /** Specifies the unique id of the dedicated physical machine on which the dedicated host resides. */
-  assetId?: string;
+  assetId?: string | undefined;
   /** Unutilized capacity of the dedicated host. */
-  availableCapacity?: DedicatedHostAvailableCapacity;
+  availableCapacity?: DedicatedHostAvailableCapacity | undefined;
   /** The resource status information. */
-  statuses?: DedicatedHostInstanceViewStatusesList;
+  statuses?: DedicatedHostInstanceViewStatusesList | undefined;
 }
 /** Properties of the dedicated host. */
 export interface DedicatedHostProperties {
   /** Fault domain of the dedicated host within a dedicated host group. */
-  platformFaultDomain?: number;
+  platformFaultDomain?: number | undefined;
   /** Specifies whether the dedicated host should be replaced automatically in case of a failure. The value is defaulted to 'true' when not provided. */
-  autoReplaceOnFailure?: boolean;
+  autoReplaceOnFailure?: boolean | undefined;
   /** A unique id generated and assigned to the dedicated host by the platform. Does not change throughout the lifetime of the host. */
-  hostId?: string;
+  hostId?: string | undefined;
   /** A list of references to all virtual machines in the Dedicated Host. */
-  virtualMachines?: DedicatedHostPropertiesVirtualMachinesList;
+  virtualMachines?: DedicatedHostPropertiesVirtualMachinesList | undefined;
   /** Specifies the software license type that will be applied to the VMs deployed on the dedicated host. Possible values are: **None,** **Windows_Server_Hybrid,** **Windows_Server_Perpetual.** The default value is: **None.** */
-  licenseType?: DedicatedHostLicenseTypes;
+  licenseType?: DedicatedHostLicenseTypes | undefined;
   /** The date when the host was first provisioned. */
-  provisioningTime?: string;
+  provisioningTime?: string | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The dedicated host instance view. */
-  instanceView?: DedicatedHostInstanceView;
+  instanceView?: DedicatedHostInstanceView | undefined;
   /** Specifies the time at which the Dedicated Host resource was created. Minimum api-version: 2021-11-01. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
 }
 export interface DedicatedHostsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DedicatedHostsCreateOrUpdateResponseTagsMap;
+  tags?: DedicatedHostsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the dedicated host. */
-  properties?: DedicatedHostProperties;
+  properties?: DedicatedHostProperties | undefined;
   /** SKU of the dedicated host for Hardware Generation and VM family. Only name is required to be set. List Microsoft.Compute SKUs for a list of possible values. */
   sku: Sku;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAvailabilitySetRequest {
   /** The ID of the target subscription. */
@@ -2074,9 +2083,9 @@ export interface DeleteCapacityReservationRequest {
 }
 export interface DeleteCapacityReservationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCapacityReservationGroupRequest {
   /** The ID of the target subscription. */
@@ -2088,9 +2097,9 @@ export interface DeleteCapacityReservationGroupRequest {
 }
 export interface DeleteCapacityReservationGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteContainerServiceRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2113,9 +2122,9 @@ export interface DeleteDedicatedHostRequest {
 }
 export interface DeleteDedicatedHostResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDedicatedHostGroupRequest {
   /** The ID of the target subscription. */
@@ -2136,9 +2145,9 @@ export interface DeleteImageRequest {
 }
 export interface DeleteImageResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteInterconnectBlockRequest {
   /** The ID of the target subscription. */
@@ -2150,9 +2159,9 @@ export interface DeleteInterconnectBlockRequest {
 }
 export interface DeleteInterconnectBlockResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteProximityPlacementGroupRequest {
   /** The ID of the target subscription. */
@@ -2175,9 +2184,9 @@ export interface DeleteRestorePointRequest {
 }
 export interface DeleteRestorePointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRestorePointCollectionRequest {
   /** The ID of the target subscription. */
@@ -2189,9 +2198,9 @@ export interface DeleteRestorePointCollectionRequest {
 }
 export interface DeleteRestorePointCollectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSshPublicKeyRequest {
   /** The ID of the target subscription. */
@@ -2210,13 +2219,13 @@ export interface DeleteVirtualMachineRequest {
   /** The name of the virtual machine. */
   vmName: string;
   /** Optional parameter to force delete virtual machines. */
-  forceDeletion?: boolean;
+  forceDeletion?: boolean | undefined;
 }
 export interface DeleteVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVirtualMachineDiagnosticRunCommandRequest {
   /** The ID of the target subscription. */
@@ -2230,9 +2239,9 @@ export interface DeleteVirtualMachineDiagnosticRunCommandRequest {
 }
 export interface DeleteVirtualMachineDiagnosticRunCommandResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVirtualMachineExtensionRequest {
   /** The ID of the target subscription. */
@@ -2246,9 +2255,9 @@ export interface DeleteVirtualMachineExtensionRequest {
 }
 export interface DeleteVirtualMachineExtensionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVirtualMachineRunCommandRequest {
   /** The ID of the target subscription. */
@@ -2262,9 +2271,9 @@ export interface DeleteVirtualMachineRunCommandRequest {
 }
 export interface DeleteVirtualMachineRunCommandResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVirtualMachineScaleSetRequest {
   /** The ID of the target subscription. */
@@ -2274,13 +2283,13 @@ export interface DeleteVirtualMachineScaleSetRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** Optional parameter to force delete a VM scale set. (Feature in Preview) */
-  forceDeletion?: boolean;
+  forceDeletion?: boolean | undefined;
 }
 export interface DeleteVirtualMachineScaleSetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVirtualMachineScaleSetExtensionRequest {
   /** The ID of the target subscription. */
@@ -2294,9 +2303,9 @@ export interface DeleteVirtualMachineScaleSetExtensionRequest {
 }
 export interface DeleteVirtualMachineScaleSetExtensionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The virtual machine scale set instance ids. */
 export type DeleteVirtualMachineScaleSetInstancesRequestInstanceIdsList = Array<string>;
@@ -2308,15 +2317,15 @@ export interface DeleteVirtualMachineScaleSetInstancesRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** Optional parameter to force delete virtual machines from the VM scale set. (Feature in Preview) */
-  forceDeletion?: boolean;
+  forceDeletion?: boolean | undefined;
   /** The virtual machine scale set instance ids. */
   instanceIds: DeleteVirtualMachineScaleSetInstancesRequestInstanceIdsList;
 }
 export interface DeleteVirtualMachineScaleSetInstancesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVirtualMachineScaleSetVMRequest {
   /** The ID of the target subscription. */
@@ -2328,13 +2337,13 @@ export interface DeleteVirtualMachineScaleSetVMRequest {
   /** The instance ID of the virtual machine. */
   instanceId: string;
   /** Optional parameter to force delete a virtual machine from a VM scale set. (Feature in Preview) */
-  forceDeletion?: boolean;
+  forceDeletion?: boolean | undefined;
 }
 export interface DeleteVirtualMachineScaleSetVMResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVirtualMachineScaleSetVMDiagnosticRunCommandRequest {
   /** The ID of the target subscription. */
@@ -2350,9 +2359,9 @@ export interface DeleteVirtualMachineScaleSetVMDiagnosticRunCommandRequest {
 }
 export interface DeleteVirtualMachineScaleSetVMDiagnosticRunCommandResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVirtualMachineScaleSetVMExtensionRequest {
   /** The ID of the target subscription. */
@@ -2368,9 +2377,9 @@ export interface DeleteVirtualMachineScaleSetVMExtensionRequest {
 }
 export interface DeleteVirtualMachineScaleSetVMExtensionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVirtualMachineScaleSetVMRunCommandRequest {
   /** The ID of the target subscription. */
@@ -2386,9 +2395,9 @@ export interface DeleteVirtualMachineScaleSetVMRunCommandRequest {
 }
 export interface DeleteVirtualMachineScaleSetVMRunCommandResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Interval value in minutes used to create LogAnalytics call rate logs. */
 export type IntervalInMins = "ThreeMins" | "FiveMins" | "ThirtyMins" | "SixtyMins";
@@ -2404,31 +2413,31 @@ export interface ExportLogAnalyticsRequestRateByIntervalRequest {
   /** To time of the query */
   toTime: string;
   /** Group query result by Throttle Policy applied. */
-  groupByThrottlePolicy?: boolean;
+  groupByThrottlePolicy?: boolean | undefined;
   /** Group query result by Operation Name. */
-  groupByOperationName?: boolean;
+  groupByOperationName?: boolean | undefined;
   /** Group query result by Resource Name. */
-  groupByResourceName?: boolean;
+  groupByResourceName?: boolean | undefined;
   /** Group query result by Client Application ID. */
-  groupByClientApplicationId?: boolean;
+  groupByClientApplicationId?: boolean | undefined;
   /** Group query result by User Agent. */
-  groupByUserAgent?: boolean;
+  groupByUserAgent?: boolean | undefined;
   /** Interval value in minutes used to create LogAnalytics call rate logs. */
   intervalLength: IntervalInMins | (string & {});
 }
 /** LogAnalytics output properties */
 export interface LogAnalyticsOutput {
   /** Output file Uri path to blob container. */
-  output?: string;
+  output?: string | undefined;
 }
 /** LogAnalytics operation status response */
 export interface LogAnalyticsOperationResult {
   /** LogAnalyticsOutput */
-  properties?: LogAnalyticsOutput;
+  properties?: LogAnalyticsOutput | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ExportLogAnalyticsThrottledRequestsRequest {
   /** The ID of the target subscription. */
@@ -2442,15 +2451,15 @@ export interface ExportLogAnalyticsThrottledRequestsRequest {
   /** To time of the query */
   toTime: string;
   /** Group query result by Throttle Policy applied. */
-  groupByThrottlePolicy?: boolean;
+  groupByThrottlePolicy?: boolean | undefined;
   /** Group query result by Operation Name. */
-  groupByOperationName?: boolean;
+  groupByOperationName?: boolean | undefined;
   /** Group query result by Resource Name. */
-  groupByResourceName?: boolean;
+  groupByResourceName?: boolean | undefined;
   /** Group query result by Client Application ID. */
-  groupByClientApplicationId?: boolean;
+  groupByClientApplicationId?: boolean | undefined;
   /** Group query result by User Agent. */
-  groupByUserAgent?: boolean;
+  groupByUserAgent?: boolean | undefined;
 }
 /** The encryption type of the SSH keys to be generated. See SshEncryptionTypes for possible set of values. If not provided, will default to RSA */
 export type SshEncryptionTypes = "RSA" | "Ed25519";
@@ -2462,7 +2471,7 @@ export interface GenerateSshPublicKeyKeyPairRequest {
   /** The name of the SSH public key. */
   sshPublicKeyName: string;
   /** The encryption type of the SSH keys to be generated. See SshEncryptionTypes for possible set of values. If not provided, will default to RSA */
-  encryptionType?: SshEncryptionTypes | (string & {});
+  encryptionType?: SshEncryptionTypes | (string & {}) | undefined;
 }
 /** Response from generation of an SSH key pair. */
 export interface SshPublicKeyGenerateKeyPairResult {
@@ -2485,21 +2494,21 @@ export interface GetAvailabilitySetRequest {
 export type GetAvailabilitySetResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAvailabilitySetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAvailabilitySetResponseTagsMap;
+  tags?: GetAvailabilitySetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The instance view of a resource. */
-  properties?: AvailabilitySetProperties;
+  properties?: AvailabilitySetProperties | undefined;
   /** Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for virtual machines with managed disks and 'Classic' for virtual machines with unmanaged disks. Default value is 'Classic'. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export type GetCapacityReservationRequestExpand = "instanceView";
 export interface GetCapacityReservationRequest {
@@ -2512,7 +2521,7 @@ export interface GetCapacityReservationRequest {
   /** The name of the capacity reservation. */
   capacityReservationName: string;
   /** The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations. */
-  _expand?: GetCapacityReservationRequestExpand | (string & {});
+  _expand?: GetCapacityReservationRequestExpand | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type GetCapacityReservationResponseTagsMap = { [key: string]: string | undefined };
@@ -2520,23 +2529,23 @@ export type GetCapacityReservationResponseTagsMap = { [key: string]: string | un
 export type GetCapacityReservationResponseZonesList = Array<string>;
 export interface GetCapacityReservationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCapacityReservationResponseTagsMap;
+  tags?: GetCapacityReservationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Capacity reservation. */
-  properties?: CapacityReservationProperties;
+  properties?: CapacityReservationProperties | undefined;
   /** SKU of the resource for which capacity needs be reserved. The SKU name and capacity is required to be set. For Block capacity reservations, sku.capacity can only accept values 1, 2, 4, 8, 16, 32, 64. Currently VM Skus with the capability called 'CapacityReservationSupported' set to true are supported. When 'CapacityReservationSupported' is true, the SKU capability also specifies the 'SupportedCapacityReservationTypes', which lists the types of capacity reservations (such as Targeted or Block) that the SKU supports. Refer to List Microsoft.Compute SKUs in a region (https://docs.microsoft.com/rest/api/compute/resourceskus/list) for supported values. */
   sku: Sku;
   /** The availability zones. */
-  zones?: GetCapacityReservationResponseZonesList;
+  zones?: GetCapacityReservationResponseZonesList | undefined;
 }
 export type GetCapacityReservationGroupRequestExpand = "instanceView";
 export interface GetCapacityReservationGroupRequest {
@@ -2547,7 +2556,7 @@ export interface GetCapacityReservationGroupRequest {
   /** The name of the capacity reservation group. */
   capacityReservationGroupName: string;
   /** The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the capacity reservations under the capacity reservation group which is a snapshot of the runtime properties of a capacity reservation that is managed by the platform and can change outside of control plane operations. */
-  _expand?: GetCapacityReservationGroupRequestExpand | (string & {});
+  _expand?: GetCapacityReservationGroupRequestExpand | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type GetCapacityReservationGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -2555,21 +2564,21 @@ export type GetCapacityReservationGroupResponseTagsMap = { [key: string]: string
 export type GetCapacityReservationGroupResponseZonesList = Array<string>;
 export interface GetCapacityReservationGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCapacityReservationGroupResponseTagsMap;
+  tags?: GetCapacityReservationGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** capacity reservation group Properties. */
-  properties?: CapacityReservationGroupProperties;
+  properties?: CapacityReservationGroupProperties | undefined;
   /** The availability zones. */
-  zones?: GetCapacityReservationGroupResponseZonesList;
+  zones?: GetCapacityReservationGroupResponseZonesList | undefined;
 }
 export interface GetContainerServiceRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2583,16 +2592,16 @@ export interface GetContainerServiceRequest {
 export type GetContainerServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetContainerServiceResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: GetContainerServiceResponseTagsMap;
-  properties?: ContainerServiceProperties;
+  tags?: GetContainerServiceResponseTagsMap | undefined;
+  properties?: ContainerServiceProperties | undefined;
 }
 export type GetDedicatedHostRequestExpand = "instanceView" | "userData" | "resiliencyView";
 export interface GetDedicatedHostRequest {
@@ -2605,25 +2614,25 @@ export interface GetDedicatedHostRequest {
   /** The name of the dedicated host. */
   hostName: string;
   /** The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the dedicated host. 'UserData' is not supported for dedicated host. */
-  _expand?: GetDedicatedHostRequestExpand | (string & {});
+  _expand?: GetDedicatedHostRequestExpand | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type GetDedicatedHostResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDedicatedHostResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDedicatedHostResponseTagsMap;
+  tags?: GetDedicatedHostResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the dedicated host. */
-  properties?: DedicatedHostProperties;
+  properties?: DedicatedHostProperties | undefined;
   /** SKU of the dedicated host for Hardware Generation and VM family. Only name is required to be set. List Microsoft.Compute SKUs for a list of possible values. */
   sku: Sku;
 }
@@ -2636,7 +2645,7 @@ export interface GetDedicatedHostGroupRequest {
   /** The name of the dedicated host group. */
   hostGroupName: string;
   /** The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the dedicated hosts under the dedicated host group. 'UserData' is not supported for dedicated host group. */
-  _expand?: GetDedicatedHostGroupRequestExpand | (string & {});
+  _expand?: GetDedicatedHostGroupRequestExpand | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type GetDedicatedHostGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -2644,21 +2653,21 @@ export type GetDedicatedHostGroupResponseTagsMap = { [key: string]: string | und
 export type GetDedicatedHostGroupResponseZonesList = Array<string>;
 export interface GetDedicatedHostGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDedicatedHostGroupResponseTagsMap;
+  tags?: GetDedicatedHostGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Dedicated Host Group Properties. */
-  properties?: DedicatedHostGroupProperties;
+  properties?: DedicatedHostGroupProperties | undefined;
   /** The availability zones. */
-  zones?: GetDedicatedHostGroupResponseZonesList;
+  zones?: GetDedicatedHostGroupResponseZonesList | undefined;
 }
 export interface GetImageRequest {
   /** The ID of the target subscription. */
@@ -2668,7 +2677,7 @@ export interface GetImageRequest {
   /** The name of the image. */
   imageName: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetImageResponseTagsMap = { [key: string]: string | undefined };
@@ -2681,18 +2690,18 @@ export type CommonOperatingSystemTypes = "Windows" | "Linux";
 export type CommonOperatingSystemStateTypes = "Generalized" | "Specialized";
 /** Describes an Operating System disk. */
 export interface ImageOSDisk {
-  snapshot?: AvailabilitySetPropertiesInputVirtualMachinesItem;
-  managedDisk?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  snapshot?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
+  managedDisk?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** The Virtual Hard Disk. */
-  blobUri?: string;
+  blobUri?: string | undefined;
   /** Specifies the caching requirements. Possible values are: **None,** **ReadOnly,** **ReadWrite.** The default values are: **None for Standard storage. ReadOnly for Premium storage.** */
-  caching?: CachingTypes | (string & {});
+  caching?: CachingTypes | (string & {}) | undefined;
   /** Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. This value cannot be larger than 1023 GB. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. */
-  storageAccountType?: StorageAccountTypes | (string & {});
+  storageAccountType?: StorageAccountTypes | (string & {}) | undefined;
   /** Specifies the customer managed disk encryption set resource id for the managed image disk. */
-  diskEncryptionSet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  diskEncryptionSet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from a custom image. Possible values are: **Windows,** **Linux.** */
   osType: CommonOperatingSystemTypes | (string & {});
   /** The OS State. For managed images, use Generalized. */
@@ -2702,18 +2711,18 @@ export type ImageDataDiskSnapshot = AvailabilitySetPropertiesInputVirtualMachine
 export type ImageDataDiskManagedDisk = AvailabilitySetPropertiesInputVirtualMachinesItem;
 /** Describes a data disk. */
 export interface ImageDataDisk {
-  snapshot?: AvailabilitySetPropertiesInputVirtualMachinesItem;
-  managedDisk?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  snapshot?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
+  managedDisk?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** The Virtual Hard Disk. */
-  blobUri?: string;
+  blobUri?: string | undefined;
   /** Specifies the caching requirements. Possible values are: **None,** **ReadOnly,** **ReadWrite.** The default values are: **None for Standard storage. ReadOnly for Premium storage.** */
-  caching?: CachingTypes | (string & {});
+  caching?: CachingTypes | (string & {}) | undefined;
   /** Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. This value cannot be larger than 1023 GB. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. */
-  storageAccountType?: StorageAccountTypes | (string & {});
+  storageAccountType?: StorageAccountTypes | (string & {}) | undefined;
   /** Specifies the customer managed disk encryption set resource id for the managed image disk. */
-  diskEncryptionSet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  diskEncryptionSet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. */
   lun: number;
 }
@@ -2722,48 +2731,48 @@ export type ImageStorageProfileDataDisksList = Array<ImageDataDisk>;
 /** Describes a storage profile. */
 export interface ImageStorageProfile {
   /** Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  osDisk?: ImageOSDisk;
+  osDisk?: ImageOSDisk | undefined;
   /** Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  dataDisks?: ImageStorageProfileDataDisksList;
+  dataDisks?: ImageStorageProfileDataDisksList | undefined;
   /** Specifies whether an image is zone resilient or not. Default is false. Zone resilient images can be created only in regions that provide Zone Redundant Storage (ZRS). */
-  zoneResilient?: boolean;
+  zoneResilient?: boolean | undefined;
 }
 /** Describes the properties of an Image. */
 export interface ImageProperties {
-  sourceVirtualMachine?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  sourceVirtualMachine?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies the storage settings for the virtual machine disks. */
-  storageProfile?: ImageStorageProfile;
+  storageProfile?: ImageStorageProfile | undefined;
   /** The provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. */
-  hyperVGeneration?: HyperVGenerationTypes;
+  hyperVGeneration?: HyperVGenerationTypes | undefined;
 }
 /** The type of extendedLocation. */
 export type ExtendedLocationType = "EdgeZone";
 /** The complex type of the extended location. */
 export interface GetImageResponseExtendedLocation {
   /** The name of the extended location. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the extended location. */
-  type?: ExtendedLocationType;
+  type?: ExtendedLocationType | undefined;
 }
 export interface GetImageResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetImageResponseTagsMap;
+  tags?: GetImageResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of an Image. */
-  properties?: ImageProperties;
+  properties?: ImageProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
 }
 export type GetInterconnectBlockRequestExpand = "instanceView";
 export interface GetInterconnectBlockRequest {
@@ -2774,7 +2783,7 @@ export interface GetInterconnectBlockRequest {
   /** The name of the Interconnect Block. */
   interconnectBlockName: string;
   /** The expand expression to apply on the operation. 'instanceView' retrieves a snapshot of the runtime properties of the Interconnect Block that is managed by the platform and can change outside of control plane operations. */
-  _expand?: GetInterconnectBlockRequestExpand | (string & {});
+  _expand?: GetInterconnectBlockRequestExpand | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type GetInterconnectBlockResponseTagsMap = { [key: string]: string | undefined };
@@ -2788,30 +2797,30 @@ export type InterconnectBlockInstanceViewStatusesList = Array<InstanceViewStatus
 /** The instance view of an Interconnect Block. */
 export interface InterconnectBlockInstanceView {
   /** The current capacity allocated for this Interconnect Block. */
-  currentCapacity?: number;
+  currentCapacity?: number | undefined;
   /** The resource status information. */
-  statuses?: InterconnectBlockInstanceViewStatusesList;
+  statuses?: InterconnectBlockInstanceViewStatusesList | undefined;
 }
 /** Properties of the Interconnect Block. */
 export interface InterconnectBlockProperties {
   /** A list of all virtual machine resource ids that are associated with the Interconnect Block. */
-  virtualMachinesAssociated?: InterconnectBlockPropertiesVirtualMachinesAssociatedList;
+  virtualMachinesAssociated?: InterconnectBlockPropertiesVirtualMachinesAssociatedList | undefined;
   /** The Microsoft.Network/interconnectGroups resource that this Interconnect Block is associated with. Required at create and immutable thereafter. */
   interconnectGroup: ApiEntityReference;
   /** A unique id (GUID) generated and assigned to the Interconnect Block by the platform which does not change throughout the lifetime of the resource. */
-  interconnectBlockId?: string;
+  interconnectBlockId?: string | undefined;
   /** The date time when the Interconnect Block was last updated. */
-  provisioningTime?: string;
+  provisioningTime?: string | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The Interconnect Block instance view. */
-  instanceView?: InterconnectBlockInstanceView;
+  instanceView?: InterconnectBlockInstanceView | undefined;
   /** Specifies the time at which the Interconnect Block resource was created. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
 }
 /** The availability zones. */
 export type GetInterconnectBlockResponseZonesList = Array<string>;
-/** Specifies the policy for resource's placement in availability zone. Possible values are: **Any** (used for Virtual Machines), **Auto** (used for Virtual Machine Scale Sets) - An availability zone will be automatically picked by system as part of resource creation. */
+/** Specifies the policy for the resource's placement in an availability zone. Use **Auto** for Virtual Machines and Virtual Machine Scale Sets to let the system automatically select an availability zone during resource creation. **Any** remains supported for Virtual Machines for backward compatibility. */
 export type ZonePlacementPolicyType = "Any" | "Auto";
 /** This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection. */
 export type PlacementIncludeZonesList = Array<string>;
@@ -2819,34 +2828,34 @@ export type PlacementIncludeZonesList = Array<string>;
 export type PlacementExcludeZonesList = Array<string>;
 /** Describes the user-defined constraints for resource hardware placement. */
 export interface Placement {
-  /** Specifies the policy for resource's placement in availability zone. Possible values are: **Any** (used for Virtual Machines), **Auto** (used for Virtual Machine Scale Sets) - An availability zone will be automatically picked by system as part of resource creation. */
-  zonePlacementPolicy?: ZonePlacementPolicyType | (string & {});
+  /** Specifies the policy for the resource's placement in an availability zone. Use **Auto** for Virtual Machines and Virtual Machine Scale Sets to let the system automatically select an availability zone during resource creation. **Any** remains supported for Virtual Machines for backward compatibility. */
+  zonePlacementPolicy?: ZonePlacementPolicyType | (string & {}) | undefined;
   /** This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection. */
-  includeZones?: PlacementIncludeZonesList;
+  includeZones?: PlacementIncludeZonesList | undefined;
   /** This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection. */
-  excludeZones?: PlacementExcludeZonesList;
+  excludeZones?: PlacementExcludeZonesList | undefined;
 }
 export interface GetInterconnectBlockResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetInterconnectBlockResponseTagsMap;
+  tags?: GetInterconnectBlockResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Interconnect Block. */
-  properties?: InterconnectBlockProperties;
+  properties?: InterconnectBlockProperties | undefined;
   /** SKU of the resource for which capacity needs to be pre-allocated. Both `sku.name` and `sku.capacity` are required at create. After create, only `sku.capacity` can be updated. */
   sku: Sku;
   /** The availability zones. */
-  zones?: GetInterconnectBlockResponseZonesList;
+  zones?: GetInterconnectBlockResponseZonesList | undefined;
   /** Placement section specifies the user-defined constraints for Interconnect Block hardware placement. This property cannot be changed once Interconnect Block is provisioned. */
-  placement?: Placement;
+  placement?: Placement | undefined;
 }
 export interface GetProximityPlacementGroupRequest {
   /** The ID of the target subscription. */
@@ -2856,7 +2865,7 @@ export interface GetProximityPlacementGroupRequest {
   /** The name of the proximity placement group. */
   proximityPlacementGroupName: string;
   /** includeColocationStatus=true enables fetching the colocation status of all the resources in the proximity placement group. */
-  includeColocationStatus?: string;
+  includeColocationStatus?: string | undefined;
 }
 /** Resource tags. */
 export type GetProximityPlacementGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -2864,9 +2873,9 @@ export type GetProximityPlacementGroupResponseTagsMap = { [key: string]: string 
 export type ProximityPlacementGroupType = "Standard" | "Ultra";
 export interface SubResourceWithColocationStatus {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Describes colocation status of a resource in the Proximity Placement Group. */
-  colocationStatus?: InstanceViewStatus;
+  colocationStatus?: InstanceViewStatus | undefined;
 }
 /** A list of references to all virtual machines in the proximity placement group. */
 export type ProximityPlacementGroupPropertiesVirtualMachinesList =
@@ -2882,42 +2891,44 @@ export type ProximityPlacementGroupPropertiesIntentVmSizesList = Array<string>;
 /** Specifies the user intent of the proximity placement group. */
 export interface ProximityPlacementGroupPropertiesIntent {
   /** Specifies possible sizes of virtual machines that can be created in the proximity placement group. */
-  vmSizes?: ProximityPlacementGroupPropertiesIntentVmSizesList;
+  vmSizes?: ProximityPlacementGroupPropertiesIntentVmSizesList | undefined;
 }
 /** Describes the properties of a Proximity Placement Group. */
 export interface ProximityPlacementGroupProperties {
   /** Specifies the type of the proximity placement group. Possible values are: **Standard** : Co-locate resources within an Azure region or Availability Zone. **Ultra** : For future use. */
-  proximityPlacementGroupType?: ProximityPlacementGroupType;
+  proximityPlacementGroupType?: ProximityPlacementGroupType | undefined;
   /** A list of references to all virtual machines in the proximity placement group. */
-  virtualMachines?: ProximityPlacementGroupPropertiesVirtualMachinesList;
+  virtualMachines?: ProximityPlacementGroupPropertiesVirtualMachinesList | undefined;
   /** A list of references to all virtual machine scale sets in the proximity placement group. */
-  virtualMachineScaleSets?: ProximityPlacementGroupPropertiesVirtualMachineScaleSetsList;
+  virtualMachineScaleSets?:
+    | ProximityPlacementGroupPropertiesVirtualMachineScaleSetsList
+    | undefined;
   /** A list of references to all availability sets in the proximity placement group. */
-  availabilitySets?: ProximityPlacementGroupPropertiesAvailabilitySetsList;
+  availabilitySets?: ProximityPlacementGroupPropertiesAvailabilitySetsList | undefined;
   /** Describes colocation status of the Proximity Placement Group. */
-  colocationStatus?: InstanceViewStatus;
+  colocationStatus?: InstanceViewStatus | undefined;
   /** Specifies the user intent of the proximity placement group. */
-  intent?: ProximityPlacementGroupPropertiesIntent;
+  intent?: ProximityPlacementGroupPropertiesIntent | undefined;
 }
 /** The availability zones. */
 export type GetProximityPlacementGroupResponseZonesList = Array<string>;
 export interface GetProximityPlacementGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetProximityPlacementGroupResponseTagsMap;
+  tags?: GetProximityPlacementGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Proximity Placement Group. */
-  properties?: ProximityPlacementGroupProperties;
+  properties?: ProximityPlacementGroupProperties | undefined;
   /** The availability zones. */
-  zones?: GetProximityPlacementGroupResponseZonesList;
+  zones?: GetProximityPlacementGroupResponseZonesList | undefined;
 }
 export type GetRestorePointRequestExpand = "instanceView";
 export interface GetRestorePointRequest {
@@ -2930,19 +2941,19 @@ export interface GetRestorePointRequest {
   /** The name of the restore point. */
   restorePointName: string;
   /** The expand expression to apply on the operation. 'InstanceView' retrieves information about the run-time state of a restore point. */
-  _expand?: GetRestorePointRequestExpand | (string & {});
+  _expand?: GetRestorePointRequestExpand | (string & {}) | undefined;
 }
 export interface GetRestorePointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The restore point properties. */
-  properties?: RestorePointProperties;
+  properties?: RestorePointProperties | undefined;
 }
 export type GetRestorePointCollectionRequestExpand = "restorePoints";
 export interface GetRestorePointCollectionRequest {
@@ -2953,60 +2964,60 @@ export interface GetRestorePointCollectionRequest {
   /** The name of the restore point collection. */
   restorePointCollectionName: string;
   /** The expand expression to apply on the operation. If expand=restorePoints, server will return all contained restore points in the restorePointCollection. */
-  _expand?: GetRestorePointCollectionRequestExpand | (string & {});
+  _expand?: GetRestorePointCollectionRequestExpand | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type GetRestorePointCollectionResponseTagsMap = { [key: string]: string | undefined };
 /** The properties of the source resource that this restore point collection is created from. */
 export interface RestorePointCollectionSourceProperties {
   /** Location of the source resource used to create this restore point collection. */
-  location?: string;
+  location?: string | undefined;
   /** Resource Id of the source resource used to create this restore point collection */
-  id?: string;
+  id?: string | undefined;
 }
 /** Restore Point details. */
 export interface RestorePoint {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The restore point properties. */
-  properties?: RestorePointProperties;
+  properties?: RestorePointProperties | undefined;
 }
 /** A list containing all restore points created under this restore point collection. */
 export type RestorePointCollectionPropertiesRestorePointsList = Array<RestorePoint>;
 /** The restore point collection properties. */
 export interface RestorePointCollectionProperties {
   /** The properties of the source resource that this restore point collection is created from. */
-  source?: RestorePointCollectionSourceProperties;
+  source?: RestorePointCollectionSourceProperties | undefined;
   /** The provisioning state of the restore point collection. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique id of the restore point collection. */
-  restorePointCollectionId?: string;
+  restorePointCollectionId?: string | undefined;
   /** A list containing all restore points created under this restore point collection. */
-  restorePoints?: RestorePointCollectionPropertiesRestorePointsList;
+  restorePoints?: RestorePointCollectionPropertiesRestorePointsList | undefined;
   /** This property determines whether instant access snapshot is enabled for restore points created under this restore point collection for Premium SSD v2 or Ultra disk. Instant access snapshot for Premium SSD v2 or Ultra disk is instantaneously available for restoring disk with fast restore performance. */
-  instantAccess?: boolean;
+  instantAccess?: boolean | undefined;
 }
 export interface GetRestorePointCollectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetRestorePointCollectionResponseTagsMap;
+  tags?: GetRestorePointCollectionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The restore point collection properties. */
-  properties?: RestorePointCollectionProperties;
+  properties?: RestorePointCollectionProperties | undefined;
 }
 export interface GetSpotPlacementScoreRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3014,24 +3025,24 @@ export interface GetSpotPlacementScoreRequest {
   /** The name of the Azure region. */
   location: string;
 }
-/** Describes what are the supported resource types for a diagnostic. */
-export type DiagnosticPropertiesSupportedResourceTypesList = Array<string>;
-/** Contains additional properties of a diagnostic */
-export interface DiagnosticProperties {
-  /** Describes what are the supported resource types for a diagnostic. */
-  supportedResourceTypes?: DiagnosticPropertiesSupportedResourceTypesList;
+/** Describes the supported resource types for placement scoring. */
+export type PlacementScoresPropertiesSupportedResourceTypesList = Array<string>;
+/** Contains additional properties of a placement scores resource. */
+export interface PlacementScoresProperties {
+  /** Describes the supported resource types for placement scoring. */
+  supportedResourceTypes?: PlacementScoresPropertiesSupportedResourceTypesList | undefined;
 }
 export interface GetSpotPlacementScoreResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Contains additional properties of a diagnostic */
-  properties?: DiagnosticProperties;
+  systemData?: SystemData | undefined;
+  /** Contains additional properties of a placement scores resource. */
+  properties?: PlacementScoresProperties | undefined;
 }
 export interface GetSshPublicKeyRequest {
   /** The ID of the target subscription. */
@@ -3045,19 +3056,19 @@ export interface GetSshPublicKeyRequest {
 export type GetSshPublicKeyResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSshPublicKeyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSshPublicKeyResponseTagsMap;
+  tags?: GetSshPublicKeyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the SSH public key. */
-  properties?: SshPublicKeyResourceProperties;
+  properties?: SshPublicKeyResourceProperties | undefined;
 }
 export type GetVirtualMachineRequestExpand = "instanceView" | "userData" | "resiliencyView";
 export interface GetVirtualMachineRequest {
@@ -3068,33 +3079,38 @@ export interface GetVirtualMachineRequest {
   /** The name of the virtual machine. */
   vmName: string;
   /** The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the virtual machine that is managed by the platform and can change outside of control plane operations. 'UserData' retrieves the UserData property as part of the VM model view that was provided by the user during the VM Create/Update operation. */
-  _expand?: GetVirtualMachineRequestExpand | (string & {});
+  _expand?: GetVirtualMachineRequestExpand | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type GetVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
+/** Specifies the FlexProfile for a virtual machine. When set, Azure may deploy a compatible alternative VM size based on capacity and placement considerations, and the deployed size is returned in hardwareProfile.vmSize. See the properties.flexProfile description for the full usage rules, including how it interacts with hardwareProfile.vmSize. */
+export interface FlexProfile {
+  /** Specifies the preferred VM size, for example Standard_D4s_v5. Azure may deploy a compatible alternative size based on capacity and placement considerations. Supported VM families for FlexProfile may vary by region. The recommended way to get the list of available sizes is using these APIs: [List all available virtual machine sizes in a region](https://docs.microsoft.com/rest/api/compute/resourceskus/list), [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). */
+  preferredVMSize: string;
+}
 /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set. */
 export interface ImageReference {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** The image publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Specifies the offer of the platform image or marketplace image used to create the virtual machine. */
-  offer?: string;
+  offer?: string | undefined;
   /** The image SKU. */
-  sku?: string;
+  sku?: string | undefined;
   /** Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available. Please do not use field 'version' for gallery image deployment, gallery image should always use 'id' field for deployment, to use 'latest' version of gallery image, just set '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageName}' in the 'id' field without version input. */
-  version?: string;
+  version?: string | undefined;
   /** Specifies in decimal numbers, the version of platform image or marketplace image used to create the virtual machine. This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'. */
-  exactVersion?: string;
+  exactVersion?: string | undefined;
   /** Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call. */
-  sharedGalleryImageId?: string;
+  sharedGalleryImageId?: string | undefined;
   /** Specified the community gallery image unique id for vm deployment. This can be fetched from community gallery image GET call. */
-  communityGalleryImageId?: string;
+  communityGalleryImageId?: string | undefined;
 }
 /** Describes the uri of a disk. */
 export interface VirtualHardDisk {
   /** Specifies the virtual hard disk's uri. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Specifies the ephemeral disk option for operating system disk. */
 export type DiffDiskOptions = "Local";
@@ -3103,11 +3119,11 @@ export type DiffDiskPlacement = "CacheDisk" | "ResourceDisk" | "NvmeDisk";
 /** Describes the parameters of ephemeral disk settings that can be specified for operating system disk. **Note:** The ephemeral disk settings can only be specified for managed disk. */
 export interface DiffDiskSettings {
   /** Specifies the ephemeral disk settings for operating system disk. */
-  option?: DiffDiskOptions | (string & {});
+  option?: DiffDiskOptions | (string & {}) | undefined;
   /** Specifies the ephemeral disk placement for operating system disk. Possible values are: **CacheDisk,** **ResourceDisk,** **NvmeDisk.** The defaulting behavior is: **CacheDisk** if one is configured for the VM size otherwise **ResourceDisk** or **NvmeDisk** is used. Refer to the VM size documentation for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/sizes and Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk. Minimum api-version for NvmeDisk: 2024-03-01. */
-  placement?: DiffDiskPlacement | (string & {});
+  placement?: DiffDiskPlacement | (string & {}) | undefined;
   /** Specifies whether or not to enable full caching for this VM which will cache the OS disk locally on the host and make this VM more resilient to storage outages */
-  enableFullCaching?: boolean;
+  enableFullCaching?: boolean | undefined;
 }
 /** Specifies how the virtual machine disk should be created. Possible values are **Attach:** This value is used when you are using a specialized disk to create the virtual machine. **FromImage:** This value is used when you are using an image to create the virtual machine. If you are using a platform image, you should also use the imageReference element described above. If you are using a marketplace image, you should also use the plan element previously described. **Empty:** This value is used when creating an empty data disk. **Copy:** This value is used to create a data disk from a snapshot or another disk. **Restore:** This value is used to create a data disk from a disk restore point. */
 export type DiskCreateOptionTypes = "FromImage" | "Empty" | "Attach" | "Copy" | "Restore";
@@ -3118,31 +3134,31 @@ export type DiskDeleteOptionTypes = "Delete" | "Detach";
 /** Specifies information about the operating system disk used by the virtual machine. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
 export interface OSDisk {
   /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. Possible values are: **Windows,** **Linux.** */
-  osType?: CommonOperatingSystemTypes | (string & {});
+  osType?: CommonOperatingSystemTypes | (string & {}) | undefined;
   /** Specifies the encryption settings for the OS Disk. Minimum api-version: 2015-06-15. */
-  encryptionSettings?: DiskEncryptionSettings;
+  encryptionSettings?: DiskEncryptionSettings | undefined;
   /** The disk name. */
-  name?: string;
+  name?: string | undefined;
   /** The virtual hard disk. */
-  vhd?: VirtualHardDisk;
+  vhd?: VirtualHardDisk | undefined;
   /** The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist. */
-  image?: VirtualHardDisk;
+  image?: VirtualHardDisk | undefined;
   /** Specifies the caching requirements. Possible values are: **None,** **ReadOnly,** **ReadWrite.** The defaulting behavior is: **None for Standard storage. ReadOnly for Premium storage.** */
-  caching?: CachingTypes | (string & {});
+  caching?: CachingTypes | (string & {}) | undefined;
   /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
-  writeAcceleratorEnabled?: boolean;
+  writeAcceleratorEnabled?: boolean | undefined;
   /** Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine. */
-  diffDiskSettings?: DiffDiskSettings;
+  diffDiskSettings?: DiffDiskSettings | undefined;
   /** Specifies how the virtual machine disk should be created. Possible values are **Attach:** This value is used when you are using a specialized disk to create the virtual machine. **FromImage:** This value is used when you are using an image to create the virtual machine. If you are using a platform image, you should also use the imageReference element described above. If you are using a marketplace image, you should also use the plan element previously described. */
   createOption: DiskCreateOptionTypes | (string & {});
   /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. The property 'diskSizeGB' is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** Specifies the storage fault domain alignment type for the disk. */
-  storageFaultDomainAlignment?: StorageFaultDomainAlignmentType | (string & {});
+  storageFaultDomainAlignment?: StorageFaultDomainAlignmentType | (string & {}) | undefined;
   /** The managed disk parameters. */
-  managedDisk?: ManagedDiskParameters;
+  managedDisk?: ManagedDiskParameters | undefined;
   /** Specifies whether OS Disk should be deleted or detached upon VM deletion. Possible values are: **Delete.** If this value is used, the OS disk is deleted when VM is deleted. **Detach.** If this value is used, the os disk is retained after VM is deleted. The default value is set to **Detach**. For an ephemeral OS Disk, the default value is set to **Delete**. The user cannot change the delete option for an ephemeral OS Disk. */
-  deleteOption?: DiskDeleteOptionTypes | (string & {});
+  deleteOption?: DiskDeleteOptionTypes | (string & {}) | undefined;
 }
 /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values are: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview**. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
 export type DiskDetachOptionTypes = "ForceDetach";
@@ -3151,35 +3167,35 @@ export interface DataDisk {
   /** Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. */
   lun: number;
   /** The disk name. */
-  name?: string;
+  name?: string | undefined;
   /** The virtual hard disk. */
-  vhd?: VirtualHardDisk;
+  vhd?: VirtualHardDisk | undefined;
   /** The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist. */
-  image?: VirtualHardDisk;
+  image?: VirtualHardDisk | undefined;
   /** Specifies the caching requirements. Possible values are: **None,** **ReadOnly,** **ReadWrite.** The defaulting behavior is: **None for Standard storage. ReadOnly for Premium storage.** */
-  caching?: CachingTypes | (string & {});
+  caching?: CachingTypes | (string & {}) | undefined;
   /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
-  writeAcceleratorEnabled?: boolean;
+  writeAcceleratorEnabled?: boolean | undefined;
   /** Specifies how the virtual machine disk should be created. Possible values are **Attach:** This value is used when you are using a specialized disk to create the virtual machine. **FromImage:** This value is used when you are using an image to create the virtual machine data disk. If you are using a platform image, you should also use the imageReference element described above. If you are using a marketplace image, you should also use the plan element previously described. **Empty:** This value is used when creating an empty data disk. **Copy:** This value is used to create a data disk from a snapshot or another disk. **Restore:** This value is used to create a data disk from a disk restore point. */
   createOption: DiskCreateOptionTypes | (string & {});
   /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. The property 'diskSizeGB' is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** Specifies the storage fault domain alignment type for the disk. */
-  storageFaultDomainAlignment?: StorageFaultDomainAlignmentType | (string & {});
+  storageFaultDomainAlignment?: StorageFaultDomainAlignmentType | (string & {}) | undefined;
   /** The managed disk parameters. */
-  managedDisk?: ManagedDiskParameters;
+  managedDisk?: ManagedDiskParameters | undefined;
   /** The source resource identifier. It can be a snapshot, or disk restore point from which to create a disk. */
-  sourceResource?: ApiEntityReference;
+  sourceResource?: ApiEntityReference | undefined;
   /** Specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset */
-  toBeDetached?: boolean;
+  toBeDetached?: boolean | undefined;
   /** Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS. */
-  diskIOPSReadWrite?: number;
+  diskIOPSReadWrite?: number | undefined;
   /** Specifies the bandwidth in MB per second for the managed disk when StorageAccountType is UltraSSD_LRS. */
-  diskMBpsReadWrite?: number;
+  diskMBpsReadWrite?: number | undefined;
   /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview**. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
-  detachOption?: DiskDetachOptionTypes | (string & {});
+  detachOption?: DiskDetachOptionTypes | (string & {}) | undefined;
   /** Specifies whether data disk should be deleted or detached upon VM deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when VM is deleted. **Detach.** If this value is used, the data disk is retained after VM is deleted. The default value is set to **Detach**. */
-  deleteOption?: DiskDeleteOptionTypes | (string & {});
+  deleteOption?: DiskDeleteOptionTypes | (string & {}) | undefined;
 }
 /** Specifies the parameters that are used to add a data disk to a virtual machine. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
 export type StorageProfileDataDisksList = Array<DataDisk>;
@@ -3188,42 +3204,42 @@ export type DiskApiVersion = "2025-01-02" | "2026-03-02";
 /** Specifies the storage settings for the virtual machine disks. */
 export interface StorageProfile {
   /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. */
-  imageReference?: ImageReference;
+  imageReference?: ImageReference | undefined;
   /** Specifies information about the operating system disk used by the virtual machine. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  osDisk?: OSDisk;
+  osDisk?: OSDisk | undefined;
   /** Specifies the parameters that are used to add a data disk to a virtual machine. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  dataDisks?: StorageProfileDataDisksList;
+  dataDisks?: StorageProfileDataDisksList | undefined;
   /** Specifies the disk controller type configured for the VM. **Note:** This property will be set to the default disk controller type if not specified provided virtual machine is being created with 'hyperVGeneration' set to V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. Minimum api-version: 2022-08-01. */
-  diskControllerType?: DiskControllerTypes;
-  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
-  alignRegionalDisksToVMZone?: boolean;
+  diskControllerType?: DiskControllerTypes | undefined;
+  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable **only** for VMs with placement.zonePlacementPolicy set to **Any**. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
+  alignRegionalDisksToVMZone?: boolean | undefined;
   /** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD (e.g., "2026-03-02"). */
-  diskApiVersion?: DiskApiVersion;
+  diskApiVersion?: DiskApiVersion | undefined;
 }
 /** Enables or disables a capability on the virtual machine or virtual machine scale set. */
 export interface AdditionalCapabilities {
   /** The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual machine or virtual machine scale set only if this property is enabled. */
-  ultraSSDEnabled?: boolean;
+  ultraSSDEnabled?: boolean | undefined;
   /** The flag that enables or disables hibernation capability on the VM. */
-  hibernationEnabled?: boolean;
+  hibernationEnabled?: boolean | undefined;
   /** The flag enables the usage of FIPS 140-3 compliant cryptography on the protectedSettings of an extension. Learn more at: https://aka.ms/linuxagentfipssupport. */
-  enableFips1403Encryption?: boolean;
+  enableFips1403Encryption?: boolean | undefined;
 }
 /** Specify what happens to the network interface when the VM is deleted */
 export type DeleteOptions = "Delete" | "Detach";
 /** Describes a network interface reference properties. */
 export interface NetworkInterfaceReferenceProperties {
   /** Specifies the primary network interface in case the virtual machine has more than 1 network interface. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** Specify what happens to the network interface when the VM is deleted */
-  deleteOption?: DeleteOptions | (string & {});
+  deleteOption?: DeleteOptions | (string & {}) | undefined;
 }
 /** Describes a network interface reference. */
 export interface NetworkInterfaceReference {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Describes a network interface reference properties. */
-  properties?: NetworkInterfaceReferenceProperties;
+  properties?: NetworkInterfaceReferenceProperties | undefined;
 }
 /** Specifies the list of resource Ids for the network interfaces associated with the virtual machine. */
 export type NetworkProfileNetworkInterfacesList = Array<NetworkInterfaceReference>;
@@ -3236,7 +3252,7 @@ export type VirtualMachineNetworkInterfaceDnsSettingsConfigurationDnsServersList
 /** Describes a virtual machines network configuration's DNS settings. */
 export interface VirtualMachineNetworkInterfaceDnsSettingsConfiguration {
   /** List of DNS servers IP addresses */
-  dnsServers?: VirtualMachineNetworkInterfaceDnsSettingsConfigurationDnsServersList;
+  dnsServers?: VirtualMachineNetworkInterfaceDnsSettingsConfigurationDnsServersList | undefined;
 }
 export type VirtualMachineNetworkInterfaceIPConfigurationPropertiesSubnet =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -3251,16 +3267,16 @@ export interface VirtualMachinePublicIPAddressDnsSettingsConfiguration {
   /** The Domain name label prefix of the PublicIPAddress resources that will be created. The generated name label is the concatenation of the domain name label and vm network profile unique ID. */
   domainNameLabel: string;
   /** The Domain name label scope of the PublicIPAddress resources that will be created. The generated name label is the concatenation of the hashed domain name label with policy according to the domain name label scope and vm network profile unique ID. */
-  domainNameLabelScope?: DomainNameLabelScopeTypes | (string & {});
+  domainNameLabelScope?: DomainNameLabelScopeTypes | (string & {}) | undefined;
 }
 /** Contains the IP tag associated with the public IP address. */
 export interface VirtualMachineIpTag {
   /** IP tag type. Example: FirstPartyUsage. */
-  ipTagType?: string;
+  ipTagType?: string | undefined;
   /** IP tag associated with the public IP. Example: SQL, Storage etc. */
-  tag?: string;
+  tag?: string | undefined;
   /** The first party service tag resource identifier associated with the public IP address. */
-  firstPartyServiceTagId?: string;
+  firstPartyServiceTagId?: string | undefined;
 }
 /** The list of IP tags associated with the public IP address. */
 export type VirtualMachinePublicIPAddressConfigurationPropertiesIpTagsList =
@@ -3274,18 +3290,18 @@ export type PublicIPAllocationMethod = "Dynamic" | "Static";
 /** Describes a virtual machines IP Configuration's PublicIPAddress configuration */
 export interface VirtualMachinePublicIPAddressConfigurationProperties {
   /** The idle timeout of the public IP address. */
-  idleTimeoutInMinutes?: number;
+  idleTimeoutInMinutes?: number | undefined;
   /** Specify what happens to the public IP address when the VM is deleted */
-  deleteOption?: DeleteOptions | (string & {});
+  deleteOption?: DeleteOptions | (string & {}) | undefined;
   /** The dns settings to be applied on the publicIP addresses . */
-  dnsSettings?: VirtualMachinePublicIPAddressDnsSettingsConfiguration;
+  dnsSettings?: VirtualMachinePublicIPAddressDnsSettingsConfiguration | undefined;
   /** The list of IP tags associated with the public IP address. */
-  ipTags?: VirtualMachinePublicIPAddressConfigurationPropertiesIpTagsList;
-  publicIPPrefix?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  ipTags?: VirtualMachinePublicIPAddressConfigurationPropertiesIpTagsList | undefined;
+  publicIPPrefix?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Available from Api-Version 2019-07-01 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'. */
-  publicIPAddressVersion?: IPVersions | (string & {});
+  publicIPAddressVersion?: IPVersions | (string & {}) | undefined;
   /** Specify the public IP allocation type */
-  publicIPAllocationMethod?: PublicIPAllocationMethod | (string & {});
+  publicIPAllocationMethod?: PublicIPAllocationMethod | (string & {}) | undefined;
 }
 /** Specify public IP sku name */
 export type PublicIPAddressSkuName = "Basic" | "Standard";
@@ -3294,9 +3310,9 @@ export type PublicIPAddressSkuTier = "Regional" | "Global";
 /** Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible. */
 export interface PublicIPAddressSku {
   /** Specify public IP sku name */
-  name?: PublicIPAddressSkuName | (string & {});
+  name?: PublicIPAddressSkuName | (string & {}) | undefined;
   /** Specify public IP sku tier */
-  tier?: PublicIPAddressSkuTier | (string & {});
+  tier?: PublicIPAddressSkuTier | (string & {}) | undefined;
 }
 /** Resource tags applied to the publicIP address created by this PublicIPAddressConfiguration */
 export type VirtualMachinePublicIPAddressConfigurationTagsMap = {
@@ -3307,11 +3323,11 @@ export interface VirtualMachinePublicIPAddressConfiguration {
   /** The publicIP address configuration name. */
   name: string;
   /** Describes a virtual machines IP Configuration's PublicIPAddress configuration */
-  properties?: VirtualMachinePublicIPAddressConfigurationProperties;
+  properties?: VirtualMachinePublicIPAddressConfigurationProperties | undefined;
   /** Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible. */
-  sku?: PublicIPAddressSku;
+  sku?: PublicIPAddressSku | undefined;
   /** Resource tags applied to the publicIP address created by this PublicIPAddressConfiguration */
-  tags?: VirtualMachinePublicIPAddressConfigurationTagsMap;
+  tags?: VirtualMachinePublicIPAddressConfigurationTagsMap | undefined;
 }
 export type VirtualMachineNetworkInterfaceIPConfigurationPropertiesApplicationSecurityGroupsItem =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -3330,26 +3346,34 @@ export type VirtualMachineNetworkInterfaceIPConfigurationPropertiesLoadBalancerB
   Array<AvailabilitySetPropertiesInputVirtualMachinesItem>;
 /** Describes a virtual machine network interface IP configuration properties. */
 export interface VirtualMachineNetworkInterfaceIPConfigurationProperties {
-  subnet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  subnet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies the primary network interface in case the virtual machine has more than 1 network interface. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** The publicIPAddressConfiguration. */
-  publicIPAddressConfiguration?: VirtualMachinePublicIPAddressConfiguration;
+  publicIPAddressConfiguration?: VirtualMachinePublicIPAddressConfiguration | undefined;
   /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'. */
-  privateIPAddressVersion?: IPVersions | (string & {});
+  privateIPAddressVersion?: IPVersions | (string & {}) | undefined;
+  /** The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address. */
+  privateIPAddressPrefixLength?: number | undefined;
   /** Specifies an array of references to application security group. */
-  applicationSecurityGroups?: VirtualMachineNetworkInterfaceIPConfigurationPropertiesApplicationSecurityGroupsList;
+  applicationSecurityGroups?:
+    | VirtualMachineNetworkInterfaceIPConfigurationPropertiesApplicationSecurityGroupsList
+    | undefined;
   /** Specifies an array of references to backend address pools of application gateways. A virtual machine can reference backend address pools of multiple application gateways. Multiple virtual machines cannot use the same application gateway. */
-  applicationGatewayBackendAddressPools?: VirtualMachineNetworkInterfaceIPConfigurationPropertiesApplicationGatewayBackendAddressPoolsList;
+  applicationGatewayBackendAddressPools?:
+    | VirtualMachineNetworkInterfaceIPConfigurationPropertiesApplicationGatewayBackendAddressPoolsList
+    | undefined;
   /** Specifies an array of references to backend address pools of load balancers. A virtual machine can reference backend address pools of one public and one internal load balancer. [Multiple virtual machines cannot use the same basic sku load balancer]. */
-  loadBalancerBackendAddressPools?: VirtualMachineNetworkInterfaceIPConfigurationPropertiesLoadBalancerBackendAddressPoolsList;
+  loadBalancerBackendAddressPools?:
+    | VirtualMachineNetworkInterfaceIPConfigurationPropertiesLoadBalancerBackendAddressPoolsList
+    | undefined;
 }
 /** Describes a virtual machine network profile's IP configuration. */
 export interface VirtualMachineNetworkInterfaceIPConfiguration {
   /** The IP configuration name. */
   name: string;
   /** Describes a virtual machine network interface IP configuration properties. */
-  properties?: VirtualMachineNetworkInterfaceIPConfigurationProperties;
+  properties?: VirtualMachineNetworkInterfaceIPConfigurationProperties | undefined;
 }
 /** Specifies the IP configurations of the network interface. */
 export type VirtualMachineNetworkInterfaceConfigurationPropertiesIpConfigurationsList =
@@ -3363,27 +3387,27 @@ export type NetworkInterfaceAuxiliarySku = "None" | "A1" | "A2" | "A4" | "A8";
 /** Describes a virtual machine network profile's IP configuration. */
 export interface VirtualMachineNetworkInterfaceConfigurationProperties {
   /** Specifies the primary network interface in case the virtual machine has more than 1 network interface. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** Specify what happens to the network interface when the VM is deleted */
-  deleteOption?: DeleteOptions | (string & {});
+  deleteOption?: DeleteOptions | (string & {}) | undefined;
   /** Specifies whether the network interface is accelerated networking-enabled. */
-  enableAcceleratedNetworking?: boolean;
+  enableAcceleratedNetworking?: boolean | undefined;
   /** Specifies whether the network interface is disabled for tcp state tracking. */
-  disableTcpStateTracking?: boolean;
+  disableTcpStateTracking?: boolean | undefined;
   /** Specifies whether the network interface is FPGA networking-enabled. */
-  enableFpga?: boolean;
+  enableFpga?: boolean | undefined;
   /** Whether IP forwarding enabled on this NIC. */
-  enableIPForwarding?: boolean;
-  networkSecurityGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  enableIPForwarding?: boolean | undefined;
+  networkSecurityGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** The dns settings to be applied on the network interfaces. */
-  dnsSettings?: VirtualMachineNetworkInterfaceDnsSettingsConfiguration;
+  dnsSettings?: VirtualMachineNetworkInterfaceDnsSettingsConfiguration | undefined;
   /** Specifies the IP configurations of the network interface. */
   ipConfigurations: VirtualMachineNetworkInterfaceConfigurationPropertiesIpConfigurationsList;
-  dscpConfiguration?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  dscpConfiguration?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies whether the Auxiliary mode is enabled for the Network Interface resource. */
-  auxiliaryMode?: NetworkInterfaceAuxiliaryMode | (string & {});
+  auxiliaryMode?: NetworkInterfaceAuxiliaryMode | (string & {}) | undefined;
   /** Specifies whether the Auxiliary sku is enabled for the Network Interface resource. */
-  auxiliarySku?: NetworkInterfaceAuxiliarySku | (string & {});
+  auxiliarySku?: NetworkInterfaceAuxiliarySku | (string & {}) | undefined;
 }
 /** Resource tags applied to the networkInterface address created by this NetworkInterfaceConfiguration */
 export type VirtualMachineNetworkInterfaceConfigurationTagsMap = {
@@ -3394,9 +3418,9 @@ export interface VirtualMachineNetworkInterfaceConfiguration {
   /** The network interface configuration name. */
   name: string;
   /** Describes a virtual machine network profile's IP configuration. */
-  properties?: VirtualMachineNetworkInterfaceConfigurationProperties;
+  properties?: VirtualMachineNetworkInterfaceConfigurationProperties | undefined;
   /** Resource tags applied to the networkInterface address created by this NetworkInterfaceConfiguration */
-  tags?: VirtualMachineNetworkInterfaceConfigurationTagsMap;
+  tags?: VirtualMachineNetworkInterfaceConfigurationTagsMap | undefined;
 }
 /** Specifies the networking configurations that will be used to create the virtual machine networking resources. */
 export type NetworkProfileNetworkInterfaceConfigurationsList =
@@ -3410,20 +3434,20 @@ export type InterconnectGroupProfileSubgroupsList =
   Array<AvailabilitySetPropertiesInputVirtualMachinesItem>;
 /** Specifies the interconnect group profile for a virtual machine, used to associate the VM with an interconnect group and subgroups. */
 export interface InterconnectGroupProfile {
-  interconnectGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  interconnectGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** The list of subgroup references within the interconnect group. */
-  subgroups?: InterconnectGroupProfileSubgroupsList;
+  subgroups?: InterconnectGroupProfileSubgroupsList | undefined;
 }
 /** Specifies the network interfaces or the networking configuration of the virtual machine. */
 export interface NetworkProfile {
   /** Specifies the list of resource Ids for the network interfaces associated with the virtual machine. */
-  networkInterfaces?: NetworkProfileNetworkInterfacesList;
+  networkInterfaces?: NetworkProfileNetworkInterfacesList | undefined;
   /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations */
-  networkApiVersion?: NetworkApiVersion | (string & {});
+  networkApiVersion?: NetworkApiVersion | (string & {}) | undefined;
   /** Specifies the networking configurations that will be used to create the virtual machine networking resources. */
-  networkInterfaceConfigurations?: NetworkProfileNetworkInterfaceConfigurationsList;
+  networkInterfaceConfigurations?: NetworkProfileNetworkInterfaceConfigurationsList | undefined;
   /** Specifies the interconnect group profile to associate with the virtual machine. Minimum api-version: 2026-03-01. */
-  interconnectGroupProfile?: InterconnectGroupProfile;
+  interconnectGroupProfile?: InterconnectGroupProfile | undefined;
 }
 export type VirtualMachinePropertiesAvailabilitySet =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -3438,7 +3462,7 @@ export type VirtualMachineEvictionPolicyTypes = "Deallocate" | "Delete";
 /** Specifies the billing related details of a Azure Spot VM or VMSS. Minimum api-version: 2019-03-01. */
 export interface BillingProfile {
   /** Specifies the maximum price you are willing to pay for a Azure Spot VM/VMSS. This price is in US Dollars. <br><br> This price will be compared with the current Azure Spot price for the VM size. Also, the prices are compared at the time of create/update of Azure Spot VM/VMSS and the operation will only succeed if the maxPrice is greater than the current Azure Spot price. <br><br> The maxPrice will also be used for evicting a Azure Spot VM/VMSS if the current Azure Spot price goes beyond the maxPrice after creation of VM/VMSS. <br><br> Possible values are: <br><br> - Any decimal value greater than zero. Example: 0.01538 <br><br> -1 - indicates default price to be up-to on-demand. <br><br> You can set the maxPrice to -1 to indicate that the Azure Spot VM/VMSS should not be evicted for price reasons. Also, the default max price is -1 if it is not provided by you. <br><br>Minimum api-version: 2019-03-01. */
-  maxPrice?: number;
+  maxPrice?: number | undefined;
 }
 export type VirtualMachinePropertiesHost = AvailabilitySetPropertiesInputVirtualMachinesItem;
 export type VirtualMachinePropertiesHostGroup = AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -3447,11 +3471,11 @@ export type HyperVGenerationType = "V1" | "V2";
 /** The instance view of a virtual machine extension handler. */
 export interface VirtualMachineExtensionHandlerInstanceView {
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
+  type?: string | undefined;
   /** Specifies the Major.Minor.Patch.Hotfix version of the script handler. Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
-  typeHandlerVersion?: string;
+  typeHandlerVersion?: string | undefined;
   /** The extension handler status. */
-  status?: InstanceViewStatus;
+  status?: InstanceViewStatus | undefined;
 }
 /** The virtual machine extension handler instance view. */
 export type VirtualMachineAgentInstanceViewExtensionHandlersList =
@@ -3461,11 +3485,11 @@ export type VirtualMachineAgentInstanceViewStatusesList = Array<InstanceViewStat
 /** The instance view of the VM Agent running on the virtual machine. */
 export interface VirtualMachineAgentInstanceView {
   /** The VM Agent full version. */
-  vmAgentVersion?: string;
+  vmAgentVersion?: string | undefined;
   /** The virtual machine extension handler instance view. */
-  extensionHandlers?: VirtualMachineAgentInstanceViewExtensionHandlersList;
+  extensionHandlers?: VirtualMachineAgentInstanceViewExtensionHandlersList | undefined;
   /** The resource status information. */
-  statuses?: VirtualMachineAgentInstanceViewStatusesList;
+  statuses?: VirtualMachineAgentInstanceViewStatusesList | undefined;
 }
 /** The Last Maintenance Operation Result Code. */
 export type MaintenanceOperationResultCodeTypes =
@@ -3476,19 +3500,19 @@ export type MaintenanceOperationResultCodeTypes =
 /** Maintenance Operation Status. */
 export interface MaintenanceRedeployStatus {
   /** True, if customer is allowed to perform Maintenance. */
-  isCustomerInitiatedMaintenanceAllowed?: boolean;
+  isCustomerInitiatedMaintenanceAllowed?: boolean | undefined;
   /** Start Time for the Pre Maintenance Window. */
-  preMaintenanceWindowStartTime?: string;
+  preMaintenanceWindowStartTime?: string | undefined;
   /** End Time for the Pre Maintenance Window. */
-  preMaintenanceWindowEndTime?: string;
+  preMaintenanceWindowEndTime?: string | undefined;
   /** Start Time for the Maintenance Window. */
-  maintenanceWindowStartTime?: string;
+  maintenanceWindowStartTime?: string | undefined;
   /** End Time for the Maintenance Window. */
-  maintenanceWindowEndTime?: string;
+  maintenanceWindowEndTime?: string | undefined;
   /** The Last Maintenance Operation Result Code. */
-  lastOperationResultCode?: MaintenanceOperationResultCodeTypes;
+  lastOperationResultCode?: MaintenanceOperationResultCodeTypes | undefined;
   /** Message returned for the last Maintenance Operation. */
-  lastOperationMessage?: string;
+  lastOperationMessage?: string | undefined;
 }
 /** Specifies the encryption settings for the OS Disk. <br><br> Minimum api-version: 2015-06-15 */
 export type DiskInstanceViewEncryptionSettingsList = Array<DiskEncryptionSettings>;
@@ -3499,13 +3523,13 @@ export type StorageAlignmentStatus = "Unaligned" | "Aligned";
 /** The instance view of the disk. */
 export interface DiskInstanceView {
   /** The disk name. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the encryption settings for the OS Disk. <br><br> Minimum api-version: 2015-06-15 */
-  encryptionSettings?: DiskInstanceViewEncryptionSettingsList;
+  encryptionSettings?: DiskInstanceViewEncryptionSettingsList | undefined;
   /** The resource status information. */
-  statuses?: DiskInstanceViewStatusesList;
+  statuses?: DiskInstanceViewStatusesList | undefined;
   /** Specifies the storage alignment status for the disk. */
-  storageAlignmentStatus?: StorageAlignmentStatus;
+  storageAlignmentStatus?: StorageAlignmentStatus | undefined;
 }
 /** The virtual machine disk information. */
 export type VirtualMachineInstanceViewDisksList = Array<DiskInstanceView>;
@@ -3516,31 +3540,31 @@ export type VirtualMachineExtensionInstanceViewStatusesList = Array<InstanceView
 /** The instance view of a virtual machine extension. */
 export interface VirtualMachineExtensionInstanceView {
   /** The virtual machine extension name. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
+  type?: string | undefined;
   /** Specifies the Major.Minor.Patch.Hotfix version of the script handler. Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
-  typeHandlerVersion?: string;
+  typeHandlerVersion?: string | undefined;
   /** The resource status information. */
-  substatuses?: VirtualMachineExtensionInstanceViewSubstatusesList;
+  substatuses?: VirtualMachineExtensionInstanceViewSubstatusesList | undefined;
   /** The resource status information. */
-  statuses?: VirtualMachineExtensionInstanceViewStatusesList;
+  statuses?: VirtualMachineExtensionInstanceViewStatusesList | undefined;
 }
 /** The extensions information. */
 export type VirtualMachineInstanceViewExtensionsList = Array<VirtualMachineExtensionInstanceView>;
 /** The health status of the VM. */
 export interface VirtualMachineHealthStatus {
   /** The health status information for the VM. */
-  status?: InstanceViewStatus;
+  status?: InstanceViewStatus | undefined;
 }
 /** The instance view of a virtual machine boot diagnostics. */
 export interface BootDiagnosticsInstanceView {
   /** The console screenshot blob URI. **Note:** This will **not** be set if boot diagnostics is currently enabled with managed storage. */
-  consoleScreenshotBlobUri?: string;
+  consoleScreenshotBlobUri?: string | undefined;
   /** The serial console log blob Uri. **Note:** This will **not** be set if boot diagnostics is currently enabled with managed storage. */
-  serialConsoleLogBlobUri?: string;
+  serialConsoleLogBlobUri?: string | undefined;
   /** The boot diagnostics status information for the VM. **Note:** It will be set only if there are errors encountered in enabling boot diagnostics. */
-  status?: InstanceViewStatus;
+  status?: InstanceViewStatus | undefined;
 }
 /** The resource status information. */
 export type VirtualMachineInstanceViewStatusesList = Array<InstanceViewStatus>;
@@ -3554,281 +3578,283 @@ export type PatchOperationStatus =
 /** Api error base. */
 export interface ApiErrorBase {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The target of the particular error. */
-  target?: string;
+  target?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The Api error details */
 export type AvailablePatchSummaryErrorDetailsList = Array<ApiErrorBase>;
 /** Inner error details. */
 export interface InnerError {
   /** The exception type. */
-  exceptiontype?: string;
+  exceptiontype?: string | undefined;
   /** The internal error message or exception dump. */
-  errordetail?: string;
+  errordetail?: string | undefined;
 }
 /** Api error. */
 export interface AvailablePatchSummaryError {
   /** The Api error details */
-  details?: AvailablePatchSummaryErrorDetailsList;
+  details?: AvailablePatchSummaryErrorDetailsList | undefined;
   /** The Api inner error */
-  innererror?: InnerError;
+  innererror?: InnerError | undefined;
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The target of the particular error. */
-  target?: string;
+  target?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Describes the properties of an virtual machine instance view for available patch summary. */
 export interface AvailablePatchSummary {
   /** The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings." */
-  status?: PatchOperationStatus;
+  status?: PatchOperationStatus | undefined;
   /** The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs. */
-  assessmentActivityId?: string;
+  assessmentActivityId?: string | undefined;
   /** The overall reboot status of the VM. It will be true when partially installed patches require a reboot to complete installation but the reboot has not yet occurred. */
-  rebootPending?: boolean;
+  rebootPending?: boolean | undefined;
   /** The number of critical or security patches that have been detected as available and not yet installed. */
-  criticalAndSecurityPatchCount?: number;
+  criticalAndSecurityPatchCount?: number | undefined;
   /** The number of all available patches excluding critical and security. */
-  otherPatchCount?: number;
+  otherPatchCount?: number | undefined;
   /** The UTC timestamp when the operation began. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The UTC timestamp when the operation began. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Api error. */
-  error?: AvailablePatchSummaryError;
+  error?: AvailablePatchSummaryError | undefined;
 }
 /** The Api error details */
 export type LastPatchInstallationSummaryErrorDetailsList = Array<ApiErrorBase>;
 /** Api error. */
 export interface LastPatchInstallationSummaryError {
   /** The Api error details */
-  details?: LastPatchInstallationSummaryErrorDetailsList;
+  details?: LastPatchInstallationSummaryErrorDetailsList | undefined;
   /** The Api inner error */
-  innererror?: InnerError;
+  innererror?: InnerError | undefined;
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The target of the particular error. */
-  target?: string;
+  target?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Describes the properties of the last installed patch summary. */
 export interface LastPatchInstallationSummary {
   /** The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings." */
-  status?: PatchOperationStatus;
+  status?: PatchOperationStatus | undefined;
   /** The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs. */
-  installationActivityId?: string;
+  installationActivityId?: string | undefined;
   /** Describes whether the operation ran out of time before it completed all its intended actions */
-  maintenanceWindowExceeded?: boolean;
+  maintenanceWindowExceeded?: boolean | undefined;
   /** The number of all available patches but not going to be installed because it didn't match a classification or inclusion list entry. */
-  notSelectedPatchCount?: number;
+  notSelectedPatchCount?: number | undefined;
   /** The number of all available patches but excluded explicitly by a customer-specified exclusion list match. */
-  excludedPatchCount?: number;
+  excludedPatchCount?: number | undefined;
   /** The number of all available patches expected to be installed over the course of the patch installation operation. */
-  pendingPatchCount?: number;
+  pendingPatchCount?: number | undefined;
   /** The count of patches that successfully installed. */
-  installedPatchCount?: number;
+  installedPatchCount?: number | undefined;
   /** The count of patches that failed installation. */
-  failedPatchCount?: number;
+  failedPatchCount?: number | undefined;
   /** The UTC timestamp when the operation began. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The UTC timestamp when the operation began. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Api error. */
-  error?: LastPatchInstallationSummaryError;
+  error?: LastPatchInstallationSummaryError | undefined;
 }
 /** The enablement status of the specified patchMode */
 export type VirtualMachinePatchStatusConfigurationStatusesList = Array<InstanceViewStatus>;
 /** The status of virtual machine patch operations. */
 export interface VirtualMachinePatchStatus {
   /** The available patch summary of the latest assessment operation for the virtual machine. */
-  availablePatchSummary?: AvailablePatchSummary;
+  availablePatchSummary?: AvailablePatchSummary | undefined;
   /** The installation summary of the latest installation operation for the virtual machine. */
-  lastPatchInstallationSummary?: LastPatchInstallationSummary;
+  lastPatchInstallationSummary?: LastPatchInstallationSummary | undefined;
   /** The enablement status of the specified patchMode */
-  configurationStatuses?: VirtualMachinePatchStatusConfigurationStatusesList;
+  configurationStatuses?: VirtualMachinePatchStatusConfigurationStatusesList | undefined;
 }
 /** The Interconnect Block instance view details for a Virtual Machine or Scale Set VM instance. */
 export interface InterconnectInstanceView {
   /** The ID (GUID) of the Interconnect subgroup in which the Virtual Machine was placed. */
-  interconnectSubgroupId?: string;
+  interconnectSubgroupId?: string | undefined;
 }
 /** Specifies which type of capacity reservation the virtual machine will consume capacity from if eligible or whether it is explicitly opted out from being associated and consuming capacity from any reserved capacity available in the subscription. Minimum api-version: 2026-04-01. */
 export type CapacityReservationType = "NotEligible" | "Targeted" | "Open" | "Disabled" | "Block";
 /** The instance view of a virtual machine. */
 export interface VirtualMachineInstanceView {
   /** Specifies the update domain of the virtual machine. */
-  platformUpdateDomain?: number;
+  platformUpdateDomain?: number | undefined;
   /** Specifies the fault domain of the virtual machine. */
-  platformFaultDomain?: number;
+  platformFaultDomain?: number | undefined;
   /** The computer name assigned to the virtual machine. */
-  computerName?: string;
+  computerName?: string | undefined;
   /** The Operating System running on the virtual machine. */
-  osName?: string;
+  osName?: string | undefined;
   /** The version of Operating System running on the virtual machine. */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** Specifies the HyperVGeneration Type associated with a resource */
-  hyperVGeneration?: HyperVGenerationType;
+  hyperVGeneration?: HyperVGenerationType | undefined;
   /** The Remote desktop certificate thumbprint. */
-  rdpThumbPrint?: string;
+  rdpThumbPrint?: string | undefined;
   /** The VM Agent running on the virtual machine. */
-  vmAgent?: VirtualMachineAgentInstanceView;
+  vmAgent?: VirtualMachineAgentInstanceView | undefined;
   /** The Maintenance Operation status on the virtual machine. */
-  maintenanceRedeployStatus?: MaintenanceRedeployStatus;
+  maintenanceRedeployStatus?: MaintenanceRedeployStatus | undefined;
   /** The virtual machine disk information. */
-  disks?: VirtualMachineInstanceViewDisksList;
+  disks?: VirtualMachineInstanceViewDisksList | undefined;
   /** The extensions information. */
-  extensions?: VirtualMachineInstanceViewExtensionsList;
+  extensions?: VirtualMachineInstanceViewExtensionsList | undefined;
   /** The health status for the VM. */
-  vmHealth?: VirtualMachineHealthStatus;
+  vmHealth?: VirtualMachineHealthStatus | undefined;
   /** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. You can easily view the output of your console log. Azure also enables you to see a screenshot of the VM from the hypervisor. */
-  bootDiagnostics?: BootDiagnosticsInstanceView;
+  bootDiagnostics?: BootDiagnosticsInstanceView | undefined;
   /** Resource id of the dedicated host, on which the virtual machine is allocated through automatic placement, when the virtual machine is associated with a dedicated host group that has automatic placement enabled. Minimum api-version: 2020-06-01. */
-  assignedHost?: string;
+  assignedHost?: string | undefined;
   /** The resource status information. */
-  statuses?: VirtualMachineInstanceViewStatusesList;
+  statuses?: VirtualMachineInstanceViewStatusesList | undefined;
   /** [Preview Feature] The status of virtual machine patch operations. */
-  patchStatus?: VirtualMachinePatchStatus;
+  patchStatus?: VirtualMachinePatchStatus | undefined;
   /** [Preview Feature] Specifies whether the VM is currently in or out of the Standby Pool. */
-  isVMInStandbyPool?: boolean;
+  isVMInStandbyPool?: boolean | undefined;
   /** The Interconnect runtime view of the Virtual Machine. Minimum api-version: 2026-03-01. */
-  interconnectInstanceView?: InterconnectInstanceView;
+  interconnectInstanceView?: InterconnectInstanceView | undefined;
   /** Specifies which type of capacity reservation the virtual machine will consume capacity from if eligible or whether it is explicitly opted out from being associated and consuming capacity from any reserved capacity available in the subscription. Minimum api-version: 2026-04-01. */
-  capacityReservationType?: CapacityReservationType;
+  capacityReservationType?: CapacityReservationType | undefined;
 }
 export interface TerminateNotificationProfile {
   /** Configurable length of time a Virtual Machine being deleted will have to potentially approve the Terminate Scheduled Event before the event is auto approved (timed out). The configuration must be specified in ISO 8601 format, the default value is 5 minutes (PT5M) */
-  notBeforeTimeout?: string;
+  notBeforeTimeout?: string | undefined;
   /** Specifies whether the Terminate Scheduled event is enabled or disabled. */
-  enable?: boolean;
+  enable?: boolean | undefined;
 }
 export interface OSImageNotificationProfile {
   /** Length of time a Virtual Machine being reimaged or having its OS upgraded will have to potentially approve the OS Image Scheduled Event before the event is auto approved (timed out). The configuration is specified in ISO 8601 format, and the value must be 15 minutes (PT15M) */
-  notBeforeTimeout?: string;
+  notBeforeTimeout?: string | undefined;
   /** Specifies whether the OS Image Scheduled event is enabled or disabled. */
-  enable?: boolean;
+  enable?: boolean | undefined;
 }
 export interface ScheduledEventsProfile {
   /** Specifies Terminate Scheduled Event related configurations. */
-  terminateNotificationProfile?: TerminateNotificationProfile;
+  terminateNotificationProfile?: TerminateNotificationProfile | undefined;
   /** Specifies OS Image Scheduled Event related configurations. */
-  osImageNotificationProfile?: OSImageNotificationProfile;
+  osImageNotificationProfile?: OSImageNotificationProfile | undefined;
 }
 export type CapacityReservationProfileCapacityReservationGroup =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
 /** The parameters of a capacity reservation Profile. */
 export interface CapacityReservationProfile {
-  capacityReservationGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  capacityReservationGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies whether the virtual machine is explicitly opted out from being associated with any capacity reservation. When set to true, the virtual machine will not be allowed to implicitly or explicitly associate with any type of capacity reservation and will consume capacity from the publicly available capacity. Minimum api-version: 2026-04-01. */
-  disableCapacityReservationAssignment?: boolean;
+  disableCapacityReservationAssignment?: boolean | undefined;
 }
 /** The parameters of an Interconnect Block Profile. */
 export interface InterconnectBlockProfile {
   /** Specifies the Interconnect Block resource ID that should be used for allocating the Virtual Machine or Scale Set VM instances provided enough capacity has been reserved. */
-  interconnectBlock?: ApiEntityReference;
+  interconnectBlock?: ApiEntityReference | undefined;
 }
 /** Specifies the required information to reference a compute gallery application version */
 export interface VMGalleryApplication {
   /** Optional, Specifies a passthrough value for more generic context. */
-  tags?: string;
+  tags?: string | undefined;
   /** Optional, Specifies the order in which the packages have to be installed */
-  order?: number;
+  order?: number | undefined;
   /** Specifies the GalleryApplicationVersion resource id on the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{application}/versions/{version} */
   packageReferenceId: string;
   /** Optional, Specifies the uri to an azure blob that will replace the default configuration for the package if provided */
-  configurationReference?: string;
+  configurationReference?: string | undefined;
   /** Optional, If true, any failure for any operation in the VmApplication will fail the deployment */
-  treatFailureAsDeploymentFailure?: boolean;
+  treatFailureAsDeploymentFailure?: boolean | undefined;
   /** If set to true, when a new Gallery Application version is available in PIR/SIG, it will be automatically updated for the VM/VMSS */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
 }
 /** Specifies the gallery applications that should be made available to the VM/VMSS */
 export type ApplicationProfileGalleryApplicationsList = Array<VMGalleryApplication>;
 /** Contains the list of gallery applications that should be made available to the VM/VMSS */
 export interface ApplicationProfile {
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
-  galleryApplications?: ApplicationProfileGalleryApplicationsList;
+  galleryApplications?: ApplicationProfileGalleryApplicationsList | undefined;
 }
 /** Describes zone movement configuration. This allows VM to be moved across availability zones during an outage. */
 export interface ZoneMovement {
   /** Indicates if zone movement is enabled. By default isEnabled is set to false i.e VM can't be moved from one zone to another. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
 }
 /** Gets resiliency solutions enabled on the VM. This includes backup or disaster recovery solutions. */
 export interface ResiliencyProfile {
   /** Zone movement configuration. */
-  zoneMovement?: ZoneMovement;
+  zoneMovement?: ZoneMovement | undefined;
 }
 /** Describes the properties of a Virtual Machine. */
 export interface VirtualMachineProperties {
   /** Specifies the hardware settings for the virtual machine. */
-  hardwareProfile?: HardwareProfile;
+  hardwareProfile?: HardwareProfile | undefined;
+  /** [Preview Feature] Specifies a FlexProfile for VM size. Azure may deploy a compatible alternative VM size based on capacity and placement considerations, and returns the deployed size in hardwareProfile.vmSize. A request that adds flexProfile must omit hardwareProfile.vmSize. For a virtual machine that uses FlexProfile, a hardwareProfile.vmSize equal to the deployed size is ignored, so a GET response can be sent back unchanged. A PATCH request that omits flexProfile keeps it. A PUT request that omits flexProfile and sets hardwareProfile.vmSize clears it. This property cannot exist along with a non-null properties.availabilitySet, properties.capacityReservation, properties.host, properties.hostGroup, properties.proximityPlacementGroup or properties.virtualMachineScaleSet. */
+  flexProfile?: FlexProfile | undefined;
   /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the virtual machine. */
-  scheduledEventsPolicy?: ScheduledEventsPolicy;
+  scheduledEventsPolicy?: ScheduledEventsPolicy | undefined;
   /** Specifies the storage settings for the virtual machine disks. */
-  storageProfile?: StorageProfile;
+  storageProfile?: StorageProfile | undefined;
   /** Specifies additional capabilities enabled or disabled on the virtual machine. */
-  additionalCapabilities?: AdditionalCapabilities;
+  additionalCapabilities?: AdditionalCapabilities | undefined;
   /** Specifies the operating system settings used while creating the virtual machine. Some of the settings cannot be changed once VM is provisioned. */
-  osProfile?: OSProfile;
+  osProfile?: OSProfile | undefined;
   /** Specifies the network interfaces of the virtual machine. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
   /** Specifies the Security related profile settings for the virtual machine. */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15. */
-  diagnosticsProfile?: DiagnosticsProfile;
-  availabilitySet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
-  virtualMachineScaleSet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
-  proximityPlacementGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  diagnosticsProfile?: DiagnosticsProfile | undefined;
+  availabilitySet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
+  virtualMachineScaleSet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
+  proximityPlacementGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies the priority for the virtual machine. Minimum api-version: 2019-03-01 */
-  priority?: VirtualMachinePriorityTypes;
+  priority?: VirtualMachinePriorityTypes | undefined;
   /** Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01. For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview. */
-  evictionPolicy?: VirtualMachineEvictionPolicyTypes;
+  evictionPolicy?: VirtualMachineEvictionPolicyTypes | undefined;
   /** Specifies the billing related details of a Azure Spot virtual machine. Minimum api-version: 2019-03-01. */
-  billingProfile?: BillingProfile;
-  host?: AvailabilitySetPropertiesInputVirtualMachinesItem;
-  hostGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  billingProfile?: BillingProfile | undefined;
+  host?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
+  hostGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The virtual machine instance view. */
-  instanceView?: VirtualMachineInstanceView;
+  instanceView?: VirtualMachineInstanceView | undefined;
   /** Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15 */
-  licenseType?: string;
+  licenseType?: string | undefined;
   /** Specifies the VM unique ID which is a 128-bits identifier that is encoded and stored in all Azure IaaS VMs SMBIOS and can be read using platform BIOS commands. */
-  vmId?: string;
+  vmId?: string | undefined;
   /** Specifies the time alloted for all extensions to start. The time duration should be between 15 minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes (PT1H30M). Minimum api-version: 2020-06-01. */
-  extensionsTimeBudget?: string;
+  extensionsTimeBudget?: string | undefined;
   /** Specifies the scale set logical fault domain into which the Virtual Machine will be created. By default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across available fault domains. This is applicable only if the 'virtualMachineScaleSet' property of this Virtual Machine is set. The Virtual Machine Scale Set that is referenced, must have 'platformFaultDomainCount' greater than 1. This property cannot be updated once the Virtual Machine is created. Fault domain assignment can be viewed in the Virtual Machine Instance View. Minimum api-version: 2020-12-01. */
-  platformFaultDomain?: number;
+  platformFaultDomain?: number | undefined;
   /** Specifies Scheduled Event related configurations. */
-  scheduledEventsProfile?: ScheduledEventsProfile;
+  scheduledEventsProfile?: ScheduledEventsProfile | undefined;
   /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. Minimum api-version: 2021-03-01. */
-  userData?: string;
+  userData?: string | undefined;
   /** Specifies information about the capacity reservation that is used to allocate virtual machine. Minimum api-version: 2021-04-01. */
-  capacityReservation?: CapacityReservationProfile;
+  capacityReservation?: CapacityReservationProfile | undefined;
   /** Specifies information about the Interconnect Block that is used to allocate the Virtual Machine. Minimum api-version: 2026-03-01. */
-  interconnectBlockProfile?: InterconnectBlockProfile;
+  interconnectBlockProfile?: InterconnectBlockProfile | undefined;
   /** Specifies the gallery applications that should be made available to the VM/VMSS. */
-  applicationProfile?: ApplicationProfile;
+  applicationProfile?: ApplicationProfile | undefined;
   /** Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
   /** Resiliency profile for the virtual machine. */
-  resiliencyProfile?: ResiliencyProfile;
+  resiliencyProfile?: ResiliencyProfile | undefined;
 }
 /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
 export interface Plan {
   /** The plan ID. */
-  name?: string;
+  name?: string | undefined;
   /** The publisher ID. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element. */
-  product?: string;
+  product?: string | undefined;
   /** The promotion code. */
-  promotionCode?: string;
+  promotionCode?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineExtensionTagsMap = { [key: string]: string | undefined };
@@ -3837,48 +3863,50 @@ export type VirtualMachineExtensionPropertiesProvisionAfterExtensionsList = Arra
 /** Describes the properties of a Virtual Machine Extension. */
 export interface VirtualMachineExtensionProperties {
   /** How the extension handler should be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
+  forceUpdateTag?: string | undefined;
   /** The name of the extension handler publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
+  type?: string | undefined;
   /** Specifies the Major.Minor version of the script handler. Customer is able to specify only the Major.Minor version of an extension, Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
-  typeHandlerVersion?: string;
+  typeHandlerVersion?: string | undefined;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
+  autoUpgradeMinorVersion?: boolean | undefined;
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** Json formatted public settings for the extension. */
-  settings?: unknown;
+  settings?: unknown | undefined;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: unknown;
+  protectedSettings?: unknown | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The virtual machine extension instance view. */
-  instanceView?: VirtualMachineExtensionInstanceView;
+  instanceView?: VirtualMachineExtensionInstanceView | undefined;
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
-  suppressFailures?: boolean;
+  suppressFailures?: boolean | undefined;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: KeyVaultSecretReference;
+  protectedSettingsFromKeyVault?: KeyVaultSecretReference | undefined;
   /** Collection of extension names after which this extension needs to be provisioned. */
-  provisionAfterExtensions?: VirtualMachineExtensionPropertiesProvisionAfterExtensionsList;
+  provisionAfterExtensions?:
+    | VirtualMachineExtensionPropertiesProvisionAfterExtensionsList
+    | undefined;
 }
 /** Describes a Virtual Machine Extension. */
 export interface VirtualMachineExtension {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachineExtensionTagsMap;
+  tags?: VirtualMachineExtensionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine Extension. */
-  properties?: VirtualMachineExtensionProperties;
+  properties?: VirtualMachineExtensionProperties | undefined;
 }
 /** The virtual machine child extension resources. */
 export type GetVirtualMachineResponseResourcesList = Array<VirtualMachineExtension>;
@@ -3890,9 +3918,9 @@ export type CommonResourceIdentityType =
   | "None";
 export interface CommonUserAssignedIdentitiesValue {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type VirtualMachineIdentityUserAssignedIdentitiesMap = {
@@ -3901,13 +3929,13 @@ export type VirtualMachineIdentityUserAssignedIdentitiesMap = {
 /** Identity for the virtual machine. */
 export interface VirtualMachineIdentity {
   /** The principal id of virtual machine identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id associated with the virtual machine. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
-  type?: CommonResourceIdentityType;
+  type?: CommonResourceIdentityType | undefined;
   /** The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: VirtualMachineIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: VirtualMachineIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** The availability zones. */
 export type GetVirtualMachineResponseZonesList = Array<string>;
@@ -3915,35 +3943,35 @@ export type GetVirtualMachineResponseZonesList = Array<string>;
 export type GetVirtualMachineResponseExtendedLocation = GetImageResponseExtendedLocation;
 export interface GetVirtualMachineResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVirtualMachineResponseTagsMap;
+  tags?: GetVirtualMachineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine. */
-  properties?: VirtualMachineProperties;
+  properties?: VirtualMachineProperties | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The virtual machine child extension resources. */
-  resources?: GetVirtualMachineResponseResourcesList;
+  resources?: GetVirtualMachineResponseResourcesList | undefined;
   /** The identity of the virtual machine, if configured. */
-  identity?: VirtualMachineIdentity;
+  identity?: VirtualMachineIdentity | undefined;
   /** The availability zones. */
-  zones?: GetVirtualMachineResponseZonesList;
+  zones?: GetVirtualMachineResponseZonesList | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
   /** ManagedBy is set to Virtual Machine Scale Set(VMSS) flex ARM resourceID, if the VM is part of the VMSS. This property is used by platform for internal resource group delete optimization. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Etag is property returned in Create/Update/Get response of the VM, so that customer can supply it in the header to ensure optimistic updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Placement section specifies the user-defined constraints for virtual machine hardware placement. This property cannot be changed once VM is provisioned. Minimum api-version: 2024-11-01. */
-  placement?: Placement;
+  placement?: Placement | undefined;
 }
 export interface GetVirtualMachineBootDiagnosticsDataRequest {
   /** The ID of the target subscription. */
@@ -3953,14 +3981,14 @@ export interface GetVirtualMachineBootDiagnosticsDataRequest {
   /** The name of the virtual machine. */
   vmName: string;
   /** Expiration duration in minutes for the SAS URIs with a value between 1 to 1440 minutes. **Note:** If not specified, SAS URIs will be generated with a default expiration duration of 120 minutes. */
-  sasUriExpirationTimeInMinutes?: number;
+  sasUriExpirationTimeInMinutes?: number | undefined;
 }
 /** The SAS URIs of the console screenshot and serial log blobs. */
 export interface RetrieveBootDiagnosticsDataResult {
   /** The console screenshot blob URI */
-  consoleScreenshotBlobUri?: string;
+  consoleScreenshotBlobUri?: string | undefined;
   /** The serial console log blob URI. */
-  serialConsoleLogBlobUri?: string;
+  serialConsoleLogBlobUri?: string | undefined;
 }
 export interface GetVirtualMachineDiagnosticRunCommandByVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -3972,7 +4000,7 @@ export interface GetVirtualMachineDiagnosticRunCommandByVirtualMachineRequest {
   /** The name of the VirtualMachineDiagnosticRunCommand */
   runCommandName: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetVirtualMachineDiagnosticRunCommandByVirtualMachineResponseTagsMap = {
@@ -3981,26 +4009,26 @@ export type GetVirtualMachineDiagnosticRunCommandByVirtualMachineResponseTagsMap
 /** Contains clientId or objectId (use only one, not both) of a user-assigned managed identity that has access to storage blob used in Run Command. Use an empty RunCommandManagedIdentity object in case of system-assigned identity. Make sure the Azure storage blob exists in case of scriptUri, and managed identity has been given access to blob's container with 'Storage Blob Data Reader' role assignment with scriptUri blob and 'Storage Blob Data Contributor' for Append blobs(outputBlobUri, errorBlobUri). In case of user assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged. */
 export interface RunCommandManagedIdentity {
   /** Client Id (GUID value) of the user-assigned managed identity. ObjectId should not be used if this is provided. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Object Id (GUID value) of the user-assigned managed identity. ClientId should not be used if this is provided. */
-  objectId?: string;
+  objectId?: string | undefined;
 }
 /** Script shell types. */
 export type ScriptShellTypes = "Default" | "Powershell7";
 /** Describes the script sources for run command. Use only one of these script sources: script, scriptUri, commandId, galleryScriptReferenceId. */
 export interface VirtualMachineRunCommandScriptSource {
   /** Specifies the script content to be executed on the VM. */
-  script?: string;
+  script?: string | undefined;
   /** Specifies the script download location. It can be either SAS URI of an Azure storage blob with read access or public URI. */
-  scriptUri?: string;
+  scriptUri?: string | undefined;
   /** Specifies a commandId of predefined built-in script. Command IDs available for Linux are listed at https://aka.ms/RunCommandManagedLinux#available-commands, Windows at https://aka.ms/RunCommandManagedWindows#available-commands. */
-  commandId?: string;
+  commandId?: string | undefined;
   /** User-assigned managed identity that has access to scriptUri in case of Azure storage blob. Use an empty object in case of system-assigned identity. Make sure the Azure storage blob exists, and managed identity has been given access to blob's container with 'Storage Blob Data Reader' role assignment. In case of user-assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged. */
-  scriptUriManagedIdentity?: RunCommandManagedIdentity;
+  scriptUriManagedIdentity?: RunCommandManagedIdentity | undefined;
   /** Optional. Specify which shell to use for running the script. These values must match those expected by the extension. Currently supported only for Windows VMs, script uses Powershell 7 when specified. Powershell 7 must be already installed on the machine to use Powershell7 parameter value. */
-  scriptShell?: ScriptShellTypes | (string & {});
+  scriptShell?: ScriptShellTypes | (string & {}) | undefined;
   /** The resource ID of a Gallery Script version that needs to be executed. Example ID looks like /subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/galleries/{galleryName}/scripts/{scriptName}/versions/{version}. */
-  galleryScriptReferenceId?: string;
+  galleryScriptReferenceId?: string | undefined;
 }
 /** Describes the properties of a run command parameter. */
 export interface RunCommandInputParameter {
@@ -4028,68 +4056,68 @@ export type VirtualMachineRunCommandInstanceViewStatusesList = Array<InstanceVie
 /** The instance view of a virtual machine run command. */
 export interface VirtualMachineRunCommandInstanceView {
   /** Script execution status. */
-  executionState?: ExecutionState;
+  executionState?: ExecutionState | undefined;
   /** Communicate script configuration errors or execution messages. */
-  executionMessage?: string;
+  executionMessage?: string | undefined;
   /** Exit code returned from script execution. */
-  exitCode?: number;
+  exitCode?: number | undefined;
   /** Script output stream. */
-  output?: string;
+  output?: string | undefined;
   /** Script error stream. */
-  error?: string;
+  error?: string | undefined;
   /** Script start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Script end time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resource status information. */
-  statuses?: VirtualMachineRunCommandInstanceViewStatusesList;
+  statuses?: VirtualMachineRunCommandInstanceViewStatusesList | undefined;
 }
 /** Describes the properties of a Virtual Machine run command. */
 export interface VirtualMachineRunCommandProperties {
   /** The source of the run command script. */
-  source?: VirtualMachineRunCommandScriptSource;
+  source?: VirtualMachineRunCommandScriptSource | undefined;
   /** The parameters used by the script. */
-  parameters?: VirtualMachineRunCommandPropertiesParametersList;
+  parameters?: VirtualMachineRunCommandPropertiesParametersList | undefined;
   /** The parameters used by the script. */
-  protectedParameters?: VirtualMachineRunCommandPropertiesProtectedParametersList;
+  protectedParameters?: VirtualMachineRunCommandPropertiesProtectedParametersList | undefined;
   /** Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete. */
-  asyncExecution?: boolean;
+  asyncExecution?: boolean | undefined;
   /** Specifies the user account on the VM when executing the run command. */
-  runAsUser?: string;
+  runAsUser?: string | undefined;
   /** Specifies the user account password on the VM when executing the run command. */
-  runAsPassword?: string | Redacted.Redacted<string>;
+  runAsPassword?: string | Redacted.Redacted<string> | undefined;
   /** The timeout in seconds to execute the run command. */
-  timeoutInSeconds?: number;
+  timeoutInSeconds?: number | undefined;
   /** Specifies the Azure storage blob where script output stream will be uploaded. Use a SAS URI with read, append, create, write access OR use managed identity to provide the VM access to the blob. Refer outputBlobManagedIdentity parameter. */
-  outputBlobUri?: string;
+  outputBlobUri?: string | undefined;
   /** Specifies the Azure storage blob where script error stream will be uploaded. Use a SAS URI with read, append, create, write access OR use managed identity to provide the VM access to the blob. Refer errorBlobManagedIdentity parameter. */
-  errorBlobUri?: string;
+  errorBlobUri?: string | undefined;
   /** User-assigned managed identity that has access to outputBlobUri storage blob. Use an empty object in case of system-assigned identity. Make sure managed identity has been given access to blob's container with 'Storage Blob Data Contributor' role assignment. In case of user-assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged */
-  outputBlobManagedIdentity?: RunCommandManagedIdentity;
+  outputBlobManagedIdentity?: RunCommandManagedIdentity | undefined;
   /** User-assigned managed identity that has access to errorBlobUri storage blob. Use an empty object in case of system-assigned identity. Make sure managed identity has been given access to blob's container with 'Storage Blob Data Contributor' role assignment. In case of user-assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged */
-  errorBlobManagedIdentity?: RunCommandManagedIdentity;
+  errorBlobManagedIdentity?: RunCommandManagedIdentity | undefined;
   /** The provisioning state, which only appears in the response. If treatFailureAsDeploymentFailure set to true, any failure in the script will fail the deployment and ProvisioningState will be marked as Failed. If treatFailureAsDeploymentFailure set to false, ProvisioningState would only reflect whether the run command was run or not by the extensions platform, it would not indicate whether script failed in case of script failures. See instance view of run command in case of script failures to see executionMessage, output, error: https://aka.ms/runcommandmanaged#get-execution-status-and-results */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The virtual machine run command instance view. */
-  instanceView?: VirtualMachineRunCommandInstanceView;
+  instanceView?: VirtualMachineRunCommandInstanceView | undefined;
   /** Optional. If set to true, any failure in the script will fail the deployment and ProvisioningState will be marked as Failed. If set to false, ProvisioningState would only reflect whether the run command was run or not by the extensions platform, it would not indicate whether script failed in case of script failures. See instance view of run command in case of script failures to see executionMessage, output, error: https://aka.ms/runcommandmanaged#get-execution-status-and-results */
-  treatFailureAsDeploymentFailure?: boolean;
+  treatFailureAsDeploymentFailure?: boolean | undefined;
 }
 export interface GetVirtualMachineDiagnosticRunCommandByVirtualMachineResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVirtualMachineDiagnosticRunCommandByVirtualMachineResponseTagsMap;
+  tags?: GetVirtualMachineDiagnosticRunCommandByVirtualMachineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine diagnostic run command. */
-  properties?: VirtualMachineRunCommandProperties;
+  properties?: VirtualMachineRunCommandProperties | undefined;
 }
 export interface GetVirtualMachineExtensionRequest {
   /** The ID of the target subscription. */
@@ -4101,25 +4129,25 @@ export interface GetVirtualMachineExtensionRequest {
   /** The name of the virtual machine extension. */
   vmExtensionName: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetVirtualMachineExtensionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetVirtualMachineExtensionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVirtualMachineExtensionResponseTagsMap;
+  tags?: GetVirtualMachineExtensionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine Extension. */
-  properties?: VirtualMachineExtensionProperties;
+  properties?: VirtualMachineExtensionProperties | undefined;
 }
 export interface GetVirtualMachineExtensionImageRequest {
   /** The ID of the target subscription. */
@@ -4148,14 +4176,14 @@ export interface ExtensionFeatureTag {
   /** The key of the feature tag. */
   key: string;
   /** The value of the feature tag. */
-  value?: string;
+  value?: string | undefined;
 }
 /** List of additional metadata properties (e.g., compliance flags, supported features). */
 export type ExtensionFeatureMetadataExtensionFeatureTagsList = Array<ExtensionFeatureTag>;
 /** Additional metadata about extension features, including compliance and capability tags. */
 export interface ExtensionFeatureMetadata {
   /** List of additional metadata properties (e.g., compliance flags, supported features). */
-  extensionFeatureTags?: ExtensionFeatureMetadataExtensionFeatureTagsList;
+  extensionFeatureTags?: ExtensionFeatureMetadataExtensionFeatureTagsList | undefined;
 }
 /** Describes the properties of a Virtual Machine Extension Image. */
 export interface VirtualMachineExtensionImageProperties {
@@ -4166,35 +4194,35 @@ export interface VirtualMachineExtensionImageProperties {
   /** The schema defined by publisher, where extension consumers should provide settings in a matching schema. */
   handlerSchema: string;
   /** Whether the extension can be used on xRP VMScaleSets. By default existing extensions are usable on scalesets, but there might be cases where a publisher wants to explicitly indicate the extension is only enabled for CRP VMs but not VMSS. */
-  vmScaleSetEnabled?: boolean;
+  vmScaleSetEnabled?: boolean | undefined;
   /** Whether the handler can support multiple extensions. */
-  supportsMultipleExtensions?: boolean;
+  supportsMultipleExtensions?: boolean | undefined;
   /** Summary of changes or updates in this extension version. */
-  releaseNotes?: string;
+  releaseNotes?: string | undefined;
   /** Categorizes the type of change introduced (e.g., BugFix, SecurityFix, CompatibilityUpdate, NewFeature, Other). */
-  releaseCategory?: ReleaseCategory;
+  releaseCategory?: ReleaseCategory | undefined;
   /** Indicates the urgency level for applying this extension update. */
-  urgencyLevel?: UrgencyLevel;
+  urgencyLevel?: UrgencyLevel | undefined;
   /** Specifies when and how the extension should be executed. */
-  runProfile?: RunProfile;
+  runProfile?: RunProfile | undefined;
   /** Additional metadata about extension features, including compliance and capability tags. */
-  extensionFeatureMetadata?: ExtensionFeatureMetadata;
+  extensionFeatureMetadata?: ExtensionFeatureMetadata | undefined;
 }
 export interface GetVirtualMachineExtensionImageResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVirtualMachineExtensionImageResponseTagsMap;
+  tags?: GetVirtualMachineExtensionImageResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine Extension Image. */
-  properties?: VirtualMachineExtensionImageProperties;
+  properties?: VirtualMachineExtensionImageProperties | undefined;
 }
 export interface GetVirtualMachineImageRequest {
   /** The ID of the target subscription. */
@@ -4231,7 +4259,7 @@ export interface OSDiskImage {
 /** Contains the data disk images information. */
 export interface DataDiskImage {
   /** Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. */
-  lun?: number;
+  lun?: number | undefined;
 }
 /** The list of data disk images information. */
 export type VirtualMachineImagePropertiesDataDiskImagesList = Array<DataDiskImage>;
@@ -4245,14 +4273,14 @@ export type VmDiskTypes = "None" | "Unmanaged";
 /** Specifies the disallowed configuration for a virtual machine image. */
 export interface DisallowedConfiguration {
   /** VM disk types which are disallowed. */
-  vmDiskType?: VmDiskTypes;
+  vmDiskType?: VmDiskTypes | undefined;
 }
 /** Specifies additional capabilities supported by the image */
 export interface VirtualMachineImageFeature {
   /** The name of the feature. */
-  name?: string;
+  name?: string | undefined;
   /** The corresponding value for the feature. */
-  value?: string;
+  value?: string | undefined;
 }
 export type VirtualMachineImagePropertiesFeaturesList = Array<VirtualMachineImageFeature>;
 /** Specifies the Architecture Type */
@@ -4264,52 +4292,52 @@ export type AlternativeType = "None" | "Offer" | "Plan";
 /** Describes the alternative option specified by the Publisher for this image when this image is deprecated. */
 export interface AlternativeOption {
   /** Describes the type of the alternative option. */
-  type?: AlternativeType;
+  type?: AlternativeType | undefined;
   /** Indicates the alternative option value specified by the Publisher. This is the Offer name when the type is Offer or the Plan name when the type is Plan. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Describes image deprecation status properties on the image. */
 export interface ImageDeprecationStatus {
   /** Describes the state of the image. */
-  imageState?: ImageState;
+  imageState?: ImageState | undefined;
   /** The time, in future, at which this image will be marked as deprecated. This scheduled time is chosen by the Publisher. */
-  scheduledDeprecationTime?: string;
+  scheduledDeprecationTime?: string | undefined;
   /** Describes the alternative option specified by the Publisher for this image when this image is deprecated. */
-  alternativeOption?: AlternativeOption;
+  alternativeOption?: AlternativeOption | undefined;
 }
 /** Describes the properties of a Virtual Machine Image. */
 export interface VirtualMachineImageProperties {
   /** Used for establishing the purchase context of any 3rd Party artifact through MarketPlace. */
-  plan?: PurchasePlan;
+  plan?: PurchasePlan | undefined;
   /** Contains the os disk image information. */
-  osDiskImage?: OSDiskImage;
+  osDiskImage?: OSDiskImage | undefined;
   /** The list of data disk images information. */
-  dataDiskImages?: VirtualMachineImagePropertiesDataDiskImagesList;
+  dataDiskImages?: VirtualMachineImagePropertiesDataDiskImagesList | undefined;
   /** Describes automatic OS upgrade properties on the image. */
-  automaticOSUpgradeProperties?: AutomaticOSUpgradeProperties;
+  automaticOSUpgradeProperties?: AutomaticOSUpgradeProperties | undefined;
   /** Specifies the HyperVGeneration Type */
-  hyperVGeneration?: HyperVGenerationTypes;
+  hyperVGeneration?: HyperVGenerationTypes | undefined;
   /** Specifies disallowed configuration for the VirtualMachine created from the image */
-  disallowed?: DisallowedConfiguration;
-  features?: VirtualMachineImagePropertiesFeaturesList;
+  disallowed?: DisallowedConfiguration | undefined;
+  features?: VirtualMachineImagePropertiesFeaturesList | undefined;
   /** Specifies the Architecture Type */
-  architecture?: ArchitectureTypes;
+  architecture?: ArchitectureTypes | undefined;
   /** Describes image deprecation status properties on the image. */
-  imageDeprecationStatus?: ImageDeprecationStatus;
+  imageDeprecationStatus?: ImageDeprecationStatus | undefined;
 }
 export interface GetVirtualMachineImageResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
   name: string;
   /** The supported Azure location of the resource. */
   location: string;
   /** Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md). */
-  tags?: GetVirtualMachineImageResponseTagsMap;
+  tags?: GetVirtualMachineImageResponseTagsMap | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
   /** Describes the properties of a Virtual Machine Image. */
-  properties?: VirtualMachineImageProperties;
+  properties?: VirtualMachineImageProperties | undefined;
 }
 export interface GetVirtualMachineImagesEdgeZoneRequest {
   /** The ID of the target subscription. */
@@ -4334,17 +4362,17 @@ export type GetVirtualMachineImagesEdgeZoneResponseExtendedLocation =
   GetImageResponseExtendedLocation;
 export interface GetVirtualMachineImagesEdgeZoneResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
   name: string;
   /** The supported Azure location of the resource. */
   location: string;
   /** Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md). */
-  tags?: GetVirtualMachineImagesEdgeZoneResponseTagsMap;
+  tags?: GetVirtualMachineImagesEdgeZoneResponseTagsMap | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
   /** Describes the properties of a Virtual Machine Image. */
-  properties?: VirtualMachineImageProperties;
+  properties?: VirtualMachineImageProperties | undefined;
 }
 export interface GetVirtualMachineRunCommandRequest {
   /** The ID of the target subscription. */
@@ -4363,9 +4391,9 @@ export interface RunCommandParameterDefinition {
   /** The run command parameter type. */
   type: string;
   /** The run command parameter default value. */
-  defaultValue?: string;
+  defaultValue?: string | undefined;
   /** The run command parameter required. */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 /** The parameters used by the script. */
 export type GetVirtualMachineRunCommandResponseParametersList =
@@ -4384,7 +4412,7 @@ export interface GetVirtualMachineRunCommandResponse {
   /** The script to be executed. */
   script: GetVirtualMachineRunCommandResponseScriptList;
   /** The parameters used by the script. */
-  parameters?: GetVirtualMachineRunCommandResponseParametersList;
+  parameters?: GetVirtualMachineRunCommandResponseParametersList | undefined;
 }
 export interface GetVirtualMachineRunCommandByVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -4396,7 +4424,7 @@ export interface GetVirtualMachineRunCommandByVirtualMachineRequest {
   /** The name of the VirtualMachineRunCommand */
   runCommandName: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetVirtualMachineRunCommandByVirtualMachineResponseTagsMap = {
@@ -4404,19 +4432,19 @@ export type GetVirtualMachineRunCommandByVirtualMachineResponseTagsMap = {
 };
 export interface GetVirtualMachineRunCommandByVirtualMachineResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVirtualMachineRunCommandByVirtualMachineResponseTagsMap;
+  tags?: GetVirtualMachineRunCommandByVirtualMachineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine run command. */
-  properties?: VirtualMachineRunCommandProperties;
+  properties?: VirtualMachineRunCommandProperties | undefined;
 }
 export type GetVirtualMachineScaleSetRequestExpand = "userData";
 export interface GetVirtualMachineScaleSetRequest {
@@ -4427,7 +4455,7 @@ export interface GetVirtualMachineScaleSetRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** The expand expression to apply on the operation. 'UserData' retrieves the UserData property of the VM scale set that was provided by the user during the VM scale set Create/Update operation */
-  _expand?: GetVirtualMachineScaleSetRequestExpand | (string & {});
+  _expand?: GetVirtualMachineScaleSetRequestExpand | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type GetVirtualMachineScaleSetResponseTagsMap = { [key: string]: string | undefined };
@@ -4436,140 +4464,140 @@ export type UpgradeMode = "Automatic" | "Manual" | "Rolling";
 /** The configuration parameters used while performing a rolling upgrade. */
 export interface RollingUpgradePolicy {
   /** The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the percentage of instances in a batch to decrease to ensure higher reliability. The default value for this parameter is 20%. */
-  maxBatchInstancePercent?: number;
+  maxBatchInstancePercent?: number | undefined;
   /** The maximum percentage of the total virtual machine instances in the scale set that can be simultaneously unhealthy, either as a result of being upgraded, or by being found in an unhealthy state by the virtual machine health checks before the rolling upgrade aborts. This constraint will be checked prior to starting any batch. The default value for this parameter is 20%. */
-  maxUnhealthyInstancePercent?: number;
+  maxUnhealthyInstancePercent?: number | undefined;
   /** The maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state. This check will happen after each batch is upgraded. If this percentage is ever exceeded, the rolling update aborts. The default value for this parameter is 20%. */
-  maxUnhealthyUpgradedInstancePercent?: number;
+  maxUnhealthyUpgradedInstancePercent?: number | undefined;
   /** The wait time between completing the update for all virtual machines in one batch and starting the next batch. The time duration should be specified in ISO 8601 format. The default value is 0 seconds (PT0S). */
-  pauseTimeBetweenBatches?: string;
+  pauseTimeBetweenBatches?: string | undefined;
   /** Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size. */
-  enableCrossZoneUpgrade?: boolean;
+  enableCrossZoneUpgrade?: boolean | undefined;
   /** Upgrade all unhealthy instances in a scale set before any healthy instances. */
-  prioritizeUnhealthyInstances?: boolean;
+  prioritizeUnhealthyInstances?: boolean | undefined;
   /** Rollback failed instances to previous model if the Rolling Upgrade policy is violated. */
-  rollbackFailedInstancesOnPolicyBreach?: boolean;
+  rollbackFailedInstancesOnPolicyBreach?: boolean | undefined;
   /** Create new virtual machines to upgrade the scale set, rather than updating the existing virtual machines. Existing virtual machines will be deleted once the new virtual machines are created for each batch. */
-  maxSurge?: boolean;
+  maxSurge?: boolean | undefined;
 }
 /** The configuration parameters used for performing automatic OS upgrade. */
 export interface AutomaticOSUpgradePolicy {
   /** Indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. Default value is false. If this is set to true for Windows based scale sets, [enableAutomaticUpdates](https://docs.microsoft.com/dotnet/api/microsoft.azure.management.compute.models.windowsconfiguration.enableautomaticupdates?view=azure-dotnet) is automatically set to false and cannot be set to true. */
-  enableAutomaticOSUpgrade?: boolean;
+  enableAutomaticOSUpgrade?: boolean | undefined;
   /** Whether OS image rollback feature should be disabled. Default value is false. */
-  disableAutomaticRollback?: boolean;
+  disableAutomaticRollback?: boolean | undefined;
   /** Indicates whether rolling upgrade policy should be used during Auto OS Upgrade. Default value is false. Auto OS Upgrade will fallback to the default policy if no policy is defined on the VMSS. */
-  useRollingUpgradePolicy?: boolean;
+  useRollingUpgradePolicy?: boolean | undefined;
   /** Indicates whether Auto OS Upgrade should undergo deferral. Deferred OS upgrades will send advanced notifications on a per-VM basis that an OS upgrade from rolling upgrades is incoming, via the IMDS tag 'Platform.PendingOSUpgrade'. The upgrade then defers until the upgrade is approved via an ApproveRollingUpgrade call. */
-  osRollingUpgradeDeferral?: boolean;
+  osRollingUpgradeDeferral?: boolean | undefined;
 }
 /** Describes an upgrade policy - automatic, manual, or rolling. */
 export interface UpgradePolicy {
   /** Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action.<br /><br /> **Automatic** - All virtual machines in the scale set are automatically updated at the same time. */
-  mode?: UpgradeMode | (string & {});
+  mode?: UpgradeMode | (string & {}) | undefined;
   /** The configuration parameters used while performing a rolling upgrade. */
-  rollingUpgradePolicy?: RollingUpgradePolicy;
+  rollingUpgradePolicy?: RollingUpgradePolicy | undefined;
   /** Configuration parameters used for performing automatic OS Upgrade. */
-  automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy;
+  automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy | undefined;
 }
 /** Type of repair action (replace, restart, reimage) that will be used for repairing unhealthy virtual machines in the scale set. Default value is replace. */
 export type RepairAction = "Replace" | "Restart" | "Reimage";
 /** Specifies the configuration parameters for automatic repairs on the virtual machine scale set. */
 export interface AutomaticRepairsPolicy {
   /** Specifies whether automatic repairs should be enabled on the virtual machine scale set. The default value is false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The amount of time for which automatic repairs are suspended due to a state change on VM. The grace time starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should be specified in ISO 8601 format. The minimum allowed grace period is 10 minutes (PT10M), which is also the default value. The maximum allowed grace period is 90 minutes (PT90M). */
-  gracePeriod?: string;
+  gracePeriod?: string | undefined;
   /** Type of repair action (replace, restart, reimage) that will be used for repairing unhealthy virtual machines in the scale set. Default value is replace. */
-  repairAction?: RepairAction | (string & {});
+  repairAction?: RepairAction | (string & {}) | undefined;
 }
 /** Specifies set of certificates that should be installed onto the virtual machines in the scale set. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
 export type VirtualMachineScaleSetOSProfileSecretsList = Array<VaultSecretGroup>;
 /** Describes a virtual machine scale set OS profile. */
 export interface VirtualMachineScaleSetOSProfile {
   /** Specifies the computer name prefix for all of the virtual machines in the scale set. Computer name prefixes must be 1 to 15 characters long. */
-  computerNamePrefix?: string;
+  computerNamePrefix?: string | undefined;
   /** Specifies the name of the administrator account. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1 character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters */
-  adminUsername?: string;
+  adminUsername?: string | undefined;
   /** Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection) */
-  adminPassword?: string | Redacted.Redacted<string>;
+  adminPassword?: string | Redacted.Redacted<string> | undefined;
   /** Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init) */
-  customData?: string;
+  customData?: string | undefined;
   /** Specifies Windows operating system settings on the virtual machine. */
-  windowsConfiguration?: WindowsConfiguration;
+  windowsConfiguration?: WindowsConfiguration | undefined;
   /** Specifies the Linux operating system settings on the virtual machine. For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
-  linuxConfiguration?: LinuxConfiguration;
+  linuxConfiguration?: LinuxConfiguration | undefined;
   /** Specifies set of certificates that should be installed onto the virtual machines in the scale set. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
-  secrets?: VirtualMachineScaleSetOSProfileSecretsList;
+  secrets?: VirtualMachineScaleSetOSProfileSecretsList | undefined;
   /** Specifies whether extension operations should be allowed on the virtual machine scale set. This may only be set to False when no extensions are present on the virtual machine scale set. */
-  allowExtensionOperations?: boolean;
+  allowExtensionOperations?: boolean | undefined;
   /** Optional property which must either be set to True or omitted. */
-  requireGuestProvisionSignal?: boolean;
+  requireGuestProvisionSignal?: boolean | undefined;
 }
 /** Specifies the container urls that are used to store operating system disks for the scale set. */
 export type VirtualMachineScaleSetOSDiskVhdContainersList = Array<string>;
 /** Describes the parameters of a ScaleSet managed disk. */
 export interface VirtualMachineScaleSetManagedDiskParameters {
   /** Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. */
-  storageAccountType?: StorageAccountTypes | (string & {});
+  storageAccountType?: StorageAccountTypes | (string & {}) | undefined;
   /** Specifies the customer managed disk encryption set resource id for the managed disk. */
-  diskEncryptionSet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  diskEncryptionSet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies the security profile for the managed disk. */
-  securityProfile?: VMDiskSecurityProfile;
+  securityProfile?: VMDiskSecurityProfile | undefined;
   /** Specifies additional properties for the managed disk that can be set at the time of implicit creation of the disk. This property is not captured for Restore Points. */
-  additionalDiskProperties?: AdditionalDiskProperties;
+  additionalDiskProperties?: AdditionalDiskProperties | undefined;
 }
 /** Describes a virtual machine scale set operating system disk. */
 export interface VirtualMachineScaleSetOSDisk {
   /** The disk name. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the caching requirements. Possible values are: **None,** **ReadOnly,** **ReadWrite.** The default values are: **None for Standard storage. ReadOnly for Premium storage.** */
-  caching?: CachingTypes | (string & {});
+  caching?: CachingTypes | (string & {}) | undefined;
   /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
-  writeAcceleratorEnabled?: boolean;
+  writeAcceleratorEnabled?: boolean | undefined;
   /** Specifies how the virtual machines in the scale set should be created. The only allowed value is: **FromImage.** This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you also use the plan element previously described. */
   createOption: DiskCreateOptionTypes | (string & {});
   /** Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale set. */
-  diffDiskSettings?: DiffDiskSettings;
+  diffDiskSettings?: DiffDiskSettings | undefined;
   /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. The property 'diskSizeGB' is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** Specifies the storage fault domain alignment type for the disk. */
-  storageFaultDomainAlignment?: StorageFaultDomainAlignmentType | (string & {});
+  storageFaultDomainAlignment?: StorageFaultDomainAlignmentType | (string & {}) | undefined;
   /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. Possible values are: **Windows,** **Linux.** */
-  osType?: CommonOperatingSystemTypes | (string & {});
+  osType?: CommonOperatingSystemTypes | (string & {}) | undefined;
   /** Specifies information about the unmanaged user image to base the scale set on. */
-  image?: VirtualHardDisk;
+  image?: VirtualHardDisk | undefined;
   /** Specifies the container urls that are used to store operating system disks for the scale set. */
-  vhdContainers?: VirtualMachineScaleSetOSDiskVhdContainersList;
+  vhdContainers?: VirtualMachineScaleSetOSDiskVhdContainersList | undefined;
   /** The managed disk parameters. */
-  managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
+  managedDisk?: VirtualMachineScaleSetManagedDiskParameters | undefined;
   /** Specifies whether OS Disk should be deleted or detached upon VMSS Flex deletion (This feature is available for VMSS with Flexible OrchestrationMode only). <br><br> Possible values: <br><br> **Delete** If this value is used, the OS disk is deleted when VMSS Flex VM is deleted.<br><br> **Detach** If this value is used, the OS disk is retained after VMSS Flex VM is deleted. <br><br> The default value is set to **Delete**. For an Ephemeral OS Disk, the default value is set to **Delete**. User cannot change the delete option for Ephemeral OS Disk. */
-  deleteOption?: DiskDeleteOptionTypes | (string & {});
+  deleteOption?: DiskDeleteOptionTypes | (string & {}) | undefined;
 }
 /** Describes a virtual machine scale set data disk. */
 export interface VirtualMachineScaleSetDataDisk {
   /** The disk name. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. */
   lun: number;
   /** Specifies the caching requirements. Possible values are: **None,** **ReadOnly,** **ReadWrite.** The default values are: **None for Standard storage. ReadOnly for Premium storage.** */
-  caching?: CachingTypes | (string & {});
+  caching?: CachingTypes | (string & {}) | undefined;
   /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
-  writeAcceleratorEnabled?: boolean;
+  writeAcceleratorEnabled?: boolean | undefined;
   /** The create option. */
   createOption: DiskCreateOptionTypes | (string & {});
   /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. The property diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** Specifies the storage fault domain alignment type for the disk. */
-  storageFaultDomainAlignment?: StorageFaultDomainAlignmentType | (string & {});
+  storageFaultDomainAlignment?: StorageFaultDomainAlignmentType | (string & {}) | undefined;
   /** The managed disk parameters. */
-  managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
+  managedDisk?: VirtualMachineScaleSetManagedDiskParameters | undefined;
   /** Specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB. */
-  diskIOPSReadWrite?: number;
+  diskIOPSReadWrite?: number | undefined;
   /** Specifies the bandwidth in MB per second for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB. */
-  diskMBpsReadWrite?: number;
+  diskMBpsReadWrite?: number | undefined;
   /** Specifies whether data disk should be deleted or detached upon VMSS Flex deletion (This feature is available for VMSS with Flexible OrchestrationMode only).<br><br> Possible values: <br><br> **Delete** If this value is used, the data disk is deleted when the VMSS Flex VM is deleted.<br><br> **Detach** If this value is used, the data disk is retained after VMSS Flex VM is deleted.<br><br> The default value is set to **Delete**. */
-  deleteOption?: DiskDeleteOptionTypes | (string & {});
+  deleteOption?: DiskDeleteOptionTypes | (string & {}) | undefined;
 }
 /** Specifies the parameters that are used to add data disks to the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
 export type VirtualMachineScaleSetStorageProfileDataDisksList =
@@ -4577,15 +4605,15 @@ export type VirtualMachineScaleSetStorageProfileDataDisksList =
 /** Describes a virtual machine scale set storage profile. */
 export interface VirtualMachineScaleSetStorageProfile {
   /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. */
-  imageReference?: ImageReference;
+  imageReference?: ImageReference | undefined;
   /** Specifies information about the operating system disk used by the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  osDisk?: VirtualMachineScaleSetOSDisk;
+  osDisk?: VirtualMachineScaleSetOSDisk | undefined;
   /** Specifies the parameters that are used to add data disks to the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  dataDisks?: VirtualMachineScaleSetStorageProfileDataDisksList;
+  dataDisks?: VirtualMachineScaleSetStorageProfileDataDisksList | undefined;
   /** Specifies the disk controller type configured for the virtual machines in the scale set. Minimum api-version: 2022-08-01 */
-  diskControllerType?: DiskControllerTypes;
+  diskControllerType?: DiskControllerTypes | undefined;
   /** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD (e.g., "2026-03-02"). */
-  diskApiVersion?: DiskApiVersion;
+  diskApiVersion?: DiskApiVersion | undefined;
 }
 export type VirtualMachineScaleSetNetworkConfigurationPropertiesNetworkSecurityGroup =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -4594,14 +4622,14 @@ export type VirtualMachineScaleSetNetworkConfigurationDnsSettingsDnsServersList 
 /** Describes a virtual machines scale sets network configuration's DNS settings. */
 export interface VirtualMachineScaleSetNetworkConfigurationDnsSettings {
   /** List of DNS servers IP addresses */
-  dnsServers?: VirtualMachineScaleSetNetworkConfigurationDnsSettingsDnsServersList;
+  dnsServers?: VirtualMachineScaleSetNetworkConfigurationDnsSettingsDnsServersList | undefined;
 }
 /** Describes a virtual machines scale sets network configuration's DNS settings. */
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
   /** The Domain name label.The concatenation of the domain name label and vm index will be the domain name labels of the PublicIPAddress resources that will be created */
   domainNameLabel: string;
   /** The Domain name label scope.The concatenation of the hashed domain name label that generated according to the policy from domain name label scope and vm index will be the domain name labels of the PublicIPAddress resources that will be created */
-  domainNameLabelScope?: DomainNameLabelScopeTypes | (string & {});
+  domainNameLabelScope?: DomainNameLabelScopeTypes | (string & {}) | undefined;
 }
 /** Contains the IP tag associated with the public IP address. */
 export type VirtualMachineScaleSetIpTag = VirtualMachineIpTag;
@@ -4615,16 +4643,16 @@ export type IPVersion = "IPv4" | "IPv6";
 /** Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration */
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationProperties {
   /** The idle timeout of the public IP address. */
-  idleTimeoutInMinutes?: number;
+  idleTimeoutInMinutes?: number | undefined;
   /** The dns settings to be applied on the publicIP addresses . */
-  dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
+  dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings | undefined;
   /** The list of IP tags associated with the public IP address. */
-  ipTags?: VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesIpTagsList;
-  publicIPPrefix?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  ipTags?: VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesIpTagsList | undefined;
+  publicIPPrefix?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Available from Api-Version 2019-07-01 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'. */
-  publicIPAddressVersion?: IPVersion | (string & {});
+  publicIPAddressVersion?: IPVersion | (string & {}) | undefined;
   /** Specify what happens to the public IP when the VM is deleted */
-  deleteOption?: DeleteOptions | (string & {});
+  deleteOption?: DeleteOptions | (string & {}) | undefined;
 }
 /** Resource tags applied to the publicIP address created by this PublicIPAddressConfiguration */
 export type VirtualMachineScaleSetPublicIPAddressConfigurationTagsMap = {
@@ -4635,11 +4663,11 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
   /** The publicIP address configuration name. */
   name: string;
   /** Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration */
-  properties?: VirtualMachineScaleSetPublicIPAddressConfigurationProperties;
+  properties?: VirtualMachineScaleSetPublicIPAddressConfigurationProperties | undefined;
   /** Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible. */
-  sku?: PublicIPAddressSku;
+  sku?: PublicIPAddressSku | undefined;
   /** Resource tags applied to the publicIP address created by this PublicIPAddressConfiguration */
-  tags?: VirtualMachineScaleSetPublicIPAddressConfigurationTagsMap;
+  tags?: VirtualMachineScaleSetPublicIPAddressConfigurationTagsMap | undefined;
 }
 export type VirtualMachineScaleSetIPConfigurationPropertiesApplicationGatewayBackendAddressPoolsItem =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -4664,28 +4692,38 @@ export type VirtualMachineScaleSetIPConfigurationPropertiesLoadBalancerInboundNa
 /** Describes a virtual machine scale set network profile's IP configuration properties. */
 export interface VirtualMachineScaleSetIPConfigurationProperties {
   /** Specifies the identifier of the subnet. */
-  subnet?: ApiEntityReference;
+  subnet?: ApiEntityReference | undefined;
   /** Specifies the primary network interface in case the virtual machine has more than 1 network interface. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** The publicIPAddressConfiguration. */
-  publicIPAddressConfiguration?: VirtualMachineScaleSetPublicIPAddressConfiguration;
+  publicIPAddressConfiguration?: VirtualMachineScaleSetPublicIPAddressConfiguration | undefined;
   /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'. */
-  privateIPAddressVersion?: IPVersion | (string & {});
+  privateIPAddressVersion?: IPVersion | (string & {}) | undefined;
+  /** The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address. */
+  privateIPAddressPrefixLength?: number | undefined;
   /** Specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot use the same application gateway. */
-  applicationGatewayBackendAddressPools?: VirtualMachineScaleSetIPConfigurationPropertiesApplicationGatewayBackendAddressPoolsList;
+  applicationGatewayBackendAddressPools?:
+    | VirtualMachineScaleSetIPConfigurationPropertiesApplicationGatewayBackendAddressPoolsList
+    | undefined;
   /** Specifies an array of references to application security group. */
-  applicationSecurityGroups?: VirtualMachineScaleSetIPConfigurationPropertiesApplicationSecurityGroupsList;
+  applicationSecurityGroups?:
+    | VirtualMachineScaleSetIPConfigurationPropertiesApplicationSecurityGroupsList
+    | undefined;
   /** Specifies an array of references to backend address pools of load balancers. A scale set can reference backend address pools of one public and one internal load balancer. Multiple scale sets cannot use the same basic sku load balancer. */
-  loadBalancerBackendAddressPools?: VirtualMachineScaleSetIPConfigurationPropertiesLoadBalancerBackendAddressPoolsList;
+  loadBalancerBackendAddressPools?:
+    | VirtualMachineScaleSetIPConfigurationPropertiesLoadBalancerBackendAddressPoolsList
+    | undefined;
   /** Specifies an array of references to inbound Nat pools of the load balancers. A scale set can reference inbound nat pools of one public and one internal load balancer. Multiple scale sets cannot use the same basic sku load balancer. */
-  loadBalancerInboundNatPools?: VirtualMachineScaleSetIPConfigurationPropertiesLoadBalancerInboundNatPoolsList;
+  loadBalancerInboundNatPools?:
+    | VirtualMachineScaleSetIPConfigurationPropertiesLoadBalancerInboundNatPoolsList
+    | undefined;
 }
 /** Describes a virtual machine scale set network profile's IP configuration. */
 export interface VirtualMachineScaleSetIPConfiguration {
   /** The IP configuration name. */
   name: string;
   /** Describes a virtual machine scale set network profile's IP configuration properties. */
-  properties?: VirtualMachineScaleSetIPConfigurationProperties;
+  properties?: VirtualMachineScaleSetIPConfigurationProperties | undefined;
 }
 /** Specifies the IP configurations of the network interface. */
 export type VirtualMachineScaleSetNetworkConfigurationPropertiesIpConfigurationsList =
@@ -4693,26 +4731,26 @@ export type VirtualMachineScaleSetNetworkConfigurationPropertiesIpConfigurations
 /** Describes a virtual machine scale set network profile's IP configuration. */
 export interface VirtualMachineScaleSetNetworkConfigurationProperties {
   /** Specifies the primary network interface in case the virtual machine has more than 1 network interface. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** Specifies whether the network interface is accelerated networking-enabled. */
-  enableAcceleratedNetworking?: boolean;
+  enableAcceleratedNetworking?: boolean | undefined;
   /** Specifies whether the network interface is disabled for tcp state tracking. */
-  disableTcpStateTracking?: boolean;
+  disableTcpStateTracking?: boolean | undefined;
   /** Specifies whether the network interface is FPGA networking-enabled. */
-  enableFpga?: boolean;
-  networkSecurityGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  enableFpga?: boolean | undefined;
+  networkSecurityGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** The dns settings to be applied on the network interfaces. */
-  dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
+  dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings | undefined;
   /** Specifies the IP configurations of the network interface. */
   ipConfigurations: VirtualMachineScaleSetNetworkConfigurationPropertiesIpConfigurationsList;
   /** Whether IP forwarding enabled on this NIC. */
-  enableIPForwarding?: boolean;
+  enableIPForwarding?: boolean | undefined;
   /** Specify what happens to the network interface when the VM is deleted */
-  deleteOption?: DeleteOptions | (string & {});
+  deleteOption?: DeleteOptions | (string & {}) | undefined;
   /** Specifies whether the Auxiliary mode is enabled for the Network Interface resource. */
-  auxiliaryMode?: NetworkInterfaceAuxiliaryMode | (string & {});
+  auxiliaryMode?: NetworkInterfaceAuxiliaryMode | (string & {}) | undefined;
   /** Specifies whether the Auxiliary sku is enabled for the Network Interface resource. */
-  auxiliarySku?: NetworkInterfaceAuxiliarySku | (string & {});
+  auxiliarySku?: NetworkInterfaceAuxiliarySku | (string & {}) | undefined;
 }
 /** Resource tags applied to the networkInterface address created by this NetworkInterfaceConfiguration */
 export type VirtualMachineScaleSetNetworkConfigurationTagsMap = {
@@ -4723,9 +4761,9 @@ export interface VirtualMachineScaleSetNetworkConfiguration {
   /** The network configuration name. */
   name: string;
   /** Describes a virtual machine scale set network profile's IP configuration. */
-  properties?: VirtualMachineScaleSetNetworkConfigurationProperties;
+  properties?: VirtualMachineScaleSetNetworkConfigurationProperties | undefined;
   /** Resource tags applied to the networkInterface address created by this NetworkInterfaceConfiguration */
-  tags?: VirtualMachineScaleSetNetworkConfigurationTagsMap;
+  tags?: VirtualMachineScaleSetNetworkConfigurationTagsMap | undefined;
 }
 /** The list of network configurations. */
 export type VirtualMachineScaleSetNetworkProfileNetworkInterfaceConfigurationsList =
@@ -4733,53 +4771,57 @@ export type VirtualMachineScaleSetNetworkProfileNetworkInterfaceConfigurationsLi
 /** Describes a virtual machine scale set network profile. */
 export interface VirtualMachineScaleSetNetworkProfile {
   /** A reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'. */
-  healthProbe?: ApiEntityReference;
+  healthProbe?: ApiEntityReference | undefined;
   /** The list of network configurations. */
-  networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkProfileNetworkInterfaceConfigurationsList;
+  networkInterfaceConfigurations?:
+    | VirtualMachineScaleSetNetworkProfileNetworkInterfaceConfigurationsList
+    | undefined;
   /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
-  networkApiVersion?: NetworkApiVersion | (string & {});
+  networkApiVersion?: NetworkApiVersion | (string & {}) | undefined;
   /** Specifies the interconnect group profile to associate with the scale set. Minimum api-version: 2026-03-01. */
-  interconnectGroupProfile?: InterconnectGroupProfile;
+  interconnectGroupProfile?: InterconnectGroupProfile | undefined;
 }
 /** Collection of extension names after which this extension needs to be provisioned. */
 export type VirtualMachineScaleSetExtensionPropertiesProvisionAfterExtensionsList = Array<string>;
 /** Describes the properties of a Virtual Machine Scale Set Extension. */
 export interface VirtualMachineScaleSetExtensionProperties {
   /** If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
+  forceUpdateTag?: string | undefined;
   /** The name of the extension handler publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
+  type?: string | undefined;
   /** Specifies the Major.Minor version of the script handler. Customer is able to specify only the Major.Minor version of an extension, Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
-  typeHandlerVersion?: string;
+  typeHandlerVersion?: string | undefined;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
+  autoUpgradeMinorVersion?: boolean | undefined;
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** Json formatted public settings for the extension. */
-  settings?: unknown;
+  settings?: unknown | undefined;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: unknown;
+  protectedSettings?: unknown | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Collection of extension names after which this extension needs to be provisioned. */
-  provisionAfterExtensions?: VirtualMachineScaleSetExtensionPropertiesProvisionAfterExtensionsList;
+  provisionAfterExtensions?:
+    | VirtualMachineScaleSetExtensionPropertiesProvisionAfterExtensionsList
+    | undefined;
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
-  suppressFailures?: boolean;
+  suppressFailures?: boolean | undefined;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: KeyVaultSecretReference;
+  protectedSettingsFromKeyVault?: KeyVaultSecretReference | undefined;
 }
 /** Describes a Virtual Machine Scale Set Extension. */
 export interface VirtualMachineScaleSetExtension {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Describes the properties of a Virtual Machine Scale Set Extension. */
-  properties?: VirtualMachineScaleSetExtensionProperties;
+  properties?: VirtualMachineScaleSetExtensionProperties | undefined;
 }
 /** The virtual machine scale set child extension resources. */
 export type VirtualMachineScaleSetExtensionProfileExtensionsList =
@@ -4787,21 +4829,21 @@ export type VirtualMachineScaleSetExtensionProfileExtensionsList =
 /** Describes a virtual machine scale set extension profile. */
 export interface VirtualMachineScaleSetExtensionProfile {
   /** The virtual machine scale set child extension resources. */
-  extensions?: VirtualMachineScaleSetExtensionProfileExtensionsList;
+  extensions?: VirtualMachineScaleSetExtensionProfileExtensionsList | undefined;
   /** Specifies the time alloted for all extensions to start. The time duration should be between 15 minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes (PT1H30M). Minimum api-version: 2020-06-01. */
-  extensionsTimeBudget?: string;
+  extensionsTimeBudget?: string | undefined;
 }
 /** Specifies the hardware settings for the virtual machine scale set. */
 export interface VirtualMachineScaleSetHardwareProfile {
   /** Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-11-01. Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details. */
-  vmSizeProperties?: VMSizeProperties;
+  vmSizeProperties?: VMSizeProperties | undefined;
   /** Specifies the processor mode for the virtual machine scale set. Optional; if omitted, the platform default applies (currently Deterministic). This property can be updated on a running VMSS without deallocation or reboot. Minimum api-version: 2026-04-01. */
-  processorMode?: ProcessorMode | (string & {});
+  processorMode?: ProcessorMode | (string & {}) | undefined;
 }
 /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. Minimum api-version: 2022-11-01 */
 export interface ServiceArtifactReference {
   /** The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
-  id?: string;
+  id?: string | undefined;
 }
 /** The list of virtual machine extension names to exclude when applying the security posture. */
 export type SecurityPostureReferenceExcludeExtensionsList = Array<string>;
@@ -4810,50 +4852,50 @@ export interface SecurityPostureReference {
   /** The security posture reference id in the form of /CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|latest */
   id: string;
   /** The list of virtual machine extension names to exclude when applying the security posture. */
-  excludeExtensions?: SecurityPostureReferenceExcludeExtensionsList;
+  excludeExtensions?: SecurityPostureReferenceExcludeExtensionsList | undefined;
   /** Whether the security posture can be overridden by the user. */
-  isOverridable?: boolean;
+  isOverridable?: boolean | undefined;
 }
 /** Describes a virtual machine scale set virtual machine profile. */
 export interface VirtualMachineScaleSetVMProfile {
   /** Specifies the operating system settings for the virtual machines in the scale set. */
-  osProfile?: VirtualMachineScaleSetOSProfile;
+  osProfile?: VirtualMachineScaleSetOSProfile | undefined;
   /** Specifies the storage settings for the virtual machine disks. */
-  storageProfile?: VirtualMachineScaleSetStorageProfile;
+  storageProfile?: VirtualMachineScaleSetStorageProfile | undefined;
   /** Specifies properties of the network interfaces of the virtual machines in the scale set. */
-  networkProfile?: VirtualMachineScaleSetNetworkProfile;
+  networkProfile?: VirtualMachineScaleSetNetworkProfile | undefined;
   /** Specifies the Security related profile settings for the virtual machines in the scale set. */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15. */
-  diagnosticsProfile?: DiagnosticsProfile;
+  diagnosticsProfile?: DiagnosticsProfile | undefined;
   /** Specifies a collection of settings for extensions installed on virtual machines in the scale set. */
-  extensionProfile?: VirtualMachineScaleSetExtensionProfile;
+  extensionProfile?: VirtualMachineScaleSetExtensionProfile | undefined;
   /** Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15 */
-  licenseType?: string;
+  licenseType?: string | undefined;
   /** Specifies the priority for the virtual machines in the scale set. Minimum api-version: 2017-10-30-preview. */
-  priority?: VirtualMachinePriorityTypes;
+  priority?: VirtualMachinePriorityTypes | undefined;
   /** Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01. For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview. */
-  evictionPolicy?: VirtualMachineEvictionPolicyTypes;
+  evictionPolicy?: VirtualMachineEvictionPolicyTypes | undefined;
   /** Specifies the billing related details of a Azure Spot VMSS. Minimum api-version: 2019-03-01. */
-  billingProfile?: BillingProfile;
+  billingProfile?: BillingProfile | undefined;
   /** Specifies Scheduled Event related configurations. */
-  scheduledEventsProfile?: ScheduledEventsProfile;
+  scheduledEventsProfile?: ScheduledEventsProfile | undefined;
   /** UserData for the virtual machines in the scale set, which must be base-64 encoded. Customer should not pass any secrets in here. Minimum api-version: 2021-03-01. */
-  userData?: string;
+  userData?: string | undefined;
   /** Specifies the capacity reservation related details of a scale set. Minimum api-version: 2021-04-01. */
-  capacityReservation?: CapacityReservationProfile;
+  capacityReservation?: CapacityReservationProfile | undefined;
   /** Specifies the Interconnect Block related details of a Scale Set. Minimum api-version: 2026-03-01. */
-  interconnectBlockProfile?: InterconnectBlockProfile;
+  interconnectBlockProfile?: InterconnectBlockProfile | undefined;
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
-  applicationProfile?: ApplicationProfile;
+  applicationProfile?: ApplicationProfile | undefined;
   /** Specifies the hardware profile related details of a scale set. Minimum api-version: 2021-11-01. */
-  hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
+  hardwareProfile?: VirtualMachineScaleSetHardwareProfile | undefined;
   /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. Minimum api-version: 2022-11-01 */
-  serviceArtifactReference?: ServiceArtifactReference;
+  serviceArtifactReference?: ServiceArtifactReference | undefined;
   /** Specifies the security posture to be used in the scale set. Minimum api-version: 2023-03-01 */
-  securityPostureReference?: SecurityPostureReference;
+  securityPostureReference?: SecurityPostureReference | undefined;
   /** Specifies the time in which this VM profile for the Virtual Machine Scale Set was created. This value will be added to VMSS Flex VM tags when creating/updating the VMSS VM Profile. Minimum API version for this property is 2023-09-01. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
 }
 export type VirtualMachineScaleSetPropertiesProximityPlacementGroup =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -4865,37 +4907,37 @@ export type ScaleInPolicyRulesList = Array<VirtualMachineScaleSetScaleInRules | 
 /** Describes a scale-in policy for a virtual machine scale set. */
 export interface ScaleInPolicy {
   /** The rules to be followed when scaling-in a virtual machine scale set. <br><br> Possible values are: <br><br> **Default** When a virtual machine scale set is scaled in, the scale set will first be balanced across zones if it is a zonal scale set. Then, it will be balanced across Fault Domains as far as possible. Within each Fault Domain, the virtual machines chosen for removal will be the newest ones that are not protected from scale-in. <br><br> **OldestVM** When a virtual machine scale set is being scaled-in, the oldest virtual machines that are not protected from scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across zones. Within each zone, the oldest virtual machines that are not protected will be chosen for removal. <br><br> **NewestVM** When a virtual machine scale set is being scaled-in, the newest virtual machines that are not protected from scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across zones. Within each zone, the newest virtual machines that are not protected will be chosen for removal. <br><br> */
-  rules?: ScaleInPolicyRulesList;
+  rules?: ScaleInPolicyRulesList | undefined;
   /** This property allows you to specify if virtual machines chosen for removal have to be force deleted when a virtual machine scale set is being scaled-in.(Feature in Preview) */
-  forceDeletion?: boolean;
+  forceDeletion?: boolean | undefined;
   /** This property allows you to prioritize the deletion of unhealthy and inactive VMs when a virtual machine scale set is being scaled-in.(Feature in Preview) */
-  prioritizeUnhealthyVMs?: boolean;
+  prioritizeUnhealthyVMs?: boolean | undefined;
 }
 /** Specifies the orchestration mode for the virtual machine scale set. */
 export type OrchestrationMode = "Uniform" | "Flexible";
 /** Specifies the Spot-Try-Restore properties for the virtual machine scale set. With this property customer can enable or disable automatic restore of the evicted Spot VMSS VM instances opportunistically based on capacity availability and pricing constraint. */
 export interface SpotRestorePolicy {
   /** Enables the Spot-Try-Restore feature where evicted VMSS SPOT instances will be tried to be restored opportunistically based on capacity availability and pricing constraints */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Timeout value expressed as an ISO 8601 time duration after which the platform will not try to restore the VMSS SPOT instances */
-  restoreTimeout?: string;
+  restoreTimeout?: string | undefined;
 }
 /** Specifies the target splits for Spot and Regular priority VMs within a scale set with flexible orchestration mode. With this property the customer is able to specify the base number of regular priority VMs created as the VMSS flex instance scales out and the split between Spot and Regular priority VMs after this base target has been reached. */
 export interface PriorityMixPolicy {
   /** The base number of regular priority VMs that will be created in this scale set as it scales out. */
-  baseRegularPriorityCount?: number;
+  baseRegularPriorityCount?: number | undefined;
   /** The percentage of VM instances, after the base regular priority count has been reached, that are expected to use regular priority. */
-  regularPriorityPercentageAboveBase?: number;
+  regularPriorityPercentageAboveBase?: number | undefined;
 }
 /** The configuration parameters used while performing resilient VM creation. */
 export interface ResilientVMCreationPolicy {
   /** Specifies whether resilient VM creation should be enabled on the virtual machine scale set. The default value is false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The configuration parameters used while performing resilient VM deletion. */
 export interface ResilientVMDeletionPolicy {
   /** Specifies whether resilient VM deletion should be enabled on the virtual machine scale set. The default value is false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Type of rebalance strategy that will be used for rebalancing virtual machines in the scale set across availability zones. Default and only supported value for now is Recreate. */
 export type RebalanceStrategy = "Recreate";
@@ -4904,71 +4946,71 @@ export type RebalanceBehavior = "CreateBeforeDelete";
 /** The configuration parameters used while performing automatic AZ balancing. */
 export interface AutomaticZoneRebalancingPolicy {
   /** Specifies whether Automatic AZ Balancing should be enabled on the virtual machine scale set. The default value is false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Type of rebalance strategy that will be used for rebalancing virtual machines in the scale set across availability zones. Default and only supported value for now is Recreate. */
-  rebalanceStrategy?: RebalanceStrategy | (string & {});
+  rebalanceStrategy?: RebalanceStrategy | (string & {}) | undefined;
   /** Type of rebalance behavior that will be used for recreating virtual machines in the scale set across availability zones. Default and only supported value for now is CreateBeforeDelete. */
-  rebalanceBehavior?: RebalanceBehavior | (string & {});
+  rebalanceBehavior?: RebalanceBehavior | (string & {}) | undefined;
 }
 /** The configuration parameters used to limit the number of virtual machines per availability zone in the virtual machine scale set. */
 export interface MaxInstancePercentPerZonePolicy {
   /** Specifies whether maxInstancePercentPerZonePolicy should be enabled on the virtual machine scale set. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Limit on the number of instances in each zone as a percentage of the total capacity of the virtual machine scale set. */
-  value?: number;
+  value?: number | undefined;
 }
 /** The configuration parameters for zone allocation of a virtual machine scale set. */
 export interface ZoneAllocationPolicy {
   /** The maximum number of availability zones to use if the ZonePlacementPolicy is 'Auto'. If not specified, all availability zones will be used. */
-  maxZoneCount?: number;
+  maxZoneCount?: number | undefined;
   /** The configuration parameters used to limit the number of virtual machines per availability zone in the virtual machine scale set. */
-  maxInstancePercentPerZonePolicy?: MaxInstancePercentPerZonePolicy;
+  maxInstancePercentPerZonePolicy?: MaxInstancePercentPerZonePolicy | undefined;
 }
 /** The configuration parameters used while performing restart recovery. */
 export interface RestartRecoveryPolicy {
   /** Specifies whether restart recovery should be enabled. The default value is false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The configuration parameters used while performing start recovery. */
 export interface StartRecoveryPolicy {
   /** Specifies whether start recovery should be enabled. The default value is false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The configuration parameters used while performing reimage recovery. */
 export interface ReimageRecoveryPolicy {
   /** Specifies whether reimage recovery should be enabled. The default value is false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The configuration parameters used for operation recovery settings on a virtual machine scale set. */
 export interface OperationRecoverySettings {
   /** The configuration parameters used for restart recovery policy. */
-  restartRecoveryPolicy?: RestartRecoveryPolicy;
+  restartRecoveryPolicy?: RestartRecoveryPolicy | undefined;
   /** The configuration parameters used for start recovery policy. */
-  startRecoveryPolicy?: StartRecoveryPolicy;
+  startRecoveryPolicy?: StartRecoveryPolicy | undefined;
   /** The configuration parameters used for reimage recovery policy. */
-  reimageRecoveryPolicy?: ReimageRecoveryPolicy;
+  reimageRecoveryPolicy?: ReimageRecoveryPolicy | undefined;
 }
 /** Describes an resiliency policy - AutomaticZoneRebalancingPolicy, ResilientVMCreationPolicy, ResilientVMDeletionPolicy and OperationRecoverySettings (version > 2025-11-01). */
 export interface ResiliencyPolicy {
   /** The configuration parameters used while performing resilient VM creation. */
-  resilientVMCreationPolicy?: ResilientVMCreationPolicy;
+  resilientVMCreationPolicy?: ResilientVMCreationPolicy | undefined;
   /** The configuration parameters used while performing resilient VM deletion. */
-  resilientVMDeletionPolicy?: ResilientVMDeletionPolicy;
+  resilientVMDeletionPolicy?: ResilientVMDeletionPolicy | undefined;
   /** The configuration parameters used while performing automatic AZ balancing. */
-  automaticZoneRebalancingPolicy?: AutomaticZoneRebalancingPolicy;
+  automaticZoneRebalancingPolicy?: AutomaticZoneRebalancingPolicy | undefined;
   /** The configuration parameters used while performing zone allocation. */
-  zoneAllocationPolicy?: ZoneAllocationPolicy;
+  zoneAllocationPolicy?: ZoneAllocationPolicy | undefined;
   /** The configuration parameters used for operation recovery settings. */
-  operationRecoverySettings?: OperationRecoverySettings;
+  operationRecoverySettings?: OperationRecoverySettings | undefined;
 }
 /** Specifies the align mode between Virtual Machine Scale Set compute and storage Fault Domain count. */
 export type ZonalPlatformFaultDomainAlignMode = "Aligned" | "Unaligned" | "BestEffortAligned";
 /** Specifies the VM Size. */
 export interface SkuProfileVMSize {
   /** Specifies the name of the VM Size. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the rank (a.k.a priority) associated with the VM Size. */
-  rank?: number;
+  rank?: number | undefined;
 }
 /** Specifies the VM sizes for the virtual machine scale set. */
 export type SkuProfileVmSizesList = Array<SkuProfileVMSize>;
@@ -4977,16 +5019,16 @@ export type AllocationStrategy = "LowestPrice" | "CapacityOptimized" | "Prioriti
 /** Specifies the configuration parameters used to control automatic SKU migration for the virtual machine scale set. When enabled, the platform may migrate instances to a different VM size from the SKU profile depending on platform demands. */
 export interface AutomaticSkuMigrationPolicy {
   /** Specifies whether automatic SKU migration should be enabled on the virtual machine scale set. The default value is false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Specifies the sku profile for the virtual machine scale set. With this property the customer is able to specify a list of VM sizes and an allocation strategy. */
 export interface SkuProfile {
   /** Specifies the VM sizes for the virtual machine scale set. */
-  vmSizes?: SkuProfileVmSizesList;
+  vmSizes?: SkuProfileVmSizesList | undefined;
   /** Specifies the allocation strategy for the virtual machine scale set based on which the VMs will be allocated. */
-  allocationStrategy?: AllocationStrategy | (string & {});
+  allocationStrategy?: AllocationStrategy | (string & {}) | undefined;
   /** Specifies the policy that controls whether the platform may automatically migrate scale set instances to a different VM size from the SKU profile depending on platform demands. When omitted, automatic SKU migration is disabled. */
-  automaticSkuMigrationPolicy?: AutomaticSkuMigrationPolicy;
+  automaticSkuMigrationPolicy?: AutomaticSkuMigrationPolicy | undefined;
 }
 /** Specifies the high speed interconnect placement for the virtual machine scale set. */
 export type HighSpeedInterconnectPlacement = "None" | "Trunk";
@@ -4999,80 +5041,80 @@ export type LifecycleHookAction = "Approve" | "Reject";
 /** Describes a lifecycle hook. */
 export interface LifecycleHook {
   /** Specifies the type of the lifecycle hook. */
-  type?: VMScaleSetLifecycleHookEventType | (string & {});
+  type?: VMScaleSetLifecycleHookEventType | (string & {}) | undefined;
   /** Specifies the time duration a virtual machine scale set lifecycle hook event sent to the customer waits for a response from the customer. It should be in ISO 8601 format. */
-  waitDuration?: string;
+  waitDuration?: string | undefined;
   /** Specifies the action that will be applied to a target resource in the virtual machine scale set lifecycle hook event if the platform does not receive a response from the customer for the target resource before waitUntil. */
-  defaultAction?: LifecycleHookAction | (string & {});
+  defaultAction?: LifecycleHookAction | (string & {}) | undefined;
 }
 /** Specifies the lifecycle hooks configured for the virtual machine scale set. */
 export type LifecycleHooksProfileLifecycleHooksList = Array<LifecycleHook>;
 /** Specifies the lifecycle hooks profile for the virtual machine scale set. */
 export interface LifecycleHooksProfile {
   /** Specifies the lifecycle hooks configured for the virtual machine scale set. */
-  lifecycleHooks?: LifecycleHooksProfileLifecycleHooksList;
+  lifecycleHooks?: LifecycleHooksProfileLifecycleHooksList | undefined;
 }
 /** Specifies the external health policy for the virtual machine scale set. */
 export interface ExternalHealthPolicy {
   /** If true, external health is enabled for this scale set. Cannot be set to true on instances where another health monitoring source is active (ApplicationHealth extension or SLB). Defaults to false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Defines how long the health status set by External Health API will last on the VM. If a signal is not received/updated within this time, the VM Health will be marked as "unknown". Uses the ISO 8601 format. Minimum: 5 minutes (PT5M), Maximum: 3 hours (PT3H). */
-  expiryDuration?: string;
+  expiryDuration?: string | undefined;
   /** Grace period for newly created VMs or when the External Health policy is first applied on VMSS. Uses the ISO 8601 format. Minimum: 5 minutes (PT5M), Maximum: 4 hours (PT4H). */
-  gracePeriod?: string;
+  gracePeriod?: string | undefined;
 }
 /** Describes the properties of a Virtual Machine Scale Set. */
 export interface VirtualMachineScaleSetProperties {
   /** The upgrade policy. */
-  upgradePolicy?: UpgradePolicy;
+  upgradePolicy?: UpgradePolicy | undefined;
   /** The ScheduledEventsPolicy. */
-  scheduledEventsPolicy?: ScheduledEventsPolicy;
+  scheduledEventsPolicy?: ScheduledEventsPolicy | undefined;
   /** Policy for automatic repairs. */
-  automaticRepairsPolicy?: AutomaticRepairsPolicy;
+  automaticRepairsPolicy?: AutomaticRepairsPolicy | undefined;
   /** The virtual machine profile. */
-  virtualMachineProfile?: VirtualMachineScaleSetVMProfile;
+  virtualMachineProfile?: VirtualMachineScaleSetVMProfile | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Specifies whether the Virtual Machine Scale Set should be overprovisioned. */
-  overprovision?: boolean;
+  overprovision?: boolean | undefined;
   /** When Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra overprovisioned VMs. */
-  doNotRunExtensionsOnOverprovisionedVMs?: boolean;
+  doNotRunExtensionsOnOverprovisionedVMs?: boolean | undefined;
   /** Specifies the ID which uniquely identifies a Virtual Machine Scale Set. */
-  uniqueId?: string;
+  uniqueId?: string | undefined;
   /** When true this limits the scale set to a single placement group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may not be modified to true. */
-  singlePlacementGroup?: boolean;
+  singlePlacementGroup?: boolean | undefined;
   /** Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage. zoneBalance property can only be set if the zones property of the scale set contains more than one zone. If there are no zones or only one zone specified, then zoneBalance property should not be set. */
-  zoneBalance?: boolean;
+  zoneBalance?: boolean | undefined;
   /** Fault Domain count for each placement group. */
-  platformFaultDomainCount?: number;
-  proximityPlacementGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
-  hostGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  platformFaultDomainCount?: number | undefined;
+  proximityPlacementGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
+  hostGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with UltraSSD_LRS storage account type. */
-  additionalCapabilities?: AdditionalCapabilities;
+  additionalCapabilities?: AdditionalCapabilities | undefined;
   /** Specifies the policies applied when scaling in Virtual Machines in the Virtual Machine Scale Set. */
-  scaleInPolicy?: ScaleInPolicy;
+  scaleInPolicy?: ScaleInPolicy | undefined;
   /** Specifies the orchestration mode for the virtual machine scale set. */
-  orchestrationMode?: OrchestrationMode;
+  orchestrationMode?: OrchestrationMode | undefined;
   /** Specifies the Spot Restore properties for the virtual machine scale set. */
-  spotRestorePolicy?: SpotRestorePolicy;
+  spotRestorePolicy?: SpotRestorePolicy | undefined;
   /** Specifies the desired targets for mixing Spot and Regular priority VMs within the same VMSS Flex instance. */
-  priorityMixPolicy?: PriorityMixPolicy;
+  priorityMixPolicy?: PriorityMixPolicy | undefined;
   /** Specifies the time at which the Virtual Machine Scale Set resource was created. Minimum api-version: 2021-11-01. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
   /** Optional property which must either be set to True or omitted. */
-  constrainedMaximumCapacity?: boolean;
+  constrainedMaximumCapacity?: boolean | undefined;
   /** Policy for Resiliency */
-  resiliencyPolicy?: ResiliencyPolicy;
+  resiliencyPolicy?: ResiliencyPolicy | undefined;
   /** Specifies the align mode between Virtual Machine Scale Set compute and storage Fault Domain count. */
-  zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode;
+  zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode | undefined;
   /** Specifies the sku profile for the virtual machine scale set. */
-  skuProfile?: SkuProfile;
+  skuProfile?: SkuProfile | undefined;
   /** Specifies the high speed interconnect placement for the virtual machine scale set. */
-  highSpeedInterconnectPlacement?: HighSpeedInterconnectPlacement;
+  highSpeedInterconnectPlacement?: HighSpeedInterconnectPlacement | undefined;
   /** Specifies the lifecycle hooks profile for the virtual machine scale set. */
-  lifecycleHooksProfile?: LifecycleHooksProfile;
+  lifecycleHooksProfile?: LifecycleHooksProfile | undefined;
   /** Specifies the external health policy for the virtual machine scale set. */
-  externalHealthPolicy?: ExternalHealthPolicy;
+  externalHealthPolicy?: ExternalHealthPolicy | undefined;
 }
 /** The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type VirtualMachineScaleSetIdentityUserAssignedIdentitiesMap = {
@@ -5081,13 +5123,13 @@ export type VirtualMachineScaleSetIdentityUserAssignedIdentitiesMap = {
 /** Identity for the virtual machine scale set. */
 export interface VirtualMachineScaleSetIdentity {
   /** The principal id of virtual machine scale set identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id associated with the virtual machine scale set. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set. */
-  type?: CommonResourceIdentityType;
+  type?: CommonResourceIdentityType | undefined;
   /** The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: VirtualMachineScaleSetIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: VirtualMachineScaleSetIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** The availability zones. */
 export type GetVirtualMachineScaleSetResponseZonesList = Array<string>;
@@ -5095,33 +5137,33 @@ export type GetVirtualMachineScaleSetResponseZonesList = Array<string>;
 export type GetVirtualMachineScaleSetResponseExtendedLocation = GetImageResponseExtendedLocation;
 export interface GetVirtualMachineScaleSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVirtualMachineScaleSetResponseTagsMap;
+  tags?: GetVirtualMachineScaleSetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The virtual machine scale set sku. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** Describes the properties of a Virtual Machine Scale Set. */
-  properties?: VirtualMachineScaleSetProperties;
+  properties?: VirtualMachineScaleSetProperties | undefined;
   /** The identity of the virtual machine scale set, if configured. */
-  identity?: VirtualMachineScaleSetIdentity;
+  identity?: VirtualMachineScaleSetIdentity | undefined;
   /** The availability zones. */
-  zones?: GetVirtualMachineScaleSetResponseZonesList;
+  zones?: GetVirtualMachineScaleSetResponseZonesList | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
   /** Etag is property returned in Create/Update/Get response of the VMSS, so that customer can supply it in the header to ensure optimistic updates */
-  etag?: string;
+  etag?: string | undefined;
   /** Placement section specifies the user-defined constraints for virtual machine scale set hardware placement. Minimum api-version: 2025-04-01. */
-  placement?: Placement;
+  placement?: Placement | undefined;
 }
 export interface GetVirtualMachineScaleSetExtensionRequest {
   /** The ID of the target subscription. */
@@ -5133,17 +5175,17 @@ export interface GetVirtualMachineScaleSetExtensionRequest {
   /** The name of the VM scale set extension. */
   vmssExtensionName: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetVirtualMachineScaleSetExtensionResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Describes the properties of a Virtual Machine Scale Set Extension. */
-  properties?: VirtualMachineScaleSetExtensionProperties;
+  properties?: VirtualMachineScaleSetExtensionProperties | undefined;
 }
 export interface GetVirtualMachineScaleSetInstanceViewRequest {
   /** The ID of the target subscription. */
@@ -5156,9 +5198,9 @@ export interface GetVirtualMachineScaleSetInstanceViewRequest {
 /** The status code and count of the virtual machine scale set instance view status summary. */
 export interface VirtualMachineStatusCodeCount {
   /** The instance view status code. */
-  code?: string;
+  code?: string | undefined;
   /** The number of instances having a particular status code. */
-  count?: number;
+  count?: number | undefined;
 }
 /** The extensions information. */
 export type VirtualMachineScaleSetInstanceViewStatusesSummaryStatusesSummaryList =
@@ -5166,7 +5208,9 @@ export type VirtualMachineScaleSetInstanceViewStatusesSummaryStatusesSummaryList
 /** Instance view statuses summary for virtual machines of a virtual machine scale set. */
 export interface VirtualMachineScaleSetInstanceViewStatusesSummary {
   /** The extensions information. */
-  statusesSummary?: VirtualMachineScaleSetInstanceViewStatusesSummaryStatusesSummaryList;
+  statusesSummary?:
+    | VirtualMachineScaleSetInstanceViewStatusesSummaryStatusesSummaryList
+    | undefined;
 }
 /** The extensions information. */
 export type VirtualMachineScaleSetVMExtensionsSummaryStatusesSummaryList =
@@ -5174,9 +5218,9 @@ export type VirtualMachineScaleSetVMExtensionsSummaryStatusesSummaryList =
 /** Extensions summary for virtual machines of a virtual machine scale set. */
 export interface VirtualMachineScaleSetVMExtensionsSummary {
   /** The extension name. */
-  name?: string;
+  name?: string | undefined;
   /** The extensions information. */
-  statusesSummary?: VirtualMachineScaleSetVMExtensionsSummaryStatusesSummaryList;
+  statusesSummary?: VirtualMachineScaleSetVMExtensionsSummaryStatusesSummaryList | undefined;
 }
 /** The extensions information. */
 export type VirtualMachineScaleSetInstanceViewExtensionsList =
@@ -5192,13 +5236,13 @@ export type OrchestrationServiceOperationStatus = "InProgress" | "Completed";
 /** Summary for an orchestration service of a virtual machine scale set. */
 export interface OrchestrationServiceSummary {
   /** The name of the service. */
-  serviceName?: OrchestrationServiceNames;
+  serviceName?: OrchestrationServiceNames | undefined;
   /** The current state of the service. */
-  serviceState?: OrchestrationServiceState;
+  serviceState?: OrchestrationServiceState | undefined;
   /** The latest operation status of the service. Minimum API version for this property is 2025-04-01. */
-  latestOperationStatus?: OrchestrationServiceOperationStatus;
+  latestOperationStatus?: OrchestrationServiceOperationStatus | undefined;
   /** The last UTC time when the operation status changed. Minimum API version for this property is 2025-04-01. */
-  lastStatusChangeTime?: string;
+  lastStatusChangeTime?: string | undefined;
 }
 /** The orchestration services information. */
 export type VirtualMachineScaleSetInstanceViewOrchestrationServicesList =
@@ -5206,13 +5250,13 @@ export type VirtualMachineScaleSetInstanceViewOrchestrationServicesList =
 /** The instance view of a virtual machine scale set. */
 export interface VirtualMachineScaleSetInstanceView {
   /** The instance view status summary for the virtual machine scale set. */
-  virtualMachine?: VirtualMachineScaleSetInstanceViewStatusesSummary;
+  virtualMachine?: VirtualMachineScaleSetInstanceViewStatusesSummary | undefined;
   /** The extensions information. */
-  extensions?: VirtualMachineScaleSetInstanceViewExtensionsList;
+  extensions?: VirtualMachineScaleSetInstanceViewExtensionsList | undefined;
   /** The resource status information. */
-  statuses?: VirtualMachineScaleSetInstanceViewStatusesList;
+  statuses?: VirtualMachineScaleSetInstanceViewStatusesList | undefined;
   /** The orchestration services information. */
-  orchestrationServices?: VirtualMachineScaleSetInstanceViewOrchestrationServicesList;
+  orchestrationServices?: VirtualMachineScaleSetInstanceViewOrchestrationServicesList | undefined;
 }
 export interface GetVirtualMachineScaleSetLifeCycleHookEventRequest {
   /** The ID of the target subscription. */
@@ -5229,9 +5273,9 @@ export type LifecycleHookActionState = "Waiting" | "Approved" | "Rejected";
 /** Define a single target ARM resource in a virtual machine scale set lifecycle hook event. Currently, this can be a virtual machine scale set resource or an individual virtual machine resource within a VMScaleSet. */
 export interface VMScaleSetLifecycleHookEventTargetResource {
   /** Specifies the target ARM resource. Currently, this can be a virtual machine scale set resource or an individual virtual machine resource within a VMScaleSet. */
-  resource?: ApiEntityReference;
+  resource?: ApiEntityReference | undefined;
   /** State of the lifecycle hook for the target resource. The customer can patch this property to move the lifecycle hook to a terminal state. */
-  actionState?: LifecycleHookActionState | (string & {});
+  actionState?: LifecycleHookActionState | (string & {}) | undefined;
 }
 /** List of target resources which are getting processed in the virtual machine scale set lifecycle hook event. */
 export type VMScaleSetLifecycleHookEventPropertiesTargetResourcesList =
@@ -5239,40 +5283,40 @@ export type VMScaleSetLifecycleHookEventPropertiesTargetResourcesList =
 /** Additional key-value pairs set on the lifecycle hook event that gives customer some useful context/data. The keys in this dictionary are specific to the lifecycle hook type. Different lifecycle hook events can have different sets of keys in the additional context depending on the lifecycle hook type. For example, for a lifecycle hook event with UpgradeAutoOSScheduling type, the additional context can contain the key "priority" that helps customer identify the priority of the Auto OS Upgrade operation triggered on the virtual machine scale set. */
 export interface VMScaleSetLifecycleHookEventAdditionalContext {
   /** Can only be present for a lifecycle hook event of type "UpgradeAutoOSScheduling". Denotes the priority of the virtual machine scale set lifecycle hook event for the Auto OS Upgrade scheduled on the virtual machine scale set. */
-  priority?: string;
+  priority?: string | undefined;
 }
 /** The states that a virtual machine scale set lifecycle hook event can be in. This is not settable by the customer. It is set only by the platform. */
 export type VMScaleSetLifecycleHookEventState = "Active" | "Completed";
 /** Defines the virtual machine scale set lifecycle hook event properties. */
 export interface VMScaleSetLifecycleHookEventProperties {
   /** Defines the type or scenario for sending a virtual machine scale set lifecycle hook event to the customer. */
-  type?: VMScaleSetLifecycleHookEventType;
+  type?: VMScaleSetLifecycleHookEventType | undefined;
   /** Specifies the exact UTC timestamp in ISO 8601 format till which the event would remain in the current lifecycle state waiting for an action from the customer. Beyond this timestamp, the platform will apply the defaultAction for the event. */
-  waitUntil?: string;
+  waitUntil?: string | undefined;
   /** Specifies the exact UTC timestamp in ISO 8601 format till when the customer can delay the lifecycle hook event. The customer will not be allowed to delay the event to a timestamp beyond this. */
-  maxWaitUntil?: string;
+  maxWaitUntil?: string | undefined;
   /** The UTC timestamp in ISO 8601 format at which the platform creates the virtual machine scale set lifecycle hook event entity. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
   /** Specify the action that will be applied on the a target resource in the virtual machine scale set lifecycle hook event if the platform does not get a response from the customer for the target resource before waitUntil. */
-  defaultAction?: LifecycleHookAction;
+  defaultAction?: LifecycleHookAction | undefined;
   /** List of target resources which are getting processed in the virtual machine scale set lifecycle hook event. */
-  targetResources?: VMScaleSetLifecycleHookEventPropertiesTargetResourcesList;
+  targetResources?: VMScaleSetLifecycleHookEventPropertiesTargetResourcesList | undefined;
   /** Additional key-value pairs set on the lifecycle hook event that gives customer some useful context/data. The keys in this dictionary are specific to the lifecycle hook type. Different lifecycle hook events can have different sets of keys in the additional context depending on the lifecycle hook type. For example, for a lifecycle hook event with UpgradeAutoOSScheduling type, the additional context can contain the key "priority" that helps customer identify the priority of the Auto OS Upgrade operation triggered on the virtual machine scale set. */
-  additionalContext?: VMScaleSetLifecycleHookEventAdditionalContext;
+  additionalContext?: VMScaleSetLifecycleHookEventAdditionalContext | undefined;
   /** Specifies the state of the virtual machine scale set lifecycle hook event. */
-  state?: VMScaleSetLifecycleHookEventState;
+  state?: VMScaleSetLifecycleHookEventState | undefined;
 }
 export interface GetVirtualMachineScaleSetLifeCycleHookEventResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Defines the virtual machine scale set lifecycle hook event properties. */
-  properties?: VMScaleSetLifecycleHookEventProperties;
+  properties?: VMScaleSetLifecycleHookEventProperties | undefined;
 }
 export interface GetVirtualMachineScaleSetOSUpgradeHistoryRequest {
   /** The ID of the target subscription. */
@@ -5287,37 +5331,37 @@ export type UpgradeState = "RollingForward" | "RollingBack" | "Cancelled" | "Com
 /** Information about the current running state of the overall upgrade. */
 export interface UpgradeOperationHistoryStatus {
   /** Code indicating the current status of the upgrade. */
-  code?: UpgradeState;
+  code?: UpgradeState | undefined;
   /** Start time of the upgrade. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of the upgrade. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 /** Information about the number of virtual machine instances in each upgrade state. */
 export interface RollingUpgradeProgressInfo {
   /** The number of instances that have been successfully upgraded. */
-  successfulInstanceCount?: number;
+  successfulInstanceCount?: number | undefined;
   /** The number of instances that have failed to be upgraded successfully. */
-  failedInstanceCount?: number;
+  failedInstanceCount?: number | undefined;
   /** The number of instances that are currently being upgraded. */
-  inProgressInstanceCount?: number;
+  inProgressInstanceCount?: number | undefined;
   /** The number of instances that have not yet begun to be upgraded. */
-  pendingInstanceCount?: number;
+  pendingInstanceCount?: number | undefined;
 }
 /** The Api error details */
 export type UpgradeOperationHistoricalStatusInfoPropertiesErrorDetailsList = Array<ApiErrorBase>;
 /** Api error. */
 export interface UpgradeOperationHistoricalStatusInfoPropertiesError {
   /** The Api error details */
-  details?: UpgradeOperationHistoricalStatusInfoPropertiesErrorDetailsList;
+  details?: UpgradeOperationHistoricalStatusInfoPropertiesErrorDetailsList | undefined;
   /** The Api inner error */
-  innererror?: InnerError;
+  innererror?: InnerError | undefined;
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The target of the particular error. */
-  target?: string;
+  target?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Invoker of the Upgrade Operation */
 export type UpgradeOperationInvoker = "Unknown" | "User" | "Platform";
@@ -5326,48 +5370,48 @@ export type RollbackStatusInfoRollbackErrorDetailsList = Array<ApiErrorBase>;
 /** Api error. */
 export interface RollbackStatusInfoRollbackError {
   /** The Api error details */
-  details?: RollbackStatusInfoRollbackErrorDetailsList;
+  details?: RollbackStatusInfoRollbackErrorDetailsList | undefined;
   /** The Api inner error */
-  innererror?: InnerError;
+  innererror?: InnerError | undefined;
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The target of the particular error. */
-  target?: string;
+  target?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Information about rollback on failed VM instances after a OS Upgrade operation. */
 export interface RollbackStatusInfo {
   /** The number of instances which have been successfully rolled back. */
-  successfullyRolledbackInstanceCount?: number;
+  successfullyRolledbackInstanceCount?: number | undefined;
   /** The number of instances which failed to rollback. */
-  failedRolledbackInstanceCount?: number;
+  failedRolledbackInstanceCount?: number | undefined;
   /** Api error. */
-  rollbackError?: RollbackStatusInfoRollbackError;
+  rollbackError?: RollbackStatusInfoRollbackError | undefined;
 }
 /** Describes each OS upgrade on the Virtual Machine Scale Set. */
 export interface UpgradeOperationHistoricalStatusInfoProperties {
   /** Information about the overall status of the upgrade operation. */
-  runningStatus?: UpgradeOperationHistoryStatus;
+  runningStatus?: UpgradeOperationHistoryStatus | undefined;
   /** Counts of the VMs in each state. */
-  progress?: RollingUpgradeProgressInfo;
+  progress?: RollingUpgradeProgressInfo | undefined;
   /** Api error. */
-  error?: UpgradeOperationHistoricalStatusInfoPropertiesError;
+  error?: UpgradeOperationHistoricalStatusInfoPropertiesError | undefined;
   /** Invoker of the Upgrade Operation */
-  startedBy?: UpgradeOperationInvoker;
+  startedBy?: UpgradeOperationInvoker | undefined;
   /** Image Reference details */
-  targetImageReference?: ImageReference;
+  targetImageReference?: ImageReference | undefined;
   /** Information about OS rollback if performed */
-  rollbackInfo?: RollbackStatusInfo;
+  rollbackInfo?: RollbackStatusInfo | undefined;
 }
 /** Virtual Machine Scale Set OS Upgrade History operation response. */
 export interface UpgradeOperationHistoricalStatusInfo {
   /** Information about the properties of the upgrade operation. */
-  properties?: UpgradeOperationHistoricalStatusInfoProperties;
+  properties?: UpgradeOperationHistoricalStatusInfoProperties | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
 }
 /** The list of OS upgrades performed on the virtual machine scale set. */
 export type VirtualMachineScaleSetListOSUpgradeHistoryValueList =
@@ -5377,7 +5421,7 @@ export interface VirtualMachineScaleSetListOSUpgradeHistory {
   /** The list of OS upgrades performed on the virtual machine scale set. */
   value: VirtualMachineScaleSetListOSUpgradeHistoryValueList;
   /** The uri to fetch the next page of OS Upgrade History. Call ListNext() with this to fetch the next page of history of upgrades. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface GetVirtualMachineScaleSetRollingUpgradeLatestRequest {
   /** The ID of the target subscription. */
@@ -5403,55 +5447,55 @@ export type RollingUpgradeActionType = "Start" | "Cancel";
 /** Information about the current running state of the overall upgrade. */
 export interface RollingUpgradeRunningStatus {
   /** Code indicating the current status of the upgrade. */
-  code?: RollingUpgradeStatusCode;
+  code?: RollingUpgradeStatusCode | undefined;
   /** Start time of the upgrade. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The last action performed on the rolling upgrade. */
-  lastAction?: RollingUpgradeActionType;
+  lastAction?: RollingUpgradeActionType | undefined;
   /** Last action time of the upgrade. */
-  lastActionTime?: string;
+  lastActionTime?: string | undefined;
 }
 /** The Api error details */
 export type RollingUpgradeStatusInfoPropertiesErrorDetailsList = Array<ApiErrorBase>;
 /** Api error. */
 export interface RollingUpgradeStatusInfoPropertiesError {
   /** The Api error details */
-  details?: RollingUpgradeStatusInfoPropertiesErrorDetailsList;
+  details?: RollingUpgradeStatusInfoPropertiesErrorDetailsList | undefined;
   /** The Api inner error */
-  innererror?: InnerError;
+  innererror?: InnerError | undefined;
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The target of the particular error. */
-  target?: string;
+  target?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The status of the latest virtual machine scale set rolling upgrade. */
 export interface RollingUpgradeStatusInfoProperties {
   /** The rolling upgrade policies applied for this upgrade. */
-  policy?: RollingUpgradePolicy;
+  policy?: RollingUpgradePolicy | undefined;
   /** Information about the current running state of the overall upgrade. */
-  runningStatus?: RollingUpgradeRunningStatus;
+  runningStatus?: RollingUpgradeRunningStatus | undefined;
   /** Information about the number of virtual machine instances in each upgrade state. */
-  progress?: RollingUpgradeProgressInfo;
+  progress?: RollingUpgradeProgressInfo | undefined;
   /** Api error. */
-  error?: RollingUpgradeStatusInfoPropertiesError;
+  error?: RollingUpgradeStatusInfoPropertiesError | undefined;
 }
 export interface GetVirtualMachineScaleSetRollingUpgradeLatestResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVirtualMachineScaleSetRollingUpgradeLatestResponseTagsMap;
+  tags?: GetVirtualMachineScaleSetRollingUpgradeLatestResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The status of the latest virtual machine scale set rolling upgrade. */
-  properties?: RollingUpgradeStatusInfoProperties;
+  properties?: RollingUpgradeStatusInfoProperties | undefined;
 }
 export type GetVirtualMachineScaleSetVMRequestExpand =
   | "instanceView"
@@ -5467,7 +5511,7 @@ export interface GetVirtualMachineScaleSetVMRequest {
   /** The instance ID of the virtual machine. */
   instanceId: string;
   /** The expand expression to apply on the operation. 'InstanceView' will retrieve the instance view of the virtual machine. 'UserData' will retrieve the UserData of the virtual machine. */
-  _expand?: GetVirtualMachineScaleSetVMRequestExpand | (string & {});
+  _expand?: GetVirtualMachineScaleSetVMRequestExpand | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type GetVirtualMachineScaleSetVMResponseTagsMap = { [key: string]: string | undefined };
@@ -5483,41 +5527,41 @@ export type CommonHyperVGeneration = "V1" | "V2";
 /** The instance view of a virtual machine scale set VM. */
 export interface VirtualMachineScaleSetVMInstanceView {
   /** The Update Domain count. */
-  platformUpdateDomain?: number;
+  platformUpdateDomain?: number | undefined;
   /** The Fault Domain count. */
-  platformFaultDomain?: number;
+  platformFaultDomain?: number | undefined;
   /** The Remote desktop certificate thumbprint. */
-  rdpThumbPrint?: string;
+  rdpThumbPrint?: string | undefined;
   /** The VM Agent running on the virtual machine. */
-  vmAgent?: VirtualMachineAgentInstanceView;
+  vmAgent?: VirtualMachineAgentInstanceView | undefined;
   /** The Maintenance Operation status on the virtual machine. */
-  maintenanceRedeployStatus?: MaintenanceRedeployStatus;
+  maintenanceRedeployStatus?: MaintenanceRedeployStatus | undefined;
   /** The disks information. */
-  disks?: VirtualMachineScaleSetVMInstanceViewDisksList;
+  disks?: VirtualMachineScaleSetVMInstanceViewDisksList | undefined;
   /** The extensions information. */
-  extensions?: VirtualMachineScaleSetVMInstanceViewExtensionsList;
+  extensions?: VirtualMachineScaleSetVMInstanceViewExtensionsList | undefined;
   /** The health status for the VM. */
-  vmHealth?: VirtualMachineHealthStatus;
+  vmHealth?: VirtualMachineHealthStatus | undefined;
   /** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. You can easily view the output of your console log. Azure also enables you to see a screenshot of the VM from the hypervisor. */
-  bootDiagnostics?: BootDiagnosticsInstanceView;
+  bootDiagnostics?: BootDiagnosticsInstanceView | undefined;
   /** The resource status information. */
-  statuses?: VirtualMachineScaleSetVMInstanceViewStatusesList;
+  statuses?: VirtualMachineScaleSetVMInstanceViewStatusesList | undefined;
   /** Resource id of the dedicated host, on which the virtual machine is allocated through automatic placement, when the virtual machine is associated with a dedicated host group that has automatic placement enabled. Minimum api-version: 2020-06-01. */
-  assignedHost?: string;
+  assignedHost?: string | undefined;
   /** The placement group in which the VM is running. If the VM is deallocated it will not have a placementGroupId. */
-  placementGroupId?: string;
+  placementGroupId?: string | undefined;
   /** Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://learn.microsoft.com/previous-versions/azure/virtual-machines/linux/infrastructure-example?toc=%2Fazure%2Fvirtual-machines%2Flinux%2Ftoc.json#1-naming-conventions). */
-  computerName?: string;
+  computerName?: string | undefined;
   /** The Operating System running on the hybrid machine. */
-  osName?: string;
+  osName?: string | undefined;
   /** The version of Operating System running on the hybrid machine. */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** The hypervisor generation of the Virtual Machine [V1, V2] */
-  hyperVGeneration?: CommonHyperVGeneration;
+  hyperVGeneration?: CommonHyperVGeneration | undefined;
   /** The Interconnect runtime view of the Scale Set VM instance. Minimum api-version: 2026-03-01. */
-  interconnectInstanceView?: InterconnectInstanceView;
+  interconnectInstanceView?: InterconnectInstanceView | undefined;
   /** Specifies which type of capacity reservation the virtual machine scale set VM instance will consume capacity from if eligible or whether it is explicitly opted out from being associated and consuming capacity from any reserved capacity available in the subscription. Minimum api-version: 2026-04-01. */
-  capacityReservationType?: CapacityReservationType;
+  capacityReservationType?: CapacityReservationType | undefined;
 }
 /** Specifies the resilient VM deletion status for the virtual machine. */
 export type ResilientVMDeletionStatus = "Enabled" | "Disabled" | "InProgress" | "Failed";
@@ -5527,64 +5571,66 @@ export type VirtualMachineScaleSetVMNetworkProfileConfigurationNetworkInterfaceC
 /** Describes a virtual machine scale set VM network profile. */
 export interface VirtualMachineScaleSetVMNetworkProfileConfiguration {
   /** The list of network configurations. */
-  networkInterfaceConfigurations?: VirtualMachineScaleSetVMNetworkProfileConfigurationNetworkInterfaceConfigurationsList;
+  networkInterfaceConfigurations?:
+    | VirtualMachineScaleSetVMNetworkProfileConfigurationNetworkInterfaceConfigurationsList
+    | undefined;
   /** Specifies the interconnect group profile to associate with the scale set vm instance. Minimum api-version: 2026-03-01. */
-  interconnectGroupProfile?: InterconnectGroupProfile;
+  interconnectGroupProfile?: InterconnectGroupProfile | undefined;
 }
 export type VirtualMachineScaleSetVMPropertiesAvailabilitySet =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
 /** The protection policy of a virtual machine scale set VM. */
 export interface VirtualMachineScaleSetVMProtectionPolicy {
   /** Indicates that the virtual machine scale set VM shouldn't be considered for deletion during a scale-in operation. */
-  protectFromScaleIn?: boolean;
+  protectFromScaleIn?: boolean | undefined;
   /** Indicates that model updates or actions (including scale-in) initiated on the virtual machine scale set should not be applied to the virtual machine scale set VM. */
-  protectFromScaleSetActions?: boolean;
+  protectFromScaleSetActions?: boolean | undefined;
 }
 /** Describes the properties of a virtual machine scale set virtual machine. */
 export interface VirtualMachineScaleSetVMProperties {
   /** Specifies whether the latest model has been applied to the virtual machine. */
-  latestModelApplied?: boolean;
+  latestModelApplied?: boolean | undefined;
   /** Azure VM unique ID. */
-  vmId?: string;
+  vmId?: string | undefined;
   /** The virtual machine instance view. */
-  instanceView?: VirtualMachineScaleSetVMInstanceView;
+  instanceView?: VirtualMachineScaleSetVMInstanceView | undefined;
   /** Specifies the hardware settings for the virtual machine. */
-  hardwareProfile?: HardwareProfile;
+  hardwareProfile?: HardwareProfile | undefined;
   /** Specifies the resilient VM deletion status for the virtual machine. */
-  resilientVMDeletionStatus?: ResilientVMDeletionStatus;
+  resilientVMDeletionStatus?: ResilientVMDeletionStatus | undefined;
   /** Specifies the storage settings for the virtual machine disks. */
-  storageProfile?: StorageProfile;
+  storageProfile?: StorageProfile | undefined;
   /** Specifies additional capabilities enabled or disabled on the virtual machine in the scale set. For instance: whether the virtual machine has the capability to support attaching managed data disks with UltraSSD_LRS storage account type. */
-  additionalCapabilities?: AdditionalCapabilities;
+  additionalCapabilities?: AdditionalCapabilities | undefined;
   /** Specifies the operating system settings for the virtual machine. */
-  osProfile?: OSProfile;
+  osProfile?: OSProfile | undefined;
   /** Specifies the Security related profile settings for the virtual machine. */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** Specifies the network interfaces of the virtual machine. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
   /** Specifies the network profile configuration of the virtual machine. */
-  networkProfileConfiguration?: VirtualMachineScaleSetVMNetworkProfileConfiguration;
+  networkProfileConfiguration?: VirtualMachineScaleSetVMNetworkProfileConfiguration | undefined;
   /** Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15. */
-  diagnosticsProfile?: DiagnosticsProfile;
-  availabilitySet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  diagnosticsProfile?: DiagnosticsProfile | undefined;
+  availabilitySet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15 */
-  licenseType?: string;
+  licenseType?: string | undefined;
   /** Specifies whether the model applied to the virtual machine is the model of the virtual machine scale set or the customized model for the virtual machine. */
-  modelDefinitionApplied?: string;
+  modelDefinitionApplied?: string | undefined;
   /** Specifies the protection policy of the virtual machine. */
-  protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy;
+  protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy | undefined;
   /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. Minimum api-version: 2021-03-01 */
-  userData?: string;
+  userData?: string | undefined;
   /** Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
   /** Specifies the ARM resource ID of the standalone virtual machine associated with this VMSS VM. This property is only applicable to Virtual Machine Scale Sets with Flexible orchestration mode. Minimum api-version: 2025-11-01. */
-  virtualMachineResourceId?: string;
+  virtualMachineResourceId?: string | undefined;
   /** Specifies the Interconnect Block related details of a Scale Set VM instance. Minimum api-version: 2026-03-01. */
-  interconnectBlockProfile?: InterconnectBlockProfile;
+  interconnectBlockProfile?: InterconnectBlockProfile | undefined;
   /** Specifies information about the capacity reservation that is used to allocate the virtual machine scale set VM instance. The capacity reservation group is inherited from the parent virtual machine scale set and cannot be changed on the individual scale set VM instance. Minimum api-version: 2026-04-01. */
-  capacityReservation?: CapacityReservationProfile;
+  capacityReservation?: CapacityReservationProfile | undefined;
 }
 /** The virtual machine child extension resources. */
 export type GetVirtualMachineScaleSetVMResponseResourcesList = Array<VirtualMachineExtension>;
@@ -5592,33 +5638,33 @@ export type GetVirtualMachineScaleSetVMResponseResourcesList = Array<VirtualMach
 export type GetVirtualMachineScaleSetVMResponseZonesList = Array<string>;
 export interface GetVirtualMachineScaleSetVMResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVirtualMachineScaleSetVMResponseTagsMap;
+  tags?: GetVirtualMachineScaleSetVMResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a virtual machine scale set virtual machine. */
-  properties?: VirtualMachineScaleSetVMProperties;
+  properties?: VirtualMachineScaleSetVMProperties | undefined;
   /** The virtual machine instance ID. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** The virtual machine SKU. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The virtual machine child extension resources. */
-  resources?: GetVirtualMachineScaleSetVMResponseResourcesList;
+  resources?: GetVirtualMachineScaleSetVMResponseResourcesList | undefined;
   /** The virtual machine zones. */
-  zones?: GetVirtualMachineScaleSetVMResponseZonesList;
+  zones?: GetVirtualMachineScaleSetVMResponseZonesList | undefined;
   /** The identity of the virtual machine, if configured. */
-  identity?: VirtualMachineIdentity;
+  identity?: VirtualMachineIdentity | undefined;
   /** Etag is property returned in Update/Get response of the VMSS VM, so that customer can supply it in the header to ensure optimistic updates. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetVirtualMachineScaleSetVMBootDiagnosticsDataRequest {
   /** The ID of the target subscription. */
@@ -5630,7 +5676,7 @@ export interface GetVirtualMachineScaleSetVMBootDiagnosticsDataRequest {
   /** The instance ID of the virtual machine. */
   instanceId: string;
   /** Expiration duration in minutes for the SAS URIs with a value between 1 to 1440 minutes. **Note:** If not specified, SAS URIs will be generated with a default expiration duration of 120 minutes. */
-  sasUriExpirationTimeInMinutes?: number;
+  sasUriExpirationTimeInMinutes?: number | undefined;
 }
 export interface GetVirtualMachineScaleSetVMDiagnosticRunCommandRequest {
   /** The ID of the target subscription. */
@@ -5644,7 +5690,7 @@ export interface GetVirtualMachineScaleSetVMDiagnosticRunCommandRequest {
   /** The name of the VirtualMachineDiagnosticRunCommand */
   runCommandName: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetVirtualMachineScaleSetVMDiagnosticRunCommandResponseTagsMap = {
@@ -5652,19 +5698,19 @@ export type GetVirtualMachineScaleSetVMDiagnosticRunCommandResponseTagsMap = {
 };
 export interface GetVirtualMachineScaleSetVMDiagnosticRunCommandResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVirtualMachineScaleSetVMDiagnosticRunCommandResponseTagsMap;
+  tags?: GetVirtualMachineScaleSetVMDiagnosticRunCommandResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine diagnostic run command. */
-  properties?: VirtualMachineRunCommandProperties;
+  properties?: VirtualMachineRunCommandProperties | undefined;
 }
 export interface GetVirtualMachineScaleSetVMExtensionRequest {
   /** The ID of the target subscription. */
@@ -5678,19 +5724,19 @@ export interface GetVirtualMachineScaleSetVMExtensionRequest {
   /** The name of the virtual machine extension. */
   vmExtensionName: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetVirtualMachineScaleSetVMExtensionResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Describes the properties of a Virtual Machine Extension. */
-  properties?: VirtualMachineExtensionProperties;
+  properties?: VirtualMachineExtensionProperties | undefined;
   /** The location of the extension. */
-  location?: string;
+  location?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetVirtualMachineScaleSetVMInstanceViewRequest {
   /** The ID of the target subscription. */
@@ -5714,7 +5760,7 @@ export interface GetVirtualMachineScaleSetVMRunCommandRequest {
   /** The name of the VirtualMachineRunCommand */
   runCommandName: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetVirtualMachineScaleSetVMRunCommandResponseTagsMap = {
@@ -5722,19 +5768,19 @@ export type GetVirtualMachineScaleSetVMRunCommandResponseTagsMap = {
 };
 export interface GetVirtualMachineScaleSetVMRunCommandResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVirtualMachineScaleSetVMRunCommandResponseTagsMap;
+  tags?: GetVirtualMachineScaleSetVMRunCommandResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine run command. */
-  properties?: VirtualMachineRunCommandProperties;
+  properties?: VirtualMachineRunCommandProperties | undefined;
 }
 /** Resource tags. */
 export type ImagesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5742,18 +5788,18 @@ export type ImagePropertiesInputSourceVirtualMachine =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
 /** Describes the properties of an Image. */
 export interface ImagePropertiesInput {
-  sourceVirtualMachine?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  sourceVirtualMachine?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies the storage settings for the virtual machine disks. */
-  storageProfile?: ImageStorageProfile;
+  storageProfile?: ImageStorageProfile | undefined;
   /** Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. */
-  hyperVGeneration?: HyperVGenerationTypes | (string & {});
+  hyperVGeneration?: HyperVGenerationTypes | (string & {}) | undefined;
 }
 /** The complex type of the extended location. */
 export interface ImagesCreateOrUpdateRequestExtendedLocation {
   /** The name of the extended location. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the extended location. */
-  type?: ExtendedLocationType | (string & {});
+  type?: ExtendedLocationType | (string & {}) | undefined;
 }
 export interface ImagesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5763,13 +5809,13 @@ export interface ImagesCreateOrUpdateRequest {
   /** The name of the image. */
   imageName: string;
   /** Resource tags. */
-  tags?: ImagesCreateOrUpdateRequestTagsMap;
+  tags?: ImagesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of an Image. */
-  properties?: ImagePropertiesInput;
+  properties?: ImagePropertiesInput | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ImagesCreateOrUpdateRequestExtendedLocation;
+  extendedLocation?: ImagesCreateOrUpdateRequestExtendedLocation | undefined;
 }
 /** Resource tags. */
 export type ImagesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -5777,25 +5823,25 @@ export type ImagesCreateOrUpdateResponseTagsMap = { [key: string]: string | unde
 export type ImagesCreateOrUpdateResponseExtendedLocation = GetImageResponseExtendedLocation;
 export interface ImagesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ImagesCreateOrUpdateResponseTagsMap;
+  tags?: ImagesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of an Image. */
-  properties?: ImageProperties;
+  properties?: ImageProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Defines when it is acceptable to reboot a VM during a software update operation. */
 export type VMGuestPatchRebootSetting = "IfRequired" | "Never" | "Always";
@@ -5823,19 +5869,19 @@ export type WindowsParametersPatchNameMasksToExcludeList = Array<string>;
 /** Input for InstallPatches on a Windows VM, as directly received by the API */
 export interface WindowsParameters {
   /** The update classifications to select when installing patches for Windows. */
-  classificationsToInclude?: WindowsParametersClassificationsToIncludeList;
+  classificationsToInclude?: WindowsParametersClassificationsToIncludeList | undefined;
   /** Kbs to include in the patch operation */
-  kbNumbersToInclude?: WindowsParametersKbNumbersToIncludeList;
+  kbNumbersToInclude?: WindowsParametersKbNumbersToIncludeList | undefined;
   /** Kbs to exclude in the patch operation */
-  kbNumbersToExclude?: WindowsParametersKbNumbersToExcludeList;
+  kbNumbersToExclude?: WindowsParametersKbNumbersToExcludeList | undefined;
   /** Filters out Kbs that don't have an InstallationRebootBehavior of 'NeverReboots' when this is set to true. */
-  excludeKbsRequiringReboot?: boolean;
+  excludeKbsRequiringReboot?: boolean | undefined;
   /** This is used to install patches that were published on or before this given max published date. */
-  maxPatchPublishDate?: string;
+  maxPatchPublishDate?: string | undefined;
   /** This is used to include patches that match the given patch name masks. Alphanumeric strings and wildcard expressions consisting of * and ? are only supported as input values in the list. Null, empty and only whitespaces strings as inputs values are not supported. */
-  patchNameMasksToInclude?: WindowsParametersPatchNameMasksToIncludeList;
+  patchNameMasksToInclude?: WindowsParametersPatchNameMasksToIncludeList | undefined;
   /** This is used to exclude patches that match the given patch name masks. Alphanumeric strings and wildcard expressions consisting of * and ? are only supported as input values in the list. Null, empty and only whitespaces strings as inputs values are not supported. */
-  patchNameMasksToExclude?: WindowsParametersPatchNameMasksToExcludeList;
+  patchNameMasksToExclude?: WindowsParametersPatchNameMasksToExcludeList | undefined;
 }
 export type VMGuestPatchClassificationLinux = "Critical" | "Security" | "Other";
 /** The update classifications to select when installing patches for Linux. */
@@ -5849,13 +5895,13 @@ export type LinuxParametersPackageNameMasksToExcludeList = Array<string>;
 /** Input for InstallPatches on a Linux VM, as directly received by the API */
 export interface LinuxParameters {
   /** The update classifications to select when installing patches for Linux. */
-  classificationsToInclude?: LinuxParametersClassificationsToIncludeList;
+  classificationsToInclude?: LinuxParametersClassificationsToIncludeList | undefined;
   /** packages to include in the patch operation. Format: packageName_packageVersion */
-  packageNameMasksToInclude?: LinuxParametersPackageNameMasksToIncludeList;
+  packageNameMasksToInclude?: LinuxParametersPackageNameMasksToIncludeList | undefined;
   /** packages to exclude in the patch operation. Format: packageName_packageVersion */
-  packageNameMasksToExclude?: LinuxParametersPackageNameMasksToExcludeList;
+  packageNameMasksToExclude?: LinuxParametersPackageNameMasksToExcludeList | undefined;
   /** This is used as a maintenance run identifier for Auto VM Guest Patching in Linux. */
-  maintenanceRunId?: string;
+  maintenanceRunId?: string | undefined;
 }
 export interface InstallVirtualMachinePatchesRequest {
   /** The ID of the target subscription. */
@@ -5865,13 +5911,13 @@ export interface InstallVirtualMachinePatchesRequest {
   /** The name of the virtual machine. */
   vmName: string;
   /** Specifies the maximum amount of time that the operation will run. It must be an ISO 8601-compliant duration string such as PT4H (4 hours) */
-  maximumDuration?: string;
+  maximumDuration?: string | undefined;
   /** Defines when it is acceptable to reboot a VM during a software update operation. */
   rebootSetting: VMGuestPatchRebootSetting | (string & {});
   /** Input for InstallPatches on a Windows VM, as directly received by the API */
-  windowsParameters?: WindowsParameters;
+  windowsParameters?: WindowsParameters | undefined;
   /** Input for InstallPatches on a Linux VM, as directly received by the API */
-  linuxParameters?: LinuxParameters;
+  linuxParameters?: LinuxParameters | undefined;
 }
 /** The reboot state of the VM following completion of the operation. */
 export type VMGuestPatchRebootStatus =
@@ -5894,17 +5940,17 @@ export type PatchInstallationState =
 /** Information about a specific patch that was encountered during an installation action. */
 export interface PatchInstallationDetail {
   /** A unique identifier for the patch. */
-  patchId?: string;
+  patchId?: string | undefined;
   /** The friendly name of the patch. */
-  name?: string;
+  name?: string | undefined;
   /** The version string of the package. It may conform to Semantic Versioning. Only applies to Linux. */
-  version?: string;
+  version?: string | undefined;
   /** The KBID of the patch. Only applies to Windows patches. */
-  kbId?: string;
+  kbId?: string | undefined;
   /** The classification(s) of the patch as provided by the patch publisher. */
-  classifications?: PatchInstallationDetailClassificationsList;
+  classifications?: PatchInstallationDetailClassificationsList | undefined;
   /** The state of the patch after the installation operation completed. */
-  installationState?: PatchInstallationState;
+  installationState?: PatchInstallationState | undefined;
 }
 /** The patches that were installed during the operation. */
 export type VirtualMachineInstallPatchesResultPatchesList = Array<PatchInstallationDetail>;
@@ -5913,46 +5959,46 @@ export type VirtualMachineInstallPatchesResultErrorDetailsList = Array<ApiErrorB
 /** Api error. */
 export interface VirtualMachineInstallPatchesResultError {
   /** The Api error details */
-  details?: VirtualMachineInstallPatchesResultErrorDetailsList;
+  details?: VirtualMachineInstallPatchesResultErrorDetailsList | undefined;
   /** The Api inner error */
-  innererror?: InnerError;
+  innererror?: InnerError | undefined;
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The target of the particular error. */
-  target?: string;
+  target?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The result summary of an installation operation. */
 export interface VirtualMachineInstallPatchesResult {
   /** The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Failed", "Succeeded", "Unknown" or "CompletedWithWarnings." */
-  status?: PatchOperationStatus;
+  status?: PatchOperationStatus | undefined;
   /** The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs. */
-  installationActivityId?: string;
+  installationActivityId?: string | undefined;
   /** The reboot state of the VM following completion of the operation. */
-  rebootStatus?: VMGuestPatchRebootStatus;
+  rebootStatus?: VMGuestPatchRebootStatus | undefined;
   /** Whether the operation ran out of time before it completed all its intended actions. */
-  maintenanceWindowExceeded?: boolean;
+  maintenanceWindowExceeded?: boolean | undefined;
   /** The number of patches that were not installed due to the user blocking their installation. */
-  excludedPatchCount?: number;
+  excludedPatchCount?: number | undefined;
   /** The number of patches that were detected as available for install, but did not meet the operation's criteria. */
-  notSelectedPatchCount?: number;
+  notSelectedPatchCount?: number | undefined;
   /** The number of patches that were identified as meeting the installation criteria, but were not able to be installed. Typically this happens when maintenanceWindowExceeded == true. */
-  pendingPatchCount?: number;
+  pendingPatchCount?: number | undefined;
   /** The number of patches successfully installed. */
-  installedPatchCount?: number;
+  installedPatchCount?: number | undefined;
   /** The number of patches that could not be installed due to some issue. See errors for details. */
-  failedPatchCount?: number;
+  failedPatchCount?: number | undefined;
   /** The patches that were installed during the operation. */
-  patches?: VirtualMachineInstallPatchesResultPatchesList;
+  patches?: VirtualMachineInstallPatchesResultPatchesList | undefined;
   /** The UTC timestamp when the operation began. */
-  startDateTime?: string;
+  startDateTime?: string | undefined;
   /** Api error. */
-  error?: VirtualMachineInstallPatchesResultError;
+  error?: VirtualMachineInstallPatchesResultError | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type InterconnectBlocksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5971,17 +6017,17 @@ export interface InterconnectBlocksCreateOrUpdateRequest {
   /** The name of the Interconnect Block. */
   interconnectBlockName: string;
   /** Resource tags. */
-  tags?: InterconnectBlocksCreateOrUpdateRequestTagsMap;
+  tags?: InterconnectBlocksCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Interconnect Block. */
-  properties?: InterconnectBlockPropertiesInput;
+  properties?: InterconnectBlockPropertiesInput | undefined;
   /** SKU of the resource for which capacity needs to be pre-allocated. Both `sku.name` and `sku.capacity` are required at create. After create, only `sku.capacity` can be updated. */
   sku: Sku;
   /** The availability zones. */
-  zones?: InterconnectBlocksCreateOrUpdateRequestZonesList;
+  zones?: InterconnectBlocksCreateOrUpdateRequestZonesList | undefined;
   /** Placement section specifies the user-defined constraints for Interconnect Block hardware placement. This property cannot be changed once Interconnect Block is provisioned. */
-  placement?: Placement;
+  placement?: Placement | undefined;
 }
 /** Resource tags. */
 export type InterconnectBlocksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -5989,29 +6035,29 @@ export type InterconnectBlocksCreateOrUpdateResponseTagsMap = { [key: string]: s
 export type InterconnectBlocksCreateOrUpdateResponseZonesList = Array<string>;
 export interface InterconnectBlocksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: InterconnectBlocksCreateOrUpdateResponseTagsMap;
+  tags?: InterconnectBlocksCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Interconnect Block. */
-  properties?: InterconnectBlockProperties;
+  properties?: InterconnectBlockProperties | undefined;
   /** SKU of the resource for which capacity needs to be pre-allocated. Both `sku.name` and `sku.capacity` are required at create. After create, only `sku.capacity` can be updated. */
   sku: Sku;
   /** The availability zones. */
-  zones?: InterconnectBlocksCreateOrUpdateResponseZonesList;
+  zones?: InterconnectBlocksCreateOrUpdateResponseZonesList | undefined;
   /** Placement section specifies the user-defined constraints for Interconnect Block hardware placement. This property cannot be changed once Interconnect Block is provisioned. */
-  placement?: Placement;
+  placement?: Placement | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListAvailabilitySetAvailableSizesRequest {
   /** The ID of the target subscription. */
@@ -6024,53 +6070,53 @@ export interface ListAvailabilitySetAvailableSizesRequest {
 /** Describes the properties of a VM size. */
 export interface VirtualMachineSize {
   /** The name of the virtual machine size. */
-  name?: string;
+  name?: string | undefined;
   /** The number of cores supported by the virtual machine size. For Constrained vCPU capable VM sizes, this number represents the total vCPUs of quota that the VM uses. For accurate vCPU count, please refer to https://docs.microsoft.com/azure/virtual-machines/constrained-vcpu or https://docs.microsoft.com/rest/api/compute/resourceskus/list */
-  numberOfCores?: number;
+  numberOfCores?: number | undefined;
   /** The OS disk size, in MB, allowed by the virtual machine size. */
-  osDiskSizeInMB?: number;
+  osDiskSizeInMB?: number | undefined;
   /** The resource disk size, in MB, allowed by the virtual machine size. */
-  resourceDiskSizeInMB?: number;
+  resourceDiskSizeInMB?: number | undefined;
   /** The amount of memory, in MB, supported by the virtual machine size. */
-  memoryInMB?: number;
+  memoryInMB?: number | undefined;
   /** The maximum number of data disks that can be attached to the virtual machine size. */
-  maxDataDiskCount?: number;
+  maxDataDiskCount?: number | undefined;
 }
 /** The list of virtual machine sizes. */
 export type VirtualMachineSizeListResultValueList = Array<VirtualMachineSize>;
 /** The List Virtual Machine operation response. */
 export interface VirtualMachineSizeListResult {
   /** The list of virtual machine sizes. */
-  value?: VirtualMachineSizeListResultValueList;
+  value?: VirtualMachineSizeListResultValueList | undefined;
   /** The link to the next page of items. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAvailabilitySetBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The expand expression to apply to the operation. Allowed values are 'instanceView'. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type AvailabilitySetTagsMap = { [key: string]: string | undefined };
 /** Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Availability sets overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview). For more information on Azure planned maintenance, see [Maintenance and updates for Virtual Machines in Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates). Currently, a VM can only be added to an availability set at creation time. An existing VM cannot be added to an availability set. */
 export interface AvailabilitySet {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AvailabilitySetTagsMap;
+  tags?: AvailabilitySetTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The instance view of a resource. */
-  properties?: AvailabilitySetProperties;
+  properties?: AvailabilitySetProperties | undefined;
   /** Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for virtual machines with managed disks and 'Classic' for virtual machines with unmanaged disks. Default value is 'Classic'. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** The list of availability sets. */
 export type AvailabilitySetListResultValueList = Array<AvailabilitySet>;
@@ -6079,7 +6125,7 @@ export interface AvailabilitySetListResult {
   /** The list of availability sets. */
   value: AvailabilitySetListResultValueList;
   /** The URI to fetch the next page of AvailabilitySets. Call ListNext() with this URI to fetch the next page of AvailabilitySets. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAvailabilitySetsRequest {
   /** The ID of the target subscription. */
@@ -6098,7 +6144,10 @@ export interface ListCapacityReservationByCapacityReservationGroupRequest {
   /** The name of the capacity reservation group. */
   capacityReservationGroupName: string;
   /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
-  _expand?: ListCapacityReservationByCapacityReservationGroupRequestExpand | (string & {});
+  _expand?:
+    | ListCapacityReservationByCapacityReservationGroupRequestExpand
+    | (string & {})
+    | undefined;
 }
 /** Resource tags. */
 export type CapacityReservationTagsMap = { [key: string]: string | undefined };
@@ -6107,23 +6156,23 @@ export type CapacityReservationZonesList = Array<string>;
 /** Specifies information about the capacity reservation. */
 export interface CapacityReservation {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CapacityReservationTagsMap;
+  tags?: CapacityReservationTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Capacity reservation. */
-  properties?: CapacityReservationProperties;
+  properties?: CapacityReservationProperties | undefined;
   /** SKU of the resource for which capacity needs be reserved. The SKU name and capacity is required to be set. For Block capacity reservations, sku.capacity can only accept values 1, 2, 4, 8, 16, 32, 64. Currently VM Skus with the capability called 'CapacityReservationSupported' set to true are supported. When 'CapacityReservationSupported' is true, the SKU capability also specifies the 'SupportedCapacityReservationTypes', which lists the types of capacity reservations (such as Targeted or Block) that the SKU supports. Refer to List Microsoft.Compute SKUs in a region (https://docs.microsoft.com/rest/api/compute/resourceskus/list) for supported values. */
   sku: Sku;
   /** The availability zones. */
-  zones?: CapacityReservationZonesList;
+  zones?: CapacityReservationZonesList | undefined;
 }
 /** The list of capacity reservations. */
 export type CapacityReservationListResultValueList = Array<CapacityReservation>;
@@ -6132,7 +6181,7 @@ export interface CapacityReservationListResult {
   /** The list of capacity reservations. */
   value: CapacityReservationListResultValueList;
   /** The URI to fetch the next page of capacity reservations. Call ListNext() with this URI to fetch the next page of capacity reservations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListCapacityReservationGroupByResourceGroupRequestExpand =
   | "virtualMachineScaleSetVMs/$ref"
@@ -6143,7 +6192,7 @@ export interface ListCapacityReservationGroupByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
-  _expand?: ListCapacityReservationGroupByResourceGroupRequestExpand | (string & {});
+  _expand?: ListCapacityReservationGroupByResourceGroupRequestExpand | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type CapacityReservationGroupTagsMap = { [key: string]: string | undefined };
@@ -6152,21 +6201,21 @@ export type CapacityReservationGroupZonesList = Array<string>;
 /** Specifies information about the capacity reservation group that the capacity reservations should be assigned to. Currently, a capacity reservation can only be added to a capacity reservation group at creation time. An existing capacity reservation cannot be added or moved to another capacity reservation group. */
 export interface CapacityReservationGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CapacityReservationGroupTagsMap;
+  tags?: CapacityReservationGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** capacity reservation group Properties. */
-  properties?: CapacityReservationGroupProperties;
+  properties?: CapacityReservationGroupProperties | undefined;
   /** The availability zones. */
-  zones?: CapacityReservationGroupZonesList;
+  zones?: CapacityReservationGroupZonesList | undefined;
 }
 /** The list of capacity reservation groups. */
 export type CapacityReservationGroupListResultValueList = Array<CapacityReservationGroup>;
@@ -6175,7 +6224,7 @@ export interface CapacityReservationGroupListResult {
   /** The list of capacity reservation groups. */
   value: CapacityReservationGroupListResultValueList;
   /** The URI to fetch the next page of capacity reservation groups. Call ListNext() with this URI to fetch the next page of capacity reservation groups. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListCapacityReservationGroupBySubscriptionRequestExpand =
   | "virtualMachineScaleSetVMs/$ref"
@@ -6188,11 +6237,12 @@ export interface ListCapacityReservationGroupBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
-  _expand?: ListCapacityReservationGroupBySubscriptionRequestExpand | (string & {});
+  _expand?: ListCapacityReservationGroupBySubscriptionRequestExpand | (string & {}) | undefined;
   /** The query option to fetch Capacity Reservation Group Resource Ids. <br> 'CreatedInSubscription' enables fetching Resource Ids for all capacity reservation group resources created in the subscription. <br> 'SharedWithSubscription' enables fetching Resource Ids for all capacity reservation group resources shared with the subscription. <br> 'All' enables fetching Resource Ids for all capacity reservation group resources shared with the subscription and created in the subscription. */
   resourceIdsOnly?:
     | ListCapacityReservationGroupBySubscriptionRequestResourceIdsOnly
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface ListContainerServiceByResourceGroupRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6205,25 +6255,25 @@ export type ContainerServiceTagsMap = { [key: string]: string | undefined };
 /** Container service. */
 export interface ContainerService {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: ContainerServiceTagsMap;
-  properties?: ContainerServiceProperties;
+  tags?: ContainerServiceTagsMap | undefined;
+  properties?: ContainerServiceProperties | undefined;
 }
 /** the list of container services. */
 export type ContainerServiceListResultValueList = Array<ContainerService>;
 /** The response from the List Container Services operation. */
 export interface ContainerServiceListResult {
   /** the list of container services. */
-  value?: ContainerServiceListResultValueList;
+  value?: ContainerServiceListResultValueList | undefined;
   /** The URL to get the next set of container service results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerServicesRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6244,9 +6294,9 @@ export type DedicatedHostSizeListResultValueList = Array<string>;
 /** The List Dedicated Host sizes operation response. */
 export interface DedicatedHostSizeListResult {
   /** The list of dedicated host sizes. */
-  value?: DedicatedHostSizeListResultValueList;
+  value?: DedicatedHostSizeListResultValueList | undefined;
   /** The link to the next page of items. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDedicatedHostByHostGroupRequest {
   /** The ID of the target subscription. */
@@ -6261,19 +6311,19 @@ export type DedicatedHostTagsMap = { [key: string]: string | undefined };
 /** Specifies information about the Dedicated host. */
 export interface DedicatedHost {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DedicatedHostTagsMap;
+  tags?: DedicatedHostTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the dedicated host. */
-  properties?: DedicatedHostProperties;
+  properties?: DedicatedHostProperties | undefined;
   /** SKU of the dedicated host for Hardware Generation and VM family. Only name is required to be set. List Microsoft.Compute SKUs for a list of possible values. */
   sku: Sku;
 }
@@ -6284,7 +6334,7 @@ export interface DedicatedHostListResult {
   /** The list of dedicated hosts. */
   value: DedicatedHostListResultValueList;
   /** The URI to fetch the next page of dedicated hosts. Call ListNext() with this URI to fetch the next page of dedicated hosts. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDedicatedHostGroupByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -6299,21 +6349,21 @@ export type DedicatedHostGroupZonesList = Array<string>;
 /** Specifies information about the dedicated host group that the dedicated hosts should be assigned to. Currently, a dedicated host can only be added to a dedicated host group at creation time. An existing dedicated host cannot be added to another dedicated host group. */
 export interface DedicatedHostGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DedicatedHostGroupTagsMap;
+  tags?: DedicatedHostGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Dedicated Host Group Properties. */
-  properties?: DedicatedHostGroupProperties;
+  properties?: DedicatedHostGroupProperties | undefined;
   /** The availability zones. */
-  zones?: DedicatedHostGroupZonesList;
+  zones?: DedicatedHostGroupZonesList | undefined;
 }
 /** The list of dedicated host groups. */
 export type DedicatedHostGroupListResultValueList = Array<DedicatedHostGroup>;
@@ -6322,7 +6372,7 @@ export interface DedicatedHostGroupListResult {
   /** The list of dedicated host groups. */
   value: DedicatedHostGroupListResultValueList;
   /** The URI to fetch the next page of Dedicated Host Groups. Call ListNext() with this URI to fetch the next page of Dedicated Host Groups. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDedicatedHostGroupBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -6341,21 +6391,21 @@ export type ImageExtendedLocation = GetImageResponseExtendedLocation;
 /** The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist. */
 export interface Image {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ImageTagsMap;
+  tags?: ImageTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of an Image. */
-  properties?: ImageProperties;
+  properties?: ImageProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
 }
 /** The list of Images */
 export type ImageListResultValueList = Array<Image>;
@@ -6364,7 +6414,7 @@ export interface ImageListResult {
   /** The list of Images */
   value: ImageListResultValueList;
   /** The uri to fetch the next page of Images. Call ListNext() with this to fetch the next page of Images. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListImagesRequest {
   /** The ID of the target subscription. */
@@ -6383,25 +6433,25 @@ export type InterconnectBlockZonesList = Array<string>;
 /** Specifies information about the Interconnect Block. */
 export interface InterconnectBlock {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: InterconnectBlockTagsMap;
+  tags?: InterconnectBlockTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Interconnect Block. */
-  properties?: InterconnectBlockProperties;
+  properties?: InterconnectBlockProperties | undefined;
   /** SKU of the resource for which capacity needs to be pre-allocated. Both `sku.name` and `sku.capacity` are required at create. After create, only `sku.capacity` can be updated. */
   sku: Sku;
   /** The availability zones. */
-  zones?: InterconnectBlockZonesList;
+  zones?: InterconnectBlockZonesList | undefined;
   /** Placement section specifies the user-defined constraints for Interconnect Block hardware placement. This property cannot be changed once Interconnect Block is provisioned. */
-  placement?: Placement;
+  placement?: Placement | undefined;
 }
 /** The list of Interconnect Blocks. */
 export type InterconnectBlockListResultValueList = Array<InterconnectBlock>;
@@ -6410,7 +6460,7 @@ export interface InterconnectBlockListResult {
   /** The list of Interconnect Blocks. */
   value: InterconnectBlockListResultValueList;
   /** The URI to fetch the next page of Interconnect Blocks. Call ListNext() with this URI to fetch the next page of Interconnect Blocks. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListInterconnectBlockBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -6420,13 +6470,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -6435,23 +6485,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProximityPlacementGroupByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -6466,21 +6516,21 @@ export type ProximityPlacementGroupZonesList = Array<string>;
 /** Specifies information about the proximity placement group. */
 export interface ProximityPlacementGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ProximityPlacementGroupTagsMap;
+  tags?: ProximityPlacementGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Proximity Placement Group. */
-  properties?: ProximityPlacementGroupProperties;
+  properties?: ProximityPlacementGroupProperties | undefined;
   /** The availability zones. */
-  zones?: ProximityPlacementGroupZonesList;
+  zones?: ProximityPlacementGroupZonesList | undefined;
 }
 /** The list of proximity placement groups. */
 export type ProximityPlacementGroupListResultValueList = Array<ProximityPlacementGroup>;
@@ -6489,7 +6539,7 @@ export interface ProximityPlacementGroupListResult {
   /** The list of proximity placement groups. */
   value: ProximityPlacementGroupListResultValueList;
   /** The URI to fetch the next page of proximity placement groups. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProximityPlacementGroupBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -6504,19 +6554,19 @@ export type RestorePointCollectionTagsMap = { [key: string]: string | undefined 
 /** Create or update Restore Point collection parameters. */
 export interface RestorePointCollection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RestorePointCollectionTagsMap;
+  tags?: RestorePointCollectionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The restore point collection properties. */
-  properties?: RestorePointCollectionProperties;
+  properties?: RestorePointCollectionProperties | undefined;
 }
 /** Gets the list of restore point collections. */
 export type RestorePointCollectionListResultValueList = Array<RestorePointCollection>;
@@ -6525,7 +6575,7 @@ export interface RestorePointCollectionListResult {
   /** Gets the list of restore point collections. */
   value: RestorePointCollectionListResultValueList;
   /** The uri to fetch the next page of RestorePointCollections. Call ListNext() with this to fetch the next page of RestorePointCollections. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRestorePointCollectionsRequest {
   /** The ID of the target subscription. */
@@ -6544,19 +6594,19 @@ export type SshPublicKeyResourceTagsMap = { [key: string]: string | undefined };
 /** Specifies information about the SSH public key. */
 export interface SshPublicKeyResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SshPublicKeyResourceTagsMap;
+  tags?: SshPublicKeyResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the SSH public key. */
-  properties?: SshPublicKeyResourceProperties;
+  properties?: SshPublicKeyResourceProperties | undefined;
 }
 /** The list of SSH public keys. */
 export type SshPublicKeysGroupListResultValueList = Array<SshPublicKeyResource>;
@@ -6565,7 +6615,7 @@ export interface SshPublicKeysGroupListResult {
   /** The list of SSH public keys. */
   value: SshPublicKeysGroupListResultValueList;
   /** The URI to fetch the next page of SSH public keys. Call ListNext() with this URI to fetch the next page of SSH public keys. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSshPublicKeyBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -6582,9 +6632,9 @@ export type UsageUnit = "Count";
 /** The Usage Names. */
 export interface UsageName {
   /** The name of the resource. */
-  value?: string;
+  value?: string | undefined;
   /** The localized name of the resource. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Describes Compute Resource Usage. */
 export interface Usage {
@@ -6604,18 +6654,18 @@ export interface ListUsagesResult {
   /** The list of compute resource usages. */
   value: ListUsagesResultValueList;
   /** The URI to fetch the next page of compute resource usage information. Call ListNext() with this to fetch the next page of compute resource usage information. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListVirtualMachineAllRequestExpand = "instanceView";
 export interface ListVirtualMachineAllRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** statusOnly=true enables fetching run time status of all Virtual Machines in the subscription. */
-  statusOnly?: string;
+  statusOnly?: string | undefined;
   /** The system query option to filter VMs returned in the response. Allowed value is 'virtualMachineScaleSet/id' eq /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}' */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The expand expression to apply on operation. 'instanceView' enables fetching run time status of all Virtual Machines, this can only be specified if a valid $filter option is specified */
-  _expand?: ListVirtualMachineAllRequestExpand | (string & {});
+  _expand?: ListVirtualMachineAllRequestExpand | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineTagsMap = { [key: string]: string | undefined };
@@ -6628,35 +6678,35 @@ export type VirtualMachineExtendedLocation = GetImageResponseExtendedLocation;
 /** Describes a Virtual Machine. */
 export interface VirtualMachine {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachineTagsMap;
+  tags?: VirtualMachineTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine. */
-  properties?: VirtualMachineProperties;
+  properties?: VirtualMachineProperties | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The virtual machine child extension resources. */
-  resources?: VirtualMachineResourcesList;
+  resources?: VirtualMachineResourcesList | undefined;
   /** The identity of the virtual machine, if configured. */
-  identity?: VirtualMachineIdentity;
+  identity?: VirtualMachineIdentity | undefined;
   /** The availability zones. */
-  zones?: VirtualMachineZonesList;
+  zones?: VirtualMachineZonesList | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
   /** ManagedBy is set to Virtual Machine Scale Set(VMSS) flex ARM resourceID, if the VM is part of the VMSS. This property is used by platform for internal resource group delete optimization. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Etag is property returned in Create/Update/Get response of the VM, so that customer can supply it in the header to ensure optimistic updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Placement section specifies the user-defined constraints for virtual machine hardware placement. This property cannot be changed once VM is provisioned. Minimum api-version: 2024-11-01. */
-  placement?: Placement;
+  placement?: Placement | undefined;
 }
 /** The list of virtual machines. */
 export type VirtualMachineListResultValueList = Array<VirtualMachine>;
@@ -6665,7 +6715,7 @@ export interface VirtualMachineListResult {
   /** The list of virtual machines. */
   value: VirtualMachineListResultValueList;
   /** The URI to fetch the next page of VMs. Call ListNext() with this URI to fetch the next page of Virtual Machines. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineAvailableSizesRequest {
   /** The ID of the target subscription. */
@@ -6693,19 +6743,19 @@ export type VirtualMachineExtensionImageTagsMap = { [key: string]: string | unde
 /** Describes a Virtual Machine Extension Image. */
 export interface VirtualMachineExtensionImage {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachineExtensionImageTagsMap;
+  tags?: VirtualMachineExtensionImageTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine Extension Image. */
-  properties?: VirtualMachineExtensionImageProperties;
+  properties?: VirtualMachineExtensionImageProperties | undefined;
 }
 export type ListVirtualMachineExtensionImageTypesResponseBodyList =
   Array<VirtualMachineExtensionImage>;
@@ -6720,11 +6770,11 @@ export interface ListVirtualMachineExtensionImageVersionsRequest {
   publisherName: string;
   type: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
-  _top?: number;
-  _orderby?: string;
+  _filter?: string | undefined;
+  _top?: number | undefined;
+  _orderby?: string | undefined;
   /** Expand the response to include additional read-only metadata. Allowed values: `properties` -- returns extended metadata (`releaseCategory`, `urgencyLevel`, `runProfile`). */
-  _expand?: ListVirtualMachineExtensionImageVersionsRequestExpand | (string & {});
+  _expand?: ListVirtualMachineExtensionImageVersionsRequestExpand | (string & {}) | undefined;
 }
 export type ListVirtualMachineExtensionImageVersionsResponseBodyList =
   Array<VirtualMachineExtensionImage>;
@@ -6738,14 +6788,14 @@ export interface ListVirtualMachineExtensionsRequest {
   /** The name of the virtual machine. */
   vmName: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The list of extensions */
 export type VirtualMachineExtensionsListResultValueList = Array<VirtualMachineExtension>;
 /** The List Extension operation response */
 export interface VirtualMachineExtensionsListResult {
   /** The list of extensions */
-  value?: VirtualMachineExtensionsListResultValueList;
+  value?: VirtualMachineExtensionsListResultValueList | undefined;
 }
 export interface ListVirtualMachineImageByEdgeZoneRequest {
   /** The ID of the target subscription. */
@@ -6762,24 +6812,24 @@ export type VirtualMachineImageResourceExtendedLocation = GetImageResponseExtend
 /** Virtual machine image resource information. */
 export interface VirtualMachineImageResource {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
   name: string;
   /** The supported Azure location of the resource. */
   location: string;
   /** Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md). */
-  tags?: VirtualMachineImageResourceTagsMap;
+  tags?: VirtualMachineImageResourceTagsMap | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
 }
 /** The list of VMImages in EdgeZone */
 export type VmImagesInEdgeZoneListResultValueList = Array<VirtualMachineImageResource>;
 /** The List VmImages in EdgeZone operation response. */
 export interface VmImagesInEdgeZoneListResult {
   /** The list of VMImages in EdgeZone */
-  value?: VmImagesInEdgeZoneListResultValueList;
+  value?: VmImagesInEdgeZoneListResultValueList | undefined;
   /** The URI to fetch the next page of VMImages in EdgeZone. Call ListNext() with this URI to fetch the next page of VmImages. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineImageOffersRequest {
   /** The ID of the target subscription. */
@@ -6812,9 +6862,9 @@ export interface ListVirtualMachineImagesRequest {
   /** A valid image SKU. */
   skus: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
-  _top?: number;
-  _orderby?: string;
+  _expand?: string | undefined;
+  _top?: number | undefined;
+  _orderby?: string | undefined;
 }
 export type ListVirtualMachineImagesResponseBodyList = Array<VirtualMachineImageResource>;
 export type ListVirtualMachineImagesResponse = ListVirtualMachineImagesResponseBodyList;
@@ -6832,11 +6882,11 @@ export interface ListVirtualMachineImagesEdgeZoneRequest {
   /** A valid image SKU. */
   skus: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** An integer value specifying the number of images to return that matches supplied values. */
-  _top?: number;
+  _top?: number | undefined;
   /** Specifies the order of the results returned. Formatted as an OData query. */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 export type ListVirtualMachineImagesEdgeZoneResponseBodyList = Array<VirtualMachineImageResource>;
 export type ListVirtualMachineImagesEdgeZoneResponse =
@@ -6903,26 +6953,26 @@ export interface ListVirtualMachineRunCommandByVirtualMachineRequest {
   /** The name of the VirtualMachine */
   vmName: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineRunCommandTagsMap = { [key: string]: string | undefined };
 /** Describes a Virtual Machine run command. */
 export interface VirtualMachineRunCommand {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachineRunCommandTagsMap;
+  tags?: VirtualMachineRunCommandTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine run command. */
-  properties?: VirtualMachineRunCommandProperties;
+  properties?: VirtualMachineRunCommandProperties | undefined;
 }
 /** The list of run commands. */
 export type VirtualMachineRunCommandsListResultValueList = Array<VirtualMachineRunCommand>;
@@ -6931,7 +6981,7 @@ export interface VirtualMachineRunCommandsListResult {
   /** The list of run commands. */
   value: VirtualMachineRunCommandsListResultValueList;
   /** The uri to fetch the next page of run commands. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineRunCommandsRequest {
   /** The ID of the target subscription. */
@@ -6959,7 +7009,7 @@ export interface RunCommandListResult {
   /** The list of virtual machine run commands. */
   value: RunCommandListResultValueList;
   /** The uri to fetch the next page of run commands. Call ListNext() with this to fetch the next page of run commands. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListVirtualMachinesRequestExpand = "instanceView";
 export interface ListVirtualMachinesRequest {
@@ -6968,9 +7018,9 @@ export interface ListVirtualMachinesRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The system query option to filter VMs returned in the response. Allowed value is 'virtualMachineScaleSet/id' eq /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}' */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The expand expression to apply on operation. 'instanceView' enables fetching run time status of all Virtual Machines, this can only be specified if a valid $filter option is specified */
-  _expand?: ListVirtualMachinesRequestExpand | (string & {});
+  _expand?: ListVirtualMachinesRequestExpand | (string & {}) | undefined;
 }
 export interface ListVirtualMachineScaleSetAllRequest {
   /** The ID of the target subscription. */
@@ -6985,33 +7035,33 @@ export type VirtualMachineScaleSetExtendedLocation = GetImageResponseExtendedLoc
 /** Describes a Virtual Machine Scale Set. */
 export interface VirtualMachineScaleSet {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachineScaleSetTagsMap;
+  tags?: VirtualMachineScaleSetTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The virtual machine scale set sku. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** Describes the properties of a Virtual Machine Scale Set. */
-  properties?: VirtualMachineScaleSetProperties;
+  properties?: VirtualMachineScaleSetProperties | undefined;
   /** The identity of the virtual machine scale set, if configured. */
-  identity?: VirtualMachineScaleSetIdentity;
+  identity?: VirtualMachineScaleSetIdentity | undefined;
   /** The availability zones. */
-  zones?: VirtualMachineScaleSetZonesList;
+  zones?: VirtualMachineScaleSetZonesList | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
   /** Etag is property returned in Create/Update/Get response of the VMSS, so that customer can supply it in the header to ensure optimistic updates */
-  etag?: string;
+  etag?: string | undefined;
   /** Placement section specifies the user-defined constraints for virtual machine scale set hardware placement. Minimum api-version: 2025-04-01. */
-  placement?: Placement;
+  placement?: Placement | undefined;
 }
 /** The list of virtual machine scale sets. */
 export type VirtualMachineScaleSetListWithLinkResultValueList = Array<VirtualMachineScaleSet>;
@@ -7020,7 +7070,7 @@ export interface VirtualMachineScaleSetListWithLinkResult {
   /** The list of virtual machine scale sets. */
   value: VirtualMachineScaleSetListWithLinkResultValueList;
   /** The uri to fetch the next page of Virtual Machine Scale Sets. Call ListNext() with this to fetch the next page of Virtual Machine Scale Sets. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineScaleSetByLocationRequest {
   /** The ID of the target subscription. */
@@ -7035,7 +7085,7 @@ export interface VirtualMachineScaleSetListResult {
   /** The list of virtual machine scale sets. */
   value: VirtualMachineScaleSetListResultValueList;
   /** The uri to fetch the next page of Virtual Machine Scale Sets. Call ListNext() with this to fetch the next page of VMSS. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineScaleSetExtensionsRequest {
   /** The ID of the target subscription. */
@@ -7053,7 +7103,7 @@ export interface VirtualMachineScaleSetExtensionListResult {
   /** The list of VM scale set extensions. */
   value: VirtualMachineScaleSetExtensionListResultValueList;
   /** The uri to fetch the next page of VM scale set extensions. Call ListNext() with this to fetch the next page of VM scale set extensions. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineScaleSetLifeCycleHookEventsRequest {
   /** The ID of the target subscription. */
@@ -7066,15 +7116,15 @@ export interface ListVirtualMachineScaleSetLifeCycleHookEventsRequest {
 /** Defines a virtual machine scale set lifecycle hook event. */
 export interface VMScaleSetLifecycleHookEvent {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Defines the virtual machine scale set lifecycle hook event properties. */
-  properties?: VMScaleSetLifecycleHookEventProperties;
+  properties?: VMScaleSetLifecycleHookEventProperties | undefined;
 }
 /** The list of virtual machine scale set lifecycle hook events created for a virtual machine scale set resource. */
 export type VMScaleSetLifecycleHookEventListResultValueList = Array<VMScaleSetLifecycleHookEvent>;
@@ -7083,7 +7133,7 @@ export interface VMScaleSetLifecycleHookEventListResult {
   /** The list of virtual machine scale set lifecycle hook events created for a virtual machine scale set resource. */
   value: VMScaleSetLifecycleHookEventListResultValueList;
   /** The uri to fetch the next page of virtual machine scale set lifecycle hook events. Call ListNext() with this to fetch the next page of virtual machine scale set lifecycle hook events. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineScaleSetsRequest {
   /** The ID of the target subscription. */
@@ -7104,22 +7154,22 @@ export type VirtualMachineScaleSetSkuScaleType = "Automatic" | "None";
 /** Describes scaling information of a sku. */
 export interface VirtualMachineScaleSetSkuCapacity {
   /** The minimum capacity. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The maximum capacity that can be set. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The default capacity. */
-  defaultCapacity?: number;
+  defaultCapacity?: number | undefined;
   /** The scale type applicable to the sku. */
-  scaleType?: VirtualMachineScaleSetSkuScaleType;
+  scaleType?: VirtualMachineScaleSetSkuScaleType | undefined;
 }
 /** Describes an available virtual machine scale set sku. */
 export interface VirtualMachineScaleSetSku {
   /** The type of resource the sku applies to. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The Sku. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Specifies the number of virtual machines in the scale set. */
-  capacity?: VirtualMachineScaleSetSkuCapacity;
+  capacity?: VirtualMachineScaleSetSkuCapacity | undefined;
 }
 /** The list of skus available for the virtual machine scale set. */
 export type VirtualMachineScaleSetListSkusResultValueList = Array<VirtualMachineScaleSetSku>;
@@ -7128,7 +7178,7 @@ export interface VirtualMachineScaleSetListSkusResult {
   /** The list of skus available for the virtual machine scale set. */
   value: VirtualMachineScaleSetListSkusResultValueList;
   /** The uri to fetch the next page of Virtual Machine Scale Set Skus. Call ListNext() with this to fetch the next page of VMSS Skus. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineScaleSetVMDiagnosticRunCommandsRequest {
   /** The ID of the target subscription. */
@@ -7140,26 +7190,26 @@ export interface ListVirtualMachineScaleSetVMDiagnosticRunCommandsRequest {
   /** The name of the VirtualMachineScaleSetVM */
   instanceId: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineDiagnosticRunCommandTagsMap = { [key: string]: string | undefined };
 /** Describes a Virtual Machine diagnostic run command. */
 export interface VirtualMachineDiagnosticRunCommand {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachineDiagnosticRunCommandTagsMap;
+  tags?: VirtualMachineDiagnosticRunCommandTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine diagnostic run command. */
-  properties?: VirtualMachineRunCommandProperties;
+  properties?: VirtualMachineRunCommandProperties | undefined;
 }
 /** The list of diagnostic run commands. */
 export type VirtualMachineDiagnosticRunCommandsListResultValueList =
@@ -7169,7 +7219,7 @@ export interface VirtualMachineDiagnosticRunCommandsListResult {
   /** The list of diagnostic run commands. */
   value: VirtualMachineDiagnosticRunCommandsListResultValueList;
   /** The uri to fetch the next page of diagnostic run commands. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineScaleSetVMExtensionsRequest {
   /** The ID of the target subscription. */
@@ -7181,20 +7231,20 @@ export interface ListVirtualMachineScaleSetVMExtensionsRequest {
   /** The instance ID of the virtual machine. */
   instanceId: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Describes a VMSS VM Extension. */
 export interface VirtualMachineScaleSetVMExtension {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Describes the properties of a Virtual Machine Extension. */
-  properties?: VirtualMachineExtensionProperties;
+  properties?: VirtualMachineExtensionProperties | undefined;
   /** The location of the extension. */
-  location?: string;
+  location?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
 }
 /** The list of VMSS VM extensions */
 export type VirtualMachineScaleSetVMExtensionsListResultValueList =
@@ -7202,7 +7252,7 @@ export type VirtualMachineScaleSetVMExtensionsListResultValueList =
 /** The List VMSS VM Extension operation response */
 export interface VirtualMachineScaleSetVMExtensionsListResult {
   /** The list of VMSS VM extensions */
-  value?: VirtualMachineScaleSetVMExtensionsListResultValueList;
+  value?: VirtualMachineScaleSetVMExtensionsListResultValueList | undefined;
 }
 export interface ListVirtualMachineScaleSetVMRunCommandsRequest {
   /** The ID of the target subscription. */
@@ -7214,7 +7264,7 @@ export interface ListVirtualMachineScaleSetVMRunCommandsRequest {
   /** The name of the VirtualMachineScaleSetVM */
   instanceId: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface ListVirtualMachineScaleSetVMsRequest {
   /** The ID of the target subscription. */
@@ -7224,11 +7274,11 @@ export interface ListVirtualMachineScaleSetVMsRequest {
   /** The name of the VirtualMachineScaleSet */
   virtualMachineScaleSetName: string;
   /** The filter to apply to the operation. Allowed values are 'startswith(instanceView/statuses/code, 'PowerState') eq true', 'properties/latestModelApplied eq true', 'properties/latestModelApplied eq false'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The list parameters. Allowed values are 'instanceView', 'instanceView/statuses'. */
-  _select?: string;
+  _select?: string | undefined;
   /** The expand expression to apply to the operation. Allowed values are 'instanceView'. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineScaleSetVMTagsMap = { [key: string]: string | undefined };
@@ -7239,33 +7289,33 @@ export type VirtualMachineScaleSetVMZonesList = Array<string>;
 /** Describes a virtual machine scale set virtual machine. */
 export interface VirtualMachineScaleSetVM {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachineScaleSetVMTagsMap;
+  tags?: VirtualMachineScaleSetVMTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a virtual machine scale set virtual machine. */
-  properties?: VirtualMachineScaleSetVMProperties;
+  properties?: VirtualMachineScaleSetVMProperties | undefined;
   /** The virtual machine instance ID. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** The virtual machine SKU. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The virtual machine child extension resources. */
-  resources?: VirtualMachineScaleSetVMResourcesList;
+  resources?: VirtualMachineScaleSetVMResourcesList | undefined;
   /** The virtual machine zones. */
-  zones?: VirtualMachineScaleSetVMZonesList;
+  zones?: VirtualMachineScaleSetVMZonesList | undefined;
   /** The identity of the virtual machine, if configured. */
-  identity?: VirtualMachineIdentity;
+  identity?: VirtualMachineIdentity | undefined;
   /** Etag is property returned in Update/Get response of the VMSS VM, so that customer can supply it in the header to ensure optimistic updates. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The list of virtual machine scale sets VMs. */
 export type VirtualMachineScaleSetVMListResultValueList = Array<VirtualMachineScaleSetVM>;
@@ -7274,7 +7324,7 @@ export interface VirtualMachineScaleSetVMListResult {
   /** The list of virtual machine scale sets VMs. */
   value: VirtualMachineScaleSetVMListResultValueList;
   /** The uri to fetch the next page of Virtual Machine Scale Set VMs. Call ListNext() with this to fetch the next page of VMSS VMs. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineSizesRequest {
   /** The ID of the target subscription. */
@@ -7294,13 +7344,13 @@ export interface MigrateVirtualMachineScaleSetVMAvailabilityZoneRequest {
   /** The virtual machine scale set instance ids to be migrated to the target availability zone. */
   instanceIds: MigrateVirtualMachineScaleSetVMAvailabilityZoneRequestInstanceIdsList;
   /** The target logical availability zone ("1", "2" or "3") to migrate the virtual machine scale set instances to. If omitted, the platform selects the target zone. */
-  targetZone?: string;
+  targetZone?: string | undefined;
 }
 export interface MigrateVirtualMachineScaleSetVMAvailabilityZoneResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateVirtualMachineToVMScaleSetRequest {
   /** The ID of the target subscription. */
@@ -7310,24 +7360,24 @@ export interface MigrateVirtualMachineToVMScaleSetRequest {
   /** The name of the virtual machine. */
   vmName: string;
   /** The target zone of VM migration to Flexible Virtual Machine Scale Set. */
-  targetZone?: string;
+  targetZone?: string | undefined;
   /** The target compute fault domain of VM migration to Flexible Virtual Machine Scale Set. */
-  targetFaultDomain?: number;
+  targetFaultDomain?: number | undefined;
   /** The target Virtual Machine size of VM migration to Flexible Virtual Machine Scale Set. */
-  targetVMSize?: string;
+  targetVMSize?: string | undefined;
 }
 export interface MigrateVirtualMachineToVMScaleSetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
-/** The desired regions */
+/** The desired regions. If not set, the location from the request URI is used as the desired location. Each location in this list must be a valid Azure region. */
 export type PostSpotPlacementScoreRequestDesiredLocationsList = Array<string>;
 /** SpotPlacementRecommender API response. */
 export interface ResourceSize {
   /** The resource's CRP virtual machine SKU size. */
-  sku?: string;
+  sku?: string | undefined;
 }
 /** The desired virtual machine SKU sizes. */
 export type PostSpotPlacementScoreRequestDesiredSizesList = Array<ResourceSize>;
@@ -7336,14 +7386,14 @@ export interface PostSpotPlacementScoreRequest {
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
-  /** The desired regions */
-  desiredLocations?: PostSpotPlacementScoreRequestDesiredLocationsList;
+  /** The desired regions. If not set, the location from the request URI is used as the desired location. Each location in this list must be a valid Azure region. */
+  desiredLocations?: PostSpotPlacementScoreRequestDesiredLocationsList | undefined;
   /** The desired virtual machine SKU sizes. */
-  desiredSizes?: PostSpotPlacementScoreRequestDesiredSizesList;
-  /** Desired instance count per region/zone based on the scope. */
-  desiredCount?: number;
+  desiredSizes?: PostSpotPlacementScoreRequestDesiredSizesList | undefined;
+  /** Desired instance count per region/zone based on the scope. If not set, defaults to 1. */
+  desiredCount?: number | undefined;
   /** Defines if the scope is zonal or regional. */
-  availabilityZones?: boolean;
+  availabilityZones?: boolean | undefined;
 }
 /** The desired regions */
 export type SpotPlacementScoresResponseDesiredLocationsList = Array<string>;
@@ -7352,30 +7402,30 @@ export type SpotPlacementScoresResponseDesiredSizesList = Array<ResourceSize>;
 /** The spot placement score for sku/region/zone combination. */
 export interface PlacementScore {
   /** The resource's CRP virtual machine SKU size. */
-  sku?: string;
+  sku?: string | undefined;
   /** The region. */
-  region?: string;
+  region?: string | undefined;
   /** The availability zone. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** A placement score indicating the likelihood of successfully allocating the specified Spot VM(s), as well as the expected lifetimes of the Spot VM(s) after allocation. */
-  score?: string;
+  score?: string | undefined;
   /** Whether the desired quota is available. */
-  isQuotaAvailable?: boolean;
+  isQuotaAvailable?: boolean | undefined;
 }
 /** A placement score indicating the likelihood of successfully allocating the specified Spot VM(s), as well as the expected lifetimes of the Spot VM(s) after allocation. */
 export type SpotPlacementScoresResponsePlacementScoresList = Array<PlacementScore>;
 /** SpotPlacementScores API response. */
 export interface SpotPlacementScoresResponse {
   /** The desired regions */
-  desiredLocations?: SpotPlacementScoresResponseDesiredLocationsList;
+  desiredLocations?: SpotPlacementScoresResponseDesiredLocationsList | undefined;
   /** The desired virtual machine SKU sizes. */
-  desiredSizes?: SpotPlacementScoresResponseDesiredSizesList;
+  desiredSizes?: SpotPlacementScoresResponseDesiredSizesList | undefined;
   /** Desired instance count per region/zone based on the scope. */
-  desiredCount?: number;
+  desiredCount?: number | undefined;
   /** Defines if the scope is zonal or regional. */
-  availabilityZones?: boolean;
+  availabilityZones?: boolean | undefined;
   /** A placement score indicating the likelihood of successfully allocating the specified Spot VM(s), as well as the expected lifetimes of the Spot VM(s) after allocation. */
-  placementScores?: SpotPlacementScoresResponsePlacementScoresList;
+  placementScores?: SpotPlacementScoresResponsePlacementScoresList | undefined;
 }
 /** Resource tags. */
 export type ProximityPlacementGroupsCreateOrUpdateRequestTagsMap = {
@@ -7384,11 +7434,11 @@ export type ProximityPlacementGroupsCreateOrUpdateRequestTagsMap = {
 /** Describes the properties of a Proximity Placement Group. */
 export interface ProximityPlacementGroupPropertiesInput {
   /** Specifies the type of the proximity placement group. Possible values are: **Standard** : Co-locate resources within an Azure region or Availability Zone. **Ultra** : For future use. */
-  proximityPlacementGroupType?: ProximityPlacementGroupType | (string & {});
+  proximityPlacementGroupType?: ProximityPlacementGroupType | (string & {}) | undefined;
   /** Describes colocation status of the Proximity Placement Group. */
-  colocationStatus?: InstanceViewStatus;
+  colocationStatus?: InstanceViewStatus | undefined;
   /** Specifies the user intent of the proximity placement group. */
-  intent?: ProximityPlacementGroupPropertiesIntent;
+  intent?: ProximityPlacementGroupPropertiesIntent | undefined;
 }
 /** The availability zones. */
 export type ProximityPlacementGroupsCreateOrUpdateRequestZonesList = Array<string>;
@@ -7400,13 +7450,13 @@ export interface ProximityPlacementGroupsCreateOrUpdateRequest {
   /** The name of the proximity placement group. */
   proximityPlacementGroupName: string;
   /** Resource tags. */
-  tags?: ProximityPlacementGroupsCreateOrUpdateRequestTagsMap;
+  tags?: ProximityPlacementGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Proximity Placement Group. */
-  properties?: ProximityPlacementGroupPropertiesInput;
+  properties?: ProximityPlacementGroupPropertiesInput | undefined;
   /** The availability zones. */
-  zones?: ProximityPlacementGroupsCreateOrUpdateRequestZonesList;
+  zones?: ProximityPlacementGroupsCreateOrUpdateRequestZonesList | undefined;
 }
 /** Resource tags. */
 export type ProximityPlacementGroupsCreateOrUpdateResponseTagsMap = {
@@ -7416,21 +7466,21 @@ export type ProximityPlacementGroupsCreateOrUpdateResponseTagsMap = {
 export type ProximityPlacementGroupsCreateOrUpdateResponseZonesList = Array<string>;
 export interface ProximityPlacementGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ProximityPlacementGroupsCreateOrUpdateResponseTagsMap;
+  tags?: ProximityPlacementGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Proximity Placement Group. */
-  properties?: ProximityPlacementGroupProperties;
+  properties?: ProximityPlacementGroupProperties | undefined;
   /** The availability zones. */
-  zones?: ProximityPlacementGroupsCreateOrUpdateResponseZonesList;
+  zones?: ProximityPlacementGroupsCreateOrUpdateResponseZonesList | undefined;
 }
 export interface RedeployDedicatedHostRequest {
   /** The ID of the target subscription. */
@@ -7444,9 +7494,9 @@ export interface RedeployDedicatedHostRequest {
 }
 export interface RedeployDedicatedHostResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RedeployVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -7458,9 +7508,9 @@ export interface RedeployVirtualMachineRequest {
 }
 export interface RedeployVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
 export type RedeployVirtualMachineScaleSetRequestInstanceIdsList = Array<string>;
@@ -7472,13 +7522,13 @@ export interface RedeployVirtualMachineScaleSetRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
-  instanceIds?: RedeployVirtualMachineScaleSetRequestInstanceIdsList;
+  instanceIds?: RedeployVirtualMachineScaleSetRequestInstanceIdsList | undefined;
 }
 export interface RedeployVirtualMachineScaleSetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RedeployVirtualMachineScaleSetVMRequest {
   /** The ID of the target subscription. */
@@ -7492,9 +7542,9 @@ export interface RedeployVirtualMachineScaleSetVMRequest {
 }
 export interface RedeployVirtualMachineScaleSetVMResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RestartDedicatedHostRequest {
   /** The ID of the target subscription. */
@@ -7508,9 +7558,9 @@ export interface RestartDedicatedHostRequest {
 }
 export interface RestartDedicatedHostResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RestartVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -7522,9 +7572,9 @@ export interface RestartVirtualMachineRequest {
 }
 export interface RestartVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
 export type RestartVirtualMachineScaleSetRequestInstanceIdsList = Array<string>;
@@ -7536,13 +7586,13 @@ export interface RestartVirtualMachineScaleSetRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
-  instanceIds?: RestartVirtualMachineScaleSetRequestInstanceIdsList;
+  instanceIds?: RestartVirtualMachineScaleSetRequestInstanceIdsList | undefined;
 }
 export interface RestartVirtualMachineScaleSetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RestartVirtualMachineScaleSetVMRequest {
   /** The ID of the target subscription. */
@@ -7556,9 +7606,9 @@ export interface RestartVirtualMachineScaleSetVMRequest {
 }
 export interface RestartVirtualMachineScaleSetVMResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type RestorePointCollectionsCreateOrUpdateRequestTagsMap = {
@@ -7567,14 +7617,14 @@ export type RestorePointCollectionsCreateOrUpdateRequestTagsMap = {
 /** The properties of the source resource that this restore point collection is created from. */
 export interface RestorePointCollectionSourcePropertiesInput {
   /** Resource Id of the source resource used to create this restore point collection */
-  id?: string;
+  id?: string | undefined;
 }
 /** The restore point collection properties. */
 export interface RestorePointCollectionPropertiesInput {
   /** The properties of the source resource that this restore point collection is created from. */
-  source?: RestorePointCollectionSourcePropertiesInput;
+  source?: RestorePointCollectionSourcePropertiesInput | undefined;
   /** This property determines whether instant access snapshot is enabled for restore points created under this restore point collection for Premium SSD v2 or Ultra disk. Instant access snapshot for Premium SSD v2 or Ultra disk is instantaneously available for restoring disk with fast restore performance. */
-  instantAccess?: boolean;
+  instantAccess?: boolean | undefined;
 }
 export interface RestorePointCollectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -7584,11 +7634,11 @@ export interface RestorePointCollectionsCreateOrUpdateRequest {
   /** The name of the restore point collection. */
   restorePointCollectionName: string;
   /** Resource tags. */
-  tags?: RestorePointCollectionsCreateOrUpdateRequestTagsMap;
+  tags?: RestorePointCollectionsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The restore point collection properties. */
-  properties?: RestorePointCollectionPropertiesInput;
+  properties?: RestorePointCollectionPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type RestorePointCollectionsCreateOrUpdateResponseTagsMap = {
@@ -7596,19 +7646,19 @@ export type RestorePointCollectionsCreateOrUpdateResponseTagsMap = {
 };
 export interface RestorePointCollectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RestorePointCollectionsCreateOrUpdateResponseTagsMap;
+  tags?: RestorePointCollectionsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The restore point collection properties. */
-  properties?: RestorePointCollectionProperties;
+  properties?: RestorePointCollectionProperties | undefined;
 }
 /** Optional. The script to be executed. When this value is given, the given script will override the default script of the command. */
 export type RunVirtualMachineCommandRequestScriptList = Array<string>;
@@ -7624,19 +7674,19 @@ export interface RunVirtualMachineCommandRequest {
   /** Specifies a commandId of predefined built-in script. Command IDs available for Linux are listed at https://aka.ms/RunCommandManagedLinux#available-commands, Windows at https://aka.ms/RunCommandManagedWindows#available-commands. */
   commandId: string;
   /** Optional. The script to be executed. When this value is given, the given script will override the default script of the command. */
-  script?: RunVirtualMachineCommandRequestScriptList;
+  script?: RunVirtualMachineCommandRequestScriptList | undefined;
   /** The run command parameters. */
-  parameters?: RunVirtualMachineCommandRequestParametersList;
+  parameters?: RunVirtualMachineCommandRequestParametersList | undefined;
 }
 /** Run command operation response. */
 export type RunCommandResultValueList = Array<InstanceViewStatus>;
 export interface RunCommandResult {
   /** Run command operation response. */
-  value?: RunCommandResultValueList;
+  value?: RunCommandResultValueList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Optional. The script to be executed. When this value is given, the given script will override the default script of the command. */
 export type RunVirtualMachineScaleSetVMCommandRequestScriptList = Array<string>;
@@ -7655,14 +7705,14 @@ export interface RunVirtualMachineScaleSetVMCommandRequest {
   /** Specifies a commandId of predefined built-in script. Command IDs available for Linux are listed at https://aka.ms/RunCommandManagedLinux#available-commands, Windows at https://aka.ms/RunCommandManagedWindows#available-commands. */
   commandId: string;
   /** Optional. The script to be executed. When this value is given, the given script will override the default script of the command. */
-  script?: RunVirtualMachineScaleSetVMCommandRequestScriptList;
+  script?: RunVirtualMachineScaleSetVMCommandRequestScriptList | undefined;
   /** The run command parameters. */
-  parameters?: RunVirtualMachineScaleSetVMCommandRequestParametersList;
+  parameters?: RunVirtualMachineScaleSetVMCommandRequestParametersList | undefined;
 }
 /** The input properties for ScaleOut */
 export interface VMScaleSetScaleOutInputProperties {
   /** The zone in which the scale out is requested for the virtual machine scale set. */
-  zone?: string;
+  zone?: string | undefined;
 }
 export interface ScaleVirtualMachineScaleSetOutRequest {
   /** The ID of the target subscription. */
@@ -7674,13 +7724,13 @@ export interface ScaleVirtualMachineScaleSetOutRequest {
   /** Specifies the number of virtual machines in the scale set. */
   capacity: number;
   /** The input properties for ScaleOut */
-  properties?: VMScaleSetScaleOutInputProperties;
+  properties?: VMScaleSetScaleOutInputProperties | undefined;
 }
 export interface ScaleVirtualMachineScaleSetOutResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The action to be performed. */
 export type OrchestrationServiceStateAction = "Resume" | "Suspend";
@@ -7698,9 +7748,9 @@ export interface SetVirtualMachineScaleSetOrchestrationServiceStateRequest {
 }
 export interface SetVirtualMachineScaleSetOrchestrationServiceStateResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type StartAvailabilitySetMigrationToVirtualMachineScaleSetRequestVirtualMachineScaleSetFlexible =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -7724,9 +7774,9 @@ export interface StartVirtualMachineRequest {
 }
 export interface StartVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
 export type StartVirtualMachineScaleSetRequestInstanceIdsList = Array<string>;
@@ -7738,13 +7788,13 @@ export interface StartVirtualMachineScaleSetRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
-  instanceIds?: StartVirtualMachineScaleSetRequestInstanceIdsList;
+  instanceIds?: StartVirtualMachineScaleSetRequestInstanceIdsList | undefined;
 }
 export interface StartVirtualMachineScaleSetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartVirtualMachineScaleSetRollingUpgradeExtensionUpgradeRequest {
   /** The ID of the target subscription. */
@@ -7756,9 +7806,9 @@ export interface StartVirtualMachineScaleSetRollingUpgradeExtensionUpgradeReques
 }
 export interface StartVirtualMachineScaleSetRollingUpgradeExtensionUpgradeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartVirtualMachineScaleSetRollingUpgradeOSUpgradeRequest {
   /** The ID of the target subscription. */
@@ -7770,9 +7820,9 @@ export interface StartVirtualMachineScaleSetRollingUpgradeOSUpgradeRequest {
 }
 export interface StartVirtualMachineScaleSetRollingUpgradeOSUpgradeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartVirtualMachineScaleSetVMRequest {
   /** The ID of the target subscription. */
@@ -7786,9 +7836,9 @@ export interface StartVirtualMachineScaleSetVMRequest {
 }
 export interface StartVirtualMachineScaleSetVMResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateAvailabilitySetRequestTagsMap = { [key: string]: string | undefined };
@@ -7800,31 +7850,31 @@ export interface UpdateAvailabilitySetRequest {
   /** The name of the availability set. */
   availabilitySetName: string;
   /** Resource tags */
-  tags?: UpdateAvailabilitySetRequestTagsMap;
+  tags?: UpdateAvailabilitySetRequestTagsMap | undefined;
   /** The instance view of a resource. */
-  properties?: AvailabilitySetPropertiesInput;
+  properties?: AvailabilitySetPropertiesInput | undefined;
   /** Sku of the availability set */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Resource tags. */
 export type UpdateAvailabilitySetResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAvailabilitySetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAvailabilitySetResponseTagsMap;
+  tags?: UpdateAvailabilitySetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The instance view of a resource. */
-  properties?: AvailabilitySetProperties;
+  properties?: AvailabilitySetProperties | undefined;
   /** Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for virtual machines with managed disks and 'Classic' for virtual machines with unmanaged disks. Default value is 'Classic'. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Resource tags */
 export type UpdateCapacityReservationRequestTagsMap = { [key: string]: string | undefined };
@@ -7838,11 +7888,11 @@ export interface UpdateCapacityReservationRequest {
   /** The name of the capacity reservation. */
   capacityReservationName: string;
   /** Resource tags */
-  tags?: UpdateCapacityReservationRequestTagsMap;
+  tags?: UpdateCapacityReservationRequestTagsMap | undefined;
   /** Properties of the Capacity reservation. */
-  properties?: CapacityReservationPropertiesInput;
+  properties?: CapacityReservationPropertiesInput | undefined;
   /** SKU of the resource for which capacity needs be reserved. The SKU name and capacity is required to be set. Currently VM Skus with the capability called 'CapacityReservationSupported' set to true are supported. When 'CapacityReservationSupported' is true, the SKU capability also specifies the 'SupportedCapacityReservationTypes', which lists the types of capacity reservations (such as Targeted or Block) that the SKU supports. Refer to List Microsoft.Compute SKUs in a region (https://docs.microsoft.com/rest/api/compute/resourceskus/list) for supported values. **Note:** The SKU name and capacity cannot be updated for Block capacity reservations. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Resource tags. */
 export type UpdateCapacityReservationResponseTagsMap = { [key: string]: string | undefined };
@@ -7850,27 +7900,27 @@ export type UpdateCapacityReservationResponseTagsMap = { [key: string]: string |
 export type UpdateCapacityReservationResponseZonesList = Array<string>;
 export interface UpdateCapacityReservationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCapacityReservationResponseTagsMap;
+  tags?: UpdateCapacityReservationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Capacity reservation. */
-  properties?: CapacityReservationProperties;
+  properties?: CapacityReservationProperties | undefined;
   /** SKU of the resource for which capacity needs be reserved. The SKU name and capacity is required to be set. For Block capacity reservations, sku.capacity can only accept values 1, 2, 4, 8, 16, 32, 64. Currently VM Skus with the capability called 'CapacityReservationSupported' set to true are supported. When 'CapacityReservationSupported' is true, the SKU capability also specifies the 'SupportedCapacityReservationTypes', which lists the types of capacity reservations (such as Targeted or Block) that the SKU supports. Refer to List Microsoft.Compute SKUs in a region (https://docs.microsoft.com/rest/api/compute/resourceskus/list) for supported values. */
   sku: Sku;
   /** The availability zones. */
-  zones?: UpdateCapacityReservationResponseZonesList;
+  zones?: UpdateCapacityReservationResponseZonesList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateCapacityReservationGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -7882,9 +7932,9 @@ export interface UpdateCapacityReservationGroupRequest {
   /** The name of the capacity reservation group. */
   capacityReservationGroupName: string;
   /** Resource tags */
-  tags?: UpdateCapacityReservationGroupRequestTagsMap;
+  tags?: UpdateCapacityReservationGroupRequestTagsMap | undefined;
   /** capacity reservation group Properties. */
-  properties?: CapacityReservationGroupPropertiesInput;
+  properties?: CapacityReservationGroupPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateCapacityReservationGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -7892,21 +7942,21 @@ export type UpdateCapacityReservationGroupResponseTagsMap = { [key: string]: str
 export type UpdateCapacityReservationGroupResponseZonesList = Array<string>;
 export interface UpdateCapacityReservationGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCapacityReservationGroupResponseTagsMap;
+  tags?: UpdateCapacityReservationGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** capacity reservation group Properties. */
-  properties?: CapacityReservationGroupProperties;
+  properties?: CapacityReservationGroupProperties | undefined;
   /** The availability zones. */
-  zones?: UpdateCapacityReservationGroupResponseZonesList;
+  zones?: UpdateCapacityReservationGroupResponseZonesList | undefined;
 }
 /** Resource tags */
 export type UpdateDedicatedHostRequestTagsMap = { [key: string]: string | undefined };
@@ -7920,35 +7970,35 @@ export interface UpdateDedicatedHostRequest {
   /** The name of the dedicated host. */
   hostName: string;
   /** Resource tags */
-  tags?: UpdateDedicatedHostRequestTagsMap;
+  tags?: UpdateDedicatedHostRequestTagsMap | undefined;
   /** Properties of the dedicated host. */
-  properties?: DedicatedHostPropertiesInput;
+  properties?: DedicatedHostPropertiesInput | undefined;
   /** [List all available dedicated host sizes for resizing] (https://docs.microsoft.com/rest/api/compute/dedicated-hosts/listavailablesizes). Resizing can be only used to scale up DedicatedHost. Only name is required to be set. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Resource tags. */
 export type UpdateDedicatedHostResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDedicatedHostResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDedicatedHostResponseTagsMap;
+  tags?: UpdateDedicatedHostResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the dedicated host. */
-  properties?: DedicatedHostProperties;
+  properties?: DedicatedHostProperties | undefined;
   /** SKU of the dedicated host for Hardware Generation and VM family. Only name is required to be set. List Microsoft.Compute SKUs for a list of possible values. */
   sku: Sku;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateDedicatedHostGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -7962,11 +8012,11 @@ export interface UpdateDedicatedHostGroupRequest {
   /** The name of the dedicated host group. */
   hostGroupName: string;
   /** Resource tags */
-  tags?: UpdateDedicatedHostGroupRequestTagsMap;
+  tags?: UpdateDedicatedHostGroupRequestTagsMap | undefined;
   /** Dedicated Host Group Properties. */
-  properties?: DedicatedHostGroupPropertiesInput;
+  properties?: DedicatedHostGroupPropertiesInput | undefined;
   /** Availability Zone to use for this host group. Only single zone is supported. The zone can be assigned only during creation. If not provided, the group supports all zones in the region. If provided, enforces each host in the group to be in the same zone. */
-  zones?: UpdateDedicatedHostGroupRequestZonesList;
+  zones?: UpdateDedicatedHostGroupRequestZonesList | undefined;
 }
 /** Resource tags. */
 export type UpdateDedicatedHostGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -7974,21 +8024,21 @@ export type UpdateDedicatedHostGroupResponseTagsMap = { [key: string]: string | 
 export type UpdateDedicatedHostGroupResponseZonesList = Array<string>;
 export interface UpdateDedicatedHostGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDedicatedHostGroupResponseTagsMap;
+  tags?: UpdateDedicatedHostGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Dedicated Host Group Properties. */
-  properties?: DedicatedHostGroupProperties;
+  properties?: DedicatedHostGroupProperties | undefined;
   /** The availability zones. */
-  zones?: UpdateDedicatedHostGroupResponseZonesList;
+  zones?: UpdateDedicatedHostGroupResponseZonesList | undefined;
 }
 /** Resource tags */
 export type UpdateImageRequestTagsMap = { [key: string]: string | undefined };
@@ -8000,9 +8050,9 @@ export interface UpdateImageRequest {
   /** The name of the image. */
   imageName: string;
   /** Resource tags */
-  tags?: UpdateImageRequestTagsMap;
+  tags?: UpdateImageRequestTagsMap | undefined;
   /** Describes the properties of an Image. */
-  properties?: ImagePropertiesInput;
+  properties?: ImagePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateImageResponseTagsMap = { [key: string]: string | undefined };
@@ -8010,25 +8060,25 @@ export type UpdateImageResponseTagsMap = { [key: string]: string | undefined };
 export type UpdateImageResponseExtendedLocation = GetImageResponseExtendedLocation;
 export interface UpdateImageResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateImageResponseTagsMap;
+  tags?: UpdateImageResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of an Image. */
-  properties?: ImageProperties;
+  properties?: ImageProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateInterconnectBlockRequestTagsMap = { [key: string]: string | undefined };
@@ -8040,9 +8090,9 @@ export interface UpdateInterconnectBlockRequest {
   /** The name of the Interconnect Block. */
   interconnectBlockName: string;
   /** Resource tags */
-  tags?: UpdateInterconnectBlockRequestTagsMap;
+  tags?: UpdateInterconnectBlockRequestTagsMap | undefined;
   /** SKU of the resource for which capacity needs to be pre-allocated. Only `sku.capacity` is mutable; `sku.name` is immutable. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Resource tags. */
 export type UpdateInterconnectBlockResponseTagsMap = { [key: string]: string | undefined };
@@ -8050,29 +8100,29 @@ export type UpdateInterconnectBlockResponseTagsMap = { [key: string]: string | u
 export type UpdateInterconnectBlockResponseZonesList = Array<string>;
 export interface UpdateInterconnectBlockResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateInterconnectBlockResponseTagsMap;
+  tags?: UpdateInterconnectBlockResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Interconnect Block. */
-  properties?: InterconnectBlockProperties;
+  properties?: InterconnectBlockProperties | undefined;
   /** SKU of the resource for which capacity needs to be pre-allocated. Both `sku.name` and `sku.capacity` are required at create. After create, only `sku.capacity` can be updated. */
   sku: Sku;
   /** The availability zones. */
-  zones?: UpdateInterconnectBlockResponseZonesList;
+  zones?: UpdateInterconnectBlockResponseZonesList | undefined;
   /** Placement section specifies the user-defined constraints for Interconnect Block hardware placement. This property cannot be changed once Interconnect Block is provisioned. */
-  placement?: Placement;
+  placement?: Placement | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateProximityPlacementGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -8084,7 +8134,7 @@ export interface UpdateProximityPlacementGroupRequest {
   /** The name of the proximity placement group. */
   proximityPlacementGroupName: string;
   /** Resource tags */
-  tags?: UpdateProximityPlacementGroupRequestTagsMap;
+  tags?: UpdateProximityPlacementGroupRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateProximityPlacementGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -8092,21 +8142,21 @@ export type UpdateProximityPlacementGroupResponseTagsMap = { [key: string]: stri
 export type UpdateProximityPlacementGroupResponseZonesList = Array<string>;
 export interface UpdateProximityPlacementGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateProximityPlacementGroupResponseTagsMap;
+  tags?: UpdateProximityPlacementGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Proximity Placement Group. */
-  properties?: ProximityPlacementGroupProperties;
+  properties?: ProximityPlacementGroupProperties | undefined;
   /** The availability zones. */
-  zones?: UpdateProximityPlacementGroupResponseZonesList;
+  zones?: UpdateProximityPlacementGroupResponseZonesList | undefined;
 }
 /** Resource tags */
 export type UpdateRestorePointCollectionRequestTagsMap = { [key: string]: string | undefined };
@@ -8118,27 +8168,27 @@ export interface UpdateRestorePointCollectionRequest {
   /** The name of the restore point collection. */
   restorePointCollectionName: string;
   /** Resource tags */
-  tags?: UpdateRestorePointCollectionRequestTagsMap;
+  tags?: UpdateRestorePointCollectionRequestTagsMap | undefined;
   /** The restore point collection properties. */
-  properties?: RestorePointCollectionPropertiesInput;
+  properties?: RestorePointCollectionPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateRestorePointCollectionResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateRestorePointCollectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateRestorePointCollectionResponseTagsMap;
+  tags?: UpdateRestorePointCollectionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The restore point collection properties. */
-  properties?: RestorePointCollectionProperties;
+  properties?: RestorePointCollectionProperties | undefined;
 }
 /** Resource tags */
 export type UpdateSshPublicKeyRequestTagsMap = { [key: string]: string | undefined };
@@ -8150,63 +8200,63 @@ export interface UpdateSshPublicKeyRequest {
   /** The name of the SSH public key. */
   sshPublicKeyName: string;
   /** Resource tags */
-  tags?: UpdateSshPublicKeyRequestTagsMap;
+  tags?: UpdateSshPublicKeyRequestTagsMap | undefined;
   /** Properties of the SSH public key. */
-  properties?: SshPublicKeyResourceProperties;
+  properties?: SshPublicKeyResourceProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateSshPublicKeyResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSshPublicKeyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSshPublicKeyResponseTagsMap;
+  tags?: UpdateSshPublicKeyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the SSH public key. */
-  properties?: SshPublicKeyResourceProperties;
+  properties?: SshPublicKeyResourceProperties | undefined;
 }
 /** Resource tags */
 export type UpdateVirtualMachineRequestTagsMap = { [key: string]: string | undefined };
 /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set. */
 export interface ImageReferenceInput {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** The image publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Specifies the offer of the platform image or marketplace image used to create the virtual machine. */
-  offer?: string;
+  offer?: string | undefined;
   /** The image SKU. */
-  sku?: string;
+  sku?: string | undefined;
   /** Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available. Please do not use field 'version' for gallery image deployment, gallery image should always use 'id' field for deployment, to use 'latest' version of gallery image, just set '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageName}' in the 'id' field without version input. */
-  version?: string;
+  version?: string | undefined;
   /** Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call. */
-  sharedGalleryImageId?: string;
+  sharedGalleryImageId?: string | undefined;
   /** Specified the community gallery image unique id for vm deployment. This can be fetched from community gallery image GET call. */
-  communityGalleryImageId?: string;
+  communityGalleryImageId?: string | undefined;
 }
 /** Specifies the parameters that are used to add a data disk to a virtual machine. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
 export type StorageProfileInputDataDisksList = Array<DataDisk>;
 /** Specifies the storage settings for the virtual machine disks. */
 export interface StorageProfileInput {
   /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. */
-  imageReference?: ImageReferenceInput;
+  imageReference?: ImageReferenceInput | undefined;
   /** Specifies information about the operating system disk used by the virtual machine. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  osDisk?: OSDisk;
+  osDisk?: OSDisk | undefined;
   /** Specifies the parameters that are used to add a data disk to a virtual machine. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  dataDisks?: StorageProfileInputDataDisksList;
+  dataDisks?: StorageProfileInputDataDisksList | undefined;
   /** Specifies the disk controller type configured for the VM. **Note:** This property will be set to the default disk controller type if not specified provided virtual machine is being created with 'hyperVGeneration' set to V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. Minimum api-version: 2022-08-01. */
-  diskControllerType?: DiskControllerTypes | (string & {});
-  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
-  alignRegionalDisksToVMZone?: boolean;
+  diskControllerType?: DiskControllerTypes | (string & {}) | undefined;
+  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable **only** for VMs with placement.zonePlacementPolicy set to **Any**. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
+  alignRegionalDisksToVMZone?: boolean | undefined;
   /** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD (e.g., "2026-03-02"). */
-  diskApiVersion?: DiskApiVersion | (string & {});
+  diskApiVersion?: DiskApiVersion | (string & {}) | undefined;
 }
 /** Specifies additional base-64 encoded XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. */
 export type WindowsConfigurationInputAdditionalUnattendContentList =
@@ -8214,40 +8264,40 @@ export type WindowsConfigurationInputAdditionalUnattendContentList =
 /** Specifies Windows operating system settings on the virtual machine. */
 export interface WindowsConfigurationInput {
   /** Indicates whether virtual machine agent should be provisioned on the virtual machine. When this property is not specified in the request body, it is set to true by default. This will ensure that VM Agent is installed on the VM so that extensions can be added to the VM later. */
-  provisionVMAgent?: boolean;
+  provisionVMAgent?: boolean | undefined;
   /** Indicates whether Automatic Updates is enabled for the Windows virtual machine. Default value is true. For virtual machine scale sets, this property can be updated and updates will take effect on OS reprovisioning. */
-  enableAutomaticUpdates?: boolean;
+  enableAutomaticUpdates?: boolean | undefined;
   /** Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time". Possible values can be [TimeZoneInfo.Id](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id) value from time zones returned by [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.getsystemtimezones). */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Specifies additional base-64 encoded XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. */
-  additionalUnattendContent?: WindowsConfigurationInputAdditionalUnattendContentList;
+  additionalUnattendContent?: WindowsConfigurationInputAdditionalUnattendContentList | undefined;
   /** [Preview Feature] Specifies settings related to VM Guest Patching on Windows. */
-  patchSettings?: PatchSettings;
+  patchSettings?: PatchSettings | undefined;
   /** Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell. */
-  winRM?: WinRMConfiguration;
+  winRM?: WinRMConfiguration | undefined;
 }
 /** Specifies set of certificates that should be installed onto the virtual machine. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
 export type OSProfileInputSecretsList = Array<VaultSecretGroup>;
 /** Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is provisioned. */
 export interface OSProfileInput {
   /** Specifies the host OS name of the virtual machine. This name cannot be updated after the VM is created. **Max-length (Windows):** 15 characters. **Max-length (Linux):** 64 characters. For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/azure-resource-manager/management/resource-name-rules). */
-  computerName?: string;
+  computerName?: string | undefined;
   /** Specifies the name of the administrator account. <br><br> This property cannot be updated after the VM is created. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1 character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters. */
-  adminUsername?: string;
+  adminUsername?: string | undefined;
   /** Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection) */
-  adminPassword?: string | Redacted.Redacted<string>;
+  adminPassword?: string | Redacted.Redacted<string> | undefined;
   /** Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. **Note: Do not pass any secrets or passwords in customData property.** This property cannot be updated after the VM is created. The property 'customData' is passed to the VM to be saved as a file, for more information see [Custom Data on Azure VMs](https://azure.microsoft.com/blog/custom-data-and-cloud-init-on-windows-azure/). For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init). */
-  customData?: string;
+  customData?: string | undefined;
   /** Specifies Windows operating system settings on the virtual machine. */
-  windowsConfiguration?: WindowsConfigurationInput;
+  windowsConfiguration?: WindowsConfigurationInput | undefined;
   /** Specifies the Linux operating system settings on the virtual machine. For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
-  linuxConfiguration?: LinuxConfiguration;
+  linuxConfiguration?: LinuxConfiguration | undefined;
   /** Specifies set of certificates that should be installed onto the virtual machine. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
-  secrets?: OSProfileInputSecretsList;
+  secrets?: OSProfileInputSecretsList | undefined;
   /** Specifies whether extension operations should be allowed on the virtual machine. This may only be set to False when no extensions are present on the virtual machine. */
-  allowExtensionOperations?: boolean;
+  allowExtensionOperations?: boolean | undefined;
   /** Optional property which must either be set to True or omitted. */
-  requireGuestProvisionSignal?: boolean;
+  requireGuestProvisionSignal?: boolean | undefined;
 }
 export type VirtualMachinePropertiesInputAvailabilitySet =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -8261,50 +8311,52 @@ export type VirtualMachinePropertiesInputHostGroup =
 /** Describes the properties of a Virtual Machine. */
 export interface VirtualMachinePropertiesInput {
   /** Specifies the hardware settings for the virtual machine. */
-  hardwareProfile?: HardwareProfile;
+  hardwareProfile?: HardwareProfile | undefined;
+  /** [Preview Feature] Specifies a FlexProfile for VM size. Azure may deploy a compatible alternative VM size based on capacity and placement considerations, and returns the deployed size in hardwareProfile.vmSize. A request that adds flexProfile must omit hardwareProfile.vmSize. For a virtual machine that uses FlexProfile, a hardwareProfile.vmSize equal to the deployed size is ignored, so a GET response can be sent back unchanged. A PATCH request that omits flexProfile keeps it. A PUT request that omits flexProfile and sets hardwareProfile.vmSize clears it. This property cannot exist along with a non-null properties.availabilitySet, properties.capacityReservation, properties.host, properties.hostGroup, properties.proximityPlacementGroup or properties.virtualMachineScaleSet. */
+  flexProfile?: FlexProfile | undefined;
   /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the virtual machine. */
-  scheduledEventsPolicy?: ScheduledEventsPolicy;
+  scheduledEventsPolicy?: ScheduledEventsPolicy | undefined;
   /** Specifies the storage settings for the virtual machine disks. */
-  storageProfile?: StorageProfileInput;
+  storageProfile?: StorageProfileInput | undefined;
   /** Specifies additional capabilities enabled or disabled on the virtual machine. */
-  additionalCapabilities?: AdditionalCapabilities;
+  additionalCapabilities?: AdditionalCapabilities | undefined;
   /** Specifies the operating system settings used while creating the virtual machine. Some of the settings cannot be changed once VM is provisioned. */
-  osProfile?: OSProfileInput;
+  osProfile?: OSProfileInput | undefined;
   /** Specifies the network interfaces of the virtual machine. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
   /** Specifies the Security related profile settings for the virtual machine. */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15. */
-  diagnosticsProfile?: DiagnosticsProfile;
-  availabilitySet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
-  virtualMachineScaleSet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
-  proximityPlacementGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  diagnosticsProfile?: DiagnosticsProfile | undefined;
+  availabilitySet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
+  virtualMachineScaleSet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
+  proximityPlacementGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies the priority for the virtual machine. Minimum api-version: 2019-03-01 */
-  priority?: VirtualMachinePriorityTypes | (string & {});
+  priority?: VirtualMachinePriorityTypes | (string & {}) | undefined;
   /** Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01. For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview. */
-  evictionPolicy?: VirtualMachineEvictionPolicyTypes | (string & {});
+  evictionPolicy?: VirtualMachineEvictionPolicyTypes | (string & {}) | undefined;
   /** Specifies the billing related details of a Azure Spot virtual machine. Minimum api-version: 2019-03-01. */
-  billingProfile?: BillingProfile;
-  host?: AvailabilitySetPropertiesInputVirtualMachinesItem;
-  hostGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  billingProfile?: BillingProfile | undefined;
+  host?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
+  hostGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15 */
-  licenseType?: string;
+  licenseType?: string | undefined;
   /** Specifies the time alloted for all extensions to start. The time duration should be between 15 minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes (PT1H30M). Minimum api-version: 2020-06-01. */
-  extensionsTimeBudget?: string;
+  extensionsTimeBudget?: string | undefined;
   /** Specifies the scale set logical fault domain into which the Virtual Machine will be created. By default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across available fault domains. This is applicable only if the 'virtualMachineScaleSet' property of this Virtual Machine is set. The Virtual Machine Scale Set that is referenced, must have 'platformFaultDomainCount' greater than 1. This property cannot be updated once the Virtual Machine is created. Fault domain assignment can be viewed in the Virtual Machine Instance View. Minimum api-version: 2020-12-01. */
-  platformFaultDomain?: number;
+  platformFaultDomain?: number | undefined;
   /** Specifies Scheduled Event related configurations. */
-  scheduledEventsProfile?: ScheduledEventsProfile;
+  scheduledEventsProfile?: ScheduledEventsProfile | undefined;
   /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. Minimum api-version: 2021-03-01. */
-  userData?: string;
+  userData?: string | undefined;
   /** Specifies information about the capacity reservation that is used to allocate virtual machine. Minimum api-version: 2021-04-01. */
-  capacityReservation?: CapacityReservationProfile;
+  capacityReservation?: CapacityReservationProfile | undefined;
   /** Specifies information about the Interconnect Block that is used to allocate the Virtual Machine. Minimum api-version: 2026-03-01. */
-  interconnectBlockProfile?: InterconnectBlockProfile;
+  interconnectBlockProfile?: InterconnectBlockProfile | undefined;
   /** Specifies the gallery applications that should be made available to the VM/VMSS. */
-  applicationProfile?: ApplicationProfile;
+  applicationProfile?: ApplicationProfile | undefined;
   /** Resiliency profile for the virtual machine. */
-  resiliencyProfile?: ResiliencyProfile;
+  resiliencyProfile?: ResiliencyProfile | undefined;
 }
 export interface CommonUserAssignedIdentitiesValueInput {}
 /** The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
@@ -8314,9 +8366,9 @@ export type VirtualMachineIdentityInputUserAssignedIdentitiesMap = {
 /** Identity for the virtual machine. */
 export interface VirtualMachineIdentityInput {
   /** The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
-  type?: CommonResourceIdentityType | (string & {});
+  type?: CommonResourceIdentityType | (string & {}) | undefined;
   /** The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: VirtualMachineIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: VirtualMachineIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** The virtual machine zones. */
 export type UpdateVirtualMachineRequestZonesList = Array<string>;
@@ -8328,15 +8380,15 @@ export interface UpdateVirtualMachineRequest {
   /** The name of the virtual machine. */
   vmName: string;
   /** Resource tags */
-  tags?: UpdateVirtualMachineRequestTagsMap;
+  tags?: UpdateVirtualMachineRequestTagsMap | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** Describes the properties of a Virtual Machine. */
-  properties?: VirtualMachinePropertiesInput;
+  properties?: VirtualMachinePropertiesInput | undefined;
   /** The identity of the virtual machine, if configured. */
-  identity?: VirtualMachineIdentityInput;
+  identity?: VirtualMachineIdentityInput | undefined;
   /** The virtual machine zones. */
-  zones?: UpdateVirtualMachineRequestZonesList;
+  zones?: UpdateVirtualMachineRequestZonesList | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
@@ -8348,39 +8400,39 @@ export type UpdateVirtualMachineResponseZonesList = Array<string>;
 export type UpdateVirtualMachineResponseExtendedLocation = GetImageResponseExtendedLocation;
 export interface UpdateVirtualMachineResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualMachineResponseTagsMap;
+  tags?: UpdateVirtualMachineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine. */
-  properties?: VirtualMachineProperties;
+  properties?: VirtualMachineProperties | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The virtual machine child extension resources. */
-  resources?: UpdateVirtualMachineResponseResourcesList;
+  resources?: UpdateVirtualMachineResponseResourcesList | undefined;
   /** The identity of the virtual machine, if configured. */
-  identity?: VirtualMachineIdentity;
+  identity?: VirtualMachineIdentity | undefined;
   /** The availability zones. */
-  zones?: UpdateVirtualMachineResponseZonesList;
+  zones?: UpdateVirtualMachineResponseZonesList | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
   /** ManagedBy is set to Virtual Machine Scale Set(VMSS) flex ARM resourceID, if the VM is part of the VMSS. This property is used by platform for internal resource group delete optimization. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Etag is property returned in Create/Update/Get response of the VM, so that customer can supply it in the header to ensure optimistic updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Placement section specifies the user-defined constraints for virtual machine hardware placement. This property cannot be changed once VM is provisioned. Minimum api-version: 2024-11-01. */
-  placement?: Placement;
+  placement?: Placement | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateVirtualMachineDiagnosticRunCommandRequestTagsMap = {
@@ -8394,29 +8446,29 @@ export type VirtualMachineRunCommandPropertiesInputProtectedParametersList =
 /** Describes the properties of a Virtual Machine run command. */
 export interface VirtualMachineRunCommandPropertiesInput {
   /** The source of the run command script. */
-  source?: VirtualMachineRunCommandScriptSource;
+  source?: VirtualMachineRunCommandScriptSource | undefined;
   /** The parameters used by the script. */
-  parameters?: VirtualMachineRunCommandPropertiesInputParametersList;
+  parameters?: VirtualMachineRunCommandPropertiesInputParametersList | undefined;
   /** The parameters used by the script. */
-  protectedParameters?: VirtualMachineRunCommandPropertiesInputProtectedParametersList;
+  protectedParameters?: VirtualMachineRunCommandPropertiesInputProtectedParametersList | undefined;
   /** Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete. */
-  asyncExecution?: boolean;
+  asyncExecution?: boolean | undefined;
   /** Specifies the user account on the VM when executing the run command. */
-  runAsUser?: string;
+  runAsUser?: string | undefined;
   /** Specifies the user account password on the VM when executing the run command. */
-  runAsPassword?: string | Redacted.Redacted<string>;
+  runAsPassword?: string | Redacted.Redacted<string> | undefined;
   /** The timeout in seconds to execute the run command. */
-  timeoutInSeconds?: number;
+  timeoutInSeconds?: number | undefined;
   /** Specifies the Azure storage blob where script output stream will be uploaded. Use a SAS URI with read, append, create, write access OR use managed identity to provide the VM access to the blob. Refer outputBlobManagedIdentity parameter. */
-  outputBlobUri?: string;
+  outputBlobUri?: string | undefined;
   /** Specifies the Azure storage blob where script error stream will be uploaded. Use a SAS URI with read, append, create, write access OR use managed identity to provide the VM access to the blob. Refer errorBlobManagedIdentity parameter. */
-  errorBlobUri?: string;
+  errorBlobUri?: string | undefined;
   /** User-assigned managed identity that has access to outputBlobUri storage blob. Use an empty object in case of system-assigned identity. Make sure managed identity has been given access to blob's container with 'Storage Blob Data Contributor' role assignment. In case of user-assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged */
-  outputBlobManagedIdentity?: RunCommandManagedIdentity;
+  outputBlobManagedIdentity?: RunCommandManagedIdentity | undefined;
   /** User-assigned managed identity that has access to errorBlobUri storage blob. Use an empty object in case of system-assigned identity. Make sure managed identity has been given access to blob's container with 'Storage Blob Data Contributor' role assignment. In case of user-assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged */
-  errorBlobManagedIdentity?: RunCommandManagedIdentity;
+  errorBlobManagedIdentity?: RunCommandManagedIdentity | undefined;
   /** Optional. If set to true, any failure in the script will fail the deployment and ProvisioningState will be marked as Failed. If set to false, ProvisioningState would only reflect whether the run command was run or not by the extensions platform, it would not indicate whether script failed in case of script failures. See instance view of run command in case of script failures to see executionMessage, output, error: https://aka.ms/runcommandmanaged#get-execution-status-and-results */
-  treatFailureAsDeploymentFailure?: boolean;
+  treatFailureAsDeploymentFailure?: boolean | undefined;
 }
 export interface UpdateVirtualMachineDiagnosticRunCommandRequest {
   /** The ID of the target subscription. */
@@ -8428,9 +8480,9 @@ export interface UpdateVirtualMachineDiagnosticRunCommandRequest {
   /** The name of the VirtualMachineDiagnosticRunCommand */
   runCommandName: string;
   /** Resource tags */
-  tags?: UpdateVirtualMachineDiagnosticRunCommandRequestTagsMap;
+  tags?: UpdateVirtualMachineDiagnosticRunCommandRequestTagsMap | undefined;
   /** Describes the properties of a Virtual Machine run command. */
-  properties?: VirtualMachineRunCommandPropertiesInput;
+  properties?: VirtualMachineRunCommandPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualMachineDiagnosticRunCommandResponseTagsMap = {
@@ -8438,48 +8490,48 @@ export type UpdateVirtualMachineDiagnosticRunCommandResponseTagsMap = {
 };
 export interface UpdateVirtualMachineDiagnosticRunCommandResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualMachineDiagnosticRunCommandResponseTagsMap;
+  tags?: UpdateVirtualMachineDiagnosticRunCommandResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine diagnostic run command. */
-  properties?: VirtualMachineRunCommandProperties;
+  properties?: VirtualMachineRunCommandProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateVirtualMachineExtensionRequestTagsMap = { [key: string]: string | undefined };
 /** Describes the properties of a Virtual Machine Extension. */
 export interface VirtualMachineExtensionUpdateProperties {
   /** How the extension handler should be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
+  forceUpdateTag?: string | undefined;
   /** The name of the extension handler publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
+  type?: string | undefined;
   /** Specifies the Major.Minor version of the script handler. Customer is able to specify only the Major.Minor version of an extension, Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
-  typeHandlerVersion?: string;
+  typeHandlerVersion?: string | undefined;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
+  autoUpgradeMinorVersion?: boolean | undefined;
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** Json formatted public settings for the extension. */
-  settings?: unknown;
+  settings?: unknown | undefined;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: unknown;
+  protectedSettings?: unknown | undefined;
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
-  suppressFailures?: boolean;
+  suppressFailures?: boolean | undefined;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: KeyVaultSecretReference;
+  protectedSettingsFromKeyVault?: KeyVaultSecretReference | undefined;
 }
 export interface UpdateVirtualMachineExtensionRequest {
   /** The ID of the target subscription. */
@@ -8491,31 +8543,31 @@ export interface UpdateVirtualMachineExtensionRequest {
   /** The name of the virtual machine extension. */
   vmExtensionName: string;
   /** Resource tags */
-  tags?: UpdateVirtualMachineExtensionRequestTagsMap;
+  tags?: UpdateVirtualMachineExtensionRequestTagsMap | undefined;
   /** Describes the properties of a Virtual Machine Extension. */
-  properties?: VirtualMachineExtensionUpdateProperties;
+  properties?: VirtualMachineExtensionUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualMachineExtensionResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateVirtualMachineExtensionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualMachineExtensionResponseTagsMap;
+  tags?: UpdateVirtualMachineExtensionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine Extension. */
-  properties?: VirtualMachineExtensionProperties;
+  properties?: VirtualMachineExtensionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateVirtualMachineRunCommandRequestTagsMap = { [key: string]: string | undefined };
@@ -8529,31 +8581,31 @@ export interface UpdateVirtualMachineRunCommandRequest {
   /** The name of the VirtualMachineRunCommand */
   runCommandName: string;
   /** Resource tags */
-  tags?: UpdateVirtualMachineRunCommandRequestTagsMap;
+  tags?: UpdateVirtualMachineRunCommandRequestTagsMap | undefined;
   /** Describes the properties of a Virtual Machine run command. */
-  properties?: VirtualMachineRunCommandPropertiesInput;
+  properties?: VirtualMachineRunCommandPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualMachineRunCommandResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateVirtualMachineRunCommandResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualMachineRunCommandResponseTagsMap;
+  tags?: UpdateVirtualMachineRunCommandResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine run command. */
-  properties?: VirtualMachineRunCommandProperties;
+  properties?: VirtualMachineRunCommandProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateVirtualMachineScaleSetRequestTagsMap = { [key: string]: string | undefined };
@@ -8562,36 +8614,36 @@ export type VirtualMachineScaleSetUpdateOSProfileInputSecretsList = Array<VaultS
 /** Describes a virtual machine scale set OS profile. */
 export interface VirtualMachineScaleSetUpdateOSProfileInput {
   /** A base-64 encoded string of custom data. */
-  customData?: string;
+  customData?: string | undefined;
   /** The Windows Configuration of the OS profile. */
-  windowsConfiguration?: WindowsConfigurationInput;
+  windowsConfiguration?: WindowsConfigurationInput | undefined;
   /** The Linux Configuration of the OS profile. */
-  linuxConfiguration?: LinuxConfiguration;
+  linuxConfiguration?: LinuxConfiguration | undefined;
   /** The List of certificates for addition to the VM. */
-  secrets?: VirtualMachineScaleSetUpdateOSProfileInputSecretsList;
+  secrets?: VirtualMachineScaleSetUpdateOSProfileInputSecretsList | undefined;
 }
 /** The list of virtual hard disk container uris. */
 export type VirtualMachineScaleSetUpdateOSDiskVhdContainersList = Array<string>;
 /** Describes virtual machine scale set operating system disk Update Object. This should be used for Updating VMSS OS Disk. */
 export interface VirtualMachineScaleSetUpdateOSDisk {
   /** The caching type. */
-  caching?: CachingTypes | (string & {});
+  caching?: CachingTypes | (string & {}) | undefined;
   /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
-  writeAcceleratorEnabled?: boolean;
+  writeAcceleratorEnabled?: boolean | undefined;
   /** Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale set. */
-  diffDiskSettings?: DiffDiskSettings;
+  diffDiskSettings?: DiffDiskSettings | undefined;
   /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023 */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** Specifies the storage fault domain alignment type for the disk. */
-  storageFaultDomainAlignment?: StorageFaultDomainAlignmentType | (string & {});
+  storageFaultDomainAlignment?: StorageFaultDomainAlignmentType | (string & {}) | undefined;
   /** The Source User Image VirtualHardDisk. This VirtualHardDisk will be copied before using it to attach to the Virtual Machine. If SourceImage is provided, the destination VirtualHardDisk should not exist. */
-  image?: VirtualHardDisk;
+  image?: VirtualHardDisk | undefined;
   /** The list of virtual hard disk container uris. */
-  vhdContainers?: VirtualMachineScaleSetUpdateOSDiskVhdContainersList;
+  vhdContainers?: VirtualMachineScaleSetUpdateOSDiskVhdContainersList | undefined;
   /** The managed disk parameters. */
-  managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
+  managedDisk?: VirtualMachineScaleSetManagedDiskParameters | undefined;
   /** Specifies whether OS Disk should be deleted or detached upon VMSS Flex deletion (This feature is available for VMSS with Flexible OrchestrationMode only). <br><br> Possible values: <br><br> **Delete** If this value is used, the OS disk is deleted when VMSS Flex VM is deleted.<br><br> **Detach** If this value is used, the OS disk is retained after VMSS Flex VM is deleted. <br><br> The default value is set to **Delete**. For an Ephemeral OS Disk, the default value is set to **Delete**. User cannot change the delete option for Ephemeral OS Disk. */
-  deleteOption?: DiskDeleteOptionTypes | (string & {});
+  deleteOption?: DiskDeleteOptionTypes | (string & {}) | undefined;
 }
 /** The data disks. */
 export type VirtualMachineScaleSetUpdateStorageProfileInputDataDisksList =
@@ -8599,15 +8651,15 @@ export type VirtualMachineScaleSetUpdateStorageProfileInputDataDisksList =
 /** Describes a virtual machine scale set storage profile. */
 export interface VirtualMachineScaleSetUpdateStorageProfileInput {
   /** The image reference. */
-  imageReference?: ImageReferenceInput;
+  imageReference?: ImageReferenceInput | undefined;
   /** The OS disk. */
-  osDisk?: VirtualMachineScaleSetUpdateOSDisk;
+  osDisk?: VirtualMachineScaleSetUpdateOSDisk | undefined;
   /** The data disks. */
-  dataDisks?: VirtualMachineScaleSetUpdateStorageProfileInputDataDisksList;
+  dataDisks?: VirtualMachineScaleSetUpdateStorageProfileInputDataDisksList | undefined;
   /** Specifies the disk controller type configured for the virtual machines in the scale set. **Note:** You need to deallocate the virtual machines in the scale set before updating its disk controller type based on the upgrade mode configured for the scale set. Minimum api-version: 2022-08-01 */
-  diskControllerType?: DiskControllerTypes | (string & {});
+  diskControllerType?: DiskControllerTypes | (string & {}) | undefined;
   /** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD (e.g., "2026-03-02"). */
-  diskApiVersion?: DiskApiVersion | (string & {});
+  diskApiVersion?: DiskApiVersion | (string & {}) | undefined;
 }
 export type VirtualMachineScaleSetUpdateNetworkConfigurationPropertiesNetworkSecurityGroup =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -8616,12 +8668,12 @@ export type VirtualMachineScaleSetUpdatePublicIPAddressConfigurationPropertiesPu
 /** Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration */
 export interface VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties {
   /** The idle timeout of the public IP address. */
-  idleTimeoutInMinutes?: number;
+  idleTimeoutInMinutes?: number | undefined;
   /** The dns settings to be applied on the publicIP addresses . */
-  dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
-  publicIPPrefix?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings | undefined;
+  publicIPPrefix?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specify what happens to the public IP when the VM is deleted */
-  deleteOption?: DeleteOptions | (string & {});
+  deleteOption?: DeleteOptions | (string & {}) | undefined;
 }
 /** Resource tags applied to the publicIP address created by this PublicIPAddressConfiguration */
 export type VirtualMachineScaleSetUpdatePublicIPAddressConfigurationTagsMap = {
@@ -8630,11 +8682,11 @@ export type VirtualMachineScaleSetUpdatePublicIPAddressConfigurationTagsMap = {
 /** Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration */
 export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
   /** The publicIP address configuration name. */
-  name?: string;
+  name?: string | undefined;
   /** Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration */
-  properties?: VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties;
+  properties?: VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties | undefined;
   /** Resource tags applied to the publicIP address created by this PublicIPAddressConfiguration */
-  tags?: VirtualMachineScaleSetUpdatePublicIPAddressConfigurationTagsMap;
+  tags?: VirtualMachineScaleSetUpdatePublicIPAddressConfigurationTagsMap | undefined;
 }
 export type VirtualMachineScaleSetUpdateIPConfigurationPropertiesApplicationGatewayBackendAddressPoolsItem =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -8659,28 +8711,40 @@ export type VirtualMachineScaleSetUpdateIPConfigurationPropertiesLoadBalancerInb
 /** Describes a virtual machine scale set network profile's IP configuration properties. */
 export interface VirtualMachineScaleSetUpdateIPConfigurationProperties {
   /** The subnet. */
-  subnet?: ApiEntityReference;
+  subnet?: ApiEntityReference | undefined;
   /** Specifies the primary IP Configuration in case the network interface has more than one IP Configuration. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** The publicIPAddressConfiguration. */
-  publicIPAddressConfiguration?: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration;
+  publicIPAddressConfiguration?:
+    | VirtualMachineScaleSetUpdatePublicIPAddressConfiguration
+    | undefined;
   /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'. */
-  privateIPAddressVersion?: IPVersion | (string & {});
+  privateIPAddressVersion?: IPVersion | (string & {}) | undefined;
+  /** The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address. */
+  privateIPAddressPrefixLength?: number | null | undefined;
   /** The application gateway backend address pools. */
-  applicationGatewayBackendAddressPools?: VirtualMachineScaleSetUpdateIPConfigurationPropertiesApplicationGatewayBackendAddressPoolsList;
+  applicationGatewayBackendAddressPools?:
+    | VirtualMachineScaleSetUpdateIPConfigurationPropertiesApplicationGatewayBackendAddressPoolsList
+    | undefined;
   /** Specifies an array of references to application security group. */
-  applicationSecurityGroups?: VirtualMachineScaleSetUpdateIPConfigurationPropertiesApplicationSecurityGroupsList;
+  applicationSecurityGroups?:
+    | VirtualMachineScaleSetUpdateIPConfigurationPropertiesApplicationSecurityGroupsList
+    | undefined;
   /** The load balancer backend address pools. */
-  loadBalancerBackendAddressPools?: VirtualMachineScaleSetUpdateIPConfigurationPropertiesLoadBalancerBackendAddressPoolsList;
+  loadBalancerBackendAddressPools?:
+    | VirtualMachineScaleSetUpdateIPConfigurationPropertiesLoadBalancerBackendAddressPoolsList
+    | undefined;
   /** The load balancer inbound nat pools. */
-  loadBalancerInboundNatPools?: VirtualMachineScaleSetUpdateIPConfigurationPropertiesLoadBalancerInboundNatPoolsList;
+  loadBalancerInboundNatPools?:
+    | VirtualMachineScaleSetUpdateIPConfigurationPropertiesLoadBalancerInboundNatPoolsList
+    | undefined;
 }
 /** Describes a virtual machine scale set network profile's IP configuration. NOTE: The subnet of a scale set may be modified as long as the original subnet and the new subnet are in the same virtual network */
 export interface VirtualMachineScaleSetUpdateIPConfiguration {
   /** The IP configuration name. */
-  name?: string;
+  name?: string | undefined;
   /** Describes a virtual machine scale set network profile's IP configuration properties. */
-  properties?: VirtualMachineScaleSetUpdateIPConfigurationProperties;
+  properties?: VirtualMachineScaleSetUpdateIPConfigurationProperties | undefined;
 }
 /** The virtual machine scale set IP Configuration. */
 export type VirtualMachineScaleSetUpdateNetworkConfigurationPropertiesIpConfigurationsList =
@@ -8688,26 +8752,28 @@ export type VirtualMachineScaleSetUpdateNetworkConfigurationPropertiesIpConfigur
 /** Describes a virtual machine scale set updatable network profile's IP configuration.Use this object for updating network profile's IP Configuration. */
 export interface VirtualMachineScaleSetUpdateNetworkConfigurationProperties {
   /** Whether this is a primary NIC on a virtual machine. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** Specifies whether the network interface is accelerated networking-enabled. */
-  enableAcceleratedNetworking?: boolean;
+  enableAcceleratedNetworking?: boolean | undefined;
   /** Specifies whether the network interface is disabled for tcp state tracking. */
-  disableTcpStateTracking?: boolean;
+  disableTcpStateTracking?: boolean | undefined;
   /** Specifies whether the network interface is FPGA networking-enabled. */
-  enableFpga?: boolean;
-  networkSecurityGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  enableFpga?: boolean | undefined;
+  networkSecurityGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** The dns settings to be applied on the network interfaces. */
-  dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
+  dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings | undefined;
   /** The virtual machine scale set IP Configuration. */
-  ipConfigurations?: VirtualMachineScaleSetUpdateNetworkConfigurationPropertiesIpConfigurationsList;
+  ipConfigurations?:
+    | VirtualMachineScaleSetUpdateNetworkConfigurationPropertiesIpConfigurationsList
+    | undefined;
   /** Whether IP forwarding enabled on this NIC. */
-  enableIPForwarding?: boolean;
+  enableIPForwarding?: boolean | undefined;
   /** Specify what happens to the network interface when the VM is deleted */
-  deleteOption?: DeleteOptions | (string & {});
+  deleteOption?: DeleteOptions | (string & {}) | undefined;
   /** Specifies whether the Auxiliary mode is enabled for the Network Interface resource. */
-  auxiliaryMode?: NetworkInterfaceAuxiliaryMode | (string & {});
+  auxiliaryMode?: NetworkInterfaceAuxiliaryMode | (string & {}) | undefined;
   /** Specifies whether the Auxiliary sku is enabled for the Network Interface resource. */
-  auxiliarySku?: NetworkInterfaceAuxiliarySku | (string & {});
+  auxiliarySku?: NetworkInterfaceAuxiliarySku | (string & {}) | undefined;
 }
 /** Resource tags applied to the networkInterface address created by this NetworkInterfaceConfiguration */
 export type VirtualMachineScaleSetUpdateNetworkConfigurationTagsMap = {
@@ -8716,11 +8782,11 @@ export type VirtualMachineScaleSetUpdateNetworkConfigurationTagsMap = {
 /** Describes a virtual machine scale set network profile's network configurations. */
 export interface VirtualMachineScaleSetUpdateNetworkConfiguration {
   /** The network configuration name. */
-  name?: string;
+  name?: string | undefined;
   /** Describes a virtual machine scale set updatable network profile's IP configuration.Use this object for updating network profile's IP Configuration. */
-  properties?: VirtualMachineScaleSetUpdateNetworkConfigurationProperties;
+  properties?: VirtualMachineScaleSetUpdateNetworkConfigurationProperties | undefined;
   /** Resource tags applied to the networkInterface address created by this NetworkInterfaceConfiguration */
-  tags?: VirtualMachineScaleSetUpdateNetworkConfigurationTagsMap;
+  tags?: VirtualMachineScaleSetUpdateNetworkConfigurationTagsMap | undefined;
 }
 /** The list of network configurations. */
 export type VirtualMachineScaleSetUpdateNetworkProfileNetworkInterfaceConfigurationsList =
@@ -8728,24 +8794,26 @@ export type VirtualMachineScaleSetUpdateNetworkProfileNetworkInterfaceConfigurat
 /** Describes a virtual machine scale set network profile. */
 export interface VirtualMachineScaleSetUpdateNetworkProfile {
   /** A reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'. */
-  healthProbe?: ApiEntityReference;
+  healthProbe?: ApiEntityReference | undefined;
   /** The list of network configurations. */
-  networkInterfaceConfigurations?: VirtualMachineScaleSetUpdateNetworkProfileNetworkInterfaceConfigurationsList;
+  networkInterfaceConfigurations?:
+    | VirtualMachineScaleSetUpdateNetworkProfileNetworkInterfaceConfigurationsList
+    | undefined;
   /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
-  networkApiVersion?: NetworkApiVersion | (string & {});
+  networkApiVersion?: NetworkApiVersion | (string & {}) | undefined;
   /** Specifies the interconnect group profile to associate with the scale set. Minimum api-version: 2026-03-01. */
-  interconnectGroupProfile?: InterconnectGroupProfile;
+  interconnectGroupProfile?: InterconnectGroupProfile | undefined;
 }
 /** The list of virtual machine extension names to exclude when applying the security posture. */
 export type SecurityPostureReferenceUpdateExcludeExtensionsList = Array<string>;
 /** Specifies the security posture to be used in the scale set. Minimum api-version: 2023-03-01 */
 export interface SecurityPostureReferenceUpdate {
   /** The security posture reference id in the form of /CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|latest */
-  id?: string;
+  id?: string | undefined;
   /** The list of virtual machine extension names to exclude when applying the security posture. */
-  excludeExtensions?: SecurityPostureReferenceUpdateExcludeExtensionsList;
+  excludeExtensions?: SecurityPostureReferenceUpdateExcludeExtensionsList | undefined;
   /** Whether the security posture can be overridden by the user. */
-  isOverridable?: boolean;
+  isOverridable?: boolean | undefined;
 }
 /** Collection of extension names after which this extension needs to be provisioned. */
 export type VirtualMachineScaleSetExtensionPropertiesInputProvisionAfterExtensionsList =
@@ -8753,34 +8821,36 @@ export type VirtualMachineScaleSetExtensionPropertiesInputProvisionAfterExtensio
 /** Describes the properties of a Virtual Machine Scale Set Extension. */
 export interface VirtualMachineScaleSetExtensionPropertiesInput {
   /** If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
+  forceUpdateTag?: string | undefined;
   /** The name of the extension handler publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
+  type?: string | undefined;
   /** Specifies the Major.Minor version of the script handler. Customer is able to specify only the Major.Minor version of an extension, Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
-  typeHandlerVersion?: string;
+  typeHandlerVersion?: string | undefined;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
+  autoUpgradeMinorVersion?: boolean | undefined;
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** Json formatted public settings for the extension. */
-  settings?: unknown;
+  settings?: unknown | undefined;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: unknown;
+  protectedSettings?: unknown | undefined;
   /** Collection of extension names after which this extension needs to be provisioned. */
-  provisionAfterExtensions?: VirtualMachineScaleSetExtensionPropertiesInputProvisionAfterExtensionsList;
+  provisionAfterExtensions?:
+    | VirtualMachineScaleSetExtensionPropertiesInputProvisionAfterExtensionsList
+    | undefined;
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
-  suppressFailures?: boolean;
+  suppressFailures?: boolean | undefined;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: KeyVaultSecretReference;
+  protectedSettingsFromKeyVault?: KeyVaultSecretReference | undefined;
 }
 /** Describes a Virtual Machine Scale Set Extension. */
 export interface VirtualMachineScaleSetExtensionInput {
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Describes the properties of a Virtual Machine Scale Set Extension. */
-  properties?: VirtualMachineScaleSetExtensionPropertiesInput;
+  properties?: VirtualMachineScaleSetExtensionPropertiesInput | undefined;
 }
 /** The virtual machine scale set child extension resources. */
 export type VirtualMachineScaleSetExtensionProfileInputExtensionsList =
@@ -8788,72 +8858,72 @@ export type VirtualMachineScaleSetExtensionProfileInputExtensionsList =
 /** Describes a virtual machine scale set extension profile. */
 export interface VirtualMachineScaleSetExtensionProfileInput {
   /** The virtual machine scale set child extension resources. */
-  extensions?: VirtualMachineScaleSetExtensionProfileInputExtensionsList;
+  extensions?: VirtualMachineScaleSetExtensionProfileInputExtensionsList | undefined;
   /** Specifies the time alloted for all extensions to start. The time duration should be between 15 minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes (PT1H30M). Minimum api-version: 2020-06-01. */
-  extensionsTimeBudget?: string;
+  extensionsTimeBudget?: string | undefined;
 }
 /** Describes a virtual machine scale set virtual machine profile. */
 export interface VirtualMachineScaleSetUpdateVMProfileInput {
   /** The virtual machine scale set OS profile. */
-  osProfile?: VirtualMachineScaleSetUpdateOSProfileInput;
+  osProfile?: VirtualMachineScaleSetUpdateOSProfileInput | undefined;
   /** The virtual machine scale set storage profile. */
-  storageProfile?: VirtualMachineScaleSetUpdateStorageProfileInput;
+  storageProfile?: VirtualMachineScaleSetUpdateStorageProfileInput | undefined;
   /** The virtual machine scale set network profile. */
-  networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
+  networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile | undefined;
   /** The virtual machine scale set security posture reference. */
-  securityPostureReference?: SecurityPostureReferenceUpdate;
+  securityPostureReference?: SecurityPostureReferenceUpdate | undefined;
   /** The virtual machine scale set Security profile */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** The virtual machine scale set diagnostics profile. */
-  diagnosticsProfile?: DiagnosticsProfile;
+  diagnosticsProfile?: DiagnosticsProfile | undefined;
   /** The virtual machine scale set extension profile. */
-  extensionProfile?: VirtualMachineScaleSetExtensionProfileInput;
+  extensionProfile?: VirtualMachineScaleSetExtensionProfileInput | undefined;
   /** The license type, which is for bring your own license scenario. */
-  licenseType?: string;
+  licenseType?: string | undefined;
   /** Specifies the billing related details of a Azure Spot VMSS. Minimum api-version: 2019-03-01. */
-  billingProfile?: BillingProfile;
+  billingProfile?: BillingProfile | undefined;
   /** Specifies Scheduled Event related configurations. */
-  scheduledEventsProfile?: ScheduledEventsProfile;
+  scheduledEventsProfile?: ScheduledEventsProfile | undefined;
   /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
-  userData?: string;
+  userData?: string | undefined;
   /** Specifies the hardware profile related details of a scale set. Minimum api-version: 2021-11-01. */
-  hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
+  hardwareProfile?: VirtualMachineScaleSetHardwareProfile | undefined;
   /** Specifies the Interconnect Block related details of a scale set. Minimum api-version: 2026-03-01. */
-  interconnectBlockProfile?: InterconnectBlockProfile;
+  interconnectBlockProfile?: InterconnectBlockProfile | undefined;
 }
 export type VirtualMachineScaleSetUpdatePropertiesInputProximityPlacementGroup =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
 /** Describes the properties of a Virtual Machine Scale Set. */
 export interface VirtualMachineScaleSetUpdatePropertiesInput {
   /** The upgrade policy. */
-  upgradePolicy?: UpgradePolicy;
+  upgradePolicy?: UpgradePolicy | undefined;
   /** Policy for automatic repairs. */
-  automaticRepairsPolicy?: AutomaticRepairsPolicy;
+  automaticRepairsPolicy?: AutomaticRepairsPolicy | undefined;
   /** The virtual machine profile. */
-  virtualMachineProfile?: VirtualMachineScaleSetUpdateVMProfileInput;
+  virtualMachineProfile?: VirtualMachineScaleSetUpdateVMProfileInput | undefined;
   /** Specifies whether the Virtual Machine Scale Set should be overprovisioned. */
-  overprovision?: boolean;
+  overprovision?: boolean | undefined;
   /** When Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra overprovisioned VMs. */
-  doNotRunExtensionsOnOverprovisionedVMs?: boolean;
+  doNotRunExtensionsOnOverprovisionedVMs?: boolean | undefined;
   /** When true this limits the scale set to a single placement group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may not be modified to true. */
-  singlePlacementGroup?: boolean;
+  singlePlacementGroup?: boolean | undefined;
   /** Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with UltraSSD_LRS storage account type. */
-  additionalCapabilities?: AdditionalCapabilities;
+  additionalCapabilities?: AdditionalCapabilities | undefined;
   /** Specifies the policies applied when scaling in Virtual Machines in the Virtual Machine Scale Set. */
-  scaleInPolicy?: ScaleInPolicy;
-  proximityPlacementGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  scaleInPolicy?: ScaleInPolicy | undefined;
+  proximityPlacementGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies the desired targets for mixing Spot and Regular priority VMs within the same VMSS Flex instance. */
-  priorityMixPolicy?: PriorityMixPolicy;
+  priorityMixPolicy?: PriorityMixPolicy | undefined;
   /** Specifies the Spot Restore properties for the virtual machine scale set. */
-  spotRestorePolicy?: SpotRestorePolicy;
+  spotRestorePolicy?: SpotRestorePolicy | undefined;
   /** Policy for Resiliency */
-  resiliencyPolicy?: ResiliencyPolicy;
+  resiliencyPolicy?: ResiliencyPolicy | undefined;
   /** Specifies the align mode between Virtual Machine Scale Set compute and storage Fault Domain count. */
-  zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode | (string & {});
+  zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode | (string & {}) | undefined;
   /** Specifies the sku profile for the virtual machine scale set. */
-  skuProfile?: SkuProfile;
+  skuProfile?: SkuProfile | undefined;
   /** Specifies the lifecycle hooks profile for the virtual machine scale set. */
-  lifecycleHooksProfile?: LifecycleHooksProfile;
+  lifecycleHooksProfile?: LifecycleHooksProfile | undefined;
 }
 /** The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type VirtualMachineScaleSetIdentityInputUserAssignedIdentitiesMap = {
@@ -8862,9 +8932,9 @@ export type VirtualMachineScaleSetIdentityInputUserAssignedIdentitiesMap = {
 /** Identity for the virtual machine scale set. */
 export interface VirtualMachineScaleSetIdentityInput {
   /** The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set. */
-  type?: CommonResourceIdentityType | (string & {});
+  type?: CommonResourceIdentityType | (string & {}) | undefined;
   /** The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: VirtualMachineScaleSetIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: VirtualMachineScaleSetIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** The virtual machine scale set zones. */
 export type UpdateVirtualMachineScaleSetRequestZonesList = Array<string>;
@@ -8876,19 +8946,19 @@ export interface UpdateVirtualMachineScaleSetRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** Resource tags */
-  tags?: UpdateVirtualMachineScaleSetRequestTagsMap;
+  tags?: UpdateVirtualMachineScaleSetRequestTagsMap | undefined;
   /** The virtual machine scale set sku. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The purchase plan when deploying a virtual machine scale set from VM Marketplace images. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** Describes the properties of a Virtual Machine Scale Set. */
-  properties?: VirtualMachineScaleSetUpdatePropertiesInput;
+  properties?: VirtualMachineScaleSetUpdatePropertiesInput | undefined;
   /** The identity of the virtual machine scale set, if configured. */
-  identity?: VirtualMachineScaleSetIdentityInput;
+  identity?: VirtualMachineScaleSetIdentityInput | undefined;
   /** The virtual machine scale set zones. */
-  zones?: UpdateVirtualMachineScaleSetRequestZonesList;
+  zones?: UpdateVirtualMachineScaleSetRequestZonesList | undefined;
   /** User-defined constraints for virtual machine scale set hardware placement. */
-  placement?: Placement;
+  placement?: Placement | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualMachineScaleSetResponseTagsMap = { [key: string]: string | undefined };
@@ -8898,37 +8968,37 @@ export type UpdateVirtualMachineScaleSetResponseZonesList = Array<string>;
 export type UpdateVirtualMachineScaleSetResponseExtendedLocation = GetImageResponseExtendedLocation;
 export interface UpdateVirtualMachineScaleSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualMachineScaleSetResponseTagsMap;
+  tags?: UpdateVirtualMachineScaleSetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The virtual machine scale set sku. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** Describes the properties of a Virtual Machine Scale Set. */
-  properties?: VirtualMachineScaleSetProperties;
+  properties?: VirtualMachineScaleSetProperties | undefined;
   /** The identity of the virtual machine scale set, if configured. */
-  identity?: VirtualMachineScaleSetIdentity;
+  identity?: VirtualMachineScaleSetIdentity | undefined;
   /** The availability zones. */
-  zones?: UpdateVirtualMachineScaleSetResponseZonesList;
+  zones?: UpdateVirtualMachineScaleSetResponseZonesList | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
   /** Etag is property returned in Create/Update/Get response of the VMSS, so that customer can supply it in the header to ensure optimistic updates */
-  etag?: string;
+  etag?: string | undefined;
   /** Placement section specifies the user-defined constraints for virtual machine scale set hardware placement. Minimum api-version: 2025-04-01. */
-  placement?: Placement;
+  placement?: Placement | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateVirtualMachineScaleSetExtensionRequest {
   /** The ID of the target subscription. */
@@ -8940,21 +9010,21 @@ export interface UpdateVirtualMachineScaleSetExtensionRequest {
   /** The name of the VM scale set extension. */
   vmssExtensionName: string;
   /** Describes the properties of a Virtual Machine Scale Set Extension. */
-  properties?: VirtualMachineScaleSetExtensionPropertiesInput;
+  properties?: VirtualMachineScaleSetExtensionPropertiesInput | undefined;
 }
 export interface UpdateVirtualMachineScaleSetExtensionResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Describes the properties of a Virtual Machine Scale Set Extension. */
-  properties?: VirtualMachineScaleSetExtensionProperties;
+  properties?: VirtualMachineScaleSetExtensionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The virtual machine scale set instance ids. */
 export type UpdateVirtualMachineScaleSetInstancesRequestInstanceIdsList = Array<string>;
@@ -8970,9 +9040,9 @@ export interface UpdateVirtualMachineScaleSetInstancesRequest {
 }
 export interface UpdateVirtualMachineScaleSetInstancesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of target resources which are getting processed in the virtual machine scale set lifecycle hook event. */
 export type VMScaleSetLifecycleHookEventPropertiesInputTargetResourcesList =
@@ -8980,13 +9050,13 @@ export type VMScaleSetLifecycleHookEventPropertiesInputTargetResourcesList =
 /** Defines the virtual machine scale set lifecycle hook event properties. */
 export interface VMScaleSetLifecycleHookEventPropertiesInput {
   /** Defines the type or scenario for sending a virtual machine scale set lifecycle hook event to the customer. */
-  type?: VMScaleSetLifecycleHookEventType | (string & {});
+  type?: VMScaleSetLifecycleHookEventType | (string & {}) | undefined;
   /** Specifies the exact UTC timestamp in ISO 8601 format till which the event would remain in the current lifecycle state waiting for an action from the customer. Beyond this timestamp, the platform will apply the defaultAction for the event. */
-  waitUntil?: string;
+  waitUntil?: string | undefined;
   /** List of target resources which are getting processed in the virtual machine scale set lifecycle hook event. */
-  targetResources?: VMScaleSetLifecycleHookEventPropertiesInputTargetResourcesList;
+  targetResources?: VMScaleSetLifecycleHookEventPropertiesInputTargetResourcesList | undefined;
   /** Additional key-value pairs set on the lifecycle hook event that gives customer some useful context/data. The keys in this dictionary are specific to the lifecycle hook type. Different lifecycle hook events can have different sets of keys in the additional context depending on the lifecycle hook type. For example, for a lifecycle hook event with UpgradeAutoOSScheduling type, the additional context can contain the key "priority" that helps customer identify the priority of the Auto OS Upgrade operation triggered on the virtual machine scale set. */
-  additionalContext?: VMScaleSetLifecycleHookEventAdditionalContext;
+  additionalContext?: VMScaleSetLifecycleHookEventAdditionalContext | undefined;
 }
 export interface UpdateVirtualMachineScaleSetLifeCycleHookEventRequest {
   /** The ID of the target subscription. */
@@ -8998,19 +9068,19 @@ export interface UpdateVirtualMachineScaleSetLifeCycleHookEventRequest {
   /** The name of the VMScaleSetLifecycleHookEvent */
   lifecycleHookEventName: string;
   /** virtual machine scale set lifecycle hook event properties. */
-  properties?: VMScaleSetLifecycleHookEventPropertiesInput;
+  properties?: VMScaleSetLifecycleHookEventPropertiesInput | undefined;
 }
 export interface UpdateVirtualMachineScaleSetLifeCycleHookEventResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Defines the virtual machine scale set lifecycle hook event properties. */
-  properties?: VMScaleSetLifecycleHookEventProperties;
+  properties?: VMScaleSetLifecycleHookEventProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualMachineScaleSetVMRequestTagsMap = { [key: string]: string | undefined };
@@ -9019,34 +9089,34 @@ export type VirtualMachineScaleSetVMPropertiesInputAvailabilitySet =
 /** Describes the properties of a virtual machine scale set virtual machine. */
 export interface VirtualMachineScaleSetVMPropertiesInput {
   /** Specifies the hardware settings for the virtual machine. */
-  hardwareProfile?: HardwareProfile;
+  hardwareProfile?: HardwareProfile | undefined;
   /** Specifies the resilient VM deletion status for the virtual machine. */
-  resilientVMDeletionStatus?: ResilientVMDeletionStatus | (string & {});
+  resilientVMDeletionStatus?: ResilientVMDeletionStatus | (string & {}) | undefined;
   /** Specifies the storage settings for the virtual machine disks. */
-  storageProfile?: StorageProfileInput;
+  storageProfile?: StorageProfileInput | undefined;
   /** Specifies additional capabilities enabled or disabled on the virtual machine in the scale set. For instance: whether the virtual machine has the capability to support attaching managed data disks with UltraSSD_LRS storage account type. */
-  additionalCapabilities?: AdditionalCapabilities;
+  additionalCapabilities?: AdditionalCapabilities | undefined;
   /** Specifies the operating system settings for the virtual machine. */
-  osProfile?: OSProfileInput;
+  osProfile?: OSProfileInput | undefined;
   /** Specifies the Security related profile settings for the virtual machine. */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** Specifies the network interfaces of the virtual machine. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
   /** Specifies the network profile configuration of the virtual machine. */
-  networkProfileConfiguration?: VirtualMachineScaleSetVMNetworkProfileConfiguration;
+  networkProfileConfiguration?: VirtualMachineScaleSetVMNetworkProfileConfiguration | undefined;
   /** Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15. */
-  diagnosticsProfile?: DiagnosticsProfile;
-  availabilitySet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  diagnosticsProfile?: DiagnosticsProfile | undefined;
+  availabilitySet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15 */
-  licenseType?: string;
+  licenseType?: string | undefined;
   /** Specifies the protection policy of the virtual machine. */
-  protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy;
+  protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy | undefined;
   /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. Minimum api-version: 2021-03-01 */
-  userData?: string;
+  userData?: string | undefined;
   /** Specifies the Interconnect Block related details of a Scale Set VM instance. Minimum api-version: 2026-03-01. */
-  interconnectBlockProfile?: InterconnectBlockProfile;
+  interconnectBlockProfile?: InterconnectBlockProfile | undefined;
   /** Specifies information about the capacity reservation that is used to allocate the virtual machine scale set VM instance. The capacity reservation group is inherited from the parent virtual machine scale set and cannot be changed on the individual scale set VM instance. Minimum api-version: 2026-04-01. */
-  capacityReservation?: CapacityReservationProfile;
+  capacityReservation?: CapacityReservationProfile | undefined;
 }
 export interface UpdateVirtualMachineScaleSetVMRequest {
   /** The ID of the target subscription. */
@@ -9058,15 +9128,15 @@ export interface UpdateVirtualMachineScaleSetVMRequest {
   /** The instance ID of the virtual machine. */
   instanceId: string;
   /** Resource tags. */
-  tags?: UpdateVirtualMachineScaleSetVMRequestTagsMap;
+  tags?: UpdateVirtualMachineScaleSetVMRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a virtual machine scale set virtual machine. */
-  properties?: VirtualMachineScaleSetVMPropertiesInput;
+  properties?: VirtualMachineScaleSetVMPropertiesInput | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The identity of the virtual machine, if configured. */
-  identity?: VirtualMachineIdentityInput;
+  identity?: VirtualMachineIdentityInput | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualMachineScaleSetVMResponseTagsMap = { [key: string]: string | undefined };
@@ -9076,37 +9146,37 @@ export type UpdateVirtualMachineScaleSetVMResponseResourcesList = Array<VirtualM
 export type UpdateVirtualMachineScaleSetVMResponseZonesList = Array<string>;
 export interface UpdateVirtualMachineScaleSetVMResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualMachineScaleSetVMResponseTagsMap;
+  tags?: UpdateVirtualMachineScaleSetVMResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a virtual machine scale set virtual machine. */
-  properties?: VirtualMachineScaleSetVMProperties;
+  properties?: VirtualMachineScaleSetVMProperties | undefined;
   /** The virtual machine instance ID. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** The virtual machine SKU. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The virtual machine child extension resources. */
-  resources?: UpdateVirtualMachineScaleSetVMResponseResourcesList;
+  resources?: UpdateVirtualMachineScaleSetVMResponseResourcesList | undefined;
   /** The virtual machine zones. */
-  zones?: UpdateVirtualMachineScaleSetVMResponseZonesList;
+  zones?: UpdateVirtualMachineScaleSetVMResponseZonesList | undefined;
   /** The identity of the virtual machine, if configured. */
-  identity?: VirtualMachineIdentity;
+  identity?: VirtualMachineIdentity | undefined;
   /** Etag is property returned in Update/Get response of the VMSS VM, so that customer can supply it in the header to ensure optimistic updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateVirtualMachineScaleSetVMDiagnosticRunCommandRequestTagsMap = {
@@ -9124,9 +9194,9 @@ export interface UpdateVirtualMachineScaleSetVMDiagnosticRunCommandRequest {
   /** The name of the VirtualMachineDiagnosticRunCommand */
   runCommandName: string;
   /** Resource tags */
-  tags?: UpdateVirtualMachineScaleSetVMDiagnosticRunCommandRequestTagsMap;
+  tags?: UpdateVirtualMachineScaleSetVMDiagnosticRunCommandRequestTagsMap | undefined;
   /** Describes the properties of a Virtual Machine run command. */
-  properties?: VirtualMachineRunCommandPropertiesInput;
+  properties?: VirtualMachineRunCommandPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualMachineScaleSetVMDiagnosticRunCommandResponseTagsMap = {
@@ -9134,23 +9204,23 @@ export type UpdateVirtualMachineScaleSetVMDiagnosticRunCommandResponseTagsMap = 
 };
 export interface UpdateVirtualMachineScaleSetVMDiagnosticRunCommandResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualMachineScaleSetVMDiagnosticRunCommandResponseTagsMap;
+  tags?: UpdateVirtualMachineScaleSetVMDiagnosticRunCommandResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine diagnostic run command. */
-  properties?: VirtualMachineRunCommandProperties;
+  properties?: VirtualMachineRunCommandProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateVirtualMachineScaleSetVMExtensionRequest {
   /** The ID of the target subscription. */
@@ -9164,23 +9234,23 @@ export interface UpdateVirtualMachineScaleSetVMExtensionRequest {
   /** The name of the virtual machine extension. */
   vmExtensionName: string;
   /** Describes the properties of a Virtual Machine Extension. */
-  properties?: VirtualMachineExtensionUpdateProperties;
+  properties?: VirtualMachineExtensionUpdateProperties | undefined;
 }
 export interface UpdateVirtualMachineScaleSetVMExtensionResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Describes the properties of a Virtual Machine Extension. */
-  properties?: VirtualMachineExtensionProperties;
+  properties?: VirtualMachineExtensionProperties | undefined;
   /** The location of the extension. */
-  location?: string;
+  location?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateVirtualMachineScaleSetVMRunCommandRequestTagsMap = {
@@ -9198,9 +9268,9 @@ export interface UpdateVirtualMachineScaleSetVMRunCommandRequest {
   /** The name of the VirtualMachineRunCommand */
   runCommandName: string;
   /** Resource tags */
-  tags?: UpdateVirtualMachineScaleSetVMRunCommandRequestTagsMap;
+  tags?: UpdateVirtualMachineScaleSetVMRunCommandRequestTagsMap | undefined;
   /** Describes the properties of a Virtual Machine run command. */
-  properties?: VirtualMachineRunCommandPropertiesInput;
+  properties?: VirtualMachineRunCommandPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualMachineScaleSetVMRunCommandResponseTagsMap = {
@@ -9208,23 +9278,23 @@ export type UpdateVirtualMachineScaleSetVMRunCommandResponseTagsMap = {
 };
 export interface UpdateVirtualMachineScaleSetVMRunCommandResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualMachineScaleSetVMRunCommandResponseTagsMap;
+  tags?: UpdateVirtualMachineScaleSetVMRunCommandResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine run command. */
-  properties?: VirtualMachineRunCommandProperties;
+  properties?: VirtualMachineRunCommandProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type ValidateAvailabilitySetMigrationToVirtualMachineScaleSetRequestVirtualMachineScaleSetFlexible =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -9269,7 +9339,7 @@ export interface VirtualMachineBulkOperationsBulkDeleteRequest {
   /** The target virtual machines. */
   resources: Resources;
   /** Indicates whether Bulk Actions uses forced deletion for the target virtual machines. */
-  forceDeletion?: boolean;
+  forceDeletion?: boolean | undefined;
 }
 /** The result for each virtual machine. */
 export type DeleteResourceOperationResponseResultsList = Array<ResourceOperation>;
@@ -9282,7 +9352,7 @@ export interface DeleteResourceOperationResponse {
   /** The Azure region where Bulk Actions processes the request. */
   location: string;
   /** The result for each virtual machine. */
-  results?: DeleteResourceOperationResponseResultsList;
+  results?: DeleteResourceOperationResponseResultsList | undefined;
 }
 /** The Bulk Action Operation Ids that identify the operations for which current status should be returned. */
 export type VirtualMachineBulkOperationsBulkGetOperationsStatusRequestOperationIdsList =
@@ -9327,7 +9397,7 @@ export interface StartResourceOperationResponse {
   /** The Azure region where Bulk Actions processes the request. */
   location: string;
   /** The result for each virtual machine. */
-  results?: StartResourceOperationResponseResultsList;
+  results?: StartResourceOperationResponseResultsList | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineDiagnosticRunCommandsCreateOrUpdateRequestTagsMap = {
@@ -9343,11 +9413,11 @@ export interface VirtualMachineDiagnosticRunCommandsCreateOrUpdateRequest {
   /** The name of the VirtualMachineDiagnosticRunCommand */
   runCommandName: string;
   /** Resource tags. */
-  tags?: VirtualMachineDiagnosticRunCommandsCreateOrUpdateRequestTagsMap;
+  tags?: VirtualMachineDiagnosticRunCommandsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine diagnostic run command. */
-  properties?: VirtualMachineRunCommandPropertiesInput;
+  properties?: VirtualMachineRunCommandPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineDiagnosticRunCommandsCreateOrUpdateResponseTagsMap = {
@@ -9355,23 +9425,23 @@ export type VirtualMachineDiagnosticRunCommandsCreateOrUpdateResponseTagsMap = {
 };
 export interface VirtualMachineDiagnosticRunCommandsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachineDiagnosticRunCommandsCreateOrUpdateResponseTagsMap;
+  tags?: VirtualMachineDiagnosticRunCommandsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine diagnostic run command. */
-  properties?: VirtualMachineRunCommandProperties;
+  properties?: VirtualMachineRunCommandProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachineDiagnosticRunCommandsDiagnosticListByVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -9381,7 +9451,7 @@ export interface VirtualMachineDiagnosticRunCommandsDiagnosticListByVirtualMachi
   /** The name of the VirtualMachine */
   vmName: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineExtensionsCreateOrUpdateRequestTagsMap = {
@@ -9392,29 +9462,31 @@ export type VirtualMachineExtensionPropertiesInputProvisionAfterExtensionsList =
 /** Describes the properties of a Virtual Machine Extension. */
 export interface VirtualMachineExtensionPropertiesInput {
   /** How the extension handler should be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
+  forceUpdateTag?: string | undefined;
   /** The name of the extension handler publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
+  type?: string | undefined;
   /** Specifies the Major.Minor version of the script handler. Customer is able to specify only the Major.Minor version of an extension, Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
-  typeHandlerVersion?: string;
+  typeHandlerVersion?: string | undefined;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
+  autoUpgradeMinorVersion?: boolean | undefined;
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** Json formatted public settings for the extension. */
-  settings?: unknown;
+  settings?: unknown | undefined;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: unknown;
+  protectedSettings?: unknown | undefined;
   /** The virtual machine extension instance view. */
-  instanceView?: VirtualMachineExtensionInstanceView;
+  instanceView?: VirtualMachineExtensionInstanceView | undefined;
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
-  suppressFailures?: boolean;
+  suppressFailures?: boolean | undefined;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: KeyVaultSecretReference;
+  protectedSettingsFromKeyVault?: KeyVaultSecretReference | undefined;
   /** Collection of extension names after which this extension needs to be provisioned. */
-  provisionAfterExtensions?: VirtualMachineExtensionPropertiesInputProvisionAfterExtensionsList;
+  provisionAfterExtensions?:
+    | VirtualMachineExtensionPropertiesInputProvisionAfterExtensionsList
+    | undefined;
 }
 export interface VirtualMachineExtensionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -9426,11 +9498,11 @@ export interface VirtualMachineExtensionsCreateOrUpdateRequest {
   /** The name of the virtual machine extension. */
   vmExtensionName: string;
   /** Resource tags. */
-  tags?: VirtualMachineExtensionsCreateOrUpdateRequestTagsMap;
+  tags?: VirtualMachineExtensionsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine Extension. */
-  properties?: VirtualMachineExtensionPropertiesInput;
+  properties?: VirtualMachineExtensionPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineExtensionsCreateOrUpdateResponseTagsMap = {
@@ -9438,23 +9510,23 @@ export type VirtualMachineExtensionsCreateOrUpdateResponseTagsMap = {
 };
 export interface VirtualMachineExtensionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachineExtensionsCreateOrUpdateResponseTagsMap;
+  tags?: VirtualMachineExtensionsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine Extension. */
-  properties?: VirtualMachineExtensionProperties;
+  properties?: VirtualMachineExtensionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineRunCommandsCreateOrUpdateRequestTagsMap = {
@@ -9470,11 +9542,11 @@ export interface VirtualMachineRunCommandsCreateOrUpdateRequest {
   /** The name of the VirtualMachineRunCommand */
   runCommandName: string;
   /** Resource tags. */
-  tags?: VirtualMachineRunCommandsCreateOrUpdateRequestTagsMap;
+  tags?: VirtualMachineRunCommandsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine run command. */
-  properties?: VirtualMachineRunCommandPropertiesInput;
+  properties?: VirtualMachineRunCommandPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineRunCommandsCreateOrUpdateResponseTagsMap = {
@@ -9482,23 +9554,23 @@ export type VirtualMachineRunCommandsCreateOrUpdateResponseTagsMap = {
 };
 export interface VirtualMachineRunCommandsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachineRunCommandsCreateOrUpdateResponseTagsMap;
+  tags?: VirtualMachineRunCommandsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine run command. */
-  properties?: VirtualMachineRunCommandProperties;
+  properties?: VirtualMachineRunCommandProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachinesAssessPatchesRequest {
   /** The ID of the target subscription. */
@@ -9521,25 +9593,25 @@ export type PatchAssessmentState = "Unknown" | "Available";
 /** Describes the properties of a Virtual Machine software patch. */
 export interface VirtualMachineSoftwarePatchProperties {
   /** A unique identifier for the patch. */
-  patchId?: string;
+  patchId?: string | undefined;
   /** The friendly name of the patch. */
-  name?: string;
+  name?: string | undefined;
   /** The version number of the patch. This property applies only to Linux patches. */
-  version?: string;
+  version?: string | undefined;
   /** The KBID of the patch. Only applies to Windows patches. */
-  kbId?: string;
+  kbId?: string | undefined;
   /** The classification(s) of the patch as provided by the patch publisher. */
-  classifications?: VirtualMachineSoftwarePatchPropertiesClassificationsList;
+  classifications?: VirtualMachineSoftwarePatchPropertiesClassificationsList | undefined;
   /** Describes the reboot requirements of the patch. */
-  rebootBehavior?: VMGuestPatchRebootBehavior;
+  rebootBehavior?: VMGuestPatchRebootBehavior | undefined;
   /** The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs. */
-  activityId?: string;
+  activityId?: string | undefined;
   /** The UTC timestamp when the repository published this patch. */
-  publishedDate?: string;
+  publishedDate?: string | undefined;
   /** The UTC timestamp of the last update to this patch record. */
-  lastModifiedDateTime?: string;
+  lastModifiedDateTime?: string | undefined;
   /** Describes the availability of a given patch. */
-  assessmentState?: PatchAssessmentState;
+  assessmentState?: PatchAssessmentState | undefined;
 }
 /** The list of patches that have been detected as available for installation. */
 export type VirtualMachineAssessPatchesResultAvailablePatchesList =
@@ -9549,53 +9621,53 @@ export type VirtualMachineAssessPatchesResultErrorDetailsList = Array<ApiErrorBa
 /** Api error. */
 export interface VirtualMachineAssessPatchesResultError {
   /** The Api error details */
-  details?: VirtualMachineAssessPatchesResultErrorDetailsList;
+  details?: VirtualMachineAssessPatchesResultErrorDetailsList | undefined;
   /** The Api inner error */
-  innererror?: InnerError;
+  innererror?: InnerError | undefined;
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The target of the particular error. */
-  target?: string;
+  target?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Describes the properties of an AssessPatches result. */
 export interface VirtualMachineAssessPatchesResult {
   /** The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings." */
-  status?: PatchOperationStatus;
+  status?: PatchOperationStatus | undefined;
   /** The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs. */
-  assessmentActivityId?: string;
+  assessmentActivityId?: string | undefined;
   /** The overall reboot status of the VM. It will be true when partially installed patches require a reboot to complete installation but the reboot has not yet occurred. */
-  rebootPending?: boolean;
+  rebootPending?: boolean | undefined;
   /** The number of critical or security patches that have been detected as available and not yet installed. */
-  criticalAndSecurityPatchCount?: number;
+  criticalAndSecurityPatchCount?: number | undefined;
   /** The number of all available patches excluding critical and security. */
-  otherPatchCount?: number;
+  otherPatchCount?: number | undefined;
   /** The UTC timestamp when the operation began. */
-  startDateTime?: string;
+  startDateTime?: string | undefined;
   /** The list of patches that have been detected as available for installation. */
-  availablePatches?: VirtualMachineAssessPatchesResultAvailablePatchesList;
+  availablePatches?: VirtualMachineAssessPatchesResultAvailablePatchesList | undefined;
   /** Api error. */
-  error?: VirtualMachineAssessPatchesResultError;
+  error?: VirtualMachineAssessPatchesResultError | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Describes the data disk to be attached. */
 export interface DataDisksToAttach {
   /** ID of the managed data disk. */
   diskId: string;
   /** The logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. If not specified, lun would be auto assigned. */
-  lun?: number;
+  lun?: number | undefined;
   /** Specifies the caching requirements. Possible values are: **None,** **ReadOnly,** **ReadWrite.** The defaulting behavior is: **None for Standard storage. ReadOnly for Premium storage.** */
-  caching?: CachingTypes | (string & {});
+  caching?: CachingTypes | (string & {}) | undefined;
   /** Specifies whether data disk should be deleted or detached upon VM deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when VM is deleted. **Detach.** If this value is used, the data disk is retained after VM is deleted. The default value is set to **Detach**. */
-  deleteOption?: DiskDeleteOptionTypes | (string & {});
+  deleteOption?: DiskDeleteOptionTypes | (string & {}) | undefined;
   /** Specifies the customer managed disk encryption set resource id for the managed disk. */
-  diskEncryptionSet?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  diskEncryptionSet?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
-  writeAcceleratorEnabled?: boolean;
+  writeAcceleratorEnabled?: boolean | undefined;
 }
 /** The list of managed data disks to be attached. */
 export type VirtualMachinesAttachDetachDataDisksRequestDataDisksToAttachList =
@@ -9605,7 +9677,7 @@ export interface DataDisksToDetach {
   /** ID of the managed data disk. */
   diskId: string;
   /** Supported options available for Detach of a disk from a VM. Refer to DetachOption object reference for more details. */
-  detachOption?: DiskDetachOptionTypes | (string & {});
+  detachOption?: DiskDetachOptionTypes | (string & {}) | undefined;
 }
 /** The list of managed data disks to be detached. */
 export type VirtualMachinesAttachDetachDataDisksRequestDataDisksToDetachList =
@@ -9618,28 +9690,28 @@ export interface VirtualMachinesAttachDetachDataDisksRequest {
   /** The name of the virtual machine. */
   vmName: string;
   /** The list of managed data disks to be attached. */
-  dataDisksToAttach?: VirtualMachinesAttachDetachDataDisksRequestDataDisksToAttachList;
+  dataDisksToAttach?: VirtualMachinesAttachDetachDataDisksRequestDataDisksToAttachList | undefined;
   /** The list of managed data disks to be detached. */
-  dataDisksToDetach?: VirtualMachinesAttachDetachDataDisksRequestDataDisksToDetachList;
+  dataDisksToDetach?: VirtualMachinesAttachDetachDataDisksRequestDataDisksToDetachList | undefined;
 }
 /** Specifies the storage settings for the virtual machine disks. */
 export interface VirtualMachinesAttachDetachDataDisksResponse {
   /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. */
-  imageReference?: ImageReference;
+  imageReference?: ImageReference | undefined;
   /** Specifies information about the operating system disk used by the virtual machine. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  osDisk?: OSDisk;
+  osDisk?: OSDisk | undefined;
   /** Specifies the parameters that are used to add a data disk to a virtual machine. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  dataDisks?: StorageProfileDataDisksList;
+  dataDisks?: StorageProfileDataDisksList | undefined;
   /** Specifies the disk controller type configured for the VM. **Note:** This property will be set to the default disk controller type if not specified provided virtual machine is being created with 'hyperVGeneration' set to V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. Minimum api-version: 2022-08-01. */
-  diskControllerType?: DiskControllerTypes;
-  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
-  alignRegionalDisksToVMZone?: boolean;
+  diskControllerType?: DiskControllerTypes | undefined;
+  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable **only** for VMs with placement.zonePlacementPolicy set to **Any**. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
+  alignRegionalDisksToVMZone?: boolean | undefined;
   /** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD (e.g., "2026-03-02"). */
-  diskApiVersion?: DiskApiVersion;
+  diskApiVersion?: DiskApiVersion | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachineScaleSetExtensionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -9651,23 +9723,23 @@ export interface VirtualMachineScaleSetExtensionsCreateOrUpdateRequest {
   /** The name of the VM scale set extension. */
   vmssExtensionName: string;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Describes the properties of a Virtual Machine Scale Set Extension. */
-  properties?: VirtualMachineScaleSetExtensionPropertiesInput;
+  properties?: VirtualMachineScaleSetExtensionPropertiesInput | undefined;
 }
 export interface VirtualMachineScaleSetExtensionsCreateOrUpdateResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Describes the properties of a Virtual Machine Scale Set Extension. */
-  properties?: VirtualMachineScaleSetExtensionProperties;
+  properties?: VirtualMachineScaleSetExtensionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineScaleSetsCreateOrUpdateRequestTagsMap = {
@@ -9678,23 +9750,23 @@ export type VirtualMachineScaleSetOSProfileInputSecretsList = Array<VaultSecretG
 /** Describes a virtual machine scale set OS profile. */
 export interface VirtualMachineScaleSetOSProfileInput {
   /** Specifies the computer name prefix for all of the virtual machines in the scale set. Computer name prefixes must be 1 to 15 characters long. */
-  computerNamePrefix?: string;
+  computerNamePrefix?: string | undefined;
   /** Specifies the name of the administrator account. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1 character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters */
-  adminUsername?: string;
+  adminUsername?: string | undefined;
   /** Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection) */
-  adminPassword?: string | Redacted.Redacted<string>;
+  adminPassword?: string | Redacted.Redacted<string> | undefined;
   /** Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init) */
-  customData?: string;
+  customData?: string | undefined;
   /** Specifies Windows operating system settings on the virtual machine. */
-  windowsConfiguration?: WindowsConfigurationInput;
+  windowsConfiguration?: WindowsConfigurationInput | undefined;
   /** Specifies the Linux operating system settings on the virtual machine. For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
-  linuxConfiguration?: LinuxConfiguration;
+  linuxConfiguration?: LinuxConfiguration | undefined;
   /** Specifies set of certificates that should be installed onto the virtual machines in the scale set. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
-  secrets?: VirtualMachineScaleSetOSProfileInputSecretsList;
+  secrets?: VirtualMachineScaleSetOSProfileInputSecretsList | undefined;
   /** Specifies whether extension operations should be allowed on the virtual machine scale set. This may only be set to False when no extensions are present on the virtual machine scale set. */
-  allowExtensionOperations?: boolean;
+  allowExtensionOperations?: boolean | undefined;
   /** Optional property which must either be set to True or omitted. */
-  requireGuestProvisionSignal?: boolean;
+  requireGuestProvisionSignal?: boolean | undefined;
 }
 /** Specifies the parameters that are used to add data disks to the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
 export type VirtualMachineScaleSetStorageProfileInputDataDisksList =
@@ -9702,54 +9774,54 @@ export type VirtualMachineScaleSetStorageProfileInputDataDisksList =
 /** Describes a virtual machine scale set storage profile. */
 export interface VirtualMachineScaleSetStorageProfileInput {
   /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. */
-  imageReference?: ImageReferenceInput;
+  imageReference?: ImageReferenceInput | undefined;
   /** Specifies information about the operating system disk used by the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  osDisk?: VirtualMachineScaleSetOSDisk;
+  osDisk?: VirtualMachineScaleSetOSDisk | undefined;
   /** Specifies the parameters that are used to add data disks to the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  dataDisks?: VirtualMachineScaleSetStorageProfileInputDataDisksList;
+  dataDisks?: VirtualMachineScaleSetStorageProfileInputDataDisksList | undefined;
   /** Specifies the disk controller type configured for the virtual machines in the scale set. Minimum api-version: 2022-08-01 */
-  diskControllerType?: DiskControllerTypes | (string & {});
+  diskControllerType?: DiskControllerTypes | (string & {}) | undefined;
   /** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD (e.g., "2026-03-02"). */
-  diskApiVersion?: DiskApiVersion | (string & {});
+  diskApiVersion?: DiskApiVersion | (string & {}) | undefined;
 }
 /** Describes a virtual machine scale set virtual machine profile. */
 export interface VirtualMachineScaleSetVMProfileInput {
   /** Specifies the operating system settings for the virtual machines in the scale set. */
-  osProfile?: VirtualMachineScaleSetOSProfileInput;
+  osProfile?: VirtualMachineScaleSetOSProfileInput | undefined;
   /** Specifies the storage settings for the virtual machine disks. */
-  storageProfile?: VirtualMachineScaleSetStorageProfileInput;
+  storageProfile?: VirtualMachineScaleSetStorageProfileInput | undefined;
   /** Specifies properties of the network interfaces of the virtual machines in the scale set. */
-  networkProfile?: VirtualMachineScaleSetNetworkProfile;
+  networkProfile?: VirtualMachineScaleSetNetworkProfile | undefined;
   /** Specifies the Security related profile settings for the virtual machines in the scale set. */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15. */
-  diagnosticsProfile?: DiagnosticsProfile;
+  diagnosticsProfile?: DiagnosticsProfile | undefined;
   /** Specifies a collection of settings for extensions installed on virtual machines in the scale set. */
-  extensionProfile?: VirtualMachineScaleSetExtensionProfileInput;
+  extensionProfile?: VirtualMachineScaleSetExtensionProfileInput | undefined;
   /** Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15 */
-  licenseType?: string;
+  licenseType?: string | undefined;
   /** Specifies the priority for the virtual machines in the scale set. Minimum api-version: 2017-10-30-preview. */
-  priority?: VirtualMachinePriorityTypes | (string & {});
+  priority?: VirtualMachinePriorityTypes | (string & {}) | undefined;
   /** Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01. For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview. */
-  evictionPolicy?: VirtualMachineEvictionPolicyTypes | (string & {});
+  evictionPolicy?: VirtualMachineEvictionPolicyTypes | (string & {}) | undefined;
   /** Specifies the billing related details of a Azure Spot VMSS. Minimum api-version: 2019-03-01. */
-  billingProfile?: BillingProfile;
+  billingProfile?: BillingProfile | undefined;
   /** Specifies Scheduled Event related configurations. */
-  scheduledEventsProfile?: ScheduledEventsProfile;
+  scheduledEventsProfile?: ScheduledEventsProfile | undefined;
   /** UserData for the virtual machines in the scale set, which must be base-64 encoded. Customer should not pass any secrets in here. Minimum api-version: 2021-03-01. */
-  userData?: string;
+  userData?: string | undefined;
   /** Specifies the capacity reservation related details of a scale set. Minimum api-version: 2021-04-01. */
-  capacityReservation?: CapacityReservationProfile;
+  capacityReservation?: CapacityReservationProfile | undefined;
   /** Specifies the Interconnect Block related details of a Scale Set. Minimum api-version: 2026-03-01. */
-  interconnectBlockProfile?: InterconnectBlockProfile;
+  interconnectBlockProfile?: InterconnectBlockProfile | undefined;
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
-  applicationProfile?: ApplicationProfile;
+  applicationProfile?: ApplicationProfile | undefined;
   /** Specifies the hardware profile related details of a scale set. Minimum api-version: 2021-11-01. */
-  hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
+  hardwareProfile?: VirtualMachineScaleSetHardwareProfile | undefined;
   /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. Minimum api-version: 2022-11-01 */
-  serviceArtifactReference?: ServiceArtifactReference;
+  serviceArtifactReference?: ServiceArtifactReference | undefined;
   /** Specifies the security posture to be used in the scale set. Minimum api-version: 2023-03-01 */
-  securityPostureReference?: SecurityPostureReference;
+  securityPostureReference?: SecurityPostureReference | undefined;
 }
 export type VirtualMachineScaleSetPropertiesInputProximityPlacementGroup =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -9758,49 +9830,49 @@ export type VirtualMachineScaleSetPropertiesInputHostGroup =
 /** Describes the properties of a Virtual Machine Scale Set. */
 export interface VirtualMachineScaleSetPropertiesInput {
   /** The upgrade policy. */
-  upgradePolicy?: UpgradePolicy;
+  upgradePolicy?: UpgradePolicy | undefined;
   /** The ScheduledEventsPolicy. */
-  scheduledEventsPolicy?: ScheduledEventsPolicy;
+  scheduledEventsPolicy?: ScheduledEventsPolicy | undefined;
   /** Policy for automatic repairs. */
-  automaticRepairsPolicy?: AutomaticRepairsPolicy;
+  automaticRepairsPolicy?: AutomaticRepairsPolicy | undefined;
   /** The virtual machine profile. */
-  virtualMachineProfile?: VirtualMachineScaleSetVMProfileInput;
+  virtualMachineProfile?: VirtualMachineScaleSetVMProfileInput | undefined;
   /** Specifies whether the Virtual Machine Scale Set should be overprovisioned. */
-  overprovision?: boolean;
+  overprovision?: boolean | undefined;
   /** When Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra overprovisioned VMs. */
-  doNotRunExtensionsOnOverprovisionedVMs?: boolean;
+  doNotRunExtensionsOnOverprovisionedVMs?: boolean | undefined;
   /** When true this limits the scale set to a single placement group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may not be modified to true. */
-  singlePlacementGroup?: boolean;
+  singlePlacementGroup?: boolean | undefined;
   /** Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage. zoneBalance property can only be set if the zones property of the scale set contains more than one zone. If there are no zones or only one zone specified, then zoneBalance property should not be set. */
-  zoneBalance?: boolean;
+  zoneBalance?: boolean | undefined;
   /** Fault Domain count for each placement group. */
-  platformFaultDomainCount?: number;
-  proximityPlacementGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
-  hostGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem;
+  platformFaultDomainCount?: number | undefined;
+  proximityPlacementGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
+  hostGroup?: AvailabilitySetPropertiesInputVirtualMachinesItem | undefined;
   /** Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with UltraSSD_LRS storage account type. */
-  additionalCapabilities?: AdditionalCapabilities;
+  additionalCapabilities?: AdditionalCapabilities | undefined;
   /** Specifies the policies applied when scaling in Virtual Machines in the Virtual Machine Scale Set. */
-  scaleInPolicy?: ScaleInPolicy;
+  scaleInPolicy?: ScaleInPolicy | undefined;
   /** Specifies the orchestration mode for the virtual machine scale set. */
-  orchestrationMode?: OrchestrationMode | (string & {});
+  orchestrationMode?: OrchestrationMode | (string & {}) | undefined;
   /** Specifies the Spot Restore properties for the virtual machine scale set. */
-  spotRestorePolicy?: SpotRestorePolicy;
+  spotRestorePolicy?: SpotRestorePolicy | undefined;
   /** Specifies the desired targets for mixing Spot and Regular priority VMs within the same VMSS Flex instance. */
-  priorityMixPolicy?: PriorityMixPolicy;
+  priorityMixPolicy?: PriorityMixPolicy | undefined;
   /** Optional property which must either be set to True or omitted. */
-  constrainedMaximumCapacity?: boolean;
+  constrainedMaximumCapacity?: boolean | undefined;
   /** Policy for Resiliency */
-  resiliencyPolicy?: ResiliencyPolicy;
+  resiliencyPolicy?: ResiliencyPolicy | undefined;
   /** Specifies the align mode between Virtual Machine Scale Set compute and storage Fault Domain count. */
-  zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode | (string & {});
+  zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode | (string & {}) | undefined;
   /** Specifies the sku profile for the virtual machine scale set. */
-  skuProfile?: SkuProfile;
+  skuProfile?: SkuProfile | undefined;
   /** Specifies the high speed interconnect placement for the virtual machine scale set. */
-  highSpeedInterconnectPlacement?: HighSpeedInterconnectPlacement | (string & {});
+  highSpeedInterconnectPlacement?: HighSpeedInterconnectPlacement | (string & {}) | undefined;
   /** Specifies the lifecycle hooks profile for the virtual machine scale set. */
-  lifecycleHooksProfile?: LifecycleHooksProfile;
+  lifecycleHooksProfile?: LifecycleHooksProfile | undefined;
   /** Specifies the external health policy for the virtual machine scale set. */
-  externalHealthPolicy?: ExternalHealthPolicy;
+  externalHealthPolicy?: ExternalHealthPolicy | undefined;
 }
 /** The availability zones. */
 export type VirtualMachineScaleSetsCreateOrUpdateRequestZonesList = Array<string>;
@@ -9815,23 +9887,23 @@ export interface VirtualMachineScaleSetsCreateOrUpdateRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** Resource tags. */
-  tags?: VirtualMachineScaleSetsCreateOrUpdateRequestTagsMap;
+  tags?: VirtualMachineScaleSetsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The virtual machine scale set sku. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** Describes the properties of a Virtual Machine Scale Set. */
-  properties?: VirtualMachineScaleSetPropertiesInput;
+  properties?: VirtualMachineScaleSetPropertiesInput | undefined;
   /** The identity of the virtual machine scale set, if configured. */
-  identity?: VirtualMachineScaleSetIdentityInput;
+  identity?: VirtualMachineScaleSetIdentityInput | undefined;
   /** The availability zones. */
-  zones?: VirtualMachineScaleSetsCreateOrUpdateRequestZonesList;
+  zones?: VirtualMachineScaleSetsCreateOrUpdateRequestZonesList | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ImagesCreateOrUpdateRequestExtendedLocation;
+  extendedLocation?: ImagesCreateOrUpdateRequestExtendedLocation | undefined;
   /** Placement section specifies the user-defined constraints for virtual machine scale set hardware placement. Minimum api-version: 2025-04-01. */
-  placement?: Placement;
+  placement?: Placement | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineScaleSetsCreateOrUpdateResponseTagsMap = {
@@ -9844,37 +9916,37 @@ export type VirtualMachineScaleSetsCreateOrUpdateResponseExtendedLocation =
   GetImageResponseExtendedLocation;
 export interface VirtualMachineScaleSetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachineScaleSetsCreateOrUpdateResponseTagsMap;
+  tags?: VirtualMachineScaleSetsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The virtual machine scale set sku. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** Describes the properties of a Virtual Machine Scale Set. */
-  properties?: VirtualMachineScaleSetProperties;
+  properties?: VirtualMachineScaleSetProperties | undefined;
   /** The identity of the virtual machine scale set, if configured. */
-  identity?: VirtualMachineScaleSetIdentity;
+  identity?: VirtualMachineScaleSetIdentity | undefined;
   /** The availability zones. */
-  zones?: VirtualMachineScaleSetsCreateOrUpdateResponseZonesList;
+  zones?: VirtualMachineScaleSetsCreateOrUpdateResponseZonesList | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
   /** Etag is property returned in Create/Update/Get response of the VMSS, so that customer can supply it in the header to ensure optimistic updates */
-  etag?: string;
+  etag?: string | undefined;
   /** Placement section specifies the user-defined constraints for virtual machine scale set hardware placement. Minimum api-version: 2025-04-01. */
-  placement?: Placement;
+  placement?: Placement | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
 export type VirtualMachineScaleSetsDeallocateRequestInstanceIdsList = Array<string>;
@@ -9886,15 +9958,15 @@ export interface VirtualMachineScaleSetsDeallocateRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** Optional parameter to hibernate a virtual machine from the VM scale set. (This feature is available for VMSS with Flexible OrchestrationMode only) */
-  hibernate?: boolean;
+  hibernate?: boolean | undefined;
   /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
-  instanceIds?: VirtualMachineScaleSetsDeallocateRequestInstanceIdsList;
+  instanceIds?: VirtualMachineScaleSetsDeallocateRequestInstanceIdsList | undefined;
 }
 export interface VirtualMachineScaleSetsDeallocateResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkRequest {
   /** The ID of the target subscription. */
@@ -9906,16 +9978,16 @@ export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdate
   /** The platform update domain for which a manual recovery walk is requested */
   platformUpdateDomain: number;
   /** The zone in which the manual recovery walk is requested for cross zone virtual machine scale set */
-  zone?: string;
+  zone?: string | undefined;
   /** The placement group id for which the manual recovery walk is requested. */
-  placementGroupId?: string;
+  placementGroupId?: string | undefined;
 }
 /** Response after calling a manual recovery walk */
 export interface RecoveryWalkResponse {
   /** Whether the recovery walk was performed */
-  walkPerformed?: boolean;
+  walkPerformed?: boolean | undefined;
   /** The next update domain that needs to be walked. Null means walk spanning all update domains has been completed */
-  nextPlatformUpdateDomain?: number;
+  nextPlatformUpdateDomain?: number | undefined;
 }
 /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
 export type VirtualMachineScaleSetsPerformMaintenanceRequestInstanceIdsList = Array<string>;
@@ -9927,13 +9999,13 @@ export interface VirtualMachineScaleSetsPerformMaintenanceRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
-  instanceIds?: VirtualMachineScaleSetsPerformMaintenanceRequestInstanceIdsList;
+  instanceIds?: VirtualMachineScaleSetsPerformMaintenanceRequestInstanceIdsList | undefined;
 }
 export interface VirtualMachineScaleSetsPerformMaintenanceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
 export type VirtualMachineScaleSetsPowerOffRequestInstanceIdsList = Array<string>;
@@ -9945,15 +10017,15 @@ export interface VirtualMachineScaleSetsPowerOffRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** The parameter to request non-graceful VM shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false if not specified */
-  skipShutdown?: boolean;
+  skipShutdown?: boolean | undefined;
   /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
-  instanceIds?: VirtualMachineScaleSetsPowerOffRequestInstanceIdsList;
+  instanceIds?: VirtualMachineScaleSetsPowerOffRequestInstanceIdsList | undefined;
 }
 export interface VirtualMachineScaleSetsPowerOffResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachineScaleSetsReapplyRequest {
   /** The ID of the target subscription. */
@@ -9965,16 +10037,16 @@ export interface VirtualMachineScaleSetsReapplyRequest {
 }
 export interface VirtualMachineScaleSetsReapplyResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Additional parameters for Reimaging Non-Ephemeral Virtual Machine. */
 export interface OSProfileProvisioningData {
   /** Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection) */
-  adminPassword?: string | Redacted.Redacted<string>;
+  adminPassword?: string | Redacted.Redacted<string> | undefined;
   /** Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. **Note: Do not pass any secrets or passwords in customData property.** This property cannot be updated after the VM is created. The property customData is passed to the VM to be saved as a file, for more information see [Custom Data on Azure VMs](https://azure.microsoft.com/blog/custom-data-and-cloud-init-on-windows-azure/). If using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init). */
-  customData?: string;
+  customData?: string | undefined;
 }
 /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
 export type VirtualMachineScaleSetsReimageRequestInstanceIdsList = Array<string>;
@@ -9986,21 +10058,21 @@ export interface VirtualMachineScaleSetsReimageRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk. */
-  tempDisk?: boolean;
+  tempDisk?: boolean | undefined;
   /** Specifies in decimal number, the version the OS disk should be reimaged to. If exact version is not provided, the OS disk is reimaged to the existing version of OS Disk. */
-  exactVersion?: string;
+  exactVersion?: string | undefined;
   /** Specifies information required for reimaging the non-ephemeral OS disk. */
-  osProfile?: OSProfileProvisioningData;
+  osProfile?: OSProfileProvisioningData | undefined;
   /** Parameter to force update ephemeral OS disk for a virtual machine scale set VM */
-  forceUpdateOSDiskForEphemeral?: boolean;
+  forceUpdateOSDiskForEphemeral?: boolean | undefined;
   /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
-  instanceIds?: VirtualMachineScaleSetsReimageRequestInstanceIdsList;
+  instanceIds?: VirtualMachineScaleSetsReimageRequestInstanceIdsList | undefined;
 }
 export interface VirtualMachineScaleSetsReimageResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
 export type VirtualMachineScaleSetsReimageAllRequestInstanceIdsList = Array<string>;
@@ -10012,13 +10084,13 @@ export interface VirtualMachineScaleSetsReimageAllRequest {
   /** The name of the VM scale set. */
   vmScaleSetName: string;
   /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
-  instanceIds?: VirtualMachineScaleSetsReimageAllRequestInstanceIdsList;
+  instanceIds?: VirtualMachineScaleSetsReimageAllRequestInstanceIdsList | undefined;
 }
 export interface VirtualMachineScaleSetsReimageAllResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineScaleSetVMDiagnosticRunCommandsCreateOrUpdateRequestTagsMap = {
@@ -10036,11 +10108,11 @@ export interface VirtualMachineScaleSetVMDiagnosticRunCommandsCreateOrUpdateRequ
   /** The name of the VirtualMachineDiagnosticRunCommand */
   runCommandName: string;
   /** Resource tags. */
-  tags?: VirtualMachineScaleSetVMDiagnosticRunCommandsCreateOrUpdateRequestTagsMap;
+  tags?: VirtualMachineScaleSetVMDiagnosticRunCommandsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine diagnostic run command. */
-  properties?: VirtualMachineRunCommandPropertiesInput;
+  properties?: VirtualMachineRunCommandPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineScaleSetVMDiagnosticRunCommandsCreateOrUpdateResponseTagsMap = {
@@ -10048,23 +10120,23 @@ export type VirtualMachineScaleSetVMDiagnosticRunCommandsCreateOrUpdateResponseT
 };
 export interface VirtualMachineScaleSetVMDiagnosticRunCommandsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachineScaleSetVMDiagnosticRunCommandsCreateOrUpdateResponseTagsMap;
+  tags?: VirtualMachineScaleSetVMDiagnosticRunCommandsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine diagnostic run command. */
-  properties?: VirtualMachineRunCommandProperties;
+  properties?: VirtualMachineRunCommandProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -10078,25 +10150,25 @@ export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateRequest {
   /** The name of the virtual machine extension. */
   vmExtensionName: string;
   /** Describes the properties of a Virtual Machine Extension. */
-  properties?: VirtualMachineExtensionPropertiesInput;
+  properties?: VirtualMachineExtensionPropertiesInput | undefined;
   /** The location of the extension. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Describes the properties of a Virtual Machine Extension. */
-  properties?: VirtualMachineExtensionProperties;
+  properties?: VirtualMachineExtensionProperties | undefined;
   /** The location of the extension. */
-  location?: string;
+  location?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineScaleSetVMRunCommandsCreateOrUpdateRequestTagsMap = {
@@ -10114,11 +10186,11 @@ export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateRequest {
   /** The name of the VirtualMachineRunCommand */
   runCommandName: string;
   /** Resource tags. */
-  tags?: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateRequestTagsMap;
+  tags?: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine run command. */
-  properties?: VirtualMachineRunCommandPropertiesInput;
+  properties?: VirtualMachineRunCommandPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponseTagsMap = {
@@ -10126,23 +10198,23 @@ export type VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponseTagsMap = {
 };
 export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponseTagsMap;
+  tags?: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine run command. */
-  properties?: VirtualMachineRunCommandProperties;
+  properties?: VirtualMachineRunCommandProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The list of managed data disks to be attached. */
 export type VirtualMachineScaleSetVMsAttachDetachDataDisksRequestDataDisksToAttachList =
@@ -10160,28 +10232,32 @@ export interface VirtualMachineScaleSetVMsAttachDetachDataDisksRequest {
   /** The instance ID of the virtual machine. */
   instanceId: string;
   /** The list of managed data disks to be attached. */
-  dataDisksToAttach?: VirtualMachineScaleSetVMsAttachDetachDataDisksRequestDataDisksToAttachList;
+  dataDisksToAttach?:
+    | VirtualMachineScaleSetVMsAttachDetachDataDisksRequestDataDisksToAttachList
+    | undefined;
   /** The list of managed data disks to be detached. */
-  dataDisksToDetach?: VirtualMachineScaleSetVMsAttachDetachDataDisksRequestDataDisksToDetachList;
+  dataDisksToDetach?:
+    | VirtualMachineScaleSetVMsAttachDetachDataDisksRequestDataDisksToDetachList
+    | undefined;
 }
 /** Specifies the storage settings for the virtual machine disks. */
 export interface VirtualMachineScaleSetVMsAttachDetachDataDisksResponse {
   /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. */
-  imageReference?: ImageReference;
+  imageReference?: ImageReference | undefined;
   /** Specifies information about the operating system disk used by the virtual machine. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  osDisk?: OSDisk;
+  osDisk?: OSDisk | undefined;
   /** Specifies the parameters that are used to add a data disk to a virtual machine. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  dataDisks?: StorageProfileDataDisksList;
+  dataDisks?: StorageProfileDataDisksList | undefined;
   /** Specifies the disk controller type configured for the VM. **Note:** This property will be set to the default disk controller type if not specified provided virtual machine is being created with 'hyperVGeneration' set to V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. Minimum api-version: 2022-08-01. */
-  diskControllerType?: DiskControllerTypes;
-  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
-  alignRegionalDisksToVMZone?: boolean;
+  diskControllerType?: DiskControllerTypes | undefined;
+  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable **only** for VMs with placement.zonePlacementPolicy set to **Any**. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
+  alignRegionalDisksToVMZone?: boolean | undefined;
   /** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD (e.g., "2026-03-02"). */
-  diskApiVersion?: DiskApiVersion;
+  diskApiVersion?: DiskApiVersion | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachineScaleSetVMsDeallocateRequest {
   /** The ID of the target subscription. */
@@ -10195,9 +10271,9 @@ export interface VirtualMachineScaleSetVMsDeallocateRequest {
 }
 export interface VirtualMachineScaleSetVMsDeallocateResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachineScaleSetVMsPerformMaintenanceRequest {
   /** The ID of the target subscription. */
@@ -10211,9 +10287,9 @@ export interface VirtualMachineScaleSetVMsPerformMaintenanceRequest {
 }
 export interface VirtualMachineScaleSetVMsPerformMaintenanceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachineScaleSetVMsPowerOffRequest {
   /** The ID of the target subscription. */
@@ -10225,13 +10301,13 @@ export interface VirtualMachineScaleSetVMsPowerOffRequest {
   /** The instance ID of the virtual machine. */
   instanceId: string;
   /** The parameter to request non-graceful VM shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false if not specified */
-  skipShutdown?: boolean;
+  skipShutdown?: boolean | undefined;
 }
 export interface VirtualMachineScaleSetVMsPowerOffResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachineScaleSetVMsReimageRequest {
   /** The ID of the target subscription. */
@@ -10243,19 +10319,19 @@ export interface VirtualMachineScaleSetVMsReimageRequest {
   /** The instance ID of the virtual machine. */
   instanceId: string;
   /** Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk. */
-  tempDisk?: boolean;
+  tempDisk?: boolean | undefined;
   /** Specifies in decimal number, the version the OS disk should be reimaged to. If exact version is not provided, the OS disk is reimaged to the existing version of OS Disk. */
-  exactVersion?: string;
+  exactVersion?: string | undefined;
   /** Specifies information required for reimaging the non-ephemeral OS disk. */
-  osProfile?: OSProfileProvisioningData;
+  osProfile?: OSProfileProvisioningData | undefined;
   /** Parameter to force update ephemeral OS disk for a virtual machine scale set VM */
-  forceUpdateOSDiskForEphemeral?: boolean;
+  forceUpdateOSDiskForEphemeral?: boolean | undefined;
 }
 export interface VirtualMachineScaleSetVMsReimageResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachineScaleSetVMsReimageAllRequest {
   /** The ID of the target subscription. */
@@ -10269,9 +10345,9 @@ export interface VirtualMachineScaleSetVMsReimageAllRequest {
 }
 export interface VirtualMachineScaleSetVMsReimageAllResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachineScaleSetVMsSimulateEvictionRequest {
   /** The ID of the target subscription. */
@@ -10299,21 +10375,21 @@ export interface VirtualMachinesCreateOrUpdateRequest {
   /** The name of the virtual machine. */
   vmName: string;
   /** Resource tags. */
-  tags?: VirtualMachinesCreateOrUpdateRequestTagsMap;
+  tags?: VirtualMachinesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine. */
-  properties?: VirtualMachinePropertiesInput;
+  properties?: VirtualMachinePropertiesInput | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The identity of the virtual machine, if configured. */
-  identity?: VirtualMachineIdentityInput;
+  identity?: VirtualMachineIdentityInput | undefined;
   /** The availability zones. */
-  zones?: VirtualMachinesCreateOrUpdateRequestZonesList;
+  zones?: VirtualMachinesCreateOrUpdateRequestZonesList | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ImagesCreateOrUpdateRequestExtendedLocation;
+  extendedLocation?: ImagesCreateOrUpdateRequestExtendedLocation | undefined;
   /** Placement section specifies the user-defined constraints for virtual machine hardware placement. This property cannot be changed once VM is provisioned. Minimum api-version: 2024-11-01. */
-  placement?: Placement;
+  placement?: Placement | undefined;
 }
 /** Resource tags. */
 export type VirtualMachinesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -10326,39 +10402,39 @@ export type VirtualMachinesCreateOrUpdateResponseExtendedLocation =
   GetImageResponseExtendedLocation;
 export interface VirtualMachinesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachinesCreateOrUpdateResponseTagsMap;
+  tags?: VirtualMachinesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the properties of a Virtual Machine. */
-  properties?: VirtualMachineProperties;
+  properties?: VirtualMachineProperties | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The virtual machine child extension resources. */
-  resources?: VirtualMachinesCreateOrUpdateResponseResourcesList;
+  resources?: VirtualMachinesCreateOrUpdateResponseResourcesList | undefined;
   /** The identity of the virtual machine, if configured. */
-  identity?: VirtualMachineIdentity;
+  identity?: VirtualMachineIdentity | undefined;
   /** The availability zones. */
-  zones?: VirtualMachinesCreateOrUpdateResponseZonesList;
+  zones?: VirtualMachinesCreateOrUpdateResponseZonesList | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: GetImageResponseExtendedLocation;
+  extendedLocation?: GetImageResponseExtendedLocation | undefined;
   /** ManagedBy is set to Virtual Machine Scale Set(VMSS) flex ARM resourceID, if the VM is part of the VMSS. This property is used by platform for internal resource group delete optimization. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Etag is property returned in Create/Update/Get response of the VM, so that customer can supply it in the header to ensure optimistic updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Placement section specifies the user-defined constraints for virtual machine hardware placement. This property cannot be changed once VM is provisioned. Minimum api-version: 2024-11-01. */
-  placement?: Placement;
+  placement?: Placement | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachinesDeallocateRequest {
   /** The ID of the target subscription. */
@@ -10368,15 +10444,15 @@ export interface VirtualMachinesDeallocateRequest {
   /** The name of the virtual machine. */
   vmName: string;
   /** Optional parameter to hibernate a virtual machine. */
-  hibernate?: boolean;
+  hibernate?: boolean | undefined;
   /** Optional parameter to force deallocate a virtual machine. Default is false. */
-  forceDeallocate?: boolean;
+  forceDeallocate?: boolean | undefined;
 }
 export interface VirtualMachinesDeallocateResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachinesGeneralizeRequest {
   /** The ID of the target subscription. */
@@ -10405,9 +10481,9 @@ export interface VirtualMachinesPerformMaintenanceRequest {
 }
 export interface VirtualMachinesPerformMaintenanceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachinesPowerOffRequest {
   /** The ID of the target subscription. */
@@ -10417,13 +10493,13 @@ export interface VirtualMachinesPowerOffRequest {
   /** The name of the virtual machine. */
   vmName: string;
   /** The parameter to request non-graceful VM shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false if not specified */
-  skipShutdown?: boolean;
+  skipShutdown?: boolean | undefined;
 }
 export interface VirtualMachinesPowerOffResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachinesReapplyRequest {
   /** The ID of the target subscription. */
@@ -10435,9 +10511,9 @@ export interface VirtualMachinesReapplyRequest {
 }
 export interface VirtualMachinesReapplyResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachinesReimageRequest {
   /** The ID of the target subscription. */
@@ -10447,17 +10523,17 @@ export interface VirtualMachinesReimageRequest {
   /** The name of the virtual machine. */
   vmName: string;
   /** Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk. */
-  tempDisk?: boolean;
+  tempDisk?: boolean | undefined;
   /** Specifies in decimal number, the version the OS disk should be reimaged to. If exact version is not provided, the OS disk is reimaged to the existing version of OS Disk. */
-  exactVersion?: string;
+  exactVersion?: string | undefined;
   /** Specifies information required for reimaging the non-ephemeral OS disk. */
-  osProfile?: OSProfileProvisioningData;
+  osProfile?: OSProfileProvisioningData | undefined;
 }
 export interface VirtualMachinesReimageResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachinesSimulateEvictionRequest {
   /** The ID of the target subscription. */
@@ -17058,6 +17134,7 @@ function __c103(j: number): any {
       return S.suspend(() =>
         S.Struct({
           hardwareProfile: S.optional(__S(2016, __c63, 0)),
+          flexProfile: S.optional(__S(7616, __c238, 0)),
           scheduledEventsPolicy: S.optional(__S(4931, __c154, 3)),
           storageProfile: S.optional(__S(3264, __c102, 0)),
           additionalCapabilities: S.optional(__S(7872, __c246, 0)),
@@ -17081,7 +17158,7 @@ function __c103(j: number): any {
           capacityReservation: S.optional(__S(7879, __c246, 7)),
           interconnectBlockProfile: S.optional(__S(7880, __c246, 8)),
           applicationProfile: S.optional(__S(7781, __c243, 5)),
-          resiliencyProfile: S.optional(__S(7617, __c238, 1)),
+          resiliencyProfile: S.optional(__S(7618, __c238, 2)),
         }),
       ).annotate({ identifier: "VirtualMachinePropertiesInput" });
     case 1:
@@ -17093,7 +17170,7 @@ function __c103(j: number): any {
           systemData: S.optional(__S(5024, __c157, 0)),
           tags: S.optional(__S(4992, __c156, 0)),
           location: S.String,
-          properties: S.optional(__S(7618, __c238, 2)),
+          properties: S.optional(__S(7619, __c238, 3)),
           plan: S.optional(__S(7881, __c246, 9)),
           resources: S.optional(__S(7936, __c248, 0)),
           identity: S.optional(__S(7884, __c246, 12)),
@@ -17384,6 +17461,7 @@ function __c113(j: number): any {
           primary: S.optional(S.Boolean),
           publicIPAddressConfiguration: S.optional(__S(3620, __c113, 4)),
           privateIPAddressVersion: S.optional(S.String),
+          privateIPAddressPrefixLength: S.optional(S.NullOr(S.Number)),
           applicationGatewayBackendAddressPools: S.optional(__S(5152, __c161, 0)),
           applicationSecurityGroups: S.optional(__S(5152, __c161, 0)),
           loadBalancerBackendAddressPools: S.optional(__S(5152, __c161, 0)),
@@ -20221,7 +20299,7 @@ function __c234(j: number): any {
         S.Struct({
           supportedResourceTypes: S.optional(__S(64, __c2, 0)),
         }),
-      ).annotate({ identifier: "DiagnosticProperties" });
+      ).annotate({ identifier: "PlacementScoresProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -20284,7 +20362,7 @@ function __c237(j: number): any {
           systemData: S.optional(__S(5024, __c157, 0)),
           tags: S.optional(__S(4992, __c156, 0)),
           location: S.String,
-          properties: S.optional(__S(7618, __c238, 2)),
+          properties: S.optional(__S(7619, __c238, 3)),
           plan: S.optional(__S(7881, __c246, 9)),
           resources: S.optional(__S(7936, __c248, 0)),
           identity: S.optional(__S(7884, __c246, 12)),
@@ -20302,19 +20380,26 @@ function __c238(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          isEnabled: S.optional(S.Boolean),
+          preferredVMSize: S.String,
         }),
-      ).annotate({ identifier: "ZoneMovement" });
+      ).annotate({ identifier: "FlexProfile" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          zoneMovement: S.optional(__S(7616, __c238, 0)),
+          isEnabled: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "ResiliencyProfile" });
+      ).annotate({ identifier: "ZoneMovement" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          zoneMovement: S.optional(__S(7617, __c238, 1)),
+        }),
+      ).annotate({ identifier: "ResiliencyProfile" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           hardwareProfile: S.optional(__S(2016, __c63, 0)),
+          flexProfile: S.optional(__S(7616, __c238, 0)),
           scheduledEventsPolicy: S.optional(__S(4931, __c154, 3)),
           storageProfile: S.optional(__S(8000, __c250, 0)),
           additionalCapabilities: S.optional(__S(7872, __c246, 0)),
@@ -20342,7 +20427,7 @@ function __c238(j: number): any {
           interconnectBlockProfile: S.optional(__S(7880, __c246, 8)),
           applicationProfile: S.optional(__S(7781, __c243, 5)),
           timeCreated: S.optional(S.String),
-          resiliencyProfile: S.optional(__S(7617, __c238, 1)),
+          resiliencyProfile: S.optional(__S(7618, __c238, 2)),
         }),
       ).annotate({ identifier: "VirtualMachineProperties" });
   }
@@ -20770,6 +20855,7 @@ function __c250(j: number): any {
           primary: S.optional(S.Boolean),
           publicIPAddressConfiguration: S.optional(__S(8005, __c250, 5)),
           privateIPAddressVersion: S.optional(S.String),
+          privateIPAddressPrefixLength: S.optional(S.Number),
           applicationSecurityGroups: S.optional(__S(5152, __c161, 0)),
           applicationGatewayBackendAddressPools: S.optional(__S(5152, __c161, 0)),
           loadBalancerBackendAddressPools: S.optional(__S(5152, __c161, 0)),
@@ -21749,6 +21835,7 @@ function __c274(j: number): any {
           primary: S.optional(S.Boolean),
           publicIPAddressConfiguration: S.optional(__S(8769, __c274, 1)),
           privateIPAddressVersion: S.optional(S.String),
+          privateIPAddressPrefixLength: S.optional(S.Number),
           applicationGatewayBackendAddressPools: S.optional(__S(5152, __c161, 0)),
           applicationSecurityGroups: S.optional(__S(5152, __c161, 0)),
           loadBalancerBackendAddressPools: S.optional(__S(5152, __c161, 0)),

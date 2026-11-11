@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "DatalakeStore",
   service: "DatalakeStore",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -46,11 +47,11 @@ export interface CheckAccountNameAvailabilityRequest {
 /** Data Lake Store account name availability result information. */
 export interface NameAvailabilityInformation {
   /** The Boolean value of true or false to indicate whether the Data Lake Store account name is available or not. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the Data Lake Store account name is not available, if nameAvailable is false. */
-  reason?: string;
+  reason?: string | undefined;
   /** The message describing why the Data Lake Store account name is not available, if nameAvailable is false. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The resource tags. */
 export type CreateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -77,7 +78,7 @@ export interface EncryptionConfig {
   /** The type of encryption configuration being used. Currently the only supported types are 'UserManaged' and 'ServiceManaged'. */
   type: EncryptionConfigType | (string & {});
   /** The Key Vault information for connecting to user managed encryption keys. */
-  keyVaultMetaInfo?: KeyVaultMetaInfo;
+  keyVaultMetaInfo?: KeyVaultMetaInfo | undefined;
 }
 /** The current state of encryption for this Data Lake Store account. */
 export type CreateDataLakeStoreAccountPropertiesEncryptionState = "Enabled" | "Disabled";
@@ -145,27 +146,31 @@ export type CreateDataLakeStoreAccountPropertiesNewTier =
   | "Commitment_5PB";
 export interface CreateDataLakeStoreAccountProperties {
   /** The default owner group for all new folders and files created in the Data Lake Store account. */
-  defaultGroup?: string;
+  defaultGroup?: string | undefined;
   /** The Key Vault encryption configuration. */
-  encryptionConfig?: EncryptionConfig;
+  encryptionConfig?: EncryptionConfig | undefined;
   /** The current state of encryption for this Data Lake Store account. */
-  encryptionState?: CreateDataLakeStoreAccountPropertiesEncryptionState | (string & {});
+  encryptionState?: CreateDataLakeStoreAccountPropertiesEncryptionState | (string & {}) | undefined;
   /** The list of firewall rules associated with this Data Lake Store account. */
-  firewallRules?: CreateDataLakeStoreAccountPropertiesFirewallRulesList;
+  firewallRules?: CreateDataLakeStoreAccountPropertiesFirewallRulesList | undefined;
   /** The list of virtual network rules associated with this Data Lake Store account. */
-  virtualNetworkRules?: CreateDataLakeStoreAccountPropertiesVirtualNetworkRulesList;
+  virtualNetworkRules?: CreateDataLakeStoreAccountPropertiesVirtualNetworkRulesList | undefined;
   /** The current state of the IP address firewall for this Data Lake Store account. */
-  firewallState?: CreateDataLakeStoreAccountPropertiesFirewallState | (string & {});
+  firewallState?: CreateDataLakeStoreAccountPropertiesFirewallState | (string & {}) | undefined;
   /** The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. */
-  firewallAllowAzureIps?: CreateDataLakeStoreAccountPropertiesFirewallAllowAzureIps | (string & {});
+  firewallAllowAzureIps?:
+    | CreateDataLakeStoreAccountPropertiesFirewallAllowAzureIps
+    | (string & {})
+    | undefined;
   /** The list of trusted identity providers associated with this Data Lake Store account. */
-  trustedIdProviders?: CreateDataLakeStoreAccountPropertiesTrustedIdProvidersList;
+  trustedIdProviders?: CreateDataLakeStoreAccountPropertiesTrustedIdProvidersList | undefined;
   /** The current state of the trusted identity provider feature for this Data Lake Store account. */
   trustedIdProviderState?:
     | CreateDataLakeStoreAccountPropertiesTrustedIdProviderState
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The commitment tier to use for next month. */
-  newTier?: CreateDataLakeStoreAccountPropertiesNewTier | (string & {});
+  newTier?: CreateDataLakeStoreAccountPropertiesNewTier | (string & {}) | undefined;
 }
 export interface CreateAccountRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -177,11 +182,11 @@ export interface CreateAccountRequest {
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: CreateAccountRequestTagsMap;
+  tags?: CreateAccountRequestTagsMap | undefined;
   /** The Key Vault encryption identity, if any. */
-  identity?: EncryptionIdentityInput;
+  identity?: EncryptionIdentityInput | undefined;
   /** The Data Lake Store account properties to use for creating. */
-  properties?: CreateDataLakeStoreAccountProperties;
+  properties?: CreateDataLakeStoreAccountProperties | undefined;
 }
 /** The resource tags. */
 export type CreateAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -192,9 +197,9 @@ export interface EncryptionIdentity {
   /** The type of encryption being used. Currently the only supported type is 'SystemAssigned'. */
   type: EncryptionIdentityType;
   /** The principal identifier associated with the encryption. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant identifier associated with the encryption. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** The provisioning status of the Data Lake Store account. */
 export type DataLakeStoreAccountPropertiesProvisioningState =
@@ -218,38 +223,38 @@ export type DataLakeStoreAccountPropertiesEncryptionProvisioningState = "Creatin
 /** The firewall rule properties. */
 export interface FirewallRuleProperties {
   /** The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol. */
-  startIpAddress?: string;
+  startIpAddress?: string | undefined;
   /** The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol. */
-  endIpAddress?: string;
+  endIpAddress?: string | undefined;
 }
 /** Data Lake Store firewall rule information. */
 export interface FirewallRule {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The firewall rule properties. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
 }
 /** The list of firewall rules associated with this Data Lake Store account. */
 export type DataLakeStoreAccountPropertiesFirewallRulesList = Array<FirewallRule>;
 /** The virtual network rule properties. */
 export interface VirtualNetworkRuleProperties {
   /** The resource identifier for the subnet. */
-  subnetId?: string;
+  subnetId?: string | undefined;
 }
 /** Data Lake Store virtual network rule information. */
 export interface VirtualNetworkRule {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The virtual network rule properties. */
-  properties?: VirtualNetworkRuleProperties;
+  properties?: VirtualNetworkRuleProperties | undefined;
 }
 /** The list of virtual network rules associated with this Data Lake Store account. */
 export type DataLakeStoreAccountPropertiesVirtualNetworkRulesList = Array<VirtualNetworkRule>;
@@ -260,18 +265,18 @@ export type DataLakeStoreAccountPropertiesFirewallAllowAzureIps = "Enabled" | "D
 /** The trusted identity provider properties. */
 export interface TrustedIdProviderProperties {
   /** The URL of this trusted identity provider. */
-  idProvider?: string;
+  idProvider?: string | undefined;
 }
 /** Data Lake Store trusted identity provider information. */
 export interface TrustedIdProvider {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The trusted identity provider properties. */
-  properties?: TrustedIdProviderProperties;
+  properties?: TrustedIdProviderProperties | undefined;
 }
 /** The list of trusted identity providers associated with this Data Lake Store account. */
 export type DataLakeStoreAccountPropertiesTrustedIdProvidersList = Array<TrustedIdProvider>;
@@ -298,57 +303,59 @@ export type DataLakeStoreAccountPropertiesCurrentTier =
 /** Data Lake Store account properties information. */
 export interface DataLakeStoreAccountProperties {
   /** The unique identifier associated with this Data Lake Store account. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** The provisioning status of the Data Lake Store account. */
-  provisioningState?: DataLakeStoreAccountPropertiesProvisioningState;
+  provisioningState?: DataLakeStoreAccountPropertiesProvisioningState | undefined;
   /** The state of the Data Lake Store account. */
-  state?: DataLakeStoreAccountPropertiesState;
+  state?: DataLakeStoreAccountPropertiesState | undefined;
   /** The account creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The account last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** The full CName endpoint for this account. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The default owner group for all new folders and files created in the Data Lake Store account. */
-  defaultGroup?: string;
+  defaultGroup?: string | undefined;
   /** The Key Vault encryption configuration. */
-  encryptionConfig?: EncryptionConfig;
+  encryptionConfig?: EncryptionConfig | undefined;
   /** The current state of encryption for this Data Lake Store account. */
-  encryptionState?: DataLakeStoreAccountPropertiesEncryptionState;
+  encryptionState?: DataLakeStoreAccountPropertiesEncryptionState | undefined;
   /** The current state of encryption provisioning for this Data Lake Store account. */
-  encryptionProvisioningState?: DataLakeStoreAccountPropertiesEncryptionProvisioningState;
+  encryptionProvisioningState?:
+    | DataLakeStoreAccountPropertiesEncryptionProvisioningState
+    | undefined;
   /** The list of firewall rules associated with this Data Lake Store account. */
-  firewallRules?: DataLakeStoreAccountPropertiesFirewallRulesList;
+  firewallRules?: DataLakeStoreAccountPropertiesFirewallRulesList | undefined;
   /** The list of virtual network rules associated with this Data Lake Store account. */
-  virtualNetworkRules?: DataLakeStoreAccountPropertiesVirtualNetworkRulesList;
+  virtualNetworkRules?: DataLakeStoreAccountPropertiesVirtualNetworkRulesList | undefined;
   /** The current state of the IP address firewall for this Data Lake Store account. */
-  firewallState?: DataLakeStoreAccountPropertiesFirewallState;
+  firewallState?: DataLakeStoreAccountPropertiesFirewallState | undefined;
   /** The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. */
-  firewallAllowAzureIps?: DataLakeStoreAccountPropertiesFirewallAllowAzureIps;
+  firewallAllowAzureIps?: DataLakeStoreAccountPropertiesFirewallAllowAzureIps | undefined;
   /** The list of trusted identity providers associated with this Data Lake Store account. */
-  trustedIdProviders?: DataLakeStoreAccountPropertiesTrustedIdProvidersList;
+  trustedIdProviders?: DataLakeStoreAccountPropertiesTrustedIdProvidersList | undefined;
   /** The current state of the trusted identity provider feature for this Data Lake Store account. */
-  trustedIdProviderState?: DataLakeStoreAccountPropertiesTrustedIdProviderState;
+  trustedIdProviderState?: DataLakeStoreAccountPropertiesTrustedIdProviderState | undefined;
   /** The commitment tier to use for next month. */
-  newTier?: DataLakeStoreAccountPropertiesNewTier;
+  newTier?: DataLakeStoreAccountPropertiesNewTier | undefined;
   /** The commitment tier in use for the current month. */
-  currentTier?: DataLakeStoreAccountPropertiesCurrentTier;
+  currentTier?: DataLakeStoreAccountPropertiesCurrentTier | undefined;
 }
 export interface CreateAccountResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: CreateAccountResponseTagsMap;
+  tags?: CreateAccountResponseTagsMap | undefined;
   /** The Key Vault encryption identity, if any. */
-  identity?: EncryptionIdentity;
+  identity?: EncryptionIdentity | undefined;
   /** The Data Lake Store account properties. */
-  properties?: DataLakeStoreAccountProperties;
+  properties?: DataLakeStoreAccountProperties | undefined;
 }
 export interface DeleteAccountRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -415,13 +422,13 @@ export interface FirewallRulesCreateOrUpdateRequest {
 }
 export interface FirewallRulesCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The firewall rule properties. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
 }
 export interface GetAccountRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -435,19 +442,19 @@ export interface GetAccountRequest {
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAccountResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetAccountResponseTagsMap;
+  tags?: GetAccountResponseTagsMap | undefined;
   /** The Key Vault encryption identity, if any. */
-  identity?: EncryptionIdentity;
+  identity?: EncryptionIdentity | undefined;
   /** The Data Lake Store account properties. */
-  properties?: DataLakeStoreAccountProperties;
+  properties?: DataLakeStoreAccountProperties | undefined;
 }
 export interface GetFirewallRuleRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -461,13 +468,13 @@ export interface GetFirewallRuleRequest {
 }
 export interface GetFirewallRuleResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The firewall rule properties. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
 }
 export interface GetLocationCapabilityRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -485,15 +492,15 @@ export type CapabilityInformationState =
 /** Subscription-level properties and limits for Data Lake Store. */
 export interface CapabilityInformation {
   /** The subscription credentials that uniquely identifies the subscription. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The subscription state. */
-  state?: CapabilityInformationState;
+  state?: CapabilityInformationState | undefined;
   /** The maximum supported number of accounts under this subscription. */
-  maxAccountCount?: number;
+  maxAccountCount?: number | undefined;
   /** The current number of accounts under this subscription. */
-  accountCount?: number;
+  accountCount?: number | undefined;
   /** The Boolean value of true or false to indicate the maintenance state. */
-  migrationState?: boolean;
+  migrationState?: boolean | undefined;
 }
 export interface GetLocationUsageRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -512,29 +519,29 @@ export type UsageUnit =
 /** The usage names that can be used. */
 export interface UsageName {
   /** Gets a string describing the resource name. */
-  value?: string;
+  value?: string | undefined;
   /** Gets a localized string describing the resource name. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Describes the Resource Usage. */
 export interface Usage {
   /** Gets the unit of measurement. */
-  unit?: UsageUnit;
+  unit?: UsageUnit | undefined;
   /** Resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the current count of the allocated resources in the subscription. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** Gets the maximum count of the resources that can be allocated in the subscription. */
-  limit?: number;
+  limit?: number | undefined;
   /** Gets the name of the type of usage. */
-  name?: UsageName;
+  name?: UsageName | undefined;
 }
 /** Gets or sets the list of Storage Resource Usages. */
 export type UsageListResultValueList = Array<Usage>;
 /** The response from the List Usages operation. */
 export interface UsageListResult {
   /** Gets or sets the list of Storage Resource Usages. */
-  value?: UsageListResultValueList;
+  value?: UsageListResultValueList | undefined;
 }
 export interface GetTrustedIdProviderRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -548,13 +555,13 @@ export interface GetTrustedIdProviderRequest {
 }
 export interface GetTrustedIdProviderResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The trusted identity provider properties. */
-  properties?: TrustedIdProviderProperties;
+  properties?: TrustedIdProviderProperties | undefined;
 }
 export interface GetVirtualNetworkRuleRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -568,13 +575,13 @@ export interface GetVirtualNetworkRuleRequest {
 }
 export interface GetVirtualNetworkRuleResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The virtual network rule properties. */
-  properties?: VirtualNetworkRuleProperties;
+  properties?: VirtualNetworkRuleProperties | undefined;
 }
 export interface ListAccountByResourceGroupRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -582,17 +589,17 @@ export interface ListAccountByResourceGroupRequest {
   /** The name of the Azure resource group. */
   resourceGroupName: string;
   /** OData filter. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of items to return. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of items to skip over before returning elements. Optional. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional. */
-  _select?: string;
+  _select?: string | undefined;
   /** OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** A Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
-  _count?: boolean;
+  _count?: boolean | undefined;
 }
 /** The resource tags. */
 export type DataLakeStoreAccountBasicTagsMap = { [key: string]: string | undefined };
@@ -614,57 +621,57 @@ export type DataLakeStoreAccountPropertiesBasicState = "Active" | "Suspended";
 /** The basic account specific properties that are associated with an underlying Data Lake Store account. */
 export interface DataLakeStoreAccountPropertiesBasic {
   /** The unique identifier associated with this Data Lake Store account. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** The provisioning status of the Data Lake Store account. */
-  provisioningState?: DataLakeStoreAccountPropertiesBasicProvisioningState;
+  provisioningState?: DataLakeStoreAccountPropertiesBasicProvisioningState | undefined;
   /** The state of the Data Lake Store account. */
-  state?: DataLakeStoreAccountPropertiesBasicState;
+  state?: DataLakeStoreAccountPropertiesBasicState | undefined;
   /** The account creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The account last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** The full CName endpoint for this account. */
-  endpoint?: string;
+  endpoint?: string | undefined;
 }
 /** Basic Data Lake Store account information, returned on list calls. */
 export interface DataLakeStoreAccountBasic {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: DataLakeStoreAccountBasicTagsMap;
+  tags?: DataLakeStoreAccountBasicTagsMap | undefined;
   /** The basic Data Lake Store account properties. */
-  properties?: DataLakeStoreAccountPropertiesBasic;
+  properties?: DataLakeStoreAccountPropertiesBasic | undefined;
 }
 /** The results of the list operation. */
 export type DataLakeStoreAccountListResultValueList = Array<DataLakeStoreAccountBasic>;
 /** Data Lake Store account list information response. */
 export interface DataLakeStoreAccountListResult {
   /** The results of the list operation. */
-  value?: DataLakeStoreAccountListResultValueList;
+  value?: DataLakeStoreAccountListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAccountsRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
   /** OData filter. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of items to return. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of items to skip over before returning elements. Optional. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional. */
-  _select?: string;
+  _select?: string | undefined;
   /** OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
-  _count?: boolean;
+  _count?: boolean | undefined;
 }
 export interface ListFirewallRuleByAccountRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -679,41 +686,41 @@ export type FirewallRuleListResultValueList = Array<FirewallRule>;
 /** Data Lake Store firewall rule list information. */
 export interface FirewallRuleListResult {
   /** The results of the list operation. */
-  value?: FirewallRuleListResultValueList;
+  value?: FirewallRuleListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The display information for a particular operation. */
 export interface OperationDisplay {
   /** The resource provider of the operation. */
-  provider?: string;
+  provider?: string | undefined;
   /** The resource type of the operation. */
-  resource?: string;
+  resource?: string | undefined;
   /** A friendly name of the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** A friendly description of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation. */
 export type OperationOrigin = "user" | "system" | "user,system";
 /** An available operation for Data Lake Store. */
 export interface Operation {
   /** The name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** The display information for the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation. */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
 }
 /** The results of the list operation. */
 export type OperationListResultValueList = Array<Operation>;
 /** The list of available operations for Data Lake Store. */
 export interface OperationListResult {
   /** The results of the list operation. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTrustedIdProviderByAccountRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -728,9 +735,9 @@ export type TrustedIdProviderListResultValueList = Array<TrustedIdProvider>;
 /** Data Lake Store trusted identity provider list information. */
 export interface TrustedIdProviderListResult {
   /** The results of the list operation. */
-  value?: TrustedIdProviderListResultValueList;
+  value?: TrustedIdProviderListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualNetworkRuleByAccountRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -745,9 +752,9 @@ export type VirtualNetworkRuleListResultValueList = Array<VirtualNetworkRule>;
 /** Data Lake Store virtual network rule list information. */
 export interface VirtualNetworkRuleListResult {
   /** The results of the list operation. */
-  value?: VirtualNetworkRuleListResultValueList;
+  value?: VirtualNetworkRuleListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface TrustedIdProvidersCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -763,25 +770,25 @@ export interface TrustedIdProvidersCreateOrUpdateRequest {
 }
 export interface TrustedIdProvidersCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The trusted identity provider properties. */
-  properties?: TrustedIdProviderProperties;
+  properties?: TrustedIdProviderProperties | undefined;
 }
 /** Resource tags */
 export type UpdateAccountRequestTagsMap = { [key: string]: string | undefined };
 /** The Key Vault update information used for user managed key rotation. */
 export interface UpdateKeyVaultMetaInfo {
   /** The version of the user managed encryption key to update through a key rotation. */
-  encryptionKeyVersion?: string;
+  encryptionKeyVersion?: string | undefined;
 }
 /** The encryption configuration used to update a user managed Key Vault key. */
 export interface UpdateEncryptionConfig {
   /** The updated Key Vault key to use in user managed key rotation. */
-  keyVaultMetaInfo?: UpdateKeyVaultMetaInfo;
+  keyVaultMetaInfo?: UpdateKeyVaultMetaInfo | undefined;
 }
 /** The firewall rule properties to use when updating a firewall rule. */
 export type UpdateFirewallRuleProperties = FirewallRuleProperties;
@@ -790,7 +797,7 @@ export interface UpdateFirewallRuleWithAccountParameters {
   /** The unique name of the firewall rule to update. */
   name: string;
   /** The firewall rule properties to use when updating a firewall rule. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
 }
 /** The list of firewall rules associated with this Data Lake Store account. */
 export type UpdateDataLakeStoreAccountPropertiesFirewallRulesList =
@@ -802,7 +809,7 @@ export interface UpdateVirtualNetworkRuleWithAccountParameters {
   /** The unique name of the virtual network rule to update. */
   name: string;
   /** The virtual network rule properties to use when updating a virtual network rule. */
-  properties?: VirtualNetworkRuleProperties;
+  properties?: VirtualNetworkRuleProperties | undefined;
 }
 /** The list of virtual network rules associated with this Data Lake Store account. */
 export type UpdateDataLakeStoreAccountPropertiesVirtualNetworkRulesList =
@@ -818,7 +825,7 @@ export interface UpdateTrustedIdProviderWithAccountParameters {
   /** The unique name of the trusted identity provider to update. */
   name: string;
   /** The trusted identity provider properties to use when updating a trusted identity provider. */
-  properties?: TrustedIdProviderProperties;
+  properties?: TrustedIdProviderProperties | undefined;
 }
 /** The list of trusted identity providers associated with this Data Lake Store account. */
 export type UpdateDataLakeStoreAccountPropertiesTrustedIdProvidersList =
@@ -837,25 +844,29 @@ export type UpdateDataLakeStoreAccountPropertiesNewTier =
 /** Data Lake Store account properties information to be updated. */
 export interface UpdateDataLakeStoreAccountProperties {
   /** The default owner group for all new folders and files created in the Data Lake Store account. */
-  defaultGroup?: string;
+  defaultGroup?: string | undefined;
   /** Used for rotation of user managed Key Vault keys. Can only be used to rotate a user managed encryption Key Vault key. */
-  encryptionConfig?: UpdateEncryptionConfig;
+  encryptionConfig?: UpdateEncryptionConfig | undefined;
   /** The list of firewall rules associated with this Data Lake Store account. */
-  firewallRules?: UpdateDataLakeStoreAccountPropertiesFirewallRulesList;
+  firewallRules?: UpdateDataLakeStoreAccountPropertiesFirewallRulesList | undefined;
   /** The list of virtual network rules associated with this Data Lake Store account. */
-  virtualNetworkRules?: UpdateDataLakeStoreAccountPropertiesVirtualNetworkRulesList;
+  virtualNetworkRules?: UpdateDataLakeStoreAccountPropertiesVirtualNetworkRulesList | undefined;
   /** The current state of the IP address firewall for this Data Lake Store account. Disabling the firewall does not remove existing rules, they will just be ignored until the firewall is re-enabled. */
-  firewallState?: UpdateDataLakeStoreAccountPropertiesFirewallState | (string & {});
+  firewallState?: UpdateDataLakeStoreAccountPropertiesFirewallState | (string & {}) | undefined;
   /** The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. */
-  firewallAllowAzureIps?: UpdateDataLakeStoreAccountPropertiesFirewallAllowAzureIps | (string & {});
+  firewallAllowAzureIps?:
+    | UpdateDataLakeStoreAccountPropertiesFirewallAllowAzureIps
+    | (string & {})
+    | undefined;
   /** The list of trusted identity providers associated with this Data Lake Store account. */
-  trustedIdProviders?: UpdateDataLakeStoreAccountPropertiesTrustedIdProvidersList;
+  trustedIdProviders?: UpdateDataLakeStoreAccountPropertiesTrustedIdProvidersList | undefined;
   /** The current state of the trusted identity provider feature for this Data Lake Store account. Disabling trusted identity provider functionality does not remove the providers, they will just be ignored until this feature is re-enabled. */
   trustedIdProviderState?:
     | UpdateDataLakeStoreAccountPropertiesTrustedIdProviderState
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The commitment tier to use for next month. */
-  newTier?: UpdateDataLakeStoreAccountPropertiesNewTier | (string & {});
+  newTier?: UpdateDataLakeStoreAccountPropertiesNewTier | (string & {}) | undefined;
 }
 export interface UpdateAccountRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -865,27 +876,27 @@ export interface UpdateAccountRequest {
   /** The name of the Data Lake Store account. */
   accountName: string;
   /** Resource tags */
-  tags?: UpdateAccountRequestTagsMap;
+  tags?: UpdateAccountRequestTagsMap | undefined;
   /** The Data Lake Store account properties to update. */
-  properties?: UpdateDataLakeStoreAccountProperties;
+  properties?: UpdateDataLakeStoreAccountProperties | undefined;
 }
 /** The resource tags. */
 export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAccountResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: UpdateAccountResponseTagsMap;
+  tags?: UpdateAccountResponseTagsMap | undefined;
   /** The Key Vault encryption identity, if any. */
-  identity?: EncryptionIdentity;
+  identity?: EncryptionIdentity | undefined;
   /** The Data Lake Store account properties. */
-  properties?: DataLakeStoreAccountProperties;
+  properties?: DataLakeStoreAccountProperties | undefined;
 }
 export interface UpdateFirewallRuleRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -897,17 +908,17 @@ export interface UpdateFirewallRuleRequest {
   /** The name of the firewall rule to update. */
   firewallRuleName: string;
   /** The firewall rule properties to use when updating a firewall rule. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
 }
 export interface UpdateFirewallRuleResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The firewall rule properties. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
 }
 export interface UpdateTrustedIdProviderRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -919,17 +930,17 @@ export interface UpdateTrustedIdProviderRequest {
   /** The name of the trusted identity provider. This is used for differentiation of providers in the account. */
   trustedIdProviderName: string;
   /** The trusted identity provider properties to use when updating a trusted identity provider. */
-  properties?: TrustedIdProviderProperties;
+  properties?: TrustedIdProviderProperties | undefined;
 }
 export interface UpdateTrustedIdProviderResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The trusted identity provider properties. */
-  properties?: TrustedIdProviderProperties;
+  properties?: TrustedIdProviderProperties | undefined;
 }
 export interface UpdateVirtualNetworkRuleRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -941,17 +952,17 @@ export interface UpdateVirtualNetworkRuleRequest {
   /** The name of the virtual network rule to update. */
   virtualNetworkRuleName: string;
   /** The virtual network rule properties to use when updating a virtual network rule. */
-  properties?: VirtualNetworkRuleProperties;
+  properties?: VirtualNetworkRuleProperties | undefined;
 }
 export interface UpdateVirtualNetworkRuleResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The virtual network rule properties. */
-  properties?: VirtualNetworkRuleProperties;
+  properties?: VirtualNetworkRuleProperties | undefined;
 }
 export interface VirtualNetworkRulesCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -967,13 +978,13 @@ export interface VirtualNetworkRulesCreateOrUpdateRequest {
 }
 export interface VirtualNetworkRulesCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The virtual network rule properties. */
-  properties?: VirtualNetworkRuleProperties;
+  properties?: VirtualNetworkRuleProperties | undefined;
 }
 export type CheckAccountNameAvailabilityError = AzureOpError;
 /** Checks whether the specified account name is available or taken. */

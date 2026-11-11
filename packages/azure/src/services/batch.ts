@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Batch",
   service: "Batch",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -53,50 +54,50 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The current state of the application package. */
 export type PackageState = "Pending" | "Active";
 /** Properties of an application package */
 export interface ApplicationPackageProperties {
   /** The current state of the application package. */
-  state?: PackageState;
+  state?: PackageState | undefined;
   /** The format of the application package, if the package is active. */
-  format?: string;
+  format?: string | undefined;
   /** The URL for the application package in Azure Storage. */
-  storageUrl?: string;
+  storageUrl?: string | undefined;
   /** The UTC time at which the Azure Storage URL will expire. */
-  storageUrlExpiry?: string;
+  storageUrlExpiry?: string | undefined;
   /** The time at which the package was last activated, if the package is active. */
-  lastActivationTime?: string;
+  lastActivationTime?: string | undefined;
 }
 /** The tags of the resource. */
 export type ActivateApplicationPackageResponseTagsMap = { [key: string]: string | undefined };
 export interface ActivateApplicationPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the Application Package. */
-  properties?: ApplicationPackageProperties;
+  properties?: ApplicationPackageProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: ActivateApplicationPackageResponseTagsMap;
+  tags?: ActivateApplicationPackageResponseTagsMap | undefined;
 }
 export interface BatchAccountSynchronizeAutoStorageKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -124,20 +125,20 @@ export type NameAvailabilityReason = "Invalid" | "AlreadyExists";
 /** The CheckNameAvailability operation response. */
 export interface CheckNameAvailabilityResult {
   /** Gets a boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken or invalid and cannot be used. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** Gets the reason that a Batch account name could not be used. The Reason element is only returned if NameAvailable is false. */
-  reason?: NameAvailabilityReason;
+  reason?: NameAvailabilityReason | undefined;
   /** Gets an error message explaining the Reason value in more detail. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The properties associated with the Application. */
 export interface ApplicationProperties {
   /** The display name for the application. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** A value indicating whether packages within the application may be overwritten using the same version string. */
-  allowUpdates?: boolean;
+  allowUpdates?: boolean | undefined;
   /** The package to use if a client requests the application but does not specify a version. This property can only be set to the name of an existing package. */
-  defaultVersion?: string;
+  defaultVersion?: string | undefined;
 }
 /** The tags of the resource. */
 export type CreateApplicationRequestTagsMap = { [key: string]: string | undefined };
@@ -151,27 +152,27 @@ export interface CreateApplicationRequest {
   /** The name of the application. This must be unique within the account. */
   applicationName: string;
   /** The properties associated with the Application. */
-  properties?: ApplicationProperties;
+  properties?: ApplicationProperties | undefined;
   /** The tags of the resource. */
-  tags?: CreateApplicationRequestTagsMap;
+  tags?: CreateApplicationRequestTagsMap | undefined;
 }
 /** The tags of the resource. */
 export type CreateApplicationResponseTagsMap = { [key: string]: string | undefined };
 export interface CreateApplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the Application. */
-  properties?: ApplicationProperties;
+  properties?: ApplicationProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: CreateApplicationResponseTagsMap;
+  tags?: CreateApplicationResponseTagsMap | undefined;
 }
 /** Properties of an application package */
 export interface ApplicationPackagePropertiesInput {}
@@ -189,27 +190,27 @@ export interface CreateApplicationPackageRequest {
   /** The version of the application. */
   versionName: string;
   /** The properties associated with the Application Package. */
-  properties?: ApplicationPackagePropertiesInput;
+  properties?: ApplicationPackagePropertiesInput | undefined;
   /** The tags of the resource. */
-  tags?: CreateApplicationPackageRequestTagsMap;
+  tags?: CreateApplicationPackageRequestTagsMap | undefined;
 }
 /** The tags of the resource. */
 export type CreateApplicationPackageResponseTagsMap = { [key: string]: string | undefined };
 export interface CreateApplicationPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the Application Package. */
-  properties?: ApplicationPackageProperties;
+  properties?: ApplicationPackageProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: CreateApplicationPackageResponseTagsMap;
+  tags?: CreateApplicationPackageResponseTagsMap | undefined;
 }
 /** The user-specified tags associated with the account. */
 export type CreateBatchAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -220,16 +221,16 @@ export type AutoStorageBasePropertiesAuthenticationMode =
 /** The reference to a user assigned identity associated with the Batch pool which a compute node will use. */
 export interface ComputeNodeIdentityReference {
   /** The ARM resource id of the user assigned identity. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** The properties related to the auto-storage account. */
 export interface AutoStorageBaseProperties {
   /** The resource ID of the storage account to be used for auto-storage account. */
   storageAccountId: string;
   /** The authentication mode which the Batch service will use to manage the auto-storage account. */
-  authenticationMode?: AutoStorageBasePropertiesAuthenticationMode | (string & {});
+  authenticationMode?: AutoStorageBasePropertiesAuthenticationMode | (string & {}) | undefined;
   /** The identity referenced here must be assigned to pools which have compute nodes that need access to auto-storage. */
-  nodeIdentityReference?: ComputeNodeIdentityReference;
+  nodeIdentityReference?: ComputeNodeIdentityReference | undefined;
 }
 /** The allocation mode for creating pools in the Batch account. */
 export type PoolAllocationMode = "BatchService" | "UserSubscription";
@@ -263,28 +264,28 @@ export interface EndpointAccessProfile {
   /** Default action for endpoint access. It is only applicable when publicNetworkAccess is enabled. */
   defaultAction: EndpointAccessDefaultAction | (string & {});
   /** Array of IP ranges to filter client IP address. */
-  ipRules?: EndpointAccessProfileIpRulesList;
+  ipRules?: EndpointAccessProfileIpRulesList | undefined;
 }
 /** Network profile for Batch account, which contains network rule settings for each endpoint. */
 export interface NetworkProfile {
   /** Network access profile for batchAccount endpoint (Batch account data plane API). */
-  accountAccess?: EndpointAccessProfile;
+  accountAccess?: EndpointAccessProfile | undefined;
   /** Network access profile for nodeManagement endpoint (Batch service managing compute nodes for Batch pools). */
-  nodeManagementAccess?: EndpointAccessProfile;
+  nodeManagementAccess?: EndpointAccessProfile | undefined;
 }
 /** Type of the key source. */
 export type KeySource = "Microsoft.Batch" | "Microsoft.KeyVault";
 /** KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault. */
 export interface KeyVaultProperties {
   /** Full path to the secret with or without version. Example https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. or https://mykeyvault.vault.azure.net/keys/testkey. To be usable the following prerequisites must be met: The Batch Account has a System Assigned identity The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions The KeyVault has soft-delete and purge protection enabled */
-  keyIdentifier?: string;
+  keyIdentifier?: string | undefined;
 }
 /** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
 export interface EncryptionProperties {
   /** Type of the key source. */
-  keySource?: KeySource | (string & {});
+  keySource?: KeySource | (string & {}) | undefined;
   /** Additional details when using Microsoft.KeyVault */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
 }
 /** The authentication mode for the Batch account. */
 export type AuthenticationMode = "SharedKey" | "AAD" | "TaskAuthenticationToken";
@@ -295,19 +296,22 @@ export type BatchAccountCreatePropertiesAllowedAuthenticationModesList = Array<
 /** The properties of a Batch account. */
 export interface BatchAccountCreateProperties {
   /** The properties related to the auto-storage account. */
-  autoStorage?: AutoStorageBaseProperties;
+  autoStorage?: AutoStorageBaseProperties | undefined;
   /** The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Microsoft Entra ID. If the mode is UserSubscription, clients must use Microsoft Entra ID. The default is BatchService. */
-  poolAllocationMode?: PoolAllocationMode | (string & {});
+  poolAllocationMode?: PoolAllocationMode | (string & {}) | undefined;
   /** A reference to the Azure key vault associated with the Batch account. */
-  keyVaultReference?: KeyVaultReference;
+  keyVaultReference?: KeyVaultReference | undefined;
   /** The network access type for operating on the resources in the Batch account. */
-  publicNetworkAccess?: BatchAccountCreatePropertiesPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: BatchAccountCreatePropertiesPublicNetworkAccess | (string & {}) | undefined;
   /** The network profile only takes effect when publicNetworkAccess is enabled. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
   /** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
   /** List of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane. */
-  allowedAuthenticationModes?: BatchAccountCreatePropertiesAllowedAuthenticationModesList | null;
+  allowedAuthenticationModes?:
+    | BatchAccountCreatePropertiesAllowedAuthenticationModesList
+    | null
+    | undefined;
 }
 /** The type of identity used for the Batch account. */
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
@@ -322,7 +326,7 @@ export interface BatchAccountIdentityInput {
   /** The type of identity used for the Batch account. */
   type: ResourceIdentityType | (string & {});
   /** The list of user identities associated with the Batch account. */
-  userAssignedIdentities?: BatchAccountIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: BatchAccountIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateBatchAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -334,11 +338,11 @@ export interface CreateBatchAccountRequest {
   /** The region in which to create the account. */
   location: string;
   /** The user-specified tags associated with the account. */
-  tags?: CreateBatchAccountRequestTagsMap;
+  tags?: CreateBatchAccountRequestTagsMap | undefined;
   /** The properties of the Batch account. */
-  properties?: BatchAccountCreateProperties;
+  properties?: BatchAccountCreateProperties | undefined;
   /** The identity of the Batch account. */
-  identity?: BatchAccountIdentityInput;
+  identity?: BatchAccountIdentityInput | undefined;
 }
 /** Resource tags. */
 export type CreateBatchAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -366,7 +370,7 @@ export type PrivateEndpointConnectionProvisioningState =
 /** The private endpoint of the private endpoint connection. */
 export interface PrivateEndpoint {
   /** The ARM resource identifier of the private endpoint. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/privateEndpoints/{privateEndpoint}. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The value has one and only one group id. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -381,39 +385,39 @@ export interface PrivateLinkServiceConnectionState {
   /** The status of the Batch private endpoint connection */
   status: PrivateLinkServiceConnectionStatus;
   /** Description of the private Connection state */
-  description?: string;
+  description?: string | undefined;
   /** Action required on the private connection state */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Private endpoint connection properties. */
 export interface PrivateEndpointConnectionProperties {
   /** The provisioning state of the private endpoint connection. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
   /** The private endpoint of the private endpoint connection. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** The value has one and only one group id. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private link service connection state of the private endpoint connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
 }
 /** The tags of the resource. */
 export type PrivateEndpointConnectionTagsMap = { [key: string]: string | undefined };
 /** Contains information about a private link resource. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: PrivateEndpointConnectionTagsMap;
+  tags?: PrivateEndpointConnectionTagsMap | undefined;
 }
 /** List of private endpoint connections associated with the Batch account */
 export type BatchAccountPropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
@@ -424,18 +428,18 @@ export interface AutoStorageProperties {
   /** The resource ID of the storage account to be used for auto-storage account. */
   storageAccountId: string;
   /** The authentication mode which the Batch service will use to manage the auto-storage account. */
-  authenticationMode?: AutoStoragePropertiesAuthenticationMode;
+  authenticationMode?: AutoStoragePropertiesAuthenticationMode | undefined;
   /** The identity referenced here must be assigned to pools which have compute nodes that need access to auto-storage. */
-  nodeIdentityReference?: ComputeNodeIdentityReference;
+  nodeIdentityReference?: ComputeNodeIdentityReference | undefined;
   /** The UTC time at which storage keys were last synchronized with the Batch account. */
   lastKeySync: string;
 }
 /** A VM Family and its associated core quota for the Batch account. */
 export interface VirtualMachineFamilyCoreQuota {
   /** The Virtual Machine family name. */
-  name?: string;
+  name?: string | undefined;
   /** The core quota for the VM family for the Batch account. */
-  coreQuota?: number;
+  coreQuota?: number | undefined;
 }
 /** A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. */
 export type BatchAccountPropertiesDedicatedCoreQuotaPerVMFamilyList =
@@ -445,46 +449,55 @@ export type BatchAccountPropertiesAllowedAuthenticationModesList = Array<Authent
 /** Account specific properties. */
 export interface BatchAccountProperties {
   /** The account endpoint used to interact with the Batch service. */
-  accountEndpoint?: string;
+  accountEndpoint?: string | undefined;
   /** The endpoint used by compute node to connect to the Batch node management service. */
-  nodeManagementEndpoint?: string;
+  nodeManagementEndpoint?: string | undefined;
   /** The provisioned state of the resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The allocation mode for creating pools in the Batch account. */
-  poolAllocationMode?: PoolAllocationMode;
+  poolAllocationMode?: PoolAllocationMode | undefined;
   /** Identifies the Azure key vault associated with a Batch account. */
-  keyVaultReference?: KeyVaultReference;
+  keyVaultReference?: KeyVaultReference | undefined;
   /** The network access type for operating on the resources in the Batch account. */
-  publicNetworkAccess?: BatchAccountPropertiesPublicNetworkAccess | null;
+  publicNetworkAccess?: BatchAccountPropertiesPublicNetworkAccess | null | undefined;
   /** The network profile only takes effect when publicNetworkAccess is enabled. */
-  networkProfile?: NetworkProfile | null;
+  networkProfile?: NetworkProfile | null | undefined;
   /** List of private endpoint connections associated with the Batch account */
-  privateEndpointConnections?: BatchAccountPropertiesPrivateEndpointConnectionsList | null;
+  privateEndpointConnections?:
+    | BatchAccountPropertiesPrivateEndpointConnectionsList
+    | null
+    | undefined;
   /** Contains information about the auto-storage account associated with a Batch account. */
-  autoStorage?: AutoStorageProperties;
+  autoStorage?: AutoStorageProperties | undefined;
   /** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
   /** For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. */
-  dedicatedCoreQuota?: number | null;
+  dedicatedCoreQuota?: number | null | undefined;
   /** For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. */
-  lowPriorityCoreQuota?: number | null;
+  lowPriorityCoreQuota?: number | null | undefined;
   /** A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. */
-  dedicatedCoreQuotaPerVMFamily?: BatchAccountPropertiesDedicatedCoreQuotaPerVMFamilyList | null;
+  dedicatedCoreQuotaPerVMFamily?:
+    | BatchAccountPropertiesDedicatedCoreQuotaPerVMFamilyList
+    | null
+    | undefined;
   /** If this flag is true, dedicated core quota is enforced via both the dedicatedCoreQuotaPerVMFamily and dedicatedCoreQuota properties on the account. If this flag is false, dedicated core quota is enforced only via the dedicatedCoreQuota property on the account and does not consider Virtual Machine family. */
-  dedicatedCoreQuotaPerVMFamilyEnforced?: boolean;
+  dedicatedCoreQuotaPerVMFamilyEnforced?: boolean | undefined;
   /** The pool quota for the Batch account. */
-  poolQuota?: number;
+  poolQuota?: number | undefined;
   /** The active job and job schedule quota for the Batch account. */
-  activeJobAndJobScheduleQuota?: number;
+  activeJobAndJobScheduleQuota?: number | undefined;
   /** List of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane. */
-  allowedAuthenticationModes?: BatchAccountPropertiesAllowedAuthenticationModesList | null;
+  allowedAuthenticationModes?:
+    | BatchAccountPropertiesAllowedAuthenticationModesList
+    | null
+    | undefined;
 }
 /** The list of associated user identities. */
 export interface UserAssignedIdentities {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the Batch account. */
 export type BatchAccountIdentityUserAssignedIdentitiesMap = {
@@ -493,57 +506,57 @@ export type BatchAccountIdentityUserAssignedIdentitiesMap = {
 /** The identity of the Batch account, if configured. This is used when the user specifies 'Microsoft.KeyVault' as their Batch account encryption configuration or when `ManagedIdentity` is selected as the auto-storage authentication mode. */
 export interface BatchAccountIdentity {
   /** The principal id of the Batch account. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id associated with the Batch account. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of identity used for the Batch account. */
   type: ResourceIdentityType;
   /** The list of user identities associated with the Batch account. */
-  userAssignedIdentities?: BatchAccountIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: BatchAccountIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateBatchAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateBatchAccountResponseTagsMap;
+  tags?: CreateBatchAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties associated with the account. */
-  properties?: BatchAccountProperties;
+  properties?: BatchAccountProperties | undefined;
   /** The identity of the Batch account. */
-  identity?: BatchAccountIdentity;
+  identity?: BatchAccountIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** A reference to an Azure Virtual Machines Marketplace image or the Azure Image resource of a custom Virtual Machine. To get the list of all imageReferences verified by Azure Batch, see the 'List supported node agent SKUs' operation. */
 export interface ImageReference {
   /** For example, Canonical or MicrosoftWindowsServer. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** For example, UbuntuServer or WindowsServer. */
-  offer?: string;
+  offer?: string | undefined;
   /** For example, 18.04-LTS or 2022-datacenter. */
-  sku?: string;
+  sku?: string | undefined;
   /** A value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'. */
-  version?: string;
+  version?: string | undefined;
   /** This property is mutually exclusive with other properties. The Azure Compute Gallery Image must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
-  id?: string;
+  id?: string | undefined;
   /** This property is mutually exclusive with other properties and can be fetched from shared gallery image GET call. */
-  sharedGalleryImageId?: string;
+  sharedGalleryImageId?: string | undefined;
   /** This property is mutually exclusive with other properties and can be fetched from community gallery image GET call. */
-  communityGalleryImageId?: string;
+  communityGalleryImageId?: string | undefined;
 }
 /** Windows operating system settings to apply to the virtual machine. */
 export interface WindowsConfiguration {
   /** If omitted, the default value is true. */
-  enableAutomaticUpdates?: boolean;
+  enableAutomaticUpdates?: boolean | undefined;
 }
 /** The type of caching to enable for the disk. */
 export type CachingType = "None" | "ReadOnly" | "ReadWrite";
@@ -562,29 +575,29 @@ export interface DiskEncryptionSetParameters {
 /** Specifies the security profile settings for the managed disk. **Note**: It can only be set for Confidential VMs and is required when using Confidential VMs. */
 export interface VMDiskSecurityProfile {
   /** Specifies the EncryptionType of the managed disk. It is set to VMGuestStateOnly for encryption of just the VMGuestState blob, and NonPersistedTPM for not persisting firmware state in the VMGuestState blob. **Note**: It can be set for only Confidential VMs and required when using Confidential VMs. */
-  securityEncryptionType?: SecurityEncryptionTypes | (string & {});
+  securityEncryptionType?: SecurityEncryptionTypes | (string & {}) | undefined;
   /** Specifies the customer managed disk encryption set resource id for the managed disk that is used for Customer Managed Key encrypted ConfidentialVM OS Disk and VMGuest blob. It can be set only in UserSubscription mode. */
-  diskEncryptionSet?: DiskEncryptionSetParameters;
+  diskEncryptionSet?: DiskEncryptionSetParameters | undefined;
 }
 /** The managed disk parameters. */
 export interface ManagedDisk {
   /** The storage account type for use in creating data disks or OS disk. */
-  storageAccountType?: StorageAccountType | (string & {});
+  storageAccountType?: StorageAccountType | (string & {}) | undefined;
   /** Specifies the security profile settings for the managed disk. **Note**: It can only be set for Confidential VMs and is required when using Confidential VMs. */
-  securityProfile?: VMDiskSecurityProfile;
+  securityProfile?: VMDiskSecurityProfile | undefined;
   /** Specifies the customer managed disk encryption set resource id for the managed disk. It can be set only in UserSubscription mode. */
-  diskEncryptionSet?: DiskEncryptionSetParameters;
+  diskEncryptionSet?: DiskEncryptionSetParameters | undefined;
 }
 /** Settings which will be used by the data disks associated to Compute Nodes in the Pool. When using attached data disks, you need to mount and format the disks from within a VM to use them. */
 export interface DataDisk {
   /** The lun is used to uniquely identify each data disk. If attaching multiple disks, each should have a distinct lun. The value must be between 0 and 63, inclusive. */
   lun: number;
   /** Values are: none - The caching mode for the disk is not enabled. readOnly - The caching mode for the disk is read only. readWrite - The caching mode for the disk is read and write. The default value for caching is none. For information about the caching options see: https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/. */
-  caching?: CachingType | (string & {});
+  caching?: CachingType | (string & {}) | undefined;
   /** The initial disk size in GB when creating new data disk. */
   diskSizeGB: number;
   /** The managed disk parameters. */
-  managedDisk?: ManagedDisk;
+  managedDisk?: ManagedDisk | undefined;
 }
 /** This property must be specified if the compute nodes in the pool need to have empty data disks attached to them. */
 export type VirtualMachineConfigurationDataDisksList = Array<DataDisk>;
@@ -595,13 +608,13 @@ export type ContainerConfigurationContainerImageNamesList = Array<string>;
 /** A private container registry. */
 export interface ContainerRegistry {
   /** The user name to log into the registry server. */
-  username?: string;
+  username?: string | undefined;
   /** The password to log into the registry server. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** If omitted, the default is "docker.io". */
-  registryServer?: string;
+  registryServer?: string | undefined;
   /** The reference to a user assigned identity associated with the Batch pool which a compute node will use. */
-  identityReference?: ComputeNodeIdentityReference;
+  identityReference?: ComputeNodeIdentityReference | undefined;
 }
 /** If any images must be downloaded from a private registry which requires credentials, then those credentials must be provided here. */
 export type ContainerConfigurationContainerRegistriesList = Array<ContainerRegistry>;
@@ -610,9 +623,9 @@ export interface ContainerConfiguration {
   /** The container technology to be used. */
   type: ContainerType | (string & {});
   /** This is the full image reference, as would be specified to "docker pull". An image will be sourced from the default Docker registry unless the image is fully qualified with an alternative registry. */
-  containerImageNames?: ContainerConfigurationContainerImageNamesList;
+  containerImageNames?: ContainerConfigurationContainerImageNamesList | undefined;
   /** If any images must be downloaded from a private registry which requires credentials, then those credentials must be provided here. */
-  containerRegistries?: ContainerConfigurationContainerRegistriesList;
+  containerRegistries?: ContainerConfigurationContainerRegistriesList | undefined;
 }
 /** If omitted, no disks on the compute nodes in the pool will be encrypted. */
 export type DiskEncryptionTarget = "OsDisk" | "TemporaryDisk";
@@ -621,25 +634,25 @@ export type DiskEncryptionConfigurationTargetsList = Array<DiskEncryptionTarget 
 /** The Customer Managed Key reference to encrypt the Disk. */
 export interface DiskCustomerManagedKey {
   /** Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value. */
-  keyUrl?: string;
+  keyUrl?: string | undefined;
   /** Set this flag to true to enable auto-updating of the Disk Encryption to the latest key version. Default is false. */
-  rotationToLatestKeyVersionEnabled?: boolean;
+  rotationToLatestKeyVersionEnabled?: boolean | undefined;
   /** The reference of one of the pool identities to encrypt Disk. This identity will be used to access the KeyVault. */
-  identityReference?: ComputeNodeIdentityReference;
+  identityReference?: ComputeNodeIdentityReference | undefined;
 }
 /** The disk encryption configuration applied on compute nodes in the pool. Disk encryption configuration is not supported on Linux pool created with Virtual Machine Image or Azure Compute Gallery Image. */
 export interface DiskEncryptionConfiguration {
   /** On Linux pool, only "TemporaryDisk" is supported; on Windows pool, "OsDisk" and "TemporaryDisk" must be specified. */
-  targets?: DiskEncryptionConfigurationTargetsList;
+  targets?: DiskEncryptionConfigurationTargetsList | undefined;
   /** Customer Managed Key will encrypt OS Disk by EncryptionAtRest, and by default we will encrypt the data disk as well. It can be used only when the pool is configured with an identity and OsDisk is set as one of the targets of DiskEncryption. */
-  customerManagedKey?: DiskCustomerManagedKey;
+  customerManagedKey?: DiskCustomerManagedKey | undefined;
 }
 /** The default value is regional. */
 export type NodePlacementPolicyType = "Regional" | "Zonal";
 /** Allocation configuration used by Batch Service to provision the nodes. */
 export interface NodePlacementConfiguration {
   /** Allocation policy used by Batch Service to provision the nodes. If not specified, Batch will use the regional policy. */
-  policy?: NodePlacementPolicyType | (string & {});
+  policy?: NodePlacementPolicyType | (string & {}) | undefined;
 }
 /** Collection of extension names after which this extension needs to be provisioned. */
 export type VMExtensionProvisionAfterExtensionsList = Array<string>;
@@ -652,17 +665,17 @@ export interface VMExtension {
   /** The type of the extensions. */
   type: string;
   /** The version of script handler. */
-  typeHandlerVersion?: string;
+  typeHandlerVersion?: string | undefined;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
+  autoUpgradeMinorVersion?: boolean | undefined;
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** JSON formatted public settings for the extension. */
-  settings?: unknown;
+  settings?: unknown | undefined;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: unknown;
+  protectedSettings?: unknown | undefined;
   /** Collection of extension names after which this extension needs to be provisioned. */
-  provisionAfterExtensions?: VMExtensionProvisionAfterExtensionsList;
+  provisionAfterExtensions?: VMExtensionProvisionAfterExtensionsList | undefined;
 }
 /** If specified, the extensions mentioned in this configuration will be installed on each node. */
 export type VirtualMachineConfigurationExtensionsList = Array<VMExtension>;
@@ -671,58 +684,58 @@ export type DiffDiskPlacement = "CacheDisk";
 /** Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine. */
 export interface DiffDiskSettings {
   /** This property can be used by user in the request to choose which location the operating system should be in. e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://learn.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://learn.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements. */
-  placement?: DiffDiskPlacement | (string & {});
+  placement?: DiffDiskPlacement | (string & {}) | undefined;
 }
 /** Settings for the operating system disk of the virtual machine. */
 export interface OSDisk {
   /** Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine. */
-  ephemeralOSDiskSettings?: DiffDiskSettings;
+  ephemeralOSDiskSettings?: DiffDiskSettings | undefined;
   /** The type of caching to enable for the disk. */
-  caching?: CachingType | (string & {});
+  caching?: CachingType | (string & {}) | undefined;
   /** The managed disk parameters. */
-  managedDisk?: ManagedDisk;
+  managedDisk?: ManagedDisk | undefined;
   /** The initial disk size in GB when creating new OS disk. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
-  writeAcceleratorEnabled?: boolean;
+  writeAcceleratorEnabled?: boolean | undefined;
 }
 /** Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. */
 export type SecurityTypes = "trustedLaunch" | "confidentialVM";
 /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
 export interface UefiSettings {
   /** Specifies whether secure boot should be enabled on the virtual machine. */
-  secureBootEnabled?: boolean;
+  secureBootEnabled?: boolean | undefined;
   /** Specifies whether vTPM should be enabled on the virtual machine. */
-  vTpmEnabled?: boolean;
+  vTpmEnabled?: boolean | undefined;
 }
 /** Specifies the access control policy execution mode. */
 export type HostEndpointSettingsModeTypes = "Audit" | "Enforce";
 /** Specifies particular host endpoint settings. */
 export interface HostEndpointSettings {
   /** Specifies the access control policy execution mode. */
-  mode?: HostEndpointSettingsModeTypes | (string & {});
+  mode?: HostEndpointSettingsModeTypes | (string & {}) | undefined;
   /** Specifies the reference to the InVMAccessControlProfileVersion resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{profile}/versions/{version}. */
-  inVMAccessControlProfileReferenceId?: string;
+  inVMAccessControlProfileReferenceId?: string | undefined;
 }
 /** Specifies ProxyAgent settings while creating the virtual machine. */
 export interface ProxyAgentSettings {
   /** Specifies whether Metadata Security Protocol feature should be enabled on the virtual machine or virtual machine scale set. Default is False. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Settings for the IMDS endpoint. */
-  imds?: HostEndpointSettings;
+  imds?: HostEndpointSettings | undefined;
   /** Settings for the WireServer endpoint. */
-  wireServer?: HostEndpointSettings;
+  wireServer?: HostEndpointSettings | undefined;
 }
 /** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
 export interface SecurityProfile {
   /** Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. */
-  securityType?: SecurityTypes | (string & {});
+  securityType?: SecurityTypes | (string & {}) | undefined;
   /** This property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp disk at host itself. */
-  encryptionAtHost?: boolean;
+  encryptionAtHost?: boolean | undefined;
   /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
-  uefiSettings?: UefiSettings;
+  uefiSettings?: UefiSettings | undefined;
   /** Specifies ProxyAgent settings while creating the virtual machine. */
-  proxyAgentSettings?: ProxyAgentSettings;
+  proxyAgentSettings?: ProxyAgentSettings | undefined;
 }
 /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. */
 export interface ServiceArtifactReference {
@@ -736,30 +749,30 @@ export interface VirtualMachineConfiguration {
   /** The Batch node agent is a program that runs on each node in the pool, and provides the command-and-control interface between the node and the Batch service. There are different implementations of the node agent, known as SKUs, for different operating systems. You must specify a node agent SKU which matches the selected image reference. To get the list of supported node agent SKUs along with their list of verified image references, see the 'List supported node agent SKUs' operation. */
   nodeAgentSkuId: string;
   /** This property must not be specified if the imageReference specifies a Linux OS image. */
-  windowsConfiguration?: WindowsConfiguration;
+  windowsConfiguration?: WindowsConfiguration | undefined;
   /** This property must be specified if the compute nodes in the pool need to have empty data disks attached to them. */
-  dataDisks?: VirtualMachineConfigurationDataDisksList;
+  dataDisks?: VirtualMachineConfigurationDataDisksList | undefined;
   /** This only applies to images that contain the Windows operating system, and should only be used when you hold valid on-premises licenses for the nodes which will be deployed. If omitted, no on-premises licensing discount is applied. Values are: Windows_Server - The on-premises license is for Windows Server. Windows_Client - The on-premises license is for Windows Client. */
-  licenseType?: string;
+  licenseType?: string | undefined;
   /** If specified, setup is performed on each node in the pool to allow tasks to run in containers. All regular tasks and job manager tasks run on this pool must specify the containerSettings property, and all other tasks may specify it. */
-  containerConfiguration?: ContainerConfiguration;
+  containerConfiguration?: ContainerConfiguration | undefined;
   /** If specified, encryption is performed on each node in the pool during node provisioning. */
-  diskEncryptionConfiguration?: DiskEncryptionConfiguration;
+  diskEncryptionConfiguration?: DiskEncryptionConfiguration | undefined;
   /** This configuration will specify rules on how nodes in the pool will be physically allocated. */
-  nodePlacementConfiguration?: NodePlacementConfiguration;
+  nodePlacementConfiguration?: NodePlacementConfiguration | undefined;
   /** If specified, the extensions mentioned in this configuration will be installed on each node. */
-  extensions?: VirtualMachineConfigurationExtensionsList;
+  extensions?: VirtualMachineConfigurationExtensionsList | undefined;
   /** Contains configuration for ephemeral OSDisk settings. */
-  osDisk?: OSDisk;
+  osDisk?: OSDisk | undefined;
   /** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
-  serviceArtifactReference?: ServiceArtifactReference;
+  serviceArtifactReference?: ServiceArtifactReference | undefined;
 }
 /** Deployment configuration properties. */
 export interface DeploymentConfiguration {
   /** The configuration for compute nodes in a pool based on the Azure Virtual Machines infrastructure. */
-  virtualMachineConfiguration?: VirtualMachineConfiguration;
+  virtualMachineConfiguration?: VirtualMachineConfiguration | undefined;
 }
 /** Determines what to do with a node and its running task(s) after it has been selected for deallocation. */
 export type ComputeNodeDeallocationOption =
@@ -770,27 +783,27 @@ export type ComputeNodeDeallocationOption =
 /** Fixed scale settings for the pool. */
 export interface FixedScaleSettings {
   /** The default value is 15 minutes. Timeout values use ISO 8601 format. For example, use PT10M for 10 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service rejects the request with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
-  resizeTimeout?: string;
+  resizeTimeout?: string | undefined;
   /** At least one of targetDedicatedNodes, targetLowPriorityNodes must be set. */
-  targetDedicatedNodes?: number;
+  targetDedicatedNodes?: number | undefined;
   /** At least one of targetDedicatedNodes, targetLowPriorityNodes must be set. */
-  targetLowPriorityNodes?: number;
+  targetLowPriorityNodes?: number | undefined;
   /** If omitted, the default value is Requeue. */
-  nodeDeallocationOption?: ComputeNodeDeallocationOption | (string & {});
+  nodeDeallocationOption?: ComputeNodeDeallocationOption | (string & {}) | undefined;
 }
 /** AutoScale settings for the pool. */
 export interface AutoScaleSettings {
   /** A formula for the desired number of compute nodes in the pool. */
   formula: string;
   /** If omitted, the default value is 15 minutes (PT15M). */
-  evaluationInterval?: string;
+  evaluationInterval?: string | undefined;
 }
 /** Defines the desired size of the pool. This can either be 'fixedScale' where the requested targetDedicatedNodes is specified, or 'autoScale' which defines a formula which is periodically reevaluated. If this property is not specified, the pool will have a fixed scale with 0 targetDedicatedNodes. */
 export interface ScaleSettings {
   /** This property and autoScale are mutually exclusive and one of the properties must be specified. */
-  fixedScale?: FixedScaleSettings;
+  fixedScale?: FixedScaleSettings | undefined;
   /** This property and fixedScale are mutually exclusive and one of the properties must be specified. */
-  autoScale?: AutoScaleSettings;
+  autoScale?: AutoScaleSettings | undefined;
 }
 /** This imposes restrictions on which nodes can be assigned to the pool. Enabling this value can reduce the chance of the requested number of nodes to be allocated in the pool. If not specified, this value defaults to 'Disabled'. */
 export type InterNodeCommunicationState = "Enabled" | "Disabled";
@@ -811,7 +824,7 @@ export interface NetworkSecurityGroupRule {
   /** Valid values are a single IP address (i.e. 10.10.10.10), IP subnet (i.e. 192.168.1.0/24), default tag, or * (for all addresses). If any other values are provided the request fails with HTTP status code 400. */
   sourceAddressPrefix: string;
   /** Valid values are '*' (for all ports 0 - 65535) or arrays of ports or port ranges (i.e. 100-200). The ports should in the range of 0 to 65535 and the port ranges or ports can't overlap. If any other values are provided the request fails with HTTP status code 400. Default value will be *. */
-  sourcePortRanges?: NetworkSecurityGroupRuleSourcePortRangesList;
+  sourcePortRanges?: NetworkSecurityGroupRuleSourcePortRangesList | undefined;
 }
 /** The maximum number of rules that can be specified across all the endpoints on a Batch pool is 25. If no network security group rules are specified, a default rule will be created to allow inbound access to the specified backendPort. If the maximum number of network security group rules is exceeded the request fails with HTTP status code 400. */
 export type InboundNatPoolNetworkSecurityGroupRulesList = Array<NetworkSecurityGroupRule>;
@@ -828,7 +841,7 @@ export interface InboundNatPool {
   /** Acceptable values range between 1 and 65534 except ports from 50000 to 55000 which are reserved by the Batch service. All ranges within a pool must be distinct and cannot overlap. If any reserved or overlapping values are provided the request fails with HTTP status code 400. */
   frontendPortRangeEnd: number;
   /** The maximum number of rules that can be specified across all the endpoints on a Batch pool is 25. If no network security group rules are specified, a default rule will be created to allow inbound access to the specified backendPort. If the maximum number of network security group rules is exceeded the request fails with HTTP status code 400. */
-  networkSecurityGroupRules?: InboundNatPoolNetworkSecurityGroupRulesList;
+  networkSecurityGroupRules?: InboundNatPoolNetworkSecurityGroupRulesList | undefined;
 }
 /** The maximum number of inbound NAT pools per Batch pool is 5. If the maximum number of inbound NAT pools is exceeded the request fails with HTTP status code 400. This cannot be specified if the IPAddressProvisioningType is NoPublicIPAddresses. */
 export type PoolEndpointConfigurationInboundNatPoolsList = Array<InboundNatPool>;
@@ -848,35 +861,38 @@ export type PublicIPAddressConfigurationIpFamiliesList = Array<IPFamily | (strin
 /** Specifies how tasks should be distributed across compute nodes. */
 export interface IPTag {
   /** Example: FirstPartyUsage. */
-  ipTagType?: string;
+  ipTagType?: string | undefined;
   /** Example: SQL. */
-  tag?: string;
+  tag?: string | undefined;
 }
 /** IP Tags that will applied to new Public IPs that Batch creates. */
 export type PublicIPAddressConfigurationIpTagsList = Array<IPTag>;
 /** The public IP Address configuration of the networking configuration of a Pool. */
 export interface PublicIPAddressConfiguration {
   /** The default value is BatchManaged */
-  provision?: IPAddressProvisioningType | (string & {});
+  provision?: IPAddressProvisioningType | (string & {}) | undefined;
   /** The number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 Spot/low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}. */
-  ipAddressIds?: PublicIPAddressConfigurationIpAddressIdsList;
+  ipAddressIds?: PublicIPAddressConfigurationIpAddressIdsList | undefined;
   /** IP families are used to determine single-stack or dual-stack pools. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6. */
-  ipFamilies?: PublicIPAddressConfigurationIpFamiliesList;
+  ipFamilies?: PublicIPAddressConfigurationIpFamiliesList | undefined;
   /** IP Tags that will applied to new Public IPs that Batch creates. */
-  ipTags?: PublicIPAddressConfigurationIpTagsList;
+  ipTags?: PublicIPAddressConfigurationIpTagsList | undefined;
 }
 /** The network configuration for a pool. */
 export interface NetworkConfiguration {
   /** The virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communicationU+FF0Cincluding ports 29876 and 29877. Also enable outbound connections to Azure Storage on port 443. For more details see: https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** The scope of dynamic vnet assignment. */
-  dynamicVnetAssignmentScope?: NetworkConfigurationDynamicVnetAssignmentScope | (string & {});
+  dynamicVnetAssignmentScope?:
+    | NetworkConfigurationDynamicVnetAssignmentScope
+    | (string & {})
+    | undefined;
   /** The endpoint configuration for a pool. */
-  endpointConfiguration?: PoolEndpointConfiguration;
+  endpointConfiguration?: PoolEndpointConfiguration | undefined;
   /** The public IP Address configuration of the networking configuration of a Pool. */
-  publicIPAddressConfiguration?: PublicIPAddressConfiguration;
+  publicIPAddressConfiguration?: PublicIPAddressConfiguration | undefined;
   /** Accelerated networking enables single root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance. For more details, see: https://learn.microsoft.com/azure/virtual-network/accelerated-networking-overview. */
-  enableAcceleratedNetworking?: boolean;
+  enableAcceleratedNetworking?: boolean | undefined;
 }
 /** The order for scheduling tasks from different jobs with the same priority. */
 export type JobDefaultOrder = "None" | "CreationTime";
@@ -885,7 +901,7 @@ export type TaskSchedulingPolicyNodeFillType = "Spread" | "Pack";
 /** Specifies how tasks should be distributed across compute nodes. */
 export interface TaskSchedulingPolicy {
   /** The order for scheduling tasks from different jobs with the same priority. */
-  jobDefaultOrder?: JobDefaultOrder | (string & {});
+  jobDefaultOrder?: JobDefaultOrder | (string & {}) | undefined;
   /** How tasks should be distributed across compute nodes. */
   nodeFillType: TaskSchedulingPolicyNodeFillType | (string & {});
 }
@@ -894,18 +910,18 @@ export type ElevationLevel = "NonAdmin" | "Admin";
 /** Properties used to create a user account on a Linux node. */
 export interface LinuxUserConfiguration {
   /** The uid and gid properties must be specified together or not at all. If not specified the underlying operating system picks the uid. */
-  uid?: number;
+  uid?: number | undefined;
   /** The uid and gid properties must be specified together or not at all. If not specified the underlying operating system picks the gid. */
-  gid?: number;
+  gid?: number | undefined;
   /** The private key must not be password protected. The private key is used to automatically configure asymmetric-key based authentication for SSH between nodes in a Linux pool when the pool's enableInterNodeCommunication property is true (it is ignored if enableInterNodeCommunication is false). It does this by placing the key pair into the user's .ssh directory. If not specified, password-less SSH is not configured between nodes (no modification of the user's .ssh directory is done). */
-  sshPrivateKey?: string;
+  sshPrivateKey?: string | undefined;
 }
 /** Specifies login mode for the user. The default value is Interactive. */
 export type LoginMode = "Batch" | "Interactive";
 /** Properties used to create a user account on a Windows node. */
 export interface WindowsUserConfiguration {
   /** Specifies login mode for the user. The default value is Interactive. */
-  loginMode?: LoginMode | (string & {});
+  loginMode?: LoginMode | (string & {}) | undefined;
 }
 /** Properties used to create a user on an Azure Batch node. */
 export interface UserAccount {
@@ -914,11 +930,11 @@ export interface UserAccount {
   /** The password for the user account. */
   password: string | Redacted.Redacted<string>;
   /** nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin. */
-  elevationLevel?: ElevationLevel | (string & {});
+  elevationLevel?: ElevationLevel | (string & {}) | undefined;
   /** This property is ignored if specified on a Windows pool. If not specified, the user is created with the default options. */
-  linuxUserConfiguration?: LinuxUserConfiguration;
+  linuxUserConfiguration?: LinuxUserConfiguration | undefined;
   /** This property can only be specified if the user is on a Windows pool. If not specified and on a Windows pool, the user is created with the default options. */
-  windowsUserConfiguration?: WindowsUserConfiguration;
+  windowsUserConfiguration?: WindowsUserConfiguration | undefined;
 }
 /** The list of user accounts to be created on each node in the pool. */
 export type PoolPropertiesInputUserAccountsList = Array<UserAccount>;
@@ -934,19 +950,19 @@ export type PoolPropertiesInputMetadataList = Array<MetadataItem>;
 /** A single file or multiple files to be downloaded to a compute node. */
 export interface ResourceFile {
   /** The autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. */
-  autoStorageContainerName?: string;
+  autoStorageContainerName?: string | undefined;
   /** The autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable from compute nodes. There are three ways to get such a URL for a container in Azure storage: include a Shared Access Signature (SAS) granting read and list permissions on the container, use a managed identity with read and list permissions, or set the ACL for the container to allow public access. */
-  storageContainerUrl?: string;
+  storageContainerUrl?: string | undefined;
   /** The autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable from compute nodes. There are three ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, use a managed identity with read permission, or set the ACL for the blob or its container to allow public access. */
-  httpUrl?: string;
+  httpUrl?: string | undefined;
   /** The property is valid only when autoStorageContainerName or storageContainerUrl is used. This prefix can be a partial filename or a subdirectory. If a prefix is not specified, all the files in the container will be downloaded. */
-  blobPrefix?: string;
+  blobPrefix?: string | undefined;
   /** If the httpUrl property is specified, the filePath is required and describes the path which the file will be downloaded to, including the filename. Otherwise, if the autoStorageContainerName or storageContainerUrl property is specified, filePath is optional and is the directory to download the files to. In the case where filePath is used as a directory, any directory structure already associated with the input data will be retained in full and appended to the specified filePath directory. The specified relative path cannot break out of the task's working directory (for example by using '..'). */
-  filePath?: string;
+  filePath?: string | undefined;
   /** This property applies only to files being downloaded to Linux compute nodes. It will be ignored if it is specified for a resourceFile which will be downloaded to a Windows node. If this property is not specified for a Linux node, then a default value of 0770 is applied to the file. */
-  fileMode?: string;
+  fileMode?: string | undefined;
   /** The reference to a user assigned identity associated with the Batch pool which a compute node will use. */
-  identityReference?: ComputeNodeIdentityReference;
+  identityReference?: ComputeNodeIdentityReference | undefined;
 }
 /** A list of files that the Batch service will download to the compute node before running the command line. */
 export type StartTaskResourceFilesList = Array<ResourceFile>;
@@ -955,7 +971,7 @@ export interface EnvironmentSetting {
   /** The name of the environment variable. */
   name: string;
   /** The value of the environment variable. */
-  value?: string;
+  value?: string | undefined;
 }
 /** A list of environment variable settings for the start task. */
 export type StartTaskEnvironmentSettingsList = Array<EnvironmentSetting>;
@@ -964,16 +980,16 @@ export type AutoUserScope = "Task" | "Pool";
 /** Specifies the parameters for the auto user that runs a task on the Batch service. */
 export interface AutoUserSpecification {
   /** The default value is Pool. If the pool is running Windows a value of Task should be specified if stricter isolation between tasks is required. For example, if the task mutates the registry in a way which could impact other tasks, or if certificates have been specified on the pool which should not be accessible by normal tasks but should be accessible by start tasks. */
-  scope?: AutoUserScope | (string & {});
+  scope?: AutoUserScope | (string & {}) | undefined;
   /** The default value is nonAdmin. */
-  elevationLevel?: ElevationLevel | (string & {});
+  elevationLevel?: ElevationLevel | (string & {}) | undefined;
 }
 /** Specify either the userName or autoUser property, but not both. */
 export interface UserIdentity {
   /** The userName and autoUser properties are mutually exclusive; you must specify one but not both. */
-  userName?: string;
+  userName?: string | undefined;
   /** The userName and autoUser properties are mutually exclusive; you must specify one but not both. */
-  autoUser?: AutoUserSpecification;
+  autoUser?: AutoUserSpecification | undefined;
 }
 /** A flag to indicate where the container task working directory is. The default is 'taskWorkingDirectory'. */
 export type ContainerWorkingDirectory = "TaskWorkingDirectory" | "ContainerImageDefault";
@@ -988,9 +1004,9 @@ export type ContainerHostDataPath =
 /** The entry of path and mount mode you want to mount into task container. */
 export interface ContainerHostBatchBindMountEntry {
   /** The paths which will be mounted to container task's container. */
-  source?: ContainerHostDataPath | (string & {});
+  source?: ContainerHostDataPath | (string & {}) | undefined;
   /** For Linux, if you mount this path as a read/write mode, this does not mean that all users in container have the read/write access for the path, it depends on the access in host VM. If this path is mounted read-only, all users within the container will not be able to modify the path. */
-  isReadOnly?: boolean;
+  isReadOnly?: boolean | undefined;
 }
 /** If this array is null or be not present, container task will mount entire temporary disk drive in windows (or AZ_BATCH_NODE_ROOT_DIR in Linux). It won't' mount any data paths into container if this array is set as empty. */
 export type TaskContainerSettingsContainerHostBatchBindMountsList =
@@ -998,39 +1014,39 @@ export type TaskContainerSettingsContainerHostBatchBindMountsList =
 /** The container settings for a task. */
 export interface TaskContainerSettings {
   /** These additional options are supplied as arguments to the "docker create" command, in addition to those controlled by the Batch Service. */
-  containerRunOptions?: string;
+  containerRunOptions?: string | undefined;
   /** This is the full image reference, as would be specified to "docker pull". If no tag is provided as part of the image name, the tag ":latest" is used as a default. */
   imageName: string;
   /** This setting can be omitted if was already provided at pool creation. */
-  registry?: ContainerRegistry;
+  registry?: ContainerRegistry | undefined;
   /** A flag to indicate where the container task working directory is. The default is 'taskWorkingDirectory'. */
-  workingDirectory?: ContainerWorkingDirectory | (string & {});
+  workingDirectory?: ContainerWorkingDirectory | (string & {}) | undefined;
   /** If this array is null or be not present, container task will mount entire temporary disk drive in windows (or AZ_BATCH_NODE_ROOT_DIR in Linux). It won't' mount any data paths into container if this array is set as empty. */
-  containerHostBatchBindMounts?: TaskContainerSettingsContainerHostBatchBindMountsList;
+  containerHostBatchBindMounts?: TaskContainerSettingsContainerHostBatchBindMountsList | undefined;
 }
 /** In some cases the start task may be re-run even though the node was not rebooted. Due to this, start tasks should be idempotent and exit gracefully if the setup they're performing has already been done. Special care should be taken to avoid start tasks which create breakaway process or install/launch services from the start task working directory, as this will block Batch from being able to re-run the start task. */
 export interface StartTask {
   /** The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. Required if any other properties of the startTask are specified. */
-  commandLine?: string;
+  commandLine?: string | undefined;
   /** A list of files that the Batch service will download to the compute node before running the command line. */
-  resourceFiles?: StartTaskResourceFilesList;
+  resourceFiles?: StartTaskResourceFilesList | undefined;
   /** A list of environment variable settings for the start task. */
-  environmentSettings?: StartTaskEnvironmentSettingsList;
+  environmentSettings?: StartTaskEnvironmentSettingsList | undefined;
   /** If omitted, the task runs as a non-administrative user unique to the task. */
-  userIdentity?: UserIdentity;
+  userIdentity?: UserIdentity | undefined;
   /** The Batch service retries a task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch service retries the task without limit. Default is 0 */
-  maxTaskRetryCount?: number;
+  maxTaskRetryCount?: number | undefined;
   /** If true and the start task fails on a compute node, the Batch service retries the start task up to its maximum retry count (maxTaskRetryCount). If the task has still not completed successfully after all retries, then the Batch service marks the compute node unusable, and will not schedule tasks to it. This condition can be detected via the node state and scheduling error detail. If false, the Batch service will not wait for the start task to complete. In this case, other tasks can start executing on the compute node while the start task is still running; and even if the start task fails, new tasks will continue to be scheduled on the node. The default is true. */
-  waitForSuccess?: boolean;
+  waitForSuccess?: boolean | undefined;
   /** When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all task environment variables are mapped into the container, and the task command line is executed in the container. */
-  containerSettings?: TaskContainerSettings;
+  containerSettings?: TaskContainerSettings | undefined;
 }
 /** Link to an application package inside the batch account */
 export interface ApplicationPackageReference {
   /** The ID of the application package to install. This must be inside the same batch account as the pool. This can either be a reference to a specific version or the default version if one exists. */
   id: string;
   /** If this is omitted, and no default version is specified for this application, the request fails with the error code InvalidApplicationPackageReferences. If you are calling the REST API directly, the HTTP status code is 409. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Changes to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of 10 application package references on any given pool. */
 export type PoolPropertiesInputApplicationPackagesList = Array<ApplicationPackageReference>;
@@ -1041,15 +1057,15 @@ export interface AzureBlobFileSystemConfiguration {
   /** The Azure Blob Storage Container name. */
   containerName: string;
   /** This property is mutually exclusive with both sasKey and identity; exactly one must be specified. */
-  accountKey?: string;
+  accountKey?: string | undefined;
   /** This property is mutually exclusive with both accountKey and identity; exactly one must be specified. */
-  sasKey?: string;
+  sasKey?: string | undefined;
   /** These are 'net use' options in Windows and 'mount' options in Linux. */
-  blobfuseOptions?: string;
+  blobfuseOptions?: string | undefined;
   /** All file systems are mounted relative to the Batch mounts directory, accessible via the AZ_BATCH_NODE_MOUNTS_DIR environment variable. */
   relativeMountPath: string;
   /** This property is mutually exclusive with both accountKey and sasKey; exactly one must be specified. */
-  identityReference?: ComputeNodeIdentityReference;
+  identityReference?: ComputeNodeIdentityReference | undefined;
 }
 /** Information used to connect to an NFS file system. */
 export interface NFSMountConfiguration {
@@ -1058,7 +1074,7 @@ export interface NFSMountConfiguration {
   /** All file systems are mounted relative to the Batch mounts directory, accessible via the AZ_BATCH_NODE_MOUNTS_DIR environment variable. */
   relativeMountPath: string;
   /** These are 'net use' options in Windows and 'mount' options in Linux. */
-  mountOptions?: string;
+  mountOptions?: string | undefined;
 }
 /** Information used to connect to a CIFS file system. */
 export interface CIFSMountConfiguration {
@@ -1069,7 +1085,7 @@ export interface CIFSMountConfiguration {
   /** All file systems are mounted relative to the Batch mounts directory, accessible via the AZ_BATCH_NODE_MOUNTS_DIR environment variable. */
   relativeMountPath: string;
   /** These are 'net use' options in Windows and 'mount' options in Linux. */
-  mountOptions?: string;
+  mountOptions?: string | undefined;
   /** The password to use for authentication against the CIFS file system. */
   password: string | Redacted.Redacted<string>;
 }
@@ -1084,18 +1100,18 @@ export interface AzureFileShareConfiguration {
   /** All file systems are mounted relative to the Batch mounts directory, accessible via the AZ_BATCH_NODE_MOUNTS_DIR environment variable. */
   relativeMountPath: string;
   /** These are 'net use' options in Windows and 'mount' options in Linux. */
-  mountOptions?: string;
+  mountOptions?: string | undefined;
 }
 /** The file system to mount on each node. */
 export interface MountConfiguration {
   /** This property is mutually exclusive with all other properties. */
-  azureBlobFileSystemConfiguration?: AzureBlobFileSystemConfiguration;
+  azureBlobFileSystemConfiguration?: AzureBlobFileSystemConfiguration | undefined;
   /** This property is mutually exclusive with all other properties. */
-  nfsMountConfiguration?: NFSMountConfiguration;
+  nfsMountConfiguration?: NFSMountConfiguration | undefined;
   /** This property is mutually exclusive with all other properties. */
-  cifsMountConfiguration?: CIFSMountConfiguration;
+  cifsMountConfiguration?: CIFSMountConfiguration | undefined;
   /** This property is mutually exclusive with all other properties. */
-  azureFileShareConfiguration?: AzureFileShareConfiguration;
+  azureFileShareConfiguration?: AzureFileShareConfiguration | undefined;
 }
 /** This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
 export type PoolPropertiesInputMountConfigurationList = Array<MountConfiguration>;
@@ -1104,70 +1120,70 @@ export type UpgradeMode = "automatic" | "manual" | "rolling";
 /** The configuration parameters used for performing automatic OS upgrade. */
 export interface AutomaticOSUpgradePolicy {
   /** Whether OS image rollback feature should be disabled. */
-  disableAutomaticRollback?: boolean;
+  disableAutomaticRollback?: boolean | undefined;
   /** Indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. <br /><br /> If this is set to true for Windows based pools, [WindowsConfiguration.enableAutomaticUpdates](https://learn.microsoft.com/rest/api/batchmanagement/pool/create?tabs=HTTP#windowsconfiguration) cannot be set to true. */
-  enableAutomaticOSUpgrade?: boolean;
+  enableAutomaticOSUpgrade?: boolean | undefined;
   /** Indicates whether rolling upgrade policy should be used during Auto OS Upgrade. Auto OS Upgrade will fallback to the default policy if no policy is defined on the VMSS. */
-  useRollingUpgradePolicy?: boolean;
+  useRollingUpgradePolicy?: boolean | undefined;
   /** Defer OS upgrades on the TVMs if they are running tasks. */
-  osRollingUpgradeDeferral?: boolean;
+  osRollingUpgradeDeferral?: boolean | undefined;
 }
 /** The configuration parameters used while performing a rolling upgrade. */
 export interface RollingUpgradePolicy {
   /** Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size. If this field is not set, Azure Azure Batch will not set its default value. The value of enableCrossZoneUpgrade on the created VirtualMachineScaleSet will be decided by the default configurations on VirtualMachineScaleSet. This field is able to be set to true or false only when using NodePlacementConfiguration as Zonal. */
-  enableCrossZoneUpgrade?: boolean;
+  enableCrossZoneUpgrade?: boolean | undefined;
   /** The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the percentage of instances in a batch to decrease to ensure higher reliability. The value of this field should be between 5 and 100, inclusive. If both maxBatchInstancePercent and maxUnhealthyInstancePercent are assigned with value, the value of maxBatchInstancePercent should not be more than maxUnhealthyInstancePercent. */
-  maxBatchInstancePercent?: number;
+  maxBatchInstancePercent?: number | undefined;
   /** The maximum percentage of the total virtual machine instances in the scale set that can be simultaneously unhealthy, either as a result of being upgraded, or by being found in an unhealthy state by the virtual machine health checks before the rolling upgrade aborts. This constraint will be checked prior to starting any batch. The value of this field should be between 5 and 100, inclusive. If both maxBatchInstancePercent and maxUnhealthyInstancePercent are assigned with value, the value of maxBatchInstancePercent should not be more than maxUnhealthyInstancePercent. */
-  maxUnhealthyInstancePercent?: number;
+  maxUnhealthyInstancePercent?: number | undefined;
   /** The maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state. This check will happen after each batch is upgraded. If this percentage is ever exceeded, the rolling update aborts. The value of this field should be between 0 and 100, inclusive. */
-  maxUnhealthyUpgradedInstancePercent?: number;
+  maxUnhealthyUpgradedInstancePercent?: number | undefined;
   /** The wait time between completing the update for all virtual machines in one batch and starting the next batch. The time duration should be specified in ISO 8601 format. */
-  pauseTimeBetweenBatches?: string;
+  pauseTimeBetweenBatches?: string | undefined;
   /** Upgrade all unhealthy instances in a scale set before any healthy instances. */
-  prioritizeUnhealthyInstances?: boolean;
+  prioritizeUnhealthyInstances?: boolean | undefined;
   /** Rollback failed instances to previous model if the Rolling Upgrade policy is violated. */
-  rollbackFailedInstancesOnPolicyBreach?: boolean;
+  rollbackFailedInstancesOnPolicyBreach?: boolean | undefined;
 }
 /** Describes an upgrade policy - automatic, manual, or rolling. */
 export interface UpgradePolicy {
   /** Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action.<br /><br /> **Automatic** - All virtual machines in the scale set are automatically updated at the same time.<br /><br /> **Rolling** - Scale set performs updates in batches with an optional pause time in between. */
   mode: UpgradeMode | (string & {});
   /** The configuration parameters used for performing automatic OS upgrade. */
-  automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy;
+  automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy | undefined;
   /** The configuration parameters used while performing a rolling upgrade. */
-  rollingUpgradePolicy?: RollingUpgradePolicy;
+  rollingUpgradePolicy?: RollingUpgradePolicy | undefined;
 }
 /** Pool properties. */
 export interface PoolPropertiesInput {
   /** The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** For information about available VM sizes, see Sizes for Virtual Machines in Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** Deployment configuration properties. */
-  deploymentConfiguration?: DeploymentConfiguration;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
   /** Defines the desired size of the pool. This can either be 'fixedScale' where the requested targetDedicatedNodes is specified, or 'autoScale' which defines a formula which is periodically reevaluated. If this property is not specified, the pool will have a fixed scale with 0 targetDedicatedNodes. */
-  scaleSettings?: ScaleSettings;
+  scaleSettings?: ScaleSettings | undefined;
   /** This imposes restrictions on which nodes can be assigned to the pool. Enabling this value can reduce the chance of the requested number of nodes to be allocated in the pool. If not specified, this value defaults to 'Disabled'. */
-  interNodeCommunication?: InterNodeCommunicationState | (string & {});
+  interNodeCommunication?: InterNodeCommunicationState | (string & {}) | undefined;
   /** The network configuration for a pool. */
-  networkConfiguration?: NetworkConfiguration;
+  networkConfiguration?: NetworkConfiguration | undefined;
   /** The default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256. */
-  taskSlotsPerNode?: number;
+  taskSlotsPerNode?: number | undefined;
   /** If not specified, the default is spread. */
-  taskSchedulingPolicy?: TaskSchedulingPolicy;
+  taskSchedulingPolicy?: TaskSchedulingPolicy | undefined;
   /** The list of user accounts to be created on each node in the pool. */
-  userAccounts?: PoolPropertiesInputUserAccountsList;
+  userAccounts?: PoolPropertiesInputUserAccountsList | undefined;
   /** The Batch service does not assign any meaning to metadata; it is solely for the use of user code. */
-  metadata?: PoolPropertiesInputMetadataList;
+  metadata?: PoolPropertiesInputMetadataList | undefined;
   /** In an PATCH (update) operation, this property can be set to an empty object to remove the start task from the pool. */
-  startTask?: StartTask;
+  startTask?: StartTask | undefined;
   /** Changes to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of 10 application package references on any given pool. */
-  applicationPackages?: PoolPropertiesInputApplicationPackagesList;
+  applicationPackages?: PoolPropertiesInputApplicationPackagesList | undefined;
   /** This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
-  mountConfiguration?: PoolPropertiesInputMountConfigurationList;
+  mountConfiguration?: PoolPropertiesInputMountConfigurationList | undefined;
   /** Describes an upgrade policy - automatic, manual, or rolling. */
-  upgradePolicy?: UpgradePolicy;
+  upgradePolicy?: UpgradePolicy | undefined;
 }
 /** The type of identity used for the Batch Pool. */
 export type PoolIdentityType = "UserAssigned" | "None";
@@ -1180,7 +1196,7 @@ export interface BatchPoolIdentityInput {
   /** The type of identity used for the Batch Pool. */
   type: PoolIdentityType | (string & {});
   /** The list of user identities associated with the Batch pool. */
-  userAssignedIdentities?: BatchPoolIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: BatchPoolIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** The tags of the resource. */
 export type CreatePoolRequestTagsMap = { [key: string]: string | undefined };
@@ -1194,11 +1210,11 @@ export interface CreatePoolRequest {
   /** The pool name. This must be unique within the account. */
   poolName: string;
   /** The properties associated with the pool. */
-  properties?: PoolPropertiesInput;
+  properties?: PoolPropertiesInput | undefined;
   /** The type of identity used for the Batch Pool. */
-  identity?: BatchPoolIdentityInput;
+  identity?: BatchPoolIdentityInput | undefined;
   /** The tags of the resource. */
-  tags?: CreatePoolRequestTagsMap;
+  tags?: CreatePoolRequestTagsMap | undefined;
 }
 /** The current state of the pool. */
 export type PoolProvisioningState = "Succeeded" | "Deleting";
@@ -1213,16 +1229,16 @@ export interface AutoScaleRunError {
   /** A message describing the error, intended to be suitable for display in a user interface. */
   message: string;
   /** Additional details about the error. */
-  details?: AutoScaleRunErrorDetailsList;
+  details?: AutoScaleRunErrorDetailsList | undefined;
 }
 /** The results and errors from an execution of a pool autoscale formula. */
 export interface AutoScaleRun {
   /** The time at which the autoscale formula was last evaluated. */
   evaluationTime: string;
   /** Each variable value is returned in the form $variable=value, and variables are separated by semicolons. */
-  results?: string;
+  results?: string | undefined;
   /** An error that occurred when autoscaling a pool. */
-  error?: AutoScaleRunError;
+  error?: AutoScaleRunError | undefined;
 }
 /** The list of user accounts to be created on each node in the pool. */
 export type PoolPropertiesUserAccountsList = Array<UserAccount>;
@@ -1239,77 +1255,77 @@ export interface ResizeError {
   /** A message describing the error, intended to be suitable for display in a user interface. */
   message: string;
   /** Additional details about the error. */
-  details?: ResizeErrorDetailsList;
+  details?: ResizeErrorDetailsList | undefined;
 }
 /** This property is set only if an error occurred during the last pool resize, and only when the pool allocationState is Steady. */
 export type ResizeOperationStatusErrorsList = Array<ResizeError>;
 /** Describes either the current operation (if the pool AllocationState is Resizing) or the previously completed operation (if the AllocationState is Steady). */
 export interface ResizeOperationStatus {
   /** The desired number of dedicated compute nodes in the pool. */
-  targetDedicatedNodes?: number;
+  targetDedicatedNodes?: number | undefined;
   /** The desired number of Spot/low-priority compute nodes in the pool. */
-  targetLowPriorityNodes?: number;
+  targetLowPriorityNodes?: number | undefined;
   /** The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
-  resizeTimeout?: string;
+  resizeTimeout?: string | undefined;
   /** The default value is requeue. */
-  nodeDeallocationOption?: ComputeNodeDeallocationOption;
+  nodeDeallocationOption?: ComputeNodeDeallocationOption | undefined;
   /** The time when this resize operation was started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** This property is set only if an error occurred during the last pool resize, and only when the pool allocationState is Steady. */
-  errors?: ResizeOperationStatusErrorsList;
+  errors?: ResizeOperationStatusErrorsList | undefined;
 }
 /** This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
 export type PoolPropertiesMountConfigurationList = Array<MountConfiguration>;
 /** Pool properties. */
 export interface PoolProperties {
   /** The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** This is the last time at which the pool level data, such as the targetDedicatedNodes or autoScaleSettings, changed. It does not factor in node-level changes such as a compute node changing state. */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** The creation time of the pool. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The current state of the pool. */
-  provisioningState?: PoolProvisioningState;
+  provisioningState?: PoolProvisioningState | undefined;
   /** The time at which the pool entered its current state. */
-  provisioningStateTransitionTime?: string;
+  provisioningStateTransitionTime?: string | undefined;
   /** Whether the pool is resizing. */
-  allocationState?: AllocationState;
+  allocationState?: AllocationState | undefined;
   /** The time at which the pool entered its current allocation state. */
-  allocationStateTransitionTime?: string;
+  allocationStateTransitionTime?: string | undefined;
   /** For information about available VM sizes, see Sizes for Virtual Machines in Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** Deployment configuration properties. */
-  deploymentConfiguration?: DeploymentConfiguration;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
   /** The number of dedicated compute nodes currently in the pool. */
-  currentDedicatedNodes?: number;
+  currentDedicatedNodes?: number | undefined;
   /** The number of Spot/low-priority compute nodes currently in the pool. */
-  currentLowPriorityNodes?: number;
+  currentLowPriorityNodes?: number | undefined;
   /** Defines the desired size of the pool. This can either be 'fixedScale' where the requested targetDedicatedNodes is specified, or 'autoScale' which defines a formula which is periodically reevaluated. If this property is not specified, the pool will have a fixed scale with 0 targetDedicatedNodes. */
-  scaleSettings?: ScaleSettings;
+  scaleSettings?: ScaleSettings | undefined;
   /** This property is set only if the pool automatically scales, i.e. autoScaleSettings are used. */
-  autoScaleRun?: AutoScaleRun;
+  autoScaleRun?: AutoScaleRun | undefined;
   /** This imposes restrictions on which nodes can be assigned to the pool. Enabling this value can reduce the chance of the requested number of nodes to be allocated in the pool. If not specified, this value defaults to 'Disabled'. */
-  interNodeCommunication?: InterNodeCommunicationState;
+  interNodeCommunication?: InterNodeCommunicationState | undefined;
   /** The network configuration for a pool. */
-  networkConfiguration?: NetworkConfiguration;
+  networkConfiguration?: NetworkConfiguration | undefined;
   /** The default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256. */
-  taskSlotsPerNode?: number;
+  taskSlotsPerNode?: number | undefined;
   /** If not specified, the default is spread. */
-  taskSchedulingPolicy?: TaskSchedulingPolicy;
+  taskSchedulingPolicy?: TaskSchedulingPolicy | undefined;
   /** The list of user accounts to be created on each node in the pool. */
-  userAccounts?: PoolPropertiesUserAccountsList;
+  userAccounts?: PoolPropertiesUserAccountsList | undefined;
   /** The Batch service does not assign any meaning to metadata; it is solely for the use of user code. */
-  metadata?: PoolPropertiesMetadataList;
+  metadata?: PoolPropertiesMetadataList | undefined;
   /** In an PATCH (update) operation, this property can be set to an empty object to remove the start task from the pool. */
-  startTask?: StartTask;
+  startTask?: StartTask | undefined;
   /** Changes to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of 10 application package references on any given pool. */
-  applicationPackages?: PoolPropertiesApplicationPackagesList;
+  applicationPackages?: PoolPropertiesApplicationPackagesList | undefined;
   /** Describes either the current operation (if the pool AllocationState is Resizing) or the previously completed operation (if the AllocationState is Steady). */
-  resizeOperationStatus?: ResizeOperationStatus;
+  resizeOperationStatus?: ResizeOperationStatus | undefined;
   /** This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
-  mountConfiguration?: PoolPropertiesMountConfigurationList;
+  mountConfiguration?: PoolPropertiesMountConfigurationList | undefined;
   /** Describes an upgrade policy - automatic, manual, or rolling. */
-  upgradePolicy?: UpgradePolicy;
+  upgradePolicy?: UpgradePolicy | undefined;
 }
 /** The list of user identities associated with the Batch pool. */
 export type BatchPoolIdentityUserAssignedIdentitiesMap = {
@@ -1320,27 +1336,27 @@ export interface BatchPoolIdentity {
   /** The type of identity used for the Batch Pool. */
   type: PoolIdentityType;
   /** The list of user identities associated with the Batch pool. */
-  userAssignedIdentities?: BatchPoolIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: BatchPoolIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** The tags of the resource. */
 export type CreatePoolResponseTagsMap = { [key: string]: string | undefined };
 export interface CreatePoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the pool. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** The type of identity used for the Batch Pool. */
-  identity?: BatchPoolIdentity;
+  identity?: BatchPoolIdentity | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: CreatePoolResponseTagsMap;
+  tags?: CreatePoolResponseTagsMap | undefined;
 }
 export interface DeleteApplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1376,9 +1392,9 @@ export interface DeleteBatchAccountRequest {
 }
 export interface DeleteBatchAccountResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1392,9 +1408,9 @@ export interface DeletePoolRequest {
 }
 export interface DeletePoolResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1408,11 +1424,11 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DisablePoolAutoScaleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1428,21 +1444,21 @@ export interface DisablePoolAutoScaleRequest {
 export type DisablePoolAutoScaleResponseTagsMap = { [key: string]: string | undefined };
 export interface DisablePoolAutoScaleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the pool. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** The type of identity used for the Batch Pool. */
-  identity?: BatchPoolIdentity;
+  identity?: BatchPoolIdentity | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: DisablePoolAutoScaleResponseTagsMap;
+  tags?: DisablePoolAutoScaleResponseTagsMap | undefined;
 }
 export interface GetApplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1458,19 +1474,19 @@ export interface GetApplicationRequest {
 export type GetApplicationResponseTagsMap = { [key: string]: string | undefined };
 export interface GetApplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the Application. */
-  properties?: ApplicationProperties;
+  properties?: ApplicationProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: GetApplicationResponseTagsMap;
+  tags?: GetApplicationResponseTagsMap | undefined;
 }
 export interface GetApplicationPackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1488,19 +1504,19 @@ export interface GetApplicationPackageRequest {
 export type GetApplicationPackageResponseTagsMap = { [key: string]: string | undefined };
 export interface GetApplicationPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the Application Package. */
-  properties?: ApplicationPackageProperties;
+  properties?: ApplicationPackageProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: GetApplicationPackageResponseTagsMap;
+  tags?: GetApplicationPackageResponseTagsMap | undefined;
 }
 export interface GetBatchAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1514,21 +1530,21 @@ export interface GetBatchAccountRequest {
 export type GetBatchAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBatchAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetBatchAccountResponseTagsMap;
+  tags?: GetBatchAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties associated with the account. */
-  properties?: BatchAccountProperties;
+  properties?: BatchAccountProperties | undefined;
   /** The identity of the Batch account. */
-  identity?: BatchAccountIdentity;
+  identity?: BatchAccountIdentity | undefined;
 }
 export interface GetBatchAccountDetectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1543,25 +1559,25 @@ export interface GetBatchAccountDetectorRequest {
 /** Detector response properties. */
 export interface DetectorResponseProperties {
   /** A base64 encoded string that represents the content of a detector. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The tags of the resource. */
 export type GetBatchAccountDetectorResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBatchAccountDetectorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the detector. */
-  properties?: DetectorResponseProperties;
+  properties?: DetectorResponseProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: GetBatchAccountDetectorResponseTagsMap;
+  tags?: GetBatchAccountDetectorResponseTagsMap | undefined;
 }
 export interface GetBatchAccountKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1574,11 +1590,11 @@ export interface GetBatchAccountKeysRequest {
 /** A set of Azure Batch account keys. */
 export interface BatchAccountKeys {
   /** The Batch account name. */
-  accountName?: string;
+  accountName?: string | undefined;
   /** The primary key associated with the account. */
-  primary?: string;
+  primary?: string | undefined;
   /** The secondary key associated with the account. */
-  secondary?: string;
+  secondary?: string | undefined;
 }
 export interface GetLocationQuotasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1589,7 +1605,7 @@ export interface GetLocationQuotasRequest {
 /** Quotas associated with a Batch region for a particular subscription. */
 export interface BatchLocationQuota {
   /** The number of Batch accounts that may be created under the subscription in the specified region. */
-  accountQuota?: number;
+  accountQuota?: number | undefined;
 }
 export interface GetNetworkSecurityPerimeterConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1627,18 +1643,18 @@ export type AccessRulePropertiesAddressPrefixesList = Array<string>;
 /** Subscription identifiers */
 export interface AccessRulePropertiesSubscriptionsItem {
   /** The fully qualified Azure resource ID of the subscription e.g. ('/subscriptions/00000000-0000-0000-0000-000000000000') */
-  id?: string;
+  id?: string | undefined;
 }
 /** Subscriptions for inbound rules */
 export type AccessRulePropertiesSubscriptionsList = Array<AccessRulePropertiesSubscriptionsItem>;
 /** Information about a network security perimeter (NSP) */
 export interface NetworkSecurityPerimeter {
   /** Fully qualified Azure resource ID of the NSP resource */
-  id?: string;
+  id?: string | undefined;
   /** Universal unique ID (UUID) of the network security perimeter */
-  perimeterGuid?: string;
+  perimeterGuid?: string | undefined;
   /** Location of the network security perimeter */
-  location?: string;
+  location?: string | undefined;
 }
 /** Network security perimeters for inbound rules */
 export type AccessRulePropertiesNetworkSecurityPerimetersList = Array<NetworkSecurityPerimeter>;
@@ -1650,46 +1666,46 @@ export type AccessRulePropertiesEmailAddressesList = Array<string>;
 export type AccessRulePropertiesPhoneNumbersList = Array<string>;
 /** Properties of Access Rule */
 export interface AccessRuleProperties {
-  direction?: AccessRuleDirection;
+  direction?: AccessRuleDirection | undefined;
   /** Address prefixes in the CIDR format for inbound rules */
-  addressPrefixes?: AccessRulePropertiesAddressPrefixesList;
+  addressPrefixes?: AccessRulePropertiesAddressPrefixesList | undefined;
   /** Subscriptions for inbound rules */
-  subscriptions?: AccessRulePropertiesSubscriptionsList;
+  subscriptions?: AccessRulePropertiesSubscriptionsList | undefined;
   /** Network security perimeters for inbound rules */
-  networkSecurityPerimeters?: AccessRulePropertiesNetworkSecurityPerimetersList;
+  networkSecurityPerimeters?: AccessRulePropertiesNetworkSecurityPerimetersList | undefined;
   /** Fully qualified domain names (FQDN) for outbound rules */
-  fullyQualifiedDomainNames?: AccessRulePropertiesFullyQualifiedDomainNamesList;
+  fullyQualifiedDomainNames?: AccessRulePropertiesFullyQualifiedDomainNamesList | undefined;
   /** Email addresses for outbound rules */
-  emailAddresses?: AccessRulePropertiesEmailAddressesList;
+  emailAddresses?: AccessRulePropertiesEmailAddressesList | undefined;
   /** Phone numbers for outbound rules */
-  phoneNumbers?: AccessRulePropertiesPhoneNumbersList;
+  phoneNumbers?: AccessRulePropertiesPhoneNumbersList | undefined;
 }
 /** Access rule in a network security perimeter configuration profile */
 export interface AccessRule {
   /** Name of the access rule */
-  name?: string;
-  properties?: AccessRuleProperties;
+  name?: string | undefined;
+  properties?: AccessRuleProperties | undefined;
 }
 /** Access rules that can be added to the network security profile (NSP) to remediate the issue. */
 export type ProvisioningIssuePropertiesSuggestedAccessRulesList = Array<AccessRule>;
 /** Details of a provisioning issue for a network security perimeter (NSP) configuration. Resource providers should generate separate provisioning issue elements for each separate issue detected, and include a meaningful and distinctive description, as well as any appropriate suggestedResourceIds and suggestedAccessRules */
 export interface ProvisioningIssueProperties {
   /** Type of issue */
-  issueType?: ProvisioningIssuePropertiesIssueType;
+  issueType?: ProvisioningIssuePropertiesIssueType | undefined;
   /** Severity of the issue. */
-  severity?: ProvisioningIssuePropertiesSeverity;
+  severity?: ProvisioningIssuePropertiesSeverity | undefined;
   /** Description of the issue */
-  description?: string;
+  description?: string | undefined;
   /** Fully qualified resource IDs of suggested resources that can be associated to the network security perimeter (NSP) to remediate the issue. */
-  suggestedResourceIds?: ProvisioningIssuePropertiesSuggestedResourceIdsList;
+  suggestedResourceIds?: ProvisioningIssuePropertiesSuggestedResourceIdsList | undefined;
   /** Access rules that can be added to the network security profile (NSP) to remediate the issue. */
-  suggestedAccessRules?: ProvisioningIssuePropertiesSuggestedAccessRulesList;
+  suggestedAccessRules?: ProvisioningIssuePropertiesSuggestedAccessRulesList | undefined;
 }
 /** Describes a provisioning issue for a network security perimeter configuration */
 export interface ProvisioningIssue {
   /** Name of the issue */
-  name?: string;
-  properties?: ProvisioningIssueProperties;
+  name?: string | undefined;
+  properties?: ProvisioningIssueProperties | undefined;
 }
 /** List of provisioning issues, if any */
 export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList =
@@ -1699,8 +1715,8 @@ export type ResourceAssociationAccessMode = "Enforced" | "Learning" | "Audit";
 /** Information about resource association */
 export interface ResourceAssociation {
   /** Name of the resource association */
-  name?: string;
-  accessMode?: ResourceAssociationAccessMode;
+  name?: string | undefined;
+  accessMode?: ResourceAssociationAccessMode | undefined;
 }
 /** List of Access Rules */
 export type NetworkSecurityProfileAccessRulesList = Array<AccessRule>;
@@ -1709,35 +1725,37 @@ export type NetworkSecurityProfileEnabledLogCategoriesList = Array<string>;
 /** Network security perimeter configuration profile */
 export interface NetworkSecurityProfile {
   /** Name of the profile */
-  name?: string;
+  name?: string | undefined;
   /** Current access rules version */
-  accessRulesVersion?: number;
+  accessRulesVersion?: number | undefined;
   /** List of Access Rules */
-  accessRules?: NetworkSecurityProfileAccessRulesList;
+  accessRules?: NetworkSecurityProfileAccessRulesList | undefined;
   /** Current diagnostic settings version */
-  diagnosticSettingsVersion?: number;
+  diagnosticSettingsVersion?: number | undefined;
   /** List of log categories that are enabled */
-  enabledLogCategories?: NetworkSecurityProfileEnabledLogCategoriesList;
+  enabledLogCategories?: NetworkSecurityProfileEnabledLogCategoriesList | undefined;
 }
 /** Network security configuration properties. */
 export interface NetworkSecurityPerimeterConfigurationProperties {
-  provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+  provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState | undefined;
   /** List of provisioning issues, if any */
-  provisioningIssues?: NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList;
-  networkSecurityPerimeter?: NetworkSecurityPerimeter;
-  resourceAssociation?: ResourceAssociation;
-  profile?: NetworkSecurityProfile;
+  provisioningIssues?:
+    | NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList
+    | undefined;
+  networkSecurityPerimeter?: NetworkSecurityPerimeter | undefined;
+  resourceAssociation?: ResourceAssociation | undefined;
+  profile?: NetworkSecurityProfile | undefined;
 }
 export interface GetNetworkSecurityPerimeterConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  systemData?: SystemData | undefined;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
 }
 export interface GetPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1753,21 +1771,21 @@ export interface GetPoolRequest {
 export type GetPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the pool. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** The type of identity used for the Batch Pool. */
-  identity?: BatchPoolIdentity;
+  identity?: BatchPoolIdentity | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: GetPoolResponseTagsMap;
+  tags?: GetPoolResponseTagsMap | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1783,19 +1801,19 @@ export interface GetPrivateEndpointConnectionRequest {
 export type GetPrivateEndpointConnectionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: GetPrivateEndpointConnectionResponseTagsMap;
+  tags?: GetPrivateEndpointConnectionResponseTagsMap | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1814,29 +1832,29 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Private link resource properties. */
 export interface PrivateLinkResourceProperties {
   /** The group id is used to establish the private link connection. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The list of required members that are used to establish the private link connection. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The list of required zone names for the private DNS resource name */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** The tags of the resource. */
 export type GetPrivateLinkResourceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the private link resource. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: GetPrivateLinkResourceResponseTagsMap;
+  tags?: GetPrivateLinkResourceResponseTagsMap | undefined;
 }
 export interface ListApplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1846,26 +1864,26 @@ export interface ListApplicationRequest {
   /** A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24 characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is used to access the Batch service in the region in which the account is created. For example: http://accountname.region.batch.azure.com/. */
   accountName: string;
   /** The maximum number of items to return in the response. */
-  maxresults?: number;
+  maxresults?: number | undefined;
 }
 /** The tags of the resource. */
 export type ApplicationTagsMap = { [key: string]: string | undefined };
 /** Contains information about an application in a Batch account. */
 export interface Application {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the Application. */
-  properties?: ApplicationProperties;
+  properties?: ApplicationProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: ApplicationTagsMap;
+  tags?: ApplicationTagsMap | undefined;
 }
 /** The Application items on this page */
 export type ListApplicationsResultValueList = Array<Application>;
@@ -1874,7 +1892,7 @@ export interface ListApplicationsResult {
   /** The Application items on this page */
   value: ListApplicationsResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApplicationPackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1886,26 +1904,26 @@ export interface ListApplicationPackageRequest {
   /** The name of the application. This must be unique within the account. */
   applicationName: string;
   /** The maximum number of items to return in the response. */
-  maxresults?: number;
+  maxresults?: number | undefined;
 }
 /** The tags of the resource. */
 export type ApplicationPackageTagsMap = { [key: string]: string | undefined };
 /** An application package which represents a particular version of an application. */
 export interface ApplicationPackage {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the Application Package. */
-  properties?: ApplicationPackageProperties;
+  properties?: ApplicationPackageProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: ApplicationPackageTagsMap;
+  tags?: ApplicationPackageTagsMap | undefined;
 }
 /** The ApplicationPackage items on this page */
 export type ListApplicationPackagesResultValueList = Array<ApplicationPackage>;
@@ -1914,7 +1932,7 @@ export interface ListApplicationPackagesResult {
   /** The ApplicationPackage items on this page */
   value: ListApplicationPackagesResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBatchAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1925,21 +1943,21 @@ export type BatchAccountTagsMap = { [key: string]: string | undefined };
 /** Contains information about an Azure Batch account. */
 export interface BatchAccount {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BatchAccountTagsMap;
+  tags?: BatchAccountTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties associated with the account. */
-  properties?: BatchAccountProperties;
+  properties?: BatchAccountProperties | undefined;
   /** The identity of the Batch account. */
-  identity?: BatchAccountIdentity;
+  identity?: BatchAccountIdentity | undefined;
 }
 /** The BatchAccount items on this page */
 export type BatchAccountListResultValueList = Array<BatchAccount>;
@@ -1948,7 +1966,7 @@ export interface BatchAccountListResult {
   /** The BatchAccount items on this page */
   value: BatchAccountListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBatchAccountByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1969,19 +1987,19 @@ export type DetectorResponseTagsMap = { [key: string]: string | undefined };
 /** Contains the information for a detector. */
 export interface DetectorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the detector. */
-  properties?: DetectorResponseProperties;
+  properties?: DetectorResponseProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: DetectorResponseTagsMap;
+  tags?: DetectorResponseTagsMap | undefined;
 }
 /** The DetectorResponse items on this page */
 export type DetectorListResultValueList = Array<DetectorResponse>;
@@ -1990,7 +2008,7 @@ export interface DetectorListResult {
   /** The DetectorResponse items on this page */
   value: DetectorListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBatchAccountOutboundNetworkDependenciesEndpointsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2003,27 +2021,27 @@ export interface ListBatchAccountOutboundNetworkDependenciesEndpointsRequest {
 /** Details about the connection between the Batch service and the endpoint. */
 export interface EndpointDetail {
   /** The port an endpoint is connected to. */
-  port?: number;
+  port?: number | undefined;
 }
 /** The list of connection details for this endpoint. */
 export type EndpointDependencyEndpointDetailsList = Array<EndpointDetail>;
 /** A domain name and connection details used to access a dependency. */
 export interface EndpointDependency {
   /** The domain name of the dependency. Domain names may be fully qualified or may contain a * wildcard. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** Human-readable supplemental information about the dependency and when it is applicable. */
-  description?: string;
+  description?: string | undefined;
   /** The list of connection details for this endpoint. */
-  endpointDetails?: EndpointDependencyEndpointDetailsList;
+  endpointDetails?: EndpointDependencyEndpointDetailsList | undefined;
 }
 /** The endpoints for this service to which the Batch service makes outbound calls. */
 export type OutboundEnvironmentEndpointEndpointsList = Array<EndpointDependency>;
 /** A collection of related endpoints from the same service for which the Batch service requires outbound access. */
 export interface OutboundEnvironmentEndpoint {
   /** The type of service that the Batch service connects to. */
-  category?: string;
+  category?: string | undefined;
   /** The endpoints for this service to which the Batch service makes outbound calls. */
-  endpoints?: OutboundEnvironmentEndpointEndpointsList;
+  endpoints?: OutboundEnvironmentEndpointEndpointsList | undefined;
 }
 /** The OutboundEnvironmentEndpoint items on this page */
 export type OutboundEnvironmentEndpointCollectionValueList = Array<OutboundEnvironmentEndpoint>;
@@ -2032,7 +2050,7 @@ export interface OutboundEnvironmentEndpointCollection {
   /** The OutboundEnvironmentEndpoint items on this page */
   value: OutboundEnvironmentEndpointCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLocationSupportedVirtualMachineSkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2040,29 +2058,29 @@ export interface ListLocationSupportedVirtualMachineSkusRequest {
   /** The region for which to retrieve Batch service supported SKUs. */
   locationName: string;
   /** The maximum number of items to return in the response. */
-  maxresults?: number;
+  maxresults?: number | undefined;
   /** OData filter expression. Valid properties for filtering are "familyName". */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** A SKU capability, such as the number of cores. */
 export interface SkuCapability {
   /** The name of the feature. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the feature. */
-  value?: string;
+  value?: string | undefined;
 }
 /** A collection of capabilities which this SKU supports. */
 export type SupportedSkuCapabilitiesList = Array<SkuCapability>;
 /** Describes a Batch supported SKU. */
 export interface SupportedSku {
   /** The name of the SKU. */
-  name?: string;
+  name?: string | undefined;
   /** The family name of the SKU. */
-  familyName?: string;
+  familyName?: string | undefined;
   /** A collection of capabilities which this SKU supports. */
-  capabilities?: SupportedSkuCapabilitiesList;
+  capabilities?: SupportedSkuCapabilitiesList | undefined;
   /** The time when Azure Batch service will retire this SKU. */
-  batchSupportEndOfLife?: string;
+  batchSupportEndOfLife?: string | undefined;
 }
 /** The SupportedSku items on this page */
 export type SupportedSkusResultValueList = Array<SupportedSku>;
@@ -2071,7 +2089,7 @@ export interface SupportedSkusResult {
   /** The SupportedSku items on this page */
   value: SupportedSkusResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkSecurityPerimeterConfigurationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2084,14 +2102,14 @@ export interface ListNetworkSecurityPerimeterConfigurationsRequest {
 /** Network security perimeter (NSP) configuration resource */
 export interface NetworkSecurityPerimeterConfigurationListResultValueItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  systemData?: SystemData | undefined;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
 }
 /** The NetworkSecurityPerimeterConfiguration items on this page */
 export type NetworkSecurityPerimeterConfigurationListResultValueList =
@@ -2101,32 +2119,32 @@ export interface NetworkSecurityPerimeterConfigurationListResult {
   /** The NetworkSecurityPerimeterConfiguration items on this page */
   value: NetworkSecurityPerimeterConfigurationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that describes the operation. */
 export interface OperationDisplay {
   /** Friendly name of the resource provider. */
-  provider?: string;
+  provider?: string | undefined;
   /** For example: read, write, delete, or listKeys/action */
-  operation?: string;
+  operation?: string | undefined;
   /** The resource type on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** The friendly name of the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** A REST API operation */
 export interface Operation {
   /** This is of the format {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** The object that describes the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation. */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties of the operation. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** The Operation items on this page */
 export type OperationListResultValueList = Array<Operation>;
@@ -2135,7 +2153,7 @@ export interface OperationListResult {
   /** The Operation items on this page */
   value: OperationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPoolByBatchAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2145,32 +2163,32 @@ export interface ListPoolByBatchAccountRequest {
   /** A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24 characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is used to access the Batch service in the region in which the account is created. For example: http://accountname.region.batch.azure.com/. */
   accountName: string;
   /** The maximum number of items to return in the response. */
-  maxresults?: number;
+  maxresults?: number | undefined;
   /** Comma separated list of properties that should be returned. e.g. "properties/provisioningState". Only top level properties under properties/ are valid for selection. */
-  _select?: string;
+  _select?: string | undefined;
   /** OData filter expression. Valid properties for filtering are: name properties/allocationState properties/allocationStateTransitionTime properties/creationTime properties/provisioningState properties/provisioningStateTransitionTime properties/lastModified properties/vmSize properties/interNodeCommunication properties/scaleSettings/autoScale properties/scaleSettings/fixedScale */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The tags of the resource. */
 export type PoolTagsMap = { [key: string]: string | undefined };
 /** Contains information about a pool. */
 export interface Pool {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the pool. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** The type of identity used for the Batch Pool. */
-  identity?: BatchPoolIdentity;
+  identity?: BatchPoolIdentity | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: PoolTagsMap;
+  tags?: PoolTagsMap | undefined;
 }
 /** The Pool items on this page */
 export type ListPoolsResultValueList = Array<Pool>;
@@ -2179,7 +2197,7 @@ export interface ListPoolsResult {
   /** The Pool items on this page */
   value: ListPoolsResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByBatchAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2189,7 +2207,7 @@ export interface ListPrivateEndpointConnectionByBatchAccountRequest {
   /** A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24 characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is used to access the Batch service in the region in which the account is created. For example: http://accountname.region.batch.azure.com/. */
   accountName: string;
   /** The maximum number of items to return in the response. */
-  maxresults?: number;
+  maxresults?: number | undefined;
 }
 /** The PrivateEndpointConnection items on this page */
 export type ListPrivateEndpointConnectionsResultValueList = Array<PrivateEndpointConnection>;
@@ -2198,7 +2216,7 @@ export interface ListPrivateEndpointConnectionsResult {
   /** The PrivateEndpointConnection items on this page */
   value: ListPrivateEndpointConnectionsResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByBatchAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2208,26 +2226,26 @@ export interface ListPrivateLinkResourceByBatchAccountRequest {
   /** A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24 characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is used to access the Batch service in the region in which the account is created. For example: http://accountname.region.batch.azure.com/. */
   accountName: string;
   /** The maximum number of items to return in the response. */
-  maxresults?: number;
+  maxresults?: number | undefined;
 }
 /** The tags of the resource. */
 export type PrivateLinkResourceTagsMap = { [key: string]: string | undefined };
 /** Contains information about a private link resource. */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the private link resource. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: PrivateLinkResourceTagsMap;
+  tags?: PrivateLinkResourceTagsMap | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type ListPrivateLinkResourcesResultValueList = Array<PrivateLinkResource>;
@@ -2236,7 +2254,7 @@ export interface ListPrivateLinkResourcesResult {
   /** The PrivateLinkResource items on this page */
   value: ListPrivateLinkResourcesResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface NetworkSecurityPerimeterReconcileConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2250,9 +2268,9 @@ export interface NetworkSecurityPerimeterReconcileConfigurationRequest {
 }
 export interface NetworkSecurityPerimeterReconcileConfigurationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface PoolStopResizeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2268,21 +2286,21 @@ export interface PoolStopResizeRequest {
 export type PoolStopResizeResponseTagsMap = { [key: string]: string | undefined };
 export interface PoolStopResizeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the pool. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** The type of identity used for the Batch Pool. */
-  identity?: BatchPoolIdentity;
+  identity?: BatchPoolIdentity | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: PoolStopResizeResponseTagsMap;
+  tags?: PoolStopResizeResponseTagsMap | undefined;
 }
 /** The type of account key to regenerate. */
 export type AccountKeyType = "Primary" | "Secondary";
@@ -2308,27 +2326,27 @@ export interface UpdateApplicationRequest {
   /** The name of the application. This must be unique within the account. */
   applicationName: string;
   /** The properties associated with the Application. */
-  properties?: ApplicationProperties;
+  properties?: ApplicationProperties | undefined;
   /** The tags of the resource. */
-  tags?: UpdateApplicationRequestTagsMap;
+  tags?: UpdateApplicationRequestTagsMap | undefined;
 }
 /** The tags of the resource. */
 export type UpdateApplicationResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateApplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the Application. */
-  properties?: ApplicationProperties;
+  properties?: ApplicationProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: UpdateApplicationResponseTagsMap;
+  tags?: UpdateApplicationResponseTagsMap | undefined;
 }
 /** The user-specified tags associated with the account. */
 export type UpdateBatchAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -2344,15 +2362,18 @@ export type BatchAccountUpdatePropertiesPublicNetworkAccess =
 /** The properties of a Batch account. */
 export interface BatchAccountUpdateProperties {
   /** The properties related to the auto-storage account. */
-  autoStorage?: AutoStorageBaseProperties;
+  autoStorage?: AutoStorageBaseProperties | undefined;
   /** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
   /** List of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane. */
-  allowedAuthenticationModes?: BatchAccountUpdatePropertiesAllowedAuthenticationModesList | null;
+  allowedAuthenticationModes?:
+    | BatchAccountUpdatePropertiesAllowedAuthenticationModesList
+    | null
+    | undefined;
   /** The network access type for operating on the resources in the Batch account. */
-  publicNetworkAccess?: BatchAccountUpdatePropertiesPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: BatchAccountUpdatePropertiesPublicNetworkAccess | (string & {}) | undefined;
   /** The network profile only takes effect when publicNetworkAccess is enabled. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
 }
 export interface UpdateBatchAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2362,31 +2383,31 @@ export interface UpdateBatchAccountRequest {
   /** A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24 characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is used to access the Batch service in the region in which the account is created. For example: http://accountname.region.batch.azure.com/. */
   accountName: string;
   /** The user-specified tags associated with the account. */
-  tags?: UpdateBatchAccountRequestTagsMap;
+  tags?: UpdateBatchAccountRequestTagsMap | undefined;
   /** The properties of the account. */
-  properties?: BatchAccountUpdateProperties;
+  properties?: BatchAccountUpdateProperties | undefined;
   /** The identity of the Batch account. */
-  identity?: BatchAccountIdentityInput;
+  identity?: BatchAccountIdentityInput | undefined;
 }
 /** Resource tags. */
 export type UpdateBatchAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBatchAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateBatchAccountResponseTagsMap;
+  tags?: UpdateBatchAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties associated with the account. */
-  properties?: BatchAccountProperties;
+  properties?: BatchAccountProperties | undefined;
   /** The identity of the Batch account. */
-  identity?: BatchAccountIdentity;
+  identity?: BatchAccountIdentity | undefined;
 }
 /** The tags of the resource. */
 export type UpdatePoolRequestTagsMap = { [key: string]: string | undefined };
@@ -2400,43 +2421,43 @@ export interface UpdatePoolRequest {
   /** The pool name. This must be unique within the account. */
   poolName: string;
   /** The properties associated with the pool. */
-  properties?: PoolPropertiesInput;
+  properties?: PoolPropertiesInput | undefined;
   /** The type of identity used for the Batch Pool. */
-  identity?: BatchPoolIdentityInput;
+  identity?: BatchPoolIdentityInput | undefined;
   /** The tags of the resource. */
-  tags?: UpdatePoolRequestTagsMap;
+  tags?: UpdatePoolRequestTagsMap | undefined;
 }
 /** The tags of the resource. */
 export type UpdatePoolResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the pool. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** The type of identity used for the Batch Pool. */
-  identity?: BatchPoolIdentity;
+  identity?: BatchPoolIdentity | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: UpdatePoolResponseTagsMap;
+  tags?: UpdatePoolResponseTagsMap | undefined;
 }
 /** The private link service connection state of the private endpoint connection */
 export interface PrivateLinkServiceConnectionStateInput {
   /** The status of the Batch private endpoint connection */
   status: PrivateLinkServiceConnectionStatus | (string & {});
   /** Description of the private Connection state */
-  description?: string;
+  description?: string | undefined;
 }
 /** Private endpoint connection properties. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The private link service connection state of the private endpoint connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateInput;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateInput | undefined;
 }
 /** The tags of the resource. */
 export type UpdatePrivateEndpointConnectionRequestTagsMap = { [key: string]: string | undefined };
@@ -2450,33 +2471,33 @@ export interface UpdatePrivateEndpointConnectionRequest {
   /** The private endpoint connection name. This must be unique within the account. */
   privateEndpointConnectionName: string;
   /** The properties associated with the private endpoint connection. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
   /** The tags of the resource. */
-  tags?: UpdatePrivateEndpointConnectionRequestTagsMap;
+  tags?: UpdatePrivateEndpointConnectionRequestTagsMap | undefined;
 }
 /** The tags of the resource. */
 export type UpdatePrivateEndpointConnectionResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The ETag of the resource, used for concurrency statements. */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags of the resource. */
-  tags?: UpdatePrivateEndpointConnectionResponseTagsMap;
+  tags?: UpdatePrivateEndpointConnectionResponseTagsMap | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type ActivateApplicationPackageError = AzureOpError;
 /** Activates the specified application package. This should be done after the `ApplicationPackage` was created and uploaded. This needs to be done before an `ApplicationPackage` can be used on Pools or Tasks. */

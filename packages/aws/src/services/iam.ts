@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -719,8 +720,8 @@ export interface ReplacementValueEntry {
 export type MapStringReplacementValueEntry = { [key: string]: ReplacementValueEntry | undefined };
 export interface AcquireRoleRequest {
   TemplateArn: string;
-  TemplateMinorVersion?: number;
-  ReplacementValues?: { [key: string]: ReplacementValueEntry | undefined };
+  TemplateMinorVersion?: number | undefined;
+  ReplacementValues?: { [key: string]: ReplacementValueEntry | undefined } | undefined;
 }
 export type PathType = string;
 export type RoleNameType = string;
@@ -730,8 +731,8 @@ export type RoleDescriptionType = string;
 export type RoleMaxSessionDurationType = number;
 export type PermissionsBoundaryAttachmentType = "PermissionsBoundaryPolicy" | (string & {});
 export interface AttachedPermissionsBoundary {
-  PermissionsBoundaryType?: PermissionsBoundaryAttachmentType;
-  PermissionsBoundaryArn?: string;
+  PermissionsBoundaryType?: PermissionsBoundaryAttachmentType | undefined;
+  PermissionsBoundaryArn?: string | undefined;
 }
 export type TagKeyType = string;
 export type TagValueType = string;
@@ -741,8 +742,8 @@ export interface Tag {
 }
 export type TagListType = Tag[];
 export interface RoleLastUsed {
-  LastUsedDate?: Date;
-  Region?: string;
+  LastUsedDate?: Date | undefined;
+  Region?: string | undefined;
 }
 export interface SourceRoleTemplate {
   TemplateArn: string;
@@ -754,13 +755,13 @@ export interface Role {
   RoleId: string;
   Arn: string;
   CreateDate: Date;
-  AssumeRolePolicyDocument?: string;
-  Description?: string;
-  MaxSessionDuration?: number;
-  PermissionsBoundary?: AttachedPermissionsBoundary;
-  Tags?: Tag[];
-  RoleLastUsed?: RoleLastUsed;
-  SourceRoleTemplate?: SourceRoleTemplate;
+  AssumeRolePolicyDocument?: string | undefined;
+  Description?: string | undefined;
+  MaxSessionDuration?: number | undefined;
+  PermissionsBoundary?: AttachedPermissionsBoundary | undefined;
+  Tags?: Tag[] | undefined;
+  RoleLastUsed?: RoleLastUsed | undefined;
+  SourceRoleTemplate?: SourceRoleTemplate | undefined;
 }
 export interface AcquireRoleResponse {
   Role: Role;
@@ -811,7 +812,7 @@ export interface ChangePasswordRequest {
 }
 export interface ChangePasswordResponse {}
 export interface CreateAccessKeyRequest {
-  UserName?: string;
+  UserName?: string | undefined;
 }
 export type AccessKeyIdType = string;
 export type StatusType = "Active" | "Inactive" | "Expired" | (string & {});
@@ -821,7 +822,7 @@ export interface AccessKey {
   AccessKeyId: string;
   Status: StatusType;
   SecretAccessKey: string | redacted.Redacted<string>;
-  CreateDate?: Date;
+  CreateDate?: Date | undefined;
 }
 export interface CreateAccessKeyResponse {
   AccessKey: AccessKey;
@@ -838,14 +839,14 @@ export type PolicyParameterValueType = string;
 export type PolicyParameterValuesListType = string[];
 export type PolicyParameterTypeEnum = "string" | "stringList" | (string & {});
 export interface PolicyParameter {
-  Name?: string;
-  Values?: string[];
-  Type?: PolicyParameterTypeEnum;
+  Name?: string | undefined;
+  Values?: string[] | undefined;
+  Type?: PolicyParameterTypeEnum | undefined;
 }
 export type PolicyParameterListType = PolicyParameter[];
 export interface DelegationPermission {
-  PolicyTemplateArn?: string;
-  Parameters?: PolicyParameter[];
+  PolicyTemplateArn?: string | undefined;
+  Parameters?: PolicyParameter[] | undefined;
 }
 export type RequestMessageType = string;
 export type RequestorWorkflowIdType = string;
@@ -853,23 +854,23 @@ export type RedirectUrlType = string;
 export type NotificationChannelType = string;
 export type SessionDurationType = number;
 export interface CreateDelegationRequestRequest {
-  OwnerAccountId?: string;
+  OwnerAccountId?: string | undefined;
   Description: string;
   Permissions: DelegationPermission;
-  RequestMessage?: string;
+  RequestMessage?: string | undefined;
   RequestorWorkflowId: string;
-  RedirectUrl?: string;
+  RedirectUrl?: string | undefined;
   NotificationChannel: string;
   SessionDuration: number;
-  OnlySendByOwner?: boolean;
+  OnlySendByOwner?: boolean | undefined;
 }
 export type ConsoleDeepLinkType = string;
 export interface CreateDelegationRequestResponse {
-  ConsoleDeepLink?: string;
-  DelegationRequestId?: string;
+  ConsoleDeepLink?: string | undefined;
+  DelegationRequestId?: string | undefined;
 }
 export interface CreateGroupRequest {
-  Path?: string;
+  Path?: string | undefined;
   GroupName: string;
 }
 export interface Group {
@@ -884,8 +885,8 @@ export interface CreateGroupResponse {
 }
 export interface CreateInstanceProfileRequest {
   InstanceProfileName: string;
-  Path?: string;
-  Tags?: Tag[];
+  Path?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type RoleListType = Role[];
 export interface InstanceProfile {
@@ -895,20 +896,20 @@ export interface InstanceProfile {
   Arn: string;
   CreateDate: Date;
   Roles: Role[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateInstanceProfileResponse {
   InstanceProfile: InstanceProfile;
 }
 export interface CreateLoginProfileRequest {
-  UserName?: string;
-  Password?: string | redacted.Redacted<string>;
-  PasswordResetRequired?: boolean;
+  UserName?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  PasswordResetRequired?: boolean | undefined;
 }
 export interface LoginProfile {
   UserName: string;
   CreateDate: Date;
-  PasswordResetRequired?: boolean;
+  PasswordResetRequired?: boolean | undefined;
 }
 export interface CreateLoginProfileResponse {
   LoginProfile: LoginProfile;
@@ -919,65 +920,65 @@ export type ThumbprintType = string;
 export type ThumbprintListType = string[];
 export interface CreateOpenIDConnectProviderRequest {
   Url: string;
-  ClientIDList?: string[];
-  ThumbprintList?: string[];
-  Tags?: Tag[];
+  ClientIDList?: string[] | undefined;
+  ThumbprintList?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateOpenIDConnectProviderResponse {
-  OpenIDConnectProviderArn?: string;
-  Tags?: Tag[];
+  OpenIDConnectProviderArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type PolicyNameType = string;
 export type PolicyPathType = string;
 export type PolicyDescriptionType = string;
 export interface CreatePolicyRequest {
   PolicyName: string;
-  Path?: string;
+  Path?: string | undefined;
   PolicyDocument: string;
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type PolicyVersionIdType = string;
 export type AttachmentCountType = number;
 export interface Policy {
-  PolicyName?: string;
-  PolicyId?: string;
-  Arn?: string;
-  Path?: string;
-  DefaultVersionId?: string;
-  AttachmentCount?: number;
-  PermissionsBoundaryUsageCount?: number;
-  IsAttachable?: boolean;
-  Description?: string;
-  CreateDate?: Date;
-  UpdateDate?: Date;
-  Tags?: Tag[];
+  PolicyName?: string | undefined;
+  PolicyId?: string | undefined;
+  Arn?: string | undefined;
+  Path?: string | undefined;
+  DefaultVersionId?: string | undefined;
+  AttachmentCount?: number | undefined;
+  PermissionsBoundaryUsageCount?: number | undefined;
+  IsAttachable?: boolean | undefined;
+  Description?: string | undefined;
+  CreateDate?: Date | undefined;
+  UpdateDate?: Date | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreatePolicyResponse {
-  Policy?: Policy;
+  Policy?: Policy | undefined;
 }
 export interface CreatePolicyVersionRequest {
   PolicyArn: string;
   PolicyDocument: string;
-  SetAsDefault?: boolean;
+  SetAsDefault?: boolean | undefined;
 }
 export interface PolicyVersion {
-  Document?: string;
-  VersionId?: string;
-  IsDefaultVersion?: boolean;
-  CreateDate?: Date;
+  Document?: string | undefined;
+  VersionId?: string | undefined;
+  IsDefaultVersion?: boolean | undefined;
+  CreateDate?: Date | undefined;
 }
 export interface CreatePolicyVersionResponse {
-  PolicyVersion?: PolicyVersion;
+  PolicyVersion?: PolicyVersion | undefined;
 }
 export interface CreateRoleRequest {
-  Path?: string;
+  Path?: string | undefined;
   RoleName: string;
   AssumeRolePolicyDocument: string;
-  Description?: string;
-  MaxSessionDuration?: number;
-  PermissionsBoundary?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  MaxSessionDuration?: number | undefined;
+  PermissionsBoundary?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateRoleResponse {
   Role: Role;
@@ -989,29 +990,29 @@ export type PrivateKeyType = string | redacted.Redacted<string>;
 export interface CreateSAMLProviderRequest {
   SAMLMetadataDocument: string;
   Name: string;
-  Tags?: Tag[];
-  AssertionEncryptionMode?: AssertionEncryptionModeType;
-  AddPrivateKey?: string | redacted.Redacted<string>;
+  Tags?: Tag[] | undefined;
+  AssertionEncryptionMode?: AssertionEncryptionModeType | undefined;
+  AddPrivateKey?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateSAMLProviderResponse {
-  SAMLProviderArn?: string;
-  Tags?: Tag[];
+  SAMLProviderArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type CustomSuffixType = string;
 export interface CreateServiceLinkedRoleRequest {
   AWSServiceName: string;
-  Description?: string;
-  CustomSuffix?: string;
+  Description?: string | undefined;
+  CustomSuffix?: string | undefined;
 }
 export interface CreateServiceLinkedRoleResponse {
-  Role?: Role;
+  Role?: Role | undefined;
 }
 export type ServiceName = string;
 export type CredentialAgeDays = number;
 export interface CreateServiceSpecificCredentialRequest {
   UserName: string;
   ServiceName: string;
-  CredentialAgeDays?: number;
+  CredentialAgeDays?: number | undefined;
 }
 export type ServiceUserName = string;
 export type ServicePassword = string | redacted.Redacted<string>;
@@ -1020,24 +1021,24 @@ export type ServiceCredentialSecret = string | redacted.Redacted<string>;
 export type ServiceSpecificCredentialId = string;
 export interface ServiceSpecificCredential {
   CreateDate: Date;
-  ExpirationDate?: Date;
+  ExpirationDate?: Date | undefined;
   ServiceName: string;
-  ServiceUserName?: string;
-  ServicePassword?: string | redacted.Redacted<string>;
-  ServiceCredentialAlias?: string;
-  ServiceCredentialSecret?: string | redacted.Redacted<string>;
+  ServiceUserName?: string | undefined;
+  ServicePassword?: string | redacted.Redacted<string> | undefined;
+  ServiceCredentialAlias?: string | undefined;
+  ServiceCredentialSecret?: string | redacted.Redacted<string> | undefined;
   ServiceSpecificCredentialId: string;
   UserName: string;
   Status: StatusType;
 }
 export interface CreateServiceSpecificCredentialResponse {
-  ServiceSpecificCredential?: ServiceSpecificCredential;
+  ServiceSpecificCredential?: ServiceSpecificCredential | undefined;
 }
 export interface CreateUserRequest {
-  Path?: string;
+  Path?: string | undefined;
   UserName: string;
-  PermissionsBoundary?: string;
-  Tags?: Tag[];
+  PermissionsBoundary?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface User {
   Path: string;
@@ -1045,39 +1046,39 @@ export interface User {
   UserId: string;
   Arn: string;
   CreateDate: Date;
-  PasswordLastUsed?: Date;
-  PermissionsBoundary?: AttachedPermissionsBoundary;
-  Tags?: Tag[];
+  PasswordLastUsed?: Date | undefined;
+  PermissionsBoundary?: AttachedPermissionsBoundary | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export type VirtualMFADeviceName = string;
 export interface CreateVirtualMFADeviceRequest {
-  Path?: string;
+  Path?: string | undefined;
   VirtualMFADeviceName: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type SerialNumberType = string;
 export type BootstrapDatum = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface VirtualMFADevice {
   SerialNumber: string;
-  Base32StringSeed?: Uint8Array | redacted.Redacted<Uint8Array>;
-  QRCodePNG?: Uint8Array | redacted.Redacted<Uint8Array>;
-  User?: User;
-  EnableDate?: Date;
-  Tags?: Tag[];
+  Base32StringSeed?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  QRCodePNG?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  User?: User | undefined;
+  EnableDate?: Date | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateVirtualMFADeviceResponse {
   VirtualMFADevice: VirtualMFADevice;
 }
 export interface DeactivateMFADeviceRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   SerialNumber: string;
 }
 export interface DeactivateMFADeviceResponse {}
 export interface DeleteAccessKeyRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   AccessKeyId: string;
 }
 export interface DeleteAccessKeyResponse {}
@@ -1101,7 +1102,7 @@ export interface DeleteInstanceProfileRequest {
 }
 export interface DeleteInstanceProfileResponse {}
 export interface DeleteLoginProfileRequest {
-  UserName?: string;
+  UserName?: string | undefined;
 }
 export interface DeleteLoginProfileResponse {}
 export interface DeleteOpenIDConnectProviderRequest {
@@ -1147,13 +1148,13 @@ export interface DeleteServiceLinkedRoleResponse {
   DeletionTaskId: string;
 }
 export interface DeleteServiceSpecificCredentialRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   ServiceSpecificCredentialId: string;
 }
 export interface DeleteServiceSpecificCredentialResponse {}
 export type CertificateIdType = string;
 export interface DeleteSigningCertificateRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   CertificateId: string;
 }
 export interface DeleteSigningCertificateResponse {}
@@ -1200,13 +1201,13 @@ export type OrganizationIdType = string;
 export type FeatureType = "RootCredentialsManagement" | "RootSessions" | (string & {});
 export type FeaturesListType = FeatureType[];
 export interface DisableOrganizationsRootCredentialsManagementResponse {
-  OrganizationId?: string;
-  EnabledFeatures?: FeatureType[];
+  OrganizationId?: string | undefined;
+  EnabledFeatures?: FeatureType[] | undefined;
 }
 export interface DisableOrganizationsRootSessionsRequest {}
 export interface DisableOrganizationsRootSessionsResponse {
-  OrganizationId?: string;
-  EnabledFeatures?: FeatureType[];
+  OrganizationId?: string | undefined;
+  EnabledFeatures?: FeatureType[] | undefined;
 }
 export interface DisableOutboundWebIdentityFederationRequest {}
 export interface DisableOutboundWebIdentityFederationResponse {}
@@ -1220,54 +1221,54 @@ export interface EnableMFADeviceRequest {
 export interface EnableMFADeviceResponse {}
 export interface EnableOrganizationsRootCredentialsManagementRequest {}
 export interface EnableOrganizationsRootCredentialsManagementResponse {
-  OrganizationId?: string;
-  EnabledFeatures?: FeatureType[];
+  OrganizationId?: string | undefined;
+  EnabledFeatures?: FeatureType[] | undefined;
 }
 export interface EnableOrganizationsRootSessionsRequest {}
 export interface EnableOrganizationsRootSessionsResponse {
-  OrganizationId?: string;
-  EnabledFeatures?: FeatureType[];
+  OrganizationId?: string | undefined;
+  EnabledFeatures?: FeatureType[] | undefined;
 }
 export interface EnableOutboundWebIdentityFederationRequest {}
 export interface EnableOutboundWebIdentityFederationResponse {
-  IssuerIdentifier?: string;
+  IssuerIdentifier?: string | undefined;
 }
 export interface GenerateCredentialReportRequest {}
 export type ReportStateType = "STARTED" | "INPROGRESS" | "COMPLETE" | (string & {});
 export type ReportStateDescriptionType = string;
 export interface GenerateCredentialReportResponse {
-  State?: ReportStateType;
-  Description?: string;
+  State?: ReportStateType | undefined;
+  Description?: string | undefined;
 }
 export type OrganizationsEntityPathType = string;
 export type OrganizationsPolicyIdType = string;
 export interface GenerateOrganizationsAccessReportRequest {
   EntityPath: string;
-  OrganizationsPolicyId?: string;
+  OrganizationsPolicyId?: string | undefined;
 }
 export type JobIDType = string;
 export interface GenerateOrganizationsAccessReportResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export type AccessAdvisorUsageGranularityType = "SERVICE_LEVEL" | "ACTION_LEVEL" | (string & {});
 export interface GenerateServiceLastAccessedDetailsRequest {
   Arn: string;
-  Granularity?: AccessAdvisorUsageGranularityType;
+  Granularity?: AccessAdvisorUsageGranularityType | undefined;
 }
 export interface GenerateServiceLastAccessedDetailsResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface GetAccessKeyLastUsedRequest {
   AccessKeyId: string;
 }
 export interface AccessKeyLastUsed {
-  LastUsedDate?: Date;
+  LastUsedDate?: Date | undefined;
   ServiceName: string;
   Region: string;
 }
 export interface GetAccessKeyLastUsedResponse {
-  UserName?: string;
-  AccessKeyLastUsed?: AccessKeyLastUsed;
+  UserName?: string | undefined;
+  AccessKeyLastUsed?: AccessKeyLastUsed | undefined;
 }
 export type EntityType =
   | "User"
@@ -1280,84 +1281,84 @@ export type EntityListType = EntityType[];
 export type MaxItemsType = number;
 export type MarkerType = string;
 export interface GetAccountAuthorizationDetailsRequest {
-  Filter?: EntityType[];
-  MaxItems?: number;
-  Marker?: string;
+  Filter?: EntityType[] | undefined;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface PolicyDetail {
-  PolicyName?: string;
-  PolicyDocument?: string;
+  PolicyName?: string | undefined;
+  PolicyDocument?: string | undefined;
 }
 export type PolicyDetailListType = PolicyDetail[];
 export type GroupNameListType = string[];
 export interface AttachedPolicy {
-  PolicyName?: string;
-  PolicyArn?: string;
+  PolicyName?: string | undefined;
+  PolicyArn?: string | undefined;
 }
 export type AttachedPoliciesListType = AttachedPolicy[];
 export interface UserDetail {
-  Path?: string;
-  UserName?: string;
-  UserId?: string;
-  Arn?: string;
-  CreateDate?: Date;
-  UserPolicyList?: PolicyDetail[];
-  GroupList?: string[];
-  AttachedManagedPolicies?: AttachedPolicy[];
-  PermissionsBoundary?: AttachedPermissionsBoundary;
-  Tags?: Tag[];
+  Path?: string | undefined;
+  UserName?: string | undefined;
+  UserId?: string | undefined;
+  Arn?: string | undefined;
+  CreateDate?: Date | undefined;
+  UserPolicyList?: PolicyDetail[] | undefined;
+  GroupList?: string[] | undefined;
+  AttachedManagedPolicies?: AttachedPolicy[] | undefined;
+  PermissionsBoundary?: AttachedPermissionsBoundary | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type UserDetailListType = UserDetail[];
 export interface GroupDetail {
-  Path?: string;
-  GroupName?: string;
-  GroupId?: string;
-  Arn?: string;
-  CreateDate?: Date;
-  GroupPolicyList?: PolicyDetail[];
-  AttachedManagedPolicies?: AttachedPolicy[];
+  Path?: string | undefined;
+  GroupName?: string | undefined;
+  GroupId?: string | undefined;
+  Arn?: string | undefined;
+  CreateDate?: Date | undefined;
+  GroupPolicyList?: PolicyDetail[] | undefined;
+  AttachedManagedPolicies?: AttachedPolicy[] | undefined;
 }
 export type GroupDetailListType = GroupDetail[];
 export type InstanceProfileListType = InstanceProfile[];
 export interface RoleDetail {
-  Path?: string;
-  RoleName?: string;
-  RoleId?: string;
-  Arn?: string;
-  CreateDate?: Date;
-  AssumeRolePolicyDocument?: string;
-  InstanceProfileList?: InstanceProfile[];
-  RolePolicyList?: PolicyDetail[];
-  AttachedManagedPolicies?: AttachedPolicy[];
-  PermissionsBoundary?: AttachedPermissionsBoundary;
-  Tags?: Tag[];
-  RoleLastUsed?: RoleLastUsed;
+  Path?: string | undefined;
+  RoleName?: string | undefined;
+  RoleId?: string | undefined;
+  Arn?: string | undefined;
+  CreateDate?: Date | undefined;
+  AssumeRolePolicyDocument?: string | undefined;
+  InstanceProfileList?: InstanceProfile[] | undefined;
+  RolePolicyList?: PolicyDetail[] | undefined;
+  AttachedManagedPolicies?: AttachedPolicy[] | undefined;
+  PermissionsBoundary?: AttachedPermissionsBoundary | undefined;
+  Tags?: Tag[] | undefined;
+  RoleLastUsed?: RoleLastUsed | undefined;
 }
 export type RoleDetailListType = RoleDetail[];
 export type PolicyDocumentVersionListType = PolicyVersion[];
 export interface ManagedPolicyDetail {
-  PolicyName?: string;
-  PolicyId?: string;
-  Arn?: string;
-  Path?: string;
-  DefaultVersionId?: string;
-  AttachmentCount?: number;
-  PermissionsBoundaryUsageCount?: number;
-  IsAttachable?: boolean;
-  Description?: string;
-  CreateDate?: Date;
-  UpdateDate?: Date;
-  PolicyVersionList?: PolicyVersion[];
+  PolicyName?: string | undefined;
+  PolicyId?: string | undefined;
+  Arn?: string | undefined;
+  Path?: string | undefined;
+  DefaultVersionId?: string | undefined;
+  AttachmentCount?: number | undefined;
+  PermissionsBoundaryUsageCount?: number | undefined;
+  IsAttachable?: boolean | undefined;
+  Description?: string | undefined;
+  CreateDate?: Date | undefined;
+  UpdateDate?: Date | undefined;
+  PolicyVersionList?: PolicyVersion[] | undefined;
 }
 export type ManagedPolicyDetailListType = ManagedPolicyDetail[];
 export type ResponseMarkerType = string;
 export interface GetAccountAuthorizationDetailsResponse {
-  UserDetailList?: UserDetail[];
-  GroupDetailList?: GroupDetail[];
-  RoleDetailList?: RoleDetail[];
-  Policies?: ManagedPolicyDetail[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  UserDetailList?: UserDetail[] | undefined;
+  GroupDetailList?: GroupDetail[] | undefined;
+  RoleDetailList?: RoleDetail[] | undefined;
+  Policies?: ManagedPolicyDetail[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface GetAccountPasswordPolicyRequest {}
 export type MinimumPasswordLengthType = number;
@@ -1365,16 +1366,16 @@ export type MaxPasswordAgeType = number;
 export type PasswordReusePreventionType = number;
 export type BooleanObjectType = boolean;
 export interface PasswordPolicy {
-  MinimumPasswordLength?: number;
-  RequireSymbols?: boolean;
-  RequireNumbers?: boolean;
-  RequireUppercaseCharacters?: boolean;
-  RequireLowercaseCharacters?: boolean;
-  AllowUsersToChangePassword?: boolean;
-  ExpirePasswords?: boolean;
-  MaxPasswordAge?: number;
-  PasswordReusePrevention?: number;
-  HardExpiry?: boolean;
+  MinimumPasswordLength?: number | undefined;
+  RequireSymbols?: boolean | undefined;
+  RequireNumbers?: boolean | undefined;
+  RequireUppercaseCharacters?: boolean | undefined;
+  RequireLowercaseCharacters?: boolean | undefined;
+  AllowUsersToChangePassword?: boolean | undefined;
+  ExpirePasswords?: boolean | undefined;
+  MaxPasswordAge?: number | undefined;
+  PasswordReusePrevention?: number | undefined;
+  HardExpiry?: boolean | undefined;
 }
 export interface GetAccountPasswordPolicyResponse {
   PasswordPolicy: PasswordPolicy;
@@ -1384,7 +1385,7 @@ export type AccountPropertyKeyType = string;
 export type AccountPropertyValueType = string;
 export type AccountPropertiesMapType = { [key: string]: string | undefined };
 export interface GetAccountPropertiesResponse {
-  Properties?: { [key: string]: string | undefined };
+  Properties?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetAccountSummaryRequest {}
 export type SummaryKeyType =
@@ -1424,9 +1425,9 @@ export type SummaryKeyType =
   | "RolesQuota"
   | (string & {});
 export type SummaryValueType = number;
-export type SummaryMapType = { [key in SummaryKeyType]?: number };
+export type SummaryMapType = { [key in SummaryKeyType]?: number | undefined };
 export interface GetAccountSummaryResponse {
-  SummaryMap?: { [key: string]: number | undefined };
+  SummaryMap?: { [key: string]: number | undefined } | undefined;
 }
 export type SimulationPolicyListType = string[];
 export interface GetContextKeysForCustomPolicyRequest {
@@ -1435,23 +1436,23 @@ export interface GetContextKeysForCustomPolicyRequest {
 export type ContextKeyNameType = string;
 export type ContextKeyNamesResultListType = string[];
 export interface GetContextKeysForPolicyResponse {
-  ContextKeyNames?: string[];
+  ContextKeyNames?: string[] | undefined;
 }
 export interface GetContextKeysForPrincipalPolicyRequest {
   PolicySourceArn: string;
-  PolicyInputList?: string[];
+  PolicyInputList?: string[] | undefined;
 }
 export interface GetCredentialReportRequest {}
 export type ReportContentType = Uint8Array;
 export type ReportFormatType = "text/csv" | (string & {});
 export interface GetCredentialReportResponse {
-  Content?: Uint8Array;
-  ReportFormat?: ReportFormatType;
-  GeneratedTime?: Date;
+  Content?: Uint8Array | undefined;
+  ReportFormat?: ReportFormatType | undefined;
+  GeneratedTime?: Date | undefined;
 }
 export interface GetDelegationRequestRequest {
   DelegationRequestId: string;
-  DelegationPermissionCheck?: boolean;
+  DelegationPermissionCheck?: boolean | undefined;
 }
 export type PermissionType = string;
 export type RolePermissionRestrictionArnListType = string[];
@@ -1468,45 +1469,45 @@ export type StateType =
 export type RequestorNameType = string;
 export type NotesType = string;
 export interface DelegationRequest {
-  DelegationRequestId?: string;
-  OwnerAccountId?: string;
-  Description?: string;
-  RequestMessage?: string;
-  Permissions?: DelegationPermission;
-  PermissionPolicy?: string;
-  RolePermissionRestrictionArns?: string[];
-  OwnerId?: string;
-  ApproverId?: string;
-  State?: StateType;
-  ExpirationTime?: Date;
-  RequestorId?: string;
-  RequestorName?: string;
-  CreateDate?: Date;
-  SessionDuration?: number;
-  RedirectUrl?: string;
-  Notes?: string;
-  RejectionReason?: string;
-  OnlySendByOwner?: boolean;
-  UpdatedTime?: Date;
+  DelegationRequestId?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  Description?: string | undefined;
+  RequestMessage?: string | undefined;
+  Permissions?: DelegationPermission | undefined;
+  PermissionPolicy?: string | undefined;
+  RolePermissionRestrictionArns?: string[] | undefined;
+  OwnerId?: string | undefined;
+  ApproverId?: string | undefined;
+  State?: StateType | undefined;
+  ExpirationTime?: Date | undefined;
+  RequestorId?: string | undefined;
+  RequestorName?: string | undefined;
+  CreateDate?: Date | undefined;
+  SessionDuration?: number | undefined;
+  RedirectUrl?: string | undefined;
+  Notes?: string | undefined;
+  RejectionReason?: string | undefined;
+  OnlySendByOwner?: boolean | undefined;
+  UpdatedTime?: Date | undefined;
 }
 export type PermissionCheckStatusType = "COMPLETE" | "IN_PROGRESS" | "FAILED" | (string & {});
 export type PermissionCheckResultType = "ALLOWED" | "DENIED" | "UNSURE" | (string & {});
 export interface GetDelegationRequestResponse {
-  DelegationRequest?: DelegationRequest;
-  PermissionCheckStatus?: PermissionCheckStatusType;
-  PermissionCheckResult?: PermissionCheckResultType;
+  DelegationRequest?: DelegationRequest | undefined;
+  PermissionCheckStatus?: PermissionCheckStatusType | undefined;
+  PermissionCheckResult?: PermissionCheckResultType | undefined;
 }
 export interface GetGroupRequest {
   GroupName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type UserListType = User[];
 export interface GetGroupResponse {
   Group: Group;
   Users: User[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface GetGroupPolicyRequest {
   GroupName: string;
@@ -1520,7 +1521,7 @@ export interface GetGroupPolicyResponse {
 export type LocaleType = string;
 export interface GetHumanReadableSummaryRequest {
   EntityArn: string;
-  Locale?: string;
+  Locale?: string | undefined;
 }
 export type SummaryContentType = string;
 export type SummaryStateType =
@@ -1530,9 +1531,9 @@ export type SummaryStateType =
   | "FAILED"
   | (string & {});
 export interface GetHumanReadableSummaryResponse {
-  SummaryContent?: string;
-  Locale?: string;
-  SummaryState?: SummaryStateType;
+  SummaryContent?: string | undefined;
+  Locale?: string | undefined;
+  SummaryState?: SummaryStateType | undefined;
 }
 export interface GetInstanceProfileRequest {
   InstanceProfileName: string;
@@ -1541,33 +1542,33 @@ export interface GetInstanceProfileResponse {
   InstanceProfile: InstanceProfile;
 }
 export interface GetLoginProfileRequest {
-  UserName?: string;
+  UserName?: string | undefined;
 }
 export interface GetLoginProfileResponse {
   LoginProfile: LoginProfile;
 }
 export interface GetMFADeviceRequest {
   SerialNumber: string;
-  UserName?: string;
+  UserName?: string | undefined;
 }
 export type CertificationKeyType = string;
 export type CertificationValueType = string;
 export type CertificationMapType = { [key: string]: string | undefined };
 export interface GetMFADeviceResponse {
-  UserName?: string;
+  UserName?: string | undefined;
   SerialNumber: string;
-  EnableDate?: Date;
-  Certifications?: { [key: string]: string | undefined };
+  EnableDate?: Date | undefined;
+  Certifications?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetOpenIDConnectProviderRequest {
   OpenIDConnectProviderArn: string;
 }
 export interface GetOpenIDConnectProviderResponse {
-  Url?: string;
-  ClientIDList?: string[];
-  ThumbprintList?: string[];
-  CreateDate?: Date;
-  Tags?: Tag[];
+  Url?: string | undefined;
+  ClientIDList?: string[] | undefined;
+  ThumbprintList?: string[] | undefined;
+  CreateDate?: Date | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type SortKeyType =
   | "SERVICE_NAMESPACE_ASCENDING"
@@ -1577,9 +1578,9 @@ export type SortKeyType =
   | (string & {});
 export interface GetOrganizationsAccessReportRequest {
   JobId: string;
-  MaxItems?: number;
-  Marker?: string;
-  SortKey?: SortKeyType;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
+  SortKey?: SortKeyType | undefined;
 }
 export type JobStatusType = "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
 export type ServiceNameType = string;
@@ -1587,10 +1588,10 @@ export type ServiceNamespaceType = string;
 export interface AccessDetail {
   ServiceName: string;
   ServiceNamespace: string;
-  Region?: string;
-  EntityPath?: string;
-  LastAuthenticatedTime?: Date;
-  TotalAuthenticatedEntities?: number;
+  Region?: string | undefined;
+  EntityPath?: string | undefined;
+  LastAuthenticatedTime?: Date | undefined;
+  TotalAuthenticatedEntities?: number | undefined;
 }
 export type AccessDetails = AccessDetail[];
 export interface ErrorDetails {
@@ -1600,31 +1601,31 @@ export interface ErrorDetails {
 export interface GetOrganizationsAccessReportResponse {
   JobStatus: JobStatusType;
   JobCreationDate: Date;
-  JobCompletionDate?: Date;
-  NumberOfServicesAccessible?: number;
-  NumberOfServicesNotAccessed?: number;
-  AccessDetails?: AccessDetail[];
-  IsTruncated?: boolean;
-  Marker?: string;
-  ErrorDetails?: ErrorDetails;
+  JobCompletionDate?: Date | undefined;
+  NumberOfServicesAccessible?: number | undefined;
+  NumberOfServicesNotAccessed?: number | undefined;
+  AccessDetails?: AccessDetail[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
 }
 export interface GetOutboundWebIdentityFederationInfoRequest {}
 export interface GetOutboundWebIdentityFederationInfoResponse {
-  IssuerIdentifier?: string;
-  JwtVendingEnabled?: boolean;
+  IssuerIdentifier?: string | undefined;
+  JwtVendingEnabled?: boolean | undefined;
 }
 export interface GetPolicyRequest {
   PolicyArn: string;
 }
 export interface GetPolicyResponse {
-  Policy?: Policy;
+  Policy?: Policy | undefined;
 }
 export interface GetPolicyVersionRequest {
   PolicyArn: string;
   VersionId: string;
 }
 export interface GetPolicyVersionResponse {
-  PolicyVersion?: PolicyVersion;
+  PolicyVersion?: PolicyVersion | undefined;
 }
 export interface GetRoleRequest {
   RoleName: string;
@@ -1644,7 +1645,7 @@ export interface GetRolePolicyResponse {
 export type MinorVersionType = number;
 export interface GetRoleTemplateVersionRequest {
   TemplateArn: string;
-  MinorVersion?: number;
+  MinorVersion?: number | undefined;
 }
 export type RoleTemplateNameType = string;
 export type RoleTemplateDescriptionType = string;
@@ -1674,11 +1675,11 @@ export type ParameterDefaultValueType = string;
 export interface ParameterDefinition {
   Name: string;
   Type: ParameterTypeType;
-  SubType?: string;
-  Description?: string;
-  IsRequired?: boolean;
-  DefaultValue?: string;
-  Immutable?: boolean;
+  SubType?: string | undefined;
+  Description?: string | undefined;
+  IsRequired?: boolean | undefined;
+  DefaultValue?: string | undefined;
+  Immutable?: boolean | undefined;
 }
 export type ParametersDefinitionListType = ParameterDefinition[];
 export type TagTemplateKeyType = string;
@@ -1689,29 +1690,29 @@ export interface TagTemplate {
 }
 export type TagTemplateListType = TagTemplate[];
 export interface RoleTemplateVersion {
-  TemplateArn?: string;
-  TemplateName?: string;
-  TemplateVersionId?: string;
-  Description?: string;
-  MajorVersion?: number;
-  DefaultMinorVersion?: number;
-  ManagedByType?: ManagedByTypeType;
-  ManagedByValue?: string;
-  Enabled?: boolean;
-  MinorVersion?: number;
-  RoleNamePattern?: string;
-  RolePathPattern?: string;
-  RoleDescriptionPattern?: string;
-  AssumeRolePolicyDocumentTemplate?: string;
-  InlinePolicyTemplates?: InlinePolicy[];
-  ManagedPolicyArns?: string[];
-  PermissionBoundaryArn?: string;
-  ParametersDefinition?: ParameterDefinition[];
-  RoleTagsTemplate?: TagTemplate[];
-  MaxSessionDuration?: number;
-  VersionEnabled?: boolean;
-  CreateTimestamp?: Date;
-  UpdateTimestamp?: Date;
+  TemplateArn?: string | undefined;
+  TemplateName?: string | undefined;
+  TemplateVersionId?: string | undefined;
+  Description?: string | undefined;
+  MajorVersion?: number | undefined;
+  DefaultMinorVersion?: number | undefined;
+  ManagedByType?: ManagedByTypeType | undefined;
+  ManagedByValue?: string | undefined;
+  Enabled?: boolean | undefined;
+  MinorVersion?: number | undefined;
+  RoleNamePattern?: string | undefined;
+  RolePathPattern?: string | undefined;
+  RoleDescriptionPattern?: string | undefined;
+  AssumeRolePolicyDocumentTemplate?: string | undefined;
+  InlinePolicyTemplates?: InlinePolicy[] | undefined;
+  ManagedPolicyArns?: string[] | undefined;
+  PermissionBoundaryArn?: string | undefined;
+  ParametersDefinition?: ParameterDefinition[] | undefined;
+  RoleTagsTemplate?: TagTemplate[] | undefined;
+  MaxSessionDuration?: number | undefined;
+  VersionEnabled?: boolean | undefined;
+  CreateTimestamp?: Date | undefined;
+  UpdateTimestamp?: Date | undefined;
 }
 export interface GetRoleTemplateVersionResponse {
   RoleTemplateVersion: RoleTemplateVersion;
@@ -1721,18 +1722,18 @@ export interface GetSAMLProviderRequest {
 }
 export type PrivateKeyIdType = string;
 export interface SAMLPrivateKey {
-  KeyId?: string;
-  Timestamp?: Date;
+  KeyId?: string | undefined;
+  Timestamp?: Date | undefined;
 }
 export type PrivateKeyList = SAMLPrivateKey[];
 export interface GetSAMLProviderResponse {
-  SAMLProviderUUID?: string;
-  SAMLMetadataDocument?: string;
-  CreateDate?: Date;
-  ValidUntil?: Date;
-  Tags?: Tag[];
-  AssertionEncryptionMode?: AssertionEncryptionModeType;
-  PrivateKeyList?: SAMLPrivateKey[];
+  SAMLProviderUUID?: string | undefined;
+  SAMLMetadataDocument?: string | undefined;
+  CreateDate?: Date | undefined;
+  ValidUntil?: Date | undefined;
+  Tags?: Tag[] | undefined;
+  AssertionEncryptionMode?: AssertionEncryptionModeType | undefined;
+  PrivateKeyList?: SAMLPrivateKey[] | undefined;
 }
 export interface GetServerCertificateRequest {
   ServerCertificateName: string;
@@ -1742,57 +1743,57 @@ export interface ServerCertificateMetadata {
   ServerCertificateName: string;
   ServerCertificateId: string;
   Arn: string;
-  UploadDate?: Date;
-  Expiration?: Date;
+  UploadDate?: Date | undefined;
+  Expiration?: Date | undefined;
 }
 export type CertificateBodyType = string;
 export type CertificateChainType = string;
 export interface ServerCertificate {
   ServerCertificateMetadata: ServerCertificateMetadata;
   CertificateBody: string;
-  CertificateChain?: string;
-  Tags?: Tag[];
+  CertificateChain?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface GetServerCertificateResponse {
   ServerCertificate: ServerCertificate;
 }
 export interface GetServiceLastAccessedDetailsRequest {
   JobId: string;
-  MaxItems?: number;
-  Marker?: string;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface TrackedActionLastAccessed {
-  ActionName?: string;
-  LastAccessedEntity?: string;
-  LastAccessedTime?: Date;
-  LastAccessedRegion?: string;
+  ActionName?: string | undefined;
+  LastAccessedEntity?: string | undefined;
+  LastAccessedTime?: Date | undefined;
+  LastAccessedRegion?: string | undefined;
 }
 export type TrackedActionsLastAccessed = TrackedActionLastAccessed[];
 export interface ServiceLastAccessed {
   ServiceName: string;
-  LastAuthenticated?: Date;
+  LastAuthenticated?: Date | undefined;
   ServiceNamespace: string;
-  LastAuthenticatedEntity?: string;
-  LastAuthenticatedRegion?: string;
-  TotalAuthenticatedEntities?: number;
-  TrackedActionsLastAccessed?: TrackedActionLastAccessed[];
+  LastAuthenticatedEntity?: string | undefined;
+  LastAuthenticatedRegion?: string | undefined;
+  TotalAuthenticatedEntities?: number | undefined;
+  TrackedActionsLastAccessed?: TrackedActionLastAccessed[] | undefined;
 }
 export type ServicesLastAccessed = ServiceLastAccessed[];
 export interface GetServiceLastAccessedDetailsResponse {
   JobStatus: JobStatusType;
-  JobType?: AccessAdvisorUsageGranularityType;
+  JobType?: AccessAdvisorUsageGranularityType | undefined;
   JobCreationDate: Date;
   ServicesLastAccessed: ServiceLastAccessed[];
   JobCompletionDate: Date;
-  IsTruncated?: boolean;
-  Marker?: string;
-  Error?: ErrorDetails;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
+  Error?: ErrorDetails | undefined;
 }
 export interface GetServiceLastAccessedDetailsWithEntitiesRequest {
   JobId: string;
   ServiceNamespace: string;
-  MaxItems?: number;
-  Marker?: string;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
 }
 export type PolicyOwnerEntityType = "USER" | "ROLE" | "GROUP" | (string & {});
 export interface EntityInfo {
@@ -1800,11 +1801,11 @@ export interface EntityInfo {
   Name: string;
   Type: PolicyOwnerEntityType;
   Id: string;
-  Path?: string;
+  Path?: string | undefined;
 }
 export interface EntityDetails {
   EntityInfo: EntityInfo;
-  LastAuthenticated?: Date;
+  LastAuthenticated?: Date | undefined;
 }
 export type EntityDetailsListType = EntityDetails[];
 export interface GetServiceLastAccessedDetailsWithEntitiesResponse {
@@ -1812,9 +1813,9 @@ export interface GetServiceLastAccessedDetailsWithEntitiesResponse {
   JobCreationDate: Date;
   JobCompletionDate: Date;
   EntityDetailsList: EntityDetails[];
-  IsTruncated?: boolean;
-  Marker?: string;
-  Error?: ErrorDetails;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
+  Error?: ErrorDetails | undefined;
 }
 export interface GetServiceLinkedRoleDeletionStatusRequest {
   DeletionTaskId: string;
@@ -1829,17 +1830,17 @@ export type ReasonType = string;
 export type RegionNameType = string;
 export type ArnListType = string[];
 export interface RoleUsageType {
-  Region?: string;
-  Resources?: string[];
+  Region?: string | undefined;
+  Resources?: string[] | undefined;
 }
 export type RoleUsageListType = RoleUsageType[];
 export interface DeletionTaskFailureReasonType {
-  Reason?: string;
-  RoleUsageList?: RoleUsageType[];
+  Reason?: string | undefined;
+  RoleUsageList?: RoleUsageType[] | undefined;
 }
 export interface GetServiceLinkedRoleDeletionStatusResponse {
   Status: DeletionTaskStatusType;
-  Reason?: DeletionTaskFailureReasonType;
+  Reason?: DeletionTaskFailureReasonType | undefined;
 }
 export type EncodingType = "SSH" | "PEM" | (string & {});
 export interface GetSSHPublicKeyRequest {
@@ -1855,13 +1856,13 @@ export interface SSHPublicKey {
   Fingerprint: string;
   SSHPublicKeyBody: string;
   Status: StatusType;
-  UploadDate?: Date;
+  UploadDate?: Date | undefined;
 }
 export interface GetSSHPublicKeyResponse {
-  SSHPublicKey?: SSHPublicKey;
+  SSHPublicKey?: SSHPublicKey | undefined;
 }
 export interface GetUserRequest {
-  UserName?: string;
+  UserName?: string | undefined;
 }
 export interface GetUserResponse {
   User: User;
@@ -1876,174 +1877,174 @@ export interface GetUserPolicyResponse {
   PolicyDocument: string;
 }
 export interface ListAccessKeysRequest {
-  UserName?: string;
-  Marker?: string;
-  MaxItems?: number;
+  UserName?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface AccessKeyMetadata {
-  UserName?: string;
-  AccessKeyId?: string;
-  Status?: StatusType;
-  CreateDate?: Date;
+  UserName?: string | undefined;
+  AccessKeyId?: string | undefined;
+  Status?: StatusType | undefined;
+  CreateDate?: Date | undefined;
 }
 export type AccessKeyMetadataListType = AccessKeyMetadata[];
 export interface ListAccessKeysResponse {
   AccessKeyMetadata: AccessKeyMetadata[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListAccountAliasesRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type AccountAliasListType = string[];
 export interface ListAccountAliasesResponse {
   AccountAliases: string[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListAttachedGroupPoliciesRequest {
   GroupName: string;
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListAttachedGroupPoliciesResponse {
-  AttachedPolicies?: AttachedPolicy[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  AttachedPolicies?: AttachedPolicy[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListAttachedRolePoliciesRequest {
   RoleName: string;
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListAttachedRolePoliciesResponse {
-  AttachedPolicies?: AttachedPolicy[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  AttachedPolicies?: AttachedPolicy[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListAttachedUserPoliciesRequest {
   UserName: string;
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListAttachedUserPoliciesResponse {
-  AttachedPolicies?: AttachedPolicy[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  AttachedPolicies?: AttachedPolicy[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListDelegationRequestsRequest {
-  OwnerId?: string;
-  Marker?: string;
-  MaxItems?: number;
+  OwnerId?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type DelegationRequestsListType = DelegationRequest[];
 export interface ListDelegationRequestsResponse {
-  DelegationRequests?: DelegationRequest[];
-  Marker?: string;
-  isTruncated?: boolean;
+  DelegationRequests?: DelegationRequest[] | undefined;
+  Marker?: string | undefined;
+  isTruncated?: boolean | undefined;
 }
 export type PolicyUsageType = "PermissionsPolicy" | "PermissionsBoundary" | (string & {});
 export interface ListEntitiesForPolicyRequest {
   PolicyArn: string;
-  EntityFilter?: EntityType;
-  PathPrefix?: string;
-  PolicyUsageFilter?: PolicyUsageType;
-  Marker?: string;
-  MaxItems?: number;
+  EntityFilter?: EntityType | undefined;
+  PathPrefix?: string | undefined;
+  PolicyUsageFilter?: PolicyUsageType | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface PolicyGroup {
-  GroupName?: string;
-  GroupId?: string;
+  GroupName?: string | undefined;
+  GroupId?: string | undefined;
 }
 export type PolicyGroupListType = PolicyGroup[];
 export interface PolicyUser {
-  UserName?: string;
-  UserId?: string;
+  UserName?: string | undefined;
+  UserId?: string | undefined;
 }
 export type PolicyUserListType = PolicyUser[];
 export interface PolicyRole {
-  RoleName?: string;
-  RoleId?: string;
+  RoleName?: string | undefined;
+  RoleId?: string | undefined;
 }
 export type PolicyRoleListType = PolicyRole[];
 export interface ListEntitiesForPolicyResponse {
-  PolicyGroups?: PolicyGroup[];
-  PolicyUsers?: PolicyUser[];
-  PolicyRoles?: PolicyRole[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  PolicyGroups?: PolicyGroup[] | undefined;
+  PolicyUsers?: PolicyUser[] | undefined;
+  PolicyRoles?: PolicyRole[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListGroupPoliciesRequest {
   GroupName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type PolicyNameListType = string[];
 export interface ListGroupPoliciesResponse {
   PolicyNames: string[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export type PathPrefixType = string;
 export interface ListGroupsRequest {
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type GroupListType = Group[];
 export interface ListGroupsResponse {
   Groups: Group[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListGroupsForUserRequest {
   UserName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListGroupsForUserResponse {
   Groups: Group[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListInstanceProfilesRequest {
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListInstanceProfilesResponse {
   InstanceProfiles: InstanceProfile[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListInstanceProfilesForRoleRequest {
   RoleName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListInstanceProfilesForRoleResponse {
   InstanceProfiles: InstanceProfile[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListInstanceProfileTagsRequest {
   InstanceProfileName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListInstanceProfileTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListMFADevicesRequest {
-  UserName?: string;
-  Marker?: string;
-  MaxItems?: number;
+  UserName?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface MFADevice {
   UserName: string;
@@ -2053,60 +2054,60 @@ export interface MFADevice {
 export type MfaDeviceListType = MFADevice[];
 export interface ListMFADevicesResponse {
   MFADevices: MFADevice[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListMFADeviceTagsRequest {
   SerialNumber: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListMFADeviceTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListOpenIDConnectProvidersRequest {}
 export interface OpenIDConnectProviderListEntry {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type OpenIDConnectProviderListType = OpenIDConnectProviderListEntry[];
 export interface ListOpenIDConnectProvidersResponse {
-  OpenIDConnectProviderList?: OpenIDConnectProviderListEntry[];
+  OpenIDConnectProviderList?: OpenIDConnectProviderListEntry[] | undefined;
 }
 export interface ListOpenIDConnectProviderTagsRequest {
   OpenIDConnectProviderArn: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListOpenIDConnectProviderTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListOrganizationsFeaturesRequest {}
 export interface ListOrganizationsFeaturesResponse {
-  OrganizationId?: string;
-  EnabledFeatures?: FeatureType[];
+  OrganizationId?: string | undefined;
+  EnabledFeatures?: FeatureType[] | undefined;
 }
 export type PolicyScopeType = "All" | "AWS" | "Local" | (string & {});
 export interface ListPoliciesRequest {
-  Scope?: PolicyScopeType;
-  OnlyAttached?: boolean;
-  PathPrefix?: string;
-  PolicyUsageFilter?: PolicyUsageType;
-  Marker?: string;
-  MaxItems?: number;
+  Scope?: PolicyScopeType | undefined;
+  OnlyAttached?: boolean | undefined;
+  PathPrefix?: string | undefined;
+  PolicyUsageFilter?: PolicyUsageType | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type PolicyListType = Policy[];
 export interface ListPoliciesResponse {
-  Policies?: Policy[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  Policies?: Policy[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export type ServiceNamespaceListType = string[];
 export interface ListPoliciesGrantingServiceAccessRequest {
-  Marker?: string;
+  Marker?: string | undefined;
   Arn: string;
   ServiceNamespaces: string[];
 }
@@ -2115,159 +2116,159 @@ export type EntityNameType = string;
 export interface PolicyGrantingServiceAccess {
   PolicyName: string;
   PolicyType: PolicyType;
-  PolicyArn?: string;
-  EntityType?: PolicyOwnerEntityType;
-  EntityName?: string;
+  PolicyArn?: string | undefined;
+  EntityType?: PolicyOwnerEntityType | undefined;
+  EntityName?: string | undefined;
 }
 export type PolicyGrantingServiceAccessListType = PolicyGrantingServiceAccess[];
 export interface ListPoliciesGrantingServiceAccessEntry {
-  ServiceNamespace?: string;
-  Policies?: PolicyGrantingServiceAccess[];
+  ServiceNamespace?: string | undefined;
+  Policies?: PolicyGrantingServiceAccess[] | undefined;
 }
 export type ListPolicyGrantingServiceAccessResponseListType =
   ListPoliciesGrantingServiceAccessEntry[];
 export interface ListPoliciesGrantingServiceAccessResponse {
   PoliciesGrantingServiceAccess: ListPoliciesGrantingServiceAccessEntry[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListPolicyTagsRequest {
   PolicyArn: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListPolicyTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListPolicyVersionsRequest {
   PolicyArn: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListPolicyVersionsResponse {
-  Versions?: PolicyVersion[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  Versions?: PolicyVersion[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListRolePoliciesRequest {
   RoleName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListRolePoliciesResponse {
   PolicyNames: string[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListRolesRequest {
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListRolesResponse {
   Roles: Role[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListRoleTagsRequest {
   RoleName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListRoleTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListSAMLProvidersRequest {}
 export interface SAMLProviderListEntry {
-  Arn?: string;
-  ValidUntil?: Date;
-  CreateDate?: Date;
+  Arn?: string | undefined;
+  ValidUntil?: Date | undefined;
+  CreateDate?: Date | undefined;
 }
 export type SAMLProviderListType = SAMLProviderListEntry[];
 export interface ListSAMLProvidersResponse {
-  SAMLProviderList?: SAMLProviderListEntry[];
+  SAMLProviderList?: SAMLProviderListEntry[] | undefined;
 }
 export interface ListSAMLProviderTagsRequest {
   SAMLProviderArn: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListSAMLProviderTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListServerCertificatesRequest {
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type ServerCertificateMetadataListType = ServerCertificateMetadata[];
 export interface ListServerCertificatesResponse {
   ServerCertificateMetadataList: ServerCertificateMetadata[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListServerCertificateTagsRequest {
   ServerCertificateName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListServerCertificateTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export type AllUsers = boolean;
 export interface ListServiceSpecificCredentialsRequest {
-  UserName?: string;
-  ServiceName?: string;
-  AllUsers?: boolean;
-  Marker?: string;
-  MaxItems?: number;
+  UserName?: string | undefined;
+  ServiceName?: string | undefined;
+  AllUsers?: boolean | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ServiceSpecificCredentialMetadata {
   UserName: string;
   Status: StatusType;
-  ServiceUserName?: string;
-  ServiceCredentialAlias?: string;
+  ServiceUserName?: string | undefined;
+  ServiceCredentialAlias?: string | undefined;
   CreateDate: Date;
-  ExpirationDate?: Date;
+  ExpirationDate?: Date | undefined;
   ServiceSpecificCredentialId: string;
   ServiceName: string;
 }
 export type ServiceSpecificCredentialsListType = ServiceSpecificCredentialMetadata[];
 export interface ListServiceSpecificCredentialsResponse {
-  ServiceSpecificCredentials?: ServiceSpecificCredentialMetadata[];
-  Marker?: string;
-  IsTruncated?: boolean;
+  ServiceSpecificCredentials?: ServiceSpecificCredentialMetadata[] | undefined;
+  Marker?: string | undefined;
+  IsTruncated?: boolean | undefined;
 }
 export interface ListSigningCertificatesRequest {
-  UserName?: string;
-  Marker?: string;
-  MaxItems?: number;
+  UserName?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface SigningCertificate {
   UserName: string;
   CertificateId: string;
   CertificateBody: string;
   Status: StatusType;
-  UploadDate?: Date;
+  UploadDate?: Date | undefined;
 }
 export type CertificateListType = SigningCertificate[];
 export interface ListSigningCertificatesResponse {
   Certificates: SigningCertificate[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListSSHPublicKeysRequest {
-  UserName?: string;
-  Marker?: string;
-  MaxItems?: number;
+  UserName?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface SSHPublicKeyMetadata {
   UserName: string;
@@ -2277,51 +2278,51 @@ export interface SSHPublicKeyMetadata {
 }
 export type SSHPublicKeyListType = SSHPublicKeyMetadata[];
 export interface ListSSHPublicKeysResponse {
-  SSHPublicKeys?: SSHPublicKeyMetadata[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  SSHPublicKeys?: SSHPublicKeyMetadata[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListUserPoliciesRequest {
   UserName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListUserPoliciesResponse {
   PolicyNames: string[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListUsersRequest {
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListUsersResponse {
   Users: User[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListUserTagsRequest {
   UserName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListUserTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export type AssignmentStatusType = "Assigned" | "Unassigned" | "Any" | (string & {});
 export interface ListVirtualMFADevicesRequest {
-  AssignmentStatus?: AssignmentStatusType;
-  Marker?: string;
-  MaxItems?: number;
+  AssignmentStatus?: AssignmentStatusType | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type VirtualMFADeviceListType = VirtualMFADevice[];
 export interface ListVirtualMFADevicesResponse {
   VirtualMFADevices: VirtualMFADevice[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface PutAccountPropertiesRequest {
   Properties: { [key: string]: string | undefined };
@@ -2357,7 +2358,7 @@ export interface PutUserPolicyRequest {
 export interface PutUserPolicyResponse {}
 export interface RejectDelegationRequestRequest {
   DelegationRequestId: string;
-  Notes?: string;
+  Notes?: string | undefined;
 }
 export interface RejectDelegationRequestResponse {}
 export interface RemoveClientIDFromOpenIDConnectProviderRequest {
@@ -2376,11 +2377,11 @@ export interface RemoveUserFromGroupRequest {
 }
 export interface RemoveUserFromGroupResponse {}
 export interface ResetServiceSpecificCredentialRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   ServiceSpecificCredentialId: string;
 }
 export interface ResetServiceSpecificCredentialResponse {
-  ServiceSpecificCredential?: ServiceSpecificCredential;
+  ServiceSpecificCredential?: ServiceSpecificCredential | undefined;
 }
 export interface ResyncMFADeviceRequest {
   UserName: string;
@@ -2404,7 +2405,7 @@ export interface SetSecurityTokenServicePreferencesRequest {
 }
 export interface SetSecurityTokenServicePreferencesResponse {}
 export interface OrderedOrganizationPolicyType {
-  ServiceControlPolicyInputList?: string[];
+  ServiceControlPolicyInputList?: string[] | undefined;
 }
 export type OrganizationPolicyListType = OrderedOrganizationPolicyType[];
 export type ActionNameType = string;
@@ -2428,25 +2429,25 @@ export type ContextKeyTypeEnum =
   | "dateList"
   | (string & {});
 export interface ContextEntry {
-  ContextKeyName?: string;
-  ContextKeyValues?: string[];
-  ContextKeyType?: ContextKeyTypeEnum;
+  ContextKeyName?: string | undefined;
+  ContextKeyValues?: string[] | undefined;
+  ContextKeyType?: ContextKeyTypeEnum | undefined;
 }
 export type ContextEntryListType = ContextEntry[];
 export type ResourceHandlingOptionType = string;
 export interface SimulateCustomPolicyRequest {
   PolicyInputList: string[];
-  PermissionsBoundaryPolicyInputList?: string[];
-  OrderedOrganizationPolicyInputList?: OrderedOrganizationPolicyType[];
+  PermissionsBoundaryPolicyInputList?: string[] | undefined;
+  OrderedOrganizationPolicyInputList?: OrderedOrganizationPolicyType[] | undefined;
   ActionNames: string[];
-  ResourceArns?: string[];
-  ResourcePolicy?: string;
-  ResourceOwner?: string;
-  CallerArn?: string;
-  ContextEntries?: ContextEntry[];
-  ResourceHandlingOption?: string;
-  MaxItems?: number;
-  Marker?: string;
+  ResourceArns?: string[] | undefined;
+  ResourcePolicy?: string | undefined;
+  ResourceOwner?: string | undefined;
+  CallerArn?: string | undefined;
+  ContextEntries?: ContextEntry[] | undefined;
+  ResourceHandlingOption?: string | undefined;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
 }
 export type PolicyEvaluationDecisionType =
   | "allowed"
@@ -2466,49 +2467,49 @@ export type PolicySourceType =
 export type LineNumber = number;
 export type ColumnNumber = number;
 export interface Position {
-  Line?: number;
-  Column?: number;
+  Line?: number | undefined;
+  Column?: number | undefined;
 }
 export interface Statement {
-  SourcePolicyId?: string;
-  SourcePolicyType?: PolicySourceType;
-  StartPosition?: Position;
-  EndPosition?: Position;
+  SourcePolicyId?: string | undefined;
+  SourcePolicyType?: PolicySourceType | undefined;
+  StartPosition?: Position | undefined;
+  EndPosition?: Position | undefined;
 }
 export type StatementListType = Statement[];
 export interface OrganizationsDecisionDetail {
-  AllowedByOrganizations?: boolean;
+  AllowedByOrganizations?: boolean | undefined;
 }
 export interface PermissionsBoundaryDecisionDetail {
-  AllowedByPermissionsBoundary?: boolean;
+  AllowedByPermissionsBoundary?: boolean | undefined;
 }
 export type EvalDecisionSourceType = string;
 export type EvalDecisionDetailsType = { [key: string]: PolicyEvaluationDecisionType | undefined };
 export interface ResourceSpecificResult {
   EvalResourceName: string;
   EvalResourceDecision: PolicyEvaluationDecisionType;
-  MatchedStatements?: Statement[];
-  MissingContextValues?: string[];
-  EvalDecisionDetails?: { [key: string]: PolicyEvaluationDecisionType | undefined };
-  PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail;
+  MatchedStatements?: Statement[] | undefined;
+  MissingContextValues?: string[] | undefined;
+  EvalDecisionDetails?: { [key: string]: PolicyEvaluationDecisionType | undefined } | undefined;
+  PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail | undefined;
 }
 export type ResourceSpecificResultListType = ResourceSpecificResult[];
 export interface EvaluationResult {
   EvalActionName: string;
-  EvalResourceName?: string;
+  EvalResourceName?: string | undefined;
   EvalDecision: PolicyEvaluationDecisionType;
-  MatchedStatements?: Statement[];
-  MissingContextValues?: string[];
-  OrganizationsDecisionDetail?: OrganizationsDecisionDetail;
-  PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail;
-  EvalDecisionDetails?: { [key: string]: PolicyEvaluationDecisionType | undefined };
-  ResourceSpecificResults?: ResourceSpecificResult[];
+  MatchedStatements?: Statement[] | undefined;
+  MissingContextValues?: string[] | undefined;
+  OrganizationsDecisionDetail?: OrganizationsDecisionDetail | undefined;
+  PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail | undefined;
+  EvalDecisionDetails?: { [key: string]: PolicyEvaluationDecisionType | undefined } | undefined;
+  ResourceSpecificResults?: ResourceSpecificResult[] | undefined;
 }
 export type EvaluationResultsListType = EvaluationResult[];
 export interface SimulatePolicyResponse {
-  EvaluationResults?: EvaluationResult[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  EvaluationResults?: EvaluationResult[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export type PolicyIdentifierPolicyType =
   | "inline"
@@ -2526,24 +2527,32 @@ export interface InlinePolicyIdentifierType {
   AttachmentName: string;
 }
 export type PolicyIdentifier =
-  | { PolicyType: PolicyIdentifierPolicyType; PolicyArn?: never; InlinePolicyIdentifier?: never }
-  | { PolicyType?: never; PolicyArn: string; InlinePolicyIdentifier?: never }
-  | { PolicyType?: never; PolicyArn?: never; InlinePolicyIdentifier: InlinePolicyIdentifierType };
+  | {
+      PolicyType: PolicyIdentifierPolicyType;
+      PolicyArn?: undefined;
+      InlinePolicyIdentifier?: undefined;
+    }
+  | { PolicyType?: undefined; PolicyArn: string; InlinePolicyIdentifier?: undefined }
+  | {
+      PolicyType?: undefined;
+      PolicyArn?: undefined;
+      InlinePolicyIdentifier: InlinePolicyIdentifierType;
+    };
 export type PolicyExclusionsListType = PolicyIdentifier[];
 export interface SimulatePrincipalPolicyRequest {
   PolicySourceArn: string;
-  PolicyInputList?: string[];
-  PermissionsBoundaryPolicyInputList?: string[];
-  PolicyExclusionList?: PolicyIdentifier[];
+  PolicyInputList?: string[] | undefined;
+  PermissionsBoundaryPolicyInputList?: string[] | undefined;
+  PolicyExclusionList?: PolicyIdentifier[] | undefined;
   ActionNames: string[];
-  ResourceArns?: string[];
-  ResourcePolicy?: string;
-  ResourceOwner?: string;
-  CallerArn?: string;
-  ContextEntries?: ContextEntry[];
-  ResourceHandlingOption?: string;
-  MaxItems?: number;
-  Marker?: string;
+  ResourceArns?: string[] | undefined;
+  ResourcePolicy?: string | undefined;
+  ResourceOwner?: string | undefined;
+  CallerArn?: string | undefined;
+  ContextEntries?: ContextEntry[] | undefined;
+  ResourceHandlingOption?: string | undefined;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface TagInstanceProfileRequest {
   InstanceProfileName: string;
@@ -2627,21 +2636,21 @@ export interface UntagUserRequest {
 }
 export interface UntagUserResponse {}
 export interface UpdateAccessKeyRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   AccessKeyId: string;
   Status: StatusType;
 }
 export interface UpdateAccessKeyResponse {}
 export interface UpdateAccountPasswordPolicyRequest {
-  MinimumPasswordLength?: number;
-  RequireSymbols?: boolean;
-  RequireNumbers?: boolean;
-  RequireUppercaseCharacters?: boolean;
-  RequireLowercaseCharacters?: boolean;
-  AllowUsersToChangePassword?: boolean;
-  MaxPasswordAge?: number;
-  PasswordReusePrevention?: number;
-  HardExpiry?: boolean;
+  MinimumPasswordLength?: number | undefined;
+  RequireSymbols?: boolean | undefined;
+  RequireNumbers?: boolean | undefined;
+  RequireUppercaseCharacters?: boolean | undefined;
+  RequireLowercaseCharacters?: boolean | undefined;
+  AllowUsersToChangePassword?: boolean | undefined;
+  MaxPasswordAge?: number | undefined;
+  PasswordReusePrevention?: number | undefined;
+  HardExpiry?: boolean | undefined;
 }
 export interface UpdateAccountPasswordPolicyResponse {}
 export interface UpdateAssumeRolePolicyRequest {
@@ -2651,19 +2660,19 @@ export interface UpdateAssumeRolePolicyRequest {
 export interface UpdateAssumeRolePolicyResponse {}
 export interface UpdateDelegationRequestRequest {
   DelegationRequestId: string;
-  Notes?: string;
+  Notes?: string | undefined;
 }
 export interface UpdateDelegationRequestResponse {}
 export interface UpdateGroupRequest {
   GroupName: string;
-  NewPath?: string;
-  NewGroupName?: string;
+  NewPath?: string | undefined;
+  NewGroupName?: string | undefined;
 }
 export interface UpdateGroupResponse {}
 export interface UpdateLoginProfileRequest {
   UserName: string;
-  Password?: string | redacted.Redacted<string>;
-  PasswordResetRequired?: boolean;
+  Password?: string | redacted.Redacted<string> | undefined;
+  PasswordResetRequired?: boolean | undefined;
 }
 export interface UpdateLoginProfileResponse {}
 export interface UpdateOpenIDConnectProviderThumbprintRequest {
@@ -2673,8 +2682,8 @@ export interface UpdateOpenIDConnectProviderThumbprintRequest {
 export interface UpdateOpenIDConnectProviderThumbprintResponse {}
 export interface UpdateRoleRequest {
   RoleName: string;
-  Description?: string;
-  MaxSessionDuration?: number;
+  Description?: string | undefined;
+  MaxSessionDuration?: number | undefined;
 }
 export interface UpdateRoleResponse {}
 export interface UpdateRoleDescriptionRequest {
@@ -2682,32 +2691,32 @@ export interface UpdateRoleDescriptionRequest {
   Description: string;
 }
 export interface UpdateRoleDescriptionResponse {
-  Role?: Role;
+  Role?: Role | undefined;
 }
 export interface UpdateSAMLProviderRequest {
-  SAMLMetadataDocument?: string;
+  SAMLMetadataDocument?: string | undefined;
   SAMLProviderArn: string;
-  AssertionEncryptionMode?: AssertionEncryptionModeType;
-  AddPrivateKey?: string | redacted.Redacted<string>;
-  RemovePrivateKey?: string;
+  AssertionEncryptionMode?: AssertionEncryptionModeType | undefined;
+  AddPrivateKey?: string | redacted.Redacted<string> | undefined;
+  RemovePrivateKey?: string | undefined;
 }
 export interface UpdateSAMLProviderResponse {
-  SAMLProviderArn?: string;
+  SAMLProviderArn?: string | undefined;
 }
 export interface UpdateServerCertificateRequest {
   ServerCertificateName: string;
-  NewPath?: string;
-  NewServerCertificateName?: string;
+  NewPath?: string | undefined;
+  NewServerCertificateName?: string | undefined;
 }
 export interface UpdateServerCertificateResponse {}
 export interface UpdateServiceSpecificCredentialRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   ServiceSpecificCredentialId: string;
   Status: StatusType;
 }
 export interface UpdateServiceSpecificCredentialResponse {}
 export interface UpdateSigningCertificateRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   CertificateId: string;
   Status: StatusType;
 }
@@ -2720,24 +2729,24 @@ export interface UpdateSSHPublicKeyRequest {
 export interface UpdateSSHPublicKeyResponse {}
 export interface UpdateUserRequest {
   UserName: string;
-  NewPath?: string;
-  NewUserName?: string;
+  NewPath?: string | undefined;
+  NewUserName?: string | undefined;
 }
 export interface UpdateUserResponse {}
 export interface UploadServerCertificateRequest {
-  Path?: string;
+  Path?: string | undefined;
   ServerCertificateName: string;
   CertificateBody: string;
   PrivateKey: string | redacted.Redacted<string>;
-  CertificateChain?: string;
-  Tags?: Tag[];
+  CertificateChain?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface UploadServerCertificateResponse {
-  ServerCertificateMetadata?: ServerCertificateMetadata;
-  Tags?: Tag[];
+  ServerCertificateMetadata?: ServerCertificateMetadata | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface UploadSigningCertificateRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   CertificateBody: string;
 }
 export interface UploadSigningCertificateResponse {
@@ -2748,7 +2757,7 @@ export interface UploadSSHPublicKeyRequest {
   SSHPublicKeyBody: string;
 }
 export interface UploadSSHPublicKeyResponse {
-  SSHPublicKey?: SSHPublicKey;
+  SSHPublicKey?: SSHPublicKey | undefined;
 }
 export type ConcurrentModificationMessage = string;
 export type NoSuchEntityMessage = string;
@@ -2802,7 +2811,7 @@ export type AcceptDelegationRequestError =
  * An accepted request may be rejected before the exchange token is sent to the partner.
  */
 export const acceptDelegationRequest: API.OperationMethod<
-  AcceptDelegationRequestRequest,
+  AcceptDelegationRequestRequest & RegionInput,
   AcceptDelegationRequestResponse,
   AcceptDelegationRequestError,
   Credentials | HttpClient.HttpClient
@@ -2841,7 +2850,7 @@ export type AcquireRoleError =
  * creation.
  */
 export const acquireRole: API.OperationMethod<
-  AcquireRoleRequest,
+  AcquireRoleRequest & RegionInput,
   AcquireRoleResponse,
   AcquireRoleError,
   Credentials | HttpClient.HttpClient
@@ -2882,7 +2891,7 @@ export type AddClientIDToOpenIDConnectProviderError =
  * existing client ID to the provider.
  */
 export const addClientIDToOpenIDConnectProvider: API.OperationMethod<
-  AddClientIDToOpenIDConnectProviderRequest,
+  AddClientIDToOpenIDConnectProviderRequest & RegionInput,
   AddClientIDToOpenIDConnectProviderResponse,
   AddClientIDToOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
@@ -2933,7 +2942,7 @@ export type AddRoleToInstanceProfileError =
  * instance profiles in the *IAM User Guide*.
  */
 export const addRoleToInstanceProfile: API.OperationMethod<
-  AddRoleToInstanceProfileRequest,
+  AddRoleToInstanceProfileRequest & RegionInput,
   AddRoleToInstanceProfileResponse,
   AddRoleToInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -2963,7 +2972,7 @@ export type AddUserToGroupError =
  * Adds the specified user to the specified group.
  */
 export const addUserToGroup: API.OperationMethod<
-  AddUserToGroupRequest,
+  AddUserToGroupRequest & RegionInput,
   AddUserToGroupResponse,
   AddUserToGroupError,
   Credentials | HttpClient.HttpClient
@@ -3007,7 +3016,7 @@ export type AssociateDelegationRequestError =
  * Managing Permissions for Delegation Requests.
  */
 export const associateDelegationRequest: API.OperationMethod<
-  AssociateDelegationRequestRequest,
+  AssociateDelegationRequestRequest & RegionInput,
   AssociateDelegationRequestResponse,
   AssociateDelegationRequestError,
   Credentials | HttpClient.HttpClient
@@ -3050,7 +3059,7 @@ export type AttachGroupPolicyError =
  * policies in the *IAM User Guide*.
  */
 export const attachGroupPolicy: API.OperationMethod<
-  AttachGroupPolicyRequest,
+  AttachGroupPolicyRequest & RegionInput,
   AttachGroupPolicyResponse,
   AttachGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3104,7 +3113,7 @@ export type AttachRolePolicyError =
  * in the *IAM User Guide*.
  */
 export const attachRolePolicy: API.OperationMethod<
-  AttachRolePolicyRequest,
+  AttachRolePolicyRequest & RegionInput,
   AttachRolePolicyResponse,
   AttachRolePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3149,7 +3158,7 @@ export type AttachUserPolicyError =
  * policies in the *IAM User Guide*.
  */
 export const attachUserPolicy: API.OperationMethod<
-  AttachUserPolicyRequest,
+  AttachUserPolicyRequest & RegionInput,
   AttachUserPolicyResponse,
   AttachUserPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3191,7 +3200,7 @@ export type ChangePasswordError =
  * *IAM User Guide*.
  */
 export const changePassword: API.OperationMethod<
-  ChangePasswordRequest,
+  ChangePasswordRequest & RegionInput,
   ChangePasswordResponse,
   ChangePasswordError,
   Credentials | HttpClient.HttpClient
@@ -3236,7 +3245,7 @@ export type CreateAccessKeyError =
  * delete the access keys for the associated user and then create new keys.
  */
 export const createAccessKey: API.OperationMethod<
-  CreateAccessKeyRequest,
+  CreateAccessKeyRequest & RegionInput,
   CreateAccessKeyResponse,
   CreateAccessKeyError,
   Credentials | HttpClient.HttpClient
@@ -3264,7 +3273,7 @@ export type CreateAccountAliasError =
  * Guide.
  */
 export const createAccountAlias: API.OperationMethod<
-  CreateAccountAliasRequest,
+  CreateAccountAliasRequest & RegionInput,
   CreateAccountAliasResponse,
   CreateAccountAliasError,
   Credentials | HttpClient.HttpClient
@@ -3299,7 +3308,7 @@ export type CreateDelegationRequestError =
  * partner onboarding documentation.
  */
 export const createDelegationRequest: API.OperationMethod<
-  CreateDelegationRequestRequest,
+  CreateDelegationRequestRequest & RegionInput,
   CreateDelegationRequestResponse,
   CreateDelegationRequestError,
   Credentials | HttpClient.HttpClient
@@ -3333,7 +3342,7 @@ export type CreateGroupError =
  * quotas in the *IAM User Guide*.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResponse,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -3369,7 +3378,7 @@ export type CreateInstanceProfileError =
  * quotas in the *IAM User Guide*.
  */
 export const createInstanceProfile: API.OperationMethod<
-  CreateInstanceProfileRequest,
+  CreateInstanceProfileRequest & RegionInput,
   CreateInstanceProfileResponse,
   CreateInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -3408,7 +3417,7 @@ export type CreateLoginProfileError =
  * *IAM User Guide*.
  */
 export const createLoginProfile: API.OperationMethod<
-  CreateLoginProfileRequest,
+  CreateLoginProfileRequest & RegionInput,
   CreateLoginProfileResponse,
   CreateLoginProfileError,
   Credentials | HttpClient.HttpClient
@@ -3477,7 +3486,7 @@ export type CreateOpenIDConnectProviderError =
  * users.
  */
 export const createOpenIDConnectProvider: API.OperationMethod<
-  CreateOpenIDConnectProviderRequest,
+  CreateOpenIDConnectProviderRequest & RegionInput,
   CreateOpenIDConnectProviderResponse,
   CreateOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
@@ -3524,7 +3533,7 @@ export type CreatePolicyError =
  * *IAM User Guide*.
  */
 export const createPolicy: API.OperationMethod<
-  CreatePolicyRequest,
+  CreatePolicyRequest & RegionInput,
   CreatePolicyResponse,
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3566,7 +3575,7 @@ export type CreatePolicyVersionError =
  * policies in the *IAM User Guide*.
  */
 export const createPolicyVersion: API.OperationMethod<
-  CreatePolicyVersionRequest,
+  CreatePolicyVersionRequest & RegionInput,
   CreatePolicyVersionResponse,
   CreatePolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -3604,7 +3613,7 @@ export type CreateRoleError =
  * *IAM User Guide*.
  */
 export const createRole: API.OperationMethod<
-  CreateRoleRequest,
+  CreateRoleRequest & RegionInput,
   CreateRoleResponse,
   CreateRoleError,
   Credentials | HttpClient.HttpClient
@@ -3656,7 +3665,7 @@ export type CreateSAMLProviderError =
  * federation in the *IAM User Guide*.
  */
 export const createSAMLProvider: API.OperationMethod<
-  CreateSAMLProviderRequest,
+  CreateSAMLProviderRequest & RegionInput,
   CreateSAMLProviderResponse,
   CreateSAMLProviderError,
   Credentials | HttpClient.HttpClient
@@ -3696,7 +3705,7 @@ export type CreateServiceLinkedRoleError =
  * Amazon Web Services service that depends on this role.
  */
 export const createServiceLinkedRole: API.OperationMethod<
-  CreateServiceLinkedRoleRequest,
+  CreateServiceLinkedRoleRequest & RegionInput,
   CreateServiceLinkedRoleResponse,
   CreateServiceLinkedRoleError,
   Credentials | HttpClient.HttpClient
@@ -3746,7 +3755,7 @@ export type CreateServiceSpecificCredentialError =
  * *IAM User Guide*.
  */
 export const createServiceSpecificCredential: API.OperationMethod<
-  CreateServiceSpecificCredentialRequest,
+  CreateServiceSpecificCredentialRequest & RegionInput,
   CreateServiceSpecificCredentialResponse,
   CreateServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
@@ -3776,7 +3785,7 @@ export type CreateUserError =
  * quotas in the *IAM User Guide*.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -3822,7 +3831,7 @@ export type CreateVirtualMFADeviceError =
  * following secure procedures.
  */
 export const createVirtualMFADevice: API.OperationMethod<
-  CreateVirtualMFADeviceRequest,
+  CreateVirtualMFADeviceRequest & RegionInput,
   CreateVirtualMFADeviceResponse,
   CreateVirtualMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -3859,7 +3868,7 @@ export type DeactivateMFADeviceError =
  * *IAM User Guide*.
  */
 export const deactivateMFADevice: API.OperationMethod<
-  DeactivateMFADeviceRequest,
+  DeactivateMFADeviceRequest & RegionInput,
   DeactivateMFADeviceResponse,
   DeactivateMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -3894,7 +3903,7 @@ export type DeleteAccessKeyError =
  * user credentials even if the Amazon Web Services account has no associated users.
  */
 export const deleteAccessKey: API.OperationMethod<
-  DeleteAccessKeyRequest,
+  DeleteAccessKeyRequest & RegionInput,
   DeleteAccessKeyResponse,
   DeleteAccessKeyError,
   Credentials | HttpClient.HttpClient
@@ -3922,7 +3931,7 @@ export type DeleteAccountAliasError =
  * Guide.
  */
 export const deleteAccountAlias: API.OperationMethod<
-  DeleteAccountAliasRequest,
+  DeleteAccountAliasRequest & RegionInput,
   DeleteAccountAliasResponse,
   DeleteAccountAliasError,
   Credentials | HttpClient.HttpClient
@@ -3951,7 +3960,7 @@ export type DeleteAccountPasswordPolicyError =
  * Deletes the password policy for the Amazon Web Services account. There are no parameters.
  */
 export const deleteAccountPasswordPolicy: API.OperationMethod<
-  DeleteAccountPasswordPolicyRequest,
+  DeleteAccountPasswordPolicyRequest & RegionInput,
   DeleteAccountPasswordPolicyResponse,
   DeleteAccountPasswordPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3977,7 +3986,7 @@ export type DeleteGroupError =
  * attached policies.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -4012,7 +4021,7 @@ export type DeleteGroupPolicyError =
  * policies in the *IAM User Guide*.
  */
 export const deleteGroupPolicy: API.OperationMethod<
-  DeleteGroupPolicyRequest,
+  DeleteGroupPolicyRequest & RegionInput,
   DeleteGroupPolicyResponse,
   DeleteGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4046,7 +4055,7 @@ export type DeleteInstanceProfileError =
  * instance profiles in the *IAM User Guide*.
  */
 export const deleteInstanceProfile: API.OperationMethod<
-  DeleteInstanceProfileRequest,
+  DeleteInstanceProfileRequest & RegionInput,
   DeleteInstanceProfileResponse,
   DeleteInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -4089,7 +4098,7 @@ export type DeleteLoginProfileError =
  * and DeleteAccessKey.
  */
 export const deleteLoginProfile: API.OperationMethod<
-  DeleteLoginProfileRequest,
+  DeleteLoginProfileRequest & RegionInput,
   DeleteLoginProfileResponse,
   DeleteLoginProfileError,
   Credentials | HttpClient.HttpClient
@@ -4125,7 +4134,7 @@ export type DeleteOpenIDConnectProviderError =
  * operation for a provider that does not exist.
  */
 export const deleteOpenIDConnectProvider: API.OperationMethod<
-  DeleteOpenIDConnectProviderRequest,
+  DeleteOpenIDConnectProviderRequest & RegionInput,
   DeleteOpenIDConnectProviderResponse,
   DeleteOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
@@ -4170,7 +4179,7 @@ export type DeletePolicyError =
  * policies in the *IAM User Guide*.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyRequest,
+  DeletePolicyRequest & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4209,7 +4218,7 @@ export type DeletePolicyVersionError =
  * policies in the *IAM User Guide*.
  */
 export const deletePolicyVersion: API.OperationMethod<
-  DeletePolicyVersionRequest,
+  DeletePolicyVersionRequest & RegionInput,
   DeletePolicyVersionResponse,
   DeletePolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -4258,7 +4267,7 @@ export type DeleteRoleError =
  * running instance will break any applications running on the instance.
  */
 export const deleteRole: API.OperationMethod<
-  DeleteRoleRequest,
+  DeleteRoleRequest & RegionInput,
   DeleteRoleResponse,
   DeleteRoleError,
   Credentials | HttpClient.HttpClient
@@ -4295,7 +4304,7 @@ export type DeleteRolePermissionsBoundaryError =
  * granted in its permissions policies.
  */
 export const deleteRolePermissionsBoundary: API.OperationMethod<
-  DeleteRolePermissionsBoundaryRequest,
+  DeleteRolePermissionsBoundaryRequest & RegionInput,
   DeleteRolePermissionsBoundaryResponse,
   DeleteRolePermissionsBoundaryError,
   Credentials | HttpClient.HttpClient
@@ -4326,7 +4335,7 @@ export type DeleteRolePolicyError =
  * policies in the *IAM User Guide*.
  */
 export const deleteRolePolicy: API.OperationMethod<
-  DeleteRolePolicyRequest,
+  DeleteRolePolicyRequest & RegionInput,
   DeleteRolePolicyResponse,
   DeleteRolePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4362,7 +4371,7 @@ export type DeleteSAMLProviderError =
  * This operation requires Signature Version 4.
  */
 export const deleteSAMLProvider: API.OperationMethod<
-  DeleteSAMLProviderRequest,
+  DeleteSAMLProviderRequest & RegionInput,
   DeleteSAMLProviderResponse,
   DeleteSAMLProviderError,
   Credentials | HttpClient.HttpClient
@@ -4406,7 +4415,7 @@ export type DeleteServerCertificateError =
  * Reference.
  */
 export const deleteServerCertificate: API.OperationMethod<
-  DeleteServerCertificateRequest,
+  DeleteServerCertificateRequest & RegionInput,
   DeleteServerCertificateResponse,
   DeleteServerCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4453,7 +4462,7 @@ export type DeleteServiceLinkedRoleError =
  * *IAM User Guide*.
  */
 export const deleteServiceLinkedRole: API.OperationMethod<
-  DeleteServiceLinkedRoleRequest,
+  DeleteServiceLinkedRoleRequest & RegionInput,
   DeleteServiceLinkedRoleResponse,
   DeleteServiceLinkedRoleError,
   Credentials | HttpClient.HttpClient
@@ -4473,7 +4482,7 @@ export type DeleteServiceSpecificCredentialError = NoSuchEntityException | Commo
  * Deletes the specified service-specific credential.
  */
 export const deleteServiceSpecificCredential: API.OperationMethod<
-  DeleteServiceSpecificCredentialRequest,
+  DeleteServiceSpecificCredentialRequest & RegionInput,
   DeleteServiceSpecificCredentialResponse,
   DeleteServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
@@ -4503,7 +4512,7 @@ export type DeleteSigningCertificateError =
  * user credentials even if the Amazon Web Services account has no associated IAM users.
  */
 export const deleteSigningCertificate: API.OperationMethod<
-  DeleteSigningCertificateRequest,
+  DeleteSigningCertificateRequest & RegionInput,
   DeleteSigningCertificateResponse,
   DeleteSigningCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4533,7 +4542,7 @@ export type DeleteSSHPublicKeyError = NoSuchEntityException | CommonErrors;
  * SSH connections in the *CodeCommit User Guide*.
  */
 export const deleteSSHPublicKey: API.OperationMethod<
-  DeleteSSHPublicKeyRequest,
+  DeleteSSHPublicKeyRequest & RegionInput,
   DeleteSSHPublicKeyResponse,
   DeleteSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -4580,7 +4589,7 @@ export type DeleteUserError =
  * - Group memberships (RemoveUserFromGroup)
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -4612,7 +4621,7 @@ export type DeleteUserPermissionsBoundaryError =
  * allowing the user to perform all the actions granted in its permissions policies.
  */
 export const deleteUserPermissionsBoundary: API.OperationMethod<
-  DeleteUserPermissionsBoundaryRequest,
+  DeleteUserPermissionsBoundaryRequest & RegionInput,
   DeleteUserPermissionsBoundaryResponse,
   DeleteUserPermissionsBoundaryError,
   Credentials | HttpClient.HttpClient
@@ -4642,7 +4651,7 @@ export type DeleteUserPolicyError =
  * policies in the *IAM User Guide*.
  */
 export const deleteUserPolicy: API.OperationMethod<
-  DeleteUserPolicyRequest,
+  DeleteUserPolicyRequest & RegionInput,
   DeleteUserPolicyResponse,
   DeleteUserPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4671,7 +4680,7 @@ export type DeleteVirtualMFADeviceError =
  * information about deactivating MFA devices, see DeactivateMFADevice.
  */
 export const deleteVirtualMFADevice: API.OperationMethod<
-  DeleteVirtualMFADeviceRequest,
+  DeleteVirtualMFADeviceRequest & RegionInput,
   DeleteVirtualMFADeviceResponse,
   DeleteVirtualMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -4707,7 +4716,7 @@ export type DetachGroupPolicyError =
  * *IAM User Guide*.
  */
 export const detachGroupPolicy: API.OperationMethod<
-  DetachGroupPolicyRequest,
+  DetachGroupPolicyRequest & RegionInput,
   DetachGroupPolicyResponse,
   DetachGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4743,7 +4752,7 @@ export type DetachRolePolicyError =
  * *IAM User Guide*.
  */
 export const detachRolePolicy: API.OperationMethod<
-  DetachRolePolicyRequest,
+  DetachRolePolicyRequest & RegionInput,
   DetachRolePolicyResponse,
   DetachRolePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4779,7 +4788,7 @@ export type DetachUserPolicyError =
  * *IAM User Guide*.
  */
 export const detachUserPolicy: API.OperationMethod<
-  DetachUserPolicyRequest,
+  DetachUserPolicyRequest & RegionInput,
   DetachUserPolicyResponse,
   DetachUserPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4812,7 +4821,7 @@ export type DisableOrganizationsRootCredentialsManagementError =
  * accounts in your organization.
  */
 export const disableOrganizationsRootCredentialsManagement: API.OperationMethod<
-  DisableOrganizationsRootCredentialsManagementRequest,
+  DisableOrganizationsRootCredentialsManagementRequest & RegionInput,
   DisableOrganizationsRootCredentialsManagementResponse,
   DisableOrganizationsRootCredentialsManagementError,
   Credentials | HttpClient.HttpClient
@@ -4853,7 +4862,7 @@ export type DisableOrganizationsRootSessionsError =
  * your organization.
  */
 export const disableOrganizationsRootSessions: API.OperationMethod<
-  DisableOrganizationsRootSessionsRequest,
+  DisableOrganizationsRootSessionsRequest & RegionInput,
   DisableOrganizationsRootSessionsResponse,
   DisableOrganizationsRootSessionsError,
   Credentials | HttpClient.HttpClient
@@ -4880,7 +4889,7 @@ export type DisableOutboundWebIdentityFederationError = FeatureDisabledException
  * does not affect tokens that were issued before the feature was disabled.
  */
 export const disableOutboundWebIdentityFederation: API.OperationMethod<
-  DisableOutboundWebIdentityFederationRequest,
+  DisableOutboundWebIdentityFederationRequest & RegionInput,
   DisableOutboundWebIdentityFederationResponse,
   DisableOutboundWebIdentityFederationError,
   Credentials | HttpClient.HttpClient
@@ -4910,7 +4919,7 @@ export type EnableMFADeviceError =
  * associated with the device.
  */
 export const enableMFADevice: API.OperationMethod<
-  EnableMFADeviceRequest,
+  EnableMFADeviceRequest & RegionInput,
   EnableMFADeviceResponse,
   EnableMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -4956,7 +4965,7 @@ export type EnableOrganizationsRootCredentialsManagementError =
  * Guide.
  */
 export const enableOrganizationsRootCredentialsManagement: API.OperationMethod<
-  EnableOrganizationsRootCredentialsManagementRequest,
+  EnableOrganizationsRootCredentialsManagementRequest & RegionInput,
   EnableOrganizationsRootCredentialsManagementResponse,
   EnableOrganizationsRootCredentialsManagementError,
   Credentials | HttpClient.HttpClient
@@ -5007,7 +5016,7 @@ export type EnableOrganizationsRootSessionsError =
  * Guide.
  */
 export const enableOrganizationsRootSessions: API.OperationMethod<
-  EnableOrganizationsRootSessionsRequest,
+  EnableOrganizationsRootSessionsRequest & RegionInput,
   EnableOrganizationsRootSessionsResponse,
   EnableOrganizationsRootSessionsError,
   Credentials | HttpClient.HttpClient
@@ -5035,7 +5044,7 @@ export type EnableOutboundWebIdentityFederationError = FeatureEnabledException |
  * This operation also generates a unique issuer URL for your Amazon Web Services account.
  */
 export const enableOutboundWebIdentityFederation: API.OperationMethod<
-  EnableOutboundWebIdentityFederationRequest,
+  EnableOutboundWebIdentityFederationRequest & RegionInput,
   EnableOutboundWebIdentityFederationResponse,
   EnableOutboundWebIdentityFederationError,
   Credentials | HttpClient.HttpClient
@@ -5060,7 +5069,7 @@ export type GenerateCredentialReportError =
  * the *IAM User Guide*.
  */
 export const generateCredentialReport: API.OperationMethod<
-  GenerateCredentialReportRequest,
+  GenerateCredentialReportRequest & RegionInput,
   GenerateCredentialReportResponse,
   GenerateCredentialReportError,
   Credentials | HttpClient.HttpClient
@@ -5198,7 +5207,7 @@ export type GenerateOrganizationsAccessReportError =
  * viewing user activity in the *IAM User Guide*.
  */
 export const generateOrganizationsAccessReport: API.OperationMethod<
-  GenerateOrganizationsAccessReportRequest,
+  GenerateOrganizationsAccessReportRequest & RegionInput,
   GenerateOrganizationsAccessReportResponse,
   GenerateOrganizationsAccessReportError,
   Credentials | HttpClient.HttpClient
@@ -5272,7 +5281,7 @@ export type GenerateServiceLastAccessedDetailsError =
  * *IAM User Guide*.
  */
 export const generateServiceLastAccessedDetails: API.OperationMethod<
-  GenerateServiceLastAccessedDetailsRequest,
+  GenerateServiceLastAccessedDetailsRequest & RegionInput,
   GenerateServiceLastAccessedDetailsResponse,
   GenerateServiceLastAccessedDetailsError,
   Credentials | HttpClient.HttpClient
@@ -5294,7 +5303,7 @@ export type GetAccessKeyLastUsedError = CommonErrors;
  * Region that were specified in the last request made with that key.
  */
 export const getAccessKeyLastUsed: API.OperationMethod<
-  GetAccessKeyLastUsedRequest,
+  GetAccessKeyLastUsedRequest & RegionInput,
   GetAccessKeyLastUsedResponse,
   GetAccessKeyLastUsedError,
   Credentials | HttpClient.HttpClient
@@ -5328,7 +5337,7 @@ export type GetAccountAuthorizationDetailsError = ServiceFailureException | Comm
  * parameters.
  */
 export const getAccountAuthorizationDetails: API.PaginatedOperationMethod<
-  GetAccountAuthorizationDetailsRequest,
+  GetAccountAuthorizationDetailsRequest & RegionInput,
   GetAccountAuthorizationDetailsResponse,
   GetAccountAuthorizationDetailsError,
   Credentials | HttpClient.HttpClient,
@@ -5356,7 +5365,7 @@ export type GetAccountPasswordPolicyError =
  * policy.
  */
 export const getAccountPasswordPolicy: API.OperationMethod<
-  GetAccountPasswordPolicyRequest,
+  GetAccountPasswordPolicyRequest & RegionInput,
   GetAccountPasswordPolicyResponse,
   GetAccountPasswordPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5385,7 +5394,7 @@ export type GetAccountPropertiesError =
  * configuration settings. Use PutAccountProperties to modify these properties.
  */
 export const getAccountProperties: API.OperationMethod<
-  GetAccountPropertiesRequest,
+  GetAccountPropertiesRequest & RegionInput,
   GetAccountPropertiesResponse,
   GetAccountPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -5409,7 +5418,7 @@ export type GetAccountSummaryError = ServiceFailureException | CommonErrors;
  * *IAM User Guide*.
  */
 export const getAccountSummary: API.OperationMethod<
-  GetAccountSummaryRequest,
+  GetAccountSummaryRequest & RegionInput,
   GetAccountSummaryResponse,
   GetAccountSummaryError,
   Credentials | HttpClient.HttpClient
@@ -5439,7 +5448,7 @@ export type GetContextKeysForCustomPolicyError = InvalidInputException | CommonE
  * request.
  */
 export const getContextKeysForCustomPolicy: API.OperationMethod<
-  GetContextKeysForCustomPolicyRequest,
+  GetContextKeysForCustomPolicyRequest & RegionInput,
   GetContextKeysForPolicyResponse,
   GetContextKeysForCustomPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5481,7 +5490,7 @@ export type GetContextKeysForPrincipalPolicyError =
  * that you provide, are included.
  */
 export const getContextKeysForPrincipalPolicy: API.OperationMethod<
-  GetContextKeysForPrincipalPolicyRequest,
+  GetContextKeysForPrincipalPolicyRequest & RegionInput,
   GetContextKeysForPolicyResponse,
   GetContextKeysForPrincipalPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5508,7 +5517,7 @@ export type GetCredentialReportError =
  * the *IAM User Guide*.
  */
 export const getCredentialReport: API.OperationMethod<
-  GetCredentialReportRequest,
+  GetCredentialReportRequest & RegionInput,
   GetCredentialReportResponse,
   GetCredentialReportError,
   Credentials | HttpClient.HttpClient
@@ -5544,7 +5553,7 @@ export type GetDelegationRequestError =
  * Managing Permissions for Delegation Requests.
  */
 export const getDelegationRequest: API.OperationMethod<
-  GetDelegationRequestRequest,
+  GetDelegationRequestRequest & RegionInput,
   GetDelegationRequestResponse,
   GetDelegationRequestError,
   Credentials | HttpClient.HttpClient
@@ -5565,7 +5574,7 @@ export type GetGroupError = NoSuchEntityException | ServiceFailureException | Co
  * the results using the `MaxItems` and `Marker` parameters.
  */
 export const getGroup: API.PaginatedOperationMethod<
-  GetGroupRequest,
+  GetGroupRequest & RegionInput,
   GetGroupResponse,
   GetGroupError,
   Credentials | HttpClient.HttpClient,
@@ -5608,7 +5617,7 @@ export type GetGroupPolicyError = NoSuchEntityException | ServiceFailureExceptio
  * policies in the *IAM User Guide*.
  */
 export const getGroupPolicy: API.OperationMethod<
-  GetGroupPolicyRequest,
+  GetGroupPolicyRequest & RegionInput,
   GetGroupPolicyResponse,
   GetGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5647,7 +5656,7 @@ export type GetHumanReadableSummaryError =
  * for a given delegation request will always be able to retrieve the human readable summary for that request.
  */
 export const getHumanReadableSummary: API.OperationMethod<
-  GetHumanReadableSummaryRequest,
+  GetHumanReadableSummaryRequest & RegionInput,
   GetHumanReadableSummaryResponse,
   GetHumanReadableSummaryError,
   Credentials | HttpClient.HttpClient
@@ -5673,7 +5682,7 @@ export type GetInstanceProfileError =
  * instance profiles in the *IAM User Guide*.
  */
 export const getInstanceProfile: API.OperationMethod<
-  GetInstanceProfileRequest,
+  GetInstanceProfileRequest & RegionInput,
   GetInstanceProfileResponse,
   GetInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -5704,7 +5713,7 @@ export type GetLoginProfileError = NoSuchEntityException | ServiceFailureExcepti
  * unless you create a password for the user to access the Amazon Web Services Management Console.
  */
 export const getLoginProfile: API.OperationMethod<
-  GetLoginProfileRequest,
+  GetLoginProfileRequest & RegionInput,
   GetLoginProfileResponse,
   GetLoginProfileError,
   Credentials | HttpClient.HttpClient
@@ -5724,7 +5733,7 @@ export type GetMFADeviceError = NoSuchEntityException | ServiceFailureException 
  * Retrieves information about an MFA device for a specified user.
  */
 export const getMFADevice: API.OperationMethod<
-  GetMFADeviceRequest,
+  GetMFADeviceRequest & RegionInput,
   GetMFADeviceResponse,
   GetMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -5749,7 +5758,7 @@ export type GetOpenIDConnectProviderError =
  * in IAM.
  */
 export const getOpenIDConnectProvider: API.OperationMethod<
-  GetOpenIDConnectProviderRequest,
+  GetOpenIDConnectProviderRequest & RegionInput,
   GetOpenIDConnectProviderResponse,
   GetOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
@@ -5790,7 +5799,7 @@ export type GetOrganizationsAccessReportError = NoSuchEntityException | CommonEr
  * By default, the list is sorted by service namespace.
  */
 export const getOrganizationsAccessReport: API.OperationMethod<
-  GetOrganizationsAccessReportRequest,
+  GetOrganizationsAccessReportRequest & RegionInput,
   GetOrganizationsAccessReportResponse,
   GetOrganizationsAccessReportError,
   Credentials | HttpClient.HttpClient
@@ -5811,7 +5820,7 @@ export type GetOutboundWebIdentityFederationInfoError = FeatureDisabledException
  * Amazon Web Services account and the current enabled/disabled status of the feature. Use this operation to obtain the issuer URL that you need to configure trust relationships with external services.
  */
 export const getOutboundWebIdentityFederationInfo: API.OperationMethod<
-  GetOutboundWebIdentityFederationInfoRequest,
+  GetOutboundWebIdentityFederationInfoRequest & RegionInput,
   GetOutboundWebIdentityFederationInfoResponse,
   GetOutboundWebIdentityFederationInfoError,
   Credentials | HttpClient.HttpClient
@@ -5846,7 +5855,7 @@ export type GetPolicyError =
  * policies in the *IAM User Guide*.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5890,7 +5899,7 @@ export type GetPolicyVersionError =
  * policies in the *IAM User Guide*.
  */
 export const getPolicyVersion: API.OperationMethod<
-  GetPolicyVersionRequest,
+  GetPolicyVersionRequest & RegionInput,
   GetPolicyVersionResponse,
   GetPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -5920,7 +5929,7 @@ export type GetRoleError = NoSuchEntityException | ServiceFailureException | Com
  * automatically.
  */
 export const getRole: API.OperationMethod<
-  GetRoleRequest,
+  GetRoleRequest & RegionInput,
   GetRoleResponse,
   GetRoleError,
   Credentials | HttpClient.HttpClient
@@ -5959,7 +5968,7 @@ export type GetRolePolicyError = NoSuchEntityException | ServiceFailureException
  * *IAM User Guide*.
  */
 export const getRolePolicy: API.OperationMethod<
-  GetRolePolicyRequest,
+  GetRolePolicyRequest & RegionInput,
   GetRolePolicyResponse,
   GetRolePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5989,7 +5998,7 @@ export type GetRoleTemplateVersionError =
  * minor version.
  */
 export const getRoleTemplateVersion: API.OperationMethod<
-  GetRoleTemplateVersionRequest,
+  GetRoleTemplateVersionRequest & RegionInput,
   GetRoleTemplateVersionResponse,
   GetRoleTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -6016,7 +6025,7 @@ export type GetSAMLProviderError =
  * This operation requires Signature Version 4.
  */
 export const getSAMLProvider: API.OperationMethod<
-  GetSAMLProviderRequest,
+  GetSAMLProviderRequest & RegionInput,
   GetSAMLProviderResponse,
   GetSAMLProviderError,
   Credentials | HttpClient.HttpClient
@@ -6044,7 +6053,7 @@ export type GetServerCertificateError =
  * manage with IAM.
  */
 export const getServerCertificate: API.OperationMethod<
-  GetServerCertificateRequest,
+  GetServerCertificateRequest & RegionInput,
   GetServerCertificateResponse,
   GetServerCertificateError,
   Credentials | HttpClient.HttpClient
@@ -6112,7 +6121,7 @@ export type GetServiceLastAccessedDetailsError =
  * *IAM User Guide*.
  */
 export const getServiceLastAccessedDetails: API.OperationMethod<
-  GetServiceLastAccessedDetailsRequest,
+  GetServiceLastAccessedDetailsRequest & RegionInput,
   GetServiceLastAccessedDetailsResponse,
   GetServiceLastAccessedDetailsError,
   Credentials | HttpClient.HttpClient
@@ -6157,7 +6166,7 @@ export type GetServiceLastAccessedDetailsWithEntitiesError =
  * access listed first.
  */
 export const getServiceLastAccessedDetailsWithEntities: API.OperationMethod<
-  GetServiceLastAccessedDetailsWithEntitiesRequest,
+  GetServiceLastAccessedDetailsWithEntitiesRequest & RegionInput,
   GetServiceLastAccessedDetailsWithEntitiesResponse,
   GetServiceLastAccessedDetailsWithEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -6185,7 +6194,7 @@ export type GetServiceLinkedRoleDeletionStatusError =
  * information is returned by the service.
  */
 export const getServiceLinkedRoleDeletionStatus: API.OperationMethod<
-  GetServiceLinkedRoleDeletionStatusRequest,
+  GetServiceLinkedRoleDeletionStatusRequest & RegionInput,
   GetServiceLinkedRoleDeletionStatusResponse,
   GetServiceLinkedRoleDeletionStatusError,
   Credentials | HttpClient.HttpClient
@@ -6213,7 +6222,7 @@ export type GetSSHPublicKeyError =
  * connections in the *CodeCommit User Guide*.
  */
 export const getSSHPublicKey: API.OperationMethod<
-  GetSSHPublicKeyRequest,
+  GetSSHPublicKeyRequest & RegionInput,
   GetSSHPublicKeyResponse,
   GetSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -6237,7 +6246,7 @@ export type GetUserError = NoSuchEntityException | ServiceFailureException | Com
  * the Amazon Web Services access key ID used to sign the request to this operation.
  */
 export const getUser: API.OperationMethod<
-  GetUserRequest,
+  GetUserRequest & RegionInput,
   GetUserResponse,
   GetUserError,
   Credentials | HttpClient.HttpClient
@@ -6273,7 +6282,7 @@ export type GetUserPolicyError = NoSuchEntityException | ServiceFailureException
  * policies in the *IAM User Guide*.
  */
 export const getUserPolicy: API.OperationMethod<
-  GetUserPolicyRequest,
+  GetUserPolicyRequest & RegionInput,
   GetUserPolicyResponse,
   GetUserPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6309,7 +6318,7 @@ export type ListAccessKeysError = NoSuchEntityException | ServiceFailureExceptio
  * only during key and user creation.
  */
 export const listAccessKeys: API.PaginatedOperationMethod<
-  ListAccessKeysRequest,
+  ListAccessKeysRequest & RegionInput,
   ListAccessKeysResponse,
   ListAccessKeysError,
   Credentials | HttpClient.HttpClient,
@@ -6339,7 +6348,7 @@ export type ListAccountAliasesError = ServiceFailureException | CommonErrors;
  * *IAM User Guide*.
  */
 export const listAccountAliases: API.PaginatedOperationMethod<
-  ListAccountAliasesRequest,
+  ListAccountAliasesRequest & RegionInput,
   ListAccountAliasesResponse,
   ListAccountAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -6381,7 +6390,7 @@ export type ListAttachedGroupPoliciesError =
  * operation returns an empty list.
  */
 export const listAttachedGroupPolicies: API.PaginatedOperationMethod<
-  ListAttachedGroupPoliciesRequest,
+  ListAttachedGroupPoliciesRequest & RegionInput,
   ListAttachedGroupPoliciesResponse,
   ListAttachedGroupPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -6423,7 +6432,7 @@ export type ListAttachedRolePoliciesError =
  * operation returns an empty list.
  */
 export const listAttachedRolePolicies: API.PaginatedOperationMethod<
-  ListAttachedRolePoliciesRequest,
+  ListAttachedRolePoliciesRequest & RegionInput,
   ListAttachedRolePoliciesResponse,
   ListAttachedRolePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -6465,7 +6474,7 @@ export type ListAttachedUserPoliciesError =
  * operation returns an empty list.
  */
 export const listAttachedUserPolicies: API.PaginatedOperationMethod<
-  ListAttachedUserPoliciesRequest,
+  ListAttachedUserPoliciesRequest & RegionInput,
   ListAttachedUserPoliciesResponse,
   ListAttachedUserPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -6503,7 +6512,7 @@ export type ListDelegationRequestsError =
  * Managing Permissions for Delegation Requests.
  */
 export const listDelegationRequests: API.OperationMethod<
-  ListDelegationRequestsRequest,
+  ListDelegationRequestsRequest & RegionInput,
   ListDelegationRequestsResponse,
   ListDelegationRequestsError,
   Credentials | HttpClient.HttpClient
@@ -6536,7 +6545,7 @@ export type ListEntitiesForPolicyError =
  * parameters.
  */
 export const listEntitiesForPolicy: API.PaginatedOperationMethod<
-  ListEntitiesForPolicyRequest,
+  ListEntitiesForPolicyRequest & RegionInput,
   ListEntitiesForPolicyResponse,
   ListEntitiesForPolicyError,
   Credentials | HttpClient.HttpClient,
@@ -6568,7 +6577,7 @@ export type ListGroupPoliciesError = NoSuchEntityException | ServiceFailureExcep
  * operation returns an empty list.
  */
 export const listGroupPolicies: API.PaginatedOperationMethod<
-  ListGroupPoliciesRequest,
+  ListGroupPoliciesRequest & RegionInput,
   ListGroupPoliciesResponse,
   ListGroupPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -6598,7 +6607,7 @@ export type ListGroupsError = ServiceFailureException | CommonErrors;
  * parameters.
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -6628,7 +6637,7 @@ export type ListGroupsForUserError = NoSuchEntityException | ServiceFailureExcep
  * parameters.
  */
 export const listGroupsForUser: API.PaginatedOperationMethod<
-  ListGroupsForUserRequest,
+  ListGroupsForUserRequest & RegionInput,
   ListGroupsForUserResponse,
   ListGroupsForUserError,
   Credentials | HttpClient.HttpClient,
@@ -6665,7 +6674,7 @@ export type ListInstanceProfilesError = ServiceFailureException | CommonErrors;
  * parameters.
  */
 export const listInstanceProfiles: API.PaginatedOperationMethod<
-  ListInstanceProfilesRequest,
+  ListInstanceProfilesRequest & RegionInput,
   ListInstanceProfilesResponse,
   ListInstanceProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -6701,7 +6710,7 @@ export type ListInstanceProfilesForRoleError =
  * parameters.
  */
 export const listInstanceProfilesForRole: API.PaginatedOperationMethod<
-  ListInstanceProfilesForRoleRequest,
+  ListInstanceProfilesForRoleRequest & RegionInput,
   ListInstanceProfilesForRoleResponse,
   ListInstanceProfilesForRoleError,
   Credentials | HttpClient.HttpClient,
@@ -6733,7 +6742,7 @@ export type ListInstanceProfileTagsError =
  * *IAM User Guide*.
  */
 export const listInstanceProfileTags: API.PaginatedOperationMethod<
-  ListInstanceProfileTagsRequest,
+  ListInstanceProfileTagsRequest & RegionInput,
   ListInstanceProfileTagsResponse,
   ListInstanceProfileTagsError,
   Credentials | HttpClient.HttpClient,
@@ -6766,7 +6775,7 @@ export type ListMFADevicesError = NoSuchEntityException | ServiceFailureExceptio
  * parameters.
  */
 export const listMFADevices: API.PaginatedOperationMethod<
-  ListMFADevicesRequest,
+  ListMFADevicesRequest & RegionInput,
   ListMFADevicesResponse,
   ListMFADevicesError,
   Credentials | HttpClient.HttpClient,
@@ -6799,7 +6808,7 @@ export type ListMFADeviceTagsError =
  * *IAM User Guide*.
  */
 export const listMFADeviceTags: API.PaginatedOperationMethod<
-  ListMFADeviceTagsRequest,
+  ListMFADeviceTagsRequest & RegionInput,
   ListMFADeviceTagsResponse,
   ListMFADeviceTagsError,
   Credentials | HttpClient.HttpClient,
@@ -6830,7 +6839,7 @@ export type ListOpenIDConnectProvidersError = ServiceFailureException | CommonEr
  * attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an OIDC provider, see GetOpenIDConnectProvider.
  */
 export const listOpenIDConnectProviders: API.OperationMethod<
-  ListOpenIDConnectProvidersRequest,
+  ListOpenIDConnectProvidersRequest & RegionInput,
   ListOpenIDConnectProvidersResponse,
   ListOpenIDConnectProvidersError,
   Credentials | HttpClient.HttpClient
@@ -6859,7 +6868,7 @@ export type ListOpenIDConnectProviderTagsError =
  * *IAM User Guide*.
  */
 export const listOpenIDConnectProviderTags: API.PaginatedOperationMethod<
-  ListOpenIDConnectProviderTagsRequest,
+  ListOpenIDConnectProviderTagsRequest & RegionInput,
   ListOpenIDConnectProviderTagsResponse,
   ListOpenIDConnectProviderTagsError,
   Credentials | HttpClient.HttpClient,
@@ -6892,7 +6901,7 @@ export type ListOrganizationsFeaturesError =
  * information, see Centrally manage root access for member accounts.
  */
 export const listOrganizationsFeatures: API.OperationMethod<
-  ListOrganizationsFeaturesRequest,
+  ListOrganizationsFeaturesRequest & RegionInput,
   ListOrganizationsFeaturesResponse,
   ListOrganizationsFeaturesError,
   Credentials | HttpClient.HttpClient
@@ -6934,7 +6943,7 @@ export type ListPoliciesError = ServiceFailureException | CommonErrors;
  * GetPolicy.
  */
 export const listPolicies: API.PaginatedOperationMethod<
-  ListPoliciesRequest,
+  ListPoliciesRequest & RegionInput,
   ListPoliciesResponse,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -6997,7 +7006,7 @@ export type ListPoliciesGrantingServiceAccessError =
  * operations.
  */
 export const listPoliciesGrantingServiceAccess: API.OperationMethod<
-  ListPoliciesGrantingServiceAccessRequest,
+  ListPoliciesGrantingServiceAccessRequest & RegionInput,
   ListPoliciesGrantingServiceAccessResponse,
   ListPoliciesGrantingServiceAccessError,
   Credentials | HttpClient.HttpClient
@@ -7023,7 +7032,7 @@ export type ListPolicyTagsError =
  * *IAM User Guide*.
  */
 export const listPolicyTags: API.PaginatedOperationMethod<
-  ListPolicyTagsRequest,
+  ListPolicyTagsRequest & RegionInput,
   ListPolicyTagsResponse,
   ListPolicyTagsError,
   Credentials | HttpClient.HttpClient,
@@ -7058,7 +7067,7 @@ export type ListPolicyVersionsError =
  * policies in the *IAM User Guide*.
  */
 export const listPolicyVersions: API.PaginatedOperationMethod<
-  ListPolicyVersionsRequest,
+  ListPolicyVersionsRequest & RegionInput,
   ListPolicyVersionsResponse,
   ListPolicyVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -7095,7 +7104,7 @@ export type ListRolePoliciesError = NoSuchEntityException | ServiceFailureExcept
  * operation returns an empty list.
  */
 export const listRolePolicies: API.PaginatedOperationMethod<
-  ListRolePoliciesRequest,
+  ListRolePoliciesRequest & RegionInput,
   ListRolePoliciesResponse,
   ListRolePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -7138,7 +7147,7 @@ export type ListRolesError = ServiceFailureException | CommonErrors;
  * parameters.
  */
 export const listRoles: API.PaginatedOperationMethod<
-  ListRolesRequest,
+  ListRolesRequest & RegionInput,
   ListRolesResponse,
   ListRolesError,
   Credentials | HttpClient.HttpClient,
@@ -7167,7 +7176,7 @@ export type ListRoleTagsError = NoSuchEntityException | ServiceFailureException 
  * *IAM User Guide*.
  */
 export const listRoleTags: API.PaginatedOperationMethod<
-  ListRoleTagsRequest,
+  ListRoleTagsRequest & RegionInput,
   ListRoleTagsResponse,
   ListRoleTagsError,
   Credentials | HttpClient.HttpClient,
@@ -7198,7 +7207,7 @@ export type ListSAMLProvidersError = ServiceFailureException | CommonErrors;
  * This operation requires Signature Version 4.
  */
 export const listSAMLProviders: API.OperationMethod<
-  ListSAMLProvidersRequest,
+  ListSAMLProvidersRequest & RegionInput,
   ListSAMLProvidersResponse,
   ListSAMLProvidersError,
   Credentials | HttpClient.HttpClient
@@ -7227,7 +7236,7 @@ export type ListSAMLProviderTagsError =
  * *IAM User Guide*.
  */
 export const listSAMLProviderTags: API.PaginatedOperationMethod<
-  ListSAMLProviderTagsRequest,
+  ListSAMLProviderTagsRequest & RegionInput,
   ListSAMLProviderTagsResponse,
   ListSAMLProviderTagsError,
   Credentials | HttpClient.HttpClient,
@@ -7267,7 +7276,7 @@ export type ListServerCertificatesError = ServiceFailureException | CommonErrors
  * GetServerCertificate.
  */
 export const listServerCertificates: API.PaginatedOperationMethod<
-  ListServerCertificatesRequest,
+  ListServerCertificatesRequest & RegionInput,
   ListServerCertificatesResponse,
   ListServerCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -7305,7 +7314,7 @@ export type ListServerCertificateTagsError =
  * certificates in the *IAM User Guide*.
  */
 export const listServerCertificateTags: API.PaginatedOperationMethod<
-  ListServerCertificateTagsRequest,
+  ListServerCertificateTagsRequest & RegionInput,
   ListServerCertificateTagsResponse,
   ListServerCertificateTagsError,
   Credentials | HttpClient.HttpClient,
@@ -7352,7 +7361,7 @@ export type ListServiceSpecificCredentialsError =
  * *IAM User Guide*.
  */
 export const listServiceSpecificCredentials: API.OperationMethod<
-  ListServiceSpecificCredentialsRequest,
+  ListServiceSpecificCredentialsRequest & RegionInput,
   ListServiceSpecificCredentialsResponse,
   ListServiceSpecificCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -7386,7 +7395,7 @@ export type ListSigningCertificatesError =
  * associated users.
  */
 export const listSigningCertificates: API.PaginatedOperationMethod<
-  ListSigningCertificatesRequest,
+  ListSigningCertificatesRequest & RegionInput,
   ListSigningCertificatesResponse,
   ListSigningCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -7422,7 +7431,7 @@ export type ListSSHPublicKeysError = NoSuchEntityException | CommonErrors;
  * results using the `MaxItems` and `Marker` parameters.
  */
 export const listSSHPublicKeys: API.PaginatedOperationMethod<
-  ListSSHPublicKeysRequest,
+  ListSSHPublicKeysRequest & RegionInput,
   ListSSHPublicKeysResponse,
   ListSSHPublicKeysError,
   Credentials | HttpClient.HttpClient,
@@ -7458,7 +7467,7 @@ export type ListUserPoliciesError = NoSuchEntityException | ServiceFailureExcept
  * operation returns an empty list.
  */
 export const listUserPolicies: API.PaginatedOperationMethod<
-  ListUserPoliciesRequest,
+  ListUserPoliciesRequest & RegionInput,
   ListUserPoliciesResponse,
   ListUserPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -7499,7 +7508,7 @@ export type ListUsersError = ServiceFailureException | CommonErrors;
  * parameters.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -7527,7 +7536,7 @@ export type ListUserTagsError = NoSuchEntityException | ServiceFailureException 
  * *IAM User Guide*.
  */
 export const listUserTags: API.PaginatedOperationMethod<
-  ListUserTagsRequest,
+  ListUserTagsRequest & RegionInput,
   ListUserTagsResponse,
   ListUserTagsError,
   Credentials | HttpClient.HttpClient,
@@ -7563,7 +7572,7 @@ export type ListVirtualMFADevicesError = CommonErrors;
  * parameters.
  */
 export const listVirtualMFADevices: API.PaginatedOperationMethod<
-  ListVirtualMFADevicesRequest,
+  ListVirtualMFADevicesRequest & RegionInput,
   ListVirtualMFADevicesResponse,
   ListVirtualMFADevicesError,
   Credentials | HttpClient.HttpClient,
@@ -7600,7 +7609,7 @@ export type PutAccountPropertiesError =
  * belong to the same namespace. Use GetAccountProperties to view the current properties.
  */
 export const putAccountProperties: API.OperationMethod<
-  PutAccountPropertiesRequest,
+  PutAccountPropertiesRequest & RegionInput,
   PutAccountPropertiesResponse,
   PutAccountPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -7644,7 +7653,7 @@ export type PutGroupPolicyError =
  * *IAM User Guide*.
  */
 export const putGroupPolicy: API.OperationMethod<
-  PutGroupPolicyRequest,
+  PutGroupPolicyRequest & RegionInput,
   PutGroupPolicyResponse,
   PutGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -7686,7 +7695,7 @@ export type PutRolePermissionsBoundaryError =
  * evaluation logic in the IAM User Guide.
  */
 export const putRolePermissionsBoundary: API.OperationMethod<
-  PutRolePermissionsBoundaryRequest,
+  PutRolePermissionsBoundaryRequest & RegionInput,
   PutRolePermissionsBoundaryResponse,
   PutRolePermissionsBoundaryError,
   Credentials | HttpClient.HttpClient
@@ -7748,7 +7757,7 @@ export type PutRolePolicyError =
  * *IAM User Guide*.
  */
 export const putRolePolicy: API.OperationMethod<
-  PutRolePolicyRequest,
+  PutRolePolicyRequest & RegionInput,
   PutRolePolicyResponse,
   PutRolePolicyError,
   Credentials | HttpClient.HttpClient
@@ -7788,7 +7797,7 @@ export type PutUserPermissionsBoundaryError =
  * evaluation logic in the IAM User Guide.
  */
 export const putUserPermissionsBoundary: API.OperationMethod<
-  PutUserPermissionsBoundaryRequest,
+  PutUserPermissionsBoundaryRequest & RegionInput,
   PutUserPermissionsBoundaryResponse,
   PutUserPermissionsBoundaryError,
   Credentials | HttpClient.HttpClient
@@ -7837,7 +7846,7 @@ export type PutUserPolicyError =
  * *IAM User Guide*.
  */
 export const putUserPolicy: API.OperationMethod<
-  PutUserPolicyRequest,
+  PutUserPolicyRequest & RegionInput,
   PutUserPolicyResponse,
   PutUserPolicyError,
   Credentials | HttpClient.HttpClient
@@ -7875,7 +7884,7 @@ export type RejectDelegationRequestError =
  * Managing Permissions for Delegation Requests.
  */
 export const rejectDelegationRequest: API.OperationMethod<
-  RejectDelegationRequestRequest,
+  RejectDelegationRequestRequest & RegionInput,
   RejectDelegationRequestResponse,
   RejectDelegationRequestError,
   Credentials | HttpClient.HttpClient
@@ -7910,7 +7919,7 @@ export type RemoveClientIDFromOpenIDConnectProviderError =
  * a client ID that does not exist.
  */
 export const removeClientIDFromOpenIDConnectProvider: API.OperationMethod<
-  RemoveClientIDFromOpenIDConnectProviderRequest,
+  RemoveClientIDFromOpenIDConnectProviderRequest & RegionInput,
   RemoveClientIDFromOpenIDConnectProviderResponse,
   RemoveClientIDFromOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
@@ -7950,7 +7959,7 @@ export type RemoveRoleFromInstanceProfileError =
  * instance profiles in the *IAM User Guide*.
  */
 export const removeRoleFromInstanceProfile: API.OperationMethod<
-  RemoveRoleFromInstanceProfileRequest,
+  RemoveRoleFromInstanceProfileRequest & RegionInput,
   RemoveRoleFromInstanceProfileResponse,
   RemoveRoleFromInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -7979,7 +7988,7 @@ export type RemoveUserFromGroupError =
  * Removes the specified user from the specified group.
  */
 export const removeUserFromGroup: API.OperationMethod<
-  RemoveUserFromGroupRequest,
+  RemoveUserFromGroupRequest & RegionInput,
   RemoveUserFromGroupResponse,
   RemoveUserFromGroupError,
   Credentials | HttpClient.HttpClient
@@ -8002,7 +8011,7 @@ export type ResetServiceSpecificCredentialError = NoSuchEntityException | Common
  * user.
  */
 export const resetServiceSpecificCredential: API.OperationMethod<
-  ResetServiceSpecificCredentialRequest,
+  ResetServiceSpecificCredentialRequest & RegionInput,
   ResetServiceSpecificCredentialResponse,
   ResetServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
@@ -8032,7 +8041,7 @@ export type ResyncMFADeviceError =
  * device in the *IAM User Guide*.
  */
 export const resyncMFADevice: API.OperationMethod<
-  ResyncMFADeviceRequest,
+  ResyncMFADeviceRequest & RegionInput,
   ResyncMFADeviceResponse,
   ResyncMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -8074,7 +8083,7 @@ export type SendDelegationTokenError =
  * Managing Permissions for Delegation Requests.
  */
 export const sendDelegationToken: API.OperationMethod<
-  SendDelegationTokenRequest,
+  SendDelegationTokenRequest & RegionInput,
   SendDelegationTokenResponse,
   SendDelegationTokenError,
   Credentials | HttpClient.HttpClient
@@ -8111,7 +8120,7 @@ export type SetDefaultPolicyVersionError =
  * policies in the *IAM User Guide*.
  */
 export const setDefaultPolicyVersion: API.OperationMethod<
-  SetDefaultPolicyVersionRequest,
+  SetDefaultPolicyVersionRequest & RegionInput,
   SetDefaultPolicyVersionResponse,
   SetDefaultPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -8157,7 +8166,7 @@ export type SetSecurityTokenServicePreferencesError = ServiceFailureException | 
  * `GlobalEndpointTokenVersion` entry in the response of the GetAccountSummary operation.
  */
 export const setSecurityTokenServicePreferences: API.OperationMethod<
-  SetSecurityTokenServicePreferencesRequest,
+  SetSecurityTokenServicePreferencesRequest & RegionInput,
   SetSecurityTokenServicePreferencesResponse,
   SetSecurityTokenServicePreferencesError,
   Credentials | HttpClient.HttpClient
@@ -8207,7 +8216,7 @@ export type SimulateCustomPolicyError =
  * *IAM User Guide*.
  */
 export const simulateCustomPolicy: API.PaginatedOperationMethod<
-  SimulateCustomPolicyRequest,
+  SimulateCustomPolicyRequest & RegionInput,
   SimulatePolicyResponse,
   SimulateCustomPolicyError,
   Credentials | HttpClient.HttpClient,
@@ -8279,7 +8288,7 @@ export type SimulatePrincipalPolicyError =
  * *IAM User Guide*.
  */
 export const simulatePrincipalPolicy: API.PaginatedOperationMethod<
-  SimulatePrincipalPolicyRequest,
+  SimulatePrincipalPolicyRequest & RegionInput,
   SimulatePolicyResponse,
   SimulatePrincipalPolicyError,
   Credentials | HttpClient.HttpClient,
@@ -8336,7 +8345,7 @@ export type TagInstanceProfileError =
  * must interpret the value in your code.
  */
 export const tagInstanceProfile: API.OperationMethod<
-  TagInstanceProfileRequest,
+  TagInstanceProfileRequest & RegionInput,
   TagInstanceProfileResponse,
   TagInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -8393,7 +8402,7 @@ export type TagMFADeviceError =
  * must interpret the value in your code.
  */
 export const tagMFADevice: API.OperationMethod<
-  TagMFADeviceRequest,
+  TagMFADeviceRequest & RegionInput,
   TagMFADeviceResponse,
   TagMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -8451,7 +8460,7 @@ export type TagOpenIDConnectProviderError =
  * must interpret the value in your code.
  */
 export const tagOpenIDConnectProvider: API.OperationMethod<
-  TagOpenIDConnectProviderRequest,
+  TagOpenIDConnectProviderRequest & RegionInput,
   TagOpenIDConnectProviderResponse,
   TagOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
@@ -8507,7 +8516,7 @@ export type TagPolicyError =
  * must interpret the value in your code.
  */
 export const tagPolicy: API.OperationMethod<
-  TagPolicyRequest,
+  TagPolicyRequest & RegionInput,
   TagPolicyResponse,
   TagPolicyError,
   Credentials | HttpClient.HttpClient
@@ -8571,7 +8580,7 @@ export type TagRoleError =
  * *IAM User Guide*.
  */
 export const tagRole: API.OperationMethod<
-  TagRoleRequest,
+  TagRoleRequest & RegionInput,
   TagRoleResponse,
   TagRoleError,
   Credentials | HttpClient.HttpClient
@@ -8629,7 +8638,7 @@ export type TagSAMLProviderError =
  * must interpret the value in your code.
  */
 export const tagSAMLProvider: API.OperationMethod<
-  TagSAMLProviderRequest,
+  TagSAMLProviderRequest & RegionInput,
   TagSAMLProviderResponse,
   TagSAMLProviderError,
   Credentials | HttpClient.HttpClient
@@ -8694,7 +8703,7 @@ export type TagServerCertificateError =
  * must interpret the value in your code.
  */
 export const tagServerCertificate: API.OperationMethod<
-  TagServerCertificateRequest,
+  TagServerCertificateRequest & RegionInput,
   TagServerCertificateResponse,
   TagServerCertificateError,
   Credentials | HttpClient.HttpClient
@@ -8757,7 +8766,7 @@ export type TagUserError =
  * *IAM User Guide*.
  */
 export const tagUser: API.OperationMethod<
-  TagUserRequest,
+  TagUserRequest & RegionInput,
   TagUserResponse,
   TagUserError,
   Credentials | HttpClient.HttpClient
@@ -8789,7 +8798,7 @@ export type UntagInstanceProfileError =
  * *IAM User Guide*.
  */
 export const untagInstanceProfile: API.OperationMethod<
-  UntagInstanceProfileRequest,
+  UntagInstanceProfileRequest & RegionInput,
   UntagInstanceProfileResponse,
   UntagInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -8821,7 +8830,7 @@ export type UntagMFADeviceError =
  * *IAM User Guide*.
  */
 export const untagMFADevice: API.OperationMethod<
-  UntagMFADeviceRequest,
+  UntagMFADeviceRequest & RegionInput,
   UntagMFADeviceResponse,
   UntagMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -8854,7 +8863,7 @@ export type UntagOpenIDConnectProviderError =
  * *IAM User Guide*.
  */
 export const untagOpenIDConnectProvider: API.OperationMethod<
-  UntagOpenIDConnectProviderRequest,
+  UntagOpenIDConnectProviderRequest & RegionInput,
   UntagOpenIDConnectProviderResponse,
   UntagOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
@@ -8885,7 +8894,7 @@ export type UntagPolicyError =
  * *IAM User Guide*.
  */
 export const untagPolicy: API.OperationMethod<
-  UntagPolicyRequest,
+  UntagPolicyRequest & RegionInput,
   UntagPolicyResponse,
   UntagPolicyError,
   Credentials | HttpClient.HttpClient
@@ -8915,7 +8924,7 @@ export type UntagRoleError =
  * *IAM User Guide*.
  */
 export const untagRole: API.OperationMethod<
-  UntagRoleRequest,
+  UntagRoleRequest & RegionInput,
   UntagRoleResponse,
   UntagRoleError,
   Credentials | HttpClient.HttpClient
@@ -8943,7 +8952,7 @@ export type UntagSAMLProviderError =
  * *IAM User Guide*.
  */
 export const untagSAMLProvider: API.OperationMethod<
-  UntagSAMLProviderRequest,
+  UntagSAMLProviderRequest & RegionInput,
   UntagSAMLProviderResponse,
   UntagSAMLProviderError,
   Credentials | HttpClient.HttpClient
@@ -8981,7 +8990,7 @@ export type UntagServerCertificateError =
  * certificates in the *IAM User Guide*.
  */
 export const untagServerCertificate: API.OperationMethod<
-  UntagServerCertificateRequest,
+  UntagServerCertificateRequest & RegionInput,
   UntagServerCertificateResponse,
   UntagServerCertificateError,
   Credentials | HttpClient.HttpClient
@@ -9011,7 +9020,7 @@ export type UntagUserError =
  * *IAM User Guide*.
  */
 export const untagUser: API.OperationMethod<
-  UntagUserRequest,
+  UntagUserRequest & RegionInput,
   UntagUserResponse,
   UntagUserError,
   Credentials | HttpClient.HttpClient
@@ -9048,7 +9057,7 @@ export type UpdateAccessKeyError =
  * in the *IAM User Guide*.
  */
 export const updateAccessKey: API.OperationMethod<
-  UpdateAccessKeyRequest,
+  UpdateAccessKeyRequest & RegionInput,
   UpdateAccessKeyResponse,
   UpdateAccessKeyError,
   Credentials | HttpClient.HttpClient
@@ -9088,7 +9097,7 @@ export type UpdateAccountPasswordPolicyError =
  * policy in the *IAM User Guide*.
  */
 export const updateAccountPasswordPolicy: API.OperationMethod<
-  UpdateAccountPasswordPolicyRequest,
+  UpdateAccountPasswordPolicyRequest & RegionInput,
   UpdateAccountPasswordPolicyResponse,
   UpdateAccountPasswordPolicyError,
   Credentials | HttpClient.HttpClient
@@ -9122,7 +9131,7 @@ export type UpdateAssumeRolePolicyError =
  * delegate permissions and federate identities.
  */
 export const updateAssumeRolePolicy: API.OperationMethod<
-  UpdateAssumeRolePolicyRequest,
+  UpdateAssumeRolePolicyRequest & RegionInput,
   UpdateAssumeRolePolicyResponse,
   UpdateAssumeRolePolicyError,
   Credentials | HttpClient.HttpClient
@@ -9159,7 +9168,7 @@ export type UpdateDelegationRequestError =
  * Managing Permissions for Delegation Requests.
  */
 export const updateDelegationRequest: API.OperationMethod<
-  UpdateDelegationRequestRequest,
+  UpdateDelegationRequestRequest & RegionInput,
   UpdateDelegationRequestResponse,
   UpdateDelegationRequestError,
   Credentials | HttpClient.HttpClient
@@ -9200,7 +9209,7 @@ export type UpdateGroupError =
  * update fails. For more information about permissions, see Access management.
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
+  UpdateGroupRequest & RegionInput,
   UpdateGroupResponse,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -9238,7 +9247,7 @@ export type UpdateLoginProfileError =
  * *IAM User Guide*.
  */
 export const updateLoginProfile: API.OperationMethod<
-  UpdateLoginProfileRequest,
+  UpdateLoginProfileRequest & RegionInput,
   UpdateLoginProfileResponse,
   UpdateLoginProfileError,
   Credentials | HttpClient.HttpClient
@@ -9290,7 +9299,7 @@ export type UpdateOpenIDConnectProviderThumbprintError =
  * privileged users.
  */
 export const updateOpenIDConnectProviderThumbprint: API.OperationMethod<
-  UpdateOpenIDConnectProviderThumbprintRequest,
+  UpdateOpenIDConnectProviderThumbprintRequest & RegionInput,
   UpdateOpenIDConnectProviderThumbprintResponse,
   UpdateOpenIDConnectProviderThumbprintError,
   Credentials | HttpClient.HttpClient
@@ -9319,7 +9328,7 @@ export type UpdateRoleError =
  * Updates the description or maximum session duration setting of a role.
  */
 export const updateRole: API.OperationMethod<
-  UpdateRoleRequest,
+  UpdateRoleRequest & RegionInput,
   UpdateRoleResponse,
   UpdateRoleError,
   Credentials | HttpClient.HttpClient
@@ -9346,7 +9355,7 @@ export type UpdateRoleDescriptionError =
  * the `Description` parameter in the `UpdateRole` operation.
  */
 export const updateRoleDescription: API.OperationMethod<
-  UpdateRoleDescriptionRequest,
+  UpdateRoleDescriptionRequest & RegionInput,
   UpdateRoleDescriptionResponse,
   UpdateRoleDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -9374,7 +9383,7 @@ export type UpdateSAMLProviderError =
  * the old key in a separate request.
  */
 export const updateSAMLProvider: API.OperationMethod<
-  UpdateSAMLProviderRequest,
+  UpdateSAMLProviderRequest & RegionInput,
   UpdateSAMLProviderResponse,
   UpdateSAMLProviderError,
   Credentials | HttpClient.HttpClient
@@ -9423,7 +9432,7 @@ export type UpdateServerCertificateError =
  * about permissions, see Access management in the *IAM User Guide*.
  */
 export const updateServerCertificate: API.OperationMethod<
-  UpdateServerCertificateRequest,
+  UpdateServerCertificateRequest & RegionInput,
   UpdateServerCertificateResponse,
   UpdateServerCertificateError,
   Credentials | HttpClient.HttpClient
@@ -9451,7 +9460,7 @@ export type UpdateServiceSpecificCredentialError = NoSuchEntityException | Commo
  * service-specific credential as part of a credential rotation work flow.
  */
 export const updateServiceSpecificCredential: API.OperationMethod<
-  UpdateServiceSpecificCredentialRequest,
+  UpdateServiceSpecificCredentialRequest & RegionInput,
   UpdateServiceSpecificCredentialResponse,
   UpdateServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
@@ -9484,7 +9493,7 @@ export type UpdateSigningCertificateError =
  * users.
  */
 export const updateSigningCertificate: API.OperationMethod<
-  UpdateSigningCertificateRequest,
+  UpdateSigningCertificateRequest & RegionInput,
   UpdateSigningCertificateResponse,
   UpdateSigningCertificateError,
   Credentials | HttpClient.HttpClient
@@ -9516,7 +9525,7 @@ export type UpdateSSHPublicKeyError = InvalidInputException | NoSuchEntityExcept
  * SSH connections in the *CodeCommit User Guide*.
  */
 export const updateSSHPublicKey: API.OperationMethod<
-  UpdateSSHPublicKeyRequest,
+  UpdateSSHPublicKeyRequest & RegionInput,
   UpdateSSHPublicKeyResponse,
   UpdateSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -9553,7 +9562,7 @@ export type UpdateUserError =
  * permission on all (*). For more information about permissions, see Permissions and policies.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -9613,7 +9622,7 @@ export type UploadServerCertificateError =
  * requests in the *IAM User Guide*.
  */
 export const uploadServerCertificate: API.OperationMethod<
-  UploadServerCertificateRequest,
+  UploadServerCertificateRequest & RegionInput,
   UploadServerCertificateResponse,
   UploadServerCertificateError,
   Credentials | HttpClient.HttpClient
@@ -9670,7 +9679,7 @@ export type UploadSigningCertificateError =
  * requests in the *IAM User Guide*.
  */
 export const uploadSigningCertificate: API.OperationMethod<
-  UploadSigningCertificateRequest,
+  UploadSigningCertificateRequest & RegionInput,
   UploadSigningCertificateResponse,
   UploadSigningCertificateError,
   Credentials | HttpClient.HttpClient
@@ -9710,7 +9719,7 @@ export type UploadSSHPublicKeyError =
  * SSH connections in the *CodeCommit User Guide*.
  */
 export const uploadSSHPublicKey: API.OperationMethod<
-  UploadSSHPublicKeyRequest,
+  UploadSSHPublicKeyRequest & RegionInput,
   UploadSSHPublicKeyResponse,
   UploadSSHPublicKeyError,
   Credentials | HttpClient.HttpClient

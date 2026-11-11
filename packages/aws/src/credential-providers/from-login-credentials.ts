@@ -1,8 +1,10 @@
 import { createHash, createPrivateKey, createPublicKey, randomUUID, sign } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { loadModule } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Redacted from "effect/Redacted";
 /**
@@ -215,12 +217,25 @@ const withDpop =
   ): Effect.Effect<A, E, HttpClient.HttpClient> =>
     effect.pipe(
       Effect.updateService(HttpClient.HttpClient, (client) =>
-        HttpClient.mapRequest(client, (request) =>
-          HttpClientRequest.setHeader(
-            request,
-            "DPoP",
-            proof(request.method, endpoint(request.url)),
-          ),
+        HttpClient.mapRequestEffect(client, (request) =>
+          // Signing the proof can fail (a bad DER signature, a URL that does
+          // not parse); the request then fails to encode.
+          Effect.try({
+            try: () =>
+              HttpClientRequest.setHeader(
+                request,
+                "DPoP",
+                proof(request.method, endpoint(request.url)),
+              ),
+            catch: (cause) =>
+              new HttpClientError.HttpClientError({
+                reason: new HttpClientError.EncodeError({
+                  request,
+                  cause,
+                  description: "could not sign the DPoP proof",
+                }),
+              }),
+          }),
         ),
       ),
     );
@@ -256,7 +271,15 @@ const refresh = (
 ): CredentialSource =>
   Effect.gen(function* () {
     const proof = yield* dpopProof(token.dpopKey);
-    const Signin = yield* Effect.promise(() => import("../services/signin.ts"));
+    const Signin = yield* loadModule(() => import("../services/signin.ts")).pipe(
+      Effect.mapError(
+        (e) =>
+          new CredentialSourceError({
+            message: `could not load the Sign-In client: ${e.message}`,
+            cause: e,
+          }),
+      ),
+    );
     const refreshed = yield* Signin.createOAuth2Token({
       tokenInput: {
         clientId: token.clientId,
@@ -271,9 +294,8 @@ const refresh = (
       withDpop(proof),
       withHttpClient,
       Effect.flatMap((response) => {
-        // The payload-bound `tokenOutput` member is not re-wrapped when the
-        // response is decoded, so the operation resolves with the payload
-        // itself; accept either shape.
+        // `tokenOutput` is the payload; a body that is not a token response
+        // can leave it missing, and the checks below reject that.
         const output = response.tokenOutput ?? response;
         // Lenient response validation passes a malformed body through as read.
         const accessToken = output.accessToken as Partial<typeof output.accessToken> | undefined;

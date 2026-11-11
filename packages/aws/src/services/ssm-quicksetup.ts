@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -132,17 +133,17 @@ export type IAMRoleArn = string;
 export interface ConfigurationDefinitionInput {
   Type: string;
   Parameters: { [key: string]: string | undefined };
-  TypeVersion?: string;
-  LocalDeploymentExecutionRoleName?: string;
-  LocalDeploymentAdministrationRoleArn?: string;
+  TypeVersion?: string | undefined;
+  LocalDeploymentExecutionRoleName?: string | undefined;
+  LocalDeploymentAdministrationRoleArn?: string | undefined;
 }
 export type ConfigurationDefinitionsInputList = ConfigurationDefinitionInput[];
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateConfigurationManagerInput {
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
   ConfigurationDefinitions: ConfigurationDefinitionInput[];
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateConfigurationManagerOutput {
   ManagerArn: string;
@@ -170,24 +171,24 @@ export type Status =
 export type StatusDetails = { [key: string]: string | undefined };
 export interface StatusSummary {
   StatusType: StatusType;
-  Status?: Status;
-  StatusMessage?: string;
+  Status?: Status | undefined;
+  StatusMessage?: string | undefined;
   LastUpdatedAt: Date;
-  StatusDetails?: { [key: string]: string | undefined };
+  StatusDetails?: { [key: string]: string | undefined } | undefined;
 }
 export type StatusSummariesList = StatusSummary[];
 export interface GetConfigurationOutput {
-  Id?: string;
-  ManagerArn?: string;
-  ConfigurationDefinitionId?: string;
-  Type?: string;
-  TypeVersion?: string;
-  Account?: string;
-  Region?: string;
-  CreatedAt?: Date;
-  LastModifiedAt?: Date;
-  StatusSummaries?: StatusSummary[];
-  Parameters?: { [key: string]: string | undefined };
+  Id?: string | undefined;
+  ManagerArn?: string | undefined;
+  ConfigurationDefinitionId?: string | undefined;
+  Type?: string | undefined;
+  TypeVersion?: string | undefined;
+  Account?: string | undefined;
+  Region?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastModifiedAt?: Date | undefined;
+  StatusSummaries?: StatusSummary[] | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetConfigurationManagerInput {
   ManagerArn: string;
@@ -195,28 +196,28 @@ export interface GetConfigurationManagerInput {
 export interface ConfigurationDefinition {
   Type: string;
   Parameters: { [key: string]: string | undefined };
-  TypeVersion?: string;
-  LocalDeploymentExecutionRoleName?: string;
-  LocalDeploymentAdministrationRoleArn?: string;
-  Id?: string;
+  TypeVersion?: string | undefined;
+  LocalDeploymentExecutionRoleName?: string | undefined;
+  LocalDeploymentAdministrationRoleArn?: string | undefined;
+  Id?: string | undefined;
 }
 export type ConfigurationDefinitionsList = ConfigurationDefinition[];
 export interface GetConfigurationManagerOutput {
   ManagerArn: string;
-  Description?: string;
-  Name?: string;
-  CreatedAt?: Date;
-  LastModifiedAt?: Date;
-  StatusSummaries?: StatusSummary[];
-  ConfigurationDefinitions?: ConfigurationDefinition[];
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Name?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastModifiedAt?: Date | undefined;
+  StatusSummaries?: StatusSummary[] | undefined;
+  ConfigurationDefinitions?: ConfigurationDefinition[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetServiceSettingsRequest {}
 export interface ServiceSettings {
-  ExplorerEnablingRoleArn?: string;
+  ExplorerEnablingRoleArn?: string | undefined;
 }
 export interface GetServiceSettingsOutput {
-  ServiceSettings?: ServiceSettings;
+  ServiceSettings?: ServiceSettings | undefined;
 }
 export type FilterValues = string[];
 export interface Filter {
@@ -225,72 +226,72 @@ export interface Filter {
 }
 export type FiltersList = Filter[];
 export interface ListConfigurationManagersInput {
-  StartingToken?: string;
-  MaxItems?: number;
-  Filters?: Filter[];
+  StartingToken?: string | undefined;
+  MaxItems?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface ConfigurationDefinitionSummary {
-  Id?: string;
-  Type?: string;
-  TypeVersion?: string;
-  FirstClassParameters?: { [key: string]: string | undefined };
+  Id?: string | undefined;
+  Type?: string | undefined;
+  TypeVersion?: string | undefined;
+  FirstClassParameters?: { [key: string]: string | undefined } | undefined;
 }
 export type ConfigurationDefinitionSummariesList = ConfigurationDefinitionSummary[];
 export interface ConfigurationManagerSummary {
   ManagerArn: string;
-  Description?: string;
-  Name?: string;
-  StatusSummaries?: StatusSummary[];
-  ConfigurationDefinitionSummaries?: ConfigurationDefinitionSummary[];
+  Description?: string | undefined;
+  Name?: string | undefined;
+  StatusSummaries?: StatusSummary[] | undefined;
+  ConfigurationDefinitionSummaries?: ConfigurationDefinitionSummary[] | undefined;
 }
 export type ConfigurationManagerList = ConfigurationManagerSummary[];
 export interface ListConfigurationManagersOutput {
-  ConfigurationManagersList?: ConfigurationManagerSummary[];
-  NextToken?: string;
+  ConfigurationManagersList?: ConfigurationManagerSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConfigurationsInput {
-  StartingToken?: string;
-  MaxItems?: number;
-  Filters?: Filter[];
-  ManagerArn?: string;
-  ConfigurationDefinitionId?: string;
+  StartingToken?: string | undefined;
+  MaxItems?: number | undefined;
+  Filters?: Filter[] | undefined;
+  ManagerArn?: string | undefined;
+  ConfigurationDefinitionId?: string | undefined;
 }
 export interface ConfigurationSummary {
-  Id?: string;
-  ManagerArn?: string;
-  ConfigurationDefinitionId?: string;
-  Type?: string;
-  TypeVersion?: string;
-  Region?: string;
-  Account?: string;
-  CreatedAt?: Date;
-  FirstClassParameters?: { [key: string]: string | undefined };
-  StatusSummaries?: StatusSummary[];
+  Id?: string | undefined;
+  ManagerArn?: string | undefined;
+  ConfigurationDefinitionId?: string | undefined;
+  Type?: string | undefined;
+  TypeVersion?: string | undefined;
+  Region?: string | undefined;
+  Account?: string | undefined;
+  CreatedAt?: Date | undefined;
+  FirstClassParameters?: { [key: string]: string | undefined } | undefined;
+  StatusSummaries?: StatusSummary[] | undefined;
 }
 export type ConfigurationsList = ConfigurationSummary[];
 export interface ListConfigurationsOutput {
-  ConfigurationsList?: ConfigurationSummary[];
-  NextToken?: string;
+  ConfigurationsList?: ConfigurationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListQuickSetupTypesRequest {}
 export interface QuickSetupTypeOutput {
-  Type?: string;
-  LatestVersion?: string;
+  Type?: string | undefined;
+  LatestVersion?: string | undefined;
 }
 export type QuickSetupTypeList = QuickSetupTypeOutput[];
 export interface ListQuickSetupTypesOutput {
-  QuickSetupTypeList?: QuickSetupTypeOutput[];
+  QuickSetupTypeList?: QuickSetupTypeOutput[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface TagEntry {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type Tags = TagEntry[];
 export interface ListTagsForResourceResponse {
-  Tags?: TagEntry[];
+  Tags?: TagEntry[] | undefined;
 }
 export interface TagResourceInput {
   ResourceArn: string;
@@ -306,20 +307,20 @@ export interface UntagResourceResponse {}
 export interface UpdateConfigurationDefinitionInput {
   ManagerArn: string;
   Id: string;
-  TypeVersion?: string;
-  Parameters?: { [key: string]: string | undefined };
-  LocalDeploymentExecutionRoleName?: string;
-  LocalDeploymentAdministrationRoleArn?: string;
+  TypeVersion?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  LocalDeploymentExecutionRoleName?: string | undefined;
+  LocalDeploymentAdministrationRoleArn?: string | undefined;
 }
 export interface UpdateConfigurationDefinitionResponse {}
 export interface UpdateConfigurationManagerInput {
   ManagerArn: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateConfigurationManagerResponse {}
 export interface UpdateServiceSettingsInput {
-  ExplorerEnablingRoleArn?: string;
+  ExplorerEnablingRoleArn?: string | undefined;
 }
 export interface UpdateServiceSettingsResponse {}
 export type CreateConfigurationManagerError =
@@ -335,7 +336,7 @@ export type CreateConfigurationManagerError =
  * summaries describing the deployments of those definitions.
  */
 export const createConfigurationManager: API.OperationMethod<
-  CreateConfigurationManagerInput,
+  CreateConfigurationManagerInput & RegionInput,
   CreateConfigurationManagerOutput,
   CreateConfigurationManagerError,
   Credentials | HttpClient.HttpClient
@@ -368,7 +369,7 @@ export type DeleteConfigurationManagerError =
  * Deletes a configuration manager.
  */
 export const deleteConfigurationManager: API.OperationMethod<
-  DeleteConfigurationManagerInput,
+  DeleteConfigurationManagerInput & RegionInput,
   DeleteConfigurationManagerResponse,
   DeleteConfigurationManagerError,
   Credentials | HttpClient.HttpClient
@@ -402,7 +403,7 @@ export type GetConfigurationError =
  * Returns details about the specified configuration.
  */
 export const getConfiguration: API.OperationMethod<
-  GetConfigurationInput,
+  GetConfigurationInput & RegionInput,
   GetConfigurationOutput,
   GetConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -436,7 +437,7 @@ export type GetConfigurationManagerError =
  * Returns a configuration manager.
  */
 export const getConfigurationManager: API.OperationMethod<
-  GetConfigurationManagerInput,
+  GetConfigurationManagerInput & RegionInput,
   GetConfigurationManagerOutput,
   GetConfigurationManagerError,
   Credentials | HttpClient.HttpClient
@@ -468,7 +469,7 @@ export type GetServiceSettingsError =
  * Returns settings configured for Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
  */
 export const getServiceSettings: API.OperationMethod<
-  GetServiceSettingsRequest,
+  GetServiceSettingsRequest & RegionInput,
   GetServiceSettingsOutput,
   GetServiceSettingsError,
   Credentials | HttpClient.HttpClient
@@ -494,7 +495,7 @@ export type ListConfigurationManagersError =
  * Returns Quick Setup configuration managers.
  */
 export const listConfigurationManagers: API.PaginatedOperationMethod<
-  ListConfigurationManagersInput,
+  ListConfigurationManagersInput & RegionInput,
   ListConfigurationManagersOutput,
   ListConfigurationManagersError,
   Credentials | HttpClient.HttpClient,
@@ -533,7 +534,7 @@ export type ListConfigurationsError =
  * Returns configurations deployed by Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
  */
 export const listConfigurations: API.PaginatedOperationMethod<
-  ListConfigurationsInput,
+  ListConfigurationsInput & RegionInput,
   ListConfigurationsOutput,
   ListConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -571,7 +572,7 @@ export type ListQuickSetupTypesError =
  * Returns the available Quick Setup types.
  */
 export const listQuickSetupTypes: API.OperationMethod<
-  ListQuickSetupTypesRequest,
+  ListQuickSetupTypesRequest & RegionInput,
   ListQuickSetupTypesOutput,
   ListQuickSetupTypesError,
   Credentials | HttpClient.HttpClient
@@ -598,7 +599,7 @@ export type ListTagsForResourceError =
  * Returns tags assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -632,7 +633,7 @@ export type TagResourceError =
  * Assigns key-value pairs of metadata to Amazon Web Services resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -666,7 +667,7 @@ export type UntagResourceError =
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -700,7 +701,7 @@ export type UpdateConfigurationDefinitionError =
  * Updates a Quick Setup configuration definition.
  */
 export const updateConfigurationDefinition: API.OperationMethod<
-  UpdateConfigurationDefinitionInput,
+  UpdateConfigurationDefinitionInput & RegionInput,
   UpdateConfigurationDefinitionResponse,
   UpdateConfigurationDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -734,7 +735,7 @@ export type UpdateConfigurationManagerError =
  * Updates a Quick Setup configuration manager.
  */
 export const updateConfigurationManager: API.OperationMethod<
-  UpdateConfigurationManagerInput,
+  UpdateConfigurationManagerInput & RegionInput,
   UpdateConfigurationManagerResponse,
   UpdateConfigurationManagerError,
   Credentials | HttpClient.HttpClient
@@ -767,7 +768,7 @@ export type UpdateServiceSettingsError =
  * Updates settings configured for Quick Setup.
  */
 export const updateServiceSettings: API.OperationMethod<
-  UpdateServiceSettingsInput,
+  UpdateServiceSettingsInput & RegionInput,
   UpdateServiceSettingsResponse,
   UpdateServiceSettingsError,
   Credentials | HttpClient.HttpClient

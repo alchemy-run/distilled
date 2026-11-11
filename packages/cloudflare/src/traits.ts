@@ -122,3 +122,19 @@ export const hostSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/cloudflare/
  * `com.cloudflare.protocols#host` in the Smithy models.
  */
 export const Host = (template: string) => makeAnnotation(hostSymbol, template);
+
+// =============================================================================
+// R2 jurisdiction
+// =============================================================================
+
+export const jurisdictionSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/cloudflare/jurisdiction",
+);
+
+/**
+ * Marks an operation input whose requests carry the `Jurisdiction` layer as
+ * the `cf-r2-jurisdiction` header when the call sets no `jurisdiction`
+ * member. This mirrors
+ * `com.cloudflare.protocols#jurisdiction` in the Smithy models.
+ */
+export const Jurisdiction = () => makeAnnotation(jurisdictionSymbol, true);

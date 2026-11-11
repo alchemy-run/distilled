@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Servicebus",
   service: "Servicebus",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -52,11 +53,11 @@ export type UnavailableReason =
 /** Description of a Check Name availability request properties. */
 export interface CheckNameAvailabilityResult {
   /** The detailed info regarding the reason associated with the namespace. */
-  message?: string;
+  message?: string | undefined;
   /** Value indicating namespace is availability, true if the namespace is available; otherwise, false. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason for unavailability of a namespace. */
-  reason?: UnavailableReason;
+  reason?: UnavailableReason | undefined;
 }
 export interface CheckNamespaceNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -109,7 +110,7 @@ export interface DeleteNamespaceRequest {
 }
 export interface DeleteNamespaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteNamespaceAuthorizationRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -134,9 +135,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteQueueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -228,9 +229,9 @@ export interface DisasterRecoveryConfigsBreakPairingResponse {}
 /** Properties required to the Create Or Update Alias(Disaster Recovery configurations) */
 export interface ArmDisasterRecoveryPropertiesInput {
   /** ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing */
-  partnerNamespace?: string;
+  partnerNamespace?: string | undefined;
   /** Primary/Secondary eventhub namespace name, which is part of GEO DR pairing */
-  alternateName?: string;
+  alternateName?: string | undefined;
 }
 export interface DisasterRecoveryConfigsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -242,7 +243,7 @@ export interface DisasterRecoveryConfigsCreateOrUpdateRequest {
   /** The Disaster Recovery configuration name */
   alias: string;
   /** Properties required to the Create Or Update Alias(Disaster Recovery configurations) */
-  properties?: ArmDisasterRecoveryPropertiesInput;
+  properties?: ArmDisasterRecoveryPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -251,17 +252,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed' */
 export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
@@ -270,34 +271,34 @@ export type RoleDisasterRecovery = "Primary" | "PrimaryNotReplicating" | "Second
 /** Properties required to the Create Or Update Alias(Disaster Recovery configurations) */
 export interface ArmDisasterRecoveryProperties {
   /** Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed' */
-  provisioningState?: ProvisioningStateDR;
+  provisioningState?: ProvisioningStateDR | undefined;
   /** Number of entities pending to be replicated. */
-  pendingReplicationOperationsCount?: number;
+  pendingReplicationOperationsCount?: number | undefined;
   /** ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing */
-  partnerNamespace?: string;
+  partnerNamespace?: string | undefined;
   /** Primary/Secondary eventhub namespace name, which is part of GEO DR pairing */
-  alternateName?: string;
+  alternateName?: string | undefined;
   /** role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating' or 'Secondary' */
-  role?: RoleDisasterRecovery;
+  role?: RoleDisasterRecovery | undefined;
 }
 export interface DisasterRecoveryConfigsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties required to the Create Or Update Alias(Disaster Recovery configurations) */
-  properties?: ArmDisasterRecoveryProperties;
+  properties?: ArmDisasterRecoveryProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Safe failover is to indicate the service should wait for pending replication to finish before switching to the secondary. */
 export interface FailoverPropertiesProperties {
   /** Safe failover is to indicate the service should wait for pending replication to finish before switching to the secondary. */
-  IsSafeFailover?: boolean;
+  IsSafeFailover?: boolean | undefined;
 }
 export interface DisasterRecoveryConfigsFailOverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -309,7 +310,7 @@ export interface DisasterRecoveryConfigsFailOverRequest {
   /** The Disaster Recovery configuration name */
   alias: string;
   /** Safe failover is to indicate the service should wait for pending replication to finish before switching to the secondary. */
-  properties?: FailoverPropertiesProperties;
+  properties?: FailoverPropertiesProperties | undefined;
 }
 export interface DisasterRecoveryConfigsFailOverResponse {}
 export interface GetDisasterRecoveryConfigRequest {
@@ -324,17 +325,17 @@ export interface GetDisasterRecoveryConfigRequest {
 }
 export interface GetDisasterRecoveryConfigResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties required to the Create Or Update Alias(Disaster Recovery configurations) */
-  properties?: ArmDisasterRecoveryProperties;
+  properties?: ArmDisasterRecoveryProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetDisasterRecoveryConfigAuthorizationRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -358,17 +359,17 @@ export interface SBAuthorizationRuleProperties {
 }
 export interface GetDisasterRecoveryConfigAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AuthorizationRule properties. */
-  properties?: SBAuthorizationRuleProperties;
+  properties?: SBAuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export type GetMigrationConfigRequestConfigName = "$default";
 export interface GetMigrationConfigRequest {
@@ -384,29 +385,29 @@ export interface GetMigrationConfigRequest {
 /** Properties required to the Create Migration Configuration */
 export interface MigrationConfigPropertiesProperties {
   /** Provisioning state of Migration ConfigurationProvisioning state of Migration Configuration */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Number of entities pending to be replicated. */
-  pendingReplicationOperationsCount?: number;
+  pendingReplicationOperationsCount?: number | undefined;
   /** Existing premium Namespace ARM Id name which has no entities, will be used for migration */
   targetNamespace: string;
   /** Name to access Standard Namespace after migration */
   postMigrationName: string;
   /** State in which Standard to Premium Migration is, possible values : Unknown, Reverting, Completing, Initiating, Syncing, Active */
-  migrationState?: string;
+  migrationState?: string | undefined;
 }
 export interface GetMigrationConfigResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties required to the Create Migration Configuration */
-  properties?: MigrationConfigPropertiesProperties;
+  properties?: MigrationConfigPropertiesProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -422,17 +423,17 @@ export type GetNamespaceResponseTagsMap = { [key: string]: string | undefined };
 export type TlsVersion = "1.0" | "1.1" | "1.2" | "1.3";
 export interface UserAssignedIdentityProperties {
   /** ARM ID of user Identity selected for encryption */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** Properties to configure keyVault Properties */
 export interface KeyVaultProperties {
   /** Name of the Key from KeyVault */
-  keyName?: string;
+  keyName?: string | undefined;
   /** Uri of KeyVault */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
   /** Version of KeyVault */
-  keyVersion?: string;
-  identity?: UserAssignedIdentityProperties;
+  keyVersion?: string | undefined;
+  identity?: UserAssignedIdentityProperties | undefined;
 }
 /** Properties of KeyVault */
 export type EncryptionKeyVaultPropertiesList = Array<KeyVaultProperties>;
@@ -441,25 +442,25 @@ export type EncryptionKeySource = "Microsoft.KeyVault";
 /** Properties to configure Encryption */
 export interface Encryption {
   /** Properties of KeyVault */
-  keyVaultProperties?: EncryptionKeyVaultPropertiesList;
+  keyVaultProperties?: EncryptionKeyVaultPropertiesList | undefined;
   /** Enumerates the possible value of keySource for Encryption */
-  keySource?: EncryptionKeySource | (string & {});
+  keySource?: EncryptionKeySource | (string & {}) | undefined;
   /** Enable Infrastructure Encryption (Double Encryption) */
-  requireInfrastructureEncryption?: boolean;
+  requireInfrastructureEncryption?: boolean | undefined;
 }
 /** PrivateEndpoint information. */
 export interface PrivateEndpoint {
   /** The ARM identifier for Private Endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Status of the connection. */
 export type PrivateLinkConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 /** ConnectionState information. */
 export interface ConnectionState {
   /** Status of the connection. */
-  status?: PrivateLinkConnectionStatus | (string & {});
+  status?: PrivateLinkConnectionStatus | (string & {}) | undefined;
   /** Description of the connection state. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Provisioning state of the Private Endpoint Connection. */
 export type EndPointProvisioningState =
@@ -472,26 +473,26 @@ export type EndPointProvisioningState =
 /** Properties of the private endpoint connection resource. */
 export interface PrivateEndpointConnectionProperties {
   /** The Private Endpoint resource for this Connection. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** Details about the state of the connection. */
-  privateLinkServiceConnectionState?: ConnectionState;
+  privateLinkServiceConnectionState?: ConnectionState | undefined;
   /** Provisioning state of the Private Endpoint Connection. */
-  provisioningState?: EndPointProvisioningState | (string & {});
+  provisioningState?: EndPointProvisioningState | (string & {}) | undefined;
 }
 /** Properties of the PrivateEndpointConnection. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** List of private endpoint connections. */
 export type SBNamespacePropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
@@ -504,66 +505,66 @@ export type SBNamespacePropertiesPublicNetworkAccess =
 export type Mode = "Disabled" | "Enabled";
 export interface ConfidentialCompute {
   /** Setting to Enable or Disable Confidential Compute */
-  mode?: Mode | (string & {});
+  mode?: Mode | (string & {}) | undefined;
 }
 export interface PlatformCapabilities {
-  confidentialCompute?: ConfidentialCompute;
+  confidentialCompute?: ConfidentialCompute | undefined;
 }
 /** GeoDR Role Types */
 export type GeoDRRoleType = "Primary" | "Secondary";
 /** Namespace replication properties */
 export interface NamespaceReplicaLocation {
   /** Azure regions where a replica of the namespace is maintained */
-  locationName?: string;
+  locationName?: string | undefined;
   /** GeoDR Role Types */
-  roleType?: GeoDRRoleType | (string & {});
+  roleType?: GeoDRRoleType | (string & {}) | undefined;
 }
 /** A list of regions where replicas of the namespace are maintained. */
 export type GeoDataReplicationPropertiesLocationsList = Array<NamespaceReplicaLocation>;
 /** GeoDR Replication properties */
 export interface GeoDataReplicationProperties {
   /** The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas. When the lag exceeds the configured amount, operations on the primary replica will be failed. The allowed values are 0 and 5 minutes to 1 day. */
-  maxReplicationLagDurationInSeconds?: number;
+  maxReplicationLagDurationInSeconds?: number | undefined;
   /** A list of regions where replicas of the namespace are maintained. */
-  locations?: GeoDataReplicationPropertiesLocationsList;
+  locations?: GeoDataReplicationPropertiesLocationsList | undefined;
 }
 /** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
 export type IpAddressType = "IPv4" | "DualStack";
 /** Properties of the namespace. */
 export interface SBNamespaceProperties {
   /** The minimum TLS version for the cluster to support, e.g. '1.2' */
-  minimumTlsVersion?: TlsVersion;
+  minimumTlsVersion?: TlsVersion | undefined;
   /** Provisioning state of the namespace. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Status of the namespace. */
-  status?: string;
+  status?: string | undefined;
   /** The time the namespace was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The time the namespace was updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Endpoint you can use to perform Service Bus operations. */
-  serviceBusEndpoint?: string;
+  serviceBusEndpoint?: string | undefined;
   /** Identifier for Azure Insights metrics */
-  metricId?: string;
+  metricId?: string | undefined;
   /** Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones. */
-  zoneRedundant?: boolean;
+  zoneRedundant?: boolean | undefined;
   /** Properties of BYOK Encryption description */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** List of private endpoint connections. */
-  privateEndpointConnections?: SBNamespacePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: SBNamespacePropertiesPrivateEndpointConnectionsList | undefined;
   /** This property disables SAS authentication for the Service Bus namespace. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** Alternate name for namespace */
-  alternateName?: string;
+  alternateName?: string | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. */
-  publicNetworkAccess?: SBNamespacePropertiesPublicNetworkAccess;
+  publicNetworkAccess?: SBNamespacePropertiesPublicNetworkAccess | undefined;
   /** The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4 */
-  premiumMessagingPartitions?: number;
-  platformCapabilities?: PlatformCapabilities;
+  premiumMessagingPartitions?: number | undefined;
+  platformCapabilities?: PlatformCapabilities | undefined;
   /** Geo Data Replication settings for the namespace */
-  geoDataReplication?: GeoDataReplicationProperties;
+  geoDataReplication?: GeoDataReplicationProperties | undefined;
   /** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
-  ipAddressType?: IpAddressType;
+  ipAddressType?: IpAddressType | undefined;
 }
 /** Name of this SKU. */
 export type SkuName = "Basic" | "Standard" | "Premium";
@@ -574,9 +575,9 @@ export interface SBSku {
   /** Name of this SKU. */
   name: SkuName | (string & {});
   /** The billing tier of this particular SKU. */
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
   /** Messaging units for your service bus premium namespace. Valid capacities are {1, 2, 4, 8, 16} multiples of your properties.premiumMessagingPartitions setting. For example, If properties.premiumMessagingPartitions is 1 then possible capacity values are 1, 2, 4, 8, and 16. If properties.premiumMessagingPartitions is 4 then possible capacity values are 4, 8, 16, 32 and 64 */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Type of managed service identity. */
 export type ManagedServiceIdentityType =
@@ -587,42 +588,42 @@ export type ManagedServiceIdentityType =
 /** Recognized Dictionary value. */
 export interface UserAssignedIdentity {
   /** Principal Id of user assigned identity */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Client Id of user assigned identity */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Properties for User Assigned Identities */
 export type IdentityUserAssignedIdentitiesMap = { [key: string]: UserAssignedIdentity | undefined };
 /** Properties to configure User Assigned Identities for Bring your Own Keys */
 export interface Identity {
   /** ObjectId from the KeyVault */
-  principalId?: string;
+  principalId?: string | undefined;
   /** TenantId from the KeyVault */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of managed service identity. */
-  type?: ManagedServiceIdentityType;
+  type?: ManagedServiceIdentityType | undefined;
   /** Properties for User Assigned Identities */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetNamespaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNamespaceResponseTagsMap;
+  tags?: GetNamespaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the namespace. */
-  properties?: SBNamespaceProperties;
+  properties?: SBNamespaceProperties | undefined;
   /** Properties of SKU */
-  sku?: SBSku;
+  sku?: SBSku | undefined;
   /** Properties of BYOK Identity description */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface GetNamespaceAuthorizationRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -636,17 +637,17 @@ export interface GetNamespaceAuthorizationRuleRequest {
 }
 export interface GetNamespaceAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AuthorizationRule properties. */
-  properties?: SBAuthorizationRuleProperties;
+  properties?: SBAuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetNamespaceNetworkRuleSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -666,9 +667,9 @@ export interface Subnet {
 /** Description of VirtualNetworkRules - NetworkRules resource. */
 export interface NWRuleSetVirtualNetworkRules {
   /** Subnet properties */
-  subnet?: Subnet;
+  subnet?: Subnet | undefined;
   /** Value that indicates whether to ignore missing VNet Service Endpoint */
-  ignoreMissingVnetServiceEndpoint?: boolean;
+  ignoreMissingVnetServiceEndpoint?: boolean | undefined;
 }
 /** List VirtualNetwork Rules */
 export type NetworkRuleSetPropertiesVirtualNetworkRulesList = Array<NWRuleSetVirtualNetworkRules>;
@@ -677,9 +678,9 @@ export type NWRuleSetIpRulesAction = "Allow";
 /** Description of NetWorkRuleSet - IpRules resource. */
 export interface NWRuleSetIpRules {
   /** IP Mask */
-  ipMask?: string;
+  ipMask?: string | undefined;
   /** The IP Filter Action */
-  action?: NWRuleSetIpRulesAction | (string & {});
+  action?: NWRuleSetIpRulesAction | (string & {}) | undefined;
 }
 /** List of IpRules */
 export type NetworkRuleSetPropertiesIpRulesList = Array<NWRuleSetIpRules>;
@@ -688,29 +689,29 @@ export type NetworkRuleSetPropertiesPublicNetworkAccess = "Enabled" | "Disabled"
 /** NetworkRuleSet properties */
 export interface NetworkRuleSetProperties {
   /** Value that indicates whether Trusted Service Access is Enabled or not. */
-  trustedServiceAccessEnabled?: boolean;
+  trustedServiceAccessEnabled?: boolean | undefined;
   /** Default Action for Network Rule Set */
-  defaultAction?: DefaultAction | (string & {});
+  defaultAction?: DefaultAction | (string & {}) | undefined;
   /** List VirtualNetwork Rules */
-  virtualNetworkRules?: NetworkRuleSetPropertiesVirtualNetworkRulesList;
+  virtualNetworkRules?: NetworkRuleSetPropertiesVirtualNetworkRulesList | undefined;
   /** List of IpRules */
-  ipRules?: NetworkRuleSetPropertiesIpRulesList;
+  ipRules?: NetworkRuleSetPropertiesIpRulesList | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. */
-  publicNetworkAccess?: NetworkRuleSetPropertiesPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: NetworkRuleSetPropertiesPublicNetworkAccess | (string & {}) | undefined;
 }
 export interface GetNamespaceNetworkRuleSetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** NetworkRuleSet properties */
-  properties?: NetworkRuleSetProperties;
+  properties?: NetworkRuleSetProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetNetworkSecurityPerimeterConfigurationResourceAssociationNameRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -738,16 +739,16 @@ export type NetworkSecurityPerimeterConfigurationProvisioningState =
 /** Properties of Provisioning Issue */
 export interface ProvisioningIssueProperties {
   /** Type of Issue */
-  issueType?: string;
+  issueType?: string | undefined;
   /** Description of the issue */
-  description?: string;
+  description?: string | undefined;
 }
 /** Describes Provisioning issue for given NetworkSecurityPerimeterConfiguration */
 export interface ProvisioningIssue {
   /** Name of the issue */
-  name?: string;
+  name?: string | undefined;
   /** Properties of Provisioning Issue */
-  properties?: ProvisioningIssueProperties;
+  properties?: ProvisioningIssueProperties | undefined;
 }
 /** List of Provisioning Issues if any */
 export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList =
@@ -755,11 +756,11 @@ export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesLis
 /** NetworkSecurityPerimeter related information */
 export interface NetworkSecurityPerimeter {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Guid of the resource */
-  perimeterGuid?: string;
+  perimeterGuid?: string | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
 }
 /** Access Mode of the resource association */
 export type ResourceAssociationAccessMode =
@@ -771,9 +772,9 @@ export type ResourceAssociationAccessMode =
 /** Information about resource association */
 export interface NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation {
   /** Name of the resource association */
-  name?: string;
+  name?: string | undefined;
   /** Access Mode of the resource association */
-  accessMode?: ResourceAssociationAccessMode;
+  accessMode?: ResourceAssociationAccessMode | undefined;
 }
 /** Direction of Access Rule */
 export type NspAccessRuleDirection = "Inbound" | "Outbound";
@@ -782,7 +783,7 @@ export type NspAccessRulePropertiesAddressPrefixesList = Array<string>;
 /** Subscription for inbound rule */
 export interface NspAccessRulePropertiesSubscriptionsItem {
   /** Fully qualified identifier of subscription */
-  id?: string;
+  id?: string | undefined;
 }
 /** Subscriptions for inbound rules */
 export type NspAccessRulePropertiesSubscriptionsList =
@@ -794,26 +795,26 @@ export type NspAccessRulePropertiesFullyQualifiedDomainNamesList = Array<string>
 /** Properties of Access Rule */
 export interface NspAccessRuleProperties {
   /** Direction of Access Rule */
-  direction?: NspAccessRuleDirection;
+  direction?: NspAccessRuleDirection | undefined;
   /** Address prefixes in the CIDR format for inbound rules */
-  addressPrefixes?: NspAccessRulePropertiesAddressPrefixesList;
+  addressPrefixes?: NspAccessRulePropertiesAddressPrefixesList | undefined;
   /** Subscriptions for inbound rules */
-  subscriptions?: NspAccessRulePropertiesSubscriptionsList;
+  subscriptions?: NspAccessRulePropertiesSubscriptionsList | undefined;
   /** NetworkSecurityPerimeters for inbound rules */
-  networkSecurityPerimeters?: NspAccessRulePropertiesNetworkSecurityPerimetersList;
+  networkSecurityPerimeters?: NspAccessRulePropertiesNetworkSecurityPerimetersList | undefined;
   /** FQDN for outbound rules */
-  fullyQualifiedDomainNames?: NspAccessRulePropertiesFullyQualifiedDomainNamesList;
+  fullyQualifiedDomainNames?: NspAccessRulePropertiesFullyQualifiedDomainNamesList | undefined;
 }
 /** Information of Access Rule in Network Profile */
 export interface NspAccessRule {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Properties of Access Rule */
-  properties?: NspAccessRuleProperties;
+  properties?: NspAccessRuleProperties | undefined;
 }
 /** List of Access Rules */
 export type NetworkSecurityPerimeterConfigurationPropertiesProfileAccessRulesList =
@@ -821,48 +822,54 @@ export type NetworkSecurityPerimeterConfigurationPropertiesProfileAccessRulesLis
 /** Information about current network profile */
 export interface NetworkSecurityPerimeterConfigurationPropertiesProfile {
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Current access rules version */
-  accessRulesVersion?: string;
+  accessRulesVersion?: string | undefined;
   /** List of Access Rules */
-  accessRules?: NetworkSecurityPerimeterConfigurationPropertiesProfileAccessRulesList;
+  accessRules?: NetworkSecurityPerimeterConfigurationPropertiesProfileAccessRulesList | undefined;
 }
 /** Indicates that the NSP controls related to backing association are only applicable to a specific feature in backing resource's data plane. */
 export type NetworkSecurityPerimeterConfigurationPropertiesApplicableFeaturesList = Array<string>;
 /** Properties of NetworkSecurityPerimeterConfiguration */
 export interface NetworkSecurityPerimeterConfigurationProperties {
   /** Provisioning state of NetworkSecurityPerimeter configuration propagation */
-  provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+  provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState | undefined;
   /** List of Provisioning Issues if any */
-  provisioningIssues?: NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList;
+  provisioningIssues?:
+    | NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList
+    | undefined;
   /** NetworkSecurityPerimeter related information */
-  networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  networkSecurityPerimeter?: NetworkSecurityPerimeter | undefined;
   /** Information about resource association */
-  resourceAssociation?: NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation;
+  resourceAssociation?:
+    | NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation
+    | undefined;
   /** Information about current network profile */
-  profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
+  profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile | undefined;
   /** True if the ServiceBus namespace is backed by another Azure resource and not visible to end users. */
-  isBackingResource?: boolean;
+  isBackingResource?: boolean | undefined;
   /** Indicates that the NSP controls related to backing association are only applicable to a specific feature in backing resource's data plane. */
-  applicableFeatures?: NetworkSecurityPerimeterConfigurationPropertiesApplicableFeaturesList;
+  applicableFeatures?:
+    | NetworkSecurityPerimeterConfigurationPropertiesApplicableFeaturesList
+    | undefined;
   /** Source Resource Association name */
-  parentAssociationName?: string;
+  parentAssociationName?: string | undefined;
   /** ARM Id of source resource */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
 }
 export interface GetNetworkSecurityPerimeterConfigurationResourceAssociationNameResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Network Security Perimeter Configuration */
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -876,17 +883,17 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -902,22 +909,22 @@ export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
 export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of PrivateLinkResource */
 export interface PrivateLinkResourceProperties {
-  groupId?: string;
+  groupId?: string | undefined;
   /** Required Members */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** Required Zone Names */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** Information of the private link resource. */
 export interface PrivateLinkResource {
   /** Properties of the private link resource. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourcesListResultValueList = Array<PrivateLinkResource>;
@@ -926,7 +933,7 @@ export interface PrivateLinkResourcesListResult {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResourcesListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface GetQueueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -941,15 +948,15 @@ export interface GetQueueRequest {
 /** Message Count Details. */
 export interface MessageCountDetails {
   /** Number of active messages in the queue, topic, or subscription. */
-  activeMessageCount?: number;
+  activeMessageCount?: number | undefined;
   /** Number of messages that are dead lettered. */
-  deadLetterMessageCount?: number;
+  deadLetterMessageCount?: number | undefined;
   /** Number of scheduled messages. */
-  scheduledMessageCount?: number;
+  scheduledMessageCount?: number | undefined;
   /** Number of messages transferred to another queue, topic, or subscription. */
-  transferMessageCount?: number;
+  transferMessageCount?: number | undefined;
   /** Number of messages transferred into dead letters. */
-  transferDeadLetterMessageCount?: number;
+  transferDeadLetterMessageCount?: number | undefined;
 }
 /** Entity status. */
 export type EntityStatus =
@@ -965,65 +972,65 @@ export type EntityStatus =
 /** The Queue Properties definition. */
 export interface SBQueueProperties {
   /** Message Count Details. */
-  countDetails?: MessageCountDetails;
+  countDetails?: MessageCountDetails | undefined;
   /** The exact time the message was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The exact time the message was updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Last time a message was sent, or the last time there was a receive request to this queue. */
-  accessedAt?: string;
+  accessedAt?: string | undefined;
   /** The size of the queue, in bytes. */
-  sizeInBytes?: number;
+  sizeInBytes?: number | undefined;
   /** The number of messages in the queue. */
-  messageCount?: number;
+  messageCount?: number | undefined;
   /** ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute. */
-  lockDuration?: string;
+  lockDuration?: string | undefined;
   /** The maximum size of the queue in megabytes, which is the size of memory allocated for the queue. Default is 1024. */
-  maxSizeInMegabytes?: number;
+  maxSizeInMegabytes?: number | undefined;
   /** Maximum size (in KB) of the message payload that can be accepted by the queue. This property is only used in Premium today and default is 1024. */
-  maxMessageSizeInKilobytes?: number;
+  maxMessageSizeInKilobytes?: number | undefined;
   /** A value indicating if this queue requires duplicate detection. */
-  requiresDuplicateDetection?: boolean;
+  requiresDuplicateDetection?: boolean | undefined;
   /** A value that indicates whether the queue supports the concept of sessions. */
-  requiresSession?: boolean;
+  requiresSession?: boolean | undefined;
   /** ISO 8601 default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself. */
-  defaultMessageTimeToLive?: string;
+  defaultMessageTimeToLive?: string | undefined;
   /** A value that indicates whether this queue has dead letter support when a message expires. */
-  deadLetteringOnMessageExpiration?: boolean;
+  deadLetteringOnMessageExpiration?: boolean | undefined;
   /** ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes. */
-  duplicateDetectionHistoryTimeWindow?: string;
+  duplicateDetectionHistoryTimeWindow?: string | undefined;
   /** The maximum delivery count. A message is automatically deadlettered after this number of deliveries. default value is 10. */
-  maxDeliveryCount?: number;
+  maxDeliveryCount?: number | undefined;
   /** Enumerates the possible values for the status of a messaging entity. */
-  status?: EntityStatus;
+  status?: EntityStatus | undefined;
   /** Value that indicates whether server-side batched operations are enabled. */
-  enableBatchedOperations?: boolean;
+  enableBatchedOperations?: boolean | undefined;
   /** ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration is 5 minutes. */
-  autoDeleteOnIdle?: string;
+  autoDeleteOnIdle?: string | undefined;
   /** A value that indicates whether the queue is to be partitioned across multiple message brokers. */
-  enablePartitioning?: boolean;
+  enablePartitioning?: boolean | undefined;
   /** A value that indicates whether Express Entities are enabled. An express queue holds a message in memory temporarily before writing it to persistent storage. */
-  enableExpress?: boolean;
+  enableExpress?: boolean | undefined;
   /** Queue/Topic name to forward the messages */
-  forwardTo?: string;
+  forwardTo?: string | undefined;
   /** Queue/Topic name to forward the Dead Letter message */
-  forwardDeadLetteredMessagesTo?: string;
+  forwardDeadLetteredMessagesTo?: string | undefined;
   /** Gets and Sets Metadata of User. */
-  userMetadata?: string;
+  userMetadata?: string | undefined;
 }
 export interface GetQueueResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Queue Properties */
-  properties?: SBQueueProperties;
+  properties?: SBQueueProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetQueueAuthorizationRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1039,17 +1046,17 @@ export interface GetQueueAuthorizationRuleRequest {
 }
 export interface GetQueueAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AuthorizationRule properties. */
-  properties?: SBAuthorizationRuleProperties;
+  properties?: SBAuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1068,72 +1075,72 @@ export interface GetRuleRequest {
 /** Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression. */
 export interface Action {
   /** SQL expression. e.g. MyProperty='ABC' */
-  sqlExpression?: string;
+  sqlExpression?: string | undefined;
   /** This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20. */
-  compatibilityLevel?: number;
+  compatibilityLevel?: number | undefined;
   /** Value that indicates whether the rule action requires preprocessing. */
-  requiresPreprocessing?: boolean;
+  requiresPreprocessing?: boolean | undefined;
 }
 /** Rule filter types */
 export type FilterType = "SqlFilter" | "CorrelationFilter";
 /** Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline. */
 export interface SqlFilter {
   /** The SQL expression. e.g. MyProperty='ABC' */
-  sqlExpression?: string;
+  sqlExpression?: string | undefined;
   /** This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20. */
-  compatibilityLevel?: number;
+  compatibilityLevel?: number | undefined;
   /** Value that indicates whether the rule action requires preprocessing. */
-  requiresPreprocessing?: boolean;
+  requiresPreprocessing?: boolean | undefined;
 }
 /** dictionary object for custom filters */
 export type CorrelationFilterPropertiesMap = { [key: string]: string | undefined };
 /** Represents the correlation filter expression. */
 export interface CorrelationFilter {
   /** dictionary object for custom filters */
-  properties?: CorrelationFilterPropertiesMap;
+  properties?: CorrelationFilterPropertiesMap | undefined;
   /** Identifier of the correlation. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** Identifier of the message. */
-  messageId?: string;
+  messageId?: string | undefined;
   /** Address to send to. */
-  to?: string;
+  to?: string | undefined;
   /** Address of the queue to reply to. */
-  replyTo?: string;
+  replyTo?: string | undefined;
   /** Application specific label. */
-  label?: string;
+  label?: string | undefined;
   /** Session identifier. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Session identifier to reply to. */
-  replyToSessionId?: string;
+  replyToSessionId?: string | undefined;
   /** Content type of the message. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** Value that indicates whether the rule action requires preprocessing. */
-  requiresPreprocessing?: boolean;
+  requiresPreprocessing?: boolean | undefined;
 }
 /** Description of Rule Resource. */
 export interface Ruleproperties {
   /** Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression. */
-  action?: Action;
+  action?: Action | undefined;
   /** Filter type that is evaluated against a BrokeredMessage. */
-  filterType?: FilterType | (string & {});
+  filterType?: FilterType | (string & {}) | undefined;
   /** Properties of sqlFilter */
-  sqlFilter?: SqlFilter;
+  sqlFilter?: SqlFilter | undefined;
   /** Properties of correlationFilter */
-  correlationFilter?: CorrelationFilter;
+  correlationFilter?: CorrelationFilter | undefined;
 }
 export interface GetRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Rule resource */
-  properties?: Ruleproperties;
+  properties?: Ruleproperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1150,68 +1157,68 @@ export interface GetSubscriptionRequest {
 /** Properties specific to client affine subscriptions. */
 export interface SBClientAffineProperties {
   /** Indicates the Client ID of the application that created the client-affine subscription. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** For client-affine subscriptions, this value indicates whether the subscription is durable or not. */
-  isDurable?: boolean;
+  isDurable?: boolean | undefined;
   /** For client-affine subscriptions, this value indicates whether the subscription is shared or not. */
-  isShared?: boolean;
+  isShared?: boolean | undefined;
 }
 /** Description of Subscription Resource. */
 export interface SBSubscriptionProperties {
   /** Number of messages. */
-  messageCount?: number;
+  messageCount?: number | undefined;
   /** Exact time the message was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Last time there was a receive request to this subscription. */
-  accessedAt?: string;
+  accessedAt?: string | undefined;
   /** The exact time the message was updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Message count details */
-  countDetails?: MessageCountDetails;
+  countDetails?: MessageCountDetails | undefined;
   /** ISO 8061 lock duration timespan for the subscription. The default value is 1 minute. */
-  lockDuration?: string;
+  lockDuration?: string | undefined;
   /** Value indicating if a subscription supports the concept of sessions. */
-  requiresSession?: boolean;
+  requiresSession?: boolean | undefined;
   /** ISO 8061 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself. */
-  defaultMessageTimeToLive?: string;
+  defaultMessageTimeToLive?: string | undefined;
   /** Value that indicates whether a subscription has dead letter support on filter evaluation exceptions. */
-  deadLetteringOnFilterEvaluationExceptions?: boolean;
+  deadLetteringOnFilterEvaluationExceptions?: boolean | undefined;
   /** Value that indicates whether a subscription has dead letter support when a message expires. */
-  deadLetteringOnMessageExpiration?: boolean;
+  deadLetteringOnMessageExpiration?: boolean | undefined;
   /** ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes. */
-  duplicateDetectionHistoryTimeWindow?: string;
+  duplicateDetectionHistoryTimeWindow?: string | undefined;
   /** Number of maximum deliveries. */
-  maxDeliveryCount?: number;
+  maxDeliveryCount?: number | undefined;
   /** Enumerates the possible values for the status of a messaging entity. */
-  status?: EntityStatus;
+  status?: EntityStatus | undefined;
   /** Value that indicates whether server-side batched operations are enabled. */
-  enableBatchedOperations?: boolean;
+  enableBatchedOperations?: boolean | undefined;
   /** ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes. */
-  autoDeleteOnIdle?: string;
+  autoDeleteOnIdle?: string | undefined;
   /** Queue/Topic name to forward the messages */
-  forwardTo?: string;
+  forwardTo?: string | undefined;
   /** Queue/Topic name to forward the Dead Letter message */
-  forwardDeadLetteredMessagesTo?: string;
+  forwardDeadLetteredMessagesTo?: string | undefined;
   /** Value that indicates whether the subscription has an affinity to the client id. */
-  isClientAffine?: boolean;
+  isClientAffine?: boolean | undefined;
   /** Gets and Sets Metadata of User. */
-  userMetadata?: string;
+  userMetadata?: string | undefined;
   /** Properties specific to client affine subscriptions. */
-  clientAffineProperties?: SBClientAffineProperties;
+  clientAffineProperties?: SBClientAffineProperties | undefined;
 }
 export interface GetSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of subscriptions resource. */
-  properties?: SBSubscriptionProperties;
+  properties?: SBSubscriptionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetTopicRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1226,55 +1233,55 @@ export interface GetTopicRequest {
 /** The Topic Properties definition. */
 export interface SBTopicProperties {
   /** Size of the topic, in bytes. */
-  sizeInBytes?: number;
+  sizeInBytes?: number | undefined;
   /** Exact time the message was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The exact time the message was updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Last time the message was sent, or a request was received, for this topic. */
-  accessedAt?: string;
+  accessedAt?: string | undefined;
   /** Number of subscriptions. */
-  subscriptionCount?: number;
+  subscriptionCount?: number | undefined;
   /** Message count details */
-  countDetails?: MessageCountDetails;
+  countDetails?: MessageCountDetails | undefined;
   /** ISO 8601 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself. */
-  defaultMessageTimeToLive?: string;
+  defaultMessageTimeToLive?: string | undefined;
   /** Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic. Default is 1024. */
-  maxSizeInMegabytes?: number;
+  maxSizeInMegabytes?: number | undefined;
   /** Maximum size (in KB) of the message payload that can be accepted by the topic. This property is only used in Premium today and default is 1024. */
-  maxMessageSizeInKilobytes?: number;
+  maxMessageSizeInKilobytes?: number | undefined;
   /** Value indicating if this topic requires duplicate detection. */
-  requiresDuplicateDetection?: boolean;
+  requiresDuplicateDetection?: boolean | undefined;
   /** ISO8601 timespan structure that defines the duration of the duplicate detection history. The default value is 10 minutes. */
-  duplicateDetectionHistoryTimeWindow?: string;
+  duplicateDetectionHistoryTimeWindow?: string | undefined;
   /** Value that indicates whether server-side batched operations are enabled. */
-  enableBatchedOperations?: boolean;
+  enableBatchedOperations?: boolean | undefined;
   /** Enumerates the possible values for the status of a messaging entity. */
-  status?: EntityStatus;
+  status?: EntityStatus | undefined;
   /** Value that indicates whether the topic supports ordering. */
-  supportOrdering?: boolean;
+  supportOrdering?: boolean | undefined;
   /** ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes. */
-  autoDeleteOnIdle?: string;
+  autoDeleteOnIdle?: string | undefined;
   /** Value that indicates whether the topic to be partitioned across multiple message brokers is enabled. */
-  enablePartitioning?: boolean;
+  enablePartitioning?: boolean | undefined;
   /** Value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage. */
-  enableExpress?: boolean;
+  enableExpress?: boolean | undefined;
   /** Gets and Sets Metadata of User. */
-  userMetadata?: string;
+  userMetadata?: string | undefined;
 }
 export interface GetTopicResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of topic resource. */
-  properties?: SBTopicProperties;
+  properties?: SBTopicProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetTopicAuthorizationRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1290,17 +1297,17 @@ export interface GetTopicAuthorizationRuleRequest {
 }
 export interface GetTopicAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AuthorizationRule properties. */
-  properties?: SBAuthorizationRuleProperties;
+  properties?: SBAuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface ListDisasterRecoveryConfigAuthorizationRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1315,17 +1322,17 @@ export interface ListDisasterRecoveryConfigAuthorizationRulesRequest {
 /** Description of a namespace authorization rule. */
 export interface SBAuthorizationRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AuthorizationRule properties. */
-  properties?: SBAuthorizationRuleProperties;
+  properties?: SBAuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The SBAuthorizationRule items on this page */
 export type SBAuthorizationRuleListResultValueList = Array<SBAuthorizationRule>;
@@ -1334,7 +1341,7 @@ export interface SBAuthorizationRuleListResult {
   /** The SBAuthorizationRule items on this page */
   value: SBAuthorizationRuleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDisasterRecoveryConfigKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1351,19 +1358,19 @@ export interface ListDisasterRecoveryConfigKeysRequest {
 /** Namespace/ServiceBus Connection String */
 export interface AccessKeys {
   /** Primary connection string of the created namespace authorization rule. */
-  primaryConnectionString?: string;
+  primaryConnectionString?: string | undefined;
   /** Secondary connection string of the created namespace authorization rule. */
-  secondaryConnectionString?: string;
+  secondaryConnectionString?: string | undefined;
   /** Primary connection string of the alias if GEO DR is enabled */
-  aliasPrimaryConnectionString?: string;
+  aliasPrimaryConnectionString?: string | undefined;
   /** Secondary connection string of the alias if GEO DR is enabled */
-  aliasSecondaryConnectionString?: string;
+  aliasSecondaryConnectionString?: string | undefined;
   /** A base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** A base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** A string that describes the authorization rule. */
-  keyName?: string;
+  keyName?: string | undefined;
 }
 export interface ListDisasterRecoveryConfigsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1376,17 +1383,17 @@ export interface ListDisasterRecoveryConfigsRequest {
 /** Single item in List or Get Alias(Disaster Recovery configuration) operation */
 export interface ArmDisasterRecovery {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties required to the Create Or Update Alias(Disaster Recovery configurations) */
-  properties?: ArmDisasterRecoveryProperties;
+  properties?: ArmDisasterRecoveryProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The ArmDisasterRecovery items on this page */
 export type ArmDisasterRecoveryListResultValueList = Array<ArmDisasterRecovery>;
@@ -1395,7 +1402,7 @@ export interface ArmDisasterRecoveryListResult {
   /** The ArmDisasterRecovery items on this page */
   value: ArmDisasterRecoveryListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMigrationConfigsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1408,17 +1415,17 @@ export interface ListMigrationConfigsRequest {
 /** Single item in List or Get Migration Config operation */
 export interface MigrationConfigProperties {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties required to the Create Migration Configuration */
-  properties?: MigrationConfigPropertiesProperties;
+  properties?: MigrationConfigPropertiesProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The MigrationConfigProperties items on this page */
 export type MigrationConfigListResultValueList = Array<MigrationConfigProperties>;
@@ -1427,7 +1434,7 @@ export interface MigrationConfigListResult {
   /** The MigrationConfigProperties items on this page */
   value: MigrationConfigListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceAuthorizationRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1448,23 +1455,23 @@ export type SBNamespaceTagsMap = { [key: string]: string | undefined };
 /** Description of a namespace resource. */
 export interface SBNamespace {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SBNamespaceTagsMap;
+  tags?: SBNamespaceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the namespace. */
-  properties?: SBNamespaceProperties;
+  properties?: SBNamespaceProperties | undefined;
   /** Properties of SKU */
-  sku?: SBSku;
+  sku?: SBSku | undefined;
   /** Properties of BYOK Identity description */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** The SBNamespace items on this page */
 export type SBNamespaceListResultValueList = Array<SBNamespace>;
@@ -1473,7 +1480,7 @@ export interface SBNamespaceListResult {
   /** The SBNamespace items on this page */
   value: SBNamespaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1496,17 +1503,17 @@ export interface ListNamespaceNetworkRuleSetsRequest {
 /** Description of NetworkRuleSet resource. */
 export interface NetworkRuleSet {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** NetworkRuleSet properties */
-  properties?: NetworkRuleSetProperties;
+  properties?: NetworkRuleSetProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The NetworkRuleSet items on this page */
 export type NetworkRuleSetListResultValueList = Array<NetworkRuleSet>;
@@ -1515,7 +1522,7 @@ export interface NetworkRuleSetListResult {
   /** The NetworkRuleSet items on this page */
   value: NetworkRuleSetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespacesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1532,17 +1539,17 @@ export interface ListNetworkSecurityPerimeterConfigurationRequest {
 /** Network Security Perimeter related configurations of a given namespace */
 export interface NetworkSecurityPerimeterConfiguration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Network Security Perimeter Configuration */
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The NetworkSecurityPerimeterConfiguration items on this page */
 export type NetworkSecurityPerimeterConfigurationListValueList =
@@ -1552,32 +1559,32 @@ export interface NetworkSecurityPerimeterConfigurationList {
   /** The NetworkSecurityPerimeterConfiguration items on this page */
   value: NetworkSecurityPerimeterConfigurationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Operation display payload */
 export interface OperationDisplay {
   /** Resource provider of the operation */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource of the operation */
-  resource?: string;
+  resource?: string | undefined;
   /** Localized friendly name for the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Localized friendly description for the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** A Service Bus REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Display of the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties of the operation */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** The list of operations. */
 export type OperationListResultValueList = Array<Operation>;
@@ -1586,7 +1593,7 @@ export interface OperationListResult {
   /** The list of operations. */
   value: OperationListResultValueList;
   /** The URL to get the next set of results, if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1603,7 +1610,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListQueueAuthorizationRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1623,24 +1630,24 @@ export interface ListQueueByNamespaceRequest {
   /** The namespace name */
   namespaceName: string;
   /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Description of queue Resource. */
 export interface SBQueue {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Queue Properties */
-  properties?: SBQueueProperties;
+  properties?: SBQueueProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The SBQueue items on this page */
 export type SBQueueListResultValueList = Array<SBQueue>;
@@ -1649,7 +1656,7 @@ export interface SBQueueListResult {
   /** The SBQueue items on this page */
   value: SBQueueListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListQueueKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1675,24 +1682,24 @@ export interface ListRuleBySubscriptionsRequest {
   /** The subscription name. */
   subscriptionName: string;
   /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Description of Rule Resource. */
 export interface Rule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Rule resource */
-  properties?: Ruleproperties;
+  properties?: Ruleproperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The Rule items on this page */
 export type RuleListResultValueList = Array<Rule>;
@@ -1701,7 +1708,7 @@ export interface RuleListResult {
   /** The Rule items on this page */
   value: RuleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSubscriptionByTopicRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1713,24 +1720,24 @@ export interface ListSubscriptionByTopicRequest {
   /** The topic name. */
   topicName: string;
   /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Description of subscription resource. */
 export interface SBSubscription {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of subscriptions resource. */
-  properties?: SBSubscriptionProperties;
+  properties?: SBSubscriptionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The SBSubscription items on this page */
 export type SBSubscriptionListResultValueList = Array<SBSubscription>;
@@ -1739,7 +1746,7 @@ export interface SBSubscriptionListResult {
   /** The SBSubscription items on this page */
   value: SBSubscriptionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTopicAuthorizationRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1759,24 +1766,24 @@ export interface ListTopicByNamespaceRequest {
   /** The namespace name */
   namespaceName: string;
   /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Description of topic resource. */
 export interface SBTopic {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of topic resource. */
-  properties?: SBTopicProperties;
+  properties?: SBTopicProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The SBTopic items on this page */
 export type SBTopicListResultValueList = Array<SBTopic>;
@@ -1785,7 +1792,7 @@ export interface SBTopicListResult {
   /** The SBTopic items on this page */
   value: SBTopicListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTopicKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1817,25 +1824,25 @@ export interface MigrationConfigsCreateAndStartMigrationRequest {
   /** The configuration name. Should always be $default. */
   configName: MigrationConfigsCreateAndStartMigrationRequestConfigName | (string & {});
   /** Properties required to the Create Migration Configuration */
-  properties?: MigrationConfigPropertiesPropertiesInput;
+  properties?: MigrationConfigPropertiesPropertiesInput | undefined;
 }
 export interface MigrationConfigsCreateAndStartMigrationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties required to the Create Migration Configuration */
-  properties?: MigrationConfigPropertiesProperties;
+  properties?: MigrationConfigPropertiesProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type MigrationConfigsRevertRequestConfigName = "$default";
 export interface MigrationConfigsRevertRequest {
@@ -1854,7 +1861,7 @@ export type NamespacesCreateOrUpdateRequestTagsMap = { [key: string]: string | u
 /** Properties of the PrivateEndpointConnection. */
 export interface PrivateEndpointConnectionInput {
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections. */
 export type SBNamespacePropertiesInputPrivateEndpointConnectionsList =
@@ -1867,26 +1874,26 @@ export type SBNamespacePropertiesInputPublicNetworkAccess =
 /** Properties of the namespace. */
 export interface SBNamespacePropertiesInput {
   /** The minimum TLS version for the cluster to support, e.g. '1.2' */
-  minimumTlsVersion?: TlsVersion | (string & {});
+  minimumTlsVersion?: TlsVersion | (string & {}) | undefined;
   /** Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones. */
-  zoneRedundant?: boolean;
+  zoneRedundant?: boolean | undefined;
   /** Properties of BYOK Encryption description */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** List of private endpoint connections. */
-  privateEndpointConnections?: SBNamespacePropertiesInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?: SBNamespacePropertiesInputPrivateEndpointConnectionsList | undefined;
   /** This property disables SAS authentication for the Service Bus namespace. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** Alternate name for namespace */
-  alternateName?: string;
+  alternateName?: string | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. */
-  publicNetworkAccess?: SBNamespacePropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: SBNamespacePropertiesInputPublicNetworkAccess | (string & {}) | undefined;
   /** The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4 */
-  premiumMessagingPartitions?: number;
-  platformCapabilities?: PlatformCapabilities;
+  premiumMessagingPartitions?: number | undefined;
+  platformCapabilities?: PlatformCapabilities | undefined;
   /** Geo Data Replication settings for the namespace */
-  geoDataReplication?: GeoDataReplicationProperties;
+  geoDataReplication?: GeoDataReplicationProperties | undefined;
   /** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
-  ipAddressType?: IpAddressType | (string & {});
+  ipAddressType?: IpAddressType | (string & {}) | undefined;
 }
 /** Recognized Dictionary value. */
 export interface UserAssignedIdentityInput {}
@@ -1897,9 +1904,9 @@ export type IdentityInputUserAssignedIdentitiesMap = {
 /** Properties to configure User Assigned Identities for Bring your Own Keys */
 export interface IdentityInput {
   /** Type of managed service identity. */
-  type?: ManagedServiceIdentityType | (string & {});
+  type?: ManagedServiceIdentityType | (string & {}) | undefined;
   /** Properties for User Assigned Identities */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface NamespacesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1909,39 +1916,39 @@ export interface NamespacesCreateOrUpdateRequest {
   /** The namespace name */
   namespaceName: string;
   /** Resource tags. */
-  tags?: NamespacesCreateOrUpdateRequestTagsMap;
+  tags?: NamespacesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the namespace. */
-  properties?: SBNamespacePropertiesInput;
+  properties?: SBNamespacePropertiesInput | undefined;
   /** Properties of SKU */
-  sku?: SBSku;
+  sku?: SBSku | undefined;
   /** Properties of BYOK Identity description */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Resource tags. */
 export type NamespacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface NamespacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NamespacesCreateOrUpdateResponseTagsMap;
+  tags?: NamespacesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the namespace. */
-  properties?: SBNamespaceProperties;
+  properties?: SBNamespaceProperties | undefined;
   /** Properties of SKU */
-  sku?: SBSku;
+  sku?: SBSku | undefined;
   /** Properties of BYOK Identity description */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface NamespacesCreateOrUpdateAuthorizationRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1953,21 +1960,21 @@ export interface NamespacesCreateOrUpdateAuthorizationRuleRequest {
   /** The authorization rule name. */
   authorizationRuleName: string;
   /** AuthorizationRule properties. */
-  properties?: SBAuthorizationRuleProperties;
+  properties?: SBAuthorizationRuleProperties | undefined;
 }
 export interface NamespacesCreateOrUpdateAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AuthorizationRule properties. */
-  properties?: SBAuthorizationRuleProperties;
+  properties?: SBAuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface NamespacesCreateOrUpdateNetworkRuleSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1977,27 +1984,27 @@ export interface NamespacesCreateOrUpdateNetworkRuleSetRequest {
   /** The namespace name */
   namespaceName: string;
   /** NetworkRuleSet properties */
-  properties?: NetworkRuleSetProperties;
+  properties?: NetworkRuleSetProperties | undefined;
 }
 export interface NamespacesCreateOrUpdateNetworkRuleSetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** NetworkRuleSet properties */
-  properties?: NetworkRuleSetProperties;
+  properties?: NetworkRuleSetProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface FailOverProperties {
   /** Query parameter for the new primary location after failover. */
-  primaryLocation?: string;
+  primaryLocation?: string | undefined;
   /** If Force is false then graceful failover is attempted after ensuring no data loss. If Force flag is set to true, Forced failover is attempted with possible data loss. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface NamespacesFailoverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2006,15 +2013,15 @@ export interface NamespacesFailoverRequest {
   resourceGroupName: string;
   /** The namespace name */
   namespaceName: string;
-  properties?: FailOverProperties;
+  properties?: FailOverProperties | undefined;
 }
 export interface NamespacesFailoverResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetworkSecurityPerimeterConfigurationsReconcileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2037,58 +2044,58 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The PrivateEndpointConnection name */
   privateEndpointConnectionName: string;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The Queue Properties definition. */
 export interface SBQueuePropertiesInput {
   /** ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute. */
-  lockDuration?: string;
+  lockDuration?: string | undefined;
   /** The maximum size of the queue in megabytes, which is the size of memory allocated for the queue. Default is 1024. */
-  maxSizeInMegabytes?: number;
+  maxSizeInMegabytes?: number | undefined;
   /** Maximum size (in KB) of the message payload that can be accepted by the queue. This property is only used in Premium today and default is 1024. */
-  maxMessageSizeInKilobytes?: number;
+  maxMessageSizeInKilobytes?: number | undefined;
   /** A value indicating if this queue requires duplicate detection. */
-  requiresDuplicateDetection?: boolean;
+  requiresDuplicateDetection?: boolean | undefined;
   /** A value that indicates whether the queue supports the concept of sessions. */
-  requiresSession?: boolean;
+  requiresSession?: boolean | undefined;
   /** ISO 8601 default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself. */
-  defaultMessageTimeToLive?: string;
+  defaultMessageTimeToLive?: string | undefined;
   /** A value that indicates whether this queue has dead letter support when a message expires. */
-  deadLetteringOnMessageExpiration?: boolean;
+  deadLetteringOnMessageExpiration?: boolean | undefined;
   /** ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes. */
-  duplicateDetectionHistoryTimeWindow?: string;
+  duplicateDetectionHistoryTimeWindow?: string | undefined;
   /** The maximum delivery count. A message is automatically deadlettered after this number of deliveries. default value is 10. */
-  maxDeliveryCount?: number;
+  maxDeliveryCount?: number | undefined;
   /** Enumerates the possible values for the status of a messaging entity. */
-  status?: EntityStatus | (string & {});
+  status?: EntityStatus | (string & {}) | undefined;
   /** Value that indicates whether server-side batched operations are enabled. */
-  enableBatchedOperations?: boolean;
+  enableBatchedOperations?: boolean | undefined;
   /** ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration is 5 minutes. */
-  autoDeleteOnIdle?: string;
+  autoDeleteOnIdle?: string | undefined;
   /** A value that indicates whether the queue is to be partitioned across multiple message brokers. */
-  enablePartitioning?: boolean;
+  enablePartitioning?: boolean | undefined;
   /** A value that indicates whether Express Entities are enabled. An express queue holds a message in memory temporarily before writing it to persistent storage. */
-  enableExpress?: boolean;
+  enableExpress?: boolean | undefined;
   /** Queue/Topic name to forward the messages */
-  forwardTo?: string;
+  forwardTo?: string | undefined;
   /** Queue/Topic name to forward the Dead Letter message */
-  forwardDeadLetteredMessagesTo?: string;
+  forwardDeadLetteredMessagesTo?: string | undefined;
   /** Gets and Sets Metadata of User. */
-  userMetadata?: string;
+  userMetadata?: string | undefined;
 }
 export interface QueuesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2100,21 +2107,21 @@ export interface QueuesCreateOrUpdateRequest {
   /** The queue name. */
   queueName: string;
   /** Queue Properties */
-  properties?: SBQueuePropertiesInput;
+  properties?: SBQueuePropertiesInput | undefined;
 }
 export interface QueuesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Queue Properties */
-  properties?: SBQueueProperties;
+  properties?: SBQueueProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface QueuesCreateOrUpdateAuthorizationRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2128,21 +2135,21 @@ export interface QueuesCreateOrUpdateAuthorizationRuleRequest {
   /** The authorization rule name. */
   authorizationRuleName: string;
   /** AuthorizationRule properties. */
-  properties?: SBAuthorizationRuleProperties;
+  properties?: SBAuthorizationRuleProperties | undefined;
 }
 export interface QueuesCreateOrUpdateAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AuthorizationRule properties. */
-  properties?: SBAuthorizationRuleProperties;
+  properties?: SBAuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The access key to regenerate. */
 export type KeyType = "PrimaryKey" | "SecondaryKey";
@@ -2158,7 +2165,7 @@ export interface RegenerateNamespaceKeysRequest {
   /** The access key to regenerate. */
   keyType: KeyType | (string & {});
   /** Optional, if the key value provided, is reset for KeyType value or autogenerate Key value set for keyType */
-  key?: string;
+  key?: string | undefined;
 }
 export interface RegenerateQueueKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2174,7 +2181,7 @@ export interface RegenerateQueueKeysRequest {
   /** The access key to regenerate. */
   keyType: KeyType | (string & {});
   /** Optional, if the key value provided, is reset for KeyType value or autogenerate Key value set for keyType */
-  key?: string;
+  key?: string | undefined;
 }
 export interface RegenerateTopicKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2190,7 +2197,7 @@ export interface RegenerateTopicKeysRequest {
   /** The access key to regenerate. */
   keyType: KeyType | (string & {});
   /** Optional, if the key value provided, is reset for KeyType value or autogenerate Key value set for keyType */
-  key?: string;
+  key?: string | undefined;
 }
 export interface RulesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2206,54 +2213,54 @@ export interface RulesCreateOrUpdateRequest {
   /** The rule name. */
   ruleName: string;
   /** Properties of Rule resource */
-  properties?: Ruleproperties;
+  properties?: Ruleproperties | undefined;
 }
 export interface RulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Rule resource */
-  properties?: Ruleproperties;
+  properties?: Ruleproperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Description of Subscription Resource. */
 export interface SBSubscriptionPropertiesInput {
   /** ISO 8061 lock duration timespan for the subscription. The default value is 1 minute. */
-  lockDuration?: string;
+  lockDuration?: string | undefined;
   /** Value indicating if a subscription supports the concept of sessions. */
-  requiresSession?: boolean;
+  requiresSession?: boolean | undefined;
   /** ISO 8061 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself. */
-  defaultMessageTimeToLive?: string;
+  defaultMessageTimeToLive?: string | undefined;
   /** Value that indicates whether a subscription has dead letter support on filter evaluation exceptions. */
-  deadLetteringOnFilterEvaluationExceptions?: boolean;
+  deadLetteringOnFilterEvaluationExceptions?: boolean | undefined;
   /** Value that indicates whether a subscription has dead letter support when a message expires. */
-  deadLetteringOnMessageExpiration?: boolean;
+  deadLetteringOnMessageExpiration?: boolean | undefined;
   /** ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes. */
-  duplicateDetectionHistoryTimeWindow?: string;
+  duplicateDetectionHistoryTimeWindow?: string | undefined;
   /** Number of maximum deliveries. */
-  maxDeliveryCount?: number;
+  maxDeliveryCount?: number | undefined;
   /** Enumerates the possible values for the status of a messaging entity. */
-  status?: EntityStatus | (string & {});
+  status?: EntityStatus | (string & {}) | undefined;
   /** Value that indicates whether server-side batched operations are enabled. */
-  enableBatchedOperations?: boolean;
+  enableBatchedOperations?: boolean | undefined;
   /** ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes. */
-  autoDeleteOnIdle?: string;
+  autoDeleteOnIdle?: string | undefined;
   /** Queue/Topic name to forward the messages */
-  forwardTo?: string;
+  forwardTo?: string | undefined;
   /** Queue/Topic name to forward the Dead Letter message */
-  forwardDeadLetteredMessagesTo?: string;
+  forwardDeadLetteredMessagesTo?: string | undefined;
   /** Value that indicates whether the subscription has an affinity to the client id. */
-  isClientAffine?: boolean;
+  isClientAffine?: boolean | undefined;
   /** Gets and Sets Metadata of User. */
-  userMetadata?: string;
+  userMetadata?: string | undefined;
   /** Properties specific to client affine subscriptions. */
-  clientAffineProperties?: SBClientAffineProperties;
+  clientAffineProperties?: SBClientAffineProperties | undefined;
 }
 export interface SubscriptionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2267,48 +2274,48 @@ export interface SubscriptionsCreateOrUpdateRequest {
   /** The subscription name. */
   subscriptionName: string;
   /** Properties of subscriptions resource. */
-  properties?: SBSubscriptionPropertiesInput;
+  properties?: SBSubscriptionPropertiesInput | undefined;
 }
 export interface SubscriptionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of subscriptions resource. */
-  properties?: SBSubscriptionProperties;
+  properties?: SBSubscriptionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The Topic Properties definition. */
 export interface SBTopicPropertiesInput {
   /** ISO 8601 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself. */
-  defaultMessageTimeToLive?: string;
+  defaultMessageTimeToLive?: string | undefined;
   /** Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic. Default is 1024. */
-  maxSizeInMegabytes?: number;
+  maxSizeInMegabytes?: number | undefined;
   /** Maximum size (in KB) of the message payload that can be accepted by the topic. This property is only used in Premium today and default is 1024. */
-  maxMessageSizeInKilobytes?: number;
+  maxMessageSizeInKilobytes?: number | undefined;
   /** Value indicating if this topic requires duplicate detection. */
-  requiresDuplicateDetection?: boolean;
+  requiresDuplicateDetection?: boolean | undefined;
   /** ISO8601 timespan structure that defines the duration of the duplicate detection history. The default value is 10 minutes. */
-  duplicateDetectionHistoryTimeWindow?: string;
+  duplicateDetectionHistoryTimeWindow?: string | undefined;
   /** Value that indicates whether server-side batched operations are enabled. */
-  enableBatchedOperations?: boolean;
+  enableBatchedOperations?: boolean | undefined;
   /** Enumerates the possible values for the status of a messaging entity. */
-  status?: EntityStatus | (string & {});
+  status?: EntityStatus | (string & {}) | undefined;
   /** Value that indicates whether the topic supports ordering. */
-  supportOrdering?: boolean;
+  supportOrdering?: boolean | undefined;
   /** ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes. */
-  autoDeleteOnIdle?: string;
+  autoDeleteOnIdle?: string | undefined;
   /** Value that indicates whether the topic to be partitioned across multiple message brokers is enabled. */
-  enablePartitioning?: boolean;
+  enablePartitioning?: boolean | undefined;
   /** Value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage. */
-  enableExpress?: boolean;
+  enableExpress?: boolean | undefined;
   /** Gets and Sets Metadata of User. */
-  userMetadata?: string;
+  userMetadata?: string | undefined;
 }
 export interface TopicsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2320,21 +2327,21 @@ export interface TopicsCreateOrUpdateRequest {
   /** The topic name. */
   topicName: string;
   /** Properties of topic resource. */
-  properties?: SBTopicPropertiesInput;
+  properties?: SBTopicPropertiesInput | undefined;
 }
 export interface TopicsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of topic resource. */
-  properties?: SBTopicProperties;
+  properties?: SBTopicProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface TopicsCreateOrUpdateAuthorizationRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2348,21 +2355,21 @@ export interface TopicsCreateOrUpdateAuthorizationRuleRequest {
   /** The authorization rule name. */
   authorizationRuleName: string;
   /** AuthorizationRule properties. */
-  properties?: SBAuthorizationRuleProperties;
+  properties?: SBAuthorizationRuleProperties | undefined;
 }
 export interface TopicsCreateOrUpdateAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AuthorizationRule properties. */
-  properties?: SBAuthorizationRuleProperties;
+  properties?: SBAuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags */
 export type UpdateNamespaceRequestTagsMap = { [key: string]: string | undefined };
@@ -2372,13 +2379,15 @@ export type SBNamespaceUpdatePropertiesInputPrivateEndpointConnectionsList =
 /** Properties of the namespace. */
 export interface SBNamespaceUpdatePropertiesInput {
   /** Properties of BYOK Encryption description */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** List of private endpoint connections. */
-  privateEndpointConnections?: SBNamespaceUpdatePropertiesInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | SBNamespaceUpdatePropertiesInputPrivateEndpointConnectionsList
+    | undefined;
   /** This property disables SAS authentication for the Service Bus namespace. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** Alternate name for namespace */
-  alternateName?: string;
+  alternateName?: string | undefined;
 }
 export interface UpdateNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2388,37 +2397,37 @@ export interface UpdateNamespaceRequest {
   /** The namespace name */
   namespaceName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateNamespaceRequestTagsMap;
+  tags?: UpdateNamespaceRequestTagsMap | undefined;
   /** Properties of SKU */
-  sku?: SBSku;
+  sku?: SBSku | undefined;
   /** Properties of the namespace. */
-  properties?: SBNamespaceUpdatePropertiesInput;
+  properties?: SBNamespaceUpdatePropertiesInput | undefined;
   /** Properties of BYOK Identity description */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNamespaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNamespaceResponseTagsMap;
+  tags?: UpdateNamespaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the namespace. */
-  properties?: SBNamespaceProperties;
+  properties?: SBNamespaceProperties | undefined;
   /** Properties of SKU */
-  sku?: SBSku;
+  sku?: SBSku | undefined;
   /** Properties of BYOK Identity description */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export type CheckDisasterRecoveryConfigNameAvailabilityError = AzureOpError;
 /** Check the give namespace name availability. */

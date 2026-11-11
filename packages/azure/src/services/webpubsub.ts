@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Webpubsub",
   service: "Webpubsub",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -44,11 +45,11 @@ export interface CheckWebPubSubNameAvailabilityRequest {
 /** Result of the request to check name availability. It contains a flag and possible reason of failure. */
 export interface NameAvailability {
   /** Indicates whether the name is available or not. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason of the availability. Required if name is not available. */
-  reason?: string;
+  reason?: string | undefined;
   /** The message of the operation. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteWebPubSubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -140,17 +141,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetWebPubSubResponseTagsMap = { [key: string]: string | undefined };
@@ -160,13 +161,13 @@ export type WebPubSubSkuTier = "Free" | "Basic" | "Standard" | "Premium";
 export interface ResourceSku {
   /** The name of the SKU. Required. Allowed values: Standard_S1, Free_F1, Premium_P1, Premium_P2 */
   name: string;
-  tier?: WebPubSubSkuTier;
+  tier?: WebPubSubSkuTier | undefined;
   /** Not used. Retained for future use. */
-  size?: string;
+  size?: string | undefined;
   /** Not used. Retained for future use. */
-  family?: string;
+  family?: string | undefined;
   /** Optional, integer. The unit count of the resource. 1 for Free_F1/Standard_S1/Premium_P1, 100 for Premium_P2 by default. If present, following values are allowed: Free_F1: 1; Standard_S1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P2: 100,200,300,400,500,600,700,800,900,1000; */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Provisioning state of the resource. */
 export type ProvisioningState =
@@ -182,7 +183,7 @@ export type ProvisioningState =
 /** Private endpoint */
 export interface PrivateEndpoint {
   /** Full qualified Id of the private endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** Group IDs */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -194,31 +195,31 @@ export type PrivateLinkServiceConnectionStatus =
   | "Disconnected";
 /** Connection state of the private endpoint connection */
 export interface PrivateLinkServiceConnectionState {
-  status?: PrivateLinkServiceConnectionStatus | (string & {});
+  status?: PrivateLinkServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Private endpoint connection properties */
 export interface PrivateEndpointConnectionProperties {
-  provisioningState?: ProvisioningState;
-  privateEndpoint?: PrivateEndpoint;
+  provisioningState?: ProvisioningState | undefined;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** Group IDs */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
 }
 /** A private endpoint connection to an azure resource */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateEndpointConnectionProperties;
+  systemData?: SystemData | undefined;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Private endpoint connections to the resource. */
 export type WebPubSubPropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
@@ -235,59 +236,59 @@ export interface SharedPrivateLinkResourceProperties {
   groupId: string;
   /** The resource id of the resource the shared private link resource is for */
   privateLinkResourceId: string;
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The request message for requesting approval of the shared private link resource */
-  requestMessage?: string;
-  status?: SharedPrivateLinkResourceStatus;
+  requestMessage?: string | undefined;
+  status?: SharedPrivateLinkResourceStatus | undefined;
 }
 /** Describes a Shared Private Link Resource */
 export interface SharedPrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedPrivateLinkResourceProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 /** The list of shared private link resources. */
 export type WebPubSubPropertiesSharedPrivateLinkResourcesList = Array<SharedPrivateLinkResource>;
 /** TLS settings for the resource */
 export interface WebPubSubTlsSettings {
   /** Request client certificate during TLS handshake if enabled. Not supported for free tier. Any input will be ignored for free tier. */
-  clientCertEnabled?: boolean;
+  clientCertEnabled?: boolean | undefined;
 }
 /** Live trace category configuration of a Microsoft.SignalRService resource. */
 export interface LiveTraceCategory {
   /** Gets or sets the live trace category's name. Available values: ConnectivityLogs, MessagingLogs. Case insensitive. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether or the live trace category is enabled. Available values: true, false. Case insensitive. */
-  enabled?: string;
+  enabled?: string | undefined;
 }
 /** Gets or sets the list of category configurations. */
 export type LiveTraceConfigurationCategoriesList = Array<LiveTraceCategory>;
 /** Live trace configuration of a Microsoft.SignalRService resource. */
 export interface LiveTraceConfiguration {
   /** Indicates whether or not enable live trace. When it's set to true, live trace client can connect to the service. Otherwise, live trace client can't connect to the service, so that you are unable to receive any log, no matter what you configure in "categories". Available values: true, false. Case insensitive. */
-  enabled?: string;
+  enabled?: string | undefined;
   /** Gets or sets the list of category configurations. */
-  categories?: LiveTraceConfigurationCategoriesList;
+  categories?: LiveTraceConfigurationCategoriesList | undefined;
 }
 /** Resource log category configuration of a Microsoft.SignalRService resource. */
 export interface ResourceLogCategory {
   /** Gets or sets the resource log category's name. Available values: ConnectivityLogs, MessagingLogs. Case insensitive. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether or the resource log category is enabled. Available values: true, false. Case insensitive. */
-  enabled?: string;
+  enabled?: string | undefined;
 }
 /** Gets or sets the list of category configurations. */
 export type ResourceLogConfigurationCategoriesList = Array<ResourceLogCategory>;
 /** Resource log configuration of a Microsoft.SignalRService resource. */
 export interface ResourceLogConfiguration {
   /** Gets or sets the list of category configurations. */
-  categories?: ResourceLogConfigurationCategoriesList;
+  categories?: ResourceLogConfigurationCategoriesList | undefined;
 }
 /** Azure Networking ACL Action. */
 export type ACLAction = "Allow" | "Deny";
@@ -300,9 +301,9 @@ export type NetworkACLDenyList = Array<WebPubSubRequestType | (string & {})>;
 /** Network ACL */
 export interface NetworkACL {
   /** Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-  allow?: NetworkACLAllowList;
+  allow?: NetworkACLAllowList | undefined;
   /** Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-  deny?: NetworkACLDenyList;
+  deny?: NetworkACLDenyList | undefined;
 }
 /** Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
 export type PrivateEndpointACLAllowList = Array<WebPubSubRequestType | (string & {})>;
@@ -311,9 +312,9 @@ export type PrivateEndpointACLDenyList = Array<WebPubSubRequestType | (string & 
 /** ACL for a private endpoint */
 export interface PrivateEndpointACL {
   /** Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-  allow?: PrivateEndpointACLAllowList;
+  allow?: PrivateEndpointACLAllowList | undefined;
   /** Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-  deny?: PrivateEndpointACLDenyList;
+  deny?: PrivateEndpointACLDenyList | undefined;
   /** Name of the private endpoint connection */
   name: string;
 }
@@ -322,59 +323,59 @@ export type WebPubSubNetworkACLsPrivateEndpointsList = Array<PrivateEndpointACL>
 /** An IP rule */
 export interface IPRule {
   /** An IP or CIDR or ServiceTag */
-  value?: string;
-  action?: ACLAction | (string & {});
+  value?: string | undefined;
+  action?: ACLAction | (string & {}) | undefined;
 }
 /** IP rules for filtering public traffic */
 export type WebPubSubNetworkACLsIpRulesList = Array<IPRule>;
 /** Network ACLs for the resource */
 export interface WebPubSubNetworkACLs {
-  defaultAction?: ACLAction | (string & {});
-  publicNetwork?: NetworkACL;
+  defaultAction?: ACLAction | (string & {}) | undefined;
+  publicNetwork?: NetworkACL | undefined;
   /** ACLs for requests from private endpoints */
-  privateEndpoints?: WebPubSubNetworkACLsPrivateEndpointsList;
+  privateEndpoints?: WebPubSubNetworkACLsPrivateEndpointsList | undefined;
   /** IP rules for filtering public traffic */
-  ipRules?: WebPubSubNetworkACLsIpRulesList;
+  ipRules?: WebPubSubNetworkACLsIpRulesList | undefined;
 }
 /** SocketIO settings for the resource */
 export interface WebPubSubSocketIOSettings {
   /** The service mode of Web PubSub for Socket.IO. Values allowed: "Default": have your own backend Socket.IO server "Serverless": your application doesn't have a backend server */
-  serviceMode?: string;
+  serviceMode?: string | undefined;
 }
 /** A class that describes the properties of the resource */
 export interface WebPubSubProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The publicly accessible IP of the resource. */
-  externalIP?: string;
+  externalIP?: string | undefined;
   /** FQDN of the service instance. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The publicly accessible port of the resource which is designed for browser/client side usage. */
-  publicPort?: number;
+  publicPort?: number | undefined;
   /** The publicly accessible port of the resource which is designed for customer server side usage. */
-  serverPort?: number;
+  serverPort?: number | undefined;
   /** Version of the resource. Probably you need the same or higher version of client SDKs. */
-  version?: string;
+  version?: string | undefined;
   /** Private endpoint connections to the resource. */
-  privateEndpointConnections?: WebPubSubPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: WebPubSubPropertiesPrivateEndpointConnectionsList | undefined;
   /** The list of shared private link resources. */
-  sharedPrivateLinkResources?: WebPubSubPropertiesSharedPrivateLinkResourcesList;
-  tls?: WebPubSubTlsSettings;
+  sharedPrivateLinkResources?: WebPubSubPropertiesSharedPrivateLinkResourcesList | undefined;
+  tls?: WebPubSubTlsSettings | undefined;
   /** Deprecated. */
-  hostNamePrefix?: string;
-  liveTraceConfiguration?: LiveTraceConfiguration;
-  resourceLogConfiguration?: ResourceLogConfiguration;
-  networkACLs?: WebPubSubNetworkACLs;
+  hostNamePrefix?: string | undefined;
+  liveTraceConfiguration?: LiveTraceConfiguration | undefined;
+  resourceLogConfiguration?: ResourceLogConfiguration | undefined;
+  networkACLs?: WebPubSubNetworkACLs | undefined;
   /** Enable or disable public network access. Default to "Enabled". When it's Enabled, network ACLs still apply. When it's Disabled, public network access is always disabled no matter what you set in network ACLs. */
-  publicNetworkAccess?: string;
+  publicNetworkAccess?: string | undefined;
   /** DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won't work. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won't work. */
-  disableAadAuth?: boolean;
+  disableAadAuth?: boolean | undefined;
   /** Enable or disable the regional endpoint. Default to "Enabled". When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected. This property is replica specific. Disable the regional endpoint without replica is not allowed. */
-  regionEndpointEnabled?: string;
+  regionEndpointEnabled?: string | undefined;
   /** Stop or start the resource. Default to "False". When it's true, the data plane of the resource is shutdown. When it's false, the data plane of the resource is started. */
-  resourceStopped?: string;
-  socketIO?: WebPubSubSocketIOSettings;
+  resourceStopped?: string | undefined;
+  socketIO?: WebPubSubSocketIOSettings | undefined;
 }
 /** The kind of the service */
 export type ServiceKind = "WebPubSub" | "SocketIO";
@@ -383,9 +384,9 @@ export type ManagedIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 /** Properties of user assigned identity. */
 export interface UserAssignedIdentityProperty {
   /** Get the principal id for the user assigned identity */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Get the client id for the user assigned identity */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Get or set the user assigned identities */
 export type ManagedIdentityUserAssignedIdentitiesMap = {
@@ -393,31 +394,31 @@ export type ManagedIdentityUserAssignedIdentitiesMap = {
 };
 /** A class represent managed identities used for request and response */
 export interface ManagedIdentity {
-  type?: ManagedIdentityType;
+  type?: ManagedIdentityType | undefined;
   /** Get or set the user assigned identities */
-  userAssignedIdentities?: ManagedIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedIdentityUserAssignedIdentitiesMap | undefined;
   /** Get the principal id for the system assigned identity. Only be used in response. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Get the tenant id for the system assigned identity. Only be used in response */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface GetWebPubSubResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetWebPubSubResponseTagsMap;
+  tags?: GetWebPubSubResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: WebPubSubProperties;
-  kind?: ServiceKind;
-  identity?: ManagedIdentity;
+  sku?: ResourceSku | undefined;
+  properties?: WebPubSubProperties | undefined;
+  kind?: ServiceKind | undefined;
+  identity?: ManagedIdentity | undefined;
 }
 export interface GetWebPubSubCustomCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -431,23 +432,23 @@ export interface GetWebPubSubCustomCertificateRequest {
 }
 /** Custom certificate properties. */
 export interface CustomCertificateProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Base uri of the KeyVault that stores certificate. */
   keyVaultBaseUri: string;
   /** Certificate secret name. */
   keyVaultSecretName: string;
   /** Certificate secret version. */
-  keyVaultSecretVersion?: string;
+  keyVaultSecretVersion?: string | undefined;
 }
 export interface GetWebPubSubCustomCertificateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: CustomCertificateProperties;
 }
 export interface GetWebPubSubCustomDomainRequest {
@@ -463,24 +464,24 @@ export interface GetWebPubSubCustomDomainRequest {
 /** Reference to a resource. */
 export interface ResourceReference {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Properties of a custom domain. */
 export interface CustomDomainProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The custom domain name. */
   domainName: string;
   customCertificate: ResourceReference;
 }
 export interface GetWebPubSubCustomDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: CustomDomainProperties;
 }
 export interface GetWebPubSubHubRequest {
@@ -500,22 +501,22 @@ export type UpstreamAuthType = "None" | "ManagedIdentity";
 /** Managed identity settings for upstream. */
 export interface ManagedIdentitySettings {
   /** The Resource indicating the App ID URI of the target resource. It also appears in the aud (audience) claim of the issued token. */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** Upstream auth settings. If not set, no auth is used for upstream messages. */
 export interface UpstreamAuthSettings {
-  type?: UpstreamAuthType | (string & {});
-  managedIdentity?: ManagedIdentitySettings;
+  type?: UpstreamAuthType | (string & {}) | undefined;
+  managedIdentity?: ManagedIdentitySettings | undefined;
 }
 /** Properties of event handler. */
 export interface EventHandler {
   /** Gets or sets the EventHandler URL template. You can use a predefined parameter {hub} and {event} inside the template, the value of the EventHandler URL is dynamically calculated when the client request comes in. For example, UrlTemplate can be `http://example.com/api/{hub}/{event}`. The host part can't contains parameters. */
   urlTemplate: string;
   /** Gets or sets the matching pattern for event names. There are 3 kinds of patterns supported: 1. "*", it matches any event name 2. Combine multiple events with ",", for example "event1,event2", it matches event "event1" and "event2" 3. A single event name, for example, "event1", it matches "event1" */
-  userEventPattern?: string;
+  userEventPattern?: string | undefined;
   /** Gets or sets the list of system events. */
-  systemEvents?: EventHandlerSystemEventsList;
-  auth?: UpstreamAuthSettings;
+  systemEvents?: EventHandlerSystemEventsList | undefined;
+  auth?: UpstreamAuthSettings | undefined;
 }
 /** Event handler of a hub. */
 export type WebPubSubHubPropertiesEventHandlersList = Array<EventHandler>;
@@ -524,18 +525,18 @@ export type EventListenerFilterType = "EventName";
 export interface EventListenerFilter {
   type: EventListenerFilterType | (string & {});
   /** EventNameFilter: system events to forward (`connected`, `disconnected`). */
-  systemEvents?: EventHandlerSystemEventsList;
+  systemEvents?: EventHandlerSystemEventsList | undefined;
   /** EventNameFilter: matching pattern for user event names (`*`, `event1,event2`, or a single name). */
-  userEventPattern?: string;
+  userEventPattern?: string | undefined;
 }
 export type EventListenerEndpointType = "EventHub";
 /** An endpoint specifying where Web PubSub should send events to. */
 export interface EventListenerEndpoint {
   type: EventListenerEndpointType | (string & {});
   /** EventHubEndpoint: fully qualified Event Hubs namespace, e.g. `my.servicebus.windows.net`. */
-  fullyQualifiedNamespace?: string;
+  fullyQualifiedNamespace?: string | undefined;
   /** EventHubEndpoint: name of the event hub. */
-  eventHubName?: string;
+  eventHubName?: string | undefined;
 }
 /** A setting defines which kinds of events should be sent to which endpoint. */
 export interface EventListener {
@@ -547,23 +548,23 @@ export type WebPubSubHubPropertiesEventListenersList = Array<EventListener>;
 /** Properties of a hub. */
 export interface WebPubSubHubProperties {
   /** Event handler of a hub. */
-  eventHandlers?: WebPubSubHubPropertiesEventHandlersList;
+  eventHandlers?: WebPubSubHubPropertiesEventHandlersList | undefined;
   /** Event listener settings for forwarding your client events to listeners. Event listener is transparent to Web PubSub clients, and it doesn't return any result to clients nor interrupt the lifetime of clients. One event can be sent to multiple listeners, as long as it matches the filters in those listeners. The order of the array elements doesn't matter. Maximum count of event listeners among all hubs is 10. */
-  eventListeners?: WebPubSubHubPropertiesEventListenersList;
+  eventListeners?: WebPubSubHubPropertiesEventListenersList | undefined;
   /** The settings for configuring if anonymous connections are allowed for this hub: "allow" or "deny". Default to "deny". */
-  anonymousConnectPolicy?: string;
+  anonymousConnectPolicy?: string | undefined;
   /** The settings for configuring the WebSocket ping-pong interval in seconds for all clients in the hub. Valid range: 1 to 120. Default to 20 seconds. */
-  webSocketKeepAliveIntervalInSeconds?: number;
+  webSocketKeepAliveIntervalInSeconds?: number | undefined;
 }
 export interface GetWebPubSubHubResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: WebPubSubHubProperties;
 }
 export interface GetWebPubSubPrivateEndpointConnectionRequest {
@@ -578,14 +579,14 @@ export interface GetWebPubSubPrivateEndpointConnectionRequest {
 }
 export interface GetWebPubSubPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateEndpointConnectionProperties;
+  systemData?: SystemData | undefined;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetWebPubSubReplicasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -600,27 +601,27 @@ export interface GetWebPubSubReplicasRequest {
 /** Resource tags. */
 export type GetWebPubSubReplicasResponseTagsMap = { [key: string]: string | undefined };
 export interface ReplicaProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Enable or disable the regional endpoint. Default to "Enabled". When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected. */
-  regionEndpointEnabled?: string;
+  regionEndpointEnabled?: string | undefined;
   /** Stop or start the resource. Default to "false". When it's true, the data plane of the resource is shutdown. When it's false, the data plane of the resource is started. */
-  resourceStopped?: string;
+  resourceStopped?: string | undefined;
 }
 export interface GetWebPubSubReplicasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetWebPubSubReplicasResponseTagsMap;
+  tags?: GetWebPubSubReplicasResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: ReplicaProperties;
+  sku?: ResourceSku | undefined;
+  properties?: ReplicaProperties | undefined;
 }
 export interface GetWebPubSubReplicaSharedPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -636,14 +637,14 @@ export interface GetWebPubSubReplicaSharedPrivateLinkResourceRequest {
 }
 export interface GetWebPubSubReplicaSharedPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedPrivateLinkResourceProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 export interface GetWebPubSubSharedPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -657,100 +658,100 @@ export interface GetWebPubSubSharedPrivateLinkResourceRequest {
 }
 export interface GetWebPubSubSharedPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedPrivateLinkResourceProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that describes a operation. */
 export interface OperationDisplay {
   /** Friendly name of the resource provider */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource type on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** The localized friendly name for the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** The localized friendly description for the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Specifications of the Dimension of metrics. */
 export interface Dimension {
   /** The public facing name of the dimension. */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the dimension. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Name of the dimension as it appears in MDM. */
-  internalName?: string;
+  internalName?: string | undefined;
   /** A Boolean flag indicating whether this dimension should be included for the shoebox export scenario. */
-  toBeExportedForShoebox?: boolean;
+  toBeExportedForShoebox?: boolean | undefined;
 }
 /** The dimensions of the metrics. */
 export type MetricSpecificationDimensionsList = Array<Dimension>;
 /** Specifications of the Metrics for Azure Monitoring. */
 export interface MetricSpecification {
   /** Name of the metric. */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the metric. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Localized friendly description of the metric. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** The unit that makes sense for the metric. */
-  unit?: string;
+  unit?: string | undefined;
   /** Only provide one value for this field. Valid values: Average, Minimum, Maximum, Total, Count. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Optional. If set to true, then zero will be returned for time duration where no metric is emitted/published. Ex. a metric that returns the number of times a particular error code was emitted. The error code may not appear often, instead of the RP publishing 0, Shoebox can auto fill in 0s for time periods where nothing was emitted. */
-  fillGapWithZero?: string;
+  fillGapWithZero?: string | undefined;
   /** The name of the metric category that the metric belongs to. A metric can only belong to a single category. */
-  category?: string;
+  category?: string | undefined;
   /** The dimensions of the metrics. */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
 }
 /** Specifications of the Metrics for Azure Monitoring. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** Specifications of the Logs for Azure Monitoring. */
 export interface LogSpecification {
   /** Name of the log. */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the log. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Specifications of the Logs for Azure Monitoring. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
 /** An object that describes a specification. */
 export interface ServiceSpecification {
   /** Specifications of the Metrics for Azure Monitoring. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
   /** Specifications of the Logs for Azure Monitoring. */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
 }
 /** Extra Operation properties. */
 export interface OperationProperties {
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** REST API operation supported by resource provider. */
 export interface Operation {
   /** Name of the operation with format: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** If the operation is a data action. (for data plane rbac) */
-  isDataAction?: boolean;
-  display?: OperationDisplay;
+  isDataAction?: boolean | undefined;
+  display?: OperationDisplay | undefined;
   /** Optional. The intended executor of the operation; governs the display of the operation in the RBAC UX and the audit logs UX. */
-  origin?: string;
-  properties?: OperationProperties;
+  origin?: string | undefined;
+  properties?: OperationProperties | undefined;
 }
 /** List of operations supported by the resource provider. */
 export type OperationListValueList = Array<Operation>;
 /** Result of the request to list REST API operations. It contains a list of operations. */
 export interface OperationList {
   /** List of operations supported by the resource provider. */
-  value?: OperationListValueList;
+  value?: OperationListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -761,30 +762,30 @@ export interface ListUsagesRequest {
 /** Localizable String object containing the name and a localized value. */
 export interface SignalRServiceUsageName {
   /** The identifier of the usage. */
-  value?: string;
+  value?: string | undefined;
   /** Localized name of the usage. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Object that describes a specific usage of the resources. */
 export interface SignalRServiceUsage {
   /** Fully qualified ARM resource id */
-  id?: string;
+  id?: string | undefined;
   /** Current value for the usage quota. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The maximum permitted value for the usage quota. If there is no limit, this value will be -1. */
-  limit?: number;
-  name?: SignalRServiceUsageName;
+  limit?: number | undefined;
+  name?: SignalRServiceUsageName | undefined;
   /** Representing the units of the usage quota. Possible values are: Count, Bytes, Seconds, Percent, CountPerSecond, BytesPerSecond. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** List of the resource usages */
 export type SignalRServiceUsageListValueList = Array<SignalRServiceUsage>;
 /** Object that includes an array of the resource usages and a possible link for next set. */
 export interface SignalRServiceUsageList {
   /** List of the resource usages */
-  value?: SignalRServiceUsageListValueList;
+  value?: SignalRServiceUsageListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWebPubSubByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -797,30 +798,30 @@ export type WebPubSubResourceTagsMap = { [key: string]: string | undefined };
 /** A class represent a resource. */
 export interface WebPubSubResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WebPubSubResourceTagsMap;
+  tags?: WebPubSubResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: WebPubSubProperties;
-  kind?: ServiceKind;
-  identity?: ManagedIdentity;
+  sku?: ResourceSku | undefined;
+  properties?: WebPubSubProperties | undefined;
+  kind?: ServiceKind | undefined;
+  identity?: ManagedIdentity | undefined;
 }
 /** List of the resources */
 export type WebPubSubResourceListValueList = Array<WebPubSubResource>;
 /** Object that includes an array of resources and a possible link for next set. */
 export interface WebPubSubResourceList {
   /** List of the resources */
-  value?: WebPubSubResourceListValueList;
+  value?: WebPubSubResourceListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWebPubSubBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -837,13 +838,13 @@ export interface ListWebPubSubCustomCertificatesRequest {
 /** A custom certificate. */
 export interface CustomCertificate {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: CustomCertificateProperties;
 }
 /** List of custom certificates of this resource. */
@@ -851,9 +852,9 @@ export type CustomCertificateListValueList = Array<CustomCertificate>;
 /** Custom certificates list. */
 export interface CustomCertificateList {
   /** List of custom certificates of this resource. */
-  value?: CustomCertificateListValueList;
+  value?: CustomCertificateListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWebPubSubCustomDomainsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -866,13 +867,13 @@ export interface ListWebPubSubCustomDomainsRequest {
 /** A custom domain */
 export interface CustomDomain {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: CustomDomainProperties;
 }
 /** List of custom domains that bind to this resource. */
@@ -880,9 +881,9 @@ export type CustomDomainListValueList = Array<CustomDomain>;
 /** Custom domains list */
 export interface CustomDomainList {
   /** List of custom domains that bind to this resource. */
-  value?: CustomDomainListValueList;
+  value?: CustomDomainListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWebPubSubHubsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -895,13 +896,13 @@ export interface ListWebPubSubHubsRequest {
 /** A hub setting */
 export interface WebPubSubHub {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: WebPubSubHubProperties;
 }
 /** List of hub settings to this resource. */
@@ -909,9 +910,9 @@ export type WebPubSubHubListValueList = Array<WebPubSubHub>;
 /** Hub setting list */
 export interface WebPubSubHubList {
   /** List of hub settings to this resource. */
-  value?: WebPubSubHubListValueList;
+  value?: WebPubSubHubListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWebPubSubKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -924,13 +925,13 @@ export interface ListWebPubSubKeysRequest {
 /** A class represents the access keys of the resource. */
 export interface WebPubSubKeys {
   /** The primary access key. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The secondary access key. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Connection string constructed via the primaryKey */
-  primaryConnectionString?: string;
+  primaryConnectionString?: string | undefined;
   /** Connection string constructed via the secondaryKey */
-  secondaryConnectionString?: string;
+  secondaryConnectionString?: string | undefined;
 }
 export interface ListWebPubSubPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -945,9 +946,9 @@ export type PrivateEndpointConnectionListValueList = Array<PrivateEndpointConnec
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionList {
   /** The list of the private endpoint connections */
-  value?: PrivateEndpointConnectionListValueList;
+  value?: PrivateEndpointConnectionListValueList | undefined;
   /** Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWebPubSubPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -964,17 +965,17 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Describes the properties of a resource type that has been onboarded to private link service */
 export interface ShareablePrivateLinkResourceProperties {
   /** The description of the resource type that has been onboarded to private link service */
-  description?: string;
+  description?: string | undefined;
   /** The resource provider group id for the resource that has been onboarded to private link service */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The resource provider type for the resource that has been onboarded to private link service */
-  type?: string;
+  type?: string | undefined;
 }
 /** Describes a resource type that has been onboarded to private link service */
 export interface ShareablePrivateLinkResourceType {
   /** The name of the resource type that has been onboarded to private link service */
-  name?: string;
-  properties?: ShareablePrivateLinkResourceProperties;
+  name?: string | undefined;
+  properties?: ShareablePrivateLinkResourceProperties | undefined;
 }
 /** The list of resources that are onboarded to private link service */
 export type PrivateLinkResourcePropertiesShareablePrivateLinkResourceTypesList =
@@ -982,34 +983,36 @@ export type PrivateLinkResourcePropertiesShareablePrivateLinkResourceTypesList =
 /** Private link resource properties */
 export interface PrivateLinkResourceProperties {
   /** Group Id of the private link resource */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Required members of the private link resource */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** Required private DNS zone names */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
   /** The list of resources that are onboarded to private link service */
-  shareablePrivateLinkResourceTypes?: PrivateLinkResourcePropertiesShareablePrivateLinkResourceTypesList;
+  shareablePrivateLinkResourceTypes?:
+    | PrivateLinkResourcePropertiesShareablePrivateLinkResourceTypesList
+    | undefined;
 }
 /** Private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateLinkResourceProperties;
+  systemData?: SystemData | undefined;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** List of PrivateLinkResource */
 export type PrivateLinkResourceListValueList = Array<PrivateLinkResource>;
 /** Contains a list of PrivateLinkResource and a possible link to query more results */
 export interface PrivateLinkResourceList {
   /** List of PrivateLinkResource */
-  value?: PrivateLinkResourceListValueList;
+  value?: PrivateLinkResourceListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWebPubSubReplicasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1024,27 +1027,27 @@ export type ReplicaTagsMap = { [key: string]: string | undefined };
 /** A class represent a replica resource. */
 export interface Replica {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ReplicaTagsMap;
+  tags?: ReplicaTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: ReplicaProperties;
+  sku?: ResourceSku | undefined;
+  properties?: ReplicaProperties | undefined;
 }
 /** List of the replica */
 export type ReplicaListValueList = Array<Replica>;
 export interface ReplicaList {
   /** List of the replica */
-  value?: ReplicaListValueList;
+  value?: ReplicaListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWebPubSubReplicaSharedPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1061,9 +1064,9 @@ export type SharedPrivateLinkResourceListValueList = Array<SharedPrivateLinkReso
 /** A list of shared private link resources */
 export interface SharedPrivateLinkResourceList {
   /** The list of the shared private link resources */
-  value?: SharedPrivateLinkResourceListValueList;
+  value?: SharedPrivateLinkResourceListValueList | undefined;
   /** Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWebPubSubReplicaSkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1082,30 +1085,30 @@ export type ScaleType = "None" | "Manual" | "Automatic";
 /** Describes scaling information of a sku. */
 export interface SkuCapacity {
   /** The lowest permitted capacity for this resource */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The highest permitted capacity for this resource */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The default capacity. */
-  default?: number;
+  default?: number | undefined;
   /** Allows capacity value list. */
-  allowedValues?: SkuCapacityAllowedValuesList;
-  scaleType?: ScaleType;
+  allowedValues?: SkuCapacityAllowedValuesList | undefined;
+  scaleType?: ScaleType | undefined;
 }
 /** Describes an available sku." */
 export interface Sku {
   /** The resource type that this object applies to */
-  resourceType?: string;
-  sku?: ResourceSku;
-  capacity?: SkuCapacity;
+  resourceType?: string | undefined;
+  sku?: ResourceSku | undefined;
+  capacity?: SkuCapacity | undefined;
 }
 /** The list of skus available for the resource. */
 export type SkuListValueList = Array<Sku>;
 /** The list skus operation response */
 export interface SkuList {
   /** The list of skus available for the resource. */
-  value?: SkuListValueList;
+  value?: SkuListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWebPubSubSharedPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1132,19 +1135,19 @@ export interface RegenerateWebPubSubKeyRequest {
   resourceGroupName: string;
   /** The name of the resource. */
   resourceName: string;
-  keyType?: KeyType | (string & {});
+  keyType?: KeyType | (string & {}) | undefined;
 }
 /** A class represents the access keys of the resource. */
 export interface RegenerateWebPubSubKeyResponse {
   /** The primary access key. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The secondary access key. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Connection string constructed via the primaryKey */
-  primaryConnectionString?: string;
+  primaryConnectionString?: string | undefined;
   /** Connection string constructed via the secondaryKey */
-  secondaryConnectionString?: string;
-  location?: string;
+  secondaryConnectionString?: string | undefined;
+  location?: string | undefined;
 }
 export interface RestartWebPubSubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1155,7 +1158,7 @@ export interface RestartWebPubSubRequest {
   resourceName: string;
 }
 export interface RestartWebPubSubResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface RestartWebPubSubReplicasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1168,7 +1171,7 @@ export interface RestartWebPubSubReplicasRequest {
   replicaName: string;
 }
 export interface RestartWebPubSubReplicasResponse {
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateWebPubSubRequestTagsMap = { [key: string]: string | undefined };
@@ -1176,27 +1179,27 @@ export type UpdateWebPubSubRequestTagsMap = { [key: string]: string | undefined 
 export interface ResourceSkuInput {
   /** The name of the SKU. Required. Allowed values: Standard_S1, Free_F1, Premium_P1, Premium_P2 */
   name: string;
-  tier?: WebPubSubSkuTier | (string & {});
+  tier?: WebPubSubSkuTier | (string & {}) | undefined;
   /** Optional, integer. The unit count of the resource. 1 for Free_F1/Standard_S1/Premium_P1, 100 for Premium_P2 by default. If present, following values are allowed: Free_F1: 1; Standard_S1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P2: 100,200,300,400,500,600,700,800,900,1000; */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** A class that describes the properties of the resource */
 export interface WebPubSubPropertiesInput {
-  tls?: WebPubSubTlsSettings;
-  liveTraceConfiguration?: LiveTraceConfiguration;
-  resourceLogConfiguration?: ResourceLogConfiguration;
-  networkACLs?: WebPubSubNetworkACLs;
+  tls?: WebPubSubTlsSettings | undefined;
+  liveTraceConfiguration?: LiveTraceConfiguration | undefined;
+  resourceLogConfiguration?: ResourceLogConfiguration | undefined;
+  networkACLs?: WebPubSubNetworkACLs | undefined;
   /** Enable or disable public network access. Default to "Enabled". When it's Enabled, network ACLs still apply. When it's Disabled, public network access is always disabled no matter what you set in network ACLs. */
-  publicNetworkAccess?: string;
+  publicNetworkAccess?: string | undefined;
   /** DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won't work. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won't work. */
-  disableAadAuth?: boolean;
+  disableAadAuth?: boolean | undefined;
   /** Enable or disable the regional endpoint. Default to "Enabled". When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected. This property is replica specific. Disable the regional endpoint without replica is not allowed. */
-  regionEndpointEnabled?: string;
+  regionEndpointEnabled?: string | undefined;
   /** Stop or start the resource. Default to "False". When it's true, the data plane of the resource is shutdown. When it's false, the data plane of the resource is started. */
-  resourceStopped?: string;
-  socketIO?: WebPubSubSocketIOSettings;
+  resourceStopped?: string | undefined;
+  socketIO?: WebPubSubSocketIOSettings | undefined;
 }
 /** Properties of user assigned identity. */
 export interface UserAssignedIdentityPropertyInput {}
@@ -1206,9 +1209,9 @@ export type ManagedIdentityInputUserAssignedIdentitiesMap = {
 };
 /** A class represent managed identities used for request and response */
 export interface ManagedIdentityInput {
-  type?: ManagedIdentityType | (string & {});
+  type?: ManagedIdentityType | (string & {}) | undefined;
   /** Get or set the user assigned identities */
-  userAssignedIdentities?: ManagedIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateWebPubSubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1218,39 +1221,39 @@ export interface UpdateWebPubSubRequest {
   /** The name of the resource. */
   resourceName: string;
   /** Resource tags. */
-  tags?: UpdateWebPubSubRequestTagsMap;
+  tags?: UpdateWebPubSubRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSkuInput;
-  properties?: WebPubSubPropertiesInput;
-  kind?: ServiceKind | (string & {});
-  identity?: ManagedIdentityInput;
+  sku?: ResourceSkuInput | undefined;
+  properties?: WebPubSubPropertiesInput | undefined;
+  kind?: ServiceKind | (string & {}) | undefined;
+  identity?: ManagedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type UpdateWebPubSubResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateWebPubSubResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateWebPubSubResponseTagsMap;
+  tags?: UpdateWebPubSubResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: WebPubSubProperties;
-  kind?: ServiceKind;
-  identity?: ManagedIdentity;
-  locationHeader?: string;
+  sku?: ResourceSku | undefined;
+  properties?: WebPubSubProperties | undefined;
+  kind?: ServiceKind | undefined;
+  identity?: ManagedIdentity | undefined;
+  locationHeader?: string | undefined;
 }
 /** Private endpoint connection properties */
 export interface PrivateEndpointConnectionPropertiesInput {
-  privateEndpoint?: PrivateEndpoint;
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateEndpoint?: PrivateEndpoint | undefined;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
 }
 export interface UpdateWebPubSubPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1261,26 +1264,26 @@ export interface UpdateWebPubSubPrivateEndpointConnectionRequest {
   resourceName: string;
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface UpdateWebPubSubPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateEndpointConnectionProperties;
+  systemData?: SystemData | undefined;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateWebPubSubReplicasRequestTagsMap = { [key: string]: string | undefined };
 export interface ReplicaPropertiesInput {
   /** Enable or disable the regional endpoint. Default to "Enabled". When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected. */
-  regionEndpointEnabled?: string;
+  regionEndpointEnabled?: string | undefined;
   /** Stop or start the resource. Default to "false". When it's true, the data plane of the resource is shutdown. When it's false, the data plane of the resource is started. */
-  resourceStopped?: string;
+  resourceStopped?: string | undefined;
 }
 export interface UpdateWebPubSubReplicasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1292,30 +1295,30 @@ export interface UpdateWebPubSubReplicasRequest {
   /** The name of the replica. */
   replicaName: string;
   /** Resource tags. */
-  tags?: UpdateWebPubSubReplicasRequestTagsMap;
+  tags?: UpdateWebPubSubReplicasRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSkuInput;
-  properties?: ReplicaPropertiesInput;
+  sku?: ResourceSkuInput | undefined;
+  properties?: ReplicaPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateWebPubSubReplicasResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateWebPubSubReplicasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateWebPubSubReplicasResponseTagsMap;
+  tags?: UpdateWebPubSubReplicasResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: ReplicaProperties;
-  locationHeader?: string;
+  sku?: ResourceSku | undefined;
+  properties?: ReplicaProperties | undefined;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type WebPubSubCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1327,33 +1330,33 @@ export interface WebPubSubCreateOrUpdateRequest {
   /** The name of the resource. */
   resourceName: string;
   /** Resource tags. */
-  tags?: WebPubSubCreateOrUpdateRequestTagsMap;
+  tags?: WebPubSubCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSkuInput;
-  properties?: WebPubSubPropertiesInput;
-  kind?: ServiceKind | (string & {});
-  identity?: ManagedIdentityInput;
+  sku?: ResourceSkuInput | undefined;
+  properties?: WebPubSubPropertiesInput | undefined;
+  kind?: ServiceKind | (string & {}) | undefined;
+  identity?: ManagedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type WebPubSubCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface WebPubSubCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WebPubSubCreateOrUpdateResponseTagsMap;
+  tags?: WebPubSubCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: WebPubSubProperties;
-  kind?: ServiceKind;
-  identity?: ManagedIdentity;
+  sku?: ResourceSku | undefined;
+  properties?: WebPubSubProperties | undefined;
+  kind?: ServiceKind | undefined;
+  identity?: ManagedIdentity | undefined;
 }
 /** Custom certificate properties. */
 export interface CustomCertificatePropertiesInput {
@@ -1362,7 +1365,7 @@ export interface CustomCertificatePropertiesInput {
   /** Certificate secret name. */
   keyVaultSecretName: string;
   /** Certificate secret version. */
-  keyVaultSecretVersion?: string;
+  keyVaultSecretVersion?: string | undefined;
 }
 export interface WebPubSubCustomCertificatesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1377,13 +1380,13 @@ export interface WebPubSubCustomCertificatesCreateOrUpdateRequest {
 }
 export interface WebPubSubCustomCertificatesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: CustomCertificateProperties;
 }
 /** Properties of a custom domain. */
@@ -1405,13 +1408,13 @@ export interface WebPubSubCustomDomainsCreateOrUpdateRequest {
 }
 export interface WebPubSubCustomDomainsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: CustomDomainProperties;
 }
 export interface WebPubSubHubsCreateOrUpdateRequest {
@@ -1427,13 +1430,13 @@ export interface WebPubSubHubsCreateOrUpdateRequest {
 }
 export interface WebPubSubHubsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: WebPubSubHubProperties;
 }
 /** Resource tags. */
@@ -1448,29 +1451,29 @@ export interface WebPubSubReplicasCreateOrUpdateRequest {
   /** The name of the replica. */
   replicaName: string;
   /** Resource tags. */
-  tags?: WebPubSubReplicasCreateOrUpdateRequestTagsMap;
+  tags?: WebPubSubReplicasCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSkuInput;
-  properties?: ReplicaPropertiesInput;
+  sku?: ResourceSkuInput | undefined;
+  properties?: ReplicaPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type WebPubSubReplicasCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface WebPubSubReplicasCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WebPubSubReplicasCreateOrUpdateResponseTagsMap;
+  tags?: WebPubSubReplicasCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: ReplicaProperties;
+  sku?: ResourceSku | undefined;
+  properties?: ReplicaProperties | undefined;
 }
 /** Describes the properties of an existing Shared Private Link Resource */
 export interface SharedPrivateLinkResourcePropertiesInput {
@@ -1479,7 +1482,7 @@ export interface SharedPrivateLinkResourcePropertiesInput {
   /** The resource id of the resource the shared private link resource is for */
   privateLinkResourceId: string;
   /** The request message for requesting approval of the shared private link resource */
-  requestMessage?: string;
+  requestMessage?: string | undefined;
 }
 export interface WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1492,18 +1495,18 @@ export interface WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateRequest
   replicaName: string;
   /** The name of the shared private link resource. */
   sharedPrivateLinkResourceName: string;
-  properties?: SharedPrivateLinkResourcePropertiesInput;
+  properties?: SharedPrivateLinkResourcePropertiesInput | undefined;
 }
 export interface WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedPrivateLinkResourceProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 export interface WebPubSubSharedPrivateLinkResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1514,18 +1517,18 @@ export interface WebPubSubSharedPrivateLinkResourcesCreateOrUpdateRequest {
   resourceName: string;
   /** The name of the shared private link resource. */
   sharedPrivateLinkResourceName: string;
-  properties?: SharedPrivateLinkResourcePropertiesInput;
+  properties?: SharedPrivateLinkResourcePropertiesInput | undefined;
 }
 export interface WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedPrivateLinkResourceProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 export type CheckWebPubSubNameAvailabilityError = AzureOpError;
 /** Checks that the resource name is valid and is not already in use. */

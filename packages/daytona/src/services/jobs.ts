@@ -63,25 +63,39 @@ export interface Job {
   /** The ID of the resource this job operates on (sandboxId, snapshotRef, etc.) */
   resourceId: string;
   /** Job-specific JSON-encoded payload data (operational metadata) */
-  payload?: string;
+  payload?: string | undefined;
   /** OpenTelemetry trace context for distributed tracing (W3C Trace Context format) */
-  traceContext?: JobTraceContextMap;
+  traceContext?: JobTraceContextMap | undefined;
   /** Error message if the job failed */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** The creation timestamp of the job */
   createdAt: string;
   /** The last update timestamp of the job */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
+}
+export interface GetJobRegistryMtlsCredentialsRequest {
+  /** ID of the job */
+  jobId: string;
+  /** Registry credential reference from the job payload */
+  registryId: string;
+}
+export interface RegistryMtlsCredentialsDto {
+  /** PEM-encoded client certificate chain */
+  certificatePem: string;
+  /** PEM-encoded unencrypted client private key */
+  privateKeyPem: string;
+  /** PEM-encoded registry CA bundle */
+  caBundlePem?: string | undefined;
 }
 export interface ListJobsRequest {
   /** Page number of the results */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of jobs to return (default: 100, max: 500) */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter jobs by status */
-  status?: JobStatus | (string & {});
+  status?: JobStatus | (string & {}) | undefined;
   /** Number of jobs to skip for pagination (default: 0) */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedJobsItemsList = Array<Job>;
 export interface PaginatedJobs {
@@ -92,9 +106,9 @@ export interface PaginatedJobs {
 }
 export interface PollJobsRequest {
   /** Timeout in seconds for long polling (default: 30, max: 60) */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Maximum number of jobs to return (default: 10, max: 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** List of jobs */
 export type PollJobsResponseJobsList = Array<Job>;
@@ -108,9 +122,9 @@ export interface UpdateJobStatusRequest {
   /** The new status of the job */
   status: JobStatus | (string & {});
   /** Error message if the job failed */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Result metadata for the job */
-  resultMetadata?: string;
+  resultMetadata?: string | undefined;
 }
 export type GetJobError = DaytonaOpError;
 /** Get job details */
@@ -125,6 +139,23 @@ export const getJob: API.OperationMethod<GetJobRequest, Job, GetJobError, Dayton
     span: "GetJob",
   }));
 
+export type GetJobRegistryMtlsCredentialsError = DaytonaOpError;
+/** Redeem registry mTLS credentials for an active job */
+export const getJobRegistryMtlsCredentials: API.OperationMethod<
+  GetJobRegistryMtlsCredentialsRequest,
+  RegistryMtlsCredentialsDto,
+  GetJobRegistryMtlsCredentialsError,
+  DaytonaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4, __c2, 0) as any as S.Schema<GetJobRegistryMtlsCredentialsRequest>,
+  output: __S(5, __c2, 1) as any as S.Schema<RegistryMtlsCredentialsDto>,
+  errors: [UnknownDaytonaError],
+  protocol: DaytonaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJobRegistryMtlsCredentials",
+}));
+
 export type ListJobsError = DaytonaOpError;
 /** List jobs for the runner Returns a paginated list of jobs for the runner, optionally filtered by status. */
 export const listJobs: API.OperationMethod<
@@ -133,8 +164,8 @@ export const listJobs: API.OperationMethod<
   ListJobsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<ListJobsRequest>,
-  output: __S(5, __c2, 1) as any as S.Schema<PaginatedJobs>,
+  input: __S(6, __c3, 0) as any as S.Schema<ListJobsRequest>,
+  output: __S(7, __c3, 1) as any as S.Schema<PaginatedJobs>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -150,8 +181,8 @@ export const pollJobs: API.OperationMethod<
   PollJobsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<PollJobsRequest>,
-  output: __S(9, __c4, 1) as any as S.Schema<PollJobsResponse>,
+  input: __S(10, __c5, 0) as any as S.Schema<PollJobsRequest>,
+  output: __S(11, __c5, 1) as any as S.Schema<PollJobsResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -167,7 +198,7 @@ export const updateJobStatus: API.OperationMethod<
   UpdateJobStatusError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<UpdateJobStatusRequest>,
+  input: __S(12, __c6, 0) as any as S.Schema<UpdateJobStatusRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<Job>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
@@ -213,6 +244,27 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          jobId: S.String.pipe(T.Label()),
+          registryId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/jobs/{jobId}/registry-mtls/{registryId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetJobRegistryMtlsCredentialsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          certificatePem: S.String,
+          privateKeyPem: S.String,
+          caBundlePem: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RegistryMtlsCredentialsDto" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
@@ -222,7 +274,7 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(6, __c3, 0),
+          items: __S(8, __c4, 0),
           total: S.Number,
           page: S.Number,
           totalPages: S.Number,
@@ -230,13 +282,13 @@ function __c2(j: number): any {
       ).annotate({ identifier: "PaginatedJobs" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(3, __c1, 1));
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -248,12 +300,12 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          jobs: __S(6, __c3, 0),
+          jobs: __S(8, __c4, 0),
         }),
       ).annotate({ identifier: "PollJobsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

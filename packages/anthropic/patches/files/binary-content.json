@@ -1,0 +1,29 @@
+{
+  "description": "`GET /v1/files/{file_id}/content` answers 200 with the raw bytes as `application/octet-stream`, but the spec types that body as `{ \"type\": \"string\" }` without `format: binary`, so the converter drops it and the operation returns nothing. The official SDKs read this response as binary (`__binaryResponse: true` in anthropics/anthropic-sdk-typescript). Model the body as a raw `Blob` payload so the call returns the bytes as a `Uint8Array`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.files#DownloadFileResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#Blob",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.anthropic.files#DownloadFileV1FilesFileIdContentGet/output/target",
+      "value": "com.anthropic.files#DownloadFileResponse"
+    }
+  ]
+}

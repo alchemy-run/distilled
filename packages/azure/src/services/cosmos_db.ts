@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "CosmosDb",
   service: "CosmosDb",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -44,13 +45,13 @@ export type ManagedCassandraProvisioningState =
 export type AuthenticationMethod = "None" | "Cassandra" | "Ldap";
 export interface SeedNode {
   /** IP address of this seed node. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 /** The form of AutoReplicate that is being used by this cluster. */
 export type AutoReplicate = "None" | "SystemKeyspaces" | "AllKeyspaces";
 export interface Certificate {
   /** PEM formatted public key. */
-  pem?: string;
+  pem?: string | undefined;
 }
 /** List of TLS certificates used to authorize clients connecting to the cluster. All connections are TLS encrypted whether clientCertificates is set or not, but if clientCertificates is set, the managed Cassandra cluster will reject all connections not bearing a TLS client certificate that can be validated from one or more of the public certificates in this property. */
 export type ClusterResourcePropertiesInputClientCertificatesList = Array<Certificate>;
@@ -62,23 +63,23 @@ export type ClusterResourcePropertiesInputExternalSeedNodesList = Array<SeedNode
 export type ClusterResourcePropertiesInputExternalDataCentersList = Array<string>;
 export interface CassandraError {
   /** The code of error that occurred. */
-  code?: string;
+  code?: string | undefined;
   /** The message of the error. */
-  message?: string;
+  message?: string | undefined;
   /** The target resource of the error. */
-  target?: string;
+  target?: string | undefined;
   /** Additional information about the error. */
-  additionalErrorInfo?: string;
+  additionalErrorInfo?: string | undefined;
 }
 /** Extensions to be added or updated on cluster. */
 export type ClusterResourcePropertiesInputExtensionsList = Array<string>;
 export interface BackupSchedule {
   /** The unique identifier of backup schedule. */
-  scheduleName?: string;
+  scheduleName?: string | undefined;
   /** The cron expression that defines when you want to back up your data. */
-  cronExpression?: string;
+  cronExpression?: string | undefined;
   /** The retention period (hours) of the backups. If you want to retain data forever, set retention to 0. */
-  retentionInHours?: number;
+  retentionInHours?: number | undefined;
 }
 /** List of backup schedules that define when you want to back up your data. */
 export type ClusterResourcePropertiesInputBackupSchedulesList = Array<BackupSchedule>;
@@ -89,49 +90,51 @@ export type AzureConnectionType = "None" | "VPN";
 /** Properties of a managed Cassandra cluster. */
 export interface ClusterResourcePropertiesInput {
   /** The status of the resource at the time the operation was called. */
-  provisioningState?: ManagedCassandraProvisioningState | (string & {});
+  provisioningState?: ManagedCassandraProvisioningState | (string & {}) | undefined;
   /** To create an empty cluster, omit this field or set it to null. To restore a backup into a new cluster, set this field to the resource id of the backup. */
-  restoreFromBackupId?: string;
+  restoreFromBackupId?: string | undefined;
   /** Resource id of a subnet that this cluster's management service should have its network interface attached to. The subnet must be routable to all subnets that will be delegated to data centers. The resource id must be of the form '/subscriptions/<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual network>/subnets/<subnet>' */
-  delegatedManagementSubnetId?: string;
+  delegatedManagementSubnetId?: string | undefined;
   /** Which version of Cassandra should this cluster converge to running (e.g., 3.11). When updated, the cluster may take some time to migrate to the new version. */
-  cassandraVersion?: string;
+  cassandraVersion?: string | undefined;
   /** If you need to set the clusterName property in cassandra.yaml to something besides the resource name of the cluster, set the value to use on this property. */
-  clusterNameOverride?: string;
+  clusterNameOverride?: string | undefined;
   /** Which authentication method Cassandra should use to authenticate clients. 'None' turns off authentication, so should not be used except in emergencies. 'Cassandra' is the default password based authentication. The default is 'Cassandra'. */
-  authenticationMethod?: AuthenticationMethod | (string & {});
+  authenticationMethod?: AuthenticationMethod | (string & {}) | undefined;
   /** Initial password for clients connecting as admin to the cluster. Should be changed after cluster creation. Returns null on GET. This field only applies when the authenticationMethod field is 'Cassandra'. */
-  initialCassandraAdminPassword?: string | Redacted.Redacted<string>;
+  initialCassandraAdminPassword?: string | Redacted.Redacted<string> | undefined;
   /** Hostname or IP address where the Prometheus endpoint containing data about the managed Cassandra nodes can be reached. */
-  prometheusEndpoint?: SeedNode;
+  prometheusEndpoint?: SeedNode | undefined;
   /** Should automatic repairs run on this cluster? If omitted, this is true, and should stay true unless you are running a hybrid cluster where you are already doing your own repairs. */
-  repairEnabled?: boolean;
+  repairEnabled?: boolean | undefined;
   /** The form of AutoReplicate that is being used by this cluster. */
-  autoReplicate?: AutoReplicate | (string & {});
+  autoReplicate?: AutoReplicate | (string & {}) | undefined;
   /** List of TLS certificates used to authorize clients connecting to the cluster. All connections are TLS encrypted whether clientCertificates is set or not, but if clientCertificates is set, the managed Cassandra cluster will reject all connections not bearing a TLS client certificate that can be validated from one or more of the public certificates in this property. */
-  clientCertificates?: ClusterResourcePropertiesInputClientCertificatesList;
+  clientCertificates?: ClusterResourcePropertiesInputClientCertificatesList | undefined;
   /** List of TLS certificates used to authorize gossip from unmanaged data centers. The TLS certificates of all nodes in unmanaged data centers must be verifiable using one of the certificates provided in this property. */
-  externalGossipCertificates?: ClusterResourcePropertiesInputExternalGossipCertificatesList;
+  externalGossipCertificates?:
+    | ClusterResourcePropertiesInputExternalGossipCertificatesList
+    | undefined;
   /** List of IP addresses of seed nodes in unmanaged data centers. These will be added to the seed node lists of all managed nodes. */
-  externalSeedNodes?: ClusterResourcePropertiesInputExternalSeedNodesList;
+  externalSeedNodes?: ClusterResourcePropertiesInputExternalSeedNodesList | undefined;
   /** List of the data center names for unmanaged data centers in this cluster to be included in auto-replication. */
-  externalDataCenters?: ClusterResourcePropertiesInputExternalDataCentersList;
+  externalDataCenters?: ClusterResourcePropertiesInputExternalDataCentersList | undefined;
   /** (Deprecated) Number of hours to wait between taking a backup of the cluster. */
-  hoursBetweenBackups?: number;
+  hoursBetweenBackups?: number | undefined;
   /** Whether the cluster and associated data centers has been deallocated. */
-  deallocated?: boolean;
+  deallocated?: boolean | undefined;
   /** Whether Cassandra audit logging is enabled */
-  cassandraAuditLoggingEnabled?: boolean;
+  cassandraAuditLoggingEnabled?: boolean | undefined;
   /** Error related to resource provisioning. */
-  provisionError?: CassandraError;
+  provisionError?: CassandraError | undefined;
   /** Extensions to be added or updated on cluster. */
-  extensions?: ClusterResourcePropertiesInputExtensionsList;
+  extensions?: ClusterResourcePropertiesInputExtensionsList | undefined;
   /** List of backup schedules that define when you want to back up your data. */
-  backupSchedules?: ClusterResourcePropertiesInputBackupSchedulesList;
+  backupSchedules?: ClusterResourcePropertiesInputBackupSchedulesList | undefined;
   /** How the nodes in the cluster react to scheduled events */
-  scheduledEventStrategy?: ScheduledEventStrategy | (string & {});
+  scheduledEventStrategy?: ScheduledEventStrategy | (string & {}) | undefined;
   /** How to connect to the azure services needed for running the cluster */
-  azureConnectionMethod?: AzureConnectionType | (string & {});
+  azureConnectionMethod?: AzureConnectionType | (string & {}) | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type CassandraClustersCreateUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -140,7 +143,7 @@ export type ManagedCassandraResourceIdentityType = "SystemAssigned" | "None";
 /** Identity for the resource. */
 export interface ManagedCassandraManagedServiceIdentityInput {
   /** The type of the resource. */
-  type?: ManagedCassandraResourceIdentityType | (string & {});
+  type?: ManagedCassandraResourceIdentityType | (string & {}) | undefined;
 }
 export interface CassandraClustersCreateUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -150,13 +153,13 @@ export interface CassandraClustersCreateUpdateRequest {
   /** Managed Cassandra cluster name. */
   clusterName: string;
   /** Properties of a managed Cassandra cluster. */
-  properties?: ClusterResourcePropertiesInput;
+  properties?: ClusterResourcePropertiesInput | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: CassandraClustersCreateUpdateRequestTagsMap;
+  tags?: CassandraClustersCreateUpdateRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedCassandraManagedServiceIdentityInput;
+  identity?: ManagedCassandraManagedServiceIdentityInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -165,17 +168,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** List of TLS certificates used to authorize clients connecting to the cluster. All connections are TLS encrypted whether clientCertificates is set or not, but if clientCertificates is set, the managed Cassandra cluster will reject all connections not bearing a TLS client certificate that can be validated from one or more of the public certificates in this property. */
 export type ClusterResourcePropertiesClientCertificatesList = Array<Certificate>;
@@ -196,88 +199,88 @@ export type ClusterResourcePropertiesBackupSchedulesList = Array<BackupSchedule>
 /** Properties of a managed Cassandra cluster. */
 export interface ClusterResourceProperties {
   /** The status of the resource at the time the operation was called. */
-  provisioningState?: ManagedCassandraProvisioningState;
+  provisioningState?: ManagedCassandraProvisioningState | undefined;
   /** To create an empty cluster, omit this field or set it to null. To restore a backup into a new cluster, set this field to the resource id of the backup. */
-  restoreFromBackupId?: string;
+  restoreFromBackupId?: string | undefined;
   /** Resource id of a subnet that this cluster's management service should have its network interface attached to. The subnet must be routable to all subnets that will be delegated to data centers. The resource id must be of the form '/subscriptions/<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual network>/subnets/<subnet>' */
-  delegatedManagementSubnetId?: string;
+  delegatedManagementSubnetId?: string | undefined;
   /** Which version of Cassandra should this cluster converge to running (e.g., 3.11). When updated, the cluster may take some time to migrate to the new version. */
-  cassandraVersion?: string;
+  cassandraVersion?: string | undefined;
   /** If you need to set the clusterName property in cassandra.yaml to something besides the resource name of the cluster, set the value to use on this property. */
-  clusterNameOverride?: string;
+  clusterNameOverride?: string | undefined;
   /** Which authentication method Cassandra should use to authenticate clients. 'None' turns off authentication, so should not be used except in emergencies. 'Cassandra' is the default password based authentication. The default is 'Cassandra'. */
-  authenticationMethod?: AuthenticationMethod;
+  authenticationMethod?: AuthenticationMethod | undefined;
   /** Initial password for clients connecting as admin to the cluster. Should be changed after cluster creation. Returns null on GET. This field only applies when the authenticationMethod field is 'Cassandra'. */
-  initialCassandraAdminPassword?: string | Redacted.Redacted<string>;
+  initialCassandraAdminPassword?: string | Redacted.Redacted<string> | undefined;
   /** Hostname or IP address where the Prometheus endpoint containing data about the managed Cassandra nodes can be reached. */
-  prometheusEndpoint?: SeedNode;
+  prometheusEndpoint?: SeedNode | undefined;
   /** Should automatic repairs run on this cluster? If omitted, this is true, and should stay true unless you are running a hybrid cluster where you are already doing your own repairs. */
-  repairEnabled?: boolean;
+  repairEnabled?: boolean | undefined;
   /** The form of AutoReplicate that is being used by this cluster. */
-  autoReplicate?: AutoReplicate;
+  autoReplicate?: AutoReplicate | undefined;
   /** List of TLS certificates used to authorize clients connecting to the cluster. All connections are TLS encrypted whether clientCertificates is set or not, but if clientCertificates is set, the managed Cassandra cluster will reject all connections not bearing a TLS client certificate that can be validated from one or more of the public certificates in this property. */
-  clientCertificates?: ClusterResourcePropertiesClientCertificatesList;
+  clientCertificates?: ClusterResourcePropertiesClientCertificatesList | undefined;
   /** List of TLS certificates used to authorize gossip from unmanaged data centers. The TLS certificates of all nodes in unmanaged data centers must be verifiable using one of the certificates provided in this property. */
-  externalGossipCertificates?: ClusterResourcePropertiesExternalGossipCertificatesList;
+  externalGossipCertificates?: ClusterResourcePropertiesExternalGossipCertificatesList | undefined;
   /** List of TLS certificates that unmanaged nodes must trust for gossip with managed nodes. All managed nodes will present TLS client certificates that are verifiable using one of the certificates provided in this property. */
-  gossipCertificates?: ClusterResourcePropertiesGossipCertificatesList;
+  gossipCertificates?: ClusterResourcePropertiesGossipCertificatesList | undefined;
   /** List of IP addresses of seed nodes in unmanaged data centers. These will be added to the seed node lists of all managed nodes. */
-  externalSeedNodes?: ClusterResourcePropertiesExternalSeedNodesList;
+  externalSeedNodes?: ClusterResourcePropertiesExternalSeedNodesList | undefined;
   /** List of IP addresses of seed nodes in the managed data centers. These should be added to the seed node lists of all unmanaged nodes. */
-  seedNodes?: ClusterResourcePropertiesSeedNodesList;
+  seedNodes?: ClusterResourcePropertiesSeedNodesList | undefined;
   /** List of the data center names for unmanaged data centers in this cluster to be included in auto-replication. */
-  externalDataCenters?: ClusterResourcePropertiesExternalDataCentersList;
+  externalDataCenters?: ClusterResourcePropertiesExternalDataCentersList | undefined;
   /** (Deprecated) Number of hours to wait between taking a backup of the cluster. */
-  hoursBetweenBackups?: number;
+  hoursBetweenBackups?: number | undefined;
   /** Whether the cluster and associated data centers has been deallocated. */
-  deallocated?: boolean;
+  deallocated?: boolean | undefined;
   /** Whether Cassandra audit logging is enabled */
-  cassandraAuditLoggingEnabled?: boolean;
+  cassandraAuditLoggingEnabled?: boolean | undefined;
   /** Error related to resource provisioning. */
-  provisionError?: CassandraError;
+  provisionError?: CassandraError | undefined;
   /** Extensions to be added or updated on cluster. */
-  extensions?: ClusterResourcePropertiesExtensionsList;
+  extensions?: ClusterResourcePropertiesExtensionsList | undefined;
   /** List of backup schedules that define when you want to back up your data. */
-  backupSchedules?: ClusterResourcePropertiesBackupSchedulesList;
+  backupSchedules?: ClusterResourcePropertiesBackupSchedulesList | undefined;
   /** How the nodes in the cluster react to scheduled events */
-  scheduledEventStrategy?: ScheduledEventStrategy;
+  scheduledEventStrategy?: ScheduledEventStrategy | undefined;
   /** How to connect to the azure services needed for running the cluster */
-  azureConnectionMethod?: AzureConnectionType;
+  azureConnectionMethod?: AzureConnectionType | undefined;
   /** If the Connection Method is Vpn, this is the Id of the private link resource that the datacenters need to connect to. */
-  privateLinkResourceId?: string;
+  privateLinkResourceId?: string | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type CassandraClustersCreateUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** Identity for the resource. */
 export interface ManagedCassandraManagedServiceIdentity {
   /** The object id of the identity resource. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of the resource. */
-  type?: ManagedCassandraResourceIdentityType;
+  type?: ManagedCassandraResourceIdentityType | undefined;
 }
 export interface CassandraClustersCreateUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a managed Cassandra cluster. */
-  properties?: ClusterResourceProperties;
+  properties?: ClusterResourceProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: CassandraClustersCreateUpdateResponseTagsMap;
+  tags?: CassandraClustersCreateUpdateResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedCassandraManagedServiceIdentity;
+  identity?: ManagedCassandraManagedServiceIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CassandraClustersDeallocateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -289,9 +292,9 @@ export interface CassandraClustersDeallocateRequest {
 }
 export interface CassandraClustersDeallocateResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CassandraClustersStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -306,11 +309,11 @@ export type ManagedCassandraReaperStatusRepairRunIdsMap = { [key: string]: strin
 /** Dictionary of <string> */
 export type ManagedCassandraReaperStatusRepairSchedulesMap = { [key: string]: string | undefined };
 export interface ManagedCassandraReaperStatus {
-  healthy?: boolean;
+  healthy?: boolean | undefined;
   /** Dictionary of <string> */
-  repairRunIds?: ManagedCassandraReaperStatusRepairRunIdsMap;
+  repairRunIds?: ManagedCassandraReaperStatusRepairRunIdsMap | undefined;
   /** Dictionary of <string> */
-  repairSchedules?: ManagedCassandraReaperStatusRepairSchedulesMap;
+  repairSchedules?: ManagedCassandraReaperStatusRepairSchedulesMap | undefined;
 }
 /** The kind of connection error that occurred. */
 export type ConnectionState =
@@ -322,15 +325,15 @@ export type ConnectionState =
   | "InternalError";
 export interface ConnectionError {
   /** The kind of connection error that occurred. */
-  connectionState?: ConnectionState;
+  connectionState?: ConnectionState | undefined;
   /** The IP of host that originated the failed connection. */
-  iPFrom?: string;
+  iPFrom?: string | undefined;
   /** The IP that the connection attempted to reach. */
-  iPTo?: string;
+  iPTo?: string | undefined;
   /** The TCP port the connection was attempted on. */
-  port?: number;
+  port?: number | undefined;
   /** Detailed error message about the failed connection. */
-  exception?: string;
+  exception?: string | undefined;
 }
 /** List relevant information about any connection errors to the Datacenters. */
 export type CassandraClusterPublicStatusConnectionErrorsList = Array<ConnectionError>;
@@ -345,114 +348,116 @@ export type ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacen
   Array<string>;
 export interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems {
   /** The node's IP address. */
-  address?: string;
+  address?: string | undefined;
   /** The state of the node in Cassandra ring. */
-  state?: NodeState;
-  status?: string;
+  state?: NodeState | undefined;
+  status?: string | undefined;
   /** Cassandra service status on this node */
-  cassandraProcessStatus?: string;
+  cassandraProcessStatus?: string | undefined;
   /** The amount of file system data in the data directory (e.g., 47.66 kB), excluding all content in the snapshots subdirectories. Because all SSTable data files are included, any data that is not cleaned up (such as TTL-expired cells or tombstones) is counted. */
-  load?: string;
+  load?: string | undefined;
   /** List of tokens this node covers. */
-  tokens?: ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItemsTokensList;
-  size?: number;
+  tokens?:
+    | ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItemsTokensList
+    | undefined;
+  size?: number | undefined;
   /** The network ID of the node. */
-  hostID?: string;
+  hostID?: string | undefined;
   /** The rack this node is part of. */
-  rack?: string;
+  rack?: string | undefined;
   /** The timestamp when these statistics were captured. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The amount of disk used, in kB, of the directory /var/lib/cassandra. */
-  diskUsedKB?: number;
+  diskUsedKB?: number | undefined;
   /** The amount of disk free, in kB, of the directory /var/lib/cassandra. */
-  diskFreeKB?: number;
+  diskFreeKB?: number | undefined;
   /** Used memory (calculated as total - free - buffers - cache), in kB. */
-  memoryUsedKB?: number;
+  memoryUsedKB?: number | undefined;
   /** Memory used by kernel buffers (Buffers in /proc/meminfo) and page cache and slabs (Cached and SReclaimable in /proc/meminfo), in kB. */
-  memoryBuffersAndCachedKB?: number;
+  memoryBuffersAndCachedKB?: number | undefined;
   /** Unused memory (MemFree and SwapFree in /proc/meminfo), in kB. */
-  memoryFreeKB?: number;
+  memoryFreeKB?: number | undefined;
   /** Total installed memory (MemTotal and SwapTotal in /proc/meminfo), in kB. */
-  memoryTotalKB?: number;
+  memoryTotalKB?: number | undefined;
   /** A float representing the current system-wide CPU utilization as a percentage. */
-  cpuUsage?: number;
+  cpuUsage?: number | undefined;
   /** If node has been updated to latest model */
-  isLatestModel?: boolean;
+  isLatestModel?: boolean | undefined;
 }
 export type CassandraClusterPublicStatusDataCentersItemNodesList =
   Array<ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems>;
 export interface CassandraClusterPublicStatusDataCentersItem {
   /** The name of this Datacenter. */
-  name?: string;
+  name?: string | undefined;
   /** A list of all seed nodes in the cluster, managed and unmanaged. */
-  seedNodes?: CassandraClusterPublicStatusDataCentersItemSeedNodesList;
-  nodes?: CassandraClusterPublicStatusDataCentersItemNodesList;
+  seedNodes?: CassandraClusterPublicStatusDataCentersItemSeedNodesList | undefined;
+  nodes?: CassandraClusterPublicStatusDataCentersItemNodesList | undefined;
 }
 /** List of the status of each datacenter in this cluster. */
 export type CassandraClusterPublicStatusDataCentersList =
   Array<CassandraClusterPublicStatusDataCentersItem>;
 /** Properties of a managed Cassandra cluster public status. */
 export interface CassandraClusterPublicStatus {
-  eTag?: string;
-  reaperStatus?: ManagedCassandraReaperStatus;
+  eTag?: string | undefined;
+  reaperStatus?: ManagedCassandraReaperStatus | undefined;
   /** List relevant information about any connection errors to the Datacenters. */
-  connectionErrors?: CassandraClusterPublicStatusConnectionErrorsList;
+  connectionErrors?: CassandraClusterPublicStatusConnectionErrorsList | undefined;
   /** List relevant information about any errors about cluster, data center and connection error. */
-  errors?: CassandraClusterPublicStatusErrorsList;
+  errors?: CassandraClusterPublicStatusErrorsList | undefined;
   /** List of the status of each datacenter in this cluster. */
-  dataCenters?: CassandraClusterPublicStatusDataCentersList;
+  dataCenters?: CassandraClusterPublicStatusDataCentersList | undefined;
 }
 export type AuthenticationMethodLdapPropertiesServerCertificatesList = Array<Certificate>;
 /** Ldap authentication method properties. This feature is in preview. */
 export interface AuthenticationMethodLdapProperties {
   /** Hostname of the LDAP server. */
-  serverHostname?: string;
+  serverHostname?: string | undefined;
   /** Port of the LDAP server. */
-  serverPort?: number;
+  serverPort?: number | undefined;
   /** Distinguished name of the look up user account, who can look up user details on authentication. */
-  serviceUserDistinguishedName?: string;
+  serviceUserDistinguishedName?: string | undefined;
   /** Password of the look up user. */
-  serviceUserPassword?: string | Redacted.Redacted<string>;
+  serviceUserPassword?: string | Redacted.Redacted<string> | undefined;
   /** Distinguished name of the object to start the recursive search of users from. */
-  searchBaseDistinguishedName?: string;
+  searchBaseDistinguishedName?: string | undefined;
   /** Template to use for searching. Defaults to (cn=%s) where %s will be replaced by the username used to login. */
-  searchFilterTemplate?: string;
-  serverCertificates?: AuthenticationMethodLdapPropertiesServerCertificatesList;
+  searchFilterTemplate?: string | undefined;
+  serverCertificates?: AuthenticationMethodLdapPropertiesServerCertificatesList | undefined;
   /** Timeout for connecting to the LDAP server in miliseconds. The default is 5000 ms. */
-  connectionTimeoutInMs?: number;
+  connectionTimeoutInMs?: number | undefined;
 }
 /** Properties of a managed Cassandra data center. */
 export interface DataCenterResourcePropertiesInput {
   /** The status of the resource at the time the operation was called. */
-  provisioningState?: ManagedCassandraProvisioningState | (string & {});
+  provisioningState?: ManagedCassandraProvisioningState | (string & {}) | undefined;
   /** The region this data center should be created in. */
-  dataCenterLocation?: string;
+  dataCenterLocation?: string | undefined;
   /** Resource id of a subnet the nodes in this data center should have their network interfaces connected to. The subnet must be in the same region specified in 'dataCenterLocation' and must be able to route to the subnet specified in the cluster's 'delegatedManagementSubnetId' property. This resource id will be of the form '/subscriptions/<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual network>/subnets/<subnet>'. */
-  delegatedSubnetId?: string;
+  delegatedSubnetId?: string | undefined;
   /** The number of nodes the data center should have. This is the desired number. After it is set, it may take some time for the data center to be scaled to match. To monitor the number of nodes and their status, use the fetchNodeStatus method on the cluster. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** A fragment of a cassandra.yaml configuration file to be included in the cassandra.yaml for all nodes in this data center. The fragment should be Base64 encoded, and only a subset of keys are allowed. */
-  base64EncodedCassandraYamlFragment?: string;
+  base64EncodedCassandraYamlFragment?: string | undefined;
   /** Key uri to use for encryption of managed disks. Ensure the system assigned identity of the cluster has been assigned appropriate permissions(key get/wrap/unwrap permissions) on the key. */
-  managedDiskCustomerKeyUri?: string;
+  managedDiskCustomerKeyUri?: string | undefined;
   /** Indicates the Key Uri of the customer key to use for encryption of the backup storage account. */
-  backupStorageCustomerKeyUri?: string;
+  backupStorageCustomerKeyUri?: string | undefined;
   /** Virtual Machine SKU used for data centers. Default value is Standard_DS14_v2 */
-  sku?: string;
+  sku?: string | undefined;
   /** Disk SKU used for data centers. Default value is P30. */
-  diskSku?: string;
+  diskSku?: string | undefined;
   /** Number of disks attached to each node. Default is 4. */
-  diskCapacity?: number;
+  diskCapacity?: number | undefined;
   /** If the data center has Availability Zone support, apply it to the Virtual Machine ScaleSet that host the cassandra data center virtual machines. */
-  availabilityZone?: boolean;
+  availabilityZone?: boolean | undefined;
   /** Ldap authentication method properties. This feature is in preview. */
-  authenticationMethodLdapProperties?: AuthenticationMethodLdapProperties;
+  authenticationMethodLdapProperties?: AuthenticationMethodLdapProperties | undefined;
   /** Whether the data center has been deallocated. */
-  deallocated?: boolean;
+  deallocated?: boolean | undefined;
   /** Error related to resource provisioning. */
-  provisionError?: CassandraError;
+  provisionError?: CassandraError | undefined;
   /** Ip of the VPN Endpoint for this data center. */
-  privateEndpointIpAddress?: string;
+  privateEndpointIpAddress?: string | undefined;
 }
 export interface CassandraDataCentersCreateUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -464,60 +469,60 @@ export interface CassandraDataCentersCreateUpdateRequest {
   /** Data center name in a managed Cassandra cluster. */
   dataCenterName: string;
   /** Properties of a managed Cassandra data center. */
-  properties?: DataCenterResourcePropertiesInput;
+  properties?: DataCenterResourcePropertiesInput | undefined;
 }
 /** IP addresses for seed nodes in this data center. This is for reference. Generally you will want to use the seedNodes property on the cluster, which aggregates the seed nodes from all data centers in the cluster. */
 export type DataCenterResourcePropertiesSeedNodesList = Array<SeedNode>;
 /** Properties of a managed Cassandra data center. */
 export interface DataCenterResourceProperties {
   /** The status of the resource at the time the operation was called. */
-  provisioningState?: ManagedCassandraProvisioningState;
+  provisioningState?: ManagedCassandraProvisioningState | undefined;
   /** The region this data center should be created in. */
-  dataCenterLocation?: string;
+  dataCenterLocation?: string | undefined;
   /** Resource id of a subnet the nodes in this data center should have their network interfaces connected to. The subnet must be in the same region specified in 'dataCenterLocation' and must be able to route to the subnet specified in the cluster's 'delegatedManagementSubnetId' property. This resource id will be of the form '/subscriptions/<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual network>/subnets/<subnet>'. */
-  delegatedSubnetId?: string;
+  delegatedSubnetId?: string | undefined;
   /** The number of nodes the data center should have. This is the desired number. After it is set, it may take some time for the data center to be scaled to match. To monitor the number of nodes and their status, use the fetchNodeStatus method on the cluster. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** IP addresses for seed nodes in this data center. This is for reference. Generally you will want to use the seedNodes property on the cluster, which aggregates the seed nodes from all data centers in the cluster. */
-  seedNodes?: DataCenterResourcePropertiesSeedNodesList;
+  seedNodes?: DataCenterResourcePropertiesSeedNodesList | undefined;
   /** A fragment of a cassandra.yaml configuration file to be included in the cassandra.yaml for all nodes in this data center. The fragment should be Base64 encoded, and only a subset of keys are allowed. */
-  base64EncodedCassandraYamlFragment?: string;
+  base64EncodedCassandraYamlFragment?: string | undefined;
   /** Key uri to use for encryption of managed disks. Ensure the system assigned identity of the cluster has been assigned appropriate permissions(key get/wrap/unwrap permissions) on the key. */
-  managedDiskCustomerKeyUri?: string;
+  managedDiskCustomerKeyUri?: string | undefined;
   /** Indicates the Key Uri of the customer key to use for encryption of the backup storage account. */
-  backupStorageCustomerKeyUri?: string;
+  backupStorageCustomerKeyUri?: string | undefined;
   /** Virtual Machine SKU used for data centers. Default value is Standard_DS14_v2 */
-  sku?: string;
+  sku?: string | undefined;
   /** Disk SKU used for data centers. Default value is P30. */
-  diskSku?: string;
+  diskSku?: string | undefined;
   /** Number of disks attached to each node. Default is 4. */
-  diskCapacity?: number;
+  diskCapacity?: number | undefined;
   /** If the data center has Availability Zone support, apply it to the Virtual Machine ScaleSet that host the cassandra data center virtual machines. */
-  availabilityZone?: boolean;
+  availabilityZone?: boolean | undefined;
   /** Ldap authentication method properties. This feature is in preview. */
-  authenticationMethodLdapProperties?: AuthenticationMethodLdapProperties;
+  authenticationMethodLdapProperties?: AuthenticationMethodLdapProperties | undefined;
   /** Whether the data center has been deallocated. */
-  deallocated?: boolean;
+  deallocated?: boolean | undefined;
   /** Error related to resource provisioning. */
-  provisionError?: CassandraError;
+  provisionError?: CassandraError | undefined;
   /** Ip of the VPN Endpoint for this data center. */
-  privateEndpointIpAddress?: string;
+  privateEndpointIpAddress?: string | undefined;
 }
 export interface CassandraDataCentersCreateUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a managed Cassandra data center. */
-  properties?: DataCenterResourceProperties;
+  properties?: DataCenterResourceProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type CassandraResourcesCreateUpdateCassandraKeyspaceRequestTagsMap = {
@@ -537,9 +542,9 @@ export type ManagedServiceIdentityInputUserAssignedIdentitiesMap = {
 /** Identity for the resource. */
 export interface ManagedServiceIdentityInput {
   /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
-  type?: ResourceIdentityType | (string & {});
+  type?: ResourceIdentityType | (string & {}) | undefined;
   /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: ManagedServiceIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedServiceIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** Cosmos DB Cassandra keyspace resource object */
 export interface CassandraKeyspaceResource {
@@ -548,21 +553,21 @@ export interface CassandraKeyspaceResource {
 }
 export interface AutoscaleSettings {
   /** Represents maximum throughput, the resource can scale up to. */
-  maxThroughput?: number;
+  maxThroughput?: number | undefined;
 }
 /** CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match", "If-None-Match", "Session-Token" and "Throughput" */
 export interface CreateUpdateOptions {
   /** Request Units per second. For example, "throughput": 10000. */
-  throughput?: number;
+  throughput?: number | undefined;
   /** Specifies the Autoscale settings. Note: Either throughput or autoscaleSettings is required, but not both. */
-  autoscaleSettings?: AutoscaleSettings;
+  autoscaleSettings?: AutoscaleSettings | undefined;
 }
 /** Properties to create and update Azure Cosmos DB Cassandra keyspace. */
 export interface CassandraKeyspaceCreateUpdateProperties {
   /** The standard JSON format of a Cassandra keyspace */
   resource: CassandraKeyspaceResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
+  options?: CreateUpdateOptions | undefined;
 }
 export interface CassandraResourcesCreateUpdateCassandraKeyspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -574,11 +579,11 @@ export interface CassandraResourcesCreateUpdateCassandraKeyspaceRequest {
   /** Cosmos DB keyspace name. */
   keyspaceName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: CassandraResourcesCreateUpdateCassandraKeyspaceRequestTagsMap;
+  tags?: CassandraResourcesCreateUpdateCassandraKeyspaceRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to create and update Azure Cosmos DB Cassandra keyspace. */
   properties: CassandraKeyspaceCreateUpdateProperties;
 }
@@ -586,23 +591,23 @@ export interface CassandraKeyspaceGetPropertiesResource {
   /** Name of the Cosmos DB Cassandra keyspace */
   id: string;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
 }
 /** Cosmos DB options resource object */
 export interface OptionsResource {
   /** Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when retrieving offer details. */
-  throughput?: number;
+  throughput?: number | undefined;
   /** Specifies the Autoscale settings. */
-  autoscaleSettings?: AutoscaleSettings;
+  autoscaleSettings?: AutoscaleSettings | undefined;
 }
 /** The properties of an Azure Cosmos DB Cassandra keyspace */
 export interface CassandraKeyspaceGetProperties {
-  resource?: CassandraKeyspaceGetPropertiesResource;
-  options?: OptionsResource;
+  resource?: CassandraKeyspaceGetPropertiesResource | undefined;
+  options?: OptionsResource | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type CassandraResourcesCreateUpdateCassandraKeyspaceResponseTagsMap = {
@@ -610,9 +615,9 @@ export type CassandraResourcesCreateUpdateCassandraKeyspaceResponseTagsMap = {
 };
 export interface ManagedServiceIdentityUserAssignedIdentities {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type ManagedServiceIdentityUserAssignedIdentitiesMap = {
@@ -621,46 +626,46 @@ export type ManagedServiceIdentityUserAssignedIdentitiesMap = {
 /** Identity for the resource. */
 export interface ManagedServiceIdentity {
   /** The principal id of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
-  type?: ResourceIdentityType;
+  type?: ResourceIdentityType | undefined;
   /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: ManagedServiceIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedServiceIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CassandraResourcesCreateUpdateCassandraKeyspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB Cassandra keyspace */
-  properties?: CassandraKeyspaceGetProperties;
+  properties?: CassandraKeyspaceGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: CassandraResourcesCreateUpdateCassandraKeyspaceResponseTagsMap;
+  tags?: CassandraResourcesCreateUpdateCassandraKeyspaceResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Azure Cosmos DB Cassandra Role Assignment resource object. */
 export interface CassandraRoleAssignmentResourcePropertiesInput {
   /** The unique identifier for the associated Role Definition. */
-  roleDefinitionId?: string;
+  roleDefinitionId?: string | undefined;
   /** The data plane resource path for which access is being granted through this Cassandra Role Assignment. */
-  scope?: string;
+  scope?: string | undefined;
   /** The unique identifier for the associated AAD principal in the AAD graph to which access is being granted through this Cassandra Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription. */
-  principalId?: string;
+  principalId?: string | undefined;
 }
 export interface CassandraResourcesCreateUpdateCassandraRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -672,36 +677,36 @@ export interface CassandraResourcesCreateUpdateCassandraRoleAssignmentRequest {
   /** The GUID for the Role Assignment. */
   roleAssignmentId: string;
   /** Properties to create and update an Azure Cosmos DB Cassandra Role Assignment. */
-  properties?: CassandraRoleAssignmentResourcePropertiesInput;
+  properties?: CassandraRoleAssignmentResourcePropertiesInput | undefined;
 }
 /** Azure Cosmos DB Cassandra Role Assignment resource object. */
 export interface CassandraRoleAssignmentResourceProperties {
   /** The unique identifier for the associated Role Definition. */
-  roleDefinitionId?: string;
+  roleDefinitionId?: string | undefined;
   /** The data plane resource path for which access is being granted through this Cassandra Role Assignment. */
-  scope?: string;
+  scope?: string | undefined;
   /** The unique identifier for the associated AAD principal in the AAD graph to which access is being granted through this Cassandra Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface CassandraResourcesCreateUpdateCassandraRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Cassandra Role Assignment. */
-  properties?: CassandraRoleAssignmentResourceProperties;
+  properties?: CassandraRoleAssignmentResourceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Indicates whether the Role Definition was built-in or user created. */
 export type RoleDefinitionType = "BuiltInRole" | "CustomRole";
@@ -714,26 +719,26 @@ export type PermissionNotDataActionsList = Array<string>;
 /** The set of data plane operations permitted through this Role Definition. */
 export interface Permission {
   /** The id for the permission. */
-  id?: string;
+  id?: string | undefined;
   /** An array of data actions that are allowed. */
-  dataActions?: PermissionDataActionsList;
+  dataActions?: PermissionDataActionsList | undefined;
   /** An array of data actions that are denied. */
-  notDataActions?: PermissionNotDataActionsList;
+  notDataActions?: PermissionNotDataActionsList | undefined;
 }
 /** The set of operations allowed through this Role Definition. */
 export type CassandraRoleDefinitionResourcePropertiesPermissionsList = Array<Permission>;
 /** Azure Cosmos DB Cassandra Role Definition resource object. */
 export interface CassandraRoleDefinitionResourceProperties {
   /** The path id for the Role Definition. */
-  id?: string;
+  id?: string | undefined;
   /** A user-friendly name for the Role Definition. Must be unique for the database account. */
-  roleName?: string;
+  roleName?: string | undefined;
   /** Indicates whether the Role Definition was built-in or user created. */
-  type?: RoleDefinitionType | (string & {});
+  type?: RoleDefinitionType | (string & {}) | undefined;
   /** A set of fully qualified Scopes at or below which Cassandra Role Assignments may be created using this Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Must have at least one element. Scopes higher than Database account are not enforceable as assignable Scopes. Note that resources referenced in assignable Scopes need not exist. */
-  assignableScopes?: CassandraRoleDefinitionResourcePropertiesAssignableScopesList;
+  assignableScopes?: CassandraRoleDefinitionResourcePropertiesAssignableScopesList | undefined;
   /** The set of operations allowed through this Role Definition. */
-  permissions?: CassandraRoleDefinitionResourcePropertiesPermissionsList;
+  permissions?: CassandraRoleDefinitionResourcePropertiesPermissionsList | undefined;
 }
 export interface CassandraResourcesCreateUpdateCassandraRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -745,25 +750,25 @@ export interface CassandraResourcesCreateUpdateCassandraRoleDefinitionRequest {
   /** The GUID for the Role Definition. */
   roleDefinitionId: string;
   /** Properties to create and update an Azure Cosmos DB Cassandra Role Definition. */
-  properties?: CassandraRoleDefinitionResourceProperties;
+  properties?: CassandraRoleDefinitionResourceProperties | undefined;
 }
 export interface CassandraResourcesCreateUpdateCassandraRoleDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Cassandra Role Definition. */
-  properties?: CassandraRoleDefinitionResourceProperties;
+  properties?: CassandraRoleDefinitionResourceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type CassandraResourcesCreateUpdateCassandraTableRequestTagsMap = {
@@ -772,54 +777,54 @@ export type CassandraResourcesCreateUpdateCassandraTableRequestTagsMap = {
 /** Cosmos DB Cassandra table column */
 export interface Column {
   /** Name of the Cosmos DB Cassandra table column */
-  name?: string;
+  name?: string | undefined;
   /** Type of the Cosmos DB Cassandra table column */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of Cassandra table columns. */
 export type CassandraSchemaColumnsList = Array<Column>;
 /** Cosmos DB Cassandra table partition key */
 export interface CassandraPartitionKey {
   /** Name of the Cosmos DB Cassandra table partition key */
-  name?: string;
+  name?: string | undefined;
 }
 /** List of partition key. */
 export type CassandraSchemaPartitionKeysList = Array<CassandraPartitionKey>;
 /** Cosmos DB Cassandra table cluster key */
 export interface ClusterKey {
   /** Name of the Cosmos DB Cassandra table cluster key */
-  name?: string;
+  name?: string | undefined;
   /** Order of the Cosmos DB Cassandra table cluster key, only support "Asc" and "Desc" */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 /** List of cluster key. */
 export type CassandraSchemaClusterKeysList = Array<ClusterKey>;
 /** Cosmos DB Cassandra table schema */
 export interface CassandraSchema {
   /** List of Cassandra table columns. */
-  columns?: CassandraSchemaColumnsList;
+  columns?: CassandraSchemaColumnsList | undefined;
   /** List of partition key. */
-  partitionKeys?: CassandraSchemaPartitionKeysList;
+  partitionKeys?: CassandraSchemaPartitionKeysList | undefined;
   /** List of cluster key. */
-  clusterKeys?: CassandraSchemaClusterKeysList;
+  clusterKeys?: CassandraSchemaClusterKeysList | undefined;
 }
 /** Cosmos DB Cassandra table resource object */
 export interface CassandraTableResource {
   /** Name of the Cosmos DB Cassandra table */
   id: string;
   /** Time to live of the Cosmos DB Cassandra table */
-  defaultTtl?: number;
+  defaultTtl?: number | undefined;
   /** Schema of the Cosmos DB Cassandra table */
-  schema?: CassandraSchema;
+  schema?: CassandraSchema | undefined;
   /** Analytical TTL. */
-  analyticalStorageTtl?: number;
+  analyticalStorageTtl?: number | undefined;
 }
 /** Properties to create and update Azure Cosmos DB Cassandra table. */
 export interface CassandraTableCreateUpdateProperties {
   /** The standard JSON format of a Cassandra table */
   resource: CassandraTableResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
+  options?: CreateUpdateOptions | undefined;
 }
 export interface CassandraResourcesCreateUpdateCassandraTableRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -833,11 +838,11 @@ export interface CassandraResourcesCreateUpdateCassandraTableRequest {
   /** Cosmos DB table name. */
   tableName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: CassandraResourcesCreateUpdateCassandraTableRequestTagsMap;
+  tags?: CassandraResourcesCreateUpdateCassandraTableRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to create and update Azure Cosmos DB Cassandra table. */
   properties: CassandraTableCreateUpdateProperties;
 }
@@ -845,22 +850,22 @@ export interface CassandraTableGetPropertiesResource {
   /** Name of the Cosmos DB Cassandra table */
   id: string;
   /** Time to live of the Cosmos DB Cassandra table */
-  defaultTtl?: number;
+  defaultTtl?: number | undefined;
   /** Schema of the Cosmos DB Cassandra table */
-  schema?: CassandraSchema;
+  schema?: CassandraSchema | undefined;
   /** Analytical TTL. */
-  analyticalStorageTtl?: number;
+  analyticalStorageTtl?: number | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB Cassandra table */
 export interface CassandraTableGetProperties {
-  resource?: CassandraTableGetPropertiesResource;
-  options?: OptionsResource;
+  resource?: CassandraTableGetPropertiesResource | undefined;
+  options?: OptionsResource | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type CassandraResourcesCreateUpdateCassandraTableResponseTagsMap = {
@@ -868,27 +873,27 @@ export type CassandraResourcesCreateUpdateCassandraTableResponseTagsMap = {
 };
 export interface CassandraResourcesCreateUpdateCassandraTableResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB Cassandra table */
-  properties?: CassandraTableGetProperties;
+  properties?: CassandraTableGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: CassandraResourcesCreateUpdateCassandraTableResponseTagsMap;
+  tags?: CassandraResourcesCreateUpdateCassandraTableResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateFleetRequestTagsMap = { [key: string]: string | undefined };
@@ -907,7 +912,7 @@ export type Status =
 /** Properties to update Azure Cosmos DB fleet resource. */
 export interface FleetResourceProperties {
   /** A provisioning state of the Fleet. */
-  provisioningState?: Status | (string & {});
+  provisioningState?: Status | (string & {}) | undefined;
 }
 export interface CreateFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -917,29 +922,29 @@ export interface CreateFleetRequest {
   /** Cosmos DB fleet name. Needs to be unique under a subscription. */
   fleetName: string;
   /** Resource tags. */
-  tags?: CreateFleetRequestTagsMap;
+  tags?: CreateFleetRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties to update Azure Cosmos DB fleet resource. */
-  properties?: FleetResourceProperties;
+  properties?: FleetResourceProperties | undefined;
 }
 /** Resource tags. */
 export type CreateFleetResponseTagsMap = { [key: string]: string | undefined };
 export interface CreateFleetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateFleetResponseTagsMap;
+  tags?: CreateFleetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties to update Azure Cosmos DB fleet resource. */
-  properties?: FleetResourceProperties;
+  properties?: FleetResourceProperties | undefined;
 }
 /** The kind of API this fleetspace belongs to. Acceptable values: 'NoSQL' */
 export type FleetspacePropertiesFleetspaceApiKind = "NoSQL";
@@ -950,26 +955,26 @@ export type FleetspacePropertiesDataRegionsList = Array<string>;
 /** Configuration for throughput pool in the fleetspace. */
 export interface FleetspacePropertiesThroughputPoolConfiguration {
   /** Minimum throughput for the pool. */
-  minThroughput?: number;
+  minThroughput?: number | undefined;
   /** Maximum throughput for the pool. */
-  maxThroughput?: number;
+  maxThroughput?: number | undefined;
   /** Total dedicated throughput (RU/s) for fleetspace. Represents the sum of all manual provisioned throughput and all autoscale max RU/s across all shared throughput databases and dedicated throughput containers across all accounts in the fleetspace for 1 region. */
-  dedicatedRUs?: number;
+  dedicatedRUs?: number | undefined;
   /** Maximum consumable throughput (RU/s) for fleetspace. Represents the maximum throughput that resources in the fleetspace can consume from the fleetspace's pool in 1 region. */
-  maxConsumableRUs?: number;
+  maxConsumableRUs?: number | undefined;
 }
 /** Properties to update Azure Cosmos DB Fleetspace. */
 export interface FleetspaceProperties {
   /** A provisioning state of the Fleetspace. */
-  provisioningState?: Status | (string & {});
+  provisioningState?: Status | (string & {}) | undefined;
   /** The kind of API this fleetspace belongs to. Acceptable values: 'NoSQL' */
-  fleetspaceApiKind?: FleetspacePropertiesFleetspaceApiKind | (string & {});
+  fleetspaceApiKind?: FleetspacePropertiesFleetspaceApiKind | (string & {}) | undefined;
   /** Service Tier for the fleetspace. GeneralPurpose types refers to single write region accounts that can be added to this fleetspace, whereas BusinessCritical refers to multi write region. */
-  serviceTier?: FleetspacePropertiesServiceTier | (string & {});
+  serviceTier?: FleetspacePropertiesServiceTier | (string & {}) | undefined;
   /** List of data regions assigned to the fleetspace. Eg [westus2] */
-  dataRegions?: FleetspacePropertiesDataRegionsList;
+  dataRegions?: FleetspacePropertiesDataRegionsList | undefined;
   /** Configuration for throughput pool in the fleetspace. */
-  throughputPoolConfiguration?: FleetspacePropertiesThroughputPoolConfiguration;
+  throughputPoolConfiguration?: FleetspacePropertiesThroughputPoolConfiguration | undefined;
 }
 export interface CreateFleetspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -981,37 +986,39 @@ export interface CreateFleetspaceRequest {
   /** Cosmos DB fleetspace name. Needs to be unique under a fleet. */
   fleetspaceName: string;
   /** Properties to update Azure Cosmos DB Fleetspace. */
-  properties?: FleetspaceProperties;
+  properties?: FleetspaceProperties | undefined;
 }
 export interface CreateFleetspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to update Azure Cosmos DB Fleetspace. */
-  properties?: FleetspaceProperties;
+  properties?: FleetspaceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Configuration for fleetspace Account in the fleetspace. */
 export interface FleetspaceAccountPropertiesGlobalDatabaseAccountProperties {
   /** The resource identifier of global database account in the Fleetspace Account. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The location of global database account in the Fleetspace Account. */
-  armLocation?: string;
+  armLocation?: string | undefined;
 }
 /** An Azure Cosmos DB Global Database Account which is part of a Fleetspace Account. */
 export interface FleetspaceAccountProperties {
   /** A provisioning state of the Fleetspace Account. */
-  provisioningState?: Status | (string & {});
+  provisioningState?: Status | (string & {}) | undefined;
   /** Configuration for fleetspace Account in the fleetspace. */
-  globalDatabaseAccountProperties?: FleetspaceAccountPropertiesGlobalDatabaseAccountProperties;
+  globalDatabaseAccountProperties?:
+    | FleetspaceAccountPropertiesGlobalDatabaseAccountProperties
+    | undefined;
 }
 export interface CreateFleetspaceAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1025,23 +1032,23 @@ export interface CreateFleetspaceAccountRequest {
   /** Cosmos DB fleetspace account name. */
   fleetspaceAccountName: string;
   /** An Azure Cosmos DB Global Database Account which is part of a Fleetspace Account. */
-  properties?: FleetspaceAccountProperties;
+  properties?: FleetspaceAccountProperties | undefined;
 }
 export interface CreateFleetspaceAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An Azure Cosmos DB Global Database Account which is part of a Fleetspace Account. */
-  properties?: FleetspaceAccountProperties;
+  properties?: FleetspaceAccountProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Instance type for the service. */
 export type ServiceSize = "Cosmos.D4s" | "Cosmos.D8s" | "Cosmos.D16s";
@@ -1054,9 +1061,9 @@ export type ServiceType =
 /** Properties in ServiceResourceCreateUpdateParameters. */
 export interface ServiceResourceCreateUpdateProperties {
   /** Instance type for the service. */
-  instanceSize?: ServiceSize | (string & {});
+  instanceSize?: ServiceSize | (string & {}) | undefined;
   /** Instance count for the service. */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
   /** ServiceType for the service. */
   serviceType: ServiceType | (string & {});
 }
@@ -1070,39 +1077,39 @@ export interface CreateServiceRequest {
   /** Cosmos DB service name. */
   serviceName: string;
   /** Properties in ServiceResourceCreateUpdateParameters. */
-  properties?: ServiceResourceCreateUpdateProperties;
+  properties?: ServiceResourceCreateUpdateProperties | undefined;
 }
 /** Describes the status of a service. */
 export type ServiceStatus = "Creating" | "Running" | "Updating" | "Deleting" | "Error" | "Stopped";
 /** Services response resource. */
 export interface ServiceResourceProperties {
   /** Time of the last state change (ISO-8601 format). */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Instance type for the service. */
-  instanceSize?: ServiceSize;
+  instanceSize?: ServiceSize | undefined;
   /** Instance count for the service. */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
   /** ServiceType for the service. */
   serviceType: ServiceType;
   /** Describes the status of a service. */
-  status?: ServiceStatus;
+  status?: ServiceStatus | undefined;
   [key: string]: unknown;
 }
 export interface CreateServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Services response resource. */
-  properties?: ServiceResourceProperties;
+  properties?: ServiceResourceProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type DatabaseAccountsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1120,18 +1127,18 @@ export interface ConsistencyPolicy {
   /** The default consistency level and configuration settings of the Cosmos DB account. */
   defaultConsistencyLevel: DefaultConsistencyLevel | (string & {});
   /** When used with the Bounded Staleness consistency level, this value represents the number of stale requests tolerated. Accepted range for this value is 1 - 2,147,483,647. Required when defaultConsistencyPolicy is set to 'BoundedStaleness'. */
-  maxStalenessPrefix?: number;
+  maxStalenessPrefix?: number | undefined;
   /** When used with the Bounded Staleness consistency level, this value represents the time amount of staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is set to 'BoundedStaleness'. */
-  maxIntervalInSeconds?: number;
+  maxIntervalInSeconds?: number | undefined;
 }
 /** A region in which the Azure Cosmos DB database account is deployed. */
 export interface LocationInput {
   /** The name of the region. */
-  locationName?: string;
+  locationName?: string | undefined;
   /** The failover priority of the region. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists. */
-  failoverPriority?: number;
+  failoverPriority?: number | undefined;
   /** Flag to indicate whether or not this region is an AvailabilityZone region */
-  isZoneRedundant?: boolean;
+  isZoneRedundant?: boolean | undefined;
 }
 /** An array that contains the georeplication locations enabled for the Cosmos DB account. */
 export type DatabaseAccountCreateUpdatePropertiesInputLocationsList = Array<LocationInput>;
@@ -1140,23 +1147,23 @@ export type DatabaseAccountCreateUpdatePropertiesInputDatabaseAccountOfferType =
 /** IpAddressOrRange object */
 export interface IpAddressOrRange {
   /** A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12, 192.168.0.0/16, since these are not enforceable by the IP address filter. Example of valid inputs: "23.40.210.245" or "23.40.210.0/8". */
-  ipAddressOrRange?: string;
+  ipAddressOrRange?: string | undefined;
 }
 /** List of IpRules. */
 export type DatabaseAccountCreateUpdatePropertiesInputIpRulesList = Array<IpAddressOrRange>;
 /** Cosmos DB capability object */
 export interface Capability {
   /** Name of the Cosmos DB capability. For example, "name": "EnableCassandra". Current values also include "EnableTable" and "EnableGremlin". */
-  name?: string;
+  name?: string | undefined;
 }
 /** List of Cosmos DB capabilities for the account */
 export type DatabaseAccountCreateUpdatePropertiesInputCapabilitiesList = Array<Capability>;
 /** Virtual Network ACL Rule object */
 export interface VirtualNetworkRule {
   /** Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}. */
-  id?: string;
+  id?: string | undefined;
   /** Create firewall rule before the virtual network has vnet service endpoint enabled. */
-  ignoreMissingVNetServiceEndpoint?: boolean;
+  ignoreMissingVNetServiceEndpoint?: boolean | undefined;
 }
 /** List of Virtual Network ACL rules configured for the Cosmos DB account. */
 export type DatabaseAccountCreateUpdatePropertiesInputVirtualNetworkRulesList =
@@ -1169,14 +1176,14 @@ export type PublicNetworkAccess = "Enabled" | "Disabled" | "SecuredByPerimeter";
 export type ServerVersion = "3.2" | "3.6" | "4.0" | "4.2" | "5.0" | "6.0" | "7.0";
 export interface ApiProperties {
   /** Describes the version of the MongoDB account. */
-  serverVersion?: ServerVersion | (string & {});
+  serverVersion?: ServerVersion | (string & {}) | undefined;
 }
 /** Describes the types of schema for analytical storage. */
 export type AnalyticalStorageSchemaType = "WellDefined" | "FullFidelity";
 /** Analytical storage specific properties. */
 export interface AnalyticalStorageConfiguration {
   /** Describes the types of schema for analytical storage. */
-  schemaType?: AnalyticalStorageSchemaType | (string & {});
+  schemaType?: AnalyticalStorageSchemaType | (string & {}) | undefined;
 }
 /** Enum to indicate the mode of account creation. */
 export type DatabaseAccountCreateUpdatePropertiesInputCreateMode = "Default" | "Restore";
@@ -1187,31 +1194,33 @@ export type BackupPolicyMigrationStatus = "Invalid" | "InProgress" | "Completed"
 /** The object representing the state of the migration between the backup policies. */
 export interface BackupPolicyMigrationState {
   /** Describes the status of migration between backup policy types. */
-  status?: BackupPolicyMigrationStatus | (string & {});
+  status?: BackupPolicyMigrationStatus | (string & {}) | undefined;
   /** Describes the target backup policy type of the backup policy migration. */
-  targetType?: BackupPolicyType | (string & {});
+  targetType?: BackupPolicyType | (string & {}) | undefined;
   /** Time at which the backup policy migration started (ISO-8601 format). */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 /** The object representing the policy for taking backups on an account. */
 export interface BackupPolicy {
   /** Describes the mode of backups. */
   type: BackupPolicyType | (string & {});
   /** The object representing the state of the migration between the backup policies. */
-  migrationState?: BackupPolicyMigrationState;
+  migrationState?: BackupPolicyMigrationState | undefined;
+  /** The UTC timestamp until which changes that reduce backup retention are locked. While active, this timestamp can only be extended. */
+  backupRetentionLockExpirationTimestamp?: string | undefined;
 }
 /** The CORS policy for the Cosmos DB database account. */
 export interface CorsPolicy {
   /** The origin domains that are permitted to make a request against the service via CORS. */
   allowedOrigins: string;
   /** The methods (HTTP request verbs) that the origin domain may use for a CORS request. */
-  allowedMethods?: string;
+  allowedMethods?: string | undefined;
   /** The request headers that the origin domain may specify on the CORS request. */
-  allowedHeaders?: string;
+  allowedHeaders?: string | undefined;
   /** The response headers that may be sent in the response to the CORS request and exposed by the browser to the request issuer. */
-  exposedHeaders?: string;
+  exposedHeaders?: string | undefined;
   /** The maximum amount time that a browser should cache the preflight OPTIONS request. */
-  maxAgeInSeconds?: number;
+  maxAgeInSeconds?: number | undefined;
 }
 /** The CORS policy for the Cosmos DB database account. */
 export type DatabaseAccountCreateUpdatePropertiesInputCorsList = Array<CorsPolicy>;
@@ -1227,9 +1236,9 @@ export type DatabaseRestoreResourceCollectionNamesList = Array<string>;
 /** Specific Databases to restore. */
 export interface DatabaseRestoreResource {
   /** The name of the database available for restore. */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** The names of the collections available for restore. */
-  collectionNames?: DatabaseRestoreResourceCollectionNamesList;
+  collectionNames?: DatabaseRestoreResourceCollectionNamesList | undefined;
 }
 /** List of specific databases available for restore. */
 export type RestoreParametersDatabasesToRestoreList = Array<DatabaseRestoreResource>;
@@ -1238,9 +1247,9 @@ export type GremlinDatabaseRestoreResourceGraphNamesList = Array<string>;
 /** Specific Gremlin Databases to restore. */
 export interface GremlinDatabaseRestoreResource {
   /** The name of the gremlin database available for restore. */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** The names of the graphs available for restore. */
-  graphNames?: GremlinDatabaseRestoreResourceGraphNamesList;
+  graphNames?: GremlinDatabaseRestoreResourceGraphNamesList | undefined;
 }
 /** List of specific gremlin databases available for restore. */
 export type RestoreParametersGremlinDatabasesToRestoreList = Array<GremlinDatabaseRestoreResource>;
@@ -1249,26 +1258,26 @@ export type RestoreParametersTablesToRestoreList = Array<string>;
 /** Parameters to indicate the information about the restore. */
 export interface RestoreParameters {
   /** The id of the restorable database account from which the restore has to be initiated. For example: /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{restorableDatabaseAccountName} */
-  restoreSource?: string;
+  restoreSource?: string | undefined;
   /** Time to which the account has to be restored (ISO-8601 format). */
-  restoreTimestampInUtc?: string;
+  restoreTimestampInUtc?: string | undefined;
   /** Specifies whether the restored account will have Time-To-Live disabled upon the successful restore. */
-  restoreWithTtlDisabled?: boolean;
+  restoreWithTtlDisabled?: boolean | undefined;
   /** Describes the mode of the restore. */
-  restoreMode?: RestoreMode | (string & {});
+  restoreMode?: RestoreMode | (string & {}) | undefined;
   /** List of specific databases available for restore. */
-  databasesToRestore?: RestoreParametersDatabasesToRestoreList;
+  databasesToRestore?: RestoreParametersDatabasesToRestoreList | undefined;
   /** List of specific gremlin databases available for restore. */
-  gremlinDatabasesToRestore?: RestoreParametersGremlinDatabasesToRestoreList;
+  gremlinDatabasesToRestore?: RestoreParametersGremlinDatabasesToRestoreList | undefined;
   /** List of specific tables available for restore. */
-  tablesToRestore?: RestoreParametersTablesToRestoreList;
+  tablesToRestore?: RestoreParametersTablesToRestoreList | undefined;
   /** The source backup location for restore. */
-  sourceBackupLocation?: string;
+  sourceBackupLocation?: string | undefined;
 }
 /** The object that represents all properties related to capacity enforcement on an account. */
 export interface Capacity {
   /** The total throughput limit imposed on the account. A totalThroughputLimit of 2000 imposes a strict limit of max throughput that can be provisioned on that account to be 2000. A totalThroughputLimit of -1 indicates no limits on provisioning of throughput. */
-  totalThroughputLimit?: number;
+  totalThroughputLimit?: number | undefined;
 }
 /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
 export type MinimalTlsVersion = "Tls" | "Tls11" | "Tls12";
@@ -1277,7 +1286,7 @@ export type DefaultPriorityLevel = "High" | "Low";
 /** Properties to create and update Azure Cosmos DB database accounts. */
 export interface DatabaseAccountCreateUpdatePropertiesInput {
   /** The consistency policy for the Cosmos DB account. */
-  consistencyPolicy?: ConsistencyPolicy;
+  consistencyPolicy?: ConsistencyPolicy | undefined;
   /** An array that contains the georeplication locations enabled for the Cosmos DB account. */
   locations: DatabaseAccountCreateUpdatePropertiesInputLocationsList;
   /** The offer type for the Cosmos DB database account. */
@@ -1285,69 +1294,75 @@ export interface DatabaseAccountCreateUpdatePropertiesInput {
     | DatabaseAccountCreateUpdatePropertiesInputDatabaseAccountOfferType
     | (string & {});
   /** List of IpRules. */
-  ipRules?: DatabaseAccountCreateUpdatePropertiesInputIpRulesList;
+  ipRules?: DatabaseAccountCreateUpdatePropertiesInputIpRulesList | undefined;
   /** Flag to indicate whether to enable/disable Virtual Network ACL rules. */
-  isVirtualNetworkFilterEnabled?: boolean;
+  isVirtualNetworkFilterEnabled?: boolean | undefined;
   /** Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account. */
-  enableAutomaticFailover?: boolean;
+  enableAutomaticFailover?: boolean | undefined;
   /** List of Cosmos DB capabilities for the account */
-  capabilities?: DatabaseAccountCreateUpdatePropertiesInputCapabilitiesList;
+  capabilities?: DatabaseAccountCreateUpdatePropertiesInputCapabilitiesList | undefined;
   /** List of Virtual Network ACL rules configured for the Cosmos DB account. */
-  virtualNetworkRules?: DatabaseAccountCreateUpdatePropertiesInputVirtualNetworkRulesList;
+  virtualNetworkRules?:
+    | DatabaseAccountCreateUpdatePropertiesInputVirtualNetworkRulesList
+    | undefined;
   /** Enables the account to write in multiple locations */
-  enableMultipleWriteLocations?: boolean;
+  enableMultipleWriteLocations?: boolean | undefined;
   /** Enables the cassandra connector on the Cosmos DB C* account */
-  enableCassandraConnector?: boolean;
+  enableCassandraConnector?: boolean | undefined;
   /** The cassandra connector offer type for the Cosmos DB database C* account. */
-  connectorOffer?: ConnectorOffer | (string & {});
+  connectorOffer?: ConnectorOffer | (string & {}) | undefined;
   /** Disable write operations on metadata resources (databases, containers, throughput) via account keys */
-  disableKeyBasedMetadataWriteAccess?: boolean;
+  disableKeyBasedMetadataWriteAccess?: boolean | undefined;
   /** The URI of the key vault */
-  keyVaultKeyUri?: string;
+  keyVaultKeyUri?: string | undefined;
   /** The default identity for accessing key vault used in features like customer managed keys. The default identity needs to be explicitly set by the users. It can be "FirstPartyIdentity", "SystemAssignedIdentity" and more. */
-  defaultIdentity?: string;
+  defaultIdentity?: string | undefined;
   /** Whether requests from Public Network are allowed */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Flag to indicate whether Free Tier is enabled. */
-  enableFreeTier?: boolean;
+  enableFreeTier?: boolean | undefined;
   /** API specific properties. Currently, supported only for MongoDB API. */
-  apiProperties?: ApiProperties;
+  apiProperties?: ApiProperties | undefined;
   /** Flag to indicate whether to enable storage analytics. */
-  enableAnalyticalStorage?: boolean;
+  enableAnalyticalStorage?: boolean | undefined;
   /** Analytical storage specific properties. */
-  analyticalStorageConfiguration?: AnalyticalStorageConfiguration;
+  analyticalStorageConfiguration?: AnalyticalStorageConfiguration | undefined;
   /** Enum to indicate the mode of account creation. */
-  createMode?: DatabaseAccountCreateUpdatePropertiesInputCreateMode | (string & {});
+  createMode?: DatabaseAccountCreateUpdatePropertiesInputCreateMode | (string & {}) | undefined;
   /** The object representing the policy for taking backups on an account. */
-  backupPolicy?: BackupPolicy;
+  backupPolicy?: BackupPolicy | undefined;
   /** The CORS policy for the Cosmos DB database account. */
-  cors?: DatabaseAccountCreateUpdatePropertiesInputCorsList;
+  cors?: DatabaseAccountCreateUpdatePropertiesInputCorsList | undefined;
   /** Indicates what services are allowed to bypass firewall checks. */
-  networkAclBypass?: NetworkAclBypass | (string & {});
+  networkAclBypass?: NetworkAclBypass | (string & {}) | undefined;
   /** An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account. */
-  networkAclBypassResourceIds?: DatabaseAccountCreateUpdatePropertiesInputNetworkAclBypassResourceIdsList;
+  networkAclBypassResourceIds?:
+    | DatabaseAccountCreateUpdatePropertiesInputNetworkAclBypassResourceIdsList
+    | undefined;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** Parameters to indicate the information about the restore. */
-  restoreParameters?: RestoreParameters;
+  restoreParameters?: RestoreParameters | undefined;
   /** The object that represents all properties related to capacity enforcement on an account. */
-  capacity?: Capacity;
+  capacity?: Capacity | undefined;
   /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
-  enablePartitionMerge?: boolean;
+  enablePartitionMerge?: boolean | undefined;
   /** Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account */
-  enableBurstCapacity?: boolean;
+  enableBurstCapacity?: boolean | undefined;
   /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
-  minimalTlsVersion?: MinimalTlsVersion | (string & {});
+  minimalTlsVersion?: MinimalTlsVersion | (string & {}) | undefined;
   /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
-  customerManagedKeyStatus?: string;
+  customerManagedKeyStatus?: string | undefined;
   /** Flag to indicate enabling/disabling of Priority Based Execution Preview feature on the account */
-  enablePriorityBasedExecution?: boolean;
+  enablePriorityBasedExecution?: boolean | undefined;
   /** Enum to indicate default Priority Level of request for Priority Based Execution. */
-  defaultPriorityLevel?: DefaultPriorityLevel | (string & {});
+  defaultPriorityLevel?: DefaultPriorityLevel | (string & {}) | undefined;
   /** Flag to indicate enabling/disabling of Per-Region Per-partition autoscale Preview feature on the account */
-  enablePerRegionPerPartitionAutoscale?: boolean;
+  enablePerRegionPerPartitionAutoscale?: boolean | undefined;
   /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
-  enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
+  enforceHierarchicalPartitionKeyIdLastLevel?: boolean | undefined;
+  /** Flag to indicate enabling/disabling of per-partition automatic failover on the account, which automatically fails over individual partitions to available regions during a regional outage. Opt-in; defaults to false. */
+  perPartitionAutomaticFailoverEnabled?: boolean | undefined;
 }
 export interface DatabaseAccountsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1357,13 +1372,13 @@ export interface DatabaseAccountsCreateOrUpdateRequest {
   /** Cosmos DB database account name. */
   accountName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: DatabaseAccountsCreateOrUpdateRequestTagsMap;
+  tags?: DatabaseAccountsCreateOrUpdateRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Indicates the type of database account. This can only be set at database account creation. */
-  kind?: DatabaseAccountsCreateOrUpdateRequestKind | (string & {});
+  kind?: DatabaseAccountsCreateOrUpdateRequestKind | (string & {}) | undefined;
   /** Properties to create and update Azure Cosmos DB database accounts. */
   properties: DatabaseAccountCreateUpdatePropertiesInput;
 }
@@ -1376,17 +1391,17 @@ export type DatabaseAccountGetPropertiesCapabilitiesList = Array<Capability>;
 /** A region in which the Azure Cosmos DB database account is deployed. */
 export interface Location {
   /** The unique identifier of the region within the database account. Example: &lt;accountName&gt;-&lt;locationName&gt;. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the region. */
-  locationName?: string;
+  locationName?: string | undefined;
   /** The connection endpoint for the specific region. Example: https://&lt;accountName&gt;-&lt;locationName&gt;.documents.azure.com:443/ */
-  documentEndpoint?: string;
+  documentEndpoint?: string | undefined;
   /** The provisioning state of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The failover priority of the region. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists. */
-  failoverPriority?: number;
+  failoverPriority?: number | undefined;
   /** Flag to indicate whether or not this region is an AvailabilityZone region */
-  isZoneRedundant?: boolean;
+  isZoneRedundant?: boolean | undefined;
 }
 /** An array that contains the write location for the Cosmos DB account. */
 export type DatabaseAccountGetPropertiesWriteLocationsList = Array<Location>;
@@ -1397,11 +1412,11 @@ export type DatabaseAccountGetPropertiesLocationsList = Array<Location>;
 /** The failover policy for a given region of a database account. */
 export interface FailoverPolicy {
   /** The unique identifier of the region in which the database account replicates to. Example: &lt;accountName&gt;-&lt;locationName&gt;. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the region in which the database account exists. */
-  locationName?: string;
+  locationName?: string | undefined;
   /** The failover priority of the region. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists. */
-  failoverPriority?: number;
+  failoverPriority?: number | undefined;
 }
 /** An array that contains the regions ordered by their failover priorities. */
 export type DatabaseAccountGetPropertiesFailoverPoliciesList = Array<FailoverPolicy>;
@@ -1410,40 +1425,40 @@ export type DatabaseAccountGetPropertiesVirtualNetworkRulesList = Array<VirtualN
 /** Private endpoint which the connection belongs to. */
 export interface PrivateEndpointProperty {
   /** Resource id of the private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Connection State of the Private Endpoint Connection. */
 export interface PrivateLinkServiceConnectionStateProperty {
   /** The private link service connection status. */
-  status?: string;
+  status?: string | undefined;
   /** The private link service connection description. */
-  description?: string;
+  description?: string | undefined;
   /** Any action that is required beyond basic workflow (approve/ reject/ disconnect) */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** Private endpoint which the connection belongs to. */
-  privateEndpoint?: PrivateEndpointProperty;
+  privateEndpoint?: PrivateEndpointProperty | undefined;
   /** Connection State of the Private Endpoint Connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty | undefined;
   /** Group id of the private endpoint. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Provisioning state of the private endpoint. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 /** A private endpoint connection */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of Private Endpoint Connections configured for the Cosmos DB account. */
 export type DatabaseAccountGetPropertiesPrivateEndpointConnectionsList =
@@ -1457,109 +1472,115 @@ export type DatabaseAccountGetPropertiesNetworkAclBypassResourceIdsList = Array<
 /** The metadata related to an access key for a given database account. */
 export interface AccountKeyMetadata {
   /** Generation time in UTC of the key in ISO-8601 format. If the value is missing from the object, it means that the last key regeneration was triggered before 2022-06-18. */
-  generationTime?: string;
+  generationTime?: string | undefined;
 }
 /** The metadata related to each access key for the given Cosmos DB database account. */
 export interface DatabaseAccountKeysMetadata {
   /** The metadata related to the Primary Read-Write Key for the given Cosmos DB database account. */
-  primaryMasterKey?: AccountKeyMetadata;
+  primaryMasterKey?: AccountKeyMetadata | undefined;
   /** The metadata related to the Secondary Read-Write Key for the given Cosmos DB database account. */
-  secondaryMasterKey?: AccountKeyMetadata;
+  secondaryMasterKey?: AccountKeyMetadata | undefined;
   /** The metadata related to the Primary Read-Only Key for the given Cosmos DB database account. */
-  primaryReadonlyMasterKey?: AccountKeyMetadata;
+  primaryReadonlyMasterKey?: AccountKeyMetadata | undefined;
   /** The metadata related to the Secondary Read-Only Key for the given Cosmos DB database account. */
-  secondaryReadonlyMasterKey?: AccountKeyMetadata;
+  secondaryReadonlyMasterKey?: AccountKeyMetadata | undefined;
 }
 /** Properties for the database account. */
 export interface DatabaseAccountGetProperties {
   /** The provisioning state of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The connection endpoint for the Cosmos DB database account. */
-  documentEndpoint?: string;
+  documentEndpoint?: string | undefined;
   /** The offer type for the Cosmos DB database account. Default value: Standard. */
-  databaseAccountOfferType?: DatabaseAccountGetPropertiesDatabaseAccountOfferType;
+  databaseAccountOfferType?: DatabaseAccountGetPropertiesDatabaseAccountOfferType | undefined;
   /** List of IpRules. */
-  ipRules?: DatabaseAccountGetPropertiesIpRulesList;
+  ipRules?: DatabaseAccountGetPropertiesIpRulesList | undefined;
   /** Flag to indicate whether to enable/disable Virtual Network ACL rules. */
-  isVirtualNetworkFilterEnabled?: boolean;
+  isVirtualNetworkFilterEnabled?: boolean | undefined;
   /** Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account. */
-  enableAutomaticFailover?: boolean;
+  enableAutomaticFailover?: boolean | undefined;
   /** The consistency policy for the Cosmos DB database account. */
-  consistencyPolicy?: ConsistencyPolicy;
+  consistencyPolicy?: ConsistencyPolicy | undefined;
   /** List of Cosmos DB capabilities for the account */
-  capabilities?: DatabaseAccountGetPropertiesCapabilitiesList;
+  capabilities?: DatabaseAccountGetPropertiesCapabilitiesList | undefined;
   /** An array that contains the write location for the Cosmos DB account. */
-  writeLocations?: DatabaseAccountGetPropertiesWriteLocationsList;
+  writeLocations?: DatabaseAccountGetPropertiesWriteLocationsList | undefined;
   /** An array that contains of the read locations enabled for the Cosmos DB account. */
-  readLocations?: DatabaseAccountGetPropertiesReadLocationsList;
+  readLocations?: DatabaseAccountGetPropertiesReadLocationsList | undefined;
   /** An array that contains all of the locations enabled for the Cosmos DB account. */
-  locations?: DatabaseAccountGetPropertiesLocationsList;
+  locations?: DatabaseAccountGetPropertiesLocationsList | undefined;
   /** An array that contains the regions ordered by their failover priorities. */
-  failoverPolicies?: DatabaseAccountGetPropertiesFailoverPoliciesList;
+  failoverPolicies?: DatabaseAccountGetPropertiesFailoverPoliciesList | undefined;
   /** List of Virtual Network ACL rules configured for the Cosmos DB account. */
-  virtualNetworkRules?: DatabaseAccountGetPropertiesVirtualNetworkRulesList;
+  virtualNetworkRules?: DatabaseAccountGetPropertiesVirtualNetworkRulesList | undefined;
   /** List of Private Endpoint Connections configured for the Cosmos DB account. */
-  privateEndpointConnections?: DatabaseAccountGetPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | DatabaseAccountGetPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Enables the account to write in multiple locations */
-  enableMultipleWriteLocations?: boolean;
+  enableMultipleWriteLocations?: boolean | undefined;
   /** Enables the cassandra connector on the Cosmos DB C* account */
-  enableCassandraConnector?: boolean;
+  enableCassandraConnector?: boolean | undefined;
   /** The cassandra connector offer type for the Cosmos DB database C* account. */
-  connectorOffer?: ConnectorOffer;
+  connectorOffer?: ConnectorOffer | undefined;
   /** Disable write operations on metadata resources (databases, containers, throughput) via account keys */
-  disableKeyBasedMetadataWriteAccess?: boolean;
+  disableKeyBasedMetadataWriteAccess?: boolean | undefined;
   /** The URI of the key vault */
-  keyVaultKeyUri?: string;
+  keyVaultKeyUri?: string | undefined;
   /** The default identity for accessing key vault used in features like customer managed keys. The default identity needs to be explicitly set by the users. It can be "FirstPartyIdentity", "SystemAssignedIdentity" and more. */
-  defaultIdentity?: string;
+  defaultIdentity?: string | undefined;
   /** Whether requests from Public Network are allowed */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** Flag to indicate whether Free Tier is enabled. */
-  enableFreeTier?: boolean;
+  enableFreeTier?: boolean | undefined;
   /** API specific properties. */
-  apiProperties?: ApiProperties;
+  apiProperties?: ApiProperties | undefined;
   /** Flag to indicate whether to enable storage analytics. */
-  enableAnalyticalStorage?: boolean;
+  enableAnalyticalStorage?: boolean | undefined;
   /** Analytical storage specific properties. */
-  analyticalStorageConfiguration?: AnalyticalStorageConfiguration;
+  analyticalStorageConfiguration?: AnalyticalStorageConfiguration | undefined;
   /** A unique identifier assigned to the database account */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Enum to indicate the mode of account creation. */
-  createMode?: DatabaseAccountGetPropertiesCreateMode;
+  createMode?: DatabaseAccountGetPropertiesCreateMode | undefined;
   /** Parameters to indicate the information about the restore. */
-  restoreParameters?: RestoreParameters;
+  restoreParameters?: RestoreParameters | undefined;
   /** The object representing the policy for taking backups on an account. */
-  backupPolicy?: BackupPolicy;
+  backupPolicy?: BackupPolicy | undefined;
   /** The CORS policy for the Cosmos DB database account. */
-  cors?: DatabaseAccountGetPropertiesCorsList;
+  cors?: DatabaseAccountGetPropertiesCorsList | undefined;
   /** Indicates what services are allowed to bypass firewall checks. */
-  networkAclBypass?: NetworkAclBypass;
+  networkAclBypass?: NetworkAclBypass | undefined;
   /** An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account. */
-  networkAclBypassResourceIds?: DatabaseAccountGetPropertiesNetworkAclBypassResourceIdsList;
+  networkAclBypassResourceIds?:
+    | DatabaseAccountGetPropertiesNetworkAclBypassResourceIdsList
+    | undefined;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** The object that represents all properties related to capacity enforcement on an account. */
-  capacity?: Capacity;
+  capacity?: Capacity | undefined;
   /** The object that represents the metadata for the Account Keys of the Cosmos DB account. */
-  keysMetadata?: DatabaseAccountKeysMetadata;
+  keysMetadata?: DatabaseAccountKeysMetadata | undefined;
   /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
-  enablePartitionMerge?: boolean;
+  enablePartitionMerge?: boolean | undefined;
   /** Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account */
-  enableBurstCapacity?: boolean;
+  enableBurstCapacity?: boolean | undefined;
   /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
-  minimalTlsVersion?: MinimalTlsVersion;
+  minimalTlsVersion?: MinimalTlsVersion | undefined;
   /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
-  customerManagedKeyStatus?: string;
+  customerManagedKeyStatus?: string | undefined;
   /** The version of the Customer Managed Key currently being used by the account */
-  keyVaultKeyUriVersion?: string;
+  keyVaultKeyUriVersion?: string | undefined;
   /** Flag to indicate enabling/disabling of Priority Based Execution Preview feature on the account */
-  enablePriorityBasedExecution?: boolean;
+  enablePriorityBasedExecution?: boolean | undefined;
   /** Enum to indicate default Priority Level of request for Priority Based Execution. */
-  defaultPriorityLevel?: DefaultPriorityLevel;
+  defaultPriorityLevel?: DefaultPriorityLevel | undefined;
   /** Flag to indicate enabling/disabling of Per-Region Per-partition autoscale Preview feature on the account */
-  enablePerRegionPerPartitionAutoscale?: boolean;
+  enablePerRegionPerPartitionAutoscale?: boolean | undefined;
   /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
-  enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
+  enforceHierarchicalPartitionKeyIdLastLevel?: boolean | undefined;
+  /** Flag to indicate enabling/disabling of per-partition automatic failover on the account, which automatically fails over individual partitions to available regions during a regional outage. Opt-in; defaults to false. */
+  perPartitionAutomaticFailoverEnabled?: boolean | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type DatabaseAccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1567,32 +1588,32 @@ export type DatabaseAccountsCreateOrUpdateResponseTagsMap = { [key: string]: str
 export type DatabaseAccountsCreateOrUpdateResponseKind = "GlobalDocumentDB" | "MongoDB" | "Parse";
 export interface DatabaseAccountsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the database account. */
-  properties?: DatabaseAccountGetProperties;
+  properties?: DatabaseAccountGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: DatabaseAccountsCreateOrUpdateResponseTagsMap;
+  tags?: DatabaseAccountsCreateOrUpdateResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** Indicates the type of database account. This can only be set at database account creation. */
-  kind?: DatabaseAccountsCreateOrUpdateResponseKind;
+  kind?: DatabaseAccountsCreateOrUpdateResponseKind | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The failover policy for a given region of a database account. */
 export interface FailoverPolicyInput {
   /** The name of the region in which the database account exists. */
-  locationName?: string;
+  locationName?: string | undefined;
   /** The failover priority of the region. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists. */
-  failoverPriority?: number;
+  failoverPriority?: number | undefined;
 }
 /** List of failover policies. */
 export type DatabaseAccountsFailoverPriorityChangeRequestFailoverPoliciesList =
@@ -1609,11 +1630,11 @@ export interface DatabaseAccountsFailoverPriorityChangeRequest {
 }
 export interface DatabaseAccountsFailoverPriorityChangeResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DatabaseAccountsGetReadOnlyKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1626,9 +1647,9 @@ export interface DatabaseAccountsGetReadOnlyKeysRequest {
 /** The read-only access keys for the given database account. */
 export interface DatabaseAccountListReadOnlyKeysResult {
   /** Base 64 encoded value of the primary read-only key. */
-  primaryReadonlyMasterKey?: string;
+  primaryReadonlyMasterKey?: string | undefined;
   /** Base 64 encoded value of the secondary read-only key. */
-  secondaryReadonlyMasterKey?: string;
+  secondaryReadonlyMasterKey?: string | undefined;
 }
 export interface DatabaseAccountsListReadOnlyKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1650,11 +1671,11 @@ export interface DatabaseAccountsOfflineRegionRequest {
 }
 export interface DatabaseAccountsOfflineRegionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DatabaseAccountsOnlineRegionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1668,11 +1689,11 @@ export interface DatabaseAccountsOnlineRegionRequest {
 }
 export interface DatabaseAccountsOnlineRegionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCassandraClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1684,9 +1705,9 @@ export interface DeleteCassandraClusterRequest {
 }
 export interface DeleteCassandraClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCassandraDataCenterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1700,9 +1721,9 @@ export interface DeleteCassandraDataCenterRequest {
 }
 export interface DeleteCassandraDataCenterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCassandraResourceCassandraKeyspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1716,9 +1737,9 @@ export interface DeleteCassandraResourceCassandraKeyspaceRequest {
 }
 export interface DeleteCassandraResourceCassandraKeyspaceResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteCassandraResourceCassandraRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1732,9 +1753,9 @@ export interface DeleteCassandraResourceCassandraRoleAssignmentRequest {
 }
 export interface DeleteCassandraResourceCassandraRoleAssignmentResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteCassandraResourceCassandraRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1748,9 +1769,9 @@ export interface DeleteCassandraResourceCassandraRoleDefinitionRequest {
 }
 export interface DeleteCassandraResourceCassandraRoleDefinitionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteCassandraResourceCassandraTableRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1766,9 +1787,9 @@ export interface DeleteCassandraResourceCassandraTableRequest {
 }
 export interface DeleteCassandraResourceCassandraTableResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDatabaseAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1780,9 +1801,9 @@ export interface DeleteDatabaseAccountRequest {
 }
 export interface DeleteDatabaseAccountResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1794,11 +1815,11 @@ export interface DeleteFleetRequest {
 }
 export interface DeleteFleetResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFleetspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1812,11 +1833,11 @@ export interface DeleteFleetspaceRequest {
 }
 export interface DeleteFleetspaceResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFleetspaceAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1832,11 +1853,11 @@ export interface DeleteFleetspaceAccountRequest {
 }
 export interface DeleteFleetspaceAccountResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteGremlinResourceGremlinDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1850,9 +1871,9 @@ export interface DeleteGremlinResourceGremlinDatabaseRequest {
 }
 export interface DeleteGremlinResourceGremlinDatabaseResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteGremlinResourceGremlinGraphRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1868,9 +1889,9 @@ export interface DeleteGremlinResourceGremlinGraphRequest {
 }
 export interface DeleteGremlinResourceGremlinGraphResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteGremlinResourceGremlinRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1884,9 +1905,9 @@ export interface DeleteGremlinResourceGremlinRoleAssignmentRequest {
 }
 export interface DeleteGremlinResourceGremlinRoleAssignmentResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteGremlinResourceGremlinRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1900,9 +1921,9 @@ export interface DeleteGremlinResourceGremlinRoleDefinitionRequest {
 }
 export interface DeleteGremlinResourceGremlinRoleDefinitionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteMongoDBResourceMongoDBCollectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1918,9 +1939,9 @@ export interface DeleteMongoDBResourceMongoDBCollectionRequest {
 }
 export interface DeleteMongoDBResourceMongoDBCollectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteMongoDBResourceMongoDBDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1934,9 +1955,9 @@ export interface DeleteMongoDBResourceMongoDBDatabaseRequest {
 }
 export interface DeleteMongoDBResourceMongoDBDatabaseResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteMongoDBResourceMongoRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1950,9 +1971,9 @@ export interface DeleteMongoDBResourceMongoRoleDefinitionRequest {
 }
 export interface DeleteMongoDBResourceMongoRoleDefinitionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMongoDBResourceMongoUserDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1966,9 +1987,9 @@ export interface DeleteMongoDBResourceMongoUserDefinitionRequest {
 }
 export interface DeleteMongoDBResourceMongoUserDefinitionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMongoMIResourceMongoMIRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1982,9 +2003,9 @@ export interface DeleteMongoMIResourceMongoMIRoleAssignmentRequest {
 }
 export interface DeleteMongoMIResourceMongoMIRoleAssignmentResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteMongoMIResourceMongoMIRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1998,9 +2019,9 @@ export interface DeleteMongoMIResourceMongoMIRoleDefinitionRequest {
 }
 export interface DeleteMongoMIResourceMongoMIRoleDefinitionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export type DeleteNotebookWorkspaceRequestNotebookWorkspaceName = "default";
 export interface DeleteNotebookWorkspaceRequest {
@@ -2015,9 +2036,9 @@ export interface DeleteNotebookWorkspaceRequest {
 }
 export interface DeleteNotebookWorkspaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2031,9 +2052,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2047,9 +2068,9 @@ export interface DeleteServiceRequest {
 }
 export interface DeleteServiceResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteSqlResourceSqlContainerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2065,9 +2086,9 @@ export interface DeleteSqlResourceSqlContainerRequest {
 }
 export interface DeleteSqlResourceSqlContainerResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteSqlResourceSqlDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2081,9 +2102,9 @@ export interface DeleteSqlResourceSqlDatabaseRequest {
 }
 export interface DeleteSqlResourceSqlDatabaseResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteSqlResourceSqlRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2097,9 +2118,9 @@ export interface DeleteSqlResourceSqlRoleAssignmentRequest {
 }
 export interface DeleteSqlResourceSqlRoleAssignmentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSqlResourceSqlRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2113,9 +2134,9 @@ export interface DeleteSqlResourceSqlRoleDefinitionRequest {
 }
 export interface DeleteSqlResourceSqlRoleDefinitionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSqlResourceSqlStoredProcedureRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2133,9 +2154,9 @@ export interface DeleteSqlResourceSqlStoredProcedureRequest {
 }
 export interface DeleteSqlResourceSqlStoredProcedureResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteSqlResourceSqlUserDefinedFunctionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2153,9 +2174,9 @@ export interface DeleteSqlResourceSqlUserDefinedFunctionRequest {
 }
 export interface DeleteSqlResourceSqlUserDefinedFunctionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteTableResourceTableRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2169,9 +2190,9 @@ export interface DeleteTableResourceTableRequest {
 }
 export interface DeleteTableResourceTableResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteTableResourceTableRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2185,9 +2206,9 @@ export interface DeleteTableResourceTableRoleAssignmentRequest {
 }
 export interface DeleteTableResourceTableRoleAssignmentResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteTableResourceTableRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2201,9 +2222,9 @@ export interface DeleteTableResourceTableRoleDefinitionRequest {
 }
 export interface DeleteTableResourceTableRoleDefinitionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetCassandraClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2217,21 +2238,21 @@ export interface GetCassandraClusterRequest {
 export type GetCassandraClusterResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCassandraClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a managed Cassandra cluster. */
-  properties?: ClusterResourceProperties;
+  properties?: ClusterResourceProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetCassandraClusterResponseTagsMap;
+  tags?: GetCassandraClusterResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedCassandraManagedServiceIdentity;
+  identity?: ManagedCassandraManagedServiceIdentity | undefined;
 }
 export interface GetCassandraDataCenterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2245,15 +2266,15 @@ export interface GetCassandraDataCenterRequest {
 }
 export interface GetCassandraDataCenterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a managed Cassandra data center. */
-  properties?: DataCenterResourceProperties;
+  properties?: DataCenterResourceProperties | undefined;
 }
 export interface GetCassandraResourceCassandraKeyspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2271,21 +2292,21 @@ export type GetCassandraResourceCassandraKeyspaceResponseTagsMap = {
 };
 export interface GetCassandraResourceCassandraKeyspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB Cassandra keyspace */
-  properties?: CassandraKeyspaceGetProperties;
+  properties?: CassandraKeyspaceGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetCassandraResourceCassandraKeyspaceResponseTagsMap;
+  tags?: GetCassandraResourceCassandraKeyspaceResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetCassandraResourceCassandraKeyspaceThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2300,47 +2321,61 @@ export interface GetCassandraResourceCassandraKeyspaceThroughputRequest {
 /** Cosmos DB resource throughput policy */
 export interface ThroughputPolicyResource {
   /** Determines whether the ThroughputPolicy is active or not */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** Represents the percentage by which throughput can increase every time throughput policy kicks in. */
-  incrementPercent?: number;
+  incrementPercent?: number | undefined;
 }
 /** Cosmos DB resource auto-upgrade policy */
 export interface AutoUpgradePolicyResource {
   /** Represents throughput policy which service must adhere to for auto-upgrade */
-  throughputPolicy?: ThroughputPolicyResource;
+  throughputPolicy?: ThroughputPolicyResource | undefined;
 }
 /** Cosmos DB provisioned throughput settings object */
 export interface AutoscaleSettingsResource {
   /** Represents maximum throughput container can scale up to. */
   maxThroughput: number;
   /** Cosmos DB resource auto-upgrade policy */
-  autoUpgradePolicy?: AutoUpgradePolicyResource;
+  autoUpgradePolicy?: AutoUpgradePolicyResource | undefined;
   /** Represents target maximum throughput container can scale up to once offer is no longer in pending state. */
-  targetMaxThroughput?: number;
+  targetMaxThroughput?: number | undefined;
 }
+/** Cosmos DB throughput bucket object */
+export interface ThroughputBucketResource {
+  /** Represents the throughput bucket id */
+  id: number;
+  /** Represents maximum percentage throughput that can be used by the bucket */
+  maxThroughputPercentage: number;
+  /** Indicates whether this is the default throughput bucket */
+  isDefaultBucket?: boolean | undefined;
+}
+/** Array of throughput bucket limits to be applied to the Cosmos DB container */
+export type ThroughputSettingsGetPropertiesResourceThroughputBucketsList =
+  Array<ThroughputBucketResource>;
 export interface ThroughputSettingsGetPropertiesResource {
   /** Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required, but not both. */
-  throughput?: number;
+  throughput?: number | undefined;
   /** Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is required, but not both. */
-  autoscaleSettings?: AutoscaleSettingsResource;
+  autoscaleSettings?: AutoscaleSettingsResource | undefined;
   /** The minimum throughput of the resource */
-  minimumThroughput?: string;
+  minimumThroughput?: string | undefined;
   /** The throughput replace is pending */
-  offerReplacePending?: string;
+  offerReplacePending?: string | undefined;
   /** The offer throughput value to instantly scale up without triggering splits */
-  instantMaximumThroughput?: string;
+  instantMaximumThroughput?: string | undefined;
   /** The maximum throughput value or the maximum maxThroughput value (for autoscale) that can be specified */
-  softAllowedMaximumThroughput?: string;
+  softAllowedMaximumThroughput?: string | undefined;
+  /** Array of throughput bucket limits to be applied to the Cosmos DB container */
+  throughputBuckets?: ThroughputSettingsGetPropertiesResourceThroughputBucketsList | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB resource throughput */
 export interface ThroughputSettingsGetProperties {
-  resource?: ThroughputSettingsGetPropertiesResource;
+  resource?: ThroughputSettingsGetPropertiesResource | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type GetCassandraResourceCassandraKeyspaceThroughputResponseTagsMap = {
@@ -2348,21 +2383,21 @@ export type GetCassandraResourceCassandraKeyspaceThroughputResponseTagsMap = {
 };
 export interface GetCassandraResourceCassandraKeyspaceThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetCassandraResourceCassandraKeyspaceThroughputResponseTagsMap;
+  tags?: GetCassandraResourceCassandraKeyspaceThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetCassandraResourceCassandraRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2376,15 +2411,15 @@ export interface GetCassandraResourceCassandraRoleAssignmentRequest {
 }
 export interface GetCassandraResourceCassandraRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Cassandra Role Assignment. */
-  properties?: CassandraRoleAssignmentResourceProperties;
+  properties?: CassandraRoleAssignmentResourceProperties | undefined;
 }
 export interface GetCassandraResourceCassandraRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2398,15 +2433,15 @@ export interface GetCassandraResourceCassandraRoleDefinitionRequest {
 }
 export interface GetCassandraResourceCassandraRoleDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Cassandra Role Definition. */
-  properties?: CassandraRoleDefinitionResourceProperties;
+  properties?: CassandraRoleDefinitionResourceProperties | undefined;
 }
 export interface GetCassandraResourceCassandraTableRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2426,21 +2461,21 @@ export type GetCassandraResourceCassandraTableResponseTagsMap = {
 };
 export interface GetCassandraResourceCassandraTableResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB Cassandra table */
-  properties?: CassandraTableGetProperties;
+  properties?: CassandraTableGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetCassandraResourceCassandraTableResponseTagsMap;
+  tags?: GetCassandraResourceCassandraTableResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetCassandraResourceCassandraTableThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2460,21 +2495,21 @@ export type GetCassandraResourceCassandraTableThroughputResponseTagsMap = {
 };
 export interface GetCassandraResourceCassandraTableThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetCassandraResourceCassandraTableThroughputResponseTagsMap;
+  tags?: GetCassandraResourceCassandraTableThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetDatabaseAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2490,23 +2525,23 @@ export type GetDatabaseAccountResponseTagsMap = { [key: string]: string | undefi
 export type GetDatabaseAccountResponseKind = "GlobalDocumentDB" | "MongoDB" | "Parse";
 export interface GetDatabaseAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the database account. */
-  properties?: DatabaseAccountGetProperties;
+  properties?: DatabaseAccountGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetDatabaseAccountResponseTagsMap;
+  tags?: GetDatabaseAccountResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** Indicates the type of database account. This can only be set at database account creation. */
-  kind?: GetDatabaseAccountResponseKind;
+  kind?: GetDatabaseAccountResponseKind | undefined;
 }
 export interface GetFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2520,19 +2555,19 @@ export interface GetFleetRequest {
 export type GetFleetResponseTagsMap = { [key: string]: string | undefined };
 export interface GetFleetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetFleetResponseTagsMap;
+  tags?: GetFleetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties to update Azure Cosmos DB fleet resource. */
-  properties?: FleetResourceProperties;
+  properties?: FleetResourceProperties | undefined;
 }
 export interface GetFleetspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2546,15 +2581,15 @@ export interface GetFleetspaceRequest {
 }
 export interface GetFleetspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to update Azure Cosmos DB Fleetspace. */
-  properties?: FleetspaceProperties;
+  properties?: FleetspaceProperties | undefined;
 }
 export interface GetFleetspaceAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2570,15 +2605,15 @@ export interface GetFleetspaceAccountRequest {
 }
 export interface GetFleetspaceAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An Azure Cosmos DB Global Database Account which is part of a Fleetspace Account. */
-  properties?: FleetspaceAccountProperties;
+  properties?: FleetspaceAccountProperties | undefined;
 }
 export interface GetGremlinResourceContinuousBackupInformationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2592,21 +2627,21 @@ export interface GetGremlinResourceContinuousBackupInformationRequest {
   /** Cosmos DB graph name. */
   graphName: string;
   /** The name of the continuous backup restore location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Information about the status of continuous backups. */
 export interface ContinuousBackupInformation {
   /** The latest restorable timestamp for a resource. */
-  latestRestorableTimestamp?: string;
+  latestRestorableTimestamp?: string | undefined;
 }
 /** Backup information of a resource. */
 export interface BackupInformation {
   /** Information about the status of continuous backups. */
-  continuousBackupInformation?: ContinuousBackupInformation;
+  continuousBackupInformation?: ContinuousBackupInformation | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetGremlinResourceGremlinDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2621,11 +2656,11 @@ export interface GetGremlinResourceGremlinDatabaseRequest {
 /** Parameters to indicate the information about the restore. */
 export interface RestoreParametersBase {
   /** The id of the restorable database account from which the restore has to be initiated. For example: /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{restorableDatabaseAccountName} */
-  restoreSource?: string;
+  restoreSource?: string | undefined;
   /** Time to which the account has to be restored (ISO-8601 format). */
-  restoreTimestampInUtc?: string;
+  restoreTimestampInUtc?: string | undefined;
   /** Specifies whether the restored account will have Time-To-Live disabled upon the successful restore. */
-  restoreWithTtlDisabled?: boolean;
+  restoreWithTtlDisabled?: boolean | undefined;
 }
 /** Enum to indicate the mode of resource creation. */
 export type GremlinDatabaseGetPropertiesResourceCreateMode = "Default" | "Restore";
@@ -2633,20 +2668,20 @@ export interface GremlinDatabaseGetPropertiesResource {
   /** Name of the Cosmos DB Gremlin database */
   id: string;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of resource creation. */
-  createMode?: GremlinDatabaseGetPropertiesResourceCreateMode;
+  createMode?: GremlinDatabaseGetPropertiesResourceCreateMode | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB SQL database */
 export interface GremlinDatabaseGetProperties {
-  resource?: GremlinDatabaseGetPropertiesResource;
-  options?: OptionsResource;
+  resource?: GremlinDatabaseGetPropertiesResource | undefined;
+  options?: OptionsResource | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type GetGremlinResourceGremlinDatabaseResponseTagsMap = {
@@ -2654,21 +2689,21 @@ export type GetGremlinResourceGremlinDatabaseResponseTagsMap = {
 };
 export interface GetGremlinResourceGremlinDatabaseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB SQL database */
-  properties?: GremlinDatabaseGetProperties;
+  properties?: GremlinDatabaseGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetGremlinResourceGremlinDatabaseResponseTagsMap;
+  tags?: GetGremlinResourceGremlinDatabaseResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetGremlinResourceGremlinDatabaseThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2686,21 +2721,21 @@ export type GetGremlinResourceGremlinDatabaseThroughputResponseTagsMap = {
 };
 export interface GetGremlinResourceGremlinDatabaseThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetGremlinResourceGremlinDatabaseThroughputResponseTagsMap;
+  tags?: GetGremlinResourceGremlinDatabaseThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetGremlinResourceGremlinGraphRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2729,26 +2764,26 @@ export type IndexesKind = "Hash" | "Range" | "Spatial";
 /** The indexes for the path. */
 export interface Indexes {
   /** The datatype for which the indexing behavior is applied to. */
-  dataType?: IndexesDataType | (string & {});
+  dataType?: IndexesDataType | (string & {}) | undefined;
   /** The precision of the index. -1 is maximum precision. */
-  precision?: number;
+  precision?: number | undefined;
   /** Indicates the type of index. */
-  kind?: IndexesKind | (string & {});
+  kind?: IndexesKind | (string & {}) | undefined;
 }
 /** List of indexes for this path */
 export type IncludedPathIndexesList = Array<Indexes>;
 /** The paths that are included in indexing */
 export interface IncludedPath {
   /** The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard (/path/*) */
-  path?: string;
+  path?: string | undefined;
   /** List of indexes for this path */
-  indexes?: IncludedPathIndexesList;
+  indexes?: IncludedPathIndexesList | undefined;
 }
 /** List of paths to include in the indexing */
 export type IndexingPolicyIncludedPathsList = Array<IncludedPath>;
 export interface ExcludedPath {
   /** The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard (/path/*) */
-  path?: string;
+  path?: string | undefined;
 }
 /** List of paths to exclude from indexing */
 export type IndexingPolicyExcludedPathsList = Array<ExcludedPath>;
@@ -2756,9 +2791,9 @@ export type IndexingPolicyExcludedPathsList = Array<ExcludedPath>;
 export type CompositePathSortOrder = "ascending" | "descending";
 export interface CompositePath {
   /** The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard (/path/*) */
-  path?: string;
+  path?: string | undefined;
   /** Sort order for composite paths. */
-  order?: CompositePathSortOrder | (string & {});
+  order?: CompositePathSortOrder | (string & {}) | undefined;
 }
 export type IndexingPolicyCompositeIndexesItemList = Array<CompositePath>;
 /** List of composite path list */
@@ -2769,9 +2804,9 @@ export type SpatialType = "Point" | "LineString" | "Polygon" | "MultiPolygon";
 export type SpatialSpecTypesList = Array<SpatialType | (string & {})>;
 export interface SpatialSpec {
   /** The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard (/path/*) */
-  path?: string;
+  path?: string | undefined;
   /** List of path's spatial type */
-  types?: SpatialSpecTypesList;
+  types?: SpatialSpecTypesList | undefined;
 }
 /** List of spatial specifics */
 export type IndexingPolicySpatialIndexesList = Array<SpatialSpec>;
@@ -2785,11 +2820,11 @@ export interface VectorIndex {
   /** The index type of the vector. Currently, flat, diskANN, and quantizedFlat are supported. */
   type: VectorIndexType | (string & {});
   /** The number of bytes used in product quantization of the vectors. A larger value may result in better recall for vector searches at the expense of latency. This is only applicable for the quantizedFlat and diskANN vector index types. */
-  quantizationByteSize?: number;
+  quantizationByteSize?: number | undefined;
   /** This is the size of the candidate list of approximate neighbors stored while building the DiskANN index as part of the optimization processes. Large values may improve recall at the expense of latency. This is only applicable for the diskANN vector index type. */
-  indexingSearchListSize?: number;
+  indexingSearchListSize?: number | undefined;
   /** Array of shard keys for the vector index. This is only applicable for the quantizedFlat and diskANN vector index types. */
-  vectorIndexShardKey?: VectorIndexVectorIndexShardKeyList;
+  vectorIndexShardKey?: VectorIndexVectorIndexShardKeyList | undefined;
 }
 /** List of paths to include in the vector indexing */
 export type IndexingPolicyVectorIndexesList = Array<VectorIndex>;
@@ -2803,21 +2838,21 @@ export type IndexingPolicyFullTextIndexesList = Array<FullTextIndexPath>;
 /** Cosmos DB indexing policy */
 export interface IndexingPolicy {
   /** Indicates if the indexing policy is automatic */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** Indicates the indexing mode. */
-  indexingMode?: IndexingPolicyIndexingMode | (string & {});
+  indexingMode?: IndexingPolicyIndexingMode | (string & {}) | undefined;
   /** List of paths to include in the indexing */
-  includedPaths?: IndexingPolicyIncludedPathsList;
+  includedPaths?: IndexingPolicyIncludedPathsList | undefined;
   /** List of paths to exclude from indexing */
-  excludedPaths?: IndexingPolicyExcludedPathsList;
+  excludedPaths?: IndexingPolicyExcludedPathsList | undefined;
   /** List of composite path list */
-  compositeIndexes?: IndexingPolicyCompositeIndexesList;
+  compositeIndexes?: IndexingPolicyCompositeIndexesList | undefined;
   /** List of spatial specifics */
-  spatialIndexes?: IndexingPolicySpatialIndexesList;
+  spatialIndexes?: IndexingPolicySpatialIndexesList | undefined;
   /** List of paths to include in the vector indexing */
-  vectorIndexes?: IndexingPolicyVectorIndexesList;
+  vectorIndexes?: IndexingPolicyVectorIndexesList | undefined;
   /** List of paths to include in the full text indexing */
-  fullTextIndexes?: IndexingPolicyFullTextIndexesList;
+  fullTextIndexes?: IndexingPolicyFullTextIndexesList | undefined;
 }
 /** List of paths using which data within the container can be partitioned */
 export type ContainerPartitionKeyPathsList = Array<string>;
@@ -2826,38 +2861,38 @@ export type ContainerPartitionKeyKind = "Hash" | "Range" | "MultiHash";
 /** The configuration of the partition key to be used for partitioning data into multiple partitions */
 export interface ContainerPartitionKey {
   /** List of paths using which data within the container can be partitioned */
-  paths?: ContainerPartitionKeyPathsList;
+  paths?: ContainerPartitionKeyPathsList | undefined;
   /** Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum) are supported for container create */
-  kind?: ContainerPartitionKeyKind;
+  kind?: ContainerPartitionKeyKind | undefined;
   /** Indicates the version of the partition key definition */
-  version?: number;
+  version?: number | undefined;
   /** Indicates if the container is using a system generated partition key */
-  systemKey?: boolean;
+  systemKey?: boolean | undefined;
 }
 /** List of paths must be unique for each document in the Azure Cosmos DB service */
 export type UniqueKeyPathsList = Array<string>;
 /** The unique key on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service. */
 export interface UniqueKey {
   /** List of paths must be unique for each document in the Azure Cosmos DB service */
-  paths?: UniqueKeyPathsList;
+  paths?: UniqueKeyPathsList | undefined;
 }
 /** List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service. */
 export type UniqueKeyPolicyUniqueKeysList = Array<UniqueKey>;
 /** The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure Cosmos DB service. */
 export interface UniqueKeyPolicy {
   /** List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service. */
-  uniqueKeys?: UniqueKeyPolicyUniqueKeysList;
+  uniqueKeys?: UniqueKeyPolicyUniqueKeysList | undefined;
 }
 /** Indicates the conflict resolution mode. */
 export type ConflictResolutionPolicyMode = "LastWriterWins" | "Custom";
 /** The conflict resolution policy for the container. */
 export interface ConflictResolutionPolicy {
   /** Indicates the conflict resolution mode. */
-  mode?: ConflictResolutionPolicyMode | (string & {});
+  mode?: ConflictResolutionPolicyMode | (string & {}) | undefined;
   /** The conflict resolution path in the case of LastWriterWins mode. */
-  conflictResolutionPath?: string;
+  conflictResolutionPath?: string | undefined;
   /** The procedure to resolve conflicts in the case of custom mode. */
-  conflictResolutionProcedure?: string;
+  conflictResolutionProcedure?: string | undefined;
 }
 /** Enum to indicate the mode of resource creation. */
 export type GremlinGraphGetPropertiesResourceCreateMode = "Default" | "Restore";
@@ -2865,52 +2900,52 @@ export interface GremlinGraphGetPropertiesResource {
   /** Name of the Cosmos DB Gremlin graph */
   id: string;
   /** The configuration of the indexing policy. By default, the indexing is automatic for all document paths within the graph */
-  indexingPolicy?: IndexingPolicy;
+  indexingPolicy?: IndexingPolicy | undefined;
   /** The configuration of the partition key to be used for partitioning data into multiple partitions */
-  partitionKey?: ContainerPartitionKey;
+  partitionKey?: ContainerPartitionKey | undefined;
   /** Default time to live */
-  defaultTtl?: number;
+  defaultTtl?: number | undefined;
   /** The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure Cosmos DB service. */
-  uniqueKeyPolicy?: UniqueKeyPolicy;
+  uniqueKeyPolicy?: UniqueKeyPolicy | undefined;
   /** The conflict resolution policy for the graph. */
-  conflictResolutionPolicy?: ConflictResolutionPolicy;
+  conflictResolutionPolicy?: ConflictResolutionPolicy | undefined;
   /** Analytical TTL. */
-  analyticalStorageTtl?: number;
+  analyticalStorageTtl?: number | undefined;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of resource creation. */
-  createMode?: GremlinGraphGetPropertiesResourceCreateMode;
+  createMode?: GremlinGraphGetPropertiesResourceCreateMode | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB Gremlin graph */
 export interface GremlinGraphGetProperties {
-  resource?: GremlinGraphGetPropertiesResource;
-  options?: OptionsResource;
+  resource?: GremlinGraphGetPropertiesResource | undefined;
+  options?: OptionsResource | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type GetGremlinResourceGremlinGraphResponseTagsMap = { [key: string]: string | undefined };
 export interface GetGremlinResourceGremlinGraphResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB Gremlin graph */
-  properties?: GremlinGraphGetProperties;
+  properties?: GremlinGraphGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetGremlinResourceGremlinGraphResponseTagsMap;
+  tags?: GetGremlinResourceGremlinGraphResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetGremlinResourceGremlinGraphThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2930,21 +2965,21 @@ export type GetGremlinResourceGremlinGraphThroughputResponseTagsMap = {
 };
 export interface GetGremlinResourceGremlinGraphThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetGremlinResourceGremlinGraphThroughputResponseTagsMap;
+  tags?: GetGremlinResourceGremlinGraphThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetGremlinResourceGremlinRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2959,25 +2994,25 @@ export interface GetGremlinResourceGremlinRoleAssignmentRequest {
 /** Azure Cosmos DB Gremlin Role Assignment resource object. */
 export interface GremlinRoleAssignmentResourceProperties {
   /** The unique identifier for the associated Role Definition. */
-  roleDefinitionId?: string;
+  roleDefinitionId?: string | undefined;
   /** The data plane resource path for which access is being granted through this Gremlin Role Assignment. */
-  scope?: string;
+  scope?: string | undefined;
   /** The unique identifier for the associated AAD principal in the AAD graph to which access is being granted through this Gremlin Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface GetGremlinResourceGremlinRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Gremlin Role Assignment. */
-  properties?: GremlinRoleAssignmentResourceProperties;
+  properties?: GremlinRoleAssignmentResourceProperties | undefined;
 }
 export interface GetGremlinResourceGremlinRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2996,27 +3031,27 @@ export type GremlinRoleDefinitionResourcePropertiesPermissionsList = Array<Permi
 /** Azure Cosmos DB Gremlin Role Definition resource object. */
 export interface GremlinRoleDefinitionResourceProperties {
   /** The path id for the Role Definition. */
-  id?: string;
+  id?: string | undefined;
   /** A user-friendly name for the Role Definition. Must be unique for the database account. */
-  roleName?: string;
+  roleName?: string | undefined;
   /** Indicates whether the Role Definition was built-in or user created. */
-  type?: RoleDefinitionType | (string & {});
+  type?: RoleDefinitionType | (string & {}) | undefined;
   /** A set of fully qualified Scopes at or below which Gremlin Role Assignments may be created using this Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Must have at least one element. Scopes higher than Database account are not enforceable as assignable Scopes. Note that resources referenced in assignable Scopes need not exist. */
-  assignableScopes?: GremlinRoleDefinitionResourcePropertiesAssignableScopesList;
+  assignableScopes?: GremlinRoleDefinitionResourcePropertiesAssignableScopesList | undefined;
   /** The set of operations allowed through this Role Definition. */
-  permissions?: GremlinRoleDefinitionResourcePropertiesPermissionsList;
+  permissions?: GremlinRoleDefinitionResourcePropertiesPermissionsList | undefined;
 }
 export interface GetGremlinResourceGremlinRoleDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Gremlin Role Definition. */
-  properties?: GremlinRoleDefinitionResourceProperties;
+  properties?: GremlinRoleDefinitionResourceProperties | undefined;
 }
 export interface GetLocationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3031,29 +3066,29 @@ export type LocationPropertiesBackupStorageRedundanciesList = Array<BackupStorag
 /** Cosmos DB location metadata */
 export interface LocationProperties {
   /** Flag indicating whether the location supports availability zones or not. */
-  supportsAvailabilityZone?: boolean;
+  supportsAvailabilityZone?: boolean | undefined;
   /** Flag indicating whether the location is residency sensitive. */
-  isResidencyRestricted?: boolean;
+  isResidencyRestricted?: boolean | undefined;
   /** The properties of available backup storage redundancies. */
-  backupStorageRedundancies?: LocationPropertiesBackupStorageRedundanciesList;
+  backupStorageRedundancies?: LocationPropertiesBackupStorageRedundanciesList | undefined;
   /** Flag indicating whether the subscription have access in region for Non-Availability Zones. */
-  isSubscriptionRegionAccessAllowedForRegular?: boolean;
+  isSubscriptionRegionAccessAllowedForRegular?: boolean | undefined;
   /** Flag indicating whether the subscription have access in region for Availability Zones(Az). */
-  isSubscriptionRegionAccessAllowedForAz?: boolean;
+  isSubscriptionRegionAccessAllowedForAz?: boolean | undefined;
   /** Enum to indicate current buildout status of the region. */
-  status?: Status;
+  status?: Status | undefined;
 }
 export interface GetLocationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Cosmos DB location metadata */
-  properties?: LocationProperties;
+  properties?: LocationProperties | undefined;
 }
 export interface GetMongoDBResourceContinuousBackupInformationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3067,7 +3102,7 @@ export interface GetMongoDBResourceContinuousBackupInformationRequest {
   /** Cosmos DB collection name. */
   collectionName: string;
   /** The name of the continuous backup restore location. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetMongoDBResourceMongoDBCollectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3090,21 +3125,21 @@ export type MongoIndexKeysKeysList = Array<string>;
 /** Cosmos DB MongoDB collection resource object */
 export interface MongoIndexKeys {
   /** List of keys for each MongoDB collection in the Azure Cosmos DB service */
-  keys?: MongoIndexKeysKeysList;
+  keys?: MongoIndexKeysKeysList | undefined;
 }
 /** Cosmos DB MongoDB collection index options */
 export interface MongoIndexOptions {
   /** Expire after seconds */
-  expireAfterSeconds?: number;
+  expireAfterSeconds?: number | undefined;
   /** Is unique or not */
-  unique?: boolean;
+  unique?: boolean | undefined;
 }
 /** Cosmos DB MongoDB collection index key */
 export interface MongoIndex {
   /** Cosmos DB MongoDB collection index keys */
-  key?: MongoIndexKeys;
+  key?: MongoIndexKeys | undefined;
   /** Cosmos DB MongoDB collection index key options */
-  options?: MongoIndexOptions;
+  options?: MongoIndexOptions | undefined;
 }
 /** List of index keys */
 export type MongoDBCollectionGetPropertiesResourceIndexesList = Array<MongoIndex>;
@@ -3114,26 +3149,26 @@ export interface MongoDBCollectionGetPropertiesResource {
   /** Name of the Cosmos DB MongoDB collection */
   id: string;
   /** A key-value pair of shard keys to be applied for the request. */
-  shardKey?: MongoDBCollectionGetPropertiesResourceShardKeyMap;
+  shardKey?: MongoDBCollectionGetPropertiesResourceShardKeyMap | undefined;
   /** List of index keys */
-  indexes?: MongoDBCollectionGetPropertiesResourceIndexesList;
+  indexes?: MongoDBCollectionGetPropertiesResourceIndexesList | undefined;
   /** Analytical TTL. */
-  analyticalStorageTtl?: number;
+  analyticalStorageTtl?: number | undefined;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of resource creation. */
-  createMode?: MongoDBCollectionGetPropertiesResourceCreateMode;
+  createMode?: MongoDBCollectionGetPropertiesResourceCreateMode | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB MongoDB collection */
 export interface MongoDBCollectionGetProperties {
-  resource?: MongoDBCollectionGetPropertiesResource;
-  options?: OptionsResource;
+  resource?: MongoDBCollectionGetPropertiesResource | undefined;
+  options?: OptionsResource | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type GetMongoDBResourceMongoDBCollectionResponseTagsMap = {
@@ -3141,21 +3176,21 @@ export type GetMongoDBResourceMongoDBCollectionResponseTagsMap = {
 };
 export interface GetMongoDBResourceMongoDBCollectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB MongoDB collection */
-  properties?: MongoDBCollectionGetProperties;
+  properties?: MongoDBCollectionGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetMongoDBResourceMongoDBCollectionResponseTagsMap;
+  tags?: GetMongoDBResourceMongoDBCollectionResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetMongoDBResourceMongoDBCollectionThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3175,21 +3210,21 @@ export type GetMongoDBResourceMongoDBCollectionThroughputResponseTagsMap = {
 };
 export interface GetMongoDBResourceMongoDBCollectionThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetMongoDBResourceMongoDBCollectionThroughputResponseTagsMap;
+  tags?: GetMongoDBResourceMongoDBCollectionThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetMongoDBResourceMongoDBDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3207,20 +3242,20 @@ export interface MongoDBDatabaseGetPropertiesResource {
   /** Name of the Cosmos DB MongoDB database */
   id: string;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of account creation. */
-  createMode?: MongoDBDatabaseGetPropertiesResourceCreateMode;
+  createMode?: MongoDBDatabaseGetPropertiesResourceCreateMode | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB MongoDB database */
 export interface MongoDBDatabaseGetProperties {
-  resource?: MongoDBDatabaseGetPropertiesResource;
-  options?: OptionsResource;
+  resource?: MongoDBDatabaseGetPropertiesResource | undefined;
+  options?: OptionsResource | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type GetMongoDBResourceMongoDBDatabaseResponseTagsMap = {
@@ -3228,21 +3263,21 @@ export type GetMongoDBResourceMongoDBDatabaseResponseTagsMap = {
 };
 export interface GetMongoDBResourceMongoDBDatabaseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB MongoDB database */
-  properties?: MongoDBDatabaseGetProperties;
+  properties?: MongoDBDatabaseGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetMongoDBResourceMongoDBDatabaseResponseTagsMap;
+  tags?: GetMongoDBResourceMongoDBDatabaseResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetMongoDBResourceMongoDBDatabaseThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3260,21 +3295,21 @@ export type GetMongoDBResourceMongoDBDatabaseThroughputResponseTagsMap = {
 };
 export interface GetMongoDBResourceMongoDBDatabaseThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetMongoDBResourceMongoDBDatabaseThroughputResponseTagsMap;
+  tags?: GetMongoDBResourceMongoDBDatabaseThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetMongoDBResourceMongoRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3291,54 +3326,54 @@ export type MongoRoleDefinitionType = "BuiltInRole" | "CustomRole";
 /** An Azure Cosmos DB Mongo DB Resource. */
 export interface PrivilegeResource {
   /** The database name the role is applied. */
-  db?: string;
+  db?: string | undefined;
   /** The collection name the role is applied. */
-  collection?: string;
+  collection?: string | undefined;
 }
 /** An array of actions that are allowed. */
 export type PrivilegeActionsList = Array<string>;
 /** The set of data plane operations permitted through this Role Definition. */
 export interface Privilege {
   /** An Azure Cosmos DB Mongo DB Resource. */
-  resource?: PrivilegeResource;
+  resource?: PrivilegeResource | undefined;
   /** An array of actions that are allowed. */
-  actions?: PrivilegeActionsList;
+  actions?: PrivilegeActionsList | undefined;
 }
 /** A set of privileges contained by the Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Scopes higher than Database are not enforceable as privilege. */
 export type MongoRoleDefinitionResourcePrivilegesList = Array<Privilege>;
 /** The set of roles permitted through this Role Definition. */
 export interface Role {
   /** The database name the role is applied. */
-  db?: string;
+  db?: string | undefined;
   /** The role name. */
-  role?: string;
+  role?: string | undefined;
 }
 /** The set of roles inherited by this Role Definition. */
 export type MongoRoleDefinitionResourceRolesList = Array<Role>;
 /** Azure Cosmos DB Mongo Role Definition resource object. */
 export interface MongoRoleDefinitionResource {
   /** A user-friendly name for the Role Definition. Must be unique for the database account. */
-  roleName?: string;
+  roleName?: string | undefined;
   /** Indicates whether the Role Definition was built-in or user created. */
-  type?: MongoRoleDefinitionType | (string & {});
+  type?: MongoRoleDefinitionType | (string & {}) | undefined;
   /** The database name for which access is being granted for this Role Definition. */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** A set of privileges contained by the Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Scopes higher than Database are not enforceable as privilege. */
-  privileges?: MongoRoleDefinitionResourcePrivilegesList;
+  privileges?: MongoRoleDefinitionResourcePrivilegesList | undefined;
   /** The set of roles inherited by this Role Definition. */
-  roles?: MongoRoleDefinitionResourceRolesList;
+  roles?: MongoRoleDefinitionResourceRolesList | undefined;
 }
 export interface GetMongoDBResourceMongoRoleDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties related to the Mongo Role Definition. */
-  properties?: MongoRoleDefinitionResource;
+  properties?: MongoRoleDefinitionResource | undefined;
 }
 export interface GetMongoDBResourceMongoUserDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3355,29 +3390,29 @@ export type MongoUserDefinitionResourceRolesList = Array<Role>;
 /** Azure Cosmos DB Mongo User Definition resource object. */
 export interface MongoUserDefinitionResource {
   /** The user name for User Definition. */
-  userName?: string;
+  userName?: string | undefined;
   /** The password for User Definition. Response does not contain user password. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The database name for which access is being granted for this User Definition. */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** A custom definition for the USer Definition. */
-  customData?: string;
+  customData?: string | undefined;
   /** The set of roles inherited by the User Definition. */
-  roles?: MongoUserDefinitionResourceRolesList;
+  roles?: MongoUserDefinitionResourceRolesList | undefined;
   /** The Mongo Auth mechanism. For now, we only support auth mechanism SCRAM-SHA-256. */
-  mechanisms?: string;
+  mechanisms?: string | undefined;
 }
 export interface GetMongoDBResourceMongoUserDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties related to the User Definition. */
-  properties?: MongoUserDefinitionResource;
+  properties?: MongoUserDefinitionResource | undefined;
 }
 export interface GetMongoMIResourceMongoMIRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3392,25 +3427,25 @@ export interface GetMongoMIResourceMongoMIRoleAssignmentRequest {
 /** Azure Cosmos DB MongoMI Role Assignment resource object. */
 export interface MongoMIRoleAssignmentResourceProperties {
   /** The unique identifier for the associated Role Definition. */
-  roleDefinitionId?: string;
+  roleDefinitionId?: string | undefined;
   /** The data plane resource path for which access is being granted through this MongoMI Role Assignment. */
-  scope?: string;
+  scope?: string | undefined;
   /** The unique identifier for the associated AAD principal in the AAD graph to which access is being granted through this MongoMI Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface GetMongoMIResourceMongoMIRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB MongoMI Role Assignment. */
-  properties?: MongoMIRoleAssignmentResourceProperties;
+  properties?: MongoMIRoleAssignmentResourceProperties | undefined;
 }
 export interface GetMongoMIResourceMongoMIRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3429,27 +3464,27 @@ export type MongoMIRoleDefinitionResourcePropertiesPermissionsList = Array<Permi
 /** Azure Cosmos DB MongoMI Role Definition resource object. */
 export interface MongoMIRoleDefinitionResourceProperties {
   /** The path id for the Role Definition. */
-  id?: string;
+  id?: string | undefined;
   /** A user-friendly name for the Role Definition. Must be unique for the database account. */
-  roleName?: string;
+  roleName?: string | undefined;
   /** Indicates whether the Role Definition was built-in or user created. */
-  type?: RoleDefinitionType | (string & {});
+  type?: RoleDefinitionType | (string & {}) | undefined;
   /** A set of fully qualified Scopes at or below which MongoMI Role Assignments may be created using this Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Must have at least one element. Scopes higher than Database account are not enforceable as assignable Scopes. Note that resources referenced in assignable Scopes need not exist. */
-  assignableScopes?: MongoMIRoleDefinitionResourcePropertiesAssignableScopesList;
+  assignableScopes?: MongoMIRoleDefinitionResourcePropertiesAssignableScopesList | undefined;
   /** The set of operations allowed through this Role Definition. */
-  permissions?: MongoMIRoleDefinitionResourcePropertiesPermissionsList;
+  permissions?: MongoMIRoleDefinitionResourcePropertiesPermissionsList | undefined;
 }
 export interface GetMongoMIResourceMongoMIRoleDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB MongoMI Role Definition. */
-  properties?: MongoMIRoleDefinitionResourceProperties;
+  properties?: MongoMIRoleDefinitionResourceProperties | undefined;
 }
 export type GetNotebookWorkspaceRequestNotebookWorkspaceName = "default";
 export interface GetNotebookWorkspaceRequest {
@@ -3465,21 +3500,21 @@ export interface GetNotebookWorkspaceRequest {
 /** Properties of a notebook workspace resource. */
 export interface NotebookWorkspaceProperties {
   /** Specifies the endpoint of Notebook server. */
-  notebookServerEndpoint?: string;
+  notebookServerEndpoint?: string | undefined;
   /** Status of the notebook workspace. Possible values are: Creating, Online, Deleting, Failed, Updating. */
-  status?: string;
+  status?: string | undefined;
 }
 export interface GetNotebookWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: NotebookWorkspaceProperties;
+  properties?: NotebookWorkspaceProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3493,15 +3528,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3520,23 +3555,23 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource required zone names. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetRestorableDatabaseAccountByLocationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3551,13 +3586,13 @@ export type ApiType = "MongoDB" | "Gremlin" | "Cassandra" | "Table" | "Sql" | "G
 /** Properties of the regional restorable account. */
 export interface RestorableLocationResource {
   /** The location of the regional restorable account. */
-  locationName?: string;
+  locationName?: string | undefined;
   /** The instance id of the regional restorable account. */
-  regionalDatabaseAccountInstanceId?: string;
+  regionalDatabaseAccountInstanceId?: string | undefined;
   /** The creation time of the regional restorable database account (ISO-8601 format). */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The time at which the regional restorable database account has been deleted (ISO-8601 format). */
-  deletionTime?: string;
+  deletionTime?: string | undefined;
 }
 /** List of regions where the of the database account can be restored from. */
 export type RestorableDatabaseAccountPropertiesRestorableLocationsList =
@@ -3565,31 +3600,31 @@ export type RestorableDatabaseAccountPropertiesRestorableLocationsList =
 /** The properties of a restorable database account. */
 export interface RestorableDatabaseAccountProperties {
   /** The name of the global database account */
-  accountName?: string;
+  accountName?: string | undefined;
   /** The creation time of the restorable database account (ISO-8601 format). */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The least recent time at which the database account can be restored to (ISO-8601 format). */
-  oldestRestorableTime?: string;
+  oldestRestorableTime?: string | undefined;
   /** The time at which the restorable database account has been deleted (ISO-8601 format). */
-  deletionTime?: string;
+  deletionTime?: string | undefined;
   /** The API type of the restorable database account. */
-  apiType?: ApiType;
+  apiType?: ApiType | undefined;
   /** List of regions where the of the database account can be restored from. */
-  restorableLocations?: RestorableDatabaseAccountPropertiesRestorableLocationsList;
+  restorableLocations?: RestorableDatabaseAccountPropertiesRestorableLocationsList | undefined;
 }
 export interface GetRestorableDatabaseAccountByLocationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a restorable database account. */
-  properties?: RestorableDatabaseAccountProperties;
+  properties?: RestorableDatabaseAccountProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3603,15 +3638,15 @@ export interface GetServiceRequest {
 }
 export interface GetServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Services response resource. */
-  properties?: ServiceResourceProperties;
+  properties?: ServiceResourceProperties | undefined;
 }
 export interface GetSqlResourceClientEncryptionKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3628,45 +3663,45 @@ export interface GetSqlResourceClientEncryptionKeyRequest {
 /** Represents key wrap metadata that a key wrapping provider can use to wrap/unwrap a client encryption key. */
 export interface KeyWrapMetadata {
   /** The name of associated KeyEncryptionKey (aka CustomerManagedKey). */
-  name?: string;
+  name?: string | undefined;
   /** ProviderName of KeyStoreProvider. */
-  type?: string;
+  type?: string | undefined;
   /** Reference / link to the KeyEncryptionKey. */
-  value?: string;
+  value?: string | undefined;
   /** Algorithm used in wrapping and unwrapping of the data encryption key. */
-  algorithm?: string;
+  algorithm?: string | undefined;
 }
 export interface ClientEncryptionKeyGetPropertiesResource {
   /** Name of the ClientEncryptionKey */
-  id?: string;
+  id?: string | undefined;
   /** Encryption algorithm that will be used along with this client encryption key to encrypt/decrypt data. */
-  encryptionAlgorithm?: string;
+  encryptionAlgorithm?: string | undefined;
   /** Wrapped (encrypted) form of the key represented as a byte array. */
-  wrappedDataEncryptionKey?: string;
+  wrappedDataEncryptionKey?: string | undefined;
   /** Metadata for the wrapping provider that can be used to unwrap the wrapped client encryption key. */
-  keyWrapMetadata?: KeyWrapMetadata;
+  keyWrapMetadata?: KeyWrapMetadata | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
 }
 /** The properties of a ClientEncryptionKey resource */
 export interface ClientEncryptionKeyGetProperties {
-  resource?: ClientEncryptionKeyGetPropertiesResource;
+  resource?: ClientEncryptionKeyGetPropertiesResource | undefined;
 }
 export interface GetSqlResourceClientEncryptionKeyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a ClientEncryptionKey */
-  properties?: ClientEncryptionKeyGetProperties;
+  properties?: ClientEncryptionKeyGetProperties | undefined;
 }
 export interface GetSqlResourceContinuousBackupInformationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3680,7 +3715,7 @@ export interface GetSqlResourceContinuousBackupInformationRequest {
   /** Cosmos DB container name. */
   containerName: string;
   /** The name of the continuous backup restore location. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetSqlResourceSqlContainerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3719,9 +3754,9 @@ export type SqlContainerGetPropertiesResourceCreateMode = "Default" | "Restore";
 /** The definition of a computed property */
 export interface ComputedProperty {
   /** The name of a computed property, for example - "cp_lowerName" */
-  name?: string;
+  name?: string | undefined;
   /** The query that evaluates the value for computed property, for example - "SELECT VALUE LOWER(c.name) FROM c" */
-  query?: string;
+  query?: string | undefined;
 }
 /** List of computed properties */
 export type SqlContainerGetPropertiesResourceComputedPropertiesList = Array<ComputedProperty>;
@@ -3745,82 +3780,82 @@ export type VectorEmbeddingPolicyVectorEmbeddingsList = Array<VectorEmbedding>;
 /** Cosmos DB Vector Embedding Policy */
 export interface VectorEmbeddingPolicy {
   /** List of vector embeddings */
-  vectorEmbeddings?: VectorEmbeddingPolicyVectorEmbeddingsList;
+  vectorEmbeddings?: VectorEmbeddingPolicyVectorEmbeddingsList | undefined;
 }
 /** Represents the full text path specification. */
 export interface FullTextPath {
   /** The path to the full text field in the document. */
   path: string;
   /** The language of the full text field in the document. */
-  language?: string;
+  language?: string | undefined;
 }
 /** List of FullText Paths */
 export type FullTextPolicyFullTextPathsList = Array<FullTextPath>;
 /** Cosmos DB FullText Policy */
 export interface FullTextPolicy {
   /** The default language for a full text paths. */
-  defaultLanguage?: string;
+  defaultLanguage?: string | undefined;
   /** List of FullText Paths */
-  fullTextPaths?: FullTextPolicyFullTextPathsList;
+  fullTextPaths?: FullTextPolicyFullTextPathsList | undefined;
 }
 export interface SqlContainerGetPropertiesResource {
   /** Name of the Cosmos DB SQL container */
   id: string;
   /** The configuration of the indexing policy. By default, the indexing is automatic for all document paths within the container */
-  indexingPolicy?: IndexingPolicy;
+  indexingPolicy?: IndexingPolicy | undefined;
   /** The configuration of the partition key to be used for partitioning data into multiple partitions */
-  partitionKey?: ContainerPartitionKey;
+  partitionKey?: ContainerPartitionKey | undefined;
   /** Default time to live */
-  defaultTtl?: number;
+  defaultTtl?: number | undefined;
   /** The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure Cosmos DB service. */
-  uniqueKeyPolicy?: UniqueKeyPolicy;
+  uniqueKeyPolicy?: UniqueKeyPolicy | undefined;
   /** The conflict resolution policy for the container. */
-  conflictResolutionPolicy?: ConflictResolutionPolicy;
+  conflictResolutionPolicy?: ConflictResolutionPolicy | undefined;
   /** The client encryption policy for the container. */
-  clientEncryptionPolicy?: ClientEncryptionPolicy;
+  clientEncryptionPolicy?: ClientEncryptionPolicy | undefined;
   /** Analytical TTL. */
-  analyticalStorageTtl?: number;
+  analyticalStorageTtl?: number | undefined;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of account creation. */
-  createMode?: SqlContainerGetPropertiesResourceCreateMode;
+  createMode?: SqlContainerGetPropertiesResourceCreateMode | undefined;
   /** List of computed properties */
-  computedProperties?: SqlContainerGetPropertiesResourceComputedPropertiesList;
+  computedProperties?: SqlContainerGetPropertiesResourceComputedPropertiesList | undefined;
   /** The vector embedding policy for the container. */
-  vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
+  vectorEmbeddingPolicy?: VectorEmbeddingPolicy | undefined;
   /** The FullText policy for the container. */
-  fullTextPolicy?: FullTextPolicy;
+  fullTextPolicy?: FullTextPolicy | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB container */
 export interface SqlContainerGetProperties {
-  resource?: SqlContainerGetPropertiesResource;
-  options?: OptionsResource;
+  resource?: SqlContainerGetPropertiesResource | undefined;
+  options?: OptionsResource | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type GetSqlResourceSqlContainerResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSqlResourceSqlContainerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB container */
-  properties?: SqlContainerGetProperties;
+  properties?: SqlContainerGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetSqlResourceSqlContainerResponseTagsMap;
+  tags?: GetSqlResourceSqlContainerResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetSqlResourceSqlContainerThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3840,21 +3875,21 @@ export type GetSqlResourceSqlContainerThroughputResponseTagsMap = {
 };
 export interface GetSqlResourceSqlContainerThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetSqlResourceSqlContainerThroughputResponseTagsMap;
+  tags?: GetSqlResourceSqlContainerThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetSqlResourceSqlDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3872,44 +3907,44 @@ export interface SqlDatabaseGetPropertiesResource {
   /** Name of the Cosmos DB SQL database */
   id: string;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of account creation. */
-  createMode?: SqlDatabaseGetPropertiesResourceCreateMode;
+  createMode?: SqlDatabaseGetPropertiesResourceCreateMode | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
   /** A system generated property that specified the addressable path of the collections resource. */
-  _colls?: string;
+  _colls?: string | undefined;
   /** A system generated property that specifies the addressable path of the users resource. */
-  _users?: string;
+  _users?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB SQL database */
 export interface SqlDatabaseGetProperties {
-  resource?: SqlDatabaseGetPropertiesResource;
-  options?: OptionsResource;
+  resource?: SqlDatabaseGetPropertiesResource | undefined;
+  options?: OptionsResource | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type GetSqlResourceSqlDatabaseResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSqlResourceSqlDatabaseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB SQL database */
-  properties?: SqlDatabaseGetProperties;
+  properties?: SqlDatabaseGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetSqlResourceSqlDatabaseResponseTagsMap;
+  tags?: GetSqlResourceSqlDatabaseResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetSqlResourceSqlDatabaseThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3927,21 +3962,21 @@ export type GetSqlResourceSqlDatabaseThroughputResponseTagsMap = {
 };
 export interface GetSqlResourceSqlDatabaseThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetSqlResourceSqlDatabaseThroughputResponseTagsMap;
+  tags?: GetSqlResourceSqlDatabaseThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetSqlResourceSqlRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3956,23 +3991,23 @@ export interface GetSqlResourceSqlRoleAssignmentRequest {
 /** Azure Cosmos DB SQL Role Assignment resource object. */
 export interface SqlRoleAssignmentResource {
   /** The unique identifier for the associated Role Definition. */
-  roleDefinitionId?: string;
+  roleDefinitionId?: string | undefined;
   /** The data plane resource path for which access is being granted through this Role Assignment. */
-  scope?: string;
+  scope?: string | undefined;
   /** The unique identifier for the associated AAD principal in the AAD graph to which access is being granted through this Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription. */
-  principalId?: string;
+  principalId?: string | undefined;
 }
 export interface GetSqlResourceSqlRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties related to the Role Assignment. */
-  properties?: SqlRoleAssignmentResource;
+  properties?: SqlRoleAssignmentResource | undefined;
 }
 export interface GetSqlResourceSqlRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3991,25 +4026,25 @@ export type SqlRoleDefinitionResourcePermissionsList = Array<Permission>;
 /** Azure Cosmos DB SQL Role Definition resource object. */
 export interface SqlRoleDefinitionResource {
   /** A user-friendly name for the Role Definition. Must be unique for the database account. */
-  roleName?: string;
+  roleName?: string | undefined;
   /** Indicates whether the Role Definition was built-in or user created. */
-  type?: RoleDefinitionType | (string & {});
+  type?: RoleDefinitionType | (string & {}) | undefined;
   /** A set of fully qualified Scopes at or below which Role Assignments may be created using this Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Must have at least one element. Scopes higher than Database account are not enforceable as assignable Scopes. Note that resources referenced in assignable Scopes need not exist. */
-  assignableScopes?: SqlRoleDefinitionResourceAssignableScopesList;
+  assignableScopes?: SqlRoleDefinitionResourceAssignableScopesList | undefined;
   /** The set of operations allowed through this Role Definition. */
-  permissions?: SqlRoleDefinitionResourcePermissionsList;
+  permissions?: SqlRoleDefinitionResourcePermissionsList | undefined;
 }
 export interface GetSqlResourceSqlRoleDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties related to the Role Definition. */
-  properties?: SqlRoleDefinitionResource;
+  properties?: SqlRoleDefinitionResource | undefined;
 }
 export interface GetSqlResourceSqlStoredProcedureRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4029,37 +4064,37 @@ export interface SqlStoredProcedureGetPropertiesResource {
   /** Name of the Cosmos DB SQL storedProcedure */
   id: string;
   /** Body of the Stored Procedure */
-  body?: string;
+  body?: string | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB StoredProcedure */
 export interface SqlStoredProcedureGetProperties {
-  resource?: SqlStoredProcedureGetPropertiesResource;
+  resource?: SqlStoredProcedureGetPropertiesResource | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type GetSqlResourceSqlStoredProcedureResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSqlResourceSqlStoredProcedureResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB storedProcedure */
-  properties?: SqlStoredProcedureGetProperties;
+  properties?: SqlStoredProcedureGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetSqlResourceSqlStoredProcedureResponseTagsMap;
+  tags?: GetSqlResourceSqlStoredProcedureResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetSqlResourceSqlUserDefinedFunctionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4079,17 +4114,17 @@ export interface SqlUserDefinedFunctionGetPropertiesResource {
   /** Name of the Cosmos DB SQL userDefinedFunction */
   id: string;
   /** Body of the User Defined Function */
-  body?: string;
+  body?: string | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB userDefinedFunction */
 export interface SqlUserDefinedFunctionGetProperties {
-  resource?: SqlUserDefinedFunctionGetPropertiesResource;
+  resource?: SqlUserDefinedFunctionGetPropertiesResource | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type GetSqlResourceSqlUserDefinedFunctionResponseTagsMap = {
@@ -4097,21 +4132,21 @@ export type GetSqlResourceSqlUserDefinedFunctionResponseTagsMap = {
 };
 export interface GetSqlResourceSqlUserDefinedFunctionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB userDefinedFunction */
-  properties?: SqlUserDefinedFunctionGetProperties;
+  properties?: SqlUserDefinedFunctionGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetSqlResourceSqlUserDefinedFunctionResponseTagsMap;
+  tags?: GetSqlResourceSqlUserDefinedFunctionResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetTableResourceContinuousBackupInformationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4123,7 +4158,7 @@ export interface GetTableResourceContinuousBackupInformationRequest {
   /** Cosmos DB table name. */
   tableName: string;
   /** The name of the continuous backup restore location. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetTableResourceTableRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4141,40 +4176,40 @@ export interface TableGetPropertiesResource {
   /** Name of the Cosmos DB table */
   id: string;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of account creation. */
-  createMode?: TableGetPropertiesResourceCreateMode;
+  createMode?: TableGetPropertiesResourceCreateMode | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
 }
 /** The properties of an Azure Cosmos Table */
 export interface TableGetProperties {
-  resource?: TableGetPropertiesResource;
-  options?: OptionsResource;
+  resource?: TableGetPropertiesResource | undefined;
+  options?: OptionsResource | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type GetTableResourceTableResponseTagsMap = { [key: string]: string | undefined };
 export interface GetTableResourceTableResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB Table */
-  properties?: TableGetProperties;
+  properties?: TableGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetTableResourceTableResponseTagsMap;
+  tags?: GetTableResourceTableResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetTableResourceTableRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4189,25 +4224,25 @@ export interface GetTableResourceTableRoleAssignmentRequest {
 /** Azure Cosmos DB Table Role Assignment resource object. */
 export interface TableRoleAssignmentResourceProperties {
   /** The unique identifier for the associated Role Definition. */
-  roleDefinitionId?: string;
+  roleDefinitionId?: string | undefined;
   /** The data plane resource path for which access is being granted through this Table Role Assignment. */
-  scope?: string;
+  scope?: string | undefined;
   /** The unique identifier for the associated AAD principal in the AAD graph to which access is being granted through this Table Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface GetTableResourceTableRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Table Role Assignment. */
-  properties?: TableRoleAssignmentResourceProperties;
+  properties?: TableRoleAssignmentResourceProperties | undefined;
 }
 export interface GetTableResourceTableRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4226,27 +4261,27 @@ export type TableRoleDefinitionResourcePropertiesPermissionsList = Array<Permiss
 /** Azure Cosmos DB Table Role Definition resource object. */
 export interface TableRoleDefinitionResourceProperties {
   /** The path id for the Role Definition. */
-  id?: string;
+  id?: string | undefined;
   /** A user-friendly name for the Role Definition. Must be unique for the database account. */
-  roleName?: string;
+  roleName?: string | undefined;
   /** Indicates whether the Role Definition was built-in or user created. */
-  type?: RoleDefinitionType | (string & {});
+  type?: RoleDefinitionType | (string & {}) | undefined;
   /** A set of fully qualified Scopes at or below which Table Role Assignments may be created using this Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Must have at least one element. Scopes higher than Database account are not enforceable as assignable Scopes. Note that resources referenced in assignable Scopes need not exist. */
-  assignableScopes?: TableRoleDefinitionResourcePropertiesAssignableScopesList;
+  assignableScopes?: TableRoleDefinitionResourcePropertiesAssignableScopesList | undefined;
   /** The set of operations allowed through this Role Definition. */
-  permissions?: TableRoleDefinitionResourcePropertiesPermissionsList;
+  permissions?: TableRoleDefinitionResourcePropertiesPermissionsList | undefined;
 }
 export interface GetTableResourceTableRoleDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Table Role Definition. */
-  properties?: TableRoleDefinitionResourceProperties;
+  properties?: TableRoleDefinitionResourceProperties | undefined;
 }
 export interface GetTableResourceTableThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4262,21 +4297,21 @@ export interface GetTableResourceTableThroughputRequest {
 export type GetTableResourceTableThroughputResponseTagsMap = { [key: string]: string | undefined };
 export interface GetTableResourceTableThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GetTableResourceTableThroughputResponseTagsMap;
+  tags?: GetTableResourceTableThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type GremlinResourcesCreateUpdateGremlinDatabaseRequestTagsMap = {
@@ -4289,16 +4324,16 @@ export interface GremlinDatabaseResource {
   /** Name of the Cosmos DB Gremlin database */
   id: string;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of resource creation. */
-  createMode?: GremlinDatabaseResourceCreateMode | (string & {});
+  createMode?: GremlinDatabaseResourceCreateMode | (string & {}) | undefined;
 }
 /** Properties to create and update Azure Cosmos DB Gremlin database. */
 export interface GremlinDatabaseCreateUpdateProperties {
   /** The standard JSON format of a Gremlin database */
   resource: GremlinDatabaseResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
+  options?: CreateUpdateOptions | undefined;
 }
 export interface GremlinResourcesCreateUpdateGremlinDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4310,11 +4345,11 @@ export interface GremlinResourcesCreateUpdateGremlinDatabaseRequest {
   /** Cosmos DB database name. */
   databaseName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: GremlinResourcesCreateUpdateGremlinDatabaseRequestTagsMap;
+  tags?: GremlinResourcesCreateUpdateGremlinDatabaseRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to create and update Azure Cosmos DB Gremlin database. */
   properties: GremlinDatabaseCreateUpdateProperties;
 }
@@ -4324,27 +4359,27 @@ export type GremlinResourcesCreateUpdateGremlinDatabaseResponseTagsMap = {
 };
 export interface GremlinResourcesCreateUpdateGremlinDatabaseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB SQL database */
-  properties?: GremlinDatabaseGetProperties;
+  properties?: GremlinDatabaseGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GremlinResourcesCreateUpdateGremlinDatabaseResponseTagsMap;
+  tags?: GremlinResourcesCreateUpdateGremlinDatabaseResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type GremlinResourcesCreateUpdateGremlinGraphRequestTagsMap = {
@@ -4357,11 +4392,11 @@ export type ContainerPartitionKeyInputKind = "Hash" | "Range" | "MultiHash";
 /** The configuration of the partition key to be used for partitioning data into multiple partitions */
 export interface ContainerPartitionKeyInput {
   /** List of paths using which data within the container can be partitioned */
-  paths?: ContainerPartitionKeyInputPathsList;
+  paths?: ContainerPartitionKeyInputPathsList | undefined;
   /** Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum) are supported for container create */
-  kind?: ContainerPartitionKeyInputKind | (string & {});
+  kind?: ContainerPartitionKeyInputKind | (string & {}) | undefined;
   /** Indicates the version of the partition key definition */
-  version?: number;
+  version?: number | undefined;
 }
 /** Enum to indicate the mode of resource creation. */
 export type GremlinGraphResourceInputCreateMode = "Default" | "Restore";
@@ -4370,28 +4405,28 @@ export interface GremlinGraphResourceInput {
   /** Name of the Cosmos DB Gremlin graph */
   id: string;
   /** The configuration of the indexing policy. By default, the indexing is automatic for all document paths within the graph */
-  indexingPolicy?: IndexingPolicy;
+  indexingPolicy?: IndexingPolicy | undefined;
   /** The configuration of the partition key to be used for partitioning data into multiple partitions */
-  partitionKey?: ContainerPartitionKeyInput;
+  partitionKey?: ContainerPartitionKeyInput | undefined;
   /** Default time to live */
-  defaultTtl?: number;
+  defaultTtl?: number | undefined;
   /** The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure Cosmos DB service. */
-  uniqueKeyPolicy?: UniqueKeyPolicy;
+  uniqueKeyPolicy?: UniqueKeyPolicy | undefined;
   /** The conflict resolution policy for the graph. */
-  conflictResolutionPolicy?: ConflictResolutionPolicy;
+  conflictResolutionPolicy?: ConflictResolutionPolicy | undefined;
   /** Analytical TTL. */
-  analyticalStorageTtl?: number;
+  analyticalStorageTtl?: number | undefined;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of resource creation. */
-  createMode?: GremlinGraphResourceInputCreateMode | (string & {});
+  createMode?: GremlinGraphResourceInputCreateMode | (string & {}) | undefined;
 }
 /** Properties to create and update Azure Cosmos DB Gremlin graph. */
 export interface GremlinGraphCreateUpdatePropertiesInput {
   /** The standard JSON format of a Gremlin graph */
   resource: GremlinGraphResourceInput;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
+  options?: CreateUpdateOptions | undefined;
 }
 export interface GremlinResourcesCreateUpdateGremlinGraphRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4405,11 +4440,11 @@ export interface GremlinResourcesCreateUpdateGremlinGraphRequest {
   /** Cosmos DB graph name. */
   graphName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: GremlinResourcesCreateUpdateGremlinGraphRequestTagsMap;
+  tags?: GremlinResourcesCreateUpdateGremlinGraphRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to create and update Azure Cosmos DB Gremlin graph. */
   properties: GremlinGraphCreateUpdatePropertiesInput;
 }
@@ -4419,36 +4454,36 @@ export type GremlinResourcesCreateUpdateGremlinGraphResponseTagsMap = {
 };
 export interface GremlinResourcesCreateUpdateGremlinGraphResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB Gremlin graph */
-  properties?: GremlinGraphGetProperties;
+  properties?: GremlinGraphGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GremlinResourcesCreateUpdateGremlinGraphResponseTagsMap;
+  tags?: GremlinResourcesCreateUpdateGremlinGraphResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Azure Cosmos DB Gremlin Role Assignment resource object. */
 export interface GremlinRoleAssignmentResourcePropertiesInput {
   /** The unique identifier for the associated Role Definition. */
-  roleDefinitionId?: string;
+  roleDefinitionId?: string | undefined;
   /** The data plane resource path for which access is being granted through this Gremlin Role Assignment. */
-  scope?: string;
+  scope?: string | undefined;
   /** The unique identifier for the associated AAD principal in the AAD graph to which access is being granted through this Gremlin Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription. */
-  principalId?: string;
+  principalId?: string | undefined;
 }
 export interface GremlinResourcesCreateUpdateGremlinRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4460,25 +4495,25 @@ export interface GremlinResourcesCreateUpdateGremlinRoleAssignmentRequest {
   /** The GUID for the Role Assignment. */
   roleAssignmentId: string;
   /** Properties to create and update an Azure Cosmos DB Gremlin Role Assignment. */
-  properties?: GremlinRoleAssignmentResourcePropertiesInput;
+  properties?: GremlinRoleAssignmentResourcePropertiesInput | undefined;
 }
 export interface GremlinResourcesCreateUpdateGremlinRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Gremlin Role Assignment. */
-  properties?: GremlinRoleAssignmentResourceProperties;
+  properties?: GremlinRoleAssignmentResourceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GremlinResourcesCreateUpdateGremlinRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4490,25 +4525,25 @@ export interface GremlinResourcesCreateUpdateGremlinRoleDefinitionRequest {
   /** The GUID for the Role Definition. */
   roleDefinitionId: string;
   /** Properties to create and update an Azure Cosmos DB Gremlin Role Definition. */
-  properties?: GremlinRoleDefinitionResourceProperties;
+  properties?: GremlinRoleDefinitionResourceProperties | undefined;
 }
 export interface GremlinResourcesCreateUpdateGremlinRoleDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Gremlin Role Definition. */
-  properties?: GremlinRoleDefinitionResourceProperties;
+  properties?: GremlinRoleDefinitionResourceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The arguments for the command to be run */
 export type InvokeCassandraClusterCommandRequestArgumentsMap = {
@@ -4524,19 +4559,19 @@ export interface InvokeCassandraClusterCommandRequest {
   /** The command which should be run */
   command: string;
   /** The arguments for the command to be run */
-  arguments?: InvokeCassandraClusterCommandRequestArgumentsMap;
+  arguments?: InvokeCassandraClusterCommandRequestArgumentsMap | undefined;
   /** IP address of the cassandra host to run the command on */
   host: string;
   /** If true, stops cassandra before executing the command and then start it again */
-  cassandra_stop_start?: boolean;
+  cassandra_stop_start?: boolean | undefined;
   /** If true, allows the command to *write* to the cassandra directory, otherwise read-only. */
-  readwrite?: boolean;
+  readwrite?: boolean | undefined;
 }
 export interface InvokeCassandraClusterCommandResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListCassandraClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4549,29 +4584,29 @@ export type ClusterResourceTagsMap = { [key: string]: string | undefined };
 /** Representation of a managed Cassandra cluster. */
 export interface ClusterResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a managed Cassandra cluster. */
-  properties?: ClusterResourceProperties;
+  properties?: ClusterResourceProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: ClusterResourceTagsMap;
+  tags?: ClusterResourceTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedCassandraManagedServiceIdentity;
+  identity?: ManagedCassandraManagedServiceIdentity | undefined;
 }
 /** Container for the array of clusters. */
 export type ListClustersValueList = Array<ClusterResource>;
 /** List of managed Cassandra clusters. */
 export interface ListClusters {
   /** Container for the array of clusters. */
-  value?: ListClustersValueList;
-  nextLink?: string;
+  value?: ListClustersValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListCassandraClusterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4588,23 +4623,23 @@ export interface ListCassandraDataCentersRequest {
 /** A managed Cassandra data center. */
 export interface DataCenterResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a managed Cassandra data center. */
-  properties?: DataCenterResourceProperties;
+  properties?: DataCenterResourceProperties | undefined;
 }
 /** Container for array of data centers. */
 export type ListDataCentersValueList = Array<DataCenterResource>;
 /** List of managed Cassandra data centers and their properties. */
 export interface ListDataCenters {
   /** Container for array of data centers. */
-  value?: ListDataCentersValueList;
-  nextLink?: string;
+  value?: ListDataCentersValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListCassandraResourceCassandraKeyspacesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4619,29 +4654,29 @@ export type CassandraKeyspaceGetResultsTagsMap = { [key: string]: string | undef
 /** An Azure Cosmos DB Cassandra keyspace. */
 export interface CassandraKeyspaceGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB Cassandra keyspace */
-  properties?: CassandraKeyspaceGetProperties;
+  properties?: CassandraKeyspaceGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: CassandraKeyspaceGetResultsTagsMap;
+  tags?: CassandraKeyspaceGetResultsTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** List of Cassandra keyspaces and their properties. */
 export type CassandraKeyspaceListResultValueList = Array<CassandraKeyspaceGetResults>;
 /** The List operation response, that contains the Cassandra keyspaces and their properties. */
 export interface CassandraKeyspaceListResult {
   /** List of Cassandra keyspaces and their properties. */
-  value?: CassandraKeyspaceListResultValueList;
-  nextLink?: string;
+  value?: CassandraKeyspaceListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListCassandraResourceCassandraRoleAssignmentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4654,15 +4689,15 @@ export interface ListCassandraResourceCassandraRoleAssignmentsRequest {
 /** Parameters to create and update an Azure Cosmos DB Cassandra Role Assignment. */
 export interface CassandraRoleAssignmentResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Cassandra Role Assignment. */
-  properties?: CassandraRoleAssignmentResourceProperties;
+  properties?: CassandraRoleAssignmentResourceProperties | undefined;
 }
 /** The CassandraRoleAssignmentResource items on this page */
 export type CassandraRoleAssignmentListResultValueList = Array<CassandraRoleAssignmentResource>;
@@ -4671,7 +4706,7 @@ export interface CassandraRoleAssignmentListResult {
   /** The CassandraRoleAssignmentResource items on this page */
   value: CassandraRoleAssignmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCassandraResourceCassandraRoleDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4684,15 +4719,15 @@ export interface ListCassandraResourceCassandraRoleDefinitionsRequest {
 /** Parameters to create and update an Azure Cosmos DB Cassandra Role Definition. */
 export interface CassandraRoleDefinitionResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Cassandra Role Definition. */
-  properties?: CassandraRoleDefinitionResourceProperties;
+  properties?: CassandraRoleDefinitionResourceProperties | undefined;
 }
 /** The CassandraRoleDefinitionResource items on this page */
 export type CassandraRoleDefinitionListResultValueList = Array<CassandraRoleDefinitionResource>;
@@ -4701,7 +4736,7 @@ export interface CassandraRoleDefinitionListResult {
   /** The CassandraRoleDefinitionResource items on this page */
   value: CassandraRoleDefinitionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCassandraResourceCassandraTablesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4718,29 +4753,29 @@ export type CassandraTableGetResultsTagsMap = { [key: string]: string | undefine
 /** An Azure Cosmos DB Cassandra table. */
 export interface CassandraTableGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB Cassandra table */
-  properties?: CassandraTableGetProperties;
+  properties?: CassandraTableGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: CassandraTableGetResultsTagsMap;
+  tags?: CassandraTableGetResultsTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** List of Cassandra tables and their properties. */
 export type CassandraTableListResultValueList = Array<CassandraTableGetResults>;
 /** The List operation response, that contains the Cassandra tables and their properties. */
 export interface CassandraTableListResult {
   /** List of Cassandra tables and their properties. */
-  value?: CassandraTableListResultValueList;
-  nextLink?: string;
+  value?: CassandraTableListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListCollectionMetricDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4757,9 +4792,9 @@ export interface ListCollectionMetricDefinitionsRequest {
 /** The availability of the metric. */
 export interface MetricAvailability {
   /** The time grain to be used to summarize the metric values. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
   /** The retention for the metric values. */
-  retention?: string;
+  retention?: string | undefined;
 }
 /** The list of metric availabilities for the account. */
 export type MetricDefinitionMetricAvailabilitiesList = Array<MetricAvailability>;
@@ -4777,30 +4812,30 @@ export type UnitType =
 /** A metric name. */
 export interface MetricName {
   /** The name of the metric. */
-  value?: string;
+  value?: string | undefined;
   /** The friendly name of the metric. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** The definition of a metric. */
 export interface MetricDefinition {
   /** The list of metric availabilities for the account. */
-  metricAvailabilities?: MetricDefinitionMetricAvailabilitiesList;
+  metricAvailabilities?: MetricDefinitionMetricAvailabilitiesList | undefined;
   /** The primary aggregation type of the metric. */
-  primaryAggregationType?: PrimaryAggregationType;
+  primaryAggregationType?: PrimaryAggregationType | undefined;
   /** The unit of the metric. */
-  unit?: UnitType;
+  unit?: UnitType | undefined;
   /** The resource uri of the database. */
-  resourceUri?: string;
+  resourceUri?: string | undefined;
   /** The name information for the metric. */
-  name?: MetricName;
+  name?: MetricName | undefined;
 }
 /** The list of metric definitions for the account. */
 export type MetricDefinitionsListResultValueList = Array<MetricDefinition>;
 /** The response to a list metric definitions request. */
 export interface MetricDefinitionsListResult {
   /** The list of metric definitions for the account. */
-  value?: MetricDefinitionsListResultValueList;
-  nextLink?: string;
+  value?: MetricDefinitionsListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListCollectionMetricsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4819,42 +4854,42 @@ export interface ListCollectionMetricsRequest {
 /** Represents metrics values. */
 export interface MetricValue {
   /** The number of values for the metric. */
-  _count?: number;
+  _count?: number | undefined;
   /** The average value of the metric. */
-  average?: number;
+  average?: number | undefined;
   /** The max value of the metric. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The min value of the metric. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The metric timestamp (ISO-8601 format). */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The total value of the metric. */
-  total?: number;
+  total?: number | undefined;
 }
 /** The metric values for the specified time window and timestep. */
 export type MetricMetricValuesList = Array<MetricValue>;
 /** Metric data */
 export interface Metric {
   /** The start time for the metric (ISO-8601 format). */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time for the metric (ISO-8601 format). */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The time grain to be used to summarize the metric values. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
   /** The unit of the metric. */
-  unit?: UnitType;
+  unit?: UnitType | undefined;
   /** The name information for the metric. */
-  name?: MetricName;
+  name?: MetricName | undefined;
   /** The metric values for the specified time window and timestep. */
-  metricValues?: MetricMetricValuesList;
+  metricValues?: MetricMetricValuesList | undefined;
 }
 /** The list of metrics for the account. */
 export type MetricListResultValueList = Array<Metric>;
 /** The response to a list metrics request. */
 export interface MetricListResult {
   /** The list of metrics for the account. */
-  value?: MetricListResultValueList;
-  nextLink?: string;
+  value?: MetricListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListCollectionPartitionMetricsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4875,29 +4910,29 @@ export type PartitionMetricMetricValuesList = Array<MetricValue>;
 /** The metric values for a single partition. */
 export interface PartitionMetric {
   /** The start time for the metric (ISO-8601 format). */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time for the metric (ISO-8601 format). */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The time grain to be used to summarize the metric values. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
   /** The unit of the metric. */
-  unit?: UnitType;
+  unit?: UnitType | undefined;
   /** The name information for the metric. */
-  name?: MetricName;
+  name?: MetricName | undefined;
   /** The metric values for the specified time window and timestep. */
-  metricValues?: PartitionMetricMetricValuesList;
+  metricValues?: PartitionMetricMetricValuesList | undefined;
   /** The partition id (GUID identifier) of the metric values. */
-  partitionId?: string;
+  partitionId?: string | undefined;
   /** The partition key range id (integer identifier) of the metric values. */
-  partitionKeyRangeId?: string;
+  partitionKeyRangeId?: string | undefined;
 }
 /** The list of partition-level metrics for the account. */
 export type PartitionMetricListResultValueList = Array<PartitionMetric>;
 /** The response to a list partition metrics request. */
 export interface PartitionMetricListResult {
   /** The list of partition-level metrics for the account. */
-  value?: PartitionMetricListResultValueList;
-  nextLink?: string;
+  value?: PartitionMetricListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListCollectionPartitionRegionMetricsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4927,32 +4962,32 @@ export interface ListCollectionPartitionUsagesRequest {
   /** Cosmos DB collection rid. */
   collectionRid: string;
   /** An OData filter expression that describes a subset of usages to return. The supported parameter is name.value (name of the metric, can have an or of multiple names). */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The partition level usage data for a usage request. */
 export interface PartitionUsage {
   /** The unit of the metric. */
-  unit?: UnitType;
+  unit?: UnitType | undefined;
   /** The name information for the metric. */
-  name?: MetricName;
+  name?: MetricName | undefined;
   /** The quota period used to summarize the usage values. */
-  quotaPeriod?: string;
+  quotaPeriod?: string | undefined;
   /** Maximum value for this metric */
-  limit?: number;
+  limit?: number | undefined;
   /** Current value for this metric */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The partition id (GUID identifier) of the usages. */
-  partitionId?: string;
+  partitionId?: string | undefined;
   /** The partition key range id (integer identifier) of the usages. */
-  partitionKeyRangeId?: string;
+  partitionKeyRangeId?: string | undefined;
 }
 /** The list of partition-level usages for the database. A usage is a point in time metric */
 export type PartitionUsagesResultValueList = Array<PartitionUsage>;
 /** The response to a list partition level usage request. */
 export interface PartitionUsagesResult {
   /** The list of partition-level usages for the database. A usage is a point in time metric */
-  value?: PartitionUsagesResultValueList;
-  nextLink?: string;
+  value?: PartitionUsagesResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListCollectionRegionMetricsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4982,28 +5017,28 @@ export interface ListCollectionUsagesRequest {
   /** Cosmos DB collection rid. */
   collectionRid: string;
   /** An OData filter expression that describes a subset of usages to return. The supported parameter is name.value (name of the metric, can have an or of multiple names). */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The usage data for a usage request. */
 export interface Usage {
   /** The unit of the metric. */
-  unit?: UnitType;
+  unit?: UnitType | undefined;
   /** The name information for the metric. */
-  name?: MetricName;
+  name?: MetricName | undefined;
   /** The quota period used to summarize the usage values. */
-  quotaPeriod?: string;
+  quotaPeriod?: string | undefined;
   /** Maximum value for this metric */
-  limit?: number;
+  limit?: number | undefined;
   /** Current value for this metric */
-  currentValue?: number;
+  currentValue?: number | undefined;
 }
 /** The list of usages for the database. A usage is a point in time metric */
 export type UsagesResultValueList = Array<Usage>;
 /** The response to a list usage request. */
 export interface UsagesResult {
   /** The list of usages for the database. A usage is a point in time metric */
-  value?: UsagesResultValueList;
-  nextLink?: string;
+  value?: UsagesResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListDatabaseAccountByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5018,31 +5053,31 @@ export type DatabaseAccountGetResultsKind = "GlobalDocumentDB" | "MongoDB" | "Pa
 /** An Azure Cosmos DB database account. */
 export interface DatabaseAccountGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the database account. */
-  properties?: DatabaseAccountGetProperties;
+  properties?: DatabaseAccountGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: DatabaseAccountGetResultsTagsMap;
+  tags?: DatabaseAccountGetResultsTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** Indicates the type of database account. This can only be set at database account creation. */
-  kind?: DatabaseAccountGetResultsKind;
+  kind?: DatabaseAccountGetResultsKind | undefined;
 }
 /** List of database account and their properties. */
 export type DatabaseAccountsListResultValueList = Array<DatabaseAccountGetResults>;
 /** The List operation response, that contains the database accounts and their properties. */
 export interface DatabaseAccountsListResult {
   /** List of database account and their properties. */
-  value?: DatabaseAccountsListResultValueList;
-  nextLink?: string;
+  value?: DatabaseAccountsListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListDatabaseAccountConnectionStringsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5068,13 +5103,13 @@ export type Type =
 /** Connection string for the Cosmos DB account */
 export interface DatabaseAccountConnectionString {
   /** Value of the connection string */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** Description of the connection string */
-  description?: string;
+  description?: string | undefined;
   /** Kind of the connection string key */
-  keyKind?: Kind;
+  keyKind?: Kind | undefined;
   /** Type of the connection string */
-  type?: Type;
+  type?: Type | undefined;
 }
 /** An array that contains the connection strings for the Cosmos DB account. */
 export type DatabaseAccountListConnectionStringsResultConnectionStringsList =
@@ -5082,7 +5117,7 @@ export type DatabaseAccountListConnectionStringsResultConnectionStringsList =
 /** The connection strings for the given database account. */
 export interface DatabaseAccountListConnectionStringsResult {
   /** An array that contains the connection strings for the Cosmos DB account. */
-  connectionStrings?: DatabaseAccountListConnectionStringsResultConnectionStringsList;
+  connectionStrings?: DatabaseAccountListConnectionStringsResultConnectionStringsList | undefined;
 }
 export interface ListDatabaseAccountKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5094,13 +5129,13 @@ export interface ListDatabaseAccountKeysRequest {
 }
 export interface ListDatabaseAccountKeysResponse {
   /** Base 64 encoded value of the primary read-only key. */
-  primaryReadonlyMasterKey?: string;
+  primaryReadonlyMasterKey?: string | undefined;
   /** Base 64 encoded value of the secondary read-only key. */
-  secondaryReadonlyMasterKey?: string;
+  secondaryReadonlyMasterKey?: string | undefined;
   /** Base 64 encoded value of the primary read-write key. */
-  primaryMasterKey?: string;
+  primaryMasterKey?: string | undefined;
   /** Base 64 encoded value of the secondary read-write key. */
-  secondaryMasterKey?: string;
+  secondaryMasterKey?: string | undefined;
 }
 export interface ListDatabaseAccountMetricDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5144,7 +5179,7 @@ export interface ListDatabaseAccountUsagesRequest {
   /** Cosmos DB database account name. */
   accountName: string;
   /** An OData filter expression that describes a subset of usages to return. The supported parameter is name.value (name of the metric, can have an or of multiple names). */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListDatabaseMetricDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5178,7 +5213,7 @@ export interface ListDatabaseUsagesRequest {
   /** Cosmos DB database rid. */
   databaseRid: string;
   /** An OData filter expression that describes a subset of usages to return. The supported parameter is name.value (name of the metric, can have an or of multiple names). */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5189,19 +5224,19 @@ export type FleetResourceTagsMap = { [key: string]: string | undefined };
 /** An Azure Cosmos DB FleetResource. */
 export interface FleetResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FleetResourceTagsMap;
+  tags?: FleetResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties to update Azure Cosmos DB fleet resource. */
-  properties?: FleetResourceProperties;
+  properties?: FleetResourceProperties | undefined;
 }
 /** The FleetResource items on this page */
 export type FleetListResultValueList = Array<FleetResource>;
@@ -5210,7 +5245,7 @@ export interface FleetListResult {
   /** The FleetResource items on this page */
   value: FleetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFleetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5229,15 +5264,15 @@ export interface ListFleetspaceRequest {
 /** An Azure Cosmos DB Fleetspace. */
 export interface FleetspaceResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to update Azure Cosmos DB Fleetspace. */
-  properties?: FleetspaceProperties;
+  properties?: FleetspaceProperties | undefined;
 }
 /** The FleetspaceResource items on this page */
 export type FleetspaceListResultValueList = Array<FleetspaceResource>;
@@ -5246,7 +5281,7 @@ export interface FleetspaceListResult {
   /** The FleetspaceResource items on this page */
   value: FleetspaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFleetspaceAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5261,15 +5296,15 @@ export interface ListFleetspaceAccountRequest {
 /** An Azure Cosmos DB Fleetspace Account */
 export interface FleetspaceAccountResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An Azure Cosmos DB Global Database Account which is part of a Fleetspace Account. */
-  properties?: FleetspaceAccountProperties;
+  properties?: FleetspaceAccountProperties | undefined;
 }
 /** The FleetspaceAccountResource items on this page */
 export type FleetspaceAccountListResultValueList = Array<FleetspaceAccountResource>;
@@ -5278,7 +5313,7 @@ export interface FleetspaceAccountListResult {
   /** The FleetspaceAccountResource items on this page */
   value: FleetspaceAccountListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGremlinResourceGremlinDatabasesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5293,29 +5328,29 @@ export type GremlinDatabaseGetResultsTagsMap = { [key: string]: string | undefin
 /** An Azure Cosmos DB Gremlin database. */
 export interface GremlinDatabaseGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB SQL database */
-  properties?: GremlinDatabaseGetProperties;
+  properties?: GremlinDatabaseGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GremlinDatabaseGetResultsTagsMap;
+  tags?: GremlinDatabaseGetResultsTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** List of Gremlin databases and their properties. */
 export type GremlinDatabaseListResultValueList = Array<GremlinDatabaseGetResults>;
 /** The List operation response, that contains the Gremlin databases and their properties. */
 export interface GremlinDatabaseListResult {
   /** List of Gremlin databases and their properties. */
-  value?: GremlinDatabaseListResultValueList;
-  nextLink?: string;
+  value?: GremlinDatabaseListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListGremlinResourceGremlinGraphsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5332,29 +5367,29 @@ export type GremlinGraphGetResultsTagsMap = { [key: string]: string | undefined 
 /** An Azure Cosmos DB Gremlin graph. */
 export interface GremlinGraphGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB Gremlin graph */
-  properties?: GremlinGraphGetProperties;
+  properties?: GremlinGraphGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: GremlinGraphGetResultsTagsMap;
+  tags?: GremlinGraphGetResultsTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** List of graphs and their properties. */
 export type GremlinGraphListResultValueList = Array<GremlinGraphGetResults>;
 /** The List operation response, that contains the graphs and their properties. */
 export interface GremlinGraphListResult {
   /** List of graphs and their properties. */
-  value?: GremlinGraphListResultValueList;
-  nextLink?: string;
+  value?: GremlinGraphListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListGremlinResourceGremlinRoleAssignmentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5367,15 +5402,15 @@ export interface ListGremlinResourceGremlinRoleAssignmentsRequest {
 /** Parameters to create and update an Azure Cosmos DB Gremlin Role Assignment. */
 export interface GremlinRoleAssignmentResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Gremlin Role Assignment. */
-  properties?: GremlinRoleAssignmentResourceProperties;
+  properties?: GremlinRoleAssignmentResourceProperties | undefined;
 }
 /** The GremlinRoleAssignmentResource items on this page */
 export type GremlinRoleAssignmentListResultValueList = Array<GremlinRoleAssignmentResource>;
@@ -5384,7 +5419,7 @@ export interface GremlinRoleAssignmentListResult {
   /** The GremlinRoleAssignmentResource items on this page */
   value: GremlinRoleAssignmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGremlinResourceGremlinRoleDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5397,15 +5432,15 @@ export interface ListGremlinResourceGremlinRoleDefinitionsRequest {
 /** Parameters to create and update an Azure Cosmos DB Gremlin Role Definition. */
 export interface GremlinRoleDefinitionResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Gremlin Role Definition. */
-  properties?: GremlinRoleDefinitionResourceProperties;
+  properties?: GremlinRoleDefinitionResourceProperties | undefined;
 }
 /** The GremlinRoleDefinitionResource items on this page */
 export type GremlinRoleDefinitionListResultValueList = Array<GremlinRoleDefinitionResource>;
@@ -5414,7 +5449,7 @@ export interface GremlinRoleDefinitionListResult {
   /** The GremlinRoleDefinitionResource items on this page */
   value: GremlinRoleDefinitionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLocationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5423,23 +5458,23 @@ export interface ListLocationsRequest {
 /** Cosmos DB location get result */
 export interface LocationGetResult {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Cosmos DB location metadata */
-  properties?: LocationProperties;
+  properties?: LocationProperties | undefined;
 }
 /** List of Cosmos DB locations and their properties. */
 export type LocationListResultValueList = Array<LocationGetResult>;
 /** The List operation response, that contains Cosmos DB locations and their properties. */
 export interface LocationListResult {
   /** List of Cosmos DB locations and their properties. */
-  value?: LocationListResultValueList;
-  nextLink?: string;
+  value?: LocationListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListMongoDBResourceMongoDBCollectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5456,29 +5491,29 @@ export type MongoDBCollectionGetResultsTagsMap = { [key: string]: string | undef
 /** An Azure Cosmos DB MongoDB collection. */
 export interface MongoDBCollectionGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB MongoDB collection */
-  properties?: MongoDBCollectionGetProperties;
+  properties?: MongoDBCollectionGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MongoDBCollectionGetResultsTagsMap;
+  tags?: MongoDBCollectionGetResultsTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** List of MongoDB collections and their properties. */
 export type MongoDBCollectionListResultValueList = Array<MongoDBCollectionGetResults>;
 /** The List operation response, that contains the MongoDB collections and their properties. */
 export interface MongoDBCollectionListResult {
   /** List of MongoDB collections and their properties. */
-  value?: MongoDBCollectionListResultValueList;
-  nextLink?: string;
+  value?: MongoDBCollectionListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListMongoDBResourceMongoDBDatabasesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5493,29 +5528,29 @@ export type MongoDBDatabaseGetResultsTagsMap = { [key: string]: string | undefin
 /** An Azure Cosmos DB MongoDB database. */
 export interface MongoDBDatabaseGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB MongoDB database */
-  properties?: MongoDBDatabaseGetProperties;
+  properties?: MongoDBDatabaseGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MongoDBDatabaseGetResultsTagsMap;
+  tags?: MongoDBDatabaseGetResultsTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** List of MongoDB databases and their properties. */
 export type MongoDBDatabaseListResultValueList = Array<MongoDBDatabaseGetResults>;
 /** The List operation response, that contains the MongoDB databases and their properties. */
 export interface MongoDBDatabaseListResult {
   /** List of MongoDB databases and their properties. */
-  value?: MongoDBDatabaseListResultValueList;
-  nextLink?: string;
+  value?: MongoDBDatabaseListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListMongoDBResourceMongoRoleDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5528,23 +5563,23 @@ export interface ListMongoDBResourceMongoRoleDefinitionsRequest {
 /** An Azure Cosmos DB Mongo Role Definition. */
 export interface MongoRoleDefinitionGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties related to the Mongo Role Definition. */
-  properties?: MongoRoleDefinitionResource;
+  properties?: MongoRoleDefinitionResource | undefined;
 }
 /** List of Mongo Role Definitions and their properties. */
 export type MongoRoleDefinitionListResultValueList = Array<MongoRoleDefinitionGetResults>;
 /** The relevant Mongo Role Definitions. */
 export interface MongoRoleDefinitionListResult {
   /** List of Mongo Role Definitions and their properties. */
-  value?: MongoRoleDefinitionListResultValueList;
-  nextLink?: string;
+  value?: MongoRoleDefinitionListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListMongoDBResourceMongoUserDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5557,23 +5592,23 @@ export interface ListMongoDBResourceMongoUserDefinitionsRequest {
 /** An Azure Cosmos DB User Definition */
 export interface MongoUserDefinitionGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties related to the User Definition. */
-  properties?: MongoUserDefinitionResource;
+  properties?: MongoUserDefinitionResource | undefined;
 }
 /** List of User Definition and their properties */
 export type MongoUserDefinitionListResultValueList = Array<MongoUserDefinitionGetResults>;
 /** The relevant User Definition. */
 export interface MongoUserDefinitionListResult {
   /** List of User Definition and their properties */
-  value?: MongoUserDefinitionListResultValueList;
-  nextLink?: string;
+  value?: MongoUserDefinitionListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListMongoMIResourceMongoMIRoleAssignmentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5586,15 +5621,15 @@ export interface ListMongoMIResourceMongoMIRoleAssignmentsRequest {
 /** Parameters to create and update an Azure Cosmos DB MongoMI Role Assignment. */
 export interface MongoMIRoleAssignmentResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB MongoMI Role Assignment. */
-  properties?: MongoMIRoleAssignmentResourceProperties;
+  properties?: MongoMIRoleAssignmentResourceProperties | undefined;
 }
 /** The MongoMIRoleAssignmentResource items on this page */
 export type MongoMIRoleAssignmentListResultValueList = Array<MongoMIRoleAssignmentResource>;
@@ -5603,7 +5638,7 @@ export interface MongoMIRoleAssignmentListResult {
   /** The MongoMIRoleAssignmentResource items on this page */
   value: MongoMIRoleAssignmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMongoMIResourceMongoMIRoleDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5616,15 +5651,15 @@ export interface ListMongoMIResourceMongoMIRoleDefinitionsRequest {
 /** Parameters to create and update an Azure Cosmos DB MongoMI Role Definition. */
 export interface MongoMIRoleDefinitionResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB MongoMI Role Definition. */
-  properties?: MongoMIRoleDefinitionResourceProperties;
+  properties?: MongoMIRoleDefinitionResourceProperties | undefined;
 }
 /** The MongoMIRoleDefinitionResource items on this page */
 export type MongoMIRoleDefinitionListResultValueList = Array<MongoMIRoleDefinitionResource>;
@@ -5633,7 +5668,7 @@ export interface MongoMIRoleDefinitionListResult {
   /** The MongoMIRoleDefinitionResource items on this page */
   value: MongoMIRoleDefinitionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNotebookWorkspaceByDatabaseAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5646,23 +5681,23 @@ export interface ListNotebookWorkspaceByDatabaseAccountRequest {
 /** A notebook workspace resource */
 export interface NotebookWorkspace {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: NotebookWorkspaceProperties;
+  properties?: NotebookWorkspaceProperties | undefined;
 }
 /** Array of notebook workspace resources */
 export type NotebookWorkspaceListResultValueList = Array<NotebookWorkspace>;
 /** A list of notebook workspace resources */
 export interface NotebookWorkspaceListResult {
   /** Array of notebook workspace resources */
-  value?: NotebookWorkspaceListResultValueList;
-  nextLink?: string;
+  value?: NotebookWorkspaceListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export type ListNotebookWorkspaceConnectionInfoRequestNotebookWorkspaceName = "default";
 export interface ListNotebookWorkspaceConnectionInfoRequest {
@@ -5680,28 +5715,28 @@ export interface ListNotebookWorkspaceConnectionInfoRequest {
 /** The connection info for the given notebook workspace */
 export interface NotebookWorkspaceConnectionInfoResult {
   /** Specifies auth token used for connecting to Notebook server (uses token-based auth). */
-  authToken?: string;
+  authToken?: string | undefined;
   /** Specifies the endpoint of Notebook server. */
-  notebookServerEndpoint?: string;
+  notebookServerEndpoint?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.ResourceProvider */
-  Provider?: string;
+  Provider?: string | undefined;
   /** Resource on which the operation is performed: Profile, endpoint, etc. */
-  Resource?: string;
+  Resource?: string | undefined;
   /** Operation type: Read, write, delete, etc. */
-  Operation?: string;
+  Operation?: string | undefined;
   /** Description of operation */
-  Description?: string;
+  Description?: string | undefined;
 }
 /** REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of operations supported by the Resource Provider. */
 export type OperationListResultValueList = Array<Operation>;
@@ -5710,7 +5745,7 @@ export interface OperationListResult {
   /** List of operations supported by the Resource Provider. */
   value: OperationListResultValueList;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPartitionKeyRangeIdMetricsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5759,56 +5794,56 @@ export interface ListPercentileMetricsRequest {
 /** Represents percentile metrics values. */
 export interface PercentileMetricValue {
   /** The number of values for the metric. */
-  _count?: number;
+  _count?: number | undefined;
   /** The average value of the metric. */
-  average?: number;
+  average?: number | undefined;
   /** The max value of the metric. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The min value of the metric. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The metric timestamp (ISO-8601 format). */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The total value of the metric. */
-  total?: number;
+  total?: number | undefined;
   /** The 10th percentile value for the metric. */
-  P10?: number;
+  P10?: number | undefined;
   /** The 25th percentile value for the metric. */
-  P25?: number;
+  P25?: number | undefined;
   /** The 50th percentile value for the metric. */
-  P50?: number;
+  P50?: number | undefined;
   /** The 75th percentile value for the metric. */
-  P75?: number;
+  P75?: number | undefined;
   /** The 90th percentile value for the metric. */
-  P90?: number;
+  P90?: number | undefined;
   /** The 95th percentile value for the metric. */
-  P95?: number;
+  P95?: number | undefined;
   /** The 99th percentile value for the metric. */
-  P99?: number;
+  P99?: number | undefined;
 }
 /** The percentile metric values for the specified time window and timestep. */
 export type PercentileMetricMetricValuesList = Array<PercentileMetricValue>;
 /** Percentile Metric data */
 export interface PercentileMetric {
   /** The start time for the metric (ISO-8601 format). */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time for the metric (ISO-8601 format). */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The time grain to be used to summarize the metric values. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
   /** The unit of the metric. */
-  unit?: UnitType;
+  unit?: UnitType | undefined;
   /** The name information for the metric. */
-  name?: MetricName;
+  name?: MetricName | undefined;
   /** The percentile metric values for the specified time window and timestep. */
-  metricValues?: PercentileMetricMetricValuesList;
+  metricValues?: PercentileMetricMetricValuesList | undefined;
 }
 /** The list of percentile metrics for the account. */
 export type PercentileMetricListResultValueList = Array<PercentileMetric>;
 /** The response to a list percentile metrics request. */
 export interface PercentileMetricListResult {
   /** The list of percentile metrics for the account. */
-  value?: PercentileMetricListResultValueList;
-  nextLink?: string;
+  value?: PercentileMetricListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListPercentileSourceTargetMetricsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5849,8 +5884,8 @@ export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpoint
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
-  value?: PrivateEndpointConnectionListResultValueList;
-  nextLink?: string;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByDatabaseAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5863,23 +5898,23 @@ export interface ListPrivateLinkResourceByDatabaseAccountRequest {
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList;
-  nextLink?: string;
+  value?: PrivateLinkResourceListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListRestorableDatabaseAccountByLocationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5890,17 +5925,17 @@ export interface ListRestorableDatabaseAccountByLocationRequest {
 /** A Azure Cosmos DB restorable database account. */
 export interface RestorableDatabaseAccountGetResult {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a restorable database account. */
-  properties?: RestorableDatabaseAccountProperties;
+  properties?: RestorableDatabaseAccountProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
 }
 /** List of restorable database accounts and their properties. */
 export type RestorableDatabaseAccountsListResultValueList =
@@ -5908,8 +5943,8 @@ export type RestorableDatabaseAccountsListResultValueList =
 /** The List operation response, that contains the restorable database accounts and their properties. */
 export interface RestorableDatabaseAccountsListResult {
   /** List of restorable database accounts and their properties. */
-  value?: RestorableDatabaseAccountsListResultValueList;
-  nextLink?: string;
+  value?: RestorableDatabaseAccountsListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListRestorableDatabaseAccountsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5928,35 +5963,35 @@ export type OperationType = "Create" | "Replace" | "Delete" | "Recreate" | "Syst
 /** The resource of an Azure Cosmos DB Gremlin database event */
 export interface RestorableGremlinDatabasePropertiesResource {
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** The operation type of this database event. */
-  operationType?: OperationType;
+  operationType?: OperationType | undefined;
   /** A state of this database to identify if this database is restorable in same account. */
-  canUndelete?: string;
+  canUndelete?: string | undefined;
   /** The reason why this database can not be restored in same account. */
-  canUndeleteReason?: string;
+  canUndeleteReason?: string | undefined;
   /** The time when this database event happened. */
-  eventTimestamp?: string;
+  eventTimestamp?: string | undefined;
   /** The name of this Gremlin database. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The resource ID of this Gremlin database. */
-  ownerResourceId?: string;
+  ownerResourceId?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB Gremlin database event */
 export interface RestorableGremlinDatabaseProperties {
   /** The resource of an Azure Cosmos DB Gremlin database event */
-  resource?: RestorableGremlinDatabasePropertiesResource;
+  resource?: RestorableGremlinDatabasePropertiesResource | undefined;
 }
 /** An Azure Cosmos DB Gremlin database event */
 export interface RestorableGremlinDatabaseGetResult {
   /** The properties of a Gremlin database event. */
-  properties?: RestorableGremlinDatabaseProperties;
+  properties?: RestorableGremlinDatabaseProperties | undefined;
   /** The unique resource Identifier of the ARM resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the ARM resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of Azure resource. */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of Gremlin database events and their properties. */
 export type RestorableGremlinDatabasesListResultValueList =
@@ -5964,8 +5999,8 @@ export type RestorableGremlinDatabasesListResultValueList =
 /** The List operation response, that contains the Gremlin database events and their properties. */
 export interface RestorableGremlinDatabasesListResult {
   /** List of Gremlin database events and their properties. */
-  value?: RestorableGremlinDatabasesListResultValueList;
-  nextLink?: string;
+  value?: RestorableGremlinDatabasesListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListRestorableGremlinGraphsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5975,52 +6010,52 @@ export interface ListRestorableGremlinGraphsRequest {
   /** The instanceId GUID of a restorable database account. */
   instanceId: string;
   /** The resource ID of the Gremlin database. */
-  restorableGremlinDatabaseRid?: string;
+  restorableGremlinDatabaseRid?: string | undefined;
   /** Restorable Gremlin graphs event feed start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Restorable Gremlin graphs event feed end time. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 /** The resource of an Azure Cosmos DB Gremlin graph event */
 export interface RestorableGremlinGraphPropertiesResource {
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** The operation type of this graph event. */
-  operationType?: OperationType;
+  operationType?: OperationType | undefined;
   /** A state of this graph to identify if this graph is restorable in same account. */
-  canUndelete?: string;
+  canUndelete?: string | undefined;
   /** The reason why this graph can not be restored in same account. */
-  canUndeleteReason?: string;
+  canUndeleteReason?: string | undefined;
   /** The time when this graph event happened. */
-  eventTimestamp?: string;
+  eventTimestamp?: string | undefined;
   /** The name of this Gremlin graph. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The resource ID of this Gremlin graph. */
-  ownerResourceId?: string;
+  ownerResourceId?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB Gremlin graph event */
 export interface RestorableGremlinGraphProperties {
   /** The resource of an Azure Cosmos DB Gremlin graph event */
-  resource?: RestorableGremlinGraphPropertiesResource;
+  resource?: RestorableGremlinGraphPropertiesResource | undefined;
 }
 /** An Azure Cosmos DB Gremlin graph event */
 export interface RestorableGremlinGraphGetResult {
   /** The properties of a Gremlin graph event. */
-  properties?: RestorableGremlinGraphProperties;
+  properties?: RestorableGremlinGraphProperties | undefined;
   /** The unique resource Identifier of the ARM resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the ARM resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of Azure resource. */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of Gremlin graph events and their properties. */
 export type RestorableGremlinGraphsListResultValueList = Array<RestorableGremlinGraphGetResult>;
 /** The List operation response, that contains the Gremlin graph events and their properties. */
 export interface RestorableGremlinGraphsListResult {
   /** List of Gremlin graph events and their properties. */
-  value?: RestorableGremlinGraphsListResultValueList;
-  nextLink?: string;
+  value?: RestorableGremlinGraphsListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListRestorableGremlinResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6030,24 +6065,24 @@ export interface ListRestorableGremlinResourcesRequest {
   /** The instanceId GUID of a restorable database account. */
   instanceId: string;
   /** The location where the restorable resources are located. */
-  restoreLocation?: string;
+  restoreLocation?: string | undefined;
   /** The timestamp when the restorable resources existed. */
-  restoreTimestampInUtc?: string;
+  restoreTimestampInUtc?: string | undefined;
 }
 /** The names of the graphs available for restore. */
 export type RestorableGremlinResourcesGetResultGraphNamesList = Array<string>;
 /** Specific Databases to restore. */
 export interface RestorableGremlinResourcesGetResult {
   /** The unique resource identifier of the ARM resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the ARM resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of Azure resource. */
-  type?: string;
+  type?: string | undefined;
   /** The name of the gremlin database available for restore. */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** The names of the graphs available for restore. */
-  graphNames?: RestorableGremlinResourcesGetResultGraphNamesList;
+  graphNames?: RestorableGremlinResourcesGetResultGraphNamesList | undefined;
 }
 /** List of restorable Gremlin resources, including the gremlin database and graph names. */
 export type RestorableGremlinResourcesListResultValueList =
@@ -6055,8 +6090,8 @@ export type RestorableGremlinResourcesListResultValueList =
 /** The List operation response, that contains the restorable Gremlin resources. */
 export interface RestorableGremlinResourcesListResult {
   /** List of restorable Gremlin resources, including the gremlin database and graph names. */
-  value?: RestorableGremlinResourcesListResultValueList;
-  nextLink?: string;
+  value?: RestorableGremlinResourcesListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListRestorableMongodbCollectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6066,44 +6101,44 @@ export interface ListRestorableMongodbCollectionsRequest {
   /** The instanceId GUID of a restorable database account. */
   instanceId: string;
   /** The resource ID of the MongoDB database. */
-  restorableMongodbDatabaseRid?: string;
+  restorableMongodbDatabaseRid?: string | undefined;
   /** Restorable MongoDB collections event feed start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Restorable MongoDB collections event feed end time. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 /** The resource of an Azure Cosmos DB MongoDB collection event */
 export interface RestorableMongodbCollectionPropertiesResource {
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** The operation type of this collection event. */
-  operationType?: OperationType;
+  operationType?: OperationType | undefined;
   /** A state of this collection to identify if this container is restorable in same account. */
-  canUndelete?: string;
+  canUndelete?: string | undefined;
   /** The reason why this collection can not be restored in same account. */
-  canUndeleteReason?: string;
+  canUndeleteReason?: string | undefined;
   /** The time when this collection event happened. */
-  eventTimestamp?: string;
+  eventTimestamp?: string | undefined;
   /** The name of this MongoDB collection. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The resource ID of this MongoDB collection. */
-  ownerResourceId?: string;
+  ownerResourceId?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB MongoDB collection event */
 export interface RestorableMongodbCollectionProperties {
   /** The resource of an Azure Cosmos DB MongoDB collection event */
-  resource?: RestorableMongodbCollectionPropertiesResource;
+  resource?: RestorableMongodbCollectionPropertiesResource | undefined;
 }
 /** An Azure Cosmos DB MongoDB collection event */
 export interface RestorableMongodbCollectionGetResult {
   /** The properties of a MongoDB collection event. */
-  properties?: RestorableMongodbCollectionProperties;
+  properties?: RestorableMongodbCollectionProperties | undefined;
   /** The unique resource Identifier of the ARM resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the ARM resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of Azure resource. */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of MongoDB collection events and their properties. */
 export type RestorableMongodbCollectionsListResultValueList =
@@ -6111,8 +6146,8 @@ export type RestorableMongodbCollectionsListResultValueList =
 /** The List operation response, that contains the MongoDB collection events and their properties. */
 export interface RestorableMongodbCollectionsListResult {
   /** List of MongoDB collection events and their properties. */
-  value?: RestorableMongodbCollectionsListResultValueList;
-  nextLink?: string;
+  value?: RestorableMongodbCollectionsListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListRestorableMongodbDatabasesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6125,35 +6160,35 @@ export interface ListRestorableMongodbDatabasesRequest {
 /** The resource of an Azure Cosmos DB MongoDB database event */
 export interface RestorableMongodbDatabasePropertiesResource {
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** The operation type of this database event. */
-  operationType?: OperationType;
+  operationType?: OperationType | undefined;
   /** A state of this database to identify if this database is restorable in same account. */
-  canUndelete?: string;
+  canUndelete?: string | undefined;
   /** The reason why this database can not be restored in same account. */
-  canUndeleteReason?: string;
+  canUndeleteReason?: string | undefined;
   /** The time when this database event happened. */
-  eventTimestamp?: string;
+  eventTimestamp?: string | undefined;
   /** The name of this MongoDB database. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The resource ID of this MongoDB database. */
-  ownerResourceId?: string;
+  ownerResourceId?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB MongoDB database event */
 export interface RestorableMongodbDatabaseProperties {
   /** The resource of an Azure Cosmos DB MongoDB database event */
-  resource?: RestorableMongodbDatabasePropertiesResource;
+  resource?: RestorableMongodbDatabasePropertiesResource | undefined;
 }
 /** An Azure Cosmos DB MongoDB database event */
 export interface RestorableMongodbDatabaseGetResult {
   /** The properties of a MongoDB database event. */
-  properties?: RestorableMongodbDatabaseProperties;
+  properties?: RestorableMongodbDatabaseProperties | undefined;
   /** The unique resource Identifier of the ARM resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the ARM resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of Azure resource. */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of MongoDB database events and their properties. */
 export type RestorableMongodbDatabasesListResultValueList =
@@ -6161,8 +6196,8 @@ export type RestorableMongodbDatabasesListResultValueList =
 /** The List operation response, that contains the MongoDB database events and their properties. */
 export interface RestorableMongodbDatabasesListResult {
   /** List of MongoDB database events and their properties. */
-  value?: RestorableMongodbDatabasesListResultValueList;
-  nextLink?: string;
+  value?: RestorableMongodbDatabasesListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListRestorableMongodbResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6172,24 +6207,24 @@ export interface ListRestorableMongodbResourcesRequest {
   /** The instanceId GUID of a restorable database account. */
   instanceId: string;
   /** The location where the restorable resources are located. */
-  restoreLocation?: string;
+  restoreLocation?: string | undefined;
   /** The timestamp when the restorable resources existed. */
-  restoreTimestampInUtc?: string;
+  restoreTimestampInUtc?: string | undefined;
 }
 /** The names of the collections available for restore. */
 export type RestorableMongodbResourcesGetResultCollectionNamesList = Array<string>;
 /** Specific Databases to restore. */
 export interface RestorableMongodbResourcesGetResult {
   /** The unique resource identifier of the ARM resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the ARM resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of Azure resource. */
-  type?: string;
+  type?: string | undefined;
   /** The name of the database available for restore. */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** The names of the collections available for restore. */
-  collectionNames?: RestorableMongodbResourcesGetResultCollectionNamesList;
+  collectionNames?: RestorableMongodbResourcesGetResultCollectionNamesList | undefined;
 }
 /** List of restorable MongoDB resources, including the database and collection names. */
 export type RestorableMongodbResourcesListResultValueList =
@@ -6197,8 +6232,8 @@ export type RestorableMongodbResourcesListResultValueList =
 /** The List operation response, that contains the restorable MongoDB resources. */
 export interface RestorableMongodbResourcesListResult {
   /** List of restorable MongoDB resources, including the database and collection names. */
-  value?: RestorableMongodbResourcesListResultValueList;
-  nextLink?: string;
+  value?: RestorableMongodbResourcesListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListRestorableSqlContainersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6208,11 +6243,11 @@ export interface ListRestorableSqlContainersRequest {
   /** The instanceId GUID of a restorable database account. */
   instanceId: string;
   /** The resource ID of the SQL database. */
-  restorableSqlDatabaseRid?: string;
+  restorableSqlDatabaseRid?: string | undefined;
   /** Restorable Sql containers event feed start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Restorable Sql containers event feed end time. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 /** Enum to indicate the mode of account creation. */
 export type RestorableSqlContainerPropertiesResourceContainerCreateMode = "Default" | "Restore";
@@ -6224,80 +6259,82 @@ export interface RestorableSqlContainerPropertiesResourceContainer {
   /** Name of the Cosmos DB SQL container */
   id: string;
   /** The configuration of the indexing policy. By default, the indexing is automatic for all document paths within the container */
-  indexingPolicy?: IndexingPolicy;
+  indexingPolicy?: IndexingPolicy | undefined;
   /** The configuration of the partition key to be used for partitioning data into multiple partitions */
-  partitionKey?: ContainerPartitionKey;
+  partitionKey?: ContainerPartitionKey | undefined;
   /** Default time to live */
-  defaultTtl?: number;
+  defaultTtl?: number | undefined;
   /** The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure Cosmos DB service. */
-  uniqueKeyPolicy?: UniqueKeyPolicy;
+  uniqueKeyPolicy?: UniqueKeyPolicy | undefined;
   /** The conflict resolution policy for the container. */
-  conflictResolutionPolicy?: ConflictResolutionPolicy;
+  conflictResolutionPolicy?: ConflictResolutionPolicy | undefined;
   /** The client encryption policy for the container. */
-  clientEncryptionPolicy?: ClientEncryptionPolicy;
+  clientEncryptionPolicy?: ClientEncryptionPolicy | undefined;
   /** Analytical TTL. */
-  analyticalStorageTtl?: number;
+  analyticalStorageTtl?: number | undefined;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of account creation. */
-  createMode?: RestorableSqlContainerPropertiesResourceContainerCreateMode;
+  createMode?: RestorableSqlContainerPropertiesResourceContainerCreateMode | undefined;
   /** List of computed properties */
-  computedProperties?: RestorableSqlContainerPropertiesResourceContainerComputedPropertiesList;
+  computedProperties?:
+    | RestorableSqlContainerPropertiesResourceContainerComputedPropertiesList
+    | undefined;
   /** The vector embedding policy for the container. */
-  vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
+  vectorEmbeddingPolicy?: VectorEmbeddingPolicy | undefined;
   /** The FullText policy for the container. */
-  fullTextPolicy?: FullTextPolicy;
+  fullTextPolicy?: FullTextPolicy | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
   /** A system generated property that specifies the addressable path of the container resource. */
-  _self?: string;
+  _self?: string | undefined;
 }
 /** The resource of an Azure Cosmos DB SQL container event */
 export interface RestorableSqlContainerPropertiesResource {
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** The operation type of this container event. */
-  operationType?: OperationType;
+  operationType?: OperationType | undefined;
   /** A state of this container to identify if this container is restorable in same account. */
-  canUndelete?: string;
+  canUndelete?: string | undefined;
   /** The reason why this container can not be restored in same account. */
-  canUndeleteReason?: string;
+  canUndeleteReason?: string | undefined;
   /** The when this container event happened. */
-  eventTimestamp?: string;
+  eventTimestamp?: string | undefined;
   /** The name of this SQL container. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The resource ID of this SQL container. */
-  ownerResourceId?: string;
+  ownerResourceId?: string | undefined;
   /** Cosmos DB SQL container resource object */
-  container?: RestorableSqlContainerPropertiesResourceContainer;
+  container?: RestorableSqlContainerPropertiesResourceContainer | undefined;
 }
 /** The properties of an Azure Cosmos DB SQL container event */
 export interface RestorableSqlContainerProperties {
   /** The resource of an Azure Cosmos DB SQL container event */
-  resource?: RestorableSqlContainerPropertiesResource;
+  resource?: RestorableSqlContainerPropertiesResource | undefined;
 }
 /** An Azure Cosmos DB SQL container event */
 export interface RestorableSqlContainerGetResult {
   /** The properties of a SQL container event. */
-  properties?: RestorableSqlContainerProperties;
+  properties?: RestorableSqlContainerProperties | undefined;
   /** The unique resource Identifier of the ARM resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the ARM resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of Azure resource. */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of SQL container events and their properties. */
 export type RestorableSqlContainersListResultValueList = Array<RestorableSqlContainerGetResult>;
 /** The List operation response, that contains the SQL container events and their properties. */
 export interface RestorableSqlContainersListResult {
   /** List of SQL container events and their properties. */
-  value?: RestorableSqlContainersListResultValueList;
-  nextLink?: string;
+  value?: RestorableSqlContainersListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListRestorableSqlDatabasesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6314,64 +6351,64 @@ export interface RestorableSqlDatabasePropertiesResourceDatabase {
   /** Name of the Cosmos DB SQL database */
   id: string;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of account creation. */
-  createMode?: RestorableSqlDatabasePropertiesResourceDatabaseCreateMode;
+  createMode?: RestorableSqlDatabasePropertiesResourceDatabaseCreateMode | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
   /** A system generated property that specified the addressable path of the collections resource. */
-  _colls?: string;
+  _colls?: string | undefined;
   /** A system generated property that specifies the addressable path of the users resource. */
-  _users?: string;
+  _users?: string | undefined;
   /** A system generated property that specifies the addressable path of the database resource. */
-  _self?: string;
+  _self?: string | undefined;
 }
 /** The resource of an Azure Cosmos DB SQL database event */
 export interface RestorableSqlDatabasePropertiesResource {
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** The operation type of this database event. */
-  operationType?: OperationType;
+  operationType?: OperationType | undefined;
   /** A state of this database to identify if this database is restorable in same account. */
-  canUndelete?: string;
+  canUndelete?: string | undefined;
   /** The reason why this database can not be restored in same account. */
-  canUndeleteReason?: string;
+  canUndeleteReason?: string | undefined;
   /** The time when this database event happened. */
-  eventTimestamp?: string;
+  eventTimestamp?: string | undefined;
   /** The name of the SQL database. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The resource ID of the SQL database. */
-  ownerResourceId?: string;
+  ownerResourceId?: string | undefined;
   /** Cosmos DB SQL database resource object */
-  database?: RestorableSqlDatabasePropertiesResourceDatabase;
+  database?: RestorableSqlDatabasePropertiesResourceDatabase | undefined;
 }
 /** The properties of an Azure Cosmos DB SQL database event */
 export interface RestorableSqlDatabaseProperties {
   /** The resource of an Azure Cosmos DB SQL database event */
-  resource?: RestorableSqlDatabasePropertiesResource;
+  resource?: RestorableSqlDatabasePropertiesResource | undefined;
 }
 /** An Azure Cosmos DB SQL database event */
 export interface RestorableSqlDatabaseGetResult {
   /** The properties of a SQL database event. */
-  properties?: RestorableSqlDatabaseProperties;
+  properties?: RestorableSqlDatabaseProperties | undefined;
   /** The unique resource Identifier of the ARM resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the ARM resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of Azure resource. */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of SQL database events and their properties. */
 export type RestorableSqlDatabasesListResultValueList = Array<RestorableSqlDatabaseGetResult>;
 /** The List operation response, that contains the SQL database events and their properties. */
 export interface RestorableSqlDatabasesListResult {
   /** List of SQL database events and their properties. */
-  value?: RestorableSqlDatabasesListResultValueList;
-  nextLink?: string;
+  value?: RestorableSqlDatabasesListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListRestorableSqlResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6381,32 +6418,32 @@ export interface ListRestorableSqlResourcesRequest {
   /** The instanceId GUID of a restorable database account. */
   instanceId: string;
   /** The location where the restorable resources are located. */
-  restoreLocation?: string;
+  restoreLocation?: string | undefined;
   /** The timestamp when the restorable resources existed. */
-  restoreTimestampInUtc?: string;
+  restoreTimestampInUtc?: string | undefined;
 }
 /** The names of the collections available for restore. */
 export type RestorableSqlResourcesGetResultCollectionNamesList = Array<string>;
 /** Specific Databases to restore. */
 export interface RestorableSqlResourcesGetResult {
   /** The unique resource identifier of the ARM resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the ARM resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of Azure resource. */
-  type?: string;
+  type?: string | undefined;
   /** The name of the database available for restore. */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** The names of the collections available for restore. */
-  collectionNames?: RestorableSqlResourcesGetResultCollectionNamesList;
+  collectionNames?: RestorableSqlResourcesGetResultCollectionNamesList | undefined;
 }
 /** List of restorable SQL resources, including the database and collection names. */
 export type RestorableSqlResourcesListResultValueList = Array<RestorableSqlResourcesGetResult>;
 /** The List operation response, that contains the restorable SQL resources. */
 export interface RestorableSqlResourcesListResult {
   /** List of restorable SQL resources, including the database and collection names. */
-  value?: RestorableSqlResourcesListResultValueList;
-  nextLink?: string;
+  value?: RestorableSqlResourcesListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListRestorableTableResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6416,26 +6453,26 @@ export interface ListRestorableTableResourcesRequest {
   /** The instanceId GUID of a restorable database account. */
   instanceId: string;
   /** The location where the restorable resources are located. */
-  restoreLocation?: string;
+  restoreLocation?: string | undefined;
   /** The timestamp when the restorable resources existed. */
-  restoreTimestampInUtc?: string;
+  restoreTimestampInUtc?: string | undefined;
 }
 /** Specific Databases to restore. */
 export interface RestorableTableResourcesGetResult {
   /** The unique resource identifier of the ARM resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the Table. */
-  name?: string;
+  name?: string | undefined;
   /** The type of Azure resource. */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of restorable table names. */
 export type RestorableTableResourcesListResultValueList = Array<RestorableTableResourcesGetResult>;
 /** List of restorable table names. */
 export interface RestorableTableResourcesListResult {
   /** List of restorable table names. */
-  value?: RestorableTableResourcesListResultValueList;
-  nextLink?: string;
+  value?: RestorableTableResourcesListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListRestorableTablesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6445,50 +6482,50 @@ export interface ListRestorableTablesRequest {
   /** The instanceId GUID of a restorable database account. */
   instanceId: string;
   /** Restorable Tables event feed start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Restorable Tables event feed end time. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 /** The resource of an Azure Cosmos DB Table event */
 export interface RestorableTablePropertiesResource {
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** The operation type of this table event. */
-  operationType?: OperationType;
+  operationType?: OperationType | undefined;
   /** A state of this table to identify if this table is restorable in same account. */
-  canUndelete?: string;
+  canUndelete?: string | undefined;
   /** The reason why this table can not be restored in same account. */
-  canUndeleteReason?: string;
+  canUndeleteReason?: string | undefined;
   /** The time when this table event happened. */
-  eventTimestamp?: string;
+  eventTimestamp?: string | undefined;
   /** The name of this Table. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The resource ID of this Table. */
-  ownerResourceId?: string;
+  ownerResourceId?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB Table event */
 export interface RestorableTableProperties {
   /** The resource of an Azure Cosmos DB Table event */
-  resource?: RestorableTablePropertiesResource;
+  resource?: RestorableTablePropertiesResource | undefined;
 }
 /** An Azure Cosmos DB Table event */
 export interface RestorableTableGetResult {
   /** The properties of a Table event. */
-  properties?: RestorableTableProperties;
+  properties?: RestorableTableProperties | undefined;
   /** The unique resource Identifier of the ARM resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the ARM resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of Azure resource. */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of Table events and their properties. */
 export type RestorableTablesListResultValueList = Array<RestorableTableGetResult>;
 /** The List operation response, that contains the Table events and their properties. */
 export interface RestorableTablesListResult {
   /** List of Table events and their properties. */
-  value?: RestorableTablesListResultValueList;
-  nextLink?: string;
+  value?: RestorableTablesListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6501,23 +6538,23 @@ export interface ListServiceRequest {
 /** Properties for the database account. */
 export interface ServiceResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Services response resource. */
-  properties?: ServiceResourceProperties;
+  properties?: ServiceResourceProperties | undefined;
 }
 /** List of Service Resource and their properties. */
 export type ServiceResourceListResultValueList = Array<ServiceResource>;
 /** The List operation response, that contains the Service Resource and their properties. */
 export interface ServiceResourceListResult {
   /** List of Service Resource and their properties. */
-  value?: ServiceResourceListResultValueList;
-  nextLink?: string;
+  value?: ServiceResourceListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListSqlResourceClientEncryptionKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6532,23 +6569,23 @@ export interface ListSqlResourceClientEncryptionKeysRequest {
 /** Client Encryption Key. */
 export interface ClientEncryptionKeyGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a ClientEncryptionKey */
-  properties?: ClientEncryptionKeyGetProperties;
+  properties?: ClientEncryptionKeyGetProperties | undefined;
 }
 /** List of client encryption keys and their properties. */
 export type ClientEncryptionKeysListResultValueList = Array<ClientEncryptionKeyGetResults>;
 /** The List operation response, that contains the client encryption keys and their properties. */
 export interface ClientEncryptionKeysListResult {
   /** List of client encryption keys and their properties. */
-  value?: ClientEncryptionKeysListResultValueList;
-  nextLink?: string;
+  value?: ClientEncryptionKeysListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListSqlResourceSqlContainersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6565,29 +6602,29 @@ export type SqlContainerGetResultsTagsMap = { [key: string]: string | undefined 
 /** An Azure Cosmos DB container. */
 export interface SqlContainerGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB container */
-  properties?: SqlContainerGetProperties;
+  properties?: SqlContainerGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: SqlContainerGetResultsTagsMap;
+  tags?: SqlContainerGetResultsTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** List of containers and their properties. */
 export type SqlContainerListResultValueList = Array<SqlContainerGetResults>;
 /** The List operation response, that contains the containers and their properties. */
 export interface SqlContainerListResult {
   /** List of containers and their properties. */
-  value?: SqlContainerListResultValueList;
-  nextLink?: string;
+  value?: SqlContainerListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListSqlResourceSqlDatabasesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6602,29 +6639,29 @@ export type SqlDatabaseGetResultsTagsMap = { [key: string]: string | undefined }
 /** An Azure Cosmos DB SQL database. */
 export interface SqlDatabaseGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB SQL database */
-  properties?: SqlDatabaseGetProperties;
+  properties?: SqlDatabaseGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: SqlDatabaseGetResultsTagsMap;
+  tags?: SqlDatabaseGetResultsTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** List of SQL databases and their properties. */
 export type SqlDatabaseListResultValueList = Array<SqlDatabaseGetResults>;
 /** The List operation response, that contains the SQL databases and their properties. */
 export interface SqlDatabaseListResult {
   /** List of SQL databases and their properties. */
-  value?: SqlDatabaseListResultValueList;
-  nextLink?: string;
+  value?: SqlDatabaseListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListSqlResourceSqlRoleAssignmentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6637,23 +6674,23 @@ export interface ListSqlResourceSqlRoleAssignmentsRequest {
 /** An Azure Cosmos DB Role Assignment */
 export interface SqlRoleAssignmentGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties related to the Role Assignment. */
-  properties?: SqlRoleAssignmentResource;
+  properties?: SqlRoleAssignmentResource | undefined;
 }
 /** List of Role Assignments and their properties */
 export type SqlRoleAssignmentListResultValueList = Array<SqlRoleAssignmentGetResults>;
 /** The relevant Role Assignments. */
 export interface SqlRoleAssignmentListResult {
   /** List of Role Assignments and their properties */
-  value?: SqlRoleAssignmentListResultValueList;
-  nextLink?: string;
+  value?: SqlRoleAssignmentListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListSqlResourceSqlRoleDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6666,23 +6703,23 @@ export interface ListSqlResourceSqlRoleDefinitionsRequest {
 /** An Azure Cosmos DB SQL Role Definition. */
 export interface SqlRoleDefinitionGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties related to the Role Definition. */
-  properties?: SqlRoleDefinitionResource;
+  properties?: SqlRoleDefinitionResource | undefined;
 }
 /** List of Role Definitions and their properties. */
 export type SqlRoleDefinitionListResultValueList = Array<SqlRoleDefinitionGetResults>;
 /** The relevant Role Definitions. */
 export interface SqlRoleDefinitionListResult {
   /** List of Role Definitions and their properties. */
-  value?: SqlRoleDefinitionListResultValueList;
-  nextLink?: string;
+  value?: SqlRoleDefinitionListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListSqlResourceSqlStoredProceduresRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6701,29 +6738,29 @@ export type SqlStoredProcedureGetResultsTagsMap = { [key: string]: string | unde
 /** An Azure Cosmos DB storedProcedure. */
 export interface SqlStoredProcedureGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB storedProcedure */
-  properties?: SqlStoredProcedureGetProperties;
+  properties?: SqlStoredProcedureGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: SqlStoredProcedureGetResultsTagsMap;
+  tags?: SqlStoredProcedureGetResultsTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** List of storedProcedures and their properties. */
 export type SqlStoredProcedureListResultValueList = Array<SqlStoredProcedureGetResults>;
 /** The List operation response, that contains the storedProcedures and their properties. */
 export interface SqlStoredProcedureListResult {
   /** List of storedProcedures and their properties. */
-  value?: SqlStoredProcedureListResultValueList;
-  nextLink?: string;
+  value?: SqlStoredProcedureListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListSqlResourceSqlTriggersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6745,50 +6782,50 @@ export interface SqlTriggerGetPropertiesResource {
   /** Name of the Cosmos DB SQL trigger */
   id: string;
   /** Body of the Trigger */
-  body?: string;
+  body?: string | undefined;
   /** Type of the Trigger */
-  triggerType?: TriggerType;
+  triggerType?: TriggerType | undefined;
   /** The operation the trigger is associated with */
-  triggerOperation?: TriggerOperation;
+  triggerOperation?: TriggerOperation | undefined;
   /** A system generated property. A unique identifier. */
-  _rid?: string;
+  _rid?: string | undefined;
   /** A system generated property that denotes the last updated timestamp of the resource. */
-  _ts?: number;
+  _ts?: number | undefined;
   /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  _etag?: string;
+  _etag?: string | undefined;
 }
 /** The properties of an Azure Cosmos DB trigger */
 export interface SqlTriggerGetProperties {
-  resource?: SqlTriggerGetPropertiesResource;
+  resource?: SqlTriggerGetPropertiesResource | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type SqlTriggerGetResultsTagsMap = { [key: string]: string | undefined };
 /** An Azure Cosmos DB trigger. */
 export interface SqlTriggerGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB trigger */
-  properties?: SqlTriggerGetProperties;
+  properties?: SqlTriggerGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: SqlTriggerGetResultsTagsMap;
+  tags?: SqlTriggerGetResultsTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** List of triggers and their properties. */
 export type SqlTriggerListResultValueList = Array<SqlTriggerGetResults>;
 /** The List operation response, that contains the triggers and their properties. */
 export interface SqlTriggerListResult {
   /** List of triggers and their properties. */
-  value?: SqlTriggerListResultValueList;
-  nextLink?: string;
+  value?: SqlTriggerListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListSqlResourceSqlUserDefinedFunctionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6807,29 +6844,29 @@ export type SqlUserDefinedFunctionGetResultsTagsMap = { [key: string]: string | 
 /** An Azure Cosmos DB userDefinedFunction. */
 export interface SqlUserDefinedFunctionGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB userDefinedFunction */
-  properties?: SqlUserDefinedFunctionGetProperties;
+  properties?: SqlUserDefinedFunctionGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: SqlUserDefinedFunctionGetResultsTagsMap;
+  tags?: SqlUserDefinedFunctionGetResultsTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** List of userDefinedFunctions and their properties. */
 export type SqlUserDefinedFunctionListResultValueList = Array<SqlUserDefinedFunctionGetResults>;
 /** The List operation response, that contains the userDefinedFunctions and their properties. */
 export interface SqlUserDefinedFunctionListResult {
   /** List of userDefinedFunctions and their properties. */
-  value?: SqlUserDefinedFunctionListResultValueList;
-  nextLink?: string;
+  value?: SqlUserDefinedFunctionListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListTableResourceTableRoleAssignmentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6842,15 +6879,15 @@ export interface ListTableResourceTableRoleAssignmentsRequest {
 /** Parameters to create and update an Azure Cosmos DB Table Role Assignment. */
 export interface TableRoleAssignmentResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Table Role Assignment. */
-  properties?: TableRoleAssignmentResourceProperties;
+  properties?: TableRoleAssignmentResourceProperties | undefined;
 }
 /** The TableRoleAssignmentResource items on this page */
 export type TableRoleAssignmentListResultValueList = Array<TableRoleAssignmentResource>;
@@ -6859,7 +6896,7 @@ export interface TableRoleAssignmentListResult {
   /** The TableRoleAssignmentResource items on this page */
   value: TableRoleAssignmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTableResourceTableRoleDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6872,15 +6909,15 @@ export interface ListTableResourceTableRoleDefinitionsRequest {
 /** Parameters to create and update an Azure Cosmos DB Table Role Definition. */
 export interface TableRoleDefinitionResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Table Role Definition. */
-  properties?: TableRoleDefinitionResourceProperties;
+  properties?: TableRoleDefinitionResourceProperties | undefined;
 }
 /** The TableRoleDefinitionResource items on this page */
 export type TableRoleDefinitionListResultValueList = Array<TableRoleDefinitionResource>;
@@ -6889,7 +6926,7 @@ export interface TableRoleDefinitionListResult {
   /** The TableRoleDefinitionResource items on this page */
   value: TableRoleDefinitionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTableResourceTablesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6904,29 +6941,29 @@ export type TableGetResultsTagsMap = { [key: string]: string | undefined };
 /** An Azure Cosmos DB Table. */
 export interface TableGetResults {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB Table */
-  properties?: TableGetProperties;
+  properties?: TableGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: TableGetResultsTagsMap;
+  tags?: TableGetResultsTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** List of Table and their properties. */
 export type TableListResultValueList = Array<TableGetResults>;
 /** The List operation response, that contains the Table and their properties. */
 export interface TableListResult {
   /** List of Table and their properties. */
-  value?: TableListResultValueList;
-  nextLink?: string;
+  value?: TableListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface MigrateCassandraResourceCassandraKeyspaceToAutoscaleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6944,27 +6981,27 @@ export type MigrateCassandraResourceCassandraKeyspaceToAutoscaleResponseTagsMap 
 };
 export interface MigrateCassandraResourceCassandraKeyspaceToAutoscaleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateCassandraResourceCassandraKeyspaceToAutoscaleResponseTagsMap;
+  tags?: MigrateCassandraResourceCassandraKeyspaceToAutoscaleResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateCassandraResourceCassandraKeyspaceToManualThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6982,27 +7019,27 @@ export type MigrateCassandraResourceCassandraKeyspaceToManualThroughputResponseT
 };
 export interface MigrateCassandraResourceCassandraKeyspaceToManualThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateCassandraResourceCassandraKeyspaceToManualThroughputResponseTagsMap;
+  tags?: MigrateCassandraResourceCassandraKeyspaceToManualThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateCassandraResourceCassandraTableToAutoscaleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7022,27 +7059,27 @@ export type MigrateCassandraResourceCassandraTableToAutoscaleResponseTagsMap = {
 };
 export interface MigrateCassandraResourceCassandraTableToAutoscaleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateCassandraResourceCassandraTableToAutoscaleResponseTagsMap;
+  tags?: MigrateCassandraResourceCassandraTableToAutoscaleResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateCassandraResourceCassandraTableToManualThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7062,27 +7099,27 @@ export type MigrateCassandraResourceCassandraTableToManualThroughputResponseTags
 };
 export interface MigrateCassandraResourceCassandraTableToManualThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateCassandraResourceCassandraTableToManualThroughputResponseTagsMap;
+  tags?: MigrateCassandraResourceCassandraTableToManualThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateGremlinResourceGremlinDatabaseToAutoscaleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7100,27 +7137,27 @@ export type MigrateGremlinResourceGremlinDatabaseToAutoscaleResponseTagsMap = {
 };
 export interface MigrateGremlinResourceGremlinDatabaseToAutoscaleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateGremlinResourceGremlinDatabaseToAutoscaleResponseTagsMap;
+  tags?: MigrateGremlinResourceGremlinDatabaseToAutoscaleResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateGremlinResourceGremlinDatabaseToManualThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7138,27 +7175,27 @@ export type MigrateGremlinResourceGremlinDatabaseToManualThroughputResponseTagsM
 };
 export interface MigrateGremlinResourceGremlinDatabaseToManualThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateGremlinResourceGremlinDatabaseToManualThroughputResponseTagsMap;
+  tags?: MigrateGremlinResourceGremlinDatabaseToManualThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateGremlinResourceGremlinGraphToAutoscaleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7178,27 +7215,27 @@ export type MigrateGremlinResourceGremlinGraphToAutoscaleResponseTagsMap = {
 };
 export interface MigrateGremlinResourceGremlinGraphToAutoscaleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateGremlinResourceGremlinGraphToAutoscaleResponseTagsMap;
+  tags?: MigrateGremlinResourceGremlinGraphToAutoscaleResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateGremlinResourceGremlinGraphToManualThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7218,27 +7255,27 @@ export type MigrateGremlinResourceGremlinGraphToManualThroughputResponseTagsMap 
 };
 export interface MigrateGremlinResourceGremlinGraphToManualThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateGremlinResourceGremlinGraphToManualThroughputResponseTagsMap;
+  tags?: MigrateGremlinResourceGremlinGraphToManualThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateMongoDBResourceMongoDBCollectionToAutoscaleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7258,27 +7295,27 @@ export type MigrateMongoDBResourceMongoDBCollectionToAutoscaleResponseTagsMap = 
 };
 export interface MigrateMongoDBResourceMongoDBCollectionToAutoscaleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateMongoDBResourceMongoDBCollectionToAutoscaleResponseTagsMap;
+  tags?: MigrateMongoDBResourceMongoDBCollectionToAutoscaleResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateMongoDBResourceMongoDBCollectionToManualThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7298,27 +7335,27 @@ export type MigrateMongoDBResourceMongoDBCollectionToManualThroughputResponseTag
 };
 export interface MigrateMongoDBResourceMongoDBCollectionToManualThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateMongoDBResourceMongoDBCollectionToManualThroughputResponseTagsMap;
+  tags?: MigrateMongoDBResourceMongoDBCollectionToManualThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateMongoDBResourceMongoDBDatabaseToAutoscaleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7336,27 +7373,27 @@ export type MigrateMongoDBResourceMongoDBDatabaseToAutoscaleResponseTagsMap = {
 };
 export interface MigrateMongoDBResourceMongoDBDatabaseToAutoscaleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateMongoDBResourceMongoDBDatabaseToAutoscaleResponseTagsMap;
+  tags?: MigrateMongoDBResourceMongoDBDatabaseToAutoscaleResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateMongoDBResourceMongoDBDatabaseToManualThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7374,27 +7411,27 @@ export type MigrateMongoDBResourceMongoDBDatabaseToManualThroughputResponseTagsM
 };
 export interface MigrateMongoDBResourceMongoDBDatabaseToManualThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateMongoDBResourceMongoDBDatabaseToManualThroughputResponseTagsMap;
+  tags?: MigrateMongoDBResourceMongoDBDatabaseToManualThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateSqlResourceSqlContainerToAutoscaleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7414,25 +7451,25 @@ export type MigrateSqlResourceSqlContainerToAutoscaleResponseTagsMap = {
 };
 export interface MigrateSqlResourceSqlContainerToAutoscaleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateSqlResourceSqlContainerToAutoscaleResponseTagsMap;
+  tags?: MigrateSqlResourceSqlContainerToAutoscaleResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface MigrateSqlResourceSqlContainerToManualThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7452,25 +7489,25 @@ export type MigrateSqlResourceSqlContainerToManualThroughputResponseTagsMap = {
 };
 export interface MigrateSqlResourceSqlContainerToManualThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateSqlResourceSqlContainerToManualThroughputResponseTagsMap;
+  tags?: MigrateSqlResourceSqlContainerToManualThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface MigrateSqlResourceSqlDatabaseToAutoscaleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7488,27 +7525,27 @@ export type MigrateSqlResourceSqlDatabaseToAutoscaleResponseTagsMap = {
 };
 export interface MigrateSqlResourceSqlDatabaseToAutoscaleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateSqlResourceSqlDatabaseToAutoscaleResponseTagsMap;
+  tags?: MigrateSqlResourceSqlDatabaseToAutoscaleResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateSqlResourceSqlDatabaseToManualThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7526,27 +7563,27 @@ export type MigrateSqlResourceSqlDatabaseToManualThroughputResponseTagsMap = {
 };
 export interface MigrateSqlResourceSqlDatabaseToManualThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateSqlResourceSqlDatabaseToManualThroughputResponseTagsMap;
+  tags?: MigrateSqlResourceSqlDatabaseToManualThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateTableResourceTableToAutoscaleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7564,27 +7601,27 @@ export type MigrateTableResourceTableToAutoscaleResponseTagsMap = {
 };
 export interface MigrateTableResourceTableToAutoscaleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateTableResourceTableToAutoscaleResponseTagsMap;
+  tags?: MigrateTableResourceTableToAutoscaleResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateTableResourceTableToManualThroughputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7602,27 +7639,27 @@ export type MigrateTableResourceTableToManualThroughputResponseTagsMap = {
 };
 export interface MigrateTableResourceTableToManualThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MigrateTableResourceTableToManualThroughputResponseTagsMap;
+  tags?: MigrateTableResourceTableToManualThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type MongoDBResourcesCreateUpdateMongoDBCollectionRequestTagsMap = {
@@ -7639,22 +7676,22 @@ export interface MongoDBCollectionResource {
   /** Name of the Cosmos DB MongoDB collection */
   id: string;
   /** A key-value pair of shard keys to be applied for the request. */
-  shardKey?: MongoDBCollectionResourceShardKeyMap;
+  shardKey?: MongoDBCollectionResourceShardKeyMap | undefined;
   /** List of index keys */
-  indexes?: MongoDBCollectionResourceIndexesList;
+  indexes?: MongoDBCollectionResourceIndexesList | undefined;
   /** Analytical TTL. */
-  analyticalStorageTtl?: number;
+  analyticalStorageTtl?: number | undefined;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of resource creation. */
-  createMode?: MongoDBCollectionResourceCreateMode | (string & {});
+  createMode?: MongoDBCollectionResourceCreateMode | (string & {}) | undefined;
 }
 /** Properties to create and update Azure Cosmos DB MongoDB collection. */
 export interface MongoDBCollectionCreateUpdateProperties {
   /** The standard JSON format of a MongoDB collection */
   resource: MongoDBCollectionResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
+  options?: CreateUpdateOptions | undefined;
 }
 export interface MongoDBResourcesCreateUpdateMongoDBCollectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7668,11 +7705,11 @@ export interface MongoDBResourcesCreateUpdateMongoDBCollectionRequest {
   /** Cosmos DB collection name. */
   collectionName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: MongoDBResourcesCreateUpdateMongoDBCollectionRequestTagsMap;
+  tags?: MongoDBResourcesCreateUpdateMongoDBCollectionRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to create and update Azure Cosmos DB MongoDB collection. */
   properties: MongoDBCollectionCreateUpdateProperties;
 }
@@ -7682,27 +7719,27 @@ export type MongoDBResourcesCreateUpdateMongoDBCollectionResponseTagsMap = {
 };
 export interface MongoDBResourcesCreateUpdateMongoDBCollectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB MongoDB collection */
-  properties?: MongoDBCollectionGetProperties;
+  properties?: MongoDBCollectionGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MongoDBResourcesCreateUpdateMongoDBCollectionResponseTagsMap;
+  tags?: MongoDBResourcesCreateUpdateMongoDBCollectionResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type MongoDBResourcesCreateUpdateMongoDBDatabaseRequestTagsMap = {
@@ -7715,16 +7752,16 @@ export interface MongoDBDatabaseResource {
   /** Name of the Cosmos DB MongoDB database */
   id: string;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of account creation. */
-  createMode?: MongoDBDatabaseResourceCreateMode | (string & {});
+  createMode?: MongoDBDatabaseResourceCreateMode | (string & {}) | undefined;
 }
 /** Properties to create and update Azure Cosmos DB MongoDB database. */
 export interface MongoDBDatabaseCreateUpdateProperties {
   /** The standard JSON format of a MongoDB database */
   resource: MongoDBDatabaseResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
+  options?: CreateUpdateOptions | undefined;
 }
 export interface MongoDBResourcesCreateUpdateMongoDBDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7736,11 +7773,11 @@ export interface MongoDBResourcesCreateUpdateMongoDBDatabaseRequest {
   /** Cosmos DB database name. */
   databaseName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: MongoDBResourcesCreateUpdateMongoDBDatabaseRequestTagsMap;
+  tags?: MongoDBResourcesCreateUpdateMongoDBDatabaseRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to create and update Azure Cosmos DB MongoDB database. */
   properties: MongoDBDatabaseCreateUpdateProperties;
 }
@@ -7750,27 +7787,27 @@ export type MongoDBResourcesCreateUpdateMongoDBDatabaseResponseTagsMap = {
 };
 export interface MongoDBResourcesCreateUpdateMongoDBDatabaseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB MongoDB database */
-  properties?: MongoDBDatabaseGetProperties;
+  properties?: MongoDBDatabaseGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: MongoDBResourcesCreateUpdateMongoDBDatabaseResponseTagsMap;
+  tags?: MongoDBResourcesCreateUpdateMongoDBDatabaseResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MongoDBResourcesCreateUpdateMongoRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7782,23 +7819,23 @@ export interface MongoDBResourcesCreateUpdateMongoRoleDefinitionRequest {
   /** The ID for the Role Definition {dbName.roleName}. */
   mongoRoleDefinitionId: string;
   /** Properties to create and update an Azure Cosmos DB Mongo Role Definition. */
-  properties?: MongoRoleDefinitionResource;
+  properties?: MongoRoleDefinitionResource | undefined;
 }
 export interface MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties related to the Mongo Role Definition. */
-  properties?: MongoRoleDefinitionResource;
+  properties?: MongoRoleDefinitionResource | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MongoDBResourcesCreateUpdateMongoUserDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7810,32 +7847,32 @@ export interface MongoDBResourcesCreateUpdateMongoUserDefinitionRequest {
   /** The ID for the User Definition {dbName.userName}. */
   mongoUserDefinitionId: string;
   /** Properties to create and update an Azure Cosmos DB Mongo User Definition. */
-  properties?: MongoUserDefinitionResource;
+  properties?: MongoUserDefinitionResource | undefined;
 }
 export interface MongoDBResourcesCreateUpdateMongoUserDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties related to the User Definition. */
-  properties?: MongoUserDefinitionResource;
+  properties?: MongoUserDefinitionResource | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Azure Cosmos DB MongoMI Role Assignment resource object. */
 export interface MongoMIRoleAssignmentResourcePropertiesInput {
   /** The unique identifier for the associated Role Definition. */
-  roleDefinitionId?: string;
+  roleDefinitionId?: string | undefined;
   /** The data plane resource path for which access is being granted through this MongoMI Role Assignment. */
-  scope?: string;
+  scope?: string | undefined;
   /** The unique identifier for the associated AAD principal in the AAD graph to which access is being granted through this MongoMI Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription. */
-  principalId?: string;
+  principalId?: string | undefined;
 }
 export interface MongoMIResourcesCreateUpdateMongoMIRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7847,25 +7884,25 @@ export interface MongoMIResourcesCreateUpdateMongoMIRoleAssignmentRequest {
   /** The GUID for the Role Assignment. */
   roleAssignmentId: string;
   /** Properties to create and update an Azure Cosmos DB MongoMI Role Assignment. */
-  properties?: MongoMIRoleAssignmentResourcePropertiesInput;
+  properties?: MongoMIRoleAssignmentResourcePropertiesInput | undefined;
 }
 export interface MongoMIResourcesCreateUpdateMongoMIRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB MongoMI Role Assignment. */
-  properties?: MongoMIRoleAssignmentResourceProperties;
+  properties?: MongoMIRoleAssignmentResourceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MongoMIResourcesCreateUpdateMongoMIRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7877,25 +7914,25 @@ export interface MongoMIResourcesCreateUpdateMongoMIRoleDefinitionRequest {
   /** The GUID for the Role Definition. */
   roleDefinitionId: string;
   /** Properties to create and update an Azure Cosmos DB MongoMI Role Definition. */
-  properties?: MongoMIRoleDefinitionResourceProperties;
+  properties?: MongoMIRoleDefinitionResourceProperties | undefined;
 }
 export interface MongoMIResourcesCreateUpdateMongoMIRoleDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB MongoMI Role Definition. */
-  properties?: MongoMIRoleDefinitionResourceProperties;
+  properties?: MongoMIRoleDefinitionResourceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type NotebookWorkspacesCreateOrUpdateRequestNotebookWorkspaceName = "default";
 export interface NotebookWorkspacesCreateOrUpdateRequest {
@@ -7912,35 +7949,35 @@ export interface NotebookWorkspacesCreateOrUpdateRequest {
 }
 export interface NotebookWorkspacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: NotebookWorkspaceProperties;
+  properties?: NotebookWorkspaceProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Connection State of the Private Endpoint Connection. */
 export interface PrivateLinkServiceConnectionStatePropertyInput {
   /** The private link service connection status. */
-  status?: string;
+  status?: string | undefined;
   /** The private link service connection description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** Private endpoint which the connection belongs to. */
-  privateEndpoint?: PrivateEndpointProperty;
+  privateEndpoint?: PrivateEndpointProperty | undefined;
   /** Connection State of the Private Endpoint Connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStatePropertyInput;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStatePropertyInput | undefined;
   /** Group id of the private endpoint. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Provisioning state of the private endpoint. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7952,23 +7989,23 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The name of the private endpoint connection. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The access key to regenerate. */
 export type KeyKind = "primary" | "secondary" | "primaryReadonly" | "secondaryReadonly";
@@ -7984,11 +8021,11 @@ export interface RegenerateDatabaseAccountKeyRequest {
 }
 export interface RegenerateDatabaseAccountKeyResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type RegenerateNotebookWorkspaceAuthTokenRequestNotebookWorkspaceName = "default";
 export interface RegenerateNotebookWorkspaceAuthTokenRequest {
@@ -8005,20 +8042,20 @@ export interface RegenerateNotebookWorkspaceAuthTokenRequest {
 }
 export interface RegenerateNotebookWorkspaceAuthTokenResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Cosmos DB client encryption key resource object. */
 export interface ClientEncryptionKeyResource {
   /** Name of the ClientEncryptionKey */
-  id?: string;
+  id?: string | undefined;
   /** Encryption algorithm that will be used along with this client encryption key to encrypt/decrypt data. */
-  encryptionAlgorithm?: string;
+  encryptionAlgorithm?: string | undefined;
   /** Wrapped (encrypted) form of the key represented as a byte array. */
-  wrappedDataEncryptionKey?: string;
+  wrappedDataEncryptionKey?: string | undefined;
   /** Metadata for the wrapping provider that can be used to unwrap the wrapped client encryption key. */
-  keyWrapMetadata?: KeyWrapMetadata;
+  keyWrapMetadata?: KeyWrapMetadata | undefined;
 }
 /** Properties to create and update ClientEncryptionKey. */
 export interface ClientEncryptionKeyCreateUpdateProperties {
@@ -8041,21 +8078,21 @@ export interface SqlResourcesCreateUpdateClientEncryptionKeyRequest {
 }
 export interface SqlResourcesCreateUpdateClientEncryptionKeyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a ClientEncryptionKey */
-  properties?: ClientEncryptionKeyGetProperties;
+  properties?: ClientEncryptionKeyGetProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type SqlResourcesCreateUpdateSqlContainerRequestTagsMap = {
@@ -8070,36 +8107,36 @@ export interface SqlContainerResourceInput {
   /** Name of the Cosmos DB SQL container */
   id: string;
   /** The configuration of the indexing policy. By default, the indexing is automatic for all document paths within the container */
-  indexingPolicy?: IndexingPolicy;
+  indexingPolicy?: IndexingPolicy | undefined;
   /** The configuration of the partition key to be used for partitioning data into multiple partitions */
-  partitionKey?: ContainerPartitionKeyInput;
+  partitionKey?: ContainerPartitionKeyInput | undefined;
   /** Default time to live */
-  defaultTtl?: number;
+  defaultTtl?: number | undefined;
   /** The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure Cosmos DB service. */
-  uniqueKeyPolicy?: UniqueKeyPolicy;
+  uniqueKeyPolicy?: UniqueKeyPolicy | undefined;
   /** The conflict resolution policy for the container. */
-  conflictResolutionPolicy?: ConflictResolutionPolicy;
+  conflictResolutionPolicy?: ConflictResolutionPolicy | undefined;
   /** The client encryption policy for the container. */
-  clientEncryptionPolicy?: ClientEncryptionPolicy;
+  clientEncryptionPolicy?: ClientEncryptionPolicy | undefined;
   /** Analytical TTL. */
-  analyticalStorageTtl?: number;
+  analyticalStorageTtl?: number | undefined;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of account creation. */
-  createMode?: SqlContainerResourceInputCreateMode | (string & {});
+  createMode?: SqlContainerResourceInputCreateMode | (string & {}) | undefined;
   /** List of computed properties */
-  computedProperties?: SqlContainerResourceInputComputedPropertiesList;
+  computedProperties?: SqlContainerResourceInputComputedPropertiesList | undefined;
   /** The vector embedding policy for the container. */
-  vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
+  vectorEmbeddingPolicy?: VectorEmbeddingPolicy | undefined;
   /** The FullText policy for the container. */
-  fullTextPolicy?: FullTextPolicy;
+  fullTextPolicy?: FullTextPolicy | undefined;
 }
 /** Properties to create and update Azure Cosmos DB container. */
 export interface SqlContainerCreateUpdatePropertiesInput {
   /** The standard JSON format of a container */
   resource: SqlContainerResourceInput;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
+  options?: CreateUpdateOptions | undefined;
 }
 export interface SqlResourcesCreateUpdateSqlContainerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8113,11 +8150,11 @@ export interface SqlResourcesCreateUpdateSqlContainerRequest {
   /** Cosmos DB container name. */
   containerName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: SqlResourcesCreateUpdateSqlContainerRequestTagsMap;
+  tags?: SqlResourcesCreateUpdateSqlContainerRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to create and update Azure Cosmos DB container. */
   properties: SqlContainerCreateUpdatePropertiesInput;
 }
@@ -8127,27 +8164,27 @@ export type SqlResourcesCreateUpdateSqlContainerResponseTagsMap = {
 };
 export interface SqlResourcesCreateUpdateSqlContainerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB container */
-  properties?: SqlContainerGetProperties;
+  properties?: SqlContainerGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: SqlResourcesCreateUpdateSqlContainerResponseTagsMap;
+  tags?: SqlResourcesCreateUpdateSqlContainerResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type SqlResourcesCreateUpdateSqlDatabaseRequestTagsMap = {
@@ -8160,16 +8197,16 @@ export interface SqlDatabaseResource {
   /** Name of the Cosmos DB SQL database */
   id: string;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of account creation. */
-  createMode?: SqlDatabaseResourceCreateMode | (string & {});
+  createMode?: SqlDatabaseResourceCreateMode | (string & {}) | undefined;
 }
 /** Properties to create and update Azure Cosmos DB SQL database. */
 export interface SqlDatabaseCreateUpdateProperties {
   /** The standard JSON format of a SQL database */
   resource: SqlDatabaseResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
+  options?: CreateUpdateOptions | undefined;
 }
 export interface SqlResourcesCreateUpdateSqlDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8181,11 +8218,11 @@ export interface SqlResourcesCreateUpdateSqlDatabaseRequest {
   /** Cosmos DB database name. */
   databaseName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: SqlResourcesCreateUpdateSqlDatabaseRequestTagsMap;
+  tags?: SqlResourcesCreateUpdateSqlDatabaseRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to create and update Azure Cosmos DB SQL database. */
   properties: SqlDatabaseCreateUpdateProperties;
 }
@@ -8195,27 +8232,27 @@ export type SqlResourcesCreateUpdateSqlDatabaseResponseTagsMap = {
 };
 export interface SqlResourcesCreateUpdateSqlDatabaseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB SQL database */
-  properties?: SqlDatabaseGetProperties;
+  properties?: SqlDatabaseGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: SqlResourcesCreateUpdateSqlDatabaseResponseTagsMap;
+  tags?: SqlResourcesCreateUpdateSqlDatabaseResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SqlResourcesCreateUpdateSqlRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8227,23 +8264,23 @@ export interface SqlResourcesCreateUpdateSqlRoleAssignmentRequest {
   /** The GUID for the Role Assignment. */
   roleAssignmentId: string;
   /** Properties to create and update an Azure Cosmos DB SQL Role Assignment. */
-  properties?: SqlRoleAssignmentResource;
+  properties?: SqlRoleAssignmentResource | undefined;
 }
 export interface SqlResourcesCreateUpdateSqlRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties related to the Role Assignment. */
-  properties?: SqlRoleAssignmentResource;
+  properties?: SqlRoleAssignmentResource | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SqlResourcesCreateUpdateSqlRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8255,23 +8292,23 @@ export interface SqlResourcesCreateUpdateSqlRoleDefinitionRequest {
   /** The GUID for the Role Definition. */
   roleDefinitionId: string;
   /** Properties to create and update an Azure Cosmos DB SQL Role Definition. */
-  properties?: SqlRoleDefinitionResource;
+  properties?: SqlRoleDefinitionResource | undefined;
 }
 export interface SqlResourcesCreateUpdateSqlRoleDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties related to the Role Definition. */
-  properties?: SqlRoleDefinitionResource;
+  properties?: SqlRoleDefinitionResource | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type SqlResourcesCreateUpdateSqlStoredProcedureRequestTagsMap = {
@@ -8282,14 +8319,14 @@ export interface SqlStoredProcedureResource {
   /** Name of the Cosmos DB SQL storedProcedure */
   id: string;
   /** Body of the Stored Procedure */
-  body?: string;
+  body?: string | undefined;
 }
 /** Properties to create and update Azure Cosmos DB storedProcedure. */
 export interface SqlStoredProcedureCreateUpdateProperties {
   /** The standard JSON format of a storedProcedure */
   resource: SqlStoredProcedureResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
+  options?: CreateUpdateOptions | undefined;
 }
 export interface SqlResourcesCreateUpdateSqlStoredProcedureRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8305,11 +8342,11 @@ export interface SqlResourcesCreateUpdateSqlStoredProcedureRequest {
   /** Cosmos DB storedProcedure name. */
   storedProcedureName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: SqlResourcesCreateUpdateSqlStoredProcedureRequestTagsMap;
+  tags?: SqlResourcesCreateUpdateSqlStoredProcedureRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to create and update Azure Cosmos DB storedProcedure. */
   properties: SqlStoredProcedureCreateUpdateProperties;
 }
@@ -8319,27 +8356,27 @@ export type SqlResourcesCreateUpdateSqlStoredProcedureResponseTagsMap = {
 };
 export interface SqlResourcesCreateUpdateSqlStoredProcedureResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB storedProcedure */
-  properties?: SqlStoredProcedureGetProperties;
+  properties?: SqlStoredProcedureGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: SqlResourcesCreateUpdateSqlStoredProcedureResponseTagsMap;
+  tags?: SqlResourcesCreateUpdateSqlStoredProcedureResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type SqlResourcesCreateUpdateSqlTriggerRequestTagsMap = {
@@ -8350,18 +8387,18 @@ export interface SqlTriggerResource {
   /** Name of the Cosmos DB SQL trigger */
   id: string;
   /** Body of the Trigger */
-  body?: string;
+  body?: string | undefined;
   /** Type of the Trigger */
-  triggerType?: TriggerType | (string & {});
+  triggerType?: TriggerType | (string & {}) | undefined;
   /** The operation the trigger is associated with */
-  triggerOperation?: TriggerOperation | (string & {});
+  triggerOperation?: TriggerOperation | (string & {}) | undefined;
 }
 /** Properties to create and update Azure Cosmos DB trigger. */
 export interface SqlTriggerCreateUpdateProperties {
   /** The standard JSON format of a trigger */
   resource: SqlTriggerResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
+  options?: CreateUpdateOptions | undefined;
 }
 export interface SqlResourcesCreateUpdateSqlTriggerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8377,11 +8414,11 @@ export interface SqlResourcesCreateUpdateSqlTriggerRequest {
   /** Cosmos DB trigger name. */
   triggerName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: SqlResourcesCreateUpdateSqlTriggerRequestTagsMap;
+  tags?: SqlResourcesCreateUpdateSqlTriggerRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to create and update Azure Cosmos DB trigger. */
   properties: SqlTriggerCreateUpdateProperties;
 }
@@ -8391,27 +8428,27 @@ export type SqlResourcesCreateUpdateSqlTriggerResponseTagsMap = {
 };
 export interface SqlResourcesCreateUpdateSqlTriggerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB trigger */
-  properties?: SqlTriggerGetProperties;
+  properties?: SqlTriggerGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: SqlResourcesCreateUpdateSqlTriggerResponseTagsMap;
+  tags?: SqlResourcesCreateUpdateSqlTriggerResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type SqlResourcesCreateUpdateSqlUserDefinedFunctionRequestTagsMap = {
@@ -8422,14 +8459,14 @@ export interface SqlUserDefinedFunctionResource {
   /** Name of the Cosmos DB SQL userDefinedFunction */
   id: string;
   /** Body of the User Defined Function */
-  body?: string;
+  body?: string | undefined;
 }
 /** Properties to create and update Azure Cosmos DB userDefinedFunction. */
 export interface SqlUserDefinedFunctionCreateUpdateProperties {
   /** The standard JSON format of a userDefinedFunction */
   resource: SqlUserDefinedFunctionResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
+  options?: CreateUpdateOptions | undefined;
 }
 export interface SqlResourcesCreateUpdateSqlUserDefinedFunctionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8445,11 +8482,11 @@ export interface SqlResourcesCreateUpdateSqlUserDefinedFunctionRequest {
   /** Cosmos DB userDefinedFunction name. */
   userDefinedFunctionName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: SqlResourcesCreateUpdateSqlUserDefinedFunctionRequestTagsMap;
+  tags?: SqlResourcesCreateUpdateSqlUserDefinedFunctionRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to create and update Azure Cosmos DB userDefinedFunction. */
   properties: SqlUserDefinedFunctionCreateUpdateProperties;
 }
@@ -8459,27 +8496,27 @@ export type SqlResourcesCreateUpdateSqlUserDefinedFunctionResponseTagsMap = {
 };
 export interface SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB userDefinedFunction */
-  properties?: SqlUserDefinedFunctionGetProperties;
+  properties?: SqlUserDefinedFunctionGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: SqlResourcesCreateUpdateSqlUserDefinedFunctionResponseTagsMap;
+  tags?: SqlResourcesCreateUpdateSqlUserDefinedFunctionResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SqlResourcesDeleteSqlTriggerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8497,9 +8534,9 @@ export interface SqlResourcesDeleteSqlTriggerRequest {
 }
 export interface SqlResourcesDeleteSqlTriggerResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface SqlResourcesGetSqlTriggerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8519,21 +8556,21 @@ export interface SqlResourcesGetSqlTriggerRequest {
 export type SqlResourcesGetSqlTriggerResponseTagsMap = { [key: string]: string | undefined };
 export interface SqlResourcesGetSqlTriggerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB trigger */
-  properties?: SqlTriggerGetProperties;
+  properties?: SqlTriggerGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: SqlResourcesGetSqlTriggerResponseTagsMap;
+  tags?: SqlResourcesGetSqlTriggerResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface StartCassandraClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8545,9 +8582,9 @@ export interface StartCassandraClusterRequest {
 }
 export interface StartCassandraClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type StartNotebookWorkspaceRequestNotebookWorkspaceName = "default";
 export interface StartNotebookWorkspaceRequest {
@@ -8562,9 +8599,9 @@ export interface StartNotebookWorkspaceRequest {
 }
 export interface StartNotebookWorkspaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type TableResourcesCreateUpdateTableRequestTagsMap = { [key: string]: string | undefined };
@@ -8575,16 +8612,16 @@ export interface TableResource {
   /** Name of the Cosmos DB table */
   id: string;
   /** Parameters to indicate the information about the restore */
-  restoreParameters?: RestoreParametersBase;
+  restoreParameters?: RestoreParametersBase | undefined;
   /** Enum to indicate the mode of account creation. */
-  createMode?: TableResourceCreateMode | (string & {});
+  createMode?: TableResourceCreateMode | (string & {}) | undefined;
 }
 /** Properties to create and update Azure Cosmos DB Table. */
 export interface TableCreateUpdateProperties {
   /** The standard JSON format of a Table */
   resource: TableResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
+  options?: CreateUpdateOptions | undefined;
 }
 export interface TableResourcesCreateUpdateTableRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8596,11 +8633,11 @@ export interface TableResourcesCreateUpdateTableRequest {
   /** Cosmos DB table name. */
   tableName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: TableResourcesCreateUpdateTableRequestTagsMap;
+  tags?: TableResourcesCreateUpdateTableRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to create and update Azure Cosmos DB Table. */
   properties: TableCreateUpdateProperties;
 }
@@ -8608,36 +8645,36 @@ export interface TableResourcesCreateUpdateTableRequest {
 export type TableResourcesCreateUpdateTableResponseTagsMap = { [key: string]: string | undefined };
 export interface TableResourcesCreateUpdateTableResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB Table */
-  properties?: TableGetProperties;
+  properties?: TableGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: TableResourcesCreateUpdateTableResponseTagsMap;
+  tags?: TableResourcesCreateUpdateTableResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Azure Cosmos DB Table Role Assignment resource object. */
 export interface TableRoleAssignmentResourcePropertiesInput {
   /** The unique identifier for the associated Role Definition. */
-  roleDefinitionId?: string;
+  roleDefinitionId?: string | undefined;
   /** The data plane resource path for which access is being granted through this Table Role Assignment. */
-  scope?: string;
+  scope?: string | undefined;
   /** The unique identifier for the associated AAD principal in the AAD graph to which access is being granted through this Table Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription. */
-  principalId?: string;
+  principalId?: string | undefined;
 }
 export interface TableResourcesCreateUpdateTableRoleAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8649,25 +8686,25 @@ export interface TableResourcesCreateUpdateTableRoleAssignmentRequest {
   /** The GUID for the Role Assignment. */
   roleAssignmentId: string;
   /** Properties to create and update an Azure Cosmos DB Table Role Assignment. */
-  properties?: TableRoleAssignmentResourcePropertiesInput;
+  properties?: TableRoleAssignmentResourcePropertiesInput | undefined;
 }
 export interface TableResourcesCreateUpdateTableRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Table Role Assignment. */
-  properties?: TableRoleAssignmentResourceProperties;
+  properties?: TableRoleAssignmentResourceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface TableResourcesCreateUpdateTableRoleDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8679,23 +8716,23 @@ export interface TableResourcesCreateUpdateTableRoleDefinitionRequest {
   /** The GUID for the Role Definition. */
   roleDefinitionId: string;
   /** Properties to create and update an Azure Cosmos DB Table Role Definition. */
-  properties?: TableRoleDefinitionResourceProperties;
+  properties?: TableRoleDefinitionResourceProperties | undefined;
 }
 export interface TableResourcesCreateUpdateTableRoleDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create and update an Azure Cosmos DB Table Role Definition. */
-  properties?: TableRoleDefinitionResourceProperties;
+  properties?: TableRoleDefinitionResourceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type UpdateCassandraClusterRequestTagsMap = { [key: string]: string | undefined };
@@ -8707,37 +8744,37 @@ export interface UpdateCassandraClusterRequest {
   /** Managed Cassandra cluster name. */
   clusterName: string;
   /** Properties of a managed Cassandra cluster. */
-  properties?: ClusterResourcePropertiesInput;
+  properties?: ClusterResourcePropertiesInput | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: UpdateCassandraClusterRequestTagsMap;
+  tags?: UpdateCassandraClusterRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedCassandraManagedServiceIdentityInput;
+  identity?: ManagedCassandraManagedServiceIdentityInput | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type UpdateCassandraClusterResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateCassandraClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a managed Cassandra cluster. */
-  properties?: ClusterResourceProperties;
+  properties?: ClusterResourceProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: UpdateCassandraClusterResponseTagsMap;
+  tags?: UpdateCassandraClusterResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedCassandraManagedServiceIdentity;
+  identity?: ManagedCassandraManagedServiceIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateCassandraDataCenterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8749,23 +8786,23 @@ export interface UpdateCassandraDataCenterRequest {
   /** Data center name in a managed Cassandra cluster. */
   dataCenterName: string;
   /** Properties of a managed Cassandra data center. */
-  properties?: DataCenterResourcePropertiesInput;
+  properties?: DataCenterResourcePropertiesInput | undefined;
 }
 export interface UpdateCassandraDataCenterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a managed Cassandra data center. */
-  properties?: DataCenterResourceProperties;
+  properties?: DataCenterResourceProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type UpdateCassandraResourceCassandraKeyspaceThroughputRequestTagsMap = {
@@ -8776,14 +8813,18 @@ export interface AutoscaleSettingsResourceInput {
   /** Represents maximum throughput container can scale up to. */
   maxThroughput: number;
   /** Cosmos DB resource auto-upgrade policy */
-  autoUpgradePolicy?: AutoUpgradePolicyResource;
+  autoUpgradePolicy?: AutoUpgradePolicyResource | undefined;
 }
+/** Array of throughput bucket limits to be applied to the Cosmos DB container */
+export type ThroughputSettingsResourceInputThroughputBucketsList = Array<ThroughputBucketResource>;
 /** Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not both. */
 export interface ThroughputSettingsResourceInput {
   /** Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required, but not both. */
-  throughput?: number;
+  throughput?: number | undefined;
   /** Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is required, but not both. */
-  autoscaleSettings?: AutoscaleSettingsResourceInput;
+  autoscaleSettings?: AutoscaleSettingsResourceInput | undefined;
+  /** Array of throughput bucket limits to be applied to the Cosmos DB container */
+  throughputBuckets?: ThroughputSettingsResourceInputThroughputBucketsList | undefined;
 }
 /** Properties to update Azure Cosmos DB resource throughput. */
 export interface ThroughputSettingsUpdatePropertiesInput {
@@ -8800,11 +8841,11 @@ export interface UpdateCassandraResourceCassandraKeyspaceThroughputRequest {
   /** Cosmos DB keyspace name. */
   keyspaceName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: UpdateCassandraResourceCassandraKeyspaceThroughputRequestTagsMap;
+  tags?: UpdateCassandraResourceCassandraKeyspaceThroughputRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to update Azure Cosmos DB resource throughput. */
   properties: ThroughputSettingsUpdatePropertiesInput;
 }
@@ -8814,27 +8855,27 @@ export type UpdateCassandraResourceCassandraKeyspaceThroughputResponseTagsMap = 
 };
 export interface UpdateCassandraResourceCassandraKeyspaceThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: UpdateCassandraResourceCassandraKeyspaceThroughputResponseTagsMap;
+  tags?: UpdateCassandraResourceCassandraKeyspaceThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type UpdateCassandraResourceCassandraTableThroughputRequestTagsMap = {
@@ -8852,11 +8893,11 @@ export interface UpdateCassandraResourceCassandraTableThroughputRequest {
   /** Cosmos DB table name. */
   tableName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: UpdateCassandraResourceCassandraTableThroughputRequestTagsMap;
+  tags?: UpdateCassandraResourceCassandraTableThroughputRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to update Azure Cosmos DB resource throughput. */
   properties: ThroughputSettingsUpdatePropertiesInput;
 }
@@ -8866,27 +8907,27 @@ export type UpdateCassandraResourceCassandraTableThroughputResponseTagsMap = {
 };
 export interface UpdateCassandraResourceCassandraTableThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: UpdateCassandraResourceCassandraTableThroughputResponseTagsMap;
+  tags?: UpdateCassandraResourceCassandraTableThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type UpdateDatabaseAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -8905,69 +8946,73 @@ export type DatabaseAccountUpdatePropertiesInputNetworkAclBypassResourceIdsList 
 /** Properties to update Azure Cosmos DB database accounts. */
 export interface DatabaseAccountUpdatePropertiesInput {
   /** The consistency policy for the Cosmos DB account. */
-  consistencyPolicy?: ConsistencyPolicy;
+  consistencyPolicy?: ConsistencyPolicy | undefined;
   /** An array that contains the georeplication locations enabled for the Cosmos DB account. */
-  locations?: DatabaseAccountUpdatePropertiesInputLocationsList;
+  locations?: DatabaseAccountUpdatePropertiesInputLocationsList | undefined;
   /** List of IpRules. */
-  ipRules?: DatabaseAccountUpdatePropertiesInputIpRulesList;
+  ipRules?: DatabaseAccountUpdatePropertiesInputIpRulesList | undefined;
   /** Flag to indicate whether to enable/disable Virtual Network ACL rules. */
-  isVirtualNetworkFilterEnabled?: boolean;
+  isVirtualNetworkFilterEnabled?: boolean | undefined;
   /** Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account. */
-  enableAutomaticFailover?: boolean;
+  enableAutomaticFailover?: boolean | undefined;
   /** List of Cosmos DB capabilities for the account */
-  capabilities?: DatabaseAccountUpdatePropertiesInputCapabilitiesList;
+  capabilities?: DatabaseAccountUpdatePropertiesInputCapabilitiesList | undefined;
   /** List of Virtual Network ACL rules configured for the Cosmos DB account. */
-  virtualNetworkRules?: DatabaseAccountUpdatePropertiesInputVirtualNetworkRulesList;
+  virtualNetworkRules?: DatabaseAccountUpdatePropertiesInputVirtualNetworkRulesList | undefined;
   /** Enables the account to write in multiple locations */
-  enableMultipleWriteLocations?: boolean;
+  enableMultipleWriteLocations?: boolean | undefined;
   /** Enables the cassandra connector on the Cosmos DB C* account */
-  enableCassandraConnector?: boolean;
+  enableCassandraConnector?: boolean | undefined;
   /** The cassandra connector offer type for the Cosmos DB database C* account. */
-  connectorOffer?: ConnectorOffer | (string & {});
+  connectorOffer?: ConnectorOffer | (string & {}) | undefined;
   /** Disable write operations on metadata resources (databases, containers, throughput) via account keys */
-  disableKeyBasedMetadataWriteAccess?: boolean;
+  disableKeyBasedMetadataWriteAccess?: boolean | undefined;
   /** The URI of the key vault */
-  keyVaultKeyUri?: string;
+  keyVaultKeyUri?: string | undefined;
   /** The default identity for accessing key vault used in features like customer managed keys. The default identity needs to be explicitly set by the users. It can be "FirstPartyIdentity", "SystemAssignedIdentity" and more. */
-  defaultIdentity?: string;
+  defaultIdentity?: string | undefined;
   /** Whether requests from Public Network are allowed */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Flag to indicate whether Free Tier is enabled. */
-  enableFreeTier?: boolean;
+  enableFreeTier?: boolean | undefined;
   /** API specific properties. Currently, supported only for MongoDB API. */
-  apiProperties?: ApiProperties;
+  apiProperties?: ApiProperties | undefined;
   /** Flag to indicate whether to enable storage analytics. */
-  enableAnalyticalStorage?: boolean;
+  enableAnalyticalStorage?: boolean | undefined;
   /** Analytical storage specific properties. */
-  analyticalStorageConfiguration?: AnalyticalStorageConfiguration;
+  analyticalStorageConfiguration?: AnalyticalStorageConfiguration | undefined;
   /** The object representing the policy for taking backups on an account. */
-  backupPolicy?: BackupPolicy;
+  backupPolicy?: BackupPolicy | undefined;
   /** The CORS policy for the Cosmos DB database account. */
-  cors?: DatabaseAccountUpdatePropertiesInputCorsList;
+  cors?: DatabaseAccountUpdatePropertiesInputCorsList | undefined;
   /** Indicates what services are allowed to bypass firewall checks. */
-  networkAclBypass?: NetworkAclBypass | (string & {});
+  networkAclBypass?: NetworkAclBypass | (string & {}) | undefined;
   /** An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account. */
-  networkAclBypassResourceIds?: DatabaseAccountUpdatePropertiesInputNetworkAclBypassResourceIdsList;
+  networkAclBypassResourceIds?:
+    | DatabaseAccountUpdatePropertiesInputNetworkAclBypassResourceIdsList
+    | undefined;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** The object that represents all properties related to capacity enforcement on an account. */
-  capacity?: Capacity;
+  capacity?: Capacity | undefined;
   /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
-  enablePartitionMerge?: boolean;
+  enablePartitionMerge?: boolean | undefined;
   /** Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account */
-  enableBurstCapacity?: boolean;
+  enableBurstCapacity?: boolean | undefined;
   /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
-  minimalTlsVersion?: MinimalTlsVersion | (string & {});
+  minimalTlsVersion?: MinimalTlsVersion | (string & {}) | undefined;
   /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
-  customerManagedKeyStatus?: string;
+  customerManagedKeyStatus?: string | undefined;
   /** Flag to indicate enabling/disabling of Priority Based Execution Preview feature on the account */
-  enablePriorityBasedExecution?: boolean;
+  enablePriorityBasedExecution?: boolean | undefined;
   /** Enum to indicate default Priority Level of request for Priority Based Execution. */
-  defaultPriorityLevel?: DefaultPriorityLevel | (string & {});
+  defaultPriorityLevel?: DefaultPriorityLevel | (string & {}) | undefined;
   /** Flag to indicate enabling/disabling of Per-Region Per-partition autoscale Preview feature on the account */
-  enablePerRegionPerPartitionAutoscale?: boolean;
+  enablePerRegionPerPartitionAutoscale?: boolean | undefined;
   /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
-  enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
+  enforceHierarchicalPartitionKeyIdLastLevel?: boolean | undefined;
+  /** Flag to indicate enabling/disabling of per-partition automatic failover on the account, which automatically fails over individual partitions to available regions during a regional outage. Opt-in; defaults to false. */
+  perPartitionAutomaticFailoverEnabled?: boolean | undefined;
 }
 export interface UpdateDatabaseAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8977,13 +9022,13 @@ export interface UpdateDatabaseAccountRequest {
   /** Cosmos DB database account name. */
   accountName: string;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: UpdateDatabaseAccountRequestTagsMap;
+  tags?: UpdateDatabaseAccountRequestTagsMap | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to update Azure Cosmos DB database accounts. */
-  properties?: DatabaseAccountUpdatePropertiesInput;
+  properties?: DatabaseAccountUpdatePropertiesInput | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type UpdateDatabaseAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -8991,25 +9036,25 @@ export type UpdateDatabaseAccountResponseTagsMap = { [key: string]: string | und
 export type UpdateDatabaseAccountResponseKind = "GlobalDocumentDB" | "MongoDB" | "Parse";
 export interface UpdateDatabaseAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the database account. */
-  properties?: DatabaseAccountGetProperties;
+  properties?: DatabaseAccountGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: UpdateDatabaseAccountResponseTagsMap;
+  tags?: UpdateDatabaseAccountResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** Indicates the type of database account. This can only be set at database account creation. */
-  kind?: UpdateDatabaseAccountResponseKind;
+  kind?: UpdateDatabaseAccountResponseKind | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateFleetRequestTagsMap = { [key: string]: string | undefined };
@@ -9021,27 +9066,27 @@ export interface UpdateFleetRequest {
   /** Cosmos DB fleet name. Needs to be unique under a subscription. */
   fleetName: string;
   /** Resource tags. */
-  tags?: UpdateFleetRequestTagsMap;
+  tags?: UpdateFleetRequestTagsMap | undefined;
   /** Properties to update Azure Cosmos DB fleet resource. */
-  properties?: FleetResourceProperties;
+  properties?: FleetResourceProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateFleetResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateFleetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateFleetResponseTagsMap;
+  tags?: UpdateFleetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties to update Azure Cosmos DB fleet resource. */
-  properties?: FleetResourceProperties;
+  properties?: FleetResourceProperties | undefined;
 }
 export interface UpdateFleetspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9053,25 +9098,25 @@ export interface UpdateFleetspaceRequest {
   /** Cosmos DB fleetspace name. Needs to be unique under a fleet. */
   fleetspaceName: string;
   /** Properties of the fleetspace. */
-  properties?: FleetspaceProperties;
+  properties?: FleetspaceProperties | undefined;
 }
 export interface UpdateFleetspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to update Azure Cosmos DB Fleetspace. */
-  properties?: FleetspaceProperties;
+  properties?: FleetspaceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type UpdateGremlinResourceGremlinDatabaseThroughputRequestTagsMap = {
@@ -9087,11 +9132,11 @@ export interface UpdateGremlinResourceGremlinDatabaseThroughputRequest {
   /** Cosmos DB database name. */
   databaseName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: UpdateGremlinResourceGremlinDatabaseThroughputRequestTagsMap;
+  tags?: UpdateGremlinResourceGremlinDatabaseThroughputRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to update Azure Cosmos DB resource throughput. */
   properties: ThroughputSettingsUpdatePropertiesInput;
 }
@@ -9101,27 +9146,27 @@ export type UpdateGremlinResourceGremlinDatabaseThroughputResponseTagsMap = {
 };
 export interface UpdateGremlinResourceGremlinDatabaseThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: UpdateGremlinResourceGremlinDatabaseThroughputResponseTagsMap;
+  tags?: UpdateGremlinResourceGremlinDatabaseThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type UpdateGremlinResourceGremlinGraphThroughputRequestTagsMap = {
@@ -9139,11 +9184,11 @@ export interface UpdateGremlinResourceGremlinGraphThroughputRequest {
   /** Cosmos DB graph name. */
   graphName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: UpdateGremlinResourceGremlinGraphThroughputRequestTagsMap;
+  tags?: UpdateGremlinResourceGremlinGraphThroughputRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to update Azure Cosmos DB resource throughput. */
   properties: ThroughputSettingsUpdatePropertiesInput;
 }
@@ -9153,27 +9198,27 @@ export type UpdateGremlinResourceGremlinGraphThroughputResponseTagsMap = {
 };
 export interface UpdateGremlinResourceGremlinGraphThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: UpdateGremlinResourceGremlinGraphThroughputResponseTagsMap;
+  tags?: UpdateGremlinResourceGremlinGraphThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type UpdateMongoDBResourceMongoDBCollectionThroughputRequestTagsMap = {
@@ -9191,11 +9236,11 @@ export interface UpdateMongoDBResourceMongoDBCollectionThroughputRequest {
   /** Cosmos DB collection name. */
   collectionName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: UpdateMongoDBResourceMongoDBCollectionThroughputRequestTagsMap;
+  tags?: UpdateMongoDBResourceMongoDBCollectionThroughputRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to update Azure Cosmos DB resource throughput. */
   properties: ThroughputSettingsUpdatePropertiesInput;
 }
@@ -9205,27 +9250,27 @@ export type UpdateMongoDBResourceMongoDBCollectionThroughputResponseTagsMap = {
 };
 export interface UpdateMongoDBResourceMongoDBCollectionThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: UpdateMongoDBResourceMongoDBCollectionThroughputResponseTagsMap;
+  tags?: UpdateMongoDBResourceMongoDBCollectionThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type UpdateMongoDBResourceMongoDBDatabaseThroughputRequestTagsMap = {
@@ -9241,11 +9286,11 @@ export interface UpdateMongoDBResourceMongoDBDatabaseThroughputRequest {
   /** Cosmos DB database name. */
   databaseName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: UpdateMongoDBResourceMongoDBDatabaseThroughputRequestTagsMap;
+  tags?: UpdateMongoDBResourceMongoDBDatabaseThroughputRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to update Azure Cosmos DB resource throughput. */
   properties: ThroughputSettingsUpdatePropertiesInput;
 }
@@ -9255,27 +9300,27 @@ export type UpdateMongoDBResourceMongoDBDatabaseThroughputResponseTagsMap = {
 };
 export interface UpdateMongoDBResourceMongoDBDatabaseThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: UpdateMongoDBResourceMongoDBDatabaseThroughputResponseTagsMap;
+  tags?: UpdateMongoDBResourceMongoDBDatabaseThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type UpdateSqlResourceSqlContainerThroughputRequestTagsMap = {
@@ -9293,11 +9338,11 @@ export interface UpdateSqlResourceSqlContainerThroughputRequest {
   /** Cosmos DB container name. */
   containerName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: UpdateSqlResourceSqlContainerThroughputRequestTagsMap;
+  tags?: UpdateSqlResourceSqlContainerThroughputRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to update Azure Cosmos DB resource throughput. */
   properties: ThroughputSettingsUpdatePropertiesInput;
 }
@@ -9307,27 +9352,27 @@ export type UpdateSqlResourceSqlContainerThroughputResponseTagsMap = {
 };
 export interface UpdateSqlResourceSqlContainerThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: UpdateSqlResourceSqlContainerThroughputResponseTagsMap;
+  tags?: UpdateSqlResourceSqlContainerThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type UpdateSqlResourceSqlDatabaseThroughputRequestTagsMap = {
@@ -9343,11 +9388,11 @@ export interface UpdateSqlResourceSqlDatabaseThroughputRequest {
   /** Cosmos DB database name. */
   databaseName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: UpdateSqlResourceSqlDatabaseThroughputRequestTagsMap;
+  tags?: UpdateSqlResourceSqlDatabaseThroughputRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to update Azure Cosmos DB resource throughput. */
   properties: ThroughputSettingsUpdatePropertiesInput;
 }
@@ -9357,27 +9402,27 @@ export type UpdateSqlResourceSqlDatabaseThroughputResponseTagsMap = {
 };
 export interface UpdateSqlResourceSqlDatabaseThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: UpdateSqlResourceSqlDatabaseThroughputResponseTagsMap;
+  tags?: UpdateSqlResourceSqlDatabaseThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type UpdateTableResourceTableThroughputRequestTagsMap = {
@@ -9393,11 +9438,11 @@ export interface UpdateTableResourceTableThroughputRequest {
   /** Cosmos DB table name. */
   tableName: string;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: UpdateTableResourceTableThroughputRequestTagsMap;
+  tags?: UpdateTableResourceTableThroughputRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** Properties to update Azure Cosmos DB resource throughput. */
   properties: ThroughputSettingsUpdatePropertiesInput;
 }
@@ -9407,27 +9452,27 @@ export type UpdateTableResourceTableThroughputResponseTagsMap = {
 };
 export interface UpdateTableResourceTableThroughputResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an Azure Cosmos DB resource throughput */
-  properties?: ThroughputSettingsGetProperties;
+  properties?: ThroughputSettingsGetProperties | undefined;
   /** The location of the resource group to which the resource belongs. */
-  location?: string;
+  location?: string | undefined;
   /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-  tags?: UpdateTableResourceTableThroughputResponseTagsMap;
+  tags?: UpdateTableResourceTableThroughputResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CassandraClustersCreateUpdateError = AzureOpError;
 /** Create or update a managed Cassandra cluster. When updating, you must specify all writable properties. To update only some properties, use PATCH. */
@@ -13891,7 +13936,7 @@ function __c0(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraClustersCreateUpdateRequest" });
@@ -14074,7 +14119,7 @@ function __c8(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/deallocate",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraClustersDeallocateRequest" });
@@ -14107,7 +14152,7 @@ function __c10(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}/fleetspaceAccounts/{fleetspaceAccountName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CreateFleetspaceAccountRequest" });
@@ -14183,7 +14228,7 @@ function __c12(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GremlinResourcesCreateUpdateGremlinGraphRequest" });
@@ -14232,7 +14277,7 @@ function __c14(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GremlinResourcesCreateUpdateGremlinRoleAssignmentRequest" });
@@ -14253,7 +14298,7 @@ function __c15(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GremlinResourcesCreateUpdateGremlinRoleDefinitionRequest" });
@@ -14277,7 +14322,7 @@ function __c16(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/invokeCommand",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "InvokeCassandraClusterCommandRequest" });
@@ -14295,7 +14340,7 @@ function __c17(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCassandraClusterByResourceGroupRequest" });
@@ -14325,7 +14370,7 @@ function __c19(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/cassandraClusters",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCassandraClusterBySubscriptionRequest" });
@@ -14344,7 +14389,7 @@ function __c20(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/dataCenters",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCassandraDataCentersRequest" });
@@ -14372,7 +14417,7 @@ function __c21(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCassandraResourceCassandraKeyspacesRequest" });
@@ -14400,7 +14445,7 @@ function __c22(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleAssignments",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCassandraResourceCassandraRoleAssignmentsRequest" });
@@ -14432,7 +14477,7 @@ function __c24(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCassandraResourceCassandraRoleDefinitionsRequest" });
@@ -14474,7 +14519,7 @@ function __c26(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services/{serviceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CreateServiceRequest" });
@@ -14523,7 +14568,7 @@ function __c28(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCassandraResourceCassandraTablesRequest" });
@@ -14553,7 +14598,7 @@ function __c29(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/metricDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCollectionMetricDefinitionsRequest" });
@@ -14618,7 +14663,7 @@ function __c32(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCollectionMetricsRequest" });
@@ -14681,7 +14726,7 @@ function __c35(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCollectionPartitionMetricsRequest" });
@@ -14730,7 +14775,7 @@ function __c37(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCollectionPartitionRegionMetricsRequest" });
@@ -14752,7 +14797,7 @@ function __c38(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/usages",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCollectionPartitionUsagesRequest" });
@@ -14796,7 +14841,7 @@ function __c39(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCollectionRegionMetricsRequest" });
@@ -14818,7 +14863,7 @@ function __c40(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/usages",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCollectionUsagesRequest" });
@@ -14859,7 +14904,7 @@ function __c42(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountByResourceGroupRequest" });
@@ -14891,7 +14936,7 @@ function __c44(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/listConnectionStrings",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountConnectionStringsRequest" });
@@ -14954,6 +14999,7 @@ function __c45(j: number): any {
           defaultPriorityLevel: S.optional(S.String),
           enablePerRegionPerPartitionAutoscale: S.optional(S.Boolean),
           enforceHierarchicalPartitionKeyIdLastLevel: S.optional(S.Boolean),
+          perPartitionAutomaticFailoverEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DatabaseAccountCreateUpdatePropertiesInput" });
     case 1:
@@ -14972,7 +15018,7 @@ function __c45(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DatabaseAccountsCreateOrUpdateRequest" });
@@ -15065,6 +15111,7 @@ function __c48(j: number): any {
         S.Struct({
           type: S.String,
           migrationState: S.optional(__S(1543, __c48, 7)),
+          backupRetentionLockExpirationTimestamp: S.optional(S.String),
         }),
       ).annotate({ identifier: "BackupPolicy" });
     case 9:
@@ -15201,6 +15248,7 @@ function __c48(j: number): any {
           defaultPriorityLevel: S.optional(S.String),
           enablePerRegionPerPartitionAutoscale: S.optional(S.Boolean),
           enforceHierarchicalPartitionKeyIdLastLevel: S.optional(S.Boolean),
+          perPartitionAutomaticFailoverEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DatabaseAccountGetProperties" });
   }
@@ -15259,7 +15307,7 @@ function __c51(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/listKeys",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountKeysRequest" });
@@ -15287,7 +15335,7 @@ function __c52(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/metricDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountMetricDefinitionsRequest" });
@@ -15307,7 +15355,7 @@ function __c53(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountMetricsRequest" });
@@ -15328,7 +15376,7 @@ function __c54(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountRegionMetricsRequest" });
@@ -15345,7 +15393,7 @@ function __c55(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/databaseAccounts",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountsRequest" });
@@ -15365,7 +15413,7 @@ function __c56(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/usages",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountUsagesRequest" });
@@ -15385,7 +15433,7 @@ function __c57(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/metricDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseMetricDefinitionsRequest" });
@@ -15406,7 +15454,7 @@ function __c58(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseMetricsRequest" });
@@ -15427,7 +15475,7 @@ function __c59(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/usages",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseUsagesRequest" });
@@ -15444,7 +15492,7 @@ function __c60(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/fleets",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListFleetRequest" });
@@ -15486,7 +15534,7 @@ function __c62(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/failoverPriorityChange",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DatabaseAccountsFailoverPriorityChangeRequest" });
@@ -15516,7 +15564,7 @@ function __c64(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListFleetByResourceGroupRequest" });
@@ -15535,7 +15583,7 @@ function __c65(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListFleetspaceRequest" });
@@ -15564,7 +15612,7 @@ function __c66(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}/fleetspaceAccounts",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListFleetspaceAccountRequest" });
@@ -15592,7 +15640,7 @@ function __c67(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListGremlinResourceGremlinDatabasesRequest" });
@@ -15625,7 +15673,7 @@ function __c69(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListGremlinResourceGremlinGraphsRequest" });
@@ -15653,7 +15701,7 @@ function __c70(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleAssignments",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListGremlinResourceGremlinRoleAssignmentsRequest" });
@@ -15672,7 +15720,7 @@ function __c71(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListGremlinResourceGremlinRoleDefinitionsRequest" });
@@ -15689,7 +15737,7 @@ function __c72(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListLocationsRequest" });
@@ -15718,7 +15766,7 @@ function __c73(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListMongoDBResourceMongoDBCollectionsRequest" });
@@ -15746,7 +15794,7 @@ function __c74(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListMongoDBResourceMongoDBDatabasesRequest" });
@@ -15765,7 +15813,7 @@ function __c75(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/readonlykeys",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DatabaseAccountsGetReadOnlyKeysRequest" });
@@ -15795,7 +15843,7 @@ function __c77(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListMongoDBResourceMongoRoleDefinitionsRequest" });
@@ -15823,7 +15871,7 @@ function __c78(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListMongoDBResourceMongoUserDefinitionsRequest" });
@@ -15851,7 +15899,7 @@ function __c79(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleAssignments",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListMongoMIResourceMongoMIRoleAssignmentsRequest" });
@@ -15870,7 +15918,7 @@ function __c80(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListMongoMIResourceMongoMIRoleDefinitionsRequest" });
@@ -15889,7 +15937,7 @@ function __c81(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListNotebookWorkspaceByDatabaseAccountRequest" });
@@ -15918,7 +15966,7 @@ function __c82(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}/listConnectionInfo",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListNotebookWorkspaceConnectionInfoRequest" });
@@ -15940,7 +15988,7 @@ function __c83(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.DocumentDB/operations",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -15988,7 +16036,7 @@ function __c84(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitionKeyRangeId/{partitionKeyRangeId}/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListPartitionKeyRangeIdMetricsRequest" });
@@ -16012,7 +16060,7 @@ function __c85(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/partitionKeyRangeId/{partitionKeyRangeId}/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListPartitionKeyRangeIdRegionMetricsRequest" });
@@ -16032,7 +16080,7 @@ function __c86(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/percentile/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListPercentileMetricsRequest" });
@@ -16095,7 +16143,7 @@ function __c88(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/readonlykeys",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DatabaseAccountsListReadOnlyKeysRequest" });
@@ -16117,7 +16165,7 @@ function __c89(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sourceRegion/{sourceRegion}/targetRegion/{targetRegion}/percentile/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListPercentileSourceTargetMetricsRequest" });
@@ -16138,7 +16186,7 @@ function __c90(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/targetRegion/{targetRegion}/percentile/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListPercentileTargetMetricsRequest" });
@@ -16157,7 +16205,7 @@ function __c91(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByDatabaseAccountRequest" });
@@ -16183,7 +16231,7 @@ function __c92(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByDatabaseAccountRequest" });
@@ -16210,7 +16258,7 @@ function __c93(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableDatabaseAccountByLocationRequest" });
@@ -16240,7 +16288,7 @@ function __c95(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/restorableDatabaseAccounts",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableDatabaseAccountsRequest" });
@@ -16259,7 +16307,7 @@ function __c96(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableGremlinDatabases",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableGremlinDatabasesRequest" });
@@ -16321,7 +16369,7 @@ function __c98(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableGraphs",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableGremlinGraphsRequest" });
@@ -16342,7 +16390,7 @@ function __c99(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableGremlinResources",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableGremlinResourcesRequest" });
@@ -16383,7 +16431,7 @@ function __c100(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableMongodbCollections",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableMongodbCollectionsRequest" });
@@ -16403,7 +16451,7 @@ function __c101(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/offlineRegion",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DatabaseAccountsOfflineRegionRequest" });
@@ -16422,7 +16470,7 @@ function __c102(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableMongodbDatabases",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableMongodbDatabasesRequest" });
@@ -16443,7 +16491,7 @@ function __c103(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableMongodbResources",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableMongodbResourcesRequest" });
@@ -16488,7 +16536,7 @@ function __c105(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableSqlContainers",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableSqlContainersRequest" });
@@ -16566,7 +16614,7 @@ function __c106(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableSqlDatabases",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableSqlDatabasesRequest" });
@@ -16638,7 +16686,7 @@ function __c107(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableSqlResources",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableSqlResourcesRequest" });
@@ -16659,7 +16707,7 @@ function __c108(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableTableResources",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableTableResourcesRequest" });
@@ -16697,7 +16745,7 @@ function __c109(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableTables",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableTablesRequest" });
@@ -16716,7 +16764,7 @@ function __c110(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListServiceRequest" });
@@ -16745,7 +16793,7 @@ function __c111(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceClientEncryptionKeysRequest" });
@@ -16774,7 +16822,7 @@ function __c112(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceSqlContainersRequest" });
@@ -16803,7 +16851,7 @@ function __c113(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/onlineRegion",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DatabaseAccountsOnlineRegionRequest" });
@@ -16822,7 +16870,7 @@ function __c114(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceSqlDatabasesRequest" });
@@ -16850,7 +16898,7 @@ function __c115(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceSqlRoleAssignmentsRequest" });
@@ -16878,7 +16926,7 @@ function __c116(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceSqlRoleDefinitionsRequest" });
@@ -16908,7 +16956,7 @@ function __c117(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceSqlStoredProceduresRequest" });
@@ -16942,7 +16990,7 @@ function __c119(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceSqlTriggersRequest" });
@@ -17011,7 +17059,7 @@ function __c122(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceSqlUserDefinedFunctionsRequest" });
@@ -17030,7 +17078,7 @@ function __c123(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleAssignments",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListTableResourceTableRoleAssignmentsRequest" });
@@ -17049,7 +17097,7 @@ function __c124(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListTableResourceTableRoleDefinitionsRequest" });
@@ -17068,7 +17116,7 @@ function __c125(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListTableResourceTablesRequest" });
@@ -17088,7 +17136,7 @@ function __c126(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateCassandraResourceCassandraKeyspaceToAutoscaleRequest" });
@@ -17103,7 +17151,7 @@ function __c127(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(7716, __c241, 4)),
+          properties: S.optional(__S(7718, __c241, 6)),
           location: S.optional(S.String),
           tags: S.optional(__S(64, __c2, 0)),
           identity: S.optional(__S(6914, __c216, 2)),
@@ -17127,7 +17175,7 @@ function __c128(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteCassandraClusterRequest" });
@@ -17147,7 +17195,7 @@ function __c129(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({
@@ -17170,7 +17218,7 @@ function __c130(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateCassandraResourceCassandraTableToAutoscaleRequest" });
@@ -17191,7 +17239,7 @@ function __c131(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateCassandraResourceCassandraTableToManualThroughputRequest" });
@@ -17211,7 +17259,7 @@ function __c132(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateGremlinResourceGremlinDatabaseToAutoscaleRequest" });
@@ -17231,7 +17279,7 @@ function __c133(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateGremlinResourceGremlinDatabaseToManualThroughputRequest" });
@@ -17252,7 +17300,7 @@ function __c134(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateGremlinResourceGremlinGraphToAutoscaleRequest" });
@@ -17273,7 +17321,7 @@ function __c135(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateGremlinResourceGremlinGraphToManualThroughputRequest" });
@@ -17294,7 +17342,7 @@ function __c136(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateMongoDBResourceMongoDBCollectionToAutoscaleRequest" });
@@ -17315,7 +17363,7 @@ function __c137(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({
@@ -17337,7 +17385,7 @@ function __c138(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateMongoDBResourceMongoDBDatabaseToAutoscaleRequest" });
@@ -17357,7 +17405,7 @@ function __c139(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/dataCenters/{dataCenterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteCassandraDataCenterRequest" });
@@ -17377,7 +17425,7 @@ function __c140(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateMongoDBResourceMongoDBDatabaseToManualThroughputRequest" });
@@ -17398,7 +17446,7 @@ function __c141(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateSqlResourceSqlContainerToAutoscaleRequest" });
@@ -17413,7 +17461,7 @@ function __c142(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(7716, __c241, 4)),
+          properties: S.optional(__S(7718, __c241, 6)),
           location: S.optional(S.String),
           tags: S.optional(__S(64, __c2, 0)),
           identity: S.optional(__S(6914, __c216, 2)),
@@ -17438,7 +17486,7 @@ function __c143(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateSqlResourceSqlContainerToManualThroughputRequest" });
@@ -17458,7 +17506,7 @@ function __c144(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateSqlResourceSqlDatabaseToAutoscaleRequest" });
@@ -17478,7 +17526,7 @@ function __c145(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateSqlResourceSqlDatabaseToManualThroughputRequest" });
@@ -17498,7 +17546,7 @@ function __c146(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateTableResourceTableToAutoscaleRequest" });
@@ -17518,7 +17566,7 @@ function __c147(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateTableResourceTableToManualThroughputRequest" });
@@ -17561,7 +17609,7 @@ function __c148(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MongoDBResourcesCreateUpdateMongoDBCollectionRequest" });
@@ -17601,7 +17649,7 @@ function __c149(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MongoDBResourcesCreateUpdateMongoDBDatabaseRequest" });
@@ -17622,7 +17670,7 @@ function __c150(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MongoDBResourcesCreateUpdateMongoRoleDefinitionRequest" });
@@ -17653,7 +17701,7 @@ function __c151(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/status",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraClustersStatusRequest" });
@@ -17743,7 +17791,7 @@ function __c152(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteCassandraResourceCassandraKeyspaceRequest" });
@@ -17775,7 +17823,7 @@ function __c154(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MongoDBResourcesCreateUpdateMongoUserDefinitionRequest" });
@@ -17808,7 +17856,7 @@ function __c155(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MongoMIResourcesCreateUpdateMongoMIRoleAssignmentRequest" });
@@ -17829,7 +17877,7 @@ function __c156(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MongoMIResourcesCreateUpdateMongoMIRoleDefinitionRequest" });
@@ -17849,7 +17897,7 @@ function __c157(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "NotebookWorkspacesCreateOrUpdateRequest" });
@@ -17897,7 +17945,7 @@ function __c158(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "PrivateEndpointConnectionsCreateOrUpdateRequest" });
@@ -17929,7 +17977,7 @@ function __c159(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/regenerateKey",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "RegenerateDatabaseAccountKeyRequest" });
@@ -17949,7 +17997,7 @@ function __c160(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}/regenerateAuthToken",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "RegenerateNotebookWorkspaceAuthTokenRequest" });
@@ -17986,7 +18034,7 @@ function __c161(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys/{clientEncryptionKeyName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateClientEncryptionKeyRequest" });
@@ -18049,7 +18097,7 @@ function __c162(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateSqlContainerRequest" });
@@ -18089,7 +18137,7 @@ function __c163(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateSqlDatabaseRequest" });
@@ -18125,7 +18173,7 @@ function __c164(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteCassandraResourceCassandraRoleAssignmentRequest" });
@@ -18146,7 +18194,7 @@ function __c165(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateSqlRoleAssignmentRequest" });
@@ -18179,7 +18227,7 @@ function __c166(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateSqlRoleDefinitionRequest" });
@@ -18217,7 +18265,7 @@ function __c167(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateSqlStoredProcedureRequest" });
@@ -18293,7 +18341,7 @@ function __c169(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateSqlTriggerRequest" });
@@ -18335,7 +18383,7 @@ function __c170(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateSqlUserDefinedFunctionRequest" });
@@ -18357,7 +18405,7 @@ function __c171(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesDeleteSqlTriggerRequest" });
@@ -18379,7 +18427,7 @@ function __c172(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesGetSqlTriggerRequest" });
@@ -18398,7 +18446,7 @@ function __c173(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/start",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "StartCassandraClusterRequest" });
@@ -18418,7 +18466,7 @@ function __c174(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}/start",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "StartNotebookWorkspaceRequest" });
@@ -18442,7 +18490,7 @@ function __c175(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "TableResourcesCreateUpdateTableRequest" });
@@ -18462,7 +18510,7 @@ function __c176(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteCassandraResourceCassandraRoleDefinitionRequest" });
@@ -18483,7 +18531,7 @@ function __c177(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "TableResourcesCreateUpdateTableRoleAssignmentRequest" });
@@ -18504,7 +18552,7 @@ function __c178(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "TableResourcesCreateUpdateTableRoleDefinitionRequest" });
@@ -18539,7 +18587,7 @@ function __c179(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateCassandraClusterRequest" });
@@ -18560,7 +18608,7 @@ function __c180(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/dataCenters/{dataCenterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateCassandraDataCenterRequest" });
@@ -18584,7 +18632,7 @@ function __c181(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateCassandraResourceCassandraKeyspaceThroughputRequest" });
@@ -18604,6 +18652,7 @@ function __c182(j: number): any {
         S.Struct({
           throughput: S.optional(S.Number),
           autoscaleSettings: S.optional(__S(5824, __c182, 0)),
+          throughputBuckets: S.optional(__S(7716, __c241, 4)),
         }),
       ).annotate({ identifier: "ThroughputSettingsResourceInput" });
     case 2:
@@ -18633,7 +18682,7 @@ function __c183(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateCassandraResourceCassandraTableThroughputRequest" });
@@ -18676,6 +18725,7 @@ function __c184(j: number): any {
           defaultPriorityLevel: S.optional(S.String),
           enablePerRegionPerPartitionAutoscale: S.optional(S.Boolean),
           enforceHierarchicalPartitionKeyIdLastLevel: S.optional(S.Boolean),
+          perPartitionAutomaticFailoverEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DatabaseAccountUpdatePropertiesInput" });
     case 1:
@@ -18693,7 +18743,7 @@ function __c184(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateDatabaseAccountRequest" });
@@ -18714,7 +18764,7 @@ function __c185(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateFleetRequest" });
@@ -18735,7 +18785,7 @@ function __c186(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateFleetspaceRequest" });
@@ -18772,7 +18822,7 @@ function __c187(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateGremlinResourceGremlinDatabaseThroughputRequest" });
@@ -18793,7 +18843,7 @@ function __c188(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteCassandraResourceCassandraTableRequest" });
@@ -18818,7 +18868,7 @@ function __c189(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateGremlinResourceGremlinGraphThroughputRequest" });
@@ -18843,7 +18893,7 @@ function __c190(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateMongoDBResourceMongoDBCollectionThroughputRequest" });
@@ -18867,7 +18917,7 @@ function __c191(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateMongoDBResourceMongoDBDatabaseThroughputRequest" });
@@ -18892,7 +18942,7 @@ function __c192(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateSqlResourceSqlContainerThroughputRequest" });
@@ -18916,7 +18966,7 @@ function __c193(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateSqlResourceSqlDatabaseThroughputRequest" });
@@ -18940,7 +18990,7 @@ function __c194(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateTableResourceTableThroughputRequest" });
@@ -18959,7 +19009,7 @@ function __c195(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteDatabaseAccountRequest" });
@@ -18978,7 +19028,7 @@ function __c196(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteFleetRequest" });
@@ -18998,7 +19048,7 @@ function __c197(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteFleetspaceRequest" });
@@ -19019,7 +19069,7 @@ function __c198(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}/fleetspaceAccounts/{fleetspaceAccountName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteFleetspaceAccountRequest" });
@@ -19039,7 +19089,7 @@ function __c199(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteGremlinResourceGremlinDatabaseRequest" });
@@ -19060,7 +19110,7 @@ function __c200(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteGremlinResourceGremlinGraphRequest" });
@@ -19081,7 +19131,7 @@ function __c201(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/dataCenters/{dataCenterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraDataCentersCreateUpdateRequest" });
@@ -19175,7 +19225,7 @@ function __c204(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteGremlinResourceGremlinRoleAssignmentRequest" });
@@ -19195,7 +19245,7 @@ function __c205(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteGremlinResourceGremlinRoleDefinitionRequest" });
@@ -19216,7 +19266,7 @@ function __c206(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteMongoDBResourceMongoDBCollectionRequest" });
@@ -19236,7 +19286,7 @@ function __c207(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteMongoDBResourceMongoDBDatabaseRequest" });
@@ -19256,7 +19306,7 @@ function __c208(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteMongoDBResourceMongoRoleDefinitionRequest" });
@@ -19276,7 +19326,7 @@ function __c209(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteMongoDBResourceMongoUserDefinitionRequest" });
@@ -19296,7 +19346,7 @@ function __c210(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteMongoMIResourceMongoMIRoleAssignmentRequest" });
@@ -19316,7 +19366,7 @@ function __c211(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteMongoMIResourceMongoMIRoleDefinitionRequest" });
@@ -19336,7 +19386,7 @@ function __c212(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteNotebookWorkspaceRequest" });
@@ -19356,7 +19406,7 @@ function __c213(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
@@ -19393,7 +19443,7 @@ function __c214(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraResourcesCreateUpdateCassandraKeyspaceRequest" });
@@ -19505,7 +19555,7 @@ function __c219(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services/{serviceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteServiceRequest" });
@@ -19526,7 +19576,7 @@ function __c220(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteSqlResourceSqlContainerRequest" });
@@ -19546,7 +19596,7 @@ function __c221(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteSqlResourceSqlDatabaseRequest" });
@@ -19566,7 +19616,7 @@ function __c222(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteSqlResourceSqlRoleAssignmentRequest" });
@@ -19586,7 +19636,7 @@ function __c223(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteSqlResourceSqlRoleDefinitionRequest" });
@@ -19608,7 +19658,7 @@ function __c224(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteSqlResourceSqlStoredProcedureRequest" });
@@ -19630,7 +19680,7 @@ function __c225(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteSqlResourceSqlUserDefinedFunctionRequest" });
@@ -19650,7 +19700,7 @@ function __c226(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteTableResourceTableRequest" });
@@ -19670,7 +19720,7 @@ function __c227(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteTableResourceTableRoleAssignmentRequest" });
@@ -19690,7 +19740,7 @@ function __c228(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteTableResourceTableRoleDefinitionRequest" });
@@ -19711,7 +19761,7 @@ function __c229(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraResourcesCreateUpdateCassandraRoleAssignmentRequest" });
@@ -19772,7 +19822,7 @@ function __c233(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraClusterRequest" });
@@ -19809,7 +19859,7 @@ function __c235(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/dataCenters/{dataCenterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraDataCenterRequest" });
@@ -19843,7 +19893,7 @@ function __c237(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraResourceCassandraKeyspaceRequest" });
@@ -19880,7 +19930,7 @@ function __c239(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraResourceCassandraKeyspaceThroughputRequest" });
@@ -19895,7 +19945,7 @@ function __c240(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(7716, __c241, 4)),
+          properties: S.optional(__S(7718, __c241, 6)),
           location: S.optional(S.String),
           tags: S.optional(__S(64, __c2, 0)),
           identity: S.optional(__S(6914, __c216, 2)),
@@ -19929,21 +19979,32 @@ function __c241(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          id: S.Number,
+          maxThroughputPercentage: S.Number,
+          isDefaultBucket: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ThroughputBucketResource" });
+    case 4:
+      return S.Array(__S(7715, __c241, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           throughput: S.optional(S.Number),
           autoscaleSettings: S.optional(__S(7714, __c241, 2)),
           minimumThroughput: S.optional(S.String),
           offerReplacePending: S.optional(S.String),
           instantMaximumThroughput: S.optional(S.String),
           softAllowedMaximumThroughput: S.optional(S.String),
+          throughputBuckets: S.optional(__S(7716, __c241, 4)),
           _rid: S.optional(S.String),
           _ts: S.optional(S.Number),
           _etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "ThroughputSettingsGetPropertiesResource" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          resource: S.optional(__S(7715, __c241, 3)),
+          resource: S.optional(__S(7717, __c241, 5)),
         }),
       ).annotate({ identifier: "ThroughputSettingsGetProperties" });
   }
@@ -19962,7 +20023,7 @@ function __c242(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraResourceCassandraRoleAssignmentRequest" });
@@ -19996,7 +20057,7 @@ function __c244(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraResourceCassandraRoleDefinitionRequest" });
@@ -20031,7 +20092,7 @@ function __c246(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraResourceCassandraTableRequest" });
@@ -20069,7 +20130,7 @@ function __c248(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraResourceCassandraTableThroughputRequest" });
@@ -20088,7 +20149,7 @@ function __c249(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetDatabaseAccountRequest" });
@@ -20125,7 +20186,7 @@ function __c251(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetFleetRequest" });
@@ -20146,7 +20207,7 @@ function __c252(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraResourcesCreateUpdateCassandraRoleDefinitionRequest" });
@@ -20211,7 +20272,7 @@ function __c256(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetFleetspaceRequest" });
@@ -20246,7 +20307,7 @@ function __c258(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}/fleetspaceAccounts/{fleetspaceAccountName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetFleetspaceAccountRequest" });
@@ -20282,7 +20343,7 @@ function __c260(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/retrieveContinuousBackupInformation",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetGremlinResourceContinuousBackupInformationRequest" });
@@ -20320,7 +20381,7 @@ function __c262(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetGremlinResourceGremlinDatabaseRequest" });
@@ -20391,7 +20452,7 @@ function __c266(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetGremlinResourceGremlinDatabaseThroughputRequest" });
@@ -20412,7 +20473,7 @@ function __c267(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetGremlinResourceGremlinGraphRequest" });
@@ -20599,7 +20660,7 @@ function __c272(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetGremlinResourceGremlinGraphThroughputRequest" });
@@ -20619,7 +20680,7 @@ function __c273(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetGremlinResourceGremlinRoleAssignmentRequest" });
@@ -20639,7 +20700,7 @@ function __c274(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetGremlinResourceGremlinRoleDefinitionRequest" });
@@ -20657,7 +20718,7 @@ function __c275(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetLocationRequest" });
@@ -20723,7 +20784,7 @@ function __c277(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraResourcesCreateUpdateCassandraTableRequest" });
@@ -20822,7 +20883,7 @@ function __c280(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/retrieveContinuousBackupInformation",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoDBResourceContinuousBackupInformationRequest" });
@@ -20843,7 +20904,7 @@ function __c281(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoDBResourceMongoDBCollectionRequest" });
@@ -20928,7 +20989,7 @@ function __c284(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoDBResourceMongoDBCollectionThroughputRequest" });
@@ -20948,7 +21009,7 @@ function __c285(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoDBResourceMongoDBDatabaseRequest" });
@@ -20968,7 +21029,7 @@ function __c286(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoDBResourceMongoDBDatabaseThroughputRequest" });
@@ -20988,7 +21049,7 @@ function __c287(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoDBResourceMongoRoleDefinitionRequest" });
@@ -21065,7 +21126,7 @@ function __c291(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoDBResourceMongoUserDefinitionRequest" });
@@ -21114,7 +21175,7 @@ function __c294(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoMIResourceMongoMIRoleAssignmentRequest" });
@@ -21134,7 +21195,7 @@ function __c295(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoMIResourceMongoMIRoleDefinitionRequest" });
@@ -21154,7 +21215,7 @@ function __c296(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetNotebookWorkspaceRequest" });
@@ -21201,7 +21262,7 @@ function __c299(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CreateFleetRequest" });
@@ -21243,7 +21304,7 @@ function __c301(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
@@ -21263,7 +21324,7 @@ function __c302(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources/{groupName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetPrivateLinkResourceRequest" });
@@ -21304,7 +21365,7 @@ function __c304(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetRestorableDatabaseAccountByLocationRequest" });
@@ -21361,7 +21422,7 @@ function __c306(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services/{serviceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetServiceRequest" });
@@ -21396,7 +21457,7 @@ function __c308(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys/{clientEncryptionKeyName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceClientEncryptionKeyRequest" });
@@ -21463,7 +21524,7 @@ function __c311(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/retrieveContinuousBackupInformation",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceContinuousBackupInformationRequest" });
@@ -21484,7 +21545,7 @@ function __c312(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlContainerRequest" });
@@ -21618,7 +21679,7 @@ function __c316(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlContainerThroughputRequest" });
@@ -21638,7 +21699,7 @@ function __c317(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlDatabaseRequest" });
@@ -21699,7 +21760,7 @@ function __c320(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlDatabaseThroughputRequest" });
@@ -21720,7 +21781,7 @@ function __c321(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CreateFleetspaceRequest" });
@@ -21775,7 +21836,7 @@ function __c323(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlRoleAssignmentRequest" });
@@ -21809,7 +21870,7 @@ function __c325(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlRoleDefinitionRequest" });
@@ -21858,7 +21919,7 @@ function __c328(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlStoredProcedureRequest" });
@@ -21917,7 +21978,7 @@ function __c331(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlUserDefinedFunctionRequest" });
@@ -21938,7 +21999,7 @@ function __c332(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/retrieveContinuousBackupInformation",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetTableResourceContinuousBackupInformationRequest" });
@@ -21958,7 +22019,7 @@ function __c333(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetTableResourceTableRequest" });
@@ -21978,7 +22039,7 @@ function __c334(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetTableResourceTableRoleAssignmentRequest" });
@@ -21998,7 +22059,7 @@ function __c335(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetTableResourceTableRoleDefinitionRequest" });
@@ -22018,7 +22079,7 @@ function __c336(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetTableResourceTableThroughputRequest" });
@@ -22042,7 +22103,7 @@ function __c337(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GremlinResourcesCreateUpdateGremlinDatabaseRequest" });

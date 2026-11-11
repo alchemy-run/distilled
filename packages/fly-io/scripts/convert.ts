@@ -28,6 +28,7 @@
  *   builders  GraphQL  the same introspection, reduced to the remote-builder
  *             mutation in builders-selection.ts
  *             → .generated-specs/builders.json
+ *             patches: patches/builders/*.patch.json (Smithy)
  *
  * Every patch is a Smithy op on upstream names, applied by the
  * finalizeConvert at the end. `scripts/generate.ts` only compiles
@@ -230,20 +231,6 @@ const stampSprites = (model: { shapes: Record<string, any> }): string => {
 // addons — GraphQL thin client
 // ---------------------------------------------------------------------------
 
-/** Stamp `smithy.api#sensitive` on every structure member named in `names`. */
-const stampSensitive = (model: any, names: readonly string[]): string | undefined => {
-  let n = 0;
-  for (const def of Object.values(model.shapes ?? {}) as any[]) {
-    if (def?.type !== "structure") continue;
-    for (const [name, member] of Object.entries(def.members ?? {}) as any[]) {
-      if (!names.includes(name)) continue;
-      member.traits = { ...member.traits, "smithy.api#sensitive": {} };
-      n++;
-    }
-  }
-  return n ? `stamped smithy.api#sensitive on ${n} member(s)` : undefined;
-};
-
 const graphqlTraits = {
   operation: "com.flyio.graphql#operation",
   responsePath: "com.flyio.graphql#responsePath",
@@ -317,21 +304,5 @@ await finalizeConvert({
   root,
   transform: (model, resource) => {
     if (resource === "sprites") return stampSprites(model);
-    if (resource === "builders") return stampSensitive(model, ["buildToken"]);
-    if (resource !== "addons") return;
-    let n = 0;
-    for (const def of Object.values(model.shapes ?? {}) as any[]) {
-      if (def?.type !== "structure") continue;
-      for (const [name, member] of Object.entries(def.members ?? {}) as any[]) {
-        if (name === "password" || name === "publicUrl") {
-          member.traits = {
-            ...member.traits,
-            "smithy.api#sensitive": {},
-          };
-          n++;
-        }
-      }
-    }
-    if (n) return `stamped smithy.api#sensitive on ${n} add-on secret member(s)`;
   },
 });

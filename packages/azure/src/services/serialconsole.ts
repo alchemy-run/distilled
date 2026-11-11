@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Serialconsole",
   service: "Serialconsole",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -49,7 +50,7 @@ export interface ConnectSerialPortRequest {
 /** Returns a connection string to the serial port of the resource. */
 export interface SerialPortConnectResult {
   /** Connection string to the serial port of the resource. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
 }
 /** Specifies whether the port is enabled for a serial console connection. */
 export type SerialPortState = "enabled" | "disabled";
@@ -58,9 +59,9 @@ export type SerialPortConnectionState = "active" | "inactive";
 /** The properties of the serial port. */
 export interface SerialPortProperties {
   /** Specifies whether the port is enabled for a serial console connection. */
-  state?: SerialPortState | (string & {});
+  state?: SerialPortState | (string & {}) | undefined;
   /** Specifies whether the port is currently active. */
-  connectionState?: SerialPortConnectionState | (string & {});
+  connectionState?: SerialPortConnectionState | (string & {}) | undefined;
 }
 export interface CreateSerialPortRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -76,7 +77,7 @@ export interface CreateSerialPortRequest {
   /** The name of the serial port to connect to. */
   serialPort: string;
   /** The properties of the serial port. */
-  properties?: SerialPortProperties;
+  properties?: SerialPortProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -85,29 +86,29 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface CreateSerialPortResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the serial port. */
-  properties?: SerialPortProperties;
+  properties?: SerialPortProperties | undefined;
 }
 export interface DeleteSerialPortRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -132,11 +133,11 @@ export interface DisableConsoleRequest {
 }
 export interface DisableSerialConsoleResultProperties {
   /** Whether or not Serial Console is disabled. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 /** Returns whether or not Serial Console is disabled. */
 export interface DisableSerialConsoleResult {
-  properties?: DisableSerialConsoleResultProperties;
+  properties?: DisableSerialConsoleResultProperties | undefined;
 }
 export interface EnableConsoleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -147,7 +148,7 @@ export interface EnableConsoleRequest {
 export type EnableSerialConsoleResultProperties = DisableSerialConsoleResultProperties;
 /** Returns whether or not Serial Console is disabled (enabled). */
 export interface EnableSerialConsoleResult {
-  properties?: DisableSerialConsoleResultProperties;
+  properties?: DisableSerialConsoleResultProperties | undefined;
 }
 export interface GetConsoleStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -158,7 +159,7 @@ export interface GetConsoleStatusRequest {
 export type SerialConsoleStatusProperties = DisableSerialConsoleResultProperties;
 /** Returns whether or not Serial Console is disabled. */
 export interface SerialConsoleStatus {
-  properties?: DisableSerialConsoleResultProperties;
+  properties?: DisableSerialConsoleResultProperties | undefined;
 }
 export interface GetSerialPortRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -176,34 +177,34 @@ export interface GetSerialPortRequest {
 }
 export interface GetSerialPortResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the serial port. */
-  properties?: SerialPortProperties;
+  properties?: SerialPortProperties | undefined;
 }
 export interface ListOperationsRequest {}
 export interface SerialConsoleOperationsValueItemDisplay {
-  provider?: string;
-  resource?: string;
-  operation?: string;
-  description?: string;
+  provider?: string | undefined;
+  resource?: string | undefined;
+  operation?: string | undefined;
+  description?: string | undefined;
 }
 export interface SerialConsoleOperationsValueItem {
-  name?: string;
-  isDataAction?: string;
-  display?: SerialConsoleOperationsValueItemDisplay;
+  name?: string | undefined;
+  isDataAction?: string | undefined;
+  display?: SerialConsoleOperationsValueItemDisplay | undefined;
 }
 /** A list of Serial Console operations */
 export type SerialConsoleOperationsValueList = Array<SerialConsoleOperationsValueItem>;
 /** Serial Console operations */
 export interface SerialConsoleOperations {
   /** A list of Serial Console operations */
-  value?: SerialConsoleOperationsValueList;
+  value?: SerialConsoleOperationsValueList | undefined;
 }
 export interface ListSerialPortBySubscriptionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -212,22 +213,22 @@ export interface ListSerialPortBySubscriptionsRequest {
 /** Represents the serial port of the parent resource. */
 export interface SerialPort {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the serial port. */
-  properties?: SerialPortProperties;
+  properties?: SerialPortProperties | undefined;
 }
 /** The list of serial ports. */
 export type SerialPortListResultValueList = Array<SerialPort>;
 /** The list serial ports operation response. */
 export interface SerialPortListResult {
   /** The list of serial ports. */
-  value?: SerialPortListResultValueList;
+  value?: SerialPortListResultValueList | undefined;
 }
 export interface ListSerialPortsRequest {
   /** The ID of the target subscription. The value must be an UUID. */

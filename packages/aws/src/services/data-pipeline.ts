@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -122,8 +123,8 @@ export interface ParameterValue {
 export type ParameterValueList = ParameterValue[];
 export interface ActivatePipelineInput {
   pipelineId: string;
-  parameterValues?: ParameterValue[];
-  startTimestamp?: Date;
+  parameterValues?: ParameterValue[] | undefined;
+  startTimestamp?: Date | undefined;
 }
 export interface ActivatePipelineOutput {}
 export type TagKey = string;
@@ -141,8 +142,8 @@ export interface AddTagsOutput {}
 export interface CreatePipelineInput {
   name: string;
   uniqueId: string;
-  description?: string;
-  tags?: Tag[];
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreatePipelineOutput {
   pipelineId: string;
@@ -150,7 +151,7 @@ export interface CreatePipelineOutput {
 export type CancelActive = boolean;
 export interface DeactivatePipelineInput {
   pipelineId: string;
-  cancelActive?: boolean;
+  cancelActive?: boolean | undefined;
 }
 export interface DeactivatePipelineOutput {}
 export interface DeletePipelineInput {
@@ -161,13 +162,13 @@ export type IdList = string[];
 export interface DescribeObjectsInput {
   pipelineId: string;
   objectIds: string[];
-  evaluateExpressions?: boolean;
-  marker?: string;
+  evaluateExpressions?: boolean | undefined;
+  marker?: string | undefined;
 }
 export interface Field {
   key: string;
-  stringValue?: string;
-  refValue?: string;
+  stringValue?: string | undefined;
+  refValue?: string | undefined;
 }
 export type FieldList = Field[];
 export interface PipelineObject {
@@ -178,8 +179,8 @@ export interface PipelineObject {
 export type PipelineObjectList = PipelineObject[];
 export interface DescribeObjectsOutput {
   pipelineObjects: PipelineObject[];
-  marker?: string;
-  hasMoreResults?: boolean;
+  marker?: string | undefined;
+  hasMoreResults?: boolean | undefined;
 }
 export interface DescribePipelinesInput {
   pipelineIds: string[];
@@ -188,8 +189,8 @@ export interface PipelineDescription {
   pipelineId: string;
   name: string;
   fields: Field[];
-  description?: string;
-  tags?: Tag[];
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type PipelineDescriptionList = PipelineDescription[];
 export interface DescribePipelinesOutput {
@@ -206,7 +207,7 @@ export interface EvaluateExpressionOutput {
 }
 export interface GetPipelineDefinitionInput {
   pipelineId: string;
-  version?: string;
+  version?: string | undefined;
 }
 export type AttributeNameString = string;
 export type AttributeValueString = string;
@@ -221,92 +222,92 @@ export interface ParameterObject {
 }
 export type ParameterObjectList = ParameterObject[];
 export interface GetPipelineDefinitionOutput {
-  pipelineObjects?: PipelineObject[];
-  parameterObjects?: ParameterObject[];
-  parameterValues?: ParameterValue[];
+  pipelineObjects?: PipelineObject[] | undefined;
+  parameterObjects?: ParameterObject[] | undefined;
+  parameterValues?: ParameterValue[] | undefined;
 }
 export interface ListPipelinesInput {
-  marker?: string;
+  marker?: string | undefined;
 }
 export interface PipelineIdName {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type PipelineList = PipelineIdName[];
 export interface ListPipelinesOutput {
   pipelineIdList: PipelineIdName[];
-  marker?: string;
-  hasMoreResults?: boolean;
+  marker?: string | undefined;
+  hasMoreResults?: boolean | undefined;
 }
 export interface InstanceIdentity {
-  document?: string;
-  signature?: string;
+  document?: string | undefined;
+  signature?: string | undefined;
 }
 export interface PollForTaskInput {
   workerGroup: string;
-  hostname?: string;
-  instanceIdentity?: InstanceIdentity;
+  hostname?: string | undefined;
+  instanceIdentity?: InstanceIdentity | undefined;
 }
 export type TaskId = string;
 export type PipelineObjectMap = { [key: string]: PipelineObject | undefined };
 export interface TaskObject {
-  taskId?: string;
-  pipelineId?: string;
-  attemptId?: string;
-  objects?: { [key: string]: PipelineObject | undefined };
+  taskId?: string | undefined;
+  pipelineId?: string | undefined;
+  attemptId?: string | undefined;
+  objects?: { [key: string]: PipelineObject | undefined } | undefined;
 }
 export interface PollForTaskOutput {
-  taskObject?: TaskObject;
+  taskObject?: TaskObject | undefined;
 }
 export interface PutPipelineDefinitionInput {
   pipelineId: string;
   pipelineObjects: PipelineObject[];
-  parameterObjects?: ParameterObject[];
-  parameterValues?: ParameterValue[];
+  parameterObjects?: ParameterObject[] | undefined;
+  parameterValues?: ParameterValue[] | undefined;
 }
 export type ValidationMessage = string;
 export type ValidationMessages = string[];
 export interface ValidationError {
-  id?: string;
-  errors?: string[];
+  id?: string | undefined;
+  errors?: string[] | undefined;
 }
 export type ValidationErrors = ValidationError[];
 export interface ValidationWarning {
-  id?: string;
-  warnings?: string[];
+  id?: string | undefined;
+  warnings?: string[] | undefined;
 }
 export type ValidationWarnings = ValidationWarning[];
 export interface PutPipelineDefinitionOutput {
-  validationErrors?: ValidationError[];
-  validationWarnings?: ValidationWarning[];
+  validationErrors?: ValidationError[] | undefined;
+  validationWarnings?: ValidationWarning[] | undefined;
   errored: boolean;
 }
 export type OperatorType = "EQ" | "REF_EQ" | "LE" | "GE" | "BETWEEN" | (string & {});
 export type StringList = string[];
 export interface Operator {
-  type?: OperatorType;
-  values?: string[];
+  type?: OperatorType | undefined;
+  values?: string[] | undefined;
 }
 export interface Selector {
-  fieldName?: string;
-  operator?: Operator;
+  fieldName?: string | undefined;
+  operator?: Operator | undefined;
 }
 export type SelectorList = Selector[];
 export interface Query {
-  selectors?: Selector[];
+  selectors?: Selector[] | undefined;
 }
 export type Int = number;
 export interface QueryObjectsInput {
   pipelineId: string;
-  query?: Query;
+  query?: Query | undefined;
   sphere: string;
-  marker?: string;
-  limit?: number;
+  marker?: string | undefined;
+  limit?: number | undefined;
 }
 export interface QueryObjectsOutput {
-  ids?: string[];
-  marker?: string;
-  hasMoreResults?: boolean;
+  ids?: string[] | undefined;
+  marker?: string | undefined;
+  hasMoreResults?: boolean | undefined;
 }
 export interface RemoveTagsInput {
   pipelineId: string;
@@ -315,15 +316,15 @@ export interface RemoveTagsInput {
 export interface RemoveTagsOutput {}
 export interface ReportTaskProgressInput {
   taskId: string;
-  fields?: Field[];
+  fields?: Field[] | undefined;
 }
 export interface ReportTaskProgressOutput {
   canceled: boolean;
 }
 export interface ReportTaskRunnerHeartbeatInput {
   taskrunnerId: string;
-  workerGroup?: string;
-  hostname?: string;
+  workerGroup?: string | undefined;
+  hostname?: string | undefined;
 }
 export interface ReportTaskRunnerHeartbeatOutput {
   terminate: boolean;
@@ -339,20 +340,20 @@ export type ErrorMessage = string;
 export interface SetTaskStatusInput {
   taskId: string;
   taskStatus: TaskStatus;
-  errorId?: string;
-  errorMessage?: string;
-  errorStackTrace?: string;
+  errorId?: string | undefined;
+  errorMessage?: string | undefined;
+  errorStackTrace?: string | undefined;
 }
 export interface SetTaskStatusOutput {}
 export interface ValidatePipelineDefinitionInput {
   pipelineId: string;
   pipelineObjects: PipelineObject[];
-  parameterObjects?: ParameterObject[];
-  parameterValues?: ParameterValue[];
+  parameterObjects?: ParameterObject[] | undefined;
+  parameterValues?: ParameterValue[] | undefined;
 }
 export interface ValidatePipelineDefinitionOutput {
-  validationErrors?: ValidationError[];
-  validationWarnings?: ValidationWarning[];
+  validationErrors?: ValidationError[] | undefined;
+  validationWarnings?: ValidationWarning[] | undefined;
   errored: boolean;
 }
 export type ActivatePipelineError =
@@ -389,7 +390,7 @@ export type ActivatePipelineError =
  * {}
  */
 export const activatePipeline: API.OperationMethod<
-  ActivatePipelineInput,
+  ActivatePipelineInput & RegionInput,
   ActivatePipelineOutput,
   ActivatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -419,7 +420,7 @@ export type AddTagsError =
  * Adds or modifies tags for the specified pipeline.
  */
 export const addTags: API.OperationMethod<
-  AddTagsInput,
+  AddTagsInput & RegionInput,
   AddTagsOutput,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -464,7 +465,7 @@ export type CreatePipelineError = InternalServiceError | InvalidRequestException
  * {"pipelineId": "df-06372391ZG65EXAMPLE"}
  */
 export const createPipeline: API.OperationMethod<
-  CreatePipelineInput,
+  CreatePipelineInput & RegionInput,
   CreatePipelineOutput,
   CreatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -493,7 +494,7 @@ export type DeactivatePipelineError =
  * Optionally, you can specify the date and time to resume the pipeline.
  */
 export const deactivatePipeline: API.OperationMethod<
-  DeactivatePipelineInput,
+  DeactivatePipelineInput & RegionInput,
   DeactivatePipelineOutput,
   DeactivatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -544,7 +545,7 @@ export type DeletePipelineError =
  * Unexpected response: 200, OK, undefined
  */
 export const deletePipeline: API.OperationMethod<
-  DeletePipelineInput,
+  DeletePipelineInput & RegionInput,
   DeletePipelineResponse,
   DeletePipelineError,
   Credentials | HttpClient.HttpClient
@@ -617,7 +618,7 @@ export type DescribeObjectsError =
  * }
  */
 export const describeObjects: API.PaginatedOperationMethod<
-  DescribeObjectsInput,
+  DescribeObjectsInput & RegionInput,
   DescribeObjectsOutput,
   DescribeObjectsError,
   Credentials | HttpClient.HttpClient,
@@ -702,7 +703,7 @@ export type DescribePipelinesError =
  * }
  */
 export const describePipelines: API.OperationMethod<
-  DescribePipelinesInput,
+  DescribePipelinesInput & RegionInput,
   DescribePipelinesOutput,
   DescribePipelinesError,
   Credentials | HttpClient.HttpClient
@@ -753,7 +754,7 @@ export type EvaluateExpressionError =
  * {"evaluatedExpression": "Transform started at 2012-12-12T00:00:00 and finished at 2012-12-21T18:00:00"}
  */
 export const evaluateExpression: API.OperationMethod<
-  EvaluateExpressionInput,
+  EvaluateExpressionInput & RegionInput,
   EvaluateExpressionOutput,
   EvaluateExpressionError,
   Credentials | HttpClient.HttpClient
@@ -838,7 +839,7 @@ export type GetPipelineDefinitionError =
  * }
  */
 export const getPipelineDefinition: API.OperationMethod<
-  GetPipelineDefinitionInput,
+  GetPipelineDefinitionInput & RegionInput,
   GetPipelineDefinitionOutput,
   GetPipelineDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -888,7 +889,7 @@ export type ListPipelinesError = InternalServiceError | InvalidRequestException 
  * }
  */
 export const listPipelines: API.PaginatedOperationMethod<
-  ListPipelinesInput,
+  ListPipelinesInput & RegionInput,
   ListPipelinesOutput,
   ListPipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -982,7 +983,7 @@ export type PollForTaskError =
  * }
  */
 export const pollForTask: API.OperationMethod<
-  PollForTaskInput,
+  PollForTaskInput & RegionInput,
   PollForTaskOutput,
   PollForTaskError,
   Credentials | HttpClient.HttpClient
@@ -1146,7 +1147,7 @@ export type PutPipelineDefinitionError =
  * "message": "Pipeline definition has errors: Could not save the pipeline definition due to FATAL errors: [com.amazon.setl.webservice.ValidationError@108d7ea9] Please call Validate to validate your pipeline"}
  */
 export const putPipelineDefinition: API.OperationMethod<
-  PutPipelineDefinitionInput,
+  PutPipelineDefinitionInput & RegionInput,
   PutPipelineDefinitionOutput,
   PutPipelineDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1204,7 +1205,7 @@ export type QueryObjectsError =
  * }
  */
 export const queryObjects: API.PaginatedOperationMethod<
-  QueryObjectsInput,
+  QueryObjectsInput & RegionInput,
   QueryObjectsOutput,
   QueryObjectsError,
   Credentials | HttpClient.HttpClient,
@@ -1241,7 +1242,7 @@ export type RemoveTagsError =
  * Removes existing tags from the specified pipeline.
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsInput,
+  RemoveTagsInput & RegionInput,
   RemoveTagsOutput,
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
@@ -1301,7 +1302,7 @@ export type ReportTaskProgressError =
  * {"canceled": false}
  */
 export const reportTaskProgress: API.OperationMethod<
-  ReportTaskProgressInput,
+  ReportTaskProgressInput & RegionInput,
   ReportTaskProgressOutput,
   ReportTaskProgressError,
   Credentials | HttpClient.HttpClient
@@ -1352,7 +1353,7 @@ export type ReportTaskRunnerHeartbeatError =
  * {"terminate": false}
  */
 export const reportTaskRunnerHeartbeat: API.OperationMethod<
-  ReportTaskRunnerHeartbeatInput,
+  ReportTaskRunnerHeartbeatInput & RegionInput,
   ReportTaskRunnerHeartbeatOutput,
   ReportTaskRunnerHeartbeatError,
   Credentials | HttpClient.HttpClient
@@ -1399,7 +1400,7 @@ export type SetStatusError =
  * Unexpected response: 200, OK, undefined
  */
 export const setStatus: API.OperationMethod<
-  SetStatusInput,
+  SetStatusInput & RegionInput,
   SetStatusResponse,
   SetStatusError,
   Credentials | HttpClient.HttpClient
@@ -1450,7 +1451,7 @@ export type SetTaskStatusError =
  * {}
  */
 export const setTaskStatus: API.OperationMethod<
-  SetTaskStatusInput,
+  SetTaskStatusInput & RegionInput,
   SetTaskStatusOutput,
   SetTaskStatusError,
   Credentials | HttpClient.HttpClient
@@ -1612,7 +1613,7 @@ export type ValidatePipelineDefinitionError =
  * }
  */
 export const validatePipelineDefinition: API.OperationMethod<
-  ValidatePipelineDefinitionInput,
+  ValidatePipelineDefinitionInput & RegionInput,
   ValidatePipelineDefinitionOutput,
   ValidatePipelineDefinitionError,
   Credentials | HttpClient.HttpClient

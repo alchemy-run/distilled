@@ -35,7 +35,7 @@ export interface ChangeStatusRequest {
   repo: string;
   num: string;
   status: ChangeStatusRequestStatus | (string & {});
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData {
   emoji: string;
@@ -43,9 +43,9 @@ export interface ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData {
   colorTo: string;
 }
 export interface ChangeStatusResponseNewStatusAuthorCase0OauthApp {
-  imageUrl?: string;
-  imageData?: ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
-  url?: string;
+  imageUrl?: string | undefined;
+  imageData?: ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData | undefined;
+  url?: string | undefined;
   name: string;
 }
 export type ChangeStatusResponseNewStatusAuthorCase0Plan =
@@ -54,10 +54,10 @@ export type ChangeStatusResponseNewStatusAuthorCase0Plan =
   | "plus"
   | "academia";
 export interface ChangeStatusResponseNewStatusAuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -66,10 +66,10 @@ export interface ChangeStatusResponseNewStatusAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: ChangeStatusResponseNewStatusAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: ChangeStatusResponseNewStatusAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type ChangeStatusResponseNewStatusAuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -92,18 +92,18 @@ export interface ChangeStatusResponseNewStatusAuthorCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: ChangeStatusResponseNewStatusAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: ChangeStatusResponseNewStatusAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: ChangeStatusResponseNewStatusAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: ChangeStatusResponseNewStatusAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface ChangeStatusResponseNewStatusAuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -112,11 +112,11 @@ export interface ChangeStatusResponseNewStatusAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: ChangeStatusResponseNewStatusAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: ChangeStatusResponseNewStatusAuthorCase1PrimaryOrg | undefined;
 }
 export type ChangeStatusResponseNewStatusAuthor =
   | ChangeStatusResponseNewStatusAuthorCase0
@@ -124,12 +124,12 @@ export type ChangeStatusResponseNewStatusAuthor =
 export type ChangeStatusResponseNewStatusDataStatus = "draft" | "open" | "closed" | "merged";
 export interface ChangeStatusResponseNewStatusData {
   status: ChangeStatusResponseNewStatusDataStatus;
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface ChangeStatusResponseNewStatus {
   id: string;
   createdAt: string;
-  author?: ChangeStatusResponseNewStatusAuthor;
+  author?: ChangeStatusResponseNewStatusAuthor | undefined;
   type: string;
   data: ChangeStatusResponseNewStatusData;
 }
@@ -154,10 +154,10 @@ export type ChangeTitleResponseNewTitleAuthorCase0Plan =
   | "plus"
   | "academia";
 export interface ChangeTitleResponseNewTitleAuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -166,10 +166,10 @@ export interface ChangeTitleResponseNewTitleAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: ChangeTitleResponseNewTitleAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: ChangeTitleResponseNewTitleAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type ChangeTitleResponseNewTitleAuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -192,18 +192,18 @@ export interface ChangeTitleResponseNewTitleAuthorCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: ChangeTitleResponseNewTitleAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: ChangeTitleResponseNewTitleAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: ChangeTitleResponseNewTitleAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: ChangeTitleResponseNewTitleAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface ChangeTitleResponseNewTitleAuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -212,11 +212,11 @@ export interface ChangeTitleResponseNewTitleAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: ChangeTitleResponseNewTitleAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: ChangeTitleResponseNewTitleAuthorCase1PrimaryOrg | undefined;
 }
 export type ChangeTitleResponseNewTitleAuthor =
   | ChangeTitleResponseNewTitleAuthorCase0
@@ -228,7 +228,7 @@ export interface ChangeTitleResponseNewTitleData {
 export interface ChangeTitleResponseNewTitle {
   id: string;
   createdAt: string;
-  author?: ChangeTitleResponseNewTitleAuthor;
+  author?: ChangeTitleResponseNewTitleAuthor | undefined;
   type: string;
   data: ChangeTitleResponseNewTitleData;
 }
@@ -249,10 +249,10 @@ export type CreateBlogCommentResponseNewMessageAuthorCase0Plan =
   | "plus"
   | "academia";
 export interface CreateBlogCommentResponseNewMessageAuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -261,10 +261,10 @@ export interface CreateBlogCommentResponseNewMessageAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreateBlogCommentResponseNewMessageAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreateBlogCommentResponseNewMessageAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreateBlogCommentResponseNewMessageAuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -287,18 +287,18 @@ export interface CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreateBlogCommentResponseNewMessageAuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -307,11 +307,11 @@ export interface CreateBlogCommentResponseNewMessageAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrg | undefined;
 }
 export type CreateBlogCommentResponseNewMessageAuthor =
   | CreateBlogCommentResponseNewMessageAuthorCase0
@@ -337,10 +337,10 @@ export interface CreateBlogCommentResponseNewMessageDataLatestAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreateBlogCommentResponseNewMessageDataLatestAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreateBlogCommentResponseNewMessageDataLatestAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreateBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -359,12 +359,12 @@ export interface CreateBlogCommentResponseNewMessageDataLatestAuthorCase1Primary
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreateBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreateBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: CreateBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: CreateBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreateBlogCommentResponseNewMessageDataLatestAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -375,11 +375,11 @@ export interface CreateBlogCommentResponseNewMessageDataLatestAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreateBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreateBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg | undefined;
 }
 export type CreateBlogCommentResponseNewMessageDataLatestAuthor =
   | CreateBlogCommentResponseNewMessageDataLatestAuthorCase0
@@ -388,7 +388,7 @@ export interface CreateBlogCommentResponseNewMessageDataLatest {
   raw: string;
   html: string;
   updatedAt: string;
-  author?: CreateBlogCommentResponseNewMessageDataLatestAuthor;
+  author?: CreateBlogCommentResponseNewMessageDataLatestAuthor | undefined;
 }
 export type CreateBlogCommentResponseNewMessageDataEditorsList = Array<string>;
 export type CreateBlogCommentResponseNewMessageDataEditorAvatarUrlsList = Array<string>;
@@ -420,22 +420,22 @@ export interface CreateBlogCommentResponseNewMessageDataIdentifiedLanguage {
 export interface CreateBlogCommentResponseNewMessageData {
   edited: boolean;
   hidden: boolean;
-  hiddenBy?: string;
-  hiddenReason?: CreateBlogCommentResponseNewMessageDataHiddenReason;
+  hiddenBy?: string | undefined;
+  hiddenReason?: CreateBlogCommentResponseNewMessageDataHiddenReason | undefined;
   latest: CreateBlogCommentResponseNewMessageDataLatest;
   numEdits: number;
   editors: CreateBlogCommentResponseNewMessageDataEditorsList;
   editorAvatarUrls: CreateBlogCommentResponseNewMessageDataEditorAvatarUrlsList;
   reactions: CreateBlogCommentResponseNewMessageDataReactionsList;
-  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
-  relatedEventId?: string;
-  isReport?: boolean;
-  parentCommentId?: string;
+  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage | undefined;
+  relatedEventId?: string | undefined;
+  isReport?: boolean | undefined;
+  parentCommentId?: string | undefined;
 }
 export interface CreateBlogCommentResponseNewMessage {
   id: string;
   createdAt: string;
-  author?: CreateBlogCommentResponseNewMessageAuthor;
+  author?: CreateBlogCommentResponseNewMessageAuthor | undefined;
   type: string;
   data: CreateBlogCommentResponseNewMessageData;
 }
@@ -457,10 +457,10 @@ export type CreateCommunityBlogCommentResponseNewMessageAuthorCase0Plan =
   | "plus"
   | "academia";
 export interface CreateCommunityBlogCommentResponseNewMessageAuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -469,10 +469,10 @@ export interface CreateCommunityBlogCommentResponseNewMessageAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreateCommunityBlogCommentResponseNewMessageAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreateCommunityBlogCommentResponseNewMessageAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreateCommunityBlogCommentResponseNewMessageAuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -495,18 +495,18 @@ export interface CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryO
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreateCommunityBlogCommentResponseNewMessageAuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -515,11 +515,11 @@ export interface CreateCommunityBlogCommentResponseNewMessageAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg | undefined;
 }
 export type CreateCommunityBlogCommentResponseNewMessageAuthor =
   | CreateCommunityBlogCommentResponseNewMessageAuthorCase0
@@ -545,10 +545,10 @@ export interface CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCas
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -567,12 +567,16 @@ export interface CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCas
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?:
+    | CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan
+    | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -583,11 +587,13 @@ export interface CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCas
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg
+    | undefined;
 }
 export type CreateCommunityBlogCommentResponseNewMessageDataLatestAuthor =
   | CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0
@@ -596,7 +602,7 @@ export interface CreateCommunityBlogCommentResponseNewMessageDataLatest {
   raw: string;
   html: string;
   updatedAt: string;
-  author?: CreateCommunityBlogCommentResponseNewMessageDataLatestAuthor;
+  author?: CreateCommunityBlogCommentResponseNewMessageDataLatestAuthor | undefined;
 }
 export type CreateCommunityBlogCommentResponseNewMessageDataEditorsList = Array<string>;
 export type CreateCommunityBlogCommentResponseNewMessageDataEditorAvatarUrlsList = Array<string>;
@@ -626,22 +632,22 @@ export type CreateCommunityBlogCommentResponseNewMessageDataIdentifiedLanguage =
 export interface CreateCommunityBlogCommentResponseNewMessageData {
   edited: boolean;
   hidden: boolean;
-  hiddenBy?: string;
-  hiddenReason?: CreateCommunityBlogCommentResponseNewMessageDataHiddenReason;
+  hiddenBy?: string | undefined;
+  hiddenReason?: CreateCommunityBlogCommentResponseNewMessageDataHiddenReason | undefined;
   latest: CreateCommunityBlogCommentResponseNewMessageDataLatest;
   numEdits: number;
   editors: CreateCommunityBlogCommentResponseNewMessageDataEditorsList;
   editorAvatarUrls: CreateCommunityBlogCommentResponseNewMessageDataEditorAvatarUrlsList;
   reactions: CreateCommunityBlogCommentResponseNewMessageDataReactionsList;
-  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
-  relatedEventId?: string;
-  isReport?: boolean;
-  parentCommentId?: string;
+  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage | undefined;
+  relatedEventId?: string | undefined;
+  isReport?: boolean | undefined;
+  parentCommentId?: string | undefined;
 }
 export interface CreateCommunityBlogCommentResponseNewMessage {
   id: string;
   createdAt: string;
-  author?: CreateCommunityBlogCommentResponseNewMessageAuthor;
+  author?: CreateCommunityBlogCommentResponseNewMessageAuthor | undefined;
   type: string;
   data: CreateCommunityBlogCommentResponseNewMessageData;
 }
@@ -655,17 +661,17 @@ export interface CreateDiscussionRequest {
   repo: string;
   title: string;
   description: string;
-  pullRequest?: boolean;
+  pullRequest?: boolean | undefined;
 }
 export interface CreateDiscussionResponseReferences {
   base: string;
-  mergeCommitId?: string;
+  mergeCommitId?: string | undefined;
 }
 export interface CreateDiscussionResponse {
   url: string;
   num: number;
   pullRequest: boolean;
-  references?: CreateDiscussionResponseReferences;
+  references?: CreateDiscussionResponseReferences | undefined;
 }
 export type CreateDiscussionCommentRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
 export interface CreateDiscussionCommentRequest {
@@ -685,10 +691,10 @@ export type CreateDiscussionCommentResponseNewMessageAuthorCase0Plan =
   | "plus"
   | "academia";
 export interface CreateDiscussionCommentResponseNewMessageAuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -697,10 +703,10 @@ export interface CreateDiscussionCommentResponseNewMessageAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreateDiscussionCommentResponseNewMessageAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreateDiscussionCommentResponseNewMessageAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreateDiscussionCommentResponseNewMessageAuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -723,18 +729,18 @@ export interface CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrg 
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreateDiscussionCommentResponseNewMessageAuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -743,11 +749,11 @@ export interface CreateDiscussionCommentResponseNewMessageAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrg | undefined;
 }
 export type CreateDiscussionCommentResponseNewMessageAuthor =
   | CreateDiscussionCommentResponseNewMessageAuthorCase0
@@ -773,10 +779,10 @@ export interface CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase0 
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -795,12 +801,14 @@ export interface CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1P
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -811,11 +819,11 @@ export interface CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1 
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg | undefined;
 }
 export type CreateDiscussionCommentResponseNewMessageDataLatestAuthor =
   | CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase0
@@ -824,7 +832,7 @@ export interface CreateDiscussionCommentResponseNewMessageDataLatest {
   raw: string;
   html: string;
   updatedAt: string;
-  author?: CreateDiscussionCommentResponseNewMessageDataLatestAuthor;
+  author?: CreateDiscussionCommentResponseNewMessageDataLatestAuthor | undefined;
 }
 export type CreateDiscussionCommentResponseNewMessageDataEditorsList = Array<string>;
 export type CreateDiscussionCommentResponseNewMessageDataEditorAvatarUrlsList = Array<string>;
@@ -854,22 +862,22 @@ export type CreateDiscussionCommentResponseNewMessageDataIdentifiedLanguage =
 export interface CreateDiscussionCommentResponseNewMessageData {
   edited: boolean;
   hidden: boolean;
-  hiddenBy?: string;
-  hiddenReason?: CreateDiscussionCommentResponseNewMessageDataHiddenReason;
+  hiddenBy?: string | undefined;
+  hiddenReason?: CreateDiscussionCommentResponseNewMessageDataHiddenReason | undefined;
   latest: CreateDiscussionCommentResponseNewMessageDataLatest;
   numEdits: number;
   editors: CreateDiscussionCommentResponseNewMessageDataEditorsList;
   editorAvatarUrls: CreateDiscussionCommentResponseNewMessageDataEditorAvatarUrlsList;
   reactions: CreateDiscussionCommentResponseNewMessageDataReactionsList;
-  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
-  relatedEventId?: string;
-  isReport?: boolean;
-  parentCommentId?: string;
+  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage | undefined;
+  relatedEventId?: string | undefined;
+  isReport?: boolean | undefined;
+  parentCommentId?: string | undefined;
 }
 export interface CreateDiscussionCommentResponseNewMessage {
   id: string;
   createdAt: string;
-  author?: CreateDiscussionCommentResponseNewMessageAuthor;
+  author?: CreateDiscussionCommentResponseNewMessageAuthor | undefined;
   type: string;
   data: CreateDiscussionCommentResponseNewMessageData;
 }
@@ -890,10 +898,10 @@ export type CreatePaperCommentResponseNewMessageAuthorCase0Plan =
   | "plus"
   | "academia";
 export interface CreatePaperCommentResponseNewMessageAuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -902,10 +910,10 @@ export interface CreatePaperCommentResponseNewMessageAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreatePaperCommentResponseNewMessageAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreatePaperCommentResponseNewMessageAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreatePaperCommentResponseNewMessageAuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -928,18 +936,18 @@ export interface CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreatePaperCommentResponseNewMessageAuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -948,11 +956,11 @@ export interface CreatePaperCommentResponseNewMessageAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrg | undefined;
 }
 export type CreatePaperCommentResponseNewMessageAuthor =
   | CreatePaperCommentResponseNewMessageAuthorCase0
@@ -978,10 +986,10 @@ export interface CreatePaperCommentResponseNewMessageDataLatestAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreatePaperCommentResponseNewMessageDataLatestAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreatePaperCommentResponseNewMessageDataLatestAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreatePaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -1000,12 +1008,14 @@ export interface CreatePaperCommentResponseNewMessageDataLatestAuthorCase1Primar
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreatePaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreatePaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: CreatePaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | CreatePaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreatePaperCommentResponseNewMessageDataLatestAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -1016,11 +1026,11 @@ export interface CreatePaperCommentResponseNewMessageDataLatestAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreatePaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreatePaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg | undefined;
 }
 export type CreatePaperCommentResponseNewMessageDataLatestAuthor =
   | CreatePaperCommentResponseNewMessageDataLatestAuthorCase0
@@ -1029,7 +1039,7 @@ export interface CreatePaperCommentResponseNewMessageDataLatest {
   raw: string;
   html: string;
   updatedAt: string;
-  author?: CreatePaperCommentResponseNewMessageDataLatestAuthor;
+  author?: CreatePaperCommentResponseNewMessageDataLatestAuthor | undefined;
 }
 export type CreatePaperCommentResponseNewMessageDataEditorsList = Array<string>;
 export type CreatePaperCommentResponseNewMessageDataEditorAvatarUrlsList = Array<string>;
@@ -1059,22 +1069,22 @@ export type CreatePaperCommentResponseNewMessageDataIdentifiedLanguage =
 export interface CreatePaperCommentResponseNewMessageData {
   edited: boolean;
   hidden: boolean;
-  hiddenBy?: string;
-  hiddenReason?: CreatePaperCommentResponseNewMessageDataHiddenReason;
+  hiddenBy?: string | undefined;
+  hiddenReason?: CreatePaperCommentResponseNewMessageDataHiddenReason | undefined;
   latest: CreatePaperCommentResponseNewMessageDataLatest;
   numEdits: number;
   editors: CreatePaperCommentResponseNewMessageDataEditorsList;
   editorAvatarUrls: CreatePaperCommentResponseNewMessageDataEditorAvatarUrlsList;
   reactions: CreatePaperCommentResponseNewMessageDataReactionsList;
-  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
-  relatedEventId?: string;
-  isReport?: boolean;
-  parentCommentId?: string;
+  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage | undefined;
+  relatedEventId?: string | undefined;
+  isReport?: boolean | undefined;
+  parentCommentId?: string | undefined;
 }
 export interface CreatePaperCommentResponseNewMessage {
   id: string;
   createdAt: string;
-  author?: CreatePaperCommentResponseNewMessageAuthor;
+  author?: CreatePaperCommentResponseNewMessageAuthor | undefined;
   type: string;
   data: CreatePaperCommentResponseNewMessageData;
 }
@@ -1096,10 +1106,10 @@ export type CreatePostCommentResponseNewMessageAuthorCase0Plan =
   | "plus"
   | "academia";
 export interface CreatePostCommentResponseNewMessageAuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -1108,10 +1118,10 @@ export interface CreatePostCommentResponseNewMessageAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreatePostCommentResponseNewMessageAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreatePostCommentResponseNewMessageAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreatePostCommentResponseNewMessageAuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -1134,18 +1144,18 @@ export interface CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreatePostCommentResponseNewMessageAuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -1154,11 +1164,11 @@ export interface CreatePostCommentResponseNewMessageAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrg | undefined;
 }
 export type CreatePostCommentResponseNewMessageAuthor =
   | CreatePostCommentResponseNewMessageAuthorCase0
@@ -1184,10 +1194,10 @@ export interface CreatePostCommentResponseNewMessageDataLatestAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreatePostCommentResponseNewMessageDataLatestAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreatePostCommentResponseNewMessageDataLatestAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreatePostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -1206,12 +1216,12 @@ export interface CreatePostCommentResponseNewMessageDataLatestAuthorCase1Primary
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreatePostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreatePostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: CreatePostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: CreatePostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreatePostCommentResponseNewMessageDataLatestAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -1222,11 +1232,11 @@ export interface CreatePostCommentResponseNewMessageDataLatestAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreatePostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreatePostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg | undefined;
 }
 export type CreatePostCommentResponseNewMessageDataLatestAuthor =
   | CreatePostCommentResponseNewMessageDataLatestAuthorCase0
@@ -1235,7 +1245,7 @@ export interface CreatePostCommentResponseNewMessageDataLatest {
   raw: string;
   html: string;
   updatedAt: string;
-  author?: CreatePostCommentResponseNewMessageDataLatestAuthor;
+  author?: CreatePostCommentResponseNewMessageDataLatestAuthor | undefined;
 }
 export type CreatePostCommentResponseNewMessageDataEditorsList = Array<string>;
 export type CreatePostCommentResponseNewMessageDataEditorAvatarUrlsList = Array<string>;
@@ -1265,22 +1275,22 @@ export type CreatePostCommentResponseNewMessageDataIdentifiedLanguage =
 export interface CreatePostCommentResponseNewMessageData {
   edited: boolean;
   hidden: boolean;
-  hiddenBy?: string;
-  hiddenReason?: CreatePostCommentResponseNewMessageDataHiddenReason;
+  hiddenBy?: string | undefined;
+  hiddenReason?: CreatePostCommentResponseNewMessageDataHiddenReason | undefined;
   latest: CreatePostCommentResponseNewMessageDataLatest;
   numEdits: number;
   editors: CreatePostCommentResponseNewMessageDataEditorsList;
   editorAvatarUrls: CreatePostCommentResponseNewMessageDataEditorAvatarUrlsList;
   reactions: CreatePostCommentResponseNewMessageDataReactionsList;
-  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
-  relatedEventId?: string;
-  isReport?: boolean;
-  parentCommentId?: string;
+  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage | undefined;
+  relatedEventId?: string | undefined;
+  isReport?: boolean | undefined;
+  parentCommentId?: string | undefined;
 }
 export interface CreatePostCommentResponseNewMessage {
   id: string;
   createdAt: string;
-  author?: CreatePostCommentResponseNewMessageAuthor;
+  author?: CreatePostCommentResponseNewMessageAuthor | undefined;
   type: string;
   data: CreatePostCommentResponseNewMessageData;
 }
@@ -1329,10 +1339,10 @@ export interface GetDiscussionDetailsResponseBodyCase0AuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase0AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase0AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrgPlan =
   | "team"
@@ -1351,12 +1361,12 @@ export interface GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase0AuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -1367,11 +1377,11 @@ export interface GetDiscussionDetailsResponseBodyCase0AuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrg | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0Author =
   | GetDiscussionDetailsResponseBodyCase0AuthorCase0
@@ -1383,15 +1393,15 @@ export type GetDiscussionDetailsResponseBodyCase0OrgPlan =
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase0Org {
   avatarUrl: string;
-  email?: string;
+  email?: string | undefined;
   fullname: string;
   name: string;
   type: string;
   isHf: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase0OrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  requiresSSO?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase0OrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  requiresSSO?: boolean | undefined;
 }
 export type RepoIdType = "dataset" | "model" | "space" | "bucket" | "kernel" | "container";
 export interface RepoId {
@@ -1409,10 +1419,10 @@ export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -1421,10 +1431,10 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -1447,18 +1457,20 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -1467,11 +1479,13 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0Author =
   | GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0
@@ -1497,10 +1511,10 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestA
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -1519,12 +1533,16 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestA
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan
+    | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -1535,11 +1553,13 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestA
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthor =
   | GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase0
@@ -1548,7 +1568,7 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatest 
   raw: string;
   html: string;
   updatedAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthor;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthor | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataEditorsList = Array<string>;
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataEditorAvatarUrlsList =
@@ -1580,22 +1600,22 @@ export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataIdentifiedLa
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0Data {
   edited: boolean;
   hidden: boolean;
-  hiddenBy?: string;
-  hiddenReason?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataHiddenReason;
+  hiddenBy?: string | undefined;
+  hiddenReason?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataHiddenReason | undefined;
   latest: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatest;
   numEdits: number;
   editors: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataEditorsList;
   editorAvatarUrls: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataEditorAvatarUrlsList;
   reactions: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsList;
-  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
-  relatedEventId?: string;
-  isReport?: boolean;
-  parentCommentId?: string;
+  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage | undefined;
+  relatedEventId?: string | undefined;
+  isReport?: boolean | undefined;
+  parentCommentId?: string | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0Author;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0Author | undefined;
   type: string;
   data: GetDiscussionDetailsResponseBodyCase0EventsItemCase0Data;
 }
@@ -1609,10 +1629,10 @@ export type GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -1621,10 +1641,10 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -1647,18 +1667,20 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -1667,11 +1689,13 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase1Author =
   | GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0
@@ -1683,12 +1707,12 @@ export type GetDiscussionDetailsResponseBodyCase0EventsItemCase1DataStatus =
   | "merged";
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase1Data {
   status: GetDiscussionDetailsResponseBodyCase0EventsItemCase1DataStatus;
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase1 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase1Author;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase1Author | undefined;
   type: string;
   data: GetDiscussionDetailsResponseBodyCase0EventsItemCase1Data;
 }
@@ -1702,10 +1726,10 @@ export type GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -1714,10 +1738,10 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -1740,18 +1764,20 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -1760,11 +1786,13 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase2Author =
   | GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0
@@ -1776,7 +1804,7 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase2Data {
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase2 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase2Author;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase2Author | undefined;
   type: string;
   data: GetDiscussionDetailsResponseBodyCase0EventsItemCase2Data;
 }
@@ -1790,10 +1818,10 @@ export type GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -1802,10 +1830,10 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -1828,18 +1856,20 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -1848,11 +1878,13 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase3Author =
   | GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0
@@ -1862,7 +1894,7 @@ export type GetDiscussionDetailsResponseBodyCase0EventsItemCase3Data =
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase3 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase3Author;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase3Author | undefined;
   type: string;
   data: ChangeTitleResponseNewTitleData;
 }
@@ -1876,10 +1908,10 @@ export type GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -1888,10 +1920,10 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -1914,18 +1946,20 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -1934,11 +1968,13 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase4Author =
   | GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0
@@ -1949,7 +1985,7 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase4Data {
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase4 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase4Author;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase4Author | undefined;
   type: string;
   data: GetDiscussionDetailsResponseBodyCase0EventsItemCase4Data;
 }
@@ -1963,10 +1999,10 @@ export type GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -1975,10 +2011,10 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -2001,18 +2037,20 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2021,11 +2059,13 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase5Author =
   | GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0
@@ -2036,7 +2076,7 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase5Data {
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase5 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase5Author;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase5Author | undefined;
   type: string;
   data: GetDiscussionDetailsResponseBodyCase0EventsItemCase5Data;
 }
@@ -2050,10 +2090,10 @@ export type GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2062,10 +2102,10 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -2088,18 +2128,20 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2108,11 +2150,13 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase6Author =
   | GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0
@@ -2123,7 +2167,7 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase6Data {
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase6 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase6Author;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase6Author | undefined;
   type: string;
   data: GetDiscussionDetailsResponseBodyCase0EventsItemCase6Data;
 }
@@ -2137,10 +2181,10 @@ export type GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2149,10 +2193,10 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -2175,18 +2219,20 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2195,11 +2241,13 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase7Author =
   | GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0
@@ -2207,7 +2255,7 @@ export type GetDiscussionDetailsResponseBodyCase0EventsItemCase7Author =
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase7 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase7Author;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase7Author | undefined;
   type: string;
   data: unknown;
 }
@@ -2221,10 +2269,10 @@ export type GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2233,10 +2281,10 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -2259,18 +2307,20 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2279,11 +2329,13 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase0EventsItemCase8Author =
   | GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0
@@ -2295,7 +2347,7 @@ export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase8Data {
 export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase8 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase8Author;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase8Author | undefined;
   type: string;
   data: GetDiscussionDetailsResponseBodyCase0EventsItemCase8Data;
 }
@@ -2317,15 +2369,15 @@ export type GetDiscussionDetailsResponseBodyCase0Collection =
   | "social_posts"
   | "community_blogs";
 export interface GetDiscussionDetailsResponseBodyCase0 {
-  diffUrl?: string;
+  diffUrl?: string | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
-  num?: number;
-  author?: GetDiscussionDetailsResponseBodyCase0Author;
-  org?: GetDiscussionDetailsResponseBodyCase0Org;
-  repo?: RepoId;
+  num?: number | undefined;
+  author?: GetDiscussionDetailsResponseBodyCase0Author | undefined;
+  org?: GetDiscussionDetailsResponseBodyCase0Org | undefined;
+  repo?: RepoId | undefined;
   title: string;
-  createdAt?: string;
+  createdAt?: string | undefined;
   status: GetDiscussionDetailsResponseBodyCase0Status;
   events: GetDiscussionDetailsResponseBodyCase0EventsList;
   pinned: boolean;
@@ -2348,10 +2400,10 @@ export interface GetDiscussionDetailsResponseBodyCase1AuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase1AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrgPlan =
   | "team"
@@ -2370,12 +2422,12 @@ export interface GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase1AuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -2386,11 +2438,11 @@ export interface GetDiscussionDetailsResponseBodyCase1AuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrg | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1Author =
   | GetDiscussionDetailsResponseBodyCase1AuthorCase0
@@ -2402,15 +2454,15 @@ export type GetDiscussionDetailsResponseBodyCase1OrgPlan =
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase1Org {
   avatarUrl: string;
-  email?: string;
+  email?: string | undefined;
   fullname: string;
   name: string;
   type: string;
   isHf: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase1OrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  requiresSSO?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1OrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  requiresSSO?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1Status = "draft" | "open" | "closed" | "merged";
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0OauthAppImageData =
@@ -2423,10 +2475,10 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2435,10 +2487,10 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -2461,18 +2513,20 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2481,11 +2535,13 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0Author =
   | GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0
@@ -2511,10 +2567,10 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestA
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -2533,12 +2589,16 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestA
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan
+    | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -2549,11 +2609,13 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestA
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthor =
   | GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase0
@@ -2562,7 +2624,7 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatest 
   raw: string;
   html: string;
   updatedAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthor;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthor | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataEditorsList = Array<string>;
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataEditorAvatarUrlsList =
@@ -2594,22 +2656,22 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataIdentifiedLa
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0Data {
   edited: boolean;
   hidden: boolean;
-  hiddenBy?: string;
-  hiddenReason?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataHiddenReason;
+  hiddenBy?: string | undefined;
+  hiddenReason?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataHiddenReason | undefined;
   latest: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatest;
   numEdits: number;
   editors: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataEditorsList;
   editorAvatarUrls: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataEditorAvatarUrlsList;
   reactions: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsList;
-  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
-  relatedEventId?: string;
-  isReport?: boolean;
-  parentCommentId?: string;
+  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage | undefined;
+  relatedEventId?: string | undefined;
+  isReport?: boolean | undefined;
+  parentCommentId?: string | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0Author;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0Author | undefined;
   type: string;
   data: GetDiscussionDetailsResponseBodyCase1EventsItemCase0Data;
 }
@@ -2623,10 +2685,10 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2635,10 +2697,10 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -2661,18 +2723,20 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2681,11 +2745,13 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase1Author =
   | GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0
@@ -2697,12 +2763,12 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase1DataStatus =
   | "merged";
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase1Data {
   status: GetDiscussionDetailsResponseBodyCase1EventsItemCase1DataStatus;
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase1 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase1Author;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase1Author | undefined;
   type: string;
   data: GetDiscussionDetailsResponseBodyCase1EventsItemCase1Data;
 }
@@ -2716,10 +2782,10 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2728,10 +2794,10 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -2754,18 +2820,20 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2774,11 +2842,13 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase2Author =
   | GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0
@@ -2788,7 +2858,7 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase2Data =
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase2 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase2Author;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase2Author | undefined;
   type: string;
   data: GetDiscussionDetailsResponseBodyCase0EventsItemCase2Data;
 }
@@ -2802,10 +2872,10 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2814,10 +2884,10 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -2840,18 +2910,20 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2860,11 +2932,13 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase3Author =
   | GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0
@@ -2874,7 +2948,7 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase3Data =
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase3 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase3Author;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase3Author | undefined;
   type: string;
   data: ChangeTitleResponseNewTitleData;
 }
@@ -2888,10 +2962,10 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2900,10 +2974,10 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -2926,18 +3000,20 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2946,11 +3022,13 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase4Author =
   | GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0
@@ -2960,7 +3038,7 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase4Data =
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase4 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase4Author;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase4Author | undefined;
   type: string;
   data: GetDiscussionDetailsResponseBodyCase0EventsItemCase4Data;
 }
@@ -2974,10 +3052,10 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -2986,10 +3064,10 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -3012,18 +3090,20 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -3032,11 +3112,13 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase5Author =
   | GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0
@@ -3046,7 +3128,7 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase5Data =
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase5 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase5Author;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase5Author | undefined;
   type: string;
   data: GetDiscussionDetailsResponseBodyCase0EventsItemCase5Data;
 }
@@ -3060,10 +3142,10 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -3072,10 +3154,10 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -3098,18 +3180,20 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -3118,11 +3202,13 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase6Author =
   | GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0
@@ -3132,7 +3218,7 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase6Data =
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase6 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase6Author;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase6Author | undefined;
   type: string;
   data: GetDiscussionDetailsResponseBodyCase0EventsItemCase6Data;
 }
@@ -3146,10 +3232,10 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -3158,10 +3244,10 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -3184,18 +3270,20 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -3204,11 +3292,13 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase7Author =
   | GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0
@@ -3216,7 +3306,7 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase7Author =
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase7 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase7Author;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase7Author | undefined;
   type: string;
   data: unknown;
 }
@@ -3230,10 +3320,10 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0Plan 
   | "plus"
   | "academia";
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -3242,10 +3332,10 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -3268,18 +3358,20 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -3288,11 +3380,13 @@ export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetDiscussionDetailsResponseBodyCase1EventsItemCase8Author =
   | GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0
@@ -3302,7 +3396,7 @@ export type GetDiscussionDetailsResponseBodyCase1EventsItemCase8Data =
 export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase8 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase8Author;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase8Author | undefined;
   type: string;
   data: GetDiscussionDetailsResponseBodyCase0EventsItemCase8Data;
 }
@@ -3325,22 +3419,22 @@ export type GetDiscussionDetailsResponseBodyCase1FilesWithConflicts =
   | boolean;
 export interface GetDiscussionDetailsResponseBodyCase1Changes {
   base: string;
-  mergeCommitId?: string;
+  mergeCommitId?: string | undefined;
   /** The last commit ID of the PR branch, stored before ref deletion so diffs can still be computed. */
-  headCommitId?: string;
+  headCommitId?: string | undefined;
   /** Whether the PR ref has been deleted (to free up storage). */
-  refDeleted?: boolean;
+  refDeleted?: boolean | undefined;
 }
 export interface GetDiscussionDetailsResponseBodyCase1 {
-  diffUrl?: string;
+  diffUrl?: string | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
-  num?: number;
-  author?: GetDiscussionDetailsResponseBodyCase1Author;
-  org?: GetDiscussionDetailsResponseBodyCase1Org;
-  repo?: RepoId;
+  num?: number | undefined;
+  author?: GetDiscussionDetailsResponseBodyCase1Author | undefined;
+  org?: GetDiscussionDetailsResponseBodyCase1Org | undefined;
+  repo?: RepoId | undefined;
   title: string;
-  createdAt?: string;
+  createdAt?: string | undefined;
   status: GetDiscussionDetailsResponseBodyCase1Status;
   events: GetDiscussionDetailsResponseBodyCase1EventsList;
   pinned: boolean;
@@ -3365,7 +3459,7 @@ export type HideBlogCommentRequestReason =
 export interface HideBlogCommentRequest {
   slug: string;
   commentId: string;
-  reason?: HideBlogCommentRequestReason | (string & {});
+  reason?: HideBlogCommentRequestReason | (string & {}) | undefined;
 }
 export interface HideBlogCommentResponse {}
 export type HideCommunityBlogCommentRequestReason =
@@ -3379,7 +3473,7 @@ export interface HideCommunityBlogCommentRequest {
   namespace: string;
   slug: string;
   commentId: string;
-  reason?: HideCommunityBlogCommentRequestReason | (string & {});
+  reason?: HideCommunityBlogCommentRequestReason | (string & {}) | undefined;
 }
 export interface HideCommunityBlogCommentResponse {}
 export type HideDiscussionCommentRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
@@ -3396,7 +3490,7 @@ export interface HideDiscussionCommentRequest {
   repo: string;
   num: string;
   commentId: string;
-  reason?: HideDiscussionCommentRequestReason | (string & {});
+  reason?: HideDiscussionCommentRequestReason | (string & {}) | undefined;
 }
 export interface HideDiscussionCommentResponse {}
 export type HidePaperCommentRequestReason =
@@ -3409,7 +3503,7 @@ export type HidePaperCommentRequestReason =
 export interface HidePaperCommentRequest {
   paperId: string;
   commentId: string;
-  reason?: HidePaperCommentRequestReason | (string & {});
+  reason?: HidePaperCommentRequestReason | (string & {}) | undefined;
 }
 export interface HidePaperCommentResponse {}
 export type HidePostCommentRequestReason =
@@ -3423,7 +3517,7 @@ export interface HidePostCommentRequest {
   username: string;
   postSlug: string;
   commentId: string;
-  reason?: HidePostCommentRequestReason | (string & {});
+  reason?: HidePostCommentRequestReason | (string & {}) | undefined;
 }
 export interface HidePostCommentResponse {}
 export type ListDiscussionsRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
@@ -3434,12 +3528,12 @@ export interface ListDiscussionsRequest {
   repoType: ListDiscussionsRequestRepoType | (string & {});
   namespace: string;
   repo: string;
-  p?: number;
-  type?: ListDiscussionsRequestType | (string & {});
-  status?: ListDiscussionsRequestStatus | (string & {});
-  author?: string;
-  search?: string;
-  sort?: ListDiscussionsRequestSort | (string & {});
+  p?: number | undefined;
+  type?: ListDiscussionsRequestType | (string & {}) | undefined;
+  status?: ListDiscussionsRequestStatus | (string & {}) | undefined;
+  author?: string | undefined;
+  search?: string | undefined;
+  sort?: ListDiscussionsRequestSort | (string & {}) | undefined;
 }
 export type ListDiscussionsResponseDiscussionsItemAuthorCase0Plan =
   | "team"
@@ -3455,10 +3549,10 @@ export interface ListDiscussionsResponseDiscussionsItemAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: ListDiscussionsResponseDiscussionsItemAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: ListDiscussionsResponseDiscussionsItemAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -3477,12 +3571,12 @@ export interface ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface ListDiscussionsResponseDiscussionsItemAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -3493,11 +3587,11 @@ export interface ListDiscussionsResponseDiscussionsItemAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrg | undefined;
 }
 export type ListDiscussionsResponseDiscussionsItemAuthor =
   | ListDiscussionsResponseDiscussionsItemAuthorCase0
@@ -3531,7 +3625,7 @@ export interface ListDiscussionsResponseDiscussionsItemRepoOwner {
 }
 export interface ListDiscussionsResponseDiscussionsItem {
   num: number;
-  author?: ListDiscussionsResponseDiscussionsItemAuthor;
+  author?: ListDiscussionsResponseDiscussionsItemAuthor | undefined;
   repo: RepoId;
   title: string;
   createdAt: string;
@@ -3541,7 +3635,7 @@ export interface ListDiscussionsResponseDiscussionsItem {
   numComments: number;
   numReactionUsers: number;
   pinned: boolean;
-  repoOwner?: ListDiscussionsResponseDiscussionsItemRepoOwner;
+  repoOwner?: ListDiscussionsResponseDiscussionsItemRepoOwner | undefined;
 }
 export type ListDiscussionsResponseDiscussionsList = Array<ListDiscussionsResponseDiscussionsItem>;
 export interface ListDiscussionsResponse {
@@ -3549,7 +3643,7 @@ export interface ListDiscussionsResponse {
   count: number;
   start: number;
   /** Number of closed discussions on the first page */
-  numClosedDiscussions?: number;
+  numClosedDiscussions?: number | undefined;
 }
 export type MergePullRequestRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
 export interface MergePullRequestRequest {
@@ -3557,7 +3651,7 @@ export interface MergePullRequestRequest {
   namespace: string;
   repo: string;
   num: string;
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface MergePullRequestResponse {}
 export type PinDiscussionRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
@@ -3708,10 +3802,10 @@ export type ReplyToBlogCommentResponseNewMessageAuthorCase0Plan =
   | "plus"
   | "academia";
 export interface ReplyToBlogCommentResponseNewMessageAuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -3720,10 +3814,10 @@ export interface ReplyToBlogCommentResponseNewMessageAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: ReplyToBlogCommentResponseNewMessageAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: ReplyToBlogCommentResponseNewMessageAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type ReplyToBlogCommentResponseNewMessageAuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -3746,18 +3840,18 @@ export interface ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface ReplyToBlogCommentResponseNewMessageAuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -3766,11 +3860,11 @@ export interface ReplyToBlogCommentResponseNewMessageAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrg | undefined;
 }
 export type ReplyToBlogCommentResponseNewMessageAuthor =
   | ReplyToBlogCommentResponseNewMessageAuthorCase0
@@ -3796,10 +3890,10 @@ export interface ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -3818,12 +3912,14 @@ export interface ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1Primar
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -3834,11 +3930,11 @@ export interface ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg | undefined;
 }
 export type ReplyToBlogCommentResponseNewMessageDataLatestAuthor =
   | ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase0
@@ -3847,7 +3943,7 @@ export interface ReplyToBlogCommentResponseNewMessageDataLatest {
   raw: string;
   html: string;
   updatedAt: string;
-  author?: ReplyToBlogCommentResponseNewMessageDataLatestAuthor;
+  author?: ReplyToBlogCommentResponseNewMessageDataLatestAuthor | undefined;
 }
 export type ReplyToBlogCommentResponseNewMessageDataEditorsList = Array<string>;
 export type ReplyToBlogCommentResponseNewMessageDataEditorAvatarUrlsList = Array<string>;
@@ -3877,22 +3973,22 @@ export type ReplyToBlogCommentResponseNewMessageDataIdentifiedLanguage =
 export interface ReplyToBlogCommentResponseNewMessageData {
   edited: boolean;
   hidden: boolean;
-  hiddenBy?: string;
-  hiddenReason?: ReplyToBlogCommentResponseNewMessageDataHiddenReason;
+  hiddenBy?: string | undefined;
+  hiddenReason?: ReplyToBlogCommentResponseNewMessageDataHiddenReason | undefined;
   latest: ReplyToBlogCommentResponseNewMessageDataLatest;
   numEdits: number;
   editors: ReplyToBlogCommentResponseNewMessageDataEditorsList;
   editorAvatarUrls: ReplyToBlogCommentResponseNewMessageDataEditorAvatarUrlsList;
   reactions: ReplyToBlogCommentResponseNewMessageDataReactionsList;
-  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
-  relatedEventId?: string;
-  isReport?: boolean;
-  parentCommentId?: string;
+  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage | undefined;
+  relatedEventId?: string | undefined;
+  isReport?: boolean | undefined;
+  parentCommentId?: string | undefined;
 }
 export interface ReplyToBlogCommentResponseNewMessage {
   id: string;
   createdAt: string;
-  author?: ReplyToBlogCommentResponseNewMessageAuthor;
+  author?: ReplyToBlogCommentResponseNewMessageAuthor | undefined;
   type: string;
   data: ReplyToBlogCommentResponseNewMessageData;
 }
@@ -3915,10 +4011,10 @@ export type ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0Plan =
   | "plus"
   | "academia";
 export interface ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -3927,10 +4023,10 @@ export interface ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -3953,18 +4049,18 @@ export interface ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1Primary
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -3973,11 +4069,11 @@ export interface ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg | undefined;
 }
 export type ReplyToCommunityBlogCommentResponseNewMessageAuthor =
   | ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0
@@ -4003,10 +4099,10 @@ export interface ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCa
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -4025,12 +4121,16 @@ export interface ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCa
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?:
+    | ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan
+    | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -4041,11 +4141,13 @@ export interface ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCa
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg
+    | undefined;
 }
 export type ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthor =
   | ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0
@@ -4054,7 +4156,7 @@ export interface ReplyToCommunityBlogCommentResponseNewMessageDataLatest {
   raw: string;
   html: string;
   updatedAt: string;
-  author?: ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthor;
+  author?: ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthor | undefined;
 }
 export type ReplyToCommunityBlogCommentResponseNewMessageDataEditorsList = Array<string>;
 export type ReplyToCommunityBlogCommentResponseNewMessageDataEditorAvatarUrlsList = Array<string>;
@@ -4084,22 +4186,22 @@ export type ReplyToCommunityBlogCommentResponseNewMessageDataIdentifiedLanguage 
 export interface ReplyToCommunityBlogCommentResponseNewMessageData {
   edited: boolean;
   hidden: boolean;
-  hiddenBy?: string;
-  hiddenReason?: ReplyToCommunityBlogCommentResponseNewMessageDataHiddenReason;
+  hiddenBy?: string | undefined;
+  hiddenReason?: ReplyToCommunityBlogCommentResponseNewMessageDataHiddenReason | undefined;
   latest: ReplyToCommunityBlogCommentResponseNewMessageDataLatest;
   numEdits: number;
   editors: ReplyToCommunityBlogCommentResponseNewMessageDataEditorsList;
   editorAvatarUrls: ReplyToCommunityBlogCommentResponseNewMessageDataEditorAvatarUrlsList;
   reactions: ReplyToCommunityBlogCommentResponseNewMessageDataReactionsList;
-  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
-  relatedEventId?: string;
-  isReport?: boolean;
-  parentCommentId?: string;
+  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage | undefined;
+  relatedEventId?: string | undefined;
+  isReport?: boolean | undefined;
+  parentCommentId?: string | undefined;
 }
 export interface ReplyToCommunityBlogCommentResponseNewMessage {
   id: string;
   createdAt: string;
-  author?: ReplyToCommunityBlogCommentResponseNewMessageAuthor;
+  author?: ReplyToCommunityBlogCommentResponseNewMessageAuthor | undefined;
   type: string;
   data: ReplyToCommunityBlogCommentResponseNewMessageData;
 }
@@ -4121,10 +4223,10 @@ export type ReplyToPaperCommentResponseNewMessageAuthorCase0Plan =
   | "plus"
   | "academia";
 export interface ReplyToPaperCommentResponseNewMessageAuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -4133,10 +4235,10 @@ export interface ReplyToPaperCommentResponseNewMessageAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: ReplyToPaperCommentResponseNewMessageAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: ReplyToPaperCommentResponseNewMessageAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type ReplyToPaperCommentResponseNewMessageAuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -4159,18 +4261,18 @@ export interface ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface ReplyToPaperCommentResponseNewMessageAuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -4179,11 +4281,11 @@ export interface ReplyToPaperCommentResponseNewMessageAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrg | undefined;
 }
 export type ReplyToPaperCommentResponseNewMessageAuthor =
   | ReplyToPaperCommentResponseNewMessageAuthorCase0
@@ -4209,10 +4311,10 @@ export interface ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -4231,12 +4333,14 @@ export interface ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1Prima
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -4247,11 +4351,11 @@ export interface ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg | undefined;
 }
 export type ReplyToPaperCommentResponseNewMessageDataLatestAuthor =
   | ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase0
@@ -4260,7 +4364,7 @@ export interface ReplyToPaperCommentResponseNewMessageDataLatest {
   raw: string;
   html: string;
   updatedAt: string;
-  author?: ReplyToPaperCommentResponseNewMessageDataLatestAuthor;
+  author?: ReplyToPaperCommentResponseNewMessageDataLatestAuthor | undefined;
 }
 export type ReplyToPaperCommentResponseNewMessageDataEditorsList = Array<string>;
 export type ReplyToPaperCommentResponseNewMessageDataEditorAvatarUrlsList = Array<string>;
@@ -4290,22 +4394,22 @@ export type ReplyToPaperCommentResponseNewMessageDataIdentifiedLanguage =
 export interface ReplyToPaperCommentResponseNewMessageData {
   edited: boolean;
   hidden: boolean;
-  hiddenBy?: string;
-  hiddenReason?: ReplyToPaperCommentResponseNewMessageDataHiddenReason;
+  hiddenBy?: string | undefined;
+  hiddenReason?: ReplyToPaperCommentResponseNewMessageDataHiddenReason | undefined;
   latest: ReplyToPaperCommentResponseNewMessageDataLatest;
   numEdits: number;
   editors: ReplyToPaperCommentResponseNewMessageDataEditorsList;
   editorAvatarUrls: ReplyToPaperCommentResponseNewMessageDataEditorAvatarUrlsList;
   reactions: ReplyToPaperCommentResponseNewMessageDataReactionsList;
-  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
-  relatedEventId?: string;
-  isReport?: boolean;
-  parentCommentId?: string;
+  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage | undefined;
+  relatedEventId?: string | undefined;
+  isReport?: boolean | undefined;
+  parentCommentId?: string | undefined;
 }
 export interface ReplyToPaperCommentResponseNewMessage {
   id: string;
   createdAt: string;
-  author?: ReplyToPaperCommentResponseNewMessageAuthor;
+  author?: ReplyToPaperCommentResponseNewMessageAuthor | undefined;
   type: string;
   data: ReplyToPaperCommentResponseNewMessageData;
 }
@@ -4328,10 +4432,10 @@ export type ReplyToPostCommentResponseNewMessageAuthorCase0Plan =
   | "plus"
   | "academia";
 export interface ReplyToPostCommentResponseNewMessageAuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -4340,10 +4444,10 @@ export interface ReplyToPostCommentResponseNewMessageAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: ReplyToPostCommentResponseNewMessageAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: ReplyToPostCommentResponseNewMessageAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type ReplyToPostCommentResponseNewMessageAuthorCase1OauthAppImageData =
   ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
@@ -4366,18 +4470,18 @@ export interface ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface ReplyToPostCommentResponseNewMessageAuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -4386,11 +4490,11 @@ export interface ReplyToPostCommentResponseNewMessageAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrg | undefined;
 }
 export type ReplyToPostCommentResponseNewMessageAuthor =
   | ReplyToPostCommentResponseNewMessageAuthorCase0
@@ -4416,10 +4520,10 @@ export interface ReplyToPostCommentResponseNewMessageDataLatestAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: ReplyToPostCommentResponseNewMessageDataLatestAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: ReplyToPostCommentResponseNewMessageDataLatestAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -4438,12 +4542,14 @@ export interface ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1Primar
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -4454,11 +4560,11 @@ export interface ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg | undefined;
 }
 export type ReplyToPostCommentResponseNewMessageDataLatestAuthor =
   | ReplyToPostCommentResponseNewMessageDataLatestAuthorCase0
@@ -4467,7 +4573,7 @@ export interface ReplyToPostCommentResponseNewMessageDataLatest {
   raw: string;
   html: string;
   updatedAt: string;
-  author?: ReplyToPostCommentResponseNewMessageDataLatestAuthor;
+  author?: ReplyToPostCommentResponseNewMessageDataLatestAuthor | undefined;
 }
 export type ReplyToPostCommentResponseNewMessageDataEditorsList = Array<string>;
 export type ReplyToPostCommentResponseNewMessageDataEditorAvatarUrlsList = Array<string>;
@@ -4497,22 +4603,22 @@ export type ReplyToPostCommentResponseNewMessageDataIdentifiedLanguage =
 export interface ReplyToPostCommentResponseNewMessageData {
   edited: boolean;
   hidden: boolean;
-  hiddenBy?: string;
-  hiddenReason?: ReplyToPostCommentResponseNewMessageDataHiddenReason;
+  hiddenBy?: string | undefined;
+  hiddenReason?: ReplyToPostCommentResponseNewMessageDataHiddenReason | undefined;
   latest: ReplyToPostCommentResponseNewMessageDataLatest;
   numEdits: number;
   editors: ReplyToPostCommentResponseNewMessageDataEditorsList;
   editorAvatarUrls: ReplyToPostCommentResponseNewMessageDataEditorAvatarUrlsList;
   reactions: ReplyToPostCommentResponseNewMessageDataReactionsList;
-  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
-  relatedEventId?: string;
-  isReport?: boolean;
-  parentCommentId?: string;
+  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage | undefined;
+  relatedEventId?: string | undefined;
+  isReport?: boolean | undefined;
+  parentCommentId?: string | undefined;
 }
 export interface ReplyToPostCommentResponseNewMessage {
   id: string;
   createdAt: string;
-  author?: ReplyToPostCommentResponseNewMessageAuthor;
+  author?: ReplyToPostCommentResponseNewMessageAuthor | undefined;
   type: string;
   data: ReplyToPostCommentResponseNewMessageData;
 }

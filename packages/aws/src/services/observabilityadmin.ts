@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -184,21 +185,21 @@ export type LogsFilterString = string;
 export type DataSourceFilterString = string;
 export type EncryptedLogGroupStrategy = "ALLOW" | "SKIP" | (string & {});
 export interface SourceLogsConfiguration {
-  LogGroupSelectionCriteria?: string;
-  DataSourceSelectionCriteria?: string;
+  LogGroupSelectionCriteria?: string | undefined;
+  DataSourceSelectionCriteria?: string | undefined;
   EncryptedLogGroupStrategy: EncryptedLogGroupStrategy;
 }
 export type MetricsFilterString = string;
 export interface SourceMetricsConfiguration {
-  MetricsSelectionCriteria?: string;
+  MetricsSelectionCriteria?: string | undefined;
 }
 export interface SourceContextGraphConfiguration {}
 export interface CentralizationRuleSource {
   Regions: string[];
-  Scope?: string;
-  SourceLogsConfiguration?: SourceLogsConfiguration;
-  SourceMetricsConfiguration?: SourceMetricsConfiguration;
-  SourceContextGraphConfiguration?: SourceContextGraphConfiguration;
+  Scope?: string | undefined;
+  SourceLogsConfiguration?: SourceLogsConfiguration | undefined;
+  SourceMetricsConfiguration?: SourceMetricsConfiguration | undefined;
+  SourceContextGraphConfiguration?: SourceContextGraphConfiguration | undefined;
 }
 export type AccountIdentifier = string;
 export type EncryptionStrategy = "CUSTOMER_MANAGED" | "AWS_OWNED" | (string & {});
@@ -210,13 +211,13 @@ export type EncryptionScope =
   | (string & {});
 export interface LogsEncryptionConfiguration {
   EncryptionStrategy: EncryptionStrategy;
-  KmsKeyArn?: string;
-  EncryptionConflictResolutionStrategy?: EncryptionConflictResolutionStrategy;
-  EncryptionScope?: EncryptionScope;
+  KmsKeyArn?: string | undefined;
+  EncryptionConflictResolutionStrategy?: EncryptionConflictResolutionStrategy | undefined;
+  EncryptionScope?: EncryptionScope | undefined;
 }
 export interface LogsBackupConfiguration {
   Region: string;
-  KmsKeyArn?: string;
+  KmsKeyArn?: string | undefined;
 }
 export type LogGroupNamePattern = string;
 export interface LogGroupNameConfiguration {
@@ -226,25 +227,27 @@ export type IamRoleArn = string;
 export type TagConflictResolutionStrategy = "IN_SYNC" | "ADD_ONLY" | "UPDATE_SYNC" | (string & {});
 export interface TagPropagationConfiguration {
   DestinationRoleArn: string;
-  TagConflictResolutionStrategy?: TagConflictResolutionStrategy;
+  TagConflictResolutionStrategy?: TagConflictResolutionStrategy | undefined;
 }
+export type DeletionProtection = "ENABLED" | (string & {});
 export interface DestinationLogsConfiguration {
-  LogsEncryptionConfiguration?: LogsEncryptionConfiguration;
-  BackupConfiguration?: LogsBackupConfiguration;
-  LogGroupNameConfiguration?: LogGroupNameConfiguration;
-  TagPropagationConfiguration?: TagPropagationConfiguration;
+  LogsEncryptionConfiguration?: LogsEncryptionConfiguration | undefined;
+  BackupConfiguration?: LogsBackupConfiguration | undefined;
+  LogGroupNameConfiguration?: LogGroupNameConfiguration | undefined;
+  TagPropagationConfiguration?: TagPropagationConfiguration | undefined;
+  LogGroupDeletionProtection?: DeletionProtection | undefined;
 }
 export interface MetricsBackupConfiguration {
   Region: string;
 }
 export interface DestinationMetricsConfiguration {
-  BackupConfiguration?: MetricsBackupConfiguration;
+  BackupConfiguration?: MetricsBackupConfiguration | undefined;
 }
 export interface CentralizationRuleDestination {
   Region: string;
-  Account?: string;
-  DestinationLogsConfiguration?: DestinationLogsConfiguration;
-  DestinationMetricsConfiguration?: DestinationMetricsConfiguration;
+  Account?: string | undefined;
+  DestinationLogsConfiguration?: DestinationLogsConfiguration | undefined;
+  DestinationMetricsConfiguration?: DestinationMetricsConfiguration | undefined;
 }
 export interface CentralizationRule {
   Source: CentralizationRuleSource;
@@ -256,14 +259,14 @@ export type TagMapInput = { [key: string]: string | undefined };
 export interface CreateCentralizationRuleForOrganizationInput {
   RuleName: string;
   Rule: CentralizationRule;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateCentralizationRuleForOrganizationOutput {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export interface CreateDatasetIntegrationInput {
   RoleArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDatasetIntegrationOutput {
   Arn: string;
@@ -274,15 +277,15 @@ export interface CreateDatasetIntegrationOutput {
 export type SSEAlgorithm = "aws:kms" | "AES256" | (string & {});
 export interface Encryption {
   SseAlgorithm: SSEAlgorithm;
-  KmsKeyArn?: string;
+  KmsKeyArn?: string | undefined;
 }
 export interface CreateS3TableIntegrationInput {
   Encryption: Encryption;
   RoleArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateS3TableIntegrationOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type TelemetryPipelineName = string;
 export type TelemetryPipelineConfigurationBody = string;
@@ -292,10 +295,10 @@ export interface TelemetryPipelineConfiguration {
 export interface CreateTelemetryPipelineInput {
   Name: string;
   Configuration: TelemetryPipelineConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateTelemetryPipelineOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type ResourceType =
   | "AWS::EC2::Instance"
@@ -320,8 +323,9 @@ export type ResourceType =
   | "AWS::MSK::Cluster"
   | "AWS::S3::Bucket"
   | "AWS::Bedrock::KnowledgeBase"
+  | "AWS::XRay::TransactionSearchConfig"
   | (string & {});
-export type TelemetryType = "Logs" | "Metrics" | "Traces" | (string & {});
+export type TelemetryType = "Logs" | "Metrics" | "Traces" | "Insights" | (string & {});
 export type TelemetrySourceType =
   | "VPC_FLOW_LOGS"
   | "ROUTE53_RESOLVER_QUERY_LOGS"
@@ -335,23 +339,23 @@ export type TelemetrySourceTypes = TelemetrySourceType[];
 export type DestinationType = "cloud-watch-logs" | (string & {});
 export type RetentionPeriodInDays = number;
 export interface VPCFlowLogParameters {
-  LogFormat?: string;
-  TrafficType?: string;
-  MaxAggregationInterval?: number;
+  LogFormat?: string | undefined;
+  TrafficType?: string | undefined;
+  MaxAggregationInterval?: number | undefined;
 }
 export type StringList = string[];
 export interface AdvancedFieldSelector {
   Field: string;
-  Equals?: string[];
-  StartsWith?: string[];
-  EndsWith?: string[];
-  NotEquals?: string[];
-  NotStartsWith?: string[];
-  NotEndsWith?: string[];
+  Equals?: string[] | undefined;
+  StartsWith?: string[] | undefined;
+  EndsWith?: string[] | undefined;
+  NotEquals?: string[] | undefined;
+  NotStartsWith?: string[] | undefined;
+  NotEndsWith?: string[] | undefined;
 }
 export type FieldSelectors = AdvancedFieldSelector[];
 export interface AdvancedEventSelector {
-  Name?: string;
+  Name?: string | undefined;
   FieldSelectors: AdvancedFieldSelector[];
 }
 export type AdvancedEventSelectors = AdvancedEventSelector[];
@@ -360,17 +364,17 @@ export interface CloudtrailParameters {
 }
 export type OutputFormat = "plain" | "json" | (string & {});
 export interface ELBLoadBalancerLoggingParameters {
-  OutputFormat?: OutputFormat;
-  FieldDelimiter?: string;
+  OutputFormat?: OutputFormat | undefined;
+  FieldDelimiter?: string | undefined;
 }
 export interface SingleHeader {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface FieldToMatch {
-  SingleHeader?: SingleHeader;
-  UriPath?: string;
-  QueryString?: string;
-  Method?: string;
+  SingleHeader?: SingleHeader | undefined;
+  UriPath?: string | undefined;
+  QueryString?: string | undefined;
+  Method?: string | undefined;
 }
 export type RedactedFields = FieldToMatch[];
 export type FilterBehavior = "KEEP" | "DROP" | (string & {});
@@ -384,31 +388,31 @@ export type Action =
   | "EXCLUDED_AS_COUNT"
   | (string & {});
 export interface ActionCondition {
-  Action?: Action;
+  Action?: Action | undefined;
 }
 export interface LabelNameCondition {
-  LabelName?: string;
+  LabelName?: string | undefined;
 }
 export interface Condition {
-  ActionCondition?: ActionCondition;
-  LabelNameCondition?: LabelNameCondition;
+  ActionCondition?: ActionCondition | undefined;
+  LabelNameCondition?: LabelNameCondition | undefined;
 }
 export type Conditions = Condition[];
 export interface Filter {
-  Behavior?: FilterBehavior;
-  Requirement?: FilterRequirement;
-  Conditions?: Condition[];
+  Behavior?: FilterBehavior | undefined;
+  Requirement?: FilterRequirement | undefined;
+  Conditions?: Condition[] | undefined;
 }
 export type Filters = Filter[];
 export interface LoggingFilter {
-  Filters?: Filter[];
-  DefaultBehavior?: FilterBehavior;
+  Filters?: Filter[] | undefined;
+  DefaultBehavior?: FilterBehavior | undefined;
 }
 export type WAFLogType = "WAF_LOGS" | (string & {});
 export interface WAFLoggingParameters {
-  RedactedFields?: FieldToMatch[];
-  LoggingFilter?: LoggingFilter;
-  LogType?: WAFLogType;
+  RedactedFields?: FieldToMatch[] | undefined;
+  LoggingFilter?: LoggingFilter | undefined;
+  LogType?: WAFLogType | undefined;
 }
 export type LogType =
   | "APPLICATION_LOGS"
@@ -423,7 +427,7 @@ export type LogType =
   | (string & {});
 export type LogTypes = LogType[];
 export interface LogDeliveryParameters {
-  LogTypes?: LogType[];
+  LogTypes?: LogType[] | undefined;
 }
 export type MskEnhancedMonitoringLevel =
   | "DEFAULT"
@@ -432,48 +436,48 @@ export type MskEnhancedMonitoringLevel =
   | "PER_TOPIC_PER_PARTITION"
   | (string & {});
 export interface MskMonitoringParameters {
-  EnhancedMonitoring?: MskEnhancedMonitoringLevel;
+  EnhancedMonitoring?: MskEnhancedMonitoringLevel | undefined;
 }
 export type KmsKeyArn = string;
 export interface TelemetryDestinationConfiguration {
-  DestinationType?: DestinationType;
-  DestinationPattern?: string;
-  RetentionInDays?: number;
-  VPCFlowLogParameters?: VPCFlowLogParameters;
-  CloudtrailParameters?: CloudtrailParameters;
-  ELBLoadBalancerLoggingParameters?: ELBLoadBalancerLoggingParameters;
-  WAFLoggingParameters?: WAFLoggingParameters;
-  LogDeliveryParameters?: LogDeliveryParameters;
-  MskMonitoringParameters?: MskMonitoringParameters;
-  KmsKeyArn?: string;
+  DestinationType?: DestinationType | undefined;
+  DestinationPattern?: string | undefined;
+  RetentionInDays?: number | undefined;
+  VPCFlowLogParameters?: VPCFlowLogParameters | undefined;
+  CloudtrailParameters?: CloudtrailParameters | undefined;
+  ELBLoadBalancerLoggingParameters?: ELBLoadBalancerLoggingParameters | undefined;
+  WAFLoggingParameters?: WAFLoggingParameters | undefined;
+  LogDeliveryParameters?: LogDeliveryParameters | undefined;
+  MskMonitoringParameters?: MskMonitoringParameters | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type AllRegions = boolean;
 export interface TelemetryRule {
-  ResourceType?: ResourceType;
+  ResourceType?: ResourceType | undefined;
   TelemetryType: TelemetryType;
-  TelemetrySourceTypes?: TelemetrySourceType[];
-  DestinationConfiguration?: TelemetryDestinationConfiguration;
-  Scope?: string;
-  SelectionCriteria?: string;
-  AllowFieldUpdates?: boolean;
-  Regions?: string[];
-  AllRegions?: boolean;
+  TelemetrySourceTypes?: TelemetrySourceType[] | undefined;
+  DestinationConfiguration?: TelemetryDestinationConfiguration | undefined;
+  Scope?: string | undefined;
+  SelectionCriteria?: string | undefined;
+  AllowFieldUpdates?: boolean | undefined;
+  Regions?: string[] | undefined;
+  AllRegions?: boolean | undefined;
 }
 export interface CreateTelemetryRuleInput {
   RuleName: string;
   Rule: TelemetryRule;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateTelemetryRuleOutput {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export interface CreateTelemetryRuleForOrganizationInput {
   RuleName: string;
   Rule: TelemetryRule;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateTelemetryRuleForOrganizationOutput {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export type RuleIdentifier = string;
 export interface DeleteCentralizationRuleForOrganizationInput {
@@ -517,46 +521,46 @@ export type TagPropagationFailureReason =
   | (string & {});
 export type ContextGraphStatus = "Healthy" | "Unhealthy" | "Provisioning" | (string & {});
 export interface GetCentralizationRuleForOrganizationOutput {
-  RuleName?: string;
-  RuleArn?: string;
-  CreatorAccountId?: string;
-  CreatedTimeStamp?: number;
-  CreatedRegion?: string;
-  LastUpdateTimeStamp?: number;
-  RuleHealth?: RuleHealth;
-  FailureReason?: CentralizationFailureReason;
-  TagPropagationStatus?: TagPropagationStatus;
-  TagPropagationFailureReason?: TagPropagationFailureReason;
-  ContextGraphStatus?: ContextGraphStatus;
-  CentralizationRule?: CentralizationRule;
+  RuleName?: string | undefined;
+  RuleArn?: string | undefined;
+  CreatorAccountId?: string | undefined;
+  CreatedTimeStamp?: number | undefined;
+  CreatedRegion?: string | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  RuleHealth?: RuleHealth | undefined;
+  FailureReason?: CentralizationFailureReason | undefined;
+  TagPropagationStatus?: TagPropagationStatus | undefined;
+  TagPropagationFailureReason?: TagPropagationFailureReason | undefined;
+  ContextGraphStatus?: ContextGraphStatus | undefined;
+  CentralizationRule?: CentralizationRule | undefined;
 }
 export interface GetDatasetIntegrationInput {
   Arn: string;
 }
 export interface GetDatasetIntegrationOutput {
-  Arn?: string;
-  RoleArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  RoleArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetS3TableIntegrationInput {
   Arn: string;
 }
 export type IntegrationStatus = "ACTIVE" | "DELETING" | (string & {});
 export interface GetS3TableIntegrationOutput {
-  Arn?: string;
-  RoleArn?: string;
-  Status?: IntegrationStatus;
-  Encryption?: Encryption;
-  DestinationTableBucketArn?: string;
-  CreatedTimeStamp?: number;
+  Arn?: string | undefined;
+  RoleArn?: string | undefined;
+  Status?: IntegrationStatus | undefined;
+  Encryption?: Encryption | undefined;
+  DestinationTableBucketArn?: string | undefined;
+  CreatedTimeStamp?: number | undefined;
 }
 export interface GetTelemetryEnrichmentStatusRequest {}
 export type TelemetryEnrichmentStatus = "Running" | "Stopped" | "Impaired" | (string & {});
 export type AwsResourceExplorerManagedViewArn = string;
 export interface GetTelemetryEnrichmentStatusOutput {
-  Status?: TelemetryEnrichmentStatus;
-  AwsResourceExplorerManagedViewArn?: string;
+  Status?: TelemetryEnrichmentStatus | undefined;
+  AwsResourceExplorerManagedViewArn?: string | undefined;
 }
 export interface GetTelemetryEvaluationStatusRequest {}
 export type Status =
@@ -570,24 +574,24 @@ export type Status =
   | (string & {});
 export type FailureReason = string;
 export interface RegionStatus {
-  Region?: string;
-  Status?: string;
-  FailureReason?: string;
-  RuleArn?: string;
+  Region?: string | undefined;
+  Status?: string | undefined;
+  FailureReason?: string | undefined;
+  RuleArn?: string | undefined;
 }
 export type RegionStatuses = RegionStatus[];
 export interface GetTelemetryEvaluationStatusOutput {
-  Status?: Status;
-  FailureReason?: string;
-  HomeRegion?: string;
-  RegionStatuses?: RegionStatus[];
+  Status?: Status | undefined;
+  FailureReason?: string | undefined;
+  HomeRegion?: string | undefined;
+  RegionStatuses?: RegionStatus[] | undefined;
 }
 export interface GetTelemetryEvaluationStatusForOrganizationRequest {}
 export interface GetTelemetryEvaluationStatusForOrganizationOutput {
-  Status?: Status;
-  FailureReason?: string;
-  HomeRegion?: string;
-  RegionStatuses?: RegionStatus[];
+  Status?: Status | undefined;
+  FailureReason?: string | undefined;
+  HomeRegion?: string | undefined;
+  RegionStatuses?: RegionStatus[] | undefined;
 }
 export interface GetTelemetryPipelineInput {
   PipelineIdentifier: string;
@@ -601,149 +605,149 @@ export type TelemetryPipelineStatus =
   | "UPDATE_FAILED"
   | (string & {});
 export interface TelemetryPipelineStatusReason {
-  Description?: string;
+  Description?: string | undefined;
 }
 export type TagMapOutput = { [key: string]: string | undefined };
 export interface TelemetryPipeline {
-  CreatedTimeStamp?: number;
-  LastUpdateTimeStamp?: number;
-  Arn?: string;
-  Name?: string;
-  Configuration?: TelemetryPipelineConfiguration;
-  Status?: TelemetryPipelineStatus;
-  StatusReason?: TelemetryPipelineStatusReason;
-  Tags?: { [key: string]: string | undefined };
+  CreatedTimeStamp?: number | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Configuration?: TelemetryPipelineConfiguration | undefined;
+  Status?: TelemetryPipelineStatus | undefined;
+  StatusReason?: TelemetryPipelineStatusReason | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetTelemetryPipelineOutput {
-  Pipeline?: TelemetryPipeline;
+  Pipeline?: TelemetryPipeline | undefined;
 }
 export interface GetTelemetryRuleInput {
   RuleIdentifier: string;
 }
 export type IsReplicated = boolean;
 export interface GetTelemetryRuleOutput {
-  RuleName?: string;
-  RuleArn?: string;
-  CreatedTimeStamp?: number;
-  LastUpdateTimeStamp?: number;
-  TelemetryRule?: TelemetryRule;
-  HomeRegion?: string;
-  IsReplicated?: boolean;
-  RegionStatuses?: RegionStatus[];
+  RuleName?: string | undefined;
+  RuleArn?: string | undefined;
+  CreatedTimeStamp?: number | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  TelemetryRule?: TelemetryRule | undefined;
+  HomeRegion?: string | undefined;
+  IsReplicated?: boolean | undefined;
+  RegionStatuses?: RegionStatus[] | undefined;
 }
 export interface GetTelemetryRuleForOrganizationInput {
   RuleIdentifier: string;
 }
 export interface GetTelemetryRuleForOrganizationOutput {
-  RuleName?: string;
-  RuleArn?: string;
-  CreatedTimeStamp?: number;
-  LastUpdateTimeStamp?: number;
-  TelemetryRule?: TelemetryRule;
-  HomeRegion?: string;
-  IsReplicated?: boolean;
-  RegionStatuses?: RegionStatus[];
+  RuleName?: string | undefined;
+  RuleArn?: string | undefined;
+  CreatedTimeStamp?: number | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  TelemetryRule?: TelemetryRule | undefined;
+  HomeRegion?: string | undefined;
+  IsReplicated?: boolean | undefined;
+  RegionStatuses?: RegionStatus[] | undefined;
 }
 export type ListCentralizationRulesForOrganizationMaxResults = number;
 export type NextToken = string;
 export interface ListCentralizationRulesForOrganizationInput {
-  RuleNamePrefix?: string;
-  AllRegions?: boolean;
-  MaxResults?: number;
-  NextToken?: string;
+  RuleNamePrefix?: string | undefined;
+  AllRegions?: boolean | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface CentralizationRuleSummary {
-  RuleName?: string;
-  RuleArn?: string;
-  CreatorAccountId?: string;
-  CreatedTimeStamp?: number;
-  CreatedRegion?: string;
-  LastUpdateTimeStamp?: number;
-  RuleHealth?: RuleHealth;
-  FailureReason?: CentralizationFailureReason;
-  TagPropagationStatus?: TagPropagationStatus;
-  TagPropagationFailureReason?: TagPropagationFailureReason;
-  ContextGraphStatus?: ContextGraphStatus;
-  DestinationAccountId?: string;
-  DestinationRegion?: string;
+  RuleName?: string | undefined;
+  RuleArn?: string | undefined;
+  CreatorAccountId?: string | undefined;
+  CreatedTimeStamp?: number | undefined;
+  CreatedRegion?: string | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  RuleHealth?: RuleHealth | undefined;
+  FailureReason?: CentralizationFailureReason | undefined;
+  TagPropagationStatus?: TagPropagationStatus | undefined;
+  TagPropagationFailureReason?: TagPropagationFailureReason | undefined;
+  ContextGraphStatus?: ContextGraphStatus | undefined;
+  DestinationAccountId?: string | undefined;
+  DestinationRegion?: string | undefined;
 }
 export type CentralizationRuleSummaries = CentralizationRuleSummary[];
 export interface ListCentralizationRulesForOrganizationOutput {
-  CentralizationRuleSummaries?: CentralizationRuleSummary[];
-  NextToken?: string;
+  CentralizationRuleSummaries?: CentralizationRuleSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListDatasetIntegrationsMaxResults = number;
 export interface ListDatasetIntegrationsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DatasetIntegrationSummary {
   Arn: string;
-  RoleArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  RoleArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type DatasetIntegrationSummaries = DatasetIntegrationSummary[];
 export interface ListDatasetIntegrationsOutput {
   DatasetIntegrationSummaries: DatasetIntegrationSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ResourceIdentifierPrefix = string;
 export type ResourceTypes = ResourceType[];
 export type TelemetryState = "Enabled" | "Disabled" | "NotApplicable" | (string & {});
-export type TelemetryConfigurationState = { [key in TelemetryType]?: TelemetryState };
+export type TelemetryConfigurationState = { [key in TelemetryType]?: TelemetryState | undefined };
 export type ListResourceTelemetryMaxResults = number;
 export interface ListResourceTelemetryInput {
-  ResourceIdentifierPrefix?: string;
-  ResourceTypes?: ResourceType[];
-  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined };
-  ResourceTags?: { [key: string]: string | undefined };
-  MaxResults?: number;
-  NextToken?: string;
+  ResourceIdentifierPrefix?: string | undefined;
+  ResourceTypes?: ResourceType[] | undefined;
+  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined } | undefined;
+  ResourceTags?: { [key: string]: string | undefined } | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceIdentifier = string;
 export interface TelemetryConfiguration {
-  AccountIdentifier?: string;
-  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined };
-  ResourceType?: ResourceType;
-  ResourceIdentifier?: string;
-  ResourceTags?: { [key: string]: string | undefined };
-  LastUpdateTimeStamp?: number;
-  TelemetrySourceType?: TelemetrySourceType;
+  AccountIdentifier?: string | undefined;
+  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined } | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceIdentifier?: string | undefined;
+  ResourceTags?: { [key: string]: string | undefined } | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  TelemetrySourceType?: TelemetrySourceType | undefined;
 }
 export type TelemetryConfigurations = TelemetryConfiguration[];
 export interface ListResourceTelemetryOutput {
-  TelemetryConfigurations?: TelemetryConfiguration[];
-  NextToken?: string;
+  TelemetryConfigurations?: TelemetryConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AccountIdentifiers = string[];
 export type ListResourceTelemetryForOrganizationMaxResults = number;
 export interface ListResourceTelemetryForOrganizationInput {
-  AccountIdentifiers?: string[];
-  ResourceIdentifierPrefix?: string;
-  ResourceTypes?: ResourceType[];
-  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined };
-  ResourceTags?: { [key: string]: string | undefined };
-  MaxResults?: number;
-  NextToken?: string;
+  AccountIdentifiers?: string[] | undefined;
+  ResourceIdentifierPrefix?: string | undefined;
+  ResourceTypes?: ResourceType[] | undefined;
+  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined } | undefined;
+  ResourceTags?: { [key: string]: string | undefined } | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListResourceTelemetryForOrganizationOutput {
-  TelemetryConfigurations?: TelemetryConfiguration[];
-  NextToken?: string;
+  TelemetryConfigurations?: TelemetryConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListS3TableIntegrationsMaxResults = number;
 export interface ListS3TableIntegrationsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface IntegrationSummary {
-  Arn?: string;
-  Status?: IntegrationStatus;
+  Arn?: string | undefined;
+  Status?: IntegrationStatus | undefined;
 }
 export type IntegrationSummaries = IntegrationSummary[];
 export interface ListS3TableIntegrationsOutput {
-  IntegrationSummaries?: IntegrationSummary[];
-  NextToken?: string;
+  IntegrationSummaries?: IntegrationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   ResourceARN: string;
@@ -753,93 +757,93 @@ export interface ListTagsForResourceOutput {
 }
 export type ListTelemetryPipelinesMaxResults = number;
 export interface ListTelemetryPipelinesInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Source {
-  Type?: string;
+  Type?: string | undefined;
 }
 export type Sources = Source[];
 export interface DataSource {
-  Name?: string;
-  Type?: string;
+  Name?: string | undefined;
+  Type?: string | undefined;
 }
 export type DataSources = DataSource[];
 export type Processors = string[];
 export type Sinks = string[];
 export interface ConfigurationSummary {
-  Sources?: Source[];
-  DataSources?: DataSource[];
-  Processors?: string[];
-  ProcessorCount?: number;
-  Sinks?: string[];
+  Sources?: Source[] | undefined;
+  DataSources?: DataSource[] | undefined;
+  Processors?: string[] | undefined;
+  ProcessorCount?: number | undefined;
+  Sinks?: string[] | undefined;
 }
 export interface TelemetryPipelineSummary {
-  CreatedTimeStamp?: number;
-  LastUpdateTimeStamp?: number;
-  Arn?: string;
-  Name?: string;
-  Status?: TelemetryPipelineStatus;
-  Tags?: { [key: string]: string | undefined };
-  ConfigurationSummary?: ConfigurationSummary;
+  CreatedTimeStamp?: number | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Status?: TelemetryPipelineStatus | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ConfigurationSummary?: ConfigurationSummary | undefined;
 }
 export type TelemetryPipelineSummaries = TelemetryPipelineSummary[];
 export interface ListTelemetryPipelinesOutput {
-  PipelineSummaries?: TelemetryPipelineSummary[];
-  NextToken?: string;
+  PipelineSummaries?: TelemetryPipelineSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListTelemetryRulesMaxResults = number;
 export interface ListTelemetryRulesInput {
-  RuleNamePrefix?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  RuleNamePrefix?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TelemetryRuleSummary {
-  RuleName?: string;
-  RuleArn?: string;
-  CreatedTimeStamp?: number;
-  LastUpdateTimeStamp?: number;
-  ResourceType?: ResourceType;
-  TelemetryType?: TelemetryType;
-  TelemetrySourceTypes?: TelemetrySourceType[];
+  RuleName?: string | undefined;
+  RuleArn?: string | undefined;
+  CreatedTimeStamp?: number | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  ResourceType?: ResourceType | undefined;
+  TelemetryType?: TelemetryType | undefined;
+  TelemetrySourceTypes?: TelemetrySourceType[] | undefined;
 }
 export type TelemetryRuleSummaries = TelemetryRuleSummary[];
 export interface ListTelemetryRulesOutput {
-  TelemetryRuleSummaries?: TelemetryRuleSummary[];
-  NextToken?: string;
+  TelemetryRuleSummaries?: TelemetryRuleSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OrganizationUnitIdentifier = string;
 export type OrganizationUnitIdentifiers = string[];
 export type ListTelemetryRulesForOrganizationMaxResults = number;
 export interface ListTelemetryRulesForOrganizationInput {
-  RuleNamePrefix?: string;
-  SourceAccountIds?: string[];
-  SourceOrganizationUnitIds?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  RuleNamePrefix?: string | undefined;
+  SourceAccountIds?: string[] | undefined;
+  SourceOrganizationUnitIds?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTelemetryRulesForOrganizationOutput {
-  TelemetryRuleSummaries?: TelemetryRuleSummary[];
-  NextToken?: string;
+  TelemetryRuleSummaries?: TelemetryRuleSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface StartTelemetryEnrichmentRequest {}
 export interface StartTelemetryEnrichmentOutput {
-  Status?: TelemetryEnrichmentStatus;
-  AwsResourceExplorerManagedViewArn?: string;
+  Status?: TelemetryEnrichmentStatus | undefined;
+  AwsResourceExplorerManagedViewArn?: string | undefined;
 }
 export interface StartTelemetryEvaluationInput {
-  Regions?: string[];
-  AllRegions?: boolean;
+  Regions?: string[] | undefined;
+  AllRegions?: boolean | undefined;
 }
 export interface StartTelemetryEvaluationResponse {}
 export interface StartTelemetryEvaluationForOrganizationInput {
-  Regions?: string[];
-  AllRegions?: boolean;
+  Regions?: string[] | undefined;
+  AllRegions?: boolean | undefined;
 }
 export interface StartTelemetryEvaluationForOrganizationResponse {}
 export interface StopTelemetryEnrichmentRequest {}
 export interface StopTelemetryEnrichmentOutput {
-  Status?: TelemetryEnrichmentStatus;
+  Status?: TelemetryEnrichmentStatus | undefined;
 }
 export interface StopTelemetryEvaluationRequest {}
 export interface StopTelemetryEvaluationResponse {}
@@ -852,26 +856,26 @@ export interface TagResourceInput {
 export interface TagResourceResponse {}
 export type RecordFormat = "STRING" | "JSON" | (string & {});
 export interface Record {
-  Data?: string;
-  Type?: RecordFormat;
+  Data?: string | undefined;
+  Type?: RecordFormat | undefined;
 }
 export type Records = Record[];
 export type SignalType = "LOG" | "METRIC" | (string & {});
 export interface TestTelemetryPipelineInput {
   Records: Record[];
   Configuration: TelemetryPipelineConfiguration;
-  SignalType?: SignalType;
+  SignalType?: SignalType | undefined;
 }
 export interface PipelineOutputError {
-  Message?: string;
+  Message?: string | undefined;
 }
 export interface PipelineOutput {
-  Record?: Record;
-  Error?: PipelineOutputError;
+  Record?: Record | undefined;
+  Error?: PipelineOutputError | undefined;
 }
 export type PipelineOutputs = PipelineOutput[];
 export interface TestTelemetryPipelineOutput {
-  Results?: PipelineOutput[];
+  Results?: PipelineOutput[] | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceInput {
@@ -884,7 +888,7 @@ export interface UpdateCentralizationRuleForOrganizationInput {
   Rule: CentralizationRule;
 }
 export interface UpdateCentralizationRuleForOrganizationOutput {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export interface UpdateDatasetIntegrationInput {
   Arn: string;
@@ -906,27 +910,27 @@ export interface UpdateTelemetryRuleInput {
   Rule: TelemetryRule;
 }
 export interface UpdateTelemetryRuleOutput {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export interface UpdateTelemetryRuleForOrganizationInput {
   RuleIdentifier: string;
   Rule: TelemetryRule;
 }
 export interface UpdateTelemetryRuleForOrganizationOutput {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export interface ValidateTelemetryPipelineConfigurationInput {
   Configuration: TelemetryPipelineConfiguration;
 }
 export type FieldMap = { [key: string]: string | undefined };
 export interface ValidationError {
-  Message?: string;
-  Reason?: string;
-  FieldMap?: { [key: string]: string | undefined };
+  Message?: string | undefined;
+  Reason?: string | undefined;
+  FieldMap?: { [key: string]: string | undefined } | undefined;
 }
 export type ValidationErrors = ValidationError[];
 export interface ValidateTelemetryPipelineConfigurationOutput {
-  Errors?: ValidationError[];
+  Errors?: ValidationError[] | undefined;
 }
 export type CreateCentralizationRuleForOrganizationError =
   | AccessDeniedException
@@ -940,7 +944,7 @@ export type CreateCentralizationRuleForOrganizationError =
  * Creates a centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const createCentralizationRuleForOrganization: API.OperationMethod<
-  CreateCentralizationRuleForOrganizationInput,
+  CreateCentralizationRuleForOrganizationInput & RegionInput,
   CreateCentralizationRuleForOrganizationOutput,
   CreateCentralizationRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -977,7 +981,7 @@ export type CreateDatasetIntegrationError =
  * If a dataset integration already exists for the account, this operation fails with a `ConflictException`.
  */
 export const createDatasetIntegration: API.OperationMethod<
-  CreateDatasetIntegrationInput,
+  CreateDatasetIntegrationInput & RegionInput,
   CreateDatasetIntegrationOutput,
   CreateDatasetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1010,7 +1014,7 @@ export type CreateS3TableIntegrationError =
  * Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using analytics engines like Amazon Athena, Amazon Redshift, and Apache Spark.
  */
 export const createS3TableIntegration: API.OperationMethod<
-  CreateS3TableIntegrationInput,
+  CreateS3TableIntegrationInput & RegionInput,
   CreateS3TableIntegrationOutput,
   CreateS3TableIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1044,7 +1048,7 @@ export type CreateTelemetryPipelineError =
  * Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through processors to destinations, enabling data transformation and delivering capabilities.
  */
 export const createTelemetryPipeline: API.OperationMethod<
-  CreateTelemetryPipelineInput,
+  CreateTelemetryPipelineInput & RegionInput,
   CreateTelemetryPipelineOutput,
   CreateTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1078,7 +1082,7 @@ export type CreateTelemetryRuleError =
  * Creates a telemetry rule that defines how telemetry should be configured for Amazon Web Services resources in your account. The rule specifies which resources should have telemetry enabled and how that telemetry data should be collected based on resource type, telemetry type, and selection criteria.
  */
 export const createTelemetryRule: API.OperationMethod<
-  CreateTelemetryRuleInput,
+  CreateTelemetryRuleInput & RegionInput,
   CreateTelemetryRuleOutput,
   CreateTelemetryRuleError,
   Credentials | HttpClient.HttpClient
@@ -1112,7 +1116,7 @@ export type CreateTelemetryRuleForOrganizationError =
  * Creates a telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const createTelemetryRuleForOrganization: API.OperationMethod<
-  CreateTelemetryRuleForOrganizationInput,
+  CreateTelemetryRuleForOrganizationInput & RegionInput,
   CreateTelemetryRuleForOrganizationOutput,
   CreateTelemetryRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1145,7 +1149,7 @@ export type DeleteCentralizationRuleForOrganizationError =
  * Deletes an organization-wide centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const deleteCentralizationRuleForOrganization: API.OperationMethod<
-  DeleteCentralizationRuleForOrganizationInput,
+  DeleteCentralizationRuleForOrganizationInput & RegionInput,
   DeleteCentralizationRuleForOrganizationResponse,
   DeleteCentralizationRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1177,7 +1181,7 @@ export type DeleteDatasetIntegrationError =
  * Deletes a dataset integration for the caller's account in the current region. This operation is idempotent; if you submit the same delete more than once, each call succeeds.
  */
 export const deleteDatasetIntegration: API.OperationMethod<
-  DeleteDatasetIntegrationInput,
+  DeleteDatasetIntegrationInput & RegionInput,
   DeleteDatasetIntegrationResponse,
   DeleteDatasetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1210,7 +1214,7 @@ export type DeleteS3TableIntegrationError =
  * Deletes an S3 Table integration and its associated data. This operation removes the connection between CloudWatch Observability Admin and S3 Tables.
  */
 export const deleteS3TableIntegration: API.OperationMethod<
-  DeleteS3TableIntegrationInput,
+  DeleteS3TableIntegrationInput & RegionInput,
   DeleteS3TableIntegrationResponse,
   DeleteS3TableIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1244,7 +1248,7 @@ export type DeleteTelemetryPipelineError =
  * Deletes a telemetry pipeline and its associated resources. This operation stops data processing and removes the pipeline configuration.
  */
 export const deleteTelemetryPipeline: API.OperationMethod<
-  DeleteTelemetryPipelineInput,
+  DeleteTelemetryPipelineInput & RegionInput,
   DeleteTelemetryPipelineOutput,
   DeleteTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1277,7 +1281,7 @@ export type DeleteTelemetryRuleError =
  * Deletes a telemetry rule from your account. Any telemetry configurations previously created by the rule will remain but no new resources will be configured by this rule.
  */
 export const deleteTelemetryRule: API.OperationMethod<
-  DeleteTelemetryRuleInput,
+  DeleteTelemetryRuleInput & RegionInput,
   DeleteTelemetryRuleResponse,
   DeleteTelemetryRuleError,
   Credentials | HttpClient.HttpClient
@@ -1309,7 +1313,7 @@ export type DeleteTelemetryRuleForOrganizationError =
  * Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const deleteTelemetryRuleForOrganization: API.OperationMethod<
-  DeleteTelemetryRuleForOrganizationInput,
+  DeleteTelemetryRuleForOrganizationInput & RegionInput,
   DeleteTelemetryRuleForOrganizationResponse,
   DeleteTelemetryRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1341,7 +1345,7 @@ export type GetCentralizationRuleForOrganizationError =
  * Retrieves the details of a specific organization centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const getCentralizationRuleForOrganization: API.OperationMethod<
-  GetCentralizationRuleForOrganizationInput,
+  GetCentralizationRuleForOrganizationInput & RegionInput,
   GetCentralizationRuleForOrganizationOutput,
   GetCentralizationRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1373,7 +1377,7 @@ export type GetDatasetIntegrationError =
  * Returns the dataset integration for the caller's account in the current region.
  */
 export const getDatasetIntegration: API.OperationMethod<
-  GetDatasetIntegrationInput,
+  GetDatasetIntegrationInput & RegionInput,
   GetDatasetIntegrationOutput,
   GetDatasetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1405,7 +1409,7 @@ export type GetS3TableIntegrationError =
  * Retrieves information about a specific S3 Table integration, including its configuration, status, and metadata.
  */
 export const getS3TableIntegration: API.OperationMethod<
-  GetS3TableIntegrationInput,
+  GetS3TableIntegrationInput & RegionInput,
   GetS3TableIntegrationOutput,
   GetS3TableIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1436,7 +1440,7 @@ export type GetTelemetryEnrichmentStatusError =
  * Returns the current status of the resource tags for telemetry feature, which enhances telemetry data with additional resource metadata from Resource Explorer.
  */
 export const getTelemetryEnrichmentStatus: API.OperationMethod<
-  GetTelemetryEnrichmentStatusRequest,
+  GetTelemetryEnrichmentStatusRequest & RegionInput,
   GetTelemetryEnrichmentStatusOutput,
   GetTelemetryEnrichmentStatusError,
   Credentials | HttpClient.HttpClient
@@ -1465,7 +1469,7 @@ export type GetTelemetryEvaluationStatusError =
  * Returns the current onboarding status of the telemetry config feature, including the status of the feature and reason the feature failed to start or stop.
  */
 export const getTelemetryEvaluationStatus: API.OperationMethod<
-  GetTelemetryEvaluationStatusRequest,
+  GetTelemetryEvaluationStatusRequest & RegionInput,
   GetTelemetryEvaluationStatusOutput,
   GetTelemetryEvaluationStatusError,
   Credentials | HttpClient.HttpClient
@@ -1490,7 +1494,7 @@ export type GetTelemetryEvaluationStatusForOrganizationError =
  * This returns the onboarding status of the telemetry configuration feature for the organization. It can only be called by a Management Account of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config.
  */
 export const getTelemetryEvaluationStatusForOrganization: API.OperationMethod<
-  GetTelemetryEvaluationStatusForOrganizationRequest,
+  GetTelemetryEvaluationStatusForOrganizationRequest & RegionInput,
   GetTelemetryEvaluationStatusForOrganizationOutput,
   GetTelemetryEvaluationStatusForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1521,7 +1525,7 @@ export type GetTelemetryPipelineError =
  * Retrieves information about a specific telemetry pipeline, including its configuration, status, and metadata.
  */
 export const getTelemetryPipeline: API.OperationMethod<
-  GetTelemetryPipelineInput,
+  GetTelemetryPipelineInput & RegionInput,
   GetTelemetryPipelineOutput,
   GetTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1553,7 +1557,7 @@ export type GetTelemetryRuleError =
  * Retrieves the details of a specific telemetry rule in your account.
  */
 export const getTelemetryRule: API.OperationMethod<
-  GetTelemetryRuleInput,
+  GetTelemetryRuleInput & RegionInput,
   GetTelemetryRuleOutput,
   GetTelemetryRuleError,
   Credentials | HttpClient.HttpClient
@@ -1585,7 +1589,7 @@ export type GetTelemetryRuleForOrganizationError =
  * Retrieves the details of a specific organization telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const getTelemetryRuleForOrganization: API.OperationMethod<
-  GetTelemetryRuleForOrganizationInput,
+  GetTelemetryRuleForOrganizationInput & RegionInput,
   GetTelemetryRuleForOrganizationOutput,
   GetTelemetryRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1616,7 +1620,7 @@ export type ListCentralizationRulesForOrganizationError =
  * Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const listCentralizationRulesForOrganization: API.PaginatedOperationMethod<
-  ListCentralizationRulesForOrganizationInput,
+  ListCentralizationRulesForOrganizationInput & RegionInput,
   ListCentralizationRulesForOrganizationOutput,
   ListCentralizationRulesForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -1653,7 +1657,7 @@ export type ListDatasetIntegrationsError =
  * Returns the dataset integrations in your account.
  */
 export const listDatasetIntegrations: API.PaginatedOperationMethod<
-  ListDatasetIntegrationsInput,
+  ListDatasetIntegrationsInput & RegionInput,
   ListDatasetIntegrationsOutput,
   ListDatasetIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1690,7 +1694,7 @@ export type ListResourceTelemetryError =
  * Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config. For more information, see Auditing CloudWatch telemetry configurations.
  */
 export const listResourceTelemetry: API.PaginatedOperationMethod<
-  ListResourceTelemetryInput,
+  ListResourceTelemetryInput & RegionInput,
   ListResourceTelemetryOutput,
   ListResourceTelemetryError,
   Credentials | HttpClient.HttpClient,
@@ -1727,7 +1731,7 @@ export type ListResourceTelemetryForOrganizationError =
  * Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the organization.
  */
 export const listResourceTelemetryForOrganization: API.PaginatedOperationMethod<
-  ListResourceTelemetryForOrganizationInput,
+  ListResourceTelemetryForOrganizationInput & RegionInput,
   ListResourceTelemetryForOrganizationOutput,
   ListResourceTelemetryForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -1764,7 +1768,7 @@ export type ListS3TableIntegrationsError =
  * Lists all S3 Table integrations in your account. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listS3TableIntegrations: API.PaginatedOperationMethod<
-  ListS3TableIntegrationsInput,
+  ListS3TableIntegrationsInput & RegionInput,
   ListS3TableIntegrationsOutput,
   ListS3TableIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1802,7 +1806,7 @@ export type ListTagsForResourceError =
  * Lists all tags attached to the specified resource. Supports telemetry rule resources and telemetry pipeline resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1833,7 +1837,7 @@ export type ListTelemetryPipelinesError =
  * Returns a list of telemetry pipelines in your account. Returns up to 100 results. If more than 100 telemetry pipelines exist, include the `NextToken` value from the response to retrieve the next set of results.
  */
 export const listTelemetryPipelines: API.PaginatedOperationMethod<
-  ListTelemetryPipelinesInput,
+  ListTelemetryPipelinesInput & RegionInput,
   ListTelemetryPipelinesOutput,
   ListTelemetryPipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -1870,7 +1874,7 @@ export type ListTelemetryRulesError =
  * Lists all telemetry rules in your account. You can filter the results by specifying a rule name prefix.
  */
 export const listTelemetryRules: API.PaginatedOperationMethod<
-  ListTelemetryRulesInput,
+  ListTelemetryRulesInput & RegionInput,
   ListTelemetryRulesOutput,
   ListTelemetryRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1907,7 +1911,7 @@ export type ListTelemetryRulesForOrganizationError =
  * Lists all telemetry rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const listTelemetryRulesForOrganization: API.PaginatedOperationMethod<
-  ListTelemetryRulesForOrganizationInput,
+  ListTelemetryRulesForOrganizationInput & RegionInput,
   ListTelemetryRulesForOrganizationOutput,
   ListTelemetryRulesForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -1944,7 +1948,7 @@ export type StartTelemetryEnrichmentError =
  * Enables the resource tags for telemetry feature for your account, which enhances telemetry data with additional resource metadata from Resource Explorer to provide richer context for monitoring and observability.
  */
 export const startTelemetryEnrichment: API.OperationMethod<
-  StartTelemetryEnrichmentRequest,
+  StartTelemetryEnrichmentRequest & RegionInput,
   StartTelemetryEnrichmentOutput,
   StartTelemetryEnrichmentError,
   Credentials | HttpClient.HttpClient
@@ -1974,7 +1978,7 @@ export type StartTelemetryEvaluationError =
  * This action begins onboarding the caller Amazon Web Services account to the telemetry config feature.
  */
 export const startTelemetryEvaluation: API.OperationMethod<
-  StartTelemetryEvaluationInput,
+  StartTelemetryEvaluationInput & RegionInput,
   StartTelemetryEvaluationResponse,
   StartTelemetryEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -2004,7 +2008,7 @@ export type StartTelemetryEvaluationForOrganizationError =
  * This actions begins onboarding the organization and all member accounts to the telemetry config feature.
  */
 export const startTelemetryEvaluationForOrganization: API.OperationMethod<
-  StartTelemetryEvaluationForOrganizationInput,
+  StartTelemetryEvaluationForOrganizationInput & RegionInput,
   StartTelemetryEvaluationForOrganizationResponse,
   StartTelemetryEvaluationForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -2034,7 +2038,7 @@ export type StopTelemetryEnrichmentError =
  * Disables the resource tags for telemetry feature for your account, stopping the enhancement of telemetry data with additional resource metadata.
  */
 export const stopTelemetryEnrichment: API.OperationMethod<
-  StopTelemetryEnrichmentRequest,
+  StopTelemetryEnrichmentRequest & RegionInput,
   StopTelemetryEnrichmentOutput,
   StopTelemetryEnrichmentError,
   Credentials | HttpClient.HttpClient
@@ -2064,7 +2068,7 @@ export type StopTelemetryEvaluationError =
  * This action begins offboarding the caller Amazon Web Services account from the telemetry config feature.
  */
 export const stopTelemetryEvaluation: API.OperationMethod<
-  StopTelemetryEvaluationRequest,
+  StopTelemetryEvaluationRequest & RegionInput,
   StopTelemetryEvaluationResponse,
   StopTelemetryEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -2094,7 +2098,7 @@ export type StopTelemetryEvaluationForOrganizationError =
  * This action offboards the Organization of the caller Amazon Web Services account from the telemetry config feature.
  */
 export const stopTelemetryEvaluationForOrganization: API.OperationMethod<
-  StopTelemetryEvaluationForOrganizationRequest,
+  StopTelemetryEvaluationForOrganizationRequest & RegionInput,
   StopTelemetryEvaluationForOrganizationResponse,
   StopTelemetryEvaluationForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -2126,7 +2130,7 @@ export type TagResourceError =
  * Adds or updates tags for a resource. Supports telemetry rule resources and telemetry pipeline resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2158,7 +2162,7 @@ export type TestTelemetryPipelineError =
  * Tests a pipeline configuration with sample records to validate data processing before deployment. This operation helps ensure your pipeline configuration works as expected.
  */
 export const testTelemetryPipeline: API.OperationMethod<
-  TestTelemetryPipelineInput,
+  TestTelemetryPipelineInput & RegionInput,
   TestTelemetryPipelineOutput,
   TestTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
@@ -2189,7 +2193,7 @@ export type UntagResourceError =
  * Removes tags from a resource. Supports telemetry rule resources and telemetry pipeline resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2222,7 +2226,7 @@ export type UpdateCentralizationRuleForOrganizationError =
  * Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const updateCentralizationRuleForOrganization: API.OperationMethod<
-  UpdateCentralizationRuleForOrganizationInput,
+  UpdateCentralizationRuleForOrganizationInput & RegionInput,
   UpdateCentralizationRuleForOrganizationOutput,
   UpdateCentralizationRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -2255,7 +2259,7 @@ export type UpdateDatasetIntegrationError =
  * Updates a dataset integration for the caller's account in the current region. This operation is idempotent; if you submit the same update more than once, each call succeeds.
  */
 export const updateDatasetIntegration: API.OperationMethod<
-  UpdateDatasetIntegrationInput,
+  UpdateDatasetIntegrationInput & RegionInput,
   UpdateDatasetIntegrationOutput,
   UpdateDatasetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -2335,7 +2339,7 @@ export type UpdateTelemetryPipelineError =
  * **Updatable:** All Amazon Web Services Secrets Manager attributes, `region`, `range`, OAuth2 credentials (`client_id`, `client_secret`)
  */
 export const updateTelemetryPipeline: API.OperationMethod<
-  UpdateTelemetryPipelineInput,
+  UpdateTelemetryPipelineInput & RegionInput,
   UpdateTelemetryPipelineOutput,
   UpdateTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
@@ -2369,7 +2373,7 @@ export type UpdateTelemetryRuleError =
  * Updates an existing telemetry rule in your account. If multiple users attempt to modify the same telemetry rule simultaneously, a ConflictException is returned to provide specific error information for concurrent modification scenarios.
  */
 export const updateTelemetryRule: API.OperationMethod<
-  UpdateTelemetryRuleInput,
+  UpdateTelemetryRuleInput & RegionInput,
   UpdateTelemetryRuleOutput,
   UpdateTelemetryRuleError,
   Credentials | HttpClient.HttpClient
@@ -2404,7 +2408,7 @@ export type UpdateTelemetryRuleForOrganizationError =
  * Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const updateTelemetryRuleForOrganization: API.OperationMethod<
-  UpdateTelemetryRuleForOrganizationInput,
+  UpdateTelemetryRuleForOrganizationInput & RegionInput,
   UpdateTelemetryRuleForOrganizationOutput,
   UpdateTelemetryRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -2436,7 +2440,7 @@ export type ValidateTelemetryPipelineConfigurationError =
  * Validates a pipeline configuration without creating the pipeline. This operation checks the configuration for syntax errors and compatibility issues.
  */
 export const validateTelemetryPipelineConfiguration: API.OperationMethod<
-  ValidateTelemetryPipelineConfigurationInput,
+  ValidateTelemetryPipelineConfigurationInput & RegionInput,
   ValidateTelemetryPipelineConfigurationOutput,
   ValidateTelemetryPipelineConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3803,6 +3807,7 @@ function __c59(j: number): any {
           BackupConfiguration: S.optional(__S(1892, __c59, 4)),
           LogGroupNameConfiguration: S.optional(__S(1893, __c59, 5)),
           TagPropagationConfiguration: S.optional(__S(1894, __c59, 6)),
+          LogGroupDeletionProtection: S.optional(S.String),
         }),
       ).annotate({ identifier: "DestinationLogsConfiguration" });
     case 8:

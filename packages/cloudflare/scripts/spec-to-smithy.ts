@@ -48,6 +48,7 @@ import { Command } from "effect/cli";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import { dedupeScopeTwins } from "./dedupe-scope-twins.ts";
+import { markJurisdictionOperations } from "./jurisdiction-layer.ts";
 
 // ============================================================================
 // Namespaces
@@ -479,7 +480,7 @@ const declarationText = (block: string): string => {
       unescapeMarkdown(
         block
           .replace(/<a\b[^>]*>([\s\S]*?)<\/a>/g, "$1")
-          .replace(/\[([^\]]*)\]\((?:<[^>]*>|[^()]*)\)/g, "$1")
+          .replace(/\[([^\]]*)\]\((?:<[^>]*>|(?:[^()]|\([^()]*\))*)\)/g, "$1")
           .replace(/<\/?(?:code|strong|em|b|i|span|p|br)\b[^>]*>/g, ""),
       ),
     ),
@@ -1073,6 +1074,16 @@ const armsToResolved = (bag: Bag, arms: Arm[], hint: string): Resolved => {
 
 const dedupe = <T>(xs: readonly T[]): T[] => [...new Set(xs)];
 
+const uniqueBy = <T>(xs: readonly T[], key: (x: T) => string): T[] => {
+  const seen = new Set<string>();
+  return xs.filter((x) => {
+    const k = key(x);
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+};
+
 /** Stable member name for a union case. */
 const caseMemberName = (target: string, caseName: string | undefined, idx: number): string => {
   if (caseName) return pascal(caseName);
@@ -1224,7 +1235,16 @@ const mapValueDesc = (t: string): string | undefined => {
  */
 const resolveDesc = (bag: Bag, descRaw: string, children: FieldNode[], hint: string): Resolved => {
   const desc = stripOptional(descRaw).core.trim();
-  const armChildren = children.filter(isArmChild);
+  // The docs print some oneOfs as N copies of the same arm (every rulesets
+  // `get` result is five identical rulesets). Copies are one arm.
+  const armChildren = uniqueBy(children.filter(isArmChild), (c) => JSON.stringify(c));
+  if (
+    armChildren.length === 1 &&
+    armChildren[0].sep === "bare" &&
+    splitTopUnion(desc).parts.length > 1
+  ) {
+    return resolveDesc(bag, armChildren[0].typeStr, armChildren[0].children, hint);
+  }
   const fieldChildren = children.filter((c) => !isArmChild(c));
   const { parts, truncated } = splitTopUnion(desc);
   const isArrayDesc = /^array\b/.test(desc);
@@ -2182,9 +2202,16 @@ const run = (config: ConvertConfig) =>
         include: (resource) => convertedResources.has(resource),
         transform: (model, resource) => {
           const { families, removed } = dedupeScopeTwins(model);
-          return families
-            ? `♻️  ${resource}: collapsed ${families} scope-twin famil${families === 1 ? "y" : "ies"} (${removed} shapes)`
-            : undefined;
+          const marked = markJurisdictionOperations(model);
+          const notes = [
+            families
+              ? `♻️  ${resource}: collapsed ${families} scope-twin famil${families === 1 ? "y" : "ies"} (${removed} shapes)`
+              : undefined,
+            marked
+              ? `🌍 ${resource}: ${marked} operation(s) take the Jurisdiction layer`
+              : undefined,
+          ].filter((n) => n !== undefined);
+          return notes.length ? notes.join("\n") : undefined;
         },
       }),
     );

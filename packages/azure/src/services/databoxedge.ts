@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Databoxedge",
   service: "Databoxedge",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -55,33 +56,33 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface AddonsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Addon type. */
   kind: AddonType;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DayOfWeek =
   | "Sunday"
@@ -118,19 +119,19 @@ export interface BandwidthSchedulesCreateOrUpdateRequest {
 }
 export interface BandwidthSchedulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the bandwidth schedule. */
   properties: BandwidthScheduleProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeviceCapacityRequestInfoPropertiesVmPlacementQueryItemList = Array<string>;
 /** Array containing the sizes of the VMs for checking if its feasible to create them on the appliance. */
@@ -141,13 +142,13 @@ export type VmPlacementRequestResultVmSizeList = Array<string>;
 /** List of VM sizes being checked for creation on appliance along with corresponding result. */
 export interface VmPlacementRequestResult {
   /** List of VM sizes being checked. */
-  vmSize?: VmPlacementRequestResultVmSizeList;
+  vmSize?: VmPlacementRequestResultVmSizeList | undefined;
   /** Boolean value indicating if the VM(s) in VmSize can be created. */
-  isFeasible?: boolean;
+  isFeasible?: boolean | undefined;
   /** MessageCode indicating reason for success or failure. */
-  messageCode?: string;
+  messageCode?: string | undefined;
   /** Localized message to be displayed to the user to explain the check result. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Array of the VMs of the sizes in VmSizes can be provisioned on the appliance. */
 export type DeviceCapacityRequestInfoPropertiesVmPlacementResultsList =
@@ -157,7 +158,7 @@ export interface DeviceCapacityRequestInfoProperties {
   /** Array containing the sizes of the VMs for checking if its feasible to create them on the appliance. */
   vmPlacementQuery: DeviceCapacityRequestInfoPropertiesVmPlacementQueryList;
   /** Array of the VMs of the sizes in VmSizes can be provisioned on the appliance. */
-  vmPlacementResults?: DeviceCapacityRequestInfoPropertiesVmPlacementResultsList;
+  vmPlacementResults?: DeviceCapacityRequestInfoPropertiesVmPlacementResultsList | undefined;
 }
 export interface CheckDeviceCapacityCheckResourceCreationFeasibilityRequest {
   /** The ID of the target subscription. */
@@ -167,15 +168,15 @@ export interface CheckDeviceCapacityCheckResourceCreationFeasibilityRequest {
   /** The device name. */
   deviceName: string;
   /** The capacity name. */
-  capacityName?: string;
+  capacityName?: string | undefined;
   /** The properties of the Device Capacity Request. */
   properties: DeviceCapacityRequestInfoProperties;
 }
 export interface CheckDeviceCapacityCheckResourceCreationFeasibilityResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Storage format used for the file represented by the share. */
 export type AzureContainerDataFormat = "BlockBlob" | "PageBlob" | "AzureFile";
@@ -203,40 +204,40 @@ export type ContainerStatus = "OK" | "Offline" | "Unknown" | "Updating" | "Needs
 /** Fields for tracking refresh job on the share or container. */
 export interface RefreshDetails {
   /** If a refresh job is currently in progress on this share or container, this field indicates the ARM resource ID of that job. The field is empty if no job is in progress. */
-  inProgressRefreshJobId?: string;
+  inProgressRefreshJobId?: string | undefined;
   /** Indicates the completed time for the last refresh job on this particular share or container, if any.This could be a failed job or a successful job. */
-  lastCompletedRefreshJobTimeInUTC?: string;
+  lastCompletedRefreshJobTimeInUTC?: string | undefined;
   /** Indicates the relative path of the error xml for the last refresh job on this particular share or container, if any. This could be a failed job or a successful job. */
-  errorManifestFile?: string;
+  errorManifestFile?: string | undefined;
   /** Indicates the id of the last refresh job on this particular share or container,if any. This could be a failed job or a successful job. */
-  lastJob?: string;
+  lastJob?: string | undefined;
 }
 /** The container properties. */
 export interface ContainerProperties {
   /** Current status of the container. */
-  containerStatus?: ContainerStatus;
+  containerStatus?: ContainerStatus | undefined;
   /** DataFormat for Container */
   dataFormat: AzureContainerDataFormat;
   /** Details of the refresh job on this container. */
-  refreshDetails?: RefreshDetails;
+  refreshDetails?: RefreshDetails | undefined;
   /** The UTC time when container got created. */
-  createdDateTime?: string;
+  createdDateTime?: string | undefined;
 }
 export interface ContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The container properties. */
   properties: ContainerProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAddonRequest {
   /** The ID of the target subscription. */
@@ -252,9 +253,9 @@ export interface DeleteAddonRequest {
 }
 export interface DeleteAddonResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBandwidthScheduleRequest {
   /** The ID of the target subscription. */
@@ -268,9 +269,9 @@ export interface DeleteBandwidthScheduleRequest {
 }
 export interface DeleteBandwidthScheduleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteContainerRequest {
   /** The ID of the target subscription. */
@@ -286,9 +287,9 @@ export interface DeleteContainerRequest {
 }
 export interface DeleteContainerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDeviceRequest {
   /** The ID of the target subscription. */
@@ -300,9 +301,9 @@ export interface DeleteDeviceRequest {
 }
 export interface DeleteDeviceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMonitoringConfigRequest {
   /** The ID of the target subscription. */
@@ -316,9 +317,9 @@ export interface DeleteMonitoringConfigRequest {
 }
 export interface DeleteMonitoringConfigResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteOrderRequest {
   /** The ID of the target subscription. */
@@ -330,9 +331,9 @@ export interface DeleteOrderRequest {
 }
 export interface DeleteOrderResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRoleRequest {
   /** The ID of the target subscription. */
@@ -346,9 +347,9 @@ export interface DeleteRoleRequest {
 }
 export interface DeleteRoleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteShareRequest {
   /** The ID of the target subscription. */
@@ -362,9 +363,9 @@ export interface DeleteShareRequest {
 }
 export interface DeleteShareResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteStorageAccountRequest {
   /** The ID of the target subscription. */
@@ -378,9 +379,9 @@ export interface DeleteStorageAccountRequest {
 }
 export interface DeleteStorageAccountResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteStorageAccountCredentialsRequest {
   /** The ID of the target subscription. */
@@ -394,9 +395,9 @@ export interface DeleteStorageAccountCredentialsRequest {
 }
 export interface DeleteStorageAccountCredentialsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteTriggerRequest {
   /** The ID of the target subscription. */
@@ -410,9 +411,9 @@ export interface DeleteTriggerRequest {
 }
 export interface DeleteTriggerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteUserRequest {
   /** The ID of the target subscription. */
@@ -426,9 +427,9 @@ export interface DeleteUserRequest {
 }
 export interface DeleteUserResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type DevicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -437,12 +438,12 @@ export type DataResidencyType = "GeoZoneReplication" | "ZoneReplication";
 /** Wraps data-residency related information for edge-resource and this should be used with ARM layer. */
 export interface DataResidency {
   /** DataResidencyType enum */
-  type?: DataResidencyType | (string & {});
+  type?: DataResidencyType | (string & {}) | undefined;
 }
 /** The properties of the Data Box Edge/Gateway device. */
 export interface DataBoxEdgeDevicePropertiesInput {
   /** The details of data-residency related properties for this resource */
-  dataResidency?: DataResidency;
+  dataResidency?: DataResidency | undefined;
 }
 /** The Sku name. */
 export type SkuName =
@@ -480,16 +481,16 @@ export type SkuTier = "Standard";
 /** The SKU type. */
 export interface Sku {
   /** SKU name. */
-  name?: SkuName | (string & {});
+  name?: SkuName | (string & {}) | undefined;
   /** The SKU tier. This is based on the SKU name. */
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
 }
 /** Identity type */
 export type MsiIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 /** Msi identity details of the resource */
 export interface ResourceIdentityInput {
   /** Identity type */
-  type?: MsiIdentityType | (string & {});
+  type?: MsiIdentityType | (string & {}) | undefined;
 }
 export interface DevicesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -499,17 +500,17 @@ export interface DevicesCreateOrUpdateRequest {
   /** The device name. */
   deviceName: string;
   /** Resource tags. */
-  tags?: DevicesCreateOrUpdateRequestTagsMap;
+  tags?: DevicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the Data Box Edge/Gateway device. */
-  properties?: DataBoxEdgeDevicePropertiesInput;
+  properties?: DataBoxEdgeDevicePropertiesInput | undefined;
   /** The SKU type. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The etag for the devices. */
-  etag?: string;
+  etag?: string | undefined;
   /** Msi identity of the resource */
-  identity?: ResourceIdentityInput;
+  identity?: ResourceIdentityInput | undefined;
 }
 /** Resource tags. */
 export type DevicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -528,17 +529,17 @@ export type DataBoxEdgeDevicePropertiesSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DataBoxEdgeDevicePropertiesSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DataBoxEdgeDevicePropertiesSystemDataCreatedByType;
+  createdByType?: DataBoxEdgeDevicePropertiesSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DataBoxEdgeDevicePropertiesSystemDataLastModifiedByType;
+  lastModifiedByType?: DataBoxEdgeDevicePropertiesSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The status of the Data Box Edge/Gateway device. */
 export type DataBoxEdgeDeviceStatus =
@@ -566,88 +567,88 @@ export type ResourceMoveStatus = "None" | "ResourceMoveInProgress" | "ResourceMo
 /** Fields for tracking resource move */
 export interface ResourceMoveDetails {
   /** Denotes whether move operation is in progress */
-  operationInProgress?: ResourceMoveStatus;
+  operationInProgress?: ResourceMoveStatus | undefined;
   /** Denotes the timeout of the operation to finish */
-  operationInProgressLockTimeoutInUTC?: string;
+  operationInProgressLockTimeoutInUTC?: string | undefined;
 }
 export type SubscriptionState = "Registered" | "Warned" | "Suspended" | "Deleted" | "Unregistered";
 export interface SubscriptionRegisteredFeatures {
-  name?: string;
-  state?: string;
+  name?: string | undefined;
+  state?: string | undefined;
 }
 export type SubscriptionPropertiesRegisteredFeaturesList = Array<SubscriptionRegisteredFeatures>;
 export interface SubscriptionProperties {
-  tenantId?: string;
-  locationPlacementId?: string;
-  quotaId?: string;
-  serializedDetails?: string;
-  registeredFeatures?: SubscriptionPropertiesRegisteredFeaturesList;
+  tenantId?: string | undefined;
+  locationPlacementId?: string | undefined;
+  quotaId?: string | undefined;
+  serializedDetails?: string | undefined;
+  registeredFeatures?: SubscriptionPropertiesRegisteredFeaturesList | undefined;
 }
 /** Subscription details for the Edge Profile */
 export interface EdgeProfileSubscription {
   /** Edge Subscription Registration ID */
-  registrationId?: string;
+  registrationId?: string | undefined;
   /** ARM ID of the subscription */
-  id?: string;
-  state?: SubscriptionState;
-  registrationDate?: string;
-  subscriptionId?: string;
-  properties?: SubscriptionProperties;
+  id?: string | undefined;
+  state?: SubscriptionState | undefined;
+  registrationDate?: string | undefined;
+  subscriptionId?: string | undefined;
+  properties?: SubscriptionProperties | undefined;
 }
 /** Details about Edge Profile for the resource */
 export interface EdgeProfile {
   /** Edge Profile Subscription */
-  subscription?: EdgeProfileSubscription;
+  subscription?: EdgeProfileSubscription | undefined;
 }
 /** The properties of the Data Box Edge/Gateway device. */
 export interface DataBoxEdgeDeviceProperties {
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DataBoxEdgeDevicePropertiesSystemData;
+  systemData?: DataBoxEdgeDevicePropertiesSystemData | undefined;
   /** The status of the Data Box Edge/Gateway device. */
-  dataBoxEdgeDeviceStatus?: DataBoxEdgeDeviceStatus;
+  dataBoxEdgeDeviceStatus?: DataBoxEdgeDeviceStatus | undefined;
   /** The Serial Number of Data Box Edge/Gateway device. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** The Description of the Data Box Edge/Gateway device. */
-  description?: string;
+  description?: string | undefined;
   /** The description of the Data Box Edge/Gateway device model. */
-  modelDescription?: string;
+  modelDescription?: string | undefined;
   /** The type of the Data Box Edge/Gateway device. */
-  deviceType?: DeviceType;
+  deviceType?: DeviceType | undefined;
   /** The Data Box Edge/Gateway device name. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** The Data Box Edge/Gateway device culture. */
-  culture?: string;
+  culture?: string | undefined;
   /** The Data Box Edge/Gateway device model. */
-  deviceModel?: string;
+  deviceModel?: string | undefined;
   /** The Data Box Edge/Gateway device software version. */
-  deviceSoftwareVersion?: string;
+  deviceSoftwareVersion?: string | undefined;
   /** The Data Box Edge/Gateway device local capacity in MB. */
-  deviceLocalCapacity?: number;
+  deviceLocalCapacity?: number | undefined;
   /** The Data Box Edge/Gateway device timezone. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** The device software version number of the device (eg: 1.2.18105.6). */
-  deviceHcsVersion?: string;
+  deviceHcsVersion?: string | undefined;
   /** Type of compute roles configured. */
-  configuredRoleTypes?: DataBoxEdgeDevicePropertiesConfiguredRoleTypesList;
+  configuredRoleTypes?: DataBoxEdgeDevicePropertiesConfiguredRoleTypesList | undefined;
   /** The number of nodes in the cluster. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** The details of the move operation on this resource. */
-  resourceMoveDetails?: ResourceMoveDetails;
+  resourceMoveDetails?: ResourceMoveDetails | undefined;
   /** The details of Edge Profile for this resource */
-  edgeProfile?: EdgeProfile;
+  edgeProfile?: EdgeProfile | undefined;
   /** The details of data-residency related properties for this resource */
-  dataResidency?: DataResidency;
+  dataResidency?: DataResidency | undefined;
   /** Kubernetes Workload Profile */
-  kubernetesWorkloadProfile?: string;
+  kubernetesWorkloadProfile?: string | undefined;
 }
 /** Msi identity details of the resource */
 export interface ResourceIdentity {
   /** Identity type */
-  type?: MsiIdentityType;
+  type?: MsiIdentityType | undefined;
   /** Service Principal Id backing the Msi */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Home Tenant Id */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** The kind of the device. */
 export type DataBoxEdgeDeviceKind =
@@ -657,27 +658,27 @@ export type DataBoxEdgeDeviceKind =
   | "AzureModularDataCentre";
 export interface DevicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DevicesCreateOrUpdateResponseTagsMap;
+  tags?: DevicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the Data Box Edge/Gateway device. */
-  properties?: DataBoxEdgeDeviceProperties;
+  properties?: DataBoxEdgeDeviceProperties | undefined;
   /** The SKU type. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The etag for the devices. */
-  etag?: string;
+  etag?: string | undefined;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The kind of the device. */
-  kind?: DataBoxEdgeDeviceKind;
+  kind?: DataBoxEdgeDeviceKind | undefined;
 }
 /** The algorithm used to encrypt "Value". */
 export type EncryptionAlgorithm = "None" | "AES256" | "RSAES_PKCS1_v_1_5";
@@ -686,7 +687,7 @@ export interface AsymmetricEncryptedSecret {
   /** The value of the secret. */
   value: string;
   /** Thumbprint certificate used to encrypt \"Value\". If the value is unencrypted, it will be null. */
-  encryptionCertThumbprint?: string;
+  encryptionCertThumbprint?: string | undefined;
   /** The algorithm used to encrypt "Value". */
   encryptionAlgorithm: EncryptionAlgorithm | (string & {});
 }
@@ -707,9 +708,9 @@ export interface DevicesCreateOrUpdateSecuritySettingsRequest {
 }
 export interface DevicesCreateOrUpdateSecuritySettingsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DevicesGetUpdateSummaryRequest {
   /** The ID of the target subscription. */
@@ -748,90 +749,90 @@ export type UpdateStatus =
 /** Update Specific attributes */
 export interface UpdateDetails {
   /** Title of the Update */
-  updateTitle?: string;
+  updateTitle?: string | undefined;
   /** Size of the update(In Bytes) */
-  updateSize?: number;
+  updateSize?: number | undefined;
   /** Type of the Update */
-  updateType?: UpdateType;
+  updateType?: UpdateType | undefined;
   /** Target Version number */
-  targetVersion?: string;
+  targetVersion?: string | undefined;
   /** Friendly Version Number */
-  friendlyVersionNumber?: string;
+  friendlyVersionNumber?: string | undefined;
   /** Estimated Install Time for the update */
-  estimatedInstallTimeInMins?: number;
+  estimatedInstallTimeInMins?: number | undefined;
   /** Indicates if updates are available and at least one of the updates needs a reboot. */
-  rebootBehavior?: InstallRebootBehavior;
+  rebootBehavior?: InstallRebootBehavior | undefined;
   /** Impact of Installing an updateType */
-  installationImpact?: InstallationImpact;
+  installationImpact?: InstallationImpact | undefined;
   /** Status of the update. */
-  status?: UpdateStatus;
+  status?: UpdateStatus | undefined;
 }
 /** The list of updates available for install. */
 export type UpdateSummaryPropertiesUpdatesList = Array<UpdateDetails>;
 /** The device update information summary. */
 export interface UpdateSummaryProperties {
   /** The current version of the device in format: 1.2.17312.13.", */
-  deviceVersionNumber?: string;
+  deviceVersionNumber?: string | undefined;
   /** The current version of the device in text format. */
-  friendlyDeviceVersionName?: string;
+  friendlyDeviceVersionName?: string | undefined;
   /** The last time when a scan was done on the device. */
-  deviceLastScannedDateTime?: string;
+  deviceLastScannedDateTime?: string | undefined;
   /** The time when the last scan job was completed (success/cancelled/failed) on the appliance. */
-  lastCompletedScanJobDateTime?: string;
+  lastCompletedScanJobDateTime?: string | undefined;
   /** Time when the last scan job is successfully completed. */
-  lastSuccessfulScanJobTime?: string;
+  lastSuccessfulScanJobTime?: string | undefined;
   /** The time when the last Download job was completed (success/cancelled/failed) on the appliance. */
-  lastCompletedDownloadJobDateTime?: string;
+  lastCompletedDownloadJobDateTime?: string | undefined;
   /** JobId of the last ran download job.(Can be success/cancelled/failed) */
-  lastCompletedDownloadJobId?: string;
+  lastCompletedDownloadJobId?: string | undefined;
   /** JobStatus of the last ran download job. */
-  lastDownloadJobStatus?: JobStatus;
+  lastDownloadJobStatus?: JobStatus | undefined;
   /** The time when the Last Install job was completed successfully on the appliance */
-  lastSuccessfulInstallJobDateTime?: string;
+  lastSuccessfulInstallJobDateTime?: string | undefined;
   /** The time when the last Install job was completed (success/cancelled/failed) on the appliance. */
-  lastCompletedInstallJobDateTime?: string;
+  lastCompletedInstallJobDateTime?: string | undefined;
   /** JobId of the last ran install job.(Can be success/cancelled/failed) */
-  lastCompletedInstallJobId?: string;
+  lastCompletedInstallJobId?: string | undefined;
   /** JobStatus of the last ran install job. */
-  lastInstallJobStatus?: JobStatus;
+  lastInstallJobStatus?: JobStatus | undefined;
   /** The number of updates available for the current device version as per the last device scan. */
-  totalNumberOfUpdatesAvailable?: number;
+  totalNumberOfUpdatesAvailable?: number | undefined;
   /** The total number of items pending download. */
-  totalNumberOfUpdatesPendingDownload?: number;
+  totalNumberOfUpdatesPendingDownload?: number | undefined;
   /** The total number of items pending install. */
-  totalNumberOfUpdatesPendingInstall?: number;
+  totalNumberOfUpdatesPendingInstall?: number | undefined;
   /** Indicates if updates are available and at least one of the updates needs a reboot. */
-  rebootBehavior?: InstallRebootBehavior;
+  rebootBehavior?: InstallRebootBehavior | undefined;
   /** The current update operation. */
-  ongoingUpdateOperation?: UpdateOperation;
+  ongoingUpdateOperation?: UpdateOperation | undefined;
   /** The job ID of the download job in progress. */
-  inProgressDownloadJobId?: string;
+  inProgressDownloadJobId?: string | undefined;
   /** The job ID of the install job in progress. */
-  inProgressInstallJobId?: string;
+  inProgressInstallJobId?: string | undefined;
   /** The time when the currently running download (if any) started. */
-  inProgressDownloadJobStartedDateTime?: string;
+  inProgressDownloadJobStartedDateTime?: string | undefined;
   /** The time when the currently running install (if any) started. */
-  inProgressInstallJobStartedDateTime?: string;
+  inProgressInstallJobStartedDateTime?: string | undefined;
   /** The list of updates available for install. */
-  updateTitles?: UpdateSummaryPropertiesUpdateTitlesList;
+  updateTitles?: UpdateSummaryPropertiesUpdateTitlesList | undefined;
   /** The list of updates available for install. */
-  updates?: UpdateSummaryPropertiesUpdatesList;
+  updates?: UpdateSummaryPropertiesUpdatesList | undefined;
   /** The total size of updates available for download in bytes. */
-  totalUpdateSizeInBytes?: number;
+  totalUpdateSizeInBytes?: number | undefined;
   /** The total time in Minutes */
-  totalTimeInMinutes?: number;
+  totalTimeInMinutes?: number | undefined;
 }
 export interface DevicesGetUpdateSummaryResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The device update information summary. */
-  properties?: UpdateSummaryProperties;
+  properties?: UpdateSummaryProperties | undefined;
 }
 export interface DevicesScanForUpdatesRequest {
   /** The ID of the target subscription. */
@@ -843,9 +844,9 @@ export interface DevicesScanForUpdatesRequest {
 }
 export interface DevicesScanForUpdatesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DownloadDeviceUpdatesRequest {
   /** The ID of the target subscription. */
@@ -857,9 +858,9 @@ export interface DownloadDeviceUpdatesRequest {
 }
 export interface DownloadDeviceUpdatesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GenerateDeviceCertificateRequest {
   /** The ID of the target subscription. */
@@ -872,11 +873,11 @@ export interface GenerateDeviceCertificateRequest {
 /** Used in activation key generation flow. */
 export interface GenerateCertResponse {
   /** Gets or sets base64 encoded certificate raw data, this is the public part needed to be uploaded to cert vault */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** Gets or sets base64 encoded private part of the certificate, needed to form the activation key */
-  privateKey?: string | Redacted.Redacted<string>;
+  privateKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets expiry time in UTC */
-  expiryTimeInUTC?: string;
+  expiryTimeInUTC?: string | undefined;
 }
 export interface GetAddonRequest {
   /** The ID of the target subscription. */
@@ -892,13 +893,13 @@ export interface GetAddonRequest {
 }
 export interface GetAddonResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Addon type. */
   kind: AddonType;
 }
@@ -917,42 +918,42 @@ export type AlertSeverity = "Informational" | "Warning" | "Critical";
 /** Error details for the alert. */
 export interface AlertErrorDetails {
   /** Error code. */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** Error Message. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Number of occurrences. */
-  occurrences?: number;
+  occurrences?: number | undefined;
 }
 /** Alert details. */
 export type AlertPropertiesDetailedInformationMap = { [key: string]: string | undefined };
 /** Properties of alert. */
 export interface AlertProperties {
   /** Alert title. */
-  title?: string;
+  title?: string | undefined;
   /** Alert type. */
-  alertType?: string;
+  alertType?: string | undefined;
   /** UTC time when the alert appeared. */
-  appearedAtDateTime?: string;
+  appearedAtDateTime?: string | undefined;
   /** Alert recommendation. */
-  recommendation?: string;
+  recommendation?: string | undefined;
   /** Severity of the alert. */
-  severity?: AlertSeverity;
+  severity?: AlertSeverity | undefined;
   /** Error details of the alert. */
-  errorDetails?: AlertErrorDetails;
+  errorDetails?: AlertErrorDetails | undefined;
   /** Alert details. */
-  detailedInformation?: AlertPropertiesDetailedInformationMap;
+  detailedInformation?: AlertPropertiesDetailedInformationMap | undefined;
 }
 export interface GetAlertResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of alert. */
-  properties?: AlertProperties;
+  properties?: AlertProperties | undefined;
 }
 export interface GetBandwidthScheduleRequest {
   /** The ID of the target subscription. */
@@ -966,13 +967,13 @@ export interface GetBandwidthScheduleRequest {
 }
 export interface GetBandwidthScheduleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the bandwidth schedule. */
   properties: BandwidthScheduleProperties;
 }
@@ -990,13 +991,13 @@ export interface GetContainerRequest {
 }
 export interface GetContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The container properties. */
   properties: ContainerProperties;
 }
@@ -1012,27 +1013,27 @@ export interface GetDeviceRequest {
 export type GetDeviceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDeviceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDeviceResponseTagsMap;
+  tags?: GetDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the Data Box Edge/Gateway device. */
-  properties?: DataBoxEdgeDeviceProperties;
+  properties?: DataBoxEdgeDeviceProperties | undefined;
   /** The SKU type. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The etag for the devices. */
-  etag?: string;
+  etag?: string | undefined;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The kind of the device. */
-  kind?: DataBoxEdgeDeviceKind;
+  kind?: DataBoxEdgeDeviceKind | undefined;
 }
 export interface GetDeviceCapacityInfoDeviceCapacityInfoRequest {
   /** The ID of the target subscription. */
@@ -1045,63 +1046,63 @@ export interface GetDeviceCapacityInfoDeviceCapacityInfoRequest {
 /** Cluster Storage Data. */
 export interface ClusterStorageViewData {
   /** Total storage on the cluster in MB. */
-  clusterTotalStorageMb?: number;
+  clusterTotalStorageMb?: number | undefined;
   /** The available or free storage on the cluster in MB. */
-  clusterFreeStorageMb?: number;
+  clusterFreeStorageMb?: number | undefined;
 }
 /** Cluster GPU Data. */
 export interface ClusterGpuCapacity {
   /** The cluster GPU Type. */
-  gpuType?: string;
+  gpuType?: string | undefined;
   /** The used GPU units count in the cluster. */
-  gpuUsedUnitsCount?: number;
+  gpuUsedUnitsCount?: number | undefined;
   /** The free GPU units count in the cluster. */
-  gpuFreeUnitsCount?: number;
+  gpuFreeUnitsCount?: number | undefined;
   /** The GPU units count reserved for failover in the cluster. */
-  gpuReservedForFailoverUnitsCount?: number;
+  gpuReservedForFailoverUnitsCount?: number | undefined;
   /** The total GPU units count in the cluster. */
-  gpuTotalUnitsCount?: number;
+  gpuTotalUnitsCount?: number | undefined;
 }
 /** NodeCapacityInfo defines the required information to determine the placement of a VM. */
 export interface ClusterMemoryCapacity {
   /** The free memory in the cluster in MB. */
-  clusterFreeMemoryMb?: number;
+  clusterFreeMemoryMb?: number | undefined;
   /** The used memory in the cluster in MB. */
-  clusterUsedMemoryMb?: number;
+  clusterUsedMemoryMb?: number | undefined;
   /** The failover memory in the cluster in MB. */
-  clusterFailoverMemoryMb?: number;
+  clusterFailoverMemoryMb?: number | undefined;
   /** The fragmentation memory in the cluster in MB. */
-  clusterFragmentationMemoryMb?: number;
+  clusterFragmentationMemoryMb?: number | undefined;
   /** The memory reserved for Hyper-V in the cluster in MB. */
-  clusterHypervReserveMemoryMb?: number;
+  clusterHypervReserveMemoryMb?: number | undefined;
   /** The memory of the Infra VM in the cluster in MB. */
-  clusterInfraVmMemoryMb?: number;
+  clusterInfraVmMemoryMb?: number | undefined;
   /** The total memory in the cluster in MB. */
-  clusterTotalMemoryMb?: number;
+  clusterTotalMemoryMb?: number | undefined;
   /** The non-failover memory in the cluster in MB. */
-  clusterNonFailoverVmMb?: number;
+  clusterNonFailoverVmMb?: number | undefined;
   /** The memory used by VMs in the cluster in MB. */
-  clusterMemoryUsedByVmsMb?: number;
+  clusterMemoryUsedByVmsMb?: number | undefined;
 }
 /** Cluster Compute Data. */
 export interface ClusterCapacityViewData {
   /** The FQDN of the cluster. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** The cluster's GPU capacity. */
-  gpuCapacity?: ClusterGpuCapacity;
+  gpuCapacity?: ClusterGpuCapacity | undefined;
   /** The cluster's memory capacity. */
-  memoryCapacity?: ClusterMemoryCapacity;
+  memoryCapacity?: ClusterMemoryCapacity | undefined;
   /** The last time at which the ClusterCapacityViewData was set. */
-  lastRefreshedTime?: string;
+  lastRefreshedTime?: string | undefined;
   /** The total # of vCPUs provisioned by non-HPN VM per appliance. */
-  totalProvisionedNonHpnCores?: number;
+  totalProvisionedNonHpnCores?: number | undefined;
 }
 /** VmMemory Data. */
 export interface VmMemory {
   /** The total amount of RAM in the virtual machine, as seen by the guest operating system. For a virtual machine with dynamic memory enabled, this represents the initial memory available at startup. */
-  startupMemoryMB?: number;
+  startupMemoryMB?: number | undefined;
   /** The current memory used by the virtual machine. */
-  currentMemoryUsageMB?: number;
+  currentMemoryUsageMB?: number | undefined;
 }
 /** The VM used memory per VmId. */
 export type HostCapacityVmUsedMemoryMap = { [key: string]: VmMemory | undefined };
@@ -1114,36 +1115,36 @@ export type NumaNodeDataVCpuIndexesForRootList = Array<number>;
 /** NUMA node data. */
 export interface NumaNodeData {
   /** The NUMA node index. */
-  numaNodeIndex?: number;
+  numaNodeIndex?: number | undefined;
   /** The total memory on the NUMA node. */
-  totalMemoryInMb?: number;
+  totalMemoryInMb?: number | undefined;
   /** The logical cores per core count. */
-  logicalCoreCountPerCore?: number;
+  logicalCoreCountPerCore?: number | undefined;
   /** The effective available memory on the NUMA node in MB. */
-  effectiveAvailableMemoryInMb?: number;
+  effectiveAvailableMemoryInMb?: number | undefined;
   /** The free VCPU indices for the Hpn VMs. */
-  freeVCpuIndexesForHpn?: NumaNodeDataFreeVCpuIndexesForHpnList;
+  freeVCpuIndexesForHpn?: NumaNodeDataFreeVCpuIndexesForHpnList | undefined;
   /** The VCPU indices for Hpn VMs */
-  vCpuIndexesForHpn?: NumaNodeDataVCpuIndexesForHpnList;
+  vCpuIndexesForHpn?: NumaNodeDataVCpuIndexesForHpnList | undefined;
   /** The VCPU indices for the root. */
-  vCpuIndexesForRoot?: NumaNodeDataVCpuIndexesForRootList;
+  vCpuIndexesForRoot?: NumaNodeDataVCpuIndexesForRootList | undefined;
 }
 /** The numa nodes information for Hpn VMs. */
 export type HostCapacityNumaNodesDataList = Array<NumaNodeData>;
 /** Host Capacity Data. */
 export interface HostCapacity {
   /** The name of the host. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The available memory on the host accounting for VM placement size and any host VM reservations. */
-  effectiveAvailableMemoryMbOnHost?: number;
+  effectiveAvailableMemoryMbOnHost?: number | undefined;
   /** The available amount of GPUs on the host to use after accounting for GPUS used by reservations on the host. */
-  availableGpuCount?: number;
+  availableGpuCount?: number | undefined;
   /** The VM used memory per VmId. */
-  vmUsedMemory?: HostCapacityVmUsedMemoryMap;
+  vmUsedMemory?: HostCapacityVmUsedMemoryMap | undefined;
   /** The GPU type of the VM. */
-  gpuType?: string;
+  gpuType?: string | undefined;
   /** The numa nodes information for Hpn VMs. */
-  numaNodesData?: HostCapacityNumaNodesDataList;
+  numaNodesData?: HostCapacityNumaNodesDataList | undefined;
 }
 /** The dictionary of individual node names and node capacities in the cluster. */
 export type DeviceCapacityInfoPropertiesNodeCapacityInfosMap = {
@@ -1152,25 +1153,25 @@ export type DeviceCapacityInfoPropertiesNodeCapacityInfosMap = {
 /** The properties of Device Capacity Info */
 export interface DeviceCapacityInfoProperties {
   /** Timestamp of request in UTC */
-  timeStamp?: string;
+  timeStamp?: string | undefined;
   /** Cluster capacity data for storage resources (CSV). */
-  clusterStorageCapacityInfo?: ClusterStorageViewData;
+  clusterStorageCapacityInfo?: ClusterStorageViewData | undefined;
   /** Cluster capacity data for compute resources (Memory and GPU). */
-  clusterComputeCapacityInfo?: ClusterCapacityViewData;
+  clusterComputeCapacityInfo?: ClusterCapacityViewData | undefined;
   /** The dictionary of individual node names and node capacities in the cluster. */
-  nodeCapacityInfos?: DeviceCapacityInfoPropertiesNodeCapacityInfosMap;
+  nodeCapacityInfos?: DeviceCapacityInfoPropertiesNodeCapacityInfosMap | undefined;
 }
 export interface GetDeviceCapacityInfoDeviceCapacityInfoResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The device capacity properties. */
-  properties?: DeviceCapacityInfoProperties;
+  properties?: DeviceCapacityInfoProperties | undefined;
 }
 export interface GetDeviceExtendedInformationRequest {
   /** The ID of the target subscription. */
@@ -1191,9 +1192,9 @@ export type KeyVaultSyncStatus =
 /** Holds device secret either as a KeyVault reference or as an encrypted value. */
 export interface Secret {
   /** Encrypted (using device public key) secret value. */
-  encryptedSecret?: AsymmetricEncryptedSecret;
+  encryptedSecret?: AsymmetricEncryptedSecret | undefined;
   /** Id of the Key-Vault where secret is stored (ex: secrets/AuthClientSecret/82ef4346187a4033a10d629cde07d740). */
-  keyVaultId?: string;
+  keyVaultId?: string | undefined;
 }
 /** Device secrets, will be returned only with ODataFilter $expand=deviceSecrets */
 export type DataBoxEdgeDeviceExtendedInfoPropertiesDeviceSecretsMap = {
@@ -1204,35 +1205,35 @@ export type ClusterWitnessType = "None" | "Cloud" | "FileShare";
 /** The properties of the Data Box Edge/Gateway device extended info. */
 export interface DataBoxEdgeDeviceExtendedInfoProperties {
   /** The digital signature of encrypted certificate. */
-  encryptionKeyThumbprint?: string;
+  encryptionKeyThumbprint?: string | undefined;
   /** The public part of the encryption certificate. Client uses this to encrypt any secret. */
-  encryptionKey?: string;
+  encryptionKey?: string | undefined;
   /** The Resource ID of the Resource. */
-  resourceKey?: string;
+  resourceKey?: string | undefined;
   /** The Key Vault ARM Id for client secrets */
-  clientSecretStoreId?: string;
+  clientSecretStoreId?: string | undefined;
   /** The url to access the Client Key Vault */
-  clientSecretStoreUrl?: string;
+  clientSecretStoreUrl?: string | undefined;
   /** The name of Channel Integrity Key stored in the Client Key Vault */
-  channelIntegrityKeyName?: string;
+  channelIntegrityKeyName?: string | undefined;
   /** The version of Channel Integrity Key stored in the Client Key Vault */
-  channelIntegrityKeyVersion?: string;
+  channelIntegrityKeyVersion?: string | undefined;
   /** Key vault sync status */
-  keyVaultSyncStatus?: KeyVaultSyncStatus;
+  keyVaultSyncStatus?: KeyVaultSyncStatus | undefined;
   /** Device secrets, will be returned only with ODataFilter $expand=deviceSecrets */
-  deviceSecrets?: DataBoxEdgeDeviceExtendedInfoPropertiesDeviceSecretsMap;
+  deviceSecrets?: DataBoxEdgeDeviceExtendedInfoPropertiesDeviceSecretsMap | undefined;
   /** Cluster Witness Type */
-  clusterWitnessType?: ClusterWitnessType;
+  clusterWitnessType?: ClusterWitnessType | undefined;
   /** The witness location of file share. */
-  fileShareWitnessLocation?: string;
+  fileShareWitnessLocation?: string | undefined;
   /** The username of file share. */
-  fileShareWitnessUsername?: string;
+  fileShareWitnessUsername?: string | undefined;
   /** The Cloud Witness Storage account name. */
-  cloudWitnessStorageAccountName?: string;
+  cloudWitnessStorageAccountName?: string | undefined;
   /** The Container for cloud witness in the storage account. */
-  cloudWitnessContainerName?: string;
+  cloudWitnessContainerName?: string | undefined;
   /** The Azure service endpoint of the cloud witness storage account. */
-  cloudWitnessStorageEndpoint?: string;
+  cloudWitnessStorageEndpoint?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetDeviceExtendedInformationResponseSystemDataCreatedByType =
@@ -1249,29 +1250,29 @@ export type GetDeviceExtendedInformationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetDeviceExtendedInformationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetDeviceExtendedInformationResponseSystemDataCreatedByType;
+  createdByType?: GetDeviceExtendedInformationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetDeviceExtendedInformationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetDeviceExtendedInformationResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetDeviceExtendedInformationResponse {
   /** The path ID that uniquely identifies the object. */
-  id?: string;
+  id?: string | undefined;
   /** The object name. */
-  name?: string;
+  name?: string | undefined;
   /** The hierarchical type of the object. */
-  type?: string;
+  type?: string | undefined;
   /** The extended info properties. */
-  properties?: DataBoxEdgeDeviceExtendedInfoProperties;
+  properties?: DataBoxEdgeDeviceExtendedInfoProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetDeviceExtendedInformationResponseSystemData;
+  systemData?: GetDeviceExtendedInformationResponseSystemData | undefined;
 }
 export interface GetDeviceNetworkSettingsRequest {
   /** The ID of the target subscription. */
@@ -1286,9 +1287,9 @@ export type NetworkGroup = "None" | "NonRDMA" | "RDMA";
 /** The network adapter position. */
 export interface NetworkAdapterPosition {
   /** The network group. */
-  networkGroup?: NetworkGroup;
+  networkGroup?: NetworkGroup | undefined;
   /** The port. */
-  port?: number;
+  port?: number | undefined;
 }
 /** Value indicating whether this adapter is valid. */
 export type NetworkAdapterStatus = "Inactive" | "Active";
@@ -1299,74 +1300,74 @@ export type NetworkAdapterDHCPStatus = "Disabled" | "Enabled";
 /** Details related to the IPv4 address configuration. */
 export interface Ipv4Config {
   /** The IPv4 address of the network adapter. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The IPv4 subnet of the network adapter. */
-  subnet?: string;
+  subnet?: string | undefined;
   /** The IPv4 gateway of the network adapter. */
-  gateway?: string;
+  gateway?: string | undefined;
 }
 /** Details related to the IPv6 address configuration. */
 export interface Ipv6Config {
   /** The IPv6 address of the network adapter. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The IPv6 prefix of the network adapter. */
-  prefixLength?: number;
+  prefixLength?: number | undefined;
   /** The IPv6 gateway of the network adapter. */
-  gateway?: string;
+  gateway?: string | undefined;
 }
 /** The list of DNS Servers of the device. */
 export type NetworkAdapterDnsServersList = Array<string>;
 /** Represents the networkAdapter on a device. */
 export interface NetworkAdapter {
   /** Instance ID of network adapter. */
-  adapterId?: string;
+  adapterId?: string | undefined;
   /** Hardware position of network adapter. */
-  adapterPosition?: NetworkAdapterPosition;
+  adapterPosition?: NetworkAdapterPosition | undefined;
   /** Logical index of the adapter. */
-  index?: number;
+  index?: number | undefined;
   /** Node ID of the network adapter. */
-  nodeId?: string;
+  nodeId?: string | undefined;
   /** Network adapter name. */
-  networkAdapterName?: string;
+  networkAdapterName?: string | undefined;
   /** Hardware label for the adapter. */
-  label?: string;
+  label?: string | undefined;
   /** MAC address. */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** Link speed. */
-  linkSpeed?: number;
+  linkSpeed?: number | undefined;
   /** Value indicating whether this adapter is valid. */
-  status?: NetworkAdapterStatus;
+  status?: NetworkAdapterStatus | undefined;
   /** Value indicating whether this adapter is RDMA capable. */
-  rdmaStatus?: NetworkAdapterRDMAStatus;
+  rdmaStatus?: NetworkAdapterRDMAStatus | undefined;
   /** Value indicating whether this adapter has DHCP enabled. */
-  dhcpStatus?: NetworkAdapterDHCPStatus;
+  dhcpStatus?: NetworkAdapterDHCPStatus | undefined;
   /** The IPv4 configuration of the network adapter. */
-  ipv4Configuration?: Ipv4Config;
+  ipv4Configuration?: Ipv4Config | undefined;
   /** The IPv6 configuration of the network adapter. */
-  ipv6Configuration?: Ipv6Config;
+  ipv6Configuration?: Ipv6Config | undefined;
   /** The IPv6 local address. */
-  ipv6LinkLocalAddress?: string;
+  ipv6LinkLocalAddress?: string | undefined;
   /** The list of DNS Servers of the device. */
-  dnsServers?: NetworkAdapterDnsServersList;
+  dnsServers?: NetworkAdapterDnsServersList | undefined;
 }
 /** The network adapter list on the device. */
 export type NetworkSettingsPropertiesNetworkAdaptersList = Array<NetworkAdapter>;
 /** The properties of network settings. */
 export interface NetworkSettingsProperties {
   /** The network adapter list on the device. */
-  networkAdapters?: NetworkSettingsPropertiesNetworkAdaptersList;
+  networkAdapters?: NetworkSettingsPropertiesNetworkAdaptersList | undefined;
 }
 export interface GetDeviceNetworkSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of network settings of a device. */
-  properties?: NetworkSettingsProperties;
+  properties?: NetworkSettingsProperties | undefined;
 }
 export interface GetDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsRequest {
   /** The ID of the target subscription. */
@@ -1385,13 +1386,13 @@ export interface ProactiveLogCollectionSettingsProperties {
 }
 export interface GetDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the diagnostic proactive log collection settings. */
   properties: ProactiveLogCollectionSettingsProperties;
 }
@@ -1410,11 +1411,11 @@ export type AccessLevel = "None" | "ReadOnly" | "ReadWrite" | "FullAccess";
 /** RemoteApplicationType for which remote support settings is being modified */
 export interface RemoteSupportSettings {
   /** Remote application type */
-  remoteApplicationType?: RemoteApplicationType | (string & {});
+  remoteApplicationType?: RemoteApplicationType | (string & {}) | undefined;
   /** Access level allowed for this remote application type */
-  accessLevel?: AccessLevel | (string & {});
+  accessLevel?: AccessLevel | (string & {}) | undefined;
   /** Expiration time stamp */
-  expirationTimeStampInUTC?: string;
+  expirationTimeStampInUTC?: string | undefined;
 }
 /** Remote support settings list according to the RemoteApplicationType */
 export type DiagnosticRemoteSupportSettingsPropertiesRemoteSupportSettingsListList =
@@ -1422,17 +1423,19 @@ export type DiagnosticRemoteSupportSettingsPropertiesRemoteSupportSettingsListLi
 /** The properties of remote support settings. */
 export interface DiagnosticRemoteSupportSettingsProperties {
   /** Remote support settings list according to the RemoteApplicationType */
-  remoteSupportSettingsList?: DiagnosticRemoteSupportSettingsPropertiesRemoteSupportSettingsListList;
+  remoteSupportSettingsList?:
+    | DiagnosticRemoteSupportSettingsPropertiesRemoteSupportSettingsListList
+    | undefined;
 }
 export interface GetDiagnosticSettingsDiagnosticRemoteSupportSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the remote support settings. */
   properties: DiagnosticRemoteSupportSettingsProperties;
 }
@@ -1481,89 +1484,89 @@ export type DownloadPhase = "Unknown" | "Initializing" | "Downloading" | "Verify
 /** Details about the download progress of update. */
 export interface UpdateDownloadProgress {
   /** The download phase. */
-  downloadPhase?: DownloadPhase;
+  downloadPhase?: DownloadPhase | undefined;
   /** Percentage of completion. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** Total bytes to download. */
-  totalBytesToDownload?: number;
+  totalBytesToDownload?: number | undefined;
   /** Total bytes downloaded. */
-  totalBytesDownloaded?: number;
+  totalBytesDownloaded?: number | undefined;
   /** Number of updates to download. */
-  numberOfUpdatesToDownload?: number;
+  numberOfUpdatesToDownload?: number | undefined;
   /** Number of updates downloaded. */
-  numberOfUpdatesDownloaded?: number;
+  numberOfUpdatesDownloaded?: number | undefined;
 }
 /** Progress details during installation of updates. */
 export interface UpdateInstallProgress {
   /** Percentage completed. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** Number of updates to install. */
-  numberOfUpdatesToInstall?: number;
+  numberOfUpdatesToInstall?: number | undefined;
   /** Number of updates installed. */
-  numberOfUpdatesInstalled?: number;
+  numberOfUpdatesInstalled?: number | undefined;
 }
 /** The properties for the job. */
 export interface JobProperties {
   /** The type of the job. */
-  jobType?: JobType;
+  jobType?: JobType | undefined;
   /** Current stage of the update operation. */
-  currentStage?: UpdateOperationStage;
+  currentStage?: UpdateOperationStage | undefined;
   /** The download progress. */
-  downloadProgress?: UpdateDownloadProgress;
+  downloadProgress?: UpdateDownloadProgress | undefined;
   /** The install progress. */
-  installProgress?: UpdateInstallProgress;
+  installProgress?: UpdateInstallProgress | undefined;
   /** Total number of errors encountered during the refresh process. */
-  totalRefreshErrors?: number;
+  totalRefreshErrors?: number | undefined;
   /** Local share/remote container relative path to the error manifest file of the refresh. */
-  errorManifestFile?: string;
+  errorManifestFile?: string | undefined;
   /** ARM ID of the entity that was refreshed. */
-  refreshedEntityId?: string;
+  refreshedEntityId?: string | undefined;
   /** If only subfolders need to be refreshed, then the subfolder path inside the share or container. (The path is empty if there are no subfolders.) */
-  folder?: string;
+  folder?: string | undefined;
 }
 /** The recommended actions. */
 export type JobErrorItemRecommendationsList = Array<string>;
 /** The job error items. */
 export interface JobErrorItem {
   /** The recommended actions. */
-  recommendations?: JobErrorItemRecommendationsList;
+  recommendations?: JobErrorItemRecommendationsList | undefined;
   /** The code intended for programmatic access. */
-  code?: string;
+  code?: string | undefined;
   /** The message that describes the error in detail. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The error details. */
 export type JobErrorDetailsErrorDetailsList = Array<JobErrorItem>;
 /** The job error information containing the list of job errors. */
 export interface JobErrorDetails {
   /** The error details. */
-  errorDetails?: JobErrorDetailsErrorDetailsList;
+  errorDetails?: JobErrorDetailsErrorDetailsList | undefined;
   /** The code intended for programmatic access. */
-  code?: string;
+  code?: string | undefined;
   /** The message that describes the error in detail. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface GetJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the job. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
   /** The current status of the job. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
   /** The UTC date and time at which the job started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The UTC date and time at which the job completed. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The percentage of the job that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The error details. */
-  error?: JobErrorDetails;
+  error?: JobErrorDetails | undefined;
 }
 export interface GetMonitoringConfigRequest {
   /** The ID of the target subscription. */
@@ -1591,11 +1594,11 @@ export interface MetricCounter {
   /** The counter name. */
   name: string;
   /** The instance from which counter should be collected. */
-  instance?: string;
+  instance?: string | undefined;
   /** The dimension filter. */
-  dimensionFilter?: MetricCounterDimensionFilterList;
+  dimensionFilter?: MetricCounterDimensionFilterList | undefined;
   /** The additional dimensions to be added to metric. */
-  additionalDimensions?: MetricCounterAdditionalDimensionsList;
+  additionalDimensions?: MetricCounterAdditionalDimensionsList | undefined;
 }
 /** The counters that should be collected in this set. */
 export type MetricCounterSetCountersList = Array<MetricCounter>;
@@ -1611,9 +1614,9 @@ export interface MetricConfiguration {
   /** The Resource ID on which the metrics should be pushed. */
   resourceId: string;
   /** The MDM account to which the counters should be pushed. */
-  mdmAccount?: string;
+  mdmAccount?: string | undefined;
   /** The MDM namespace to which the counters should be pushed. This is required if MDMAccount is specified */
-  metricNameSpace?: string;
+  metricNameSpace?: string | undefined;
   /** Host name for the IoT hub associated to the device. */
   counterSets: MetricConfigurationCounterSetsList;
 }
@@ -1627,13 +1630,13 @@ export interface MonitoringMetricConfigurationProperties {
 }
 export interface GetMonitoringConfigResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The metric setting properties. */
   properties: MonitoringMetricConfigurationProperties;
 }
@@ -1649,25 +1652,25 @@ export interface GetOperationsStatusRequest {
 }
 export interface GetOperationsStatusResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the job. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
   /** The current status of the job. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
   /** The UTC date and time at which the job started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The UTC date and time at which the job completed. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The percentage of the job that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The error details. */
-  error?: JobErrorDetails;
+  error?: JobErrorDetails | undefined;
 }
 export interface GetOrderRequest {
   /** The ID of the target subscription. */
@@ -1693,17 +1696,17 @@ export interface ContactDetails {
 /** The shipping address of the customer. */
 export interface Address {
   /** The address line1. */
-  addressLine1?: string;
+  addressLine1?: string | undefined;
   /** The address line2. */
-  addressLine2?: string;
+  addressLine2?: string | undefined;
   /** The address line3. */
-  addressLine3?: string;
+  addressLine3?: string | undefined;
   /** The postal code. */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** The city name. */
-  city?: string;
+  city?: string | undefined;
   /** The state name. */
-  state?: string;
+  state?: string | undefined;
   /** The country name. */
   country: string;
 }
@@ -1729,13 +1732,13 @@ export type OrderState =
 /** Tracking courier information. */
 export interface TrackingInfo {
   /** Serial number of the device being tracked. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Name of the carrier used in the delivery. */
-  carrierName?: string;
+  carrierName?: string | undefined;
   /** Tracking ID of the shipment. */
-  trackingId?: string;
+  trackingId?: string | undefined;
   /** Tracking URL of the shipment. */
-  trackingUrl?: string;
+  trackingUrl?: string | undefined;
 }
 /** Dictionary to hold generic information which is not stored by the already existing properties */
 export type OrderStatusAdditionalOrderDetailsMap = { [key: string]: string | undefined };
@@ -1744,13 +1747,13 @@ export interface OrderStatus {
   /** Status of the order as per the allowed status types. */
   status: OrderState;
   /** Time of status update. */
-  updateDateTime?: string;
+  updateDateTime?: string | undefined;
   /** Comments related to this status change. */
-  comments?: string;
+  comments?: string | undefined;
   /** Tracking information related to the state in the ordering flow */
-  trackingInformation?: TrackingInfo;
+  trackingInformation?: TrackingInfo | undefined;
   /** Dictionary to hold generic information which is not stored by the already existing properties */
-  additionalOrderDetails?: OrderStatusAdditionalOrderDetailsMap;
+  additionalOrderDetails?: OrderStatusAdditionalOrderDetailsMap | undefined;
 }
 /** List of status changes in the order. */
 export type OrderPropertiesOrderHistoryList = Array<OrderStatus>;
@@ -1762,37 +1765,37 @@ export type ShipmentType = "NotApplicable" | "ShippedToCustomer" | "SelfPickup";
 /** Order properties. */
 export interface OrderProperties {
   /** It specify the order resource id. */
-  orderId?: string;
+  orderId?: string | undefined;
   /** The contact details. */
   contactInformation: ContactDetails;
   /** The shipping address. */
-  shippingAddress?: Address;
+  shippingAddress?: Address | undefined;
   /** Current status of the order. */
-  currentStatus?: OrderStatus;
+  currentStatus?: OrderStatus | undefined;
   /** List of status changes in the order. */
-  orderHistory?: OrderPropertiesOrderHistoryList;
+  orderHistory?: OrderPropertiesOrderHistoryList | undefined;
   /** Serial number of the device. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Tracking information for the package delivered to the customer whether it has an original or a replacement device. */
-  deliveryTrackingInfo?: OrderPropertiesDeliveryTrackingInfoList;
+  deliveryTrackingInfo?: OrderPropertiesDeliveryTrackingInfoList | undefined;
   /** Tracking information for the package returned from the customer whether it has an original or a replacement device. */
-  returnTrackingInfo?: OrderPropertiesReturnTrackingInfoList;
+  returnTrackingInfo?: OrderPropertiesReturnTrackingInfoList | undefined;
   /** ShipmentType of the order */
-  shipmentType?: ShipmentType;
+  shipmentType?: ShipmentType | undefined;
 }
 export interface GetOrderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The order properties. */
-  properties?: OrderProperties;
+  properties?: OrderProperties | undefined;
   /** It specify the order api version. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetRoleRequest {
   /** The ID of the target subscription. */
@@ -1806,13 +1809,13 @@ export interface GetRoleRequest {
 }
 export interface GetRoleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Role type. */
   kind: RoleTypes;
 }
@@ -1870,13 +1873,13 @@ export interface MountPointMap {
   /** ID of the share mounted to the role VM. */
   shareId: string;
   /** ID of the role to which share is mounted. */
-  roleId?: string;
+  roleId?: string | undefined;
   /** Mount point for the share. */
-  mountPoint?: string;
+  mountPoint?: string | undefined;
   /** Mounting type. */
-  mountType?: MountType;
+  mountType?: MountType | undefined;
   /** Role type. */
-  roleType?: RoleTypes;
+  roleType?: RoleTypes | undefined;
 }
 /** Share mount point to the role. */
 export type SharePropertiesShareMappingsList = Array<MountPointMap>;
@@ -1885,35 +1888,35 @@ export type DataPolicy = "Cloud" | "Local";
 /** The share properties. */
 export interface ShareProperties {
   /** Description for the share. */
-  description?: string;
+  description?: string | undefined;
   /** Current status of the share. */
   shareStatus: ShareStatus;
   /** Current monitoring status of the share. */
   monitoringStatus: MonitoringStatus;
   /** Azure container mapping for the share. */
-  azureContainerInfo?: AzureContainerInfo;
+  azureContainerInfo?: AzureContainerInfo | undefined;
   /** Access protocol to be used by the share. */
   accessProtocol: ShareAccessProtocol;
   /** Mapping of users and corresponding access rights on the share (required for SMB protocol). */
-  userAccessRights?: SharePropertiesUserAccessRightsList;
+  userAccessRights?: SharePropertiesUserAccessRightsList | undefined;
   /** List of IP addresses and corresponding access rights on the share(required for NFS protocol). */
-  clientAccessRights?: SharePropertiesClientAccessRightsList;
+  clientAccessRights?: SharePropertiesClientAccessRightsList | undefined;
   /** Details of the refresh job on this share. */
-  refreshDetails?: RefreshDetails;
+  refreshDetails?: RefreshDetails | undefined;
   /** Share mount point to the role. */
-  shareMappings?: SharePropertiesShareMappingsList;
+  shareMappings?: SharePropertiesShareMappingsList | undefined;
   /** Data policy of the share. */
-  dataPolicy?: DataPolicy;
+  dataPolicy?: DataPolicy | undefined;
 }
 export interface GetShareResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The share properties. */
   properties: ShareProperties;
 }
@@ -1932,27 +1935,27 @@ export type StorageAccountStatus = "OK" | "Offline" | "Unknown" | "Updating" | "
 /** The storage account properties. */
 export interface StorageAccountProperties {
   /** Description for the storage Account. */
-  description?: string;
+  description?: string | undefined;
   /** Current status of the storage account */
-  storageAccountStatus?: StorageAccountStatus;
+  storageAccountStatus?: StorageAccountStatus | undefined;
   /** Data policy of the storage Account. */
   dataPolicy: DataPolicy;
   /** Storage Account Credential Id */
-  storageAccountCredentialId?: string;
+  storageAccountCredentialId?: string | undefined;
   /** BlobEndpoint of Storage Account */
-  blobEndpoint?: string;
+  blobEndpoint?: string | undefined;
   /** The Container Count. Present only for Storage Accounts with DataPolicy set to Cloud. */
-  containerCount?: number;
+  containerCount?: number | undefined;
 }
 export interface GetStorageAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Storage Account properties. */
   properties: StorageAccountProperties;
 }
@@ -1975,29 +1978,29 @@ export interface StorageAccountCredentialProperties {
   /** Alias for the storage account. */
   alias: string;
   /** Username for the storage account. */
-  userName?: string;
+  userName?: string | undefined;
   /** Encrypted storage key. */
-  accountKey?: AsymmetricEncryptedSecret;
+  accountKey?: AsymmetricEncryptedSecret | undefined;
   /** Connection string for the storage account. Use this string if username and account key are not specified. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** Signifies whether SSL needs to be enabled or not. */
   sslStatus: SSLStatus | (string & {});
   /** Blob end point for private clouds. */
-  blobDomainName?: string;
+  blobDomainName?: string | undefined;
   /** Type of storage accessed on the storage account. */
   accountType: AccountType | (string & {});
   /** Id of the storage account. */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
 }
 export interface GetStorageAccountCredentialsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The storage account credential properties. */
   properties: StorageAccountCredentialProperties;
 }
@@ -2015,13 +2018,13 @@ export interface GetTriggerRequest {
 export type TriggerEventType = "FileEvent" | "PeriodicTimerEvent";
 export interface GetTriggerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Trigger Kind. */
   kind: TriggerEventType;
 }
@@ -2049,21 +2052,21 @@ export type UserType = "Share" | "LocalManagement" | "ARM";
 /** The user properties. */
 export interface UserProperties {
   /** The password details. */
-  encryptedPassword?: AsymmetricEncryptedSecret;
+  encryptedPassword?: AsymmetricEncryptedSecret | undefined;
   /** List of shares that the user has rights on. This field should not be specified during user creation. */
-  shareAccessRights?: UserPropertiesShareAccessRightsList;
+  shareAccessRights?: UserPropertiesShareAccessRightsList | undefined;
   /** Type of the user. */
   userType: UserType;
 }
 export interface GetUserResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The storage account credential properties. */
   properties: UserProperties;
 }
@@ -2077,9 +2080,9 @@ export interface InstallDeviceUpdatesRequest {
 }
 export interface InstallDeviceUpdatesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListAddonByRoleRequest {
   /** The ID of the target subscription. */
@@ -2094,13 +2097,13 @@ export interface ListAddonByRoleRequest {
 /** Role Addon */
 export interface Addon {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Addon type. */
   kind: AddonType;
 }
@@ -2111,7 +2114,7 @@ export interface AddonList {
   /** The Addon items on this page */
   value: AddonListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAlertByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2124,15 +2127,15 @@ export interface ListAlertByDataBoxEdgeDeviceRequest {
 /** Alert on the data box edge/gateway device. */
 export interface Alert {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of alert. */
-  properties?: AlertProperties;
+  properties?: AlertProperties | undefined;
 }
 /** The Alert items on this page */
 export type AlertListValueList = Array<Alert>;
@@ -2141,7 +2144,7 @@ export interface AlertList {
   /** The Alert items on this page */
   value: AlertListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAvailableSkusRequest {
   /** The ID of the target subscription. */
@@ -2158,22 +2161,22 @@ export type SkuLocationInfoSitesList = Array<string>;
 /** The location info. */
 export interface SkuLocationInfo {
   /** The location. */
-  location?: string;
+  location?: string | undefined;
   /** The zones. */
-  zones?: SkuLocationInfoZonesList;
+  zones?: SkuLocationInfoZonesList | undefined;
   /** The sites. */
-  sites?: SkuLocationInfoSitesList;
+  sites?: SkuLocationInfoSitesList | undefined;
 }
 /** Availability of the Sku for the location/zone/site. */
 export type DataBoxEdgeSkuLocationInfoList = Array<SkuLocationInfo>;
 /** The metadata for retrieving price info. */
 export interface SkuCost {
   /** Used for querying price from commerce. */
-  meterId?: string;
+  meterId?: string | undefined;
   /** The cost quantity. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The extended unit. */
-  extendedUnit?: string;
+  extendedUnit?: string | undefined;
 }
 /** The pricing info of the Sku. */
 export type DataBoxEdgeSkuCostsList = Array<SkuCost>;
@@ -2188,44 +2191,44 @@ export type DataBoxEdgeSkuShipmentTypesList = Array<ShipmentType>;
 /** The metadata to describe the capability. */
 export interface SkuCapability {
   /** An invariant to describe the feature. */
-  name?: string;
+  name?: string | undefined;
   /** An invariant if the feature is measured by quantity. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The capability info of the SKU. */
 export type DataBoxEdgeSkuCapabilitiesList = Array<SkuCapability>;
 /** The Sku information. */
 export interface DataBoxEdgeSku {
   /** The type of the resource. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The Sku name. */
-  name?: SkuName;
+  name?: SkuName | undefined;
   /** The Sku kind. */
-  kind?: string;
+  kind?: string | undefined;
   /** The Sku tier. */
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
   /** The Sku kind. */
-  size?: string;
+  size?: string | undefined;
   /** The Sku family. */
-  family?: string;
+  family?: string | undefined;
   /** Availability of the Sku for the region. */
-  locations?: DataBoxEdgeSkuLocationsList;
+  locations?: DataBoxEdgeSkuLocationsList | undefined;
   /** The API versions in which Sku is available. */
-  apiVersions?: DataBoxEdgeSkuApiVersionsList;
+  apiVersions?: DataBoxEdgeSkuApiVersionsList | undefined;
   /** Availability of the Sku for the location/zone/site. */
-  locationInfo?: DataBoxEdgeSkuLocationInfoList;
+  locationInfo?: DataBoxEdgeSkuLocationInfoList | undefined;
   /** The pricing info of the Sku. */
-  costs?: DataBoxEdgeSkuCostsList;
+  costs?: DataBoxEdgeSkuCostsList | undefined;
   /** Sku can be signed up by customer or not. */
-  signupOption?: SkuSignupOption;
+  signupOption?: SkuSignupOption | undefined;
   /** Availability of the Sku as preview/stable. */
-  version?: SkuVersion;
+  version?: SkuVersion | undefined;
   /** Links to the next set of results */
-  availability?: SkuAvailability;
+  availability?: SkuAvailability | undefined;
   /** List of Shipment Types supported by this SKU */
-  shipmentTypes?: DataBoxEdgeSkuShipmentTypesList;
+  shipmentTypes?: DataBoxEdgeSkuShipmentTypesList | undefined;
   /** The capability info of the SKU. */
-  capabilities?: DataBoxEdgeSkuCapabilitiesList;
+  capabilities?: DataBoxEdgeSkuCapabilitiesList | undefined;
 }
 /** The DataBoxEdgeSku items on this page */
 export type DataBoxEdgeSkuListValueList = Array<DataBoxEdgeSku>;
@@ -2234,7 +2237,7 @@ export interface DataBoxEdgeSkuList {
   /** The DataBoxEdgeSku items on this page */
   value: DataBoxEdgeSkuListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBandwidthScheduleByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2247,13 +2250,13 @@ export interface ListBandwidthScheduleByDataBoxEdgeDeviceRequest {
 /** The bandwidth schedule details. */
 export interface BandwidthSchedule {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the bandwidth schedule. */
   properties: BandwidthScheduleProperties;
 }
@@ -2264,7 +2267,7 @@ export interface BandwidthSchedulesList {
   /** The BandwidthSchedule items on this page */
   value: BandwidthSchedulesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerByStorageAccountRequest {
   /** The ID of the target subscription. */
@@ -2279,13 +2282,13 @@ export interface ListContainerByStorageAccountRequest {
 /** Represents a container on the Data Box Edge/Gateway device. */
 export interface Container {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The container properties. */
   properties: ContainerProperties;
 }
@@ -2296,7 +2299,7 @@ export interface ContainerList {
   /** The Container items on this page */
   value: ContainerListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeviceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -2304,34 +2307,34 @@ export interface ListDeviceByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Specify $expand=details to populate additional fields related to the resource or Specify $skipToken=<token> to populate the next page in the list. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type DataBoxEdgeDeviceTagsMap = { [key: string]: string | undefined };
 /** The Data Box Edge/Gateway device. */
 export interface DataBoxEdgeDevice {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DataBoxEdgeDeviceTagsMap;
+  tags?: DataBoxEdgeDeviceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the Data Box Edge/Gateway device. */
-  properties?: DataBoxEdgeDeviceProperties;
+  properties?: DataBoxEdgeDeviceProperties | undefined;
   /** The SKU type. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The etag for the devices. */
-  etag?: string;
+  etag?: string | undefined;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The kind of the device. */
-  kind?: DataBoxEdgeDeviceKind;
+  kind?: DataBoxEdgeDeviceKind | undefined;
 }
 /** The DataBoxEdgeDevice items on this page */
 export type DataBoxEdgeDeviceListValueList = Array<DataBoxEdgeDevice>;
@@ -2340,13 +2343,13 @@ export interface DataBoxEdgeDeviceList {
   /** The DataBoxEdgeDevice items on this page */
   value: DataBoxEdgeDeviceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeviceBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Specify $expand=details to populate additional fields related to the resource or Specify $skipToken=<token> to populate the next page in the list. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface ListMonitoringConfigRequest {
   /** The ID of the target subscription. */
@@ -2361,13 +2364,13 @@ export interface ListMonitoringConfigRequest {
 /** The metric setting details for the role */
 export interface MonitoringMetricConfiguration {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The metric setting properties. */
   properties: MonitoringMetricConfigurationProperties;
 }
@@ -2378,7 +2381,7 @@ export interface MonitoringMetricConfigurationList {
   /** The MonitoringMetricConfiguration items on this page */
   value: MonitoringMetricConfigurationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNodeByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2393,30 +2396,30 @@ export type NodeStatus = "Unknown" | "Up" | "Down" | "Rebooting" | "ShuttingDown
 /** This class represents the nodes in a highly available cluster */
 export interface NodeProperties {
   /** The current status of the individual node */
-  nodeStatus?: NodeStatus;
+  nodeStatus?: NodeStatus | undefined;
   /** Serial number of the Chassis */
-  nodeChassisSerialNumber?: string;
+  nodeChassisSerialNumber?: string | undefined;
   /** Serial number of the individual node */
-  nodeSerialNumber?: string;
+  nodeSerialNumber?: string | undefined;
   /** Display Name of the individual node */
-  nodeDisplayName?: string;
+  nodeDisplayName?: string | undefined;
   /** Friendly software version name that is currently installed on the node */
-  nodeFriendlySoftwareVersion?: string;
+  nodeFriendlySoftwareVersion?: string | undefined;
   /** HCS version that is currently installed on the node */
-  nodeHcsVersion?: string;
+  nodeHcsVersion?: string | undefined;
   /** Guid instance id of the node */
-  nodeInstanceId?: string;
+  nodeInstanceId?: string | undefined;
 }
 /** Represents a single node in a Data box Edge/Gateway device Gateway devices, standalone Edge devices and a single node cluster Edge device will all have 1 node Multi-node Edge devices will have more than 1 nodes */
 export interface Node {
   /** The path ID that uniquely identifies the object. */
-  id?: string;
+  id?: string | undefined;
   /** The object name. */
-  name?: string;
+  name?: string | undefined;
   /** The hierarchical type of the object. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of the node */
-  properties?: NodeProperties;
+  properties?: NodeProperties | undefined;
 }
 /** The Node items on this page */
 export type NodeListValueList = Array<Node>;
@@ -2425,19 +2428,19 @@ export interface NodeList {
   /** The Node items on this page */
   value: NodeListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Operation display properties. */
 export interface OperationDisplay {
   /** Provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** The type of resource in which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation to be performed on the resource. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation to be performed. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Metric units. */
 export type MetricUnit =
@@ -2461,11 +2464,11 @@ export type MetricAggregationType =
 /** Metric Dimension v1. */
 export interface MetricDimensionV1 {
   /** Name of the metrics dimension. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of the metrics dimension. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** To be exported to shoe box. */
-  toBeExportedForShoebox?: boolean;
+  toBeExportedForShoebox?: boolean | undefined;
 }
 /** Metric dimensions, other than default dimension which is resource. */
 export type MetricSpecificationV1DimensionsList = Array<MetricDimensionV1>;
@@ -2478,51 +2481,51 @@ export type MetricSpecificationV1SupportedAggregationTypesList = Array<MetricAgg
 /** Metric specification version 1. */
 export interface MetricSpecificationV1 {
   /** Name of the metric. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of the metric. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of the metric to be displayed. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Metric units. */
-  unit?: MetricUnit;
+  unit?: MetricUnit | undefined;
   /** Metric aggregation type. */
-  aggregationType?: MetricAggregationType;
+  aggregationType?: MetricAggregationType | undefined;
   /** Metric dimensions, other than default dimension which is resource. */
-  dimensions?: MetricSpecificationV1DimensionsList;
+  dimensions?: MetricSpecificationV1DimensionsList | undefined;
   /** Set true to fill the gaps with zero. */
-  fillGapWithZero?: boolean;
+  fillGapWithZero?: boolean | undefined;
   /** Metric category. */
-  category?: MetricCategory;
+  category?: MetricCategory | undefined;
   /** Resource name override. */
-  resourceIdDimensionNameOverride?: string;
+  resourceIdDimensionNameOverride?: string | undefined;
   /** Support granularity of metrics. */
-  supportedTimeGrainTypes?: MetricSpecificationV1SupportedTimeGrainTypesList;
-  supportedAggregationTypes?: MetricSpecificationV1SupportedAggregationTypesList;
+  supportedTimeGrainTypes?: MetricSpecificationV1SupportedTimeGrainTypesList | undefined;
+  supportedAggregationTypes?: MetricSpecificationV1SupportedAggregationTypesList | undefined;
 }
 /** Metric specification as defined by shoebox. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecificationV1>;
 /** Service specification. */
 export interface ServiceSpecification {
   /** Metric specification as defined by shoebox. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** Operation properties. */
 export interface OperationProperties {
   /** Service specification. */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** Operations. */
 export interface Operation {
   /** Name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** Is data action. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Properties displayed for the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the operation. */
-  origin?: string;
+  origin?: string | undefined;
   /** Operation properties. */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** The list of operations. */
 export type OperationsListValueList = Array<Operation>;
@@ -2531,7 +2534,7 @@ export interface OperationsList {
   /** The list of operations. */
   value: OperationsListValueList;
   /** The URL to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOrderByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2544,17 +2547,17 @@ export interface ListOrderByDataBoxEdgeDeviceRequest {
 /** The order details. */
 export interface Order {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The order properties. */
-  properties?: OrderProperties;
+  properties?: OrderProperties | undefined;
   /** It specify the order api version. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The Order items on this page */
 export type OrderListValueList = Array<Order>;
@@ -2563,7 +2566,7 @@ export interface OrderList {
   /** The Order items on this page */
   value: OrderListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOrderDCAccessCodeRequest {
   /** The ID of the target subscription. */
@@ -2576,12 +2579,12 @@ export interface ListOrderDCAccessCodeRequest {
 /** DCAccessCode Properties. */
 export interface DCAccessCodeProperties {
   /** DCAccess Code for the Self Managed shipment. */
-  authCode?: string;
+  authCode?: string | undefined;
 }
 /** DC Access code in the case of Self Managed Shipping. */
 export interface DCAccessCode {
   /** DCAccessCode properties. */
-  properties?: DCAccessCodeProperties;
+  properties?: DCAccessCodeProperties | undefined;
 }
 export interface ListRoleByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2594,13 +2597,13 @@ export interface ListRoleByDataBoxEdgeDeviceRequest {
 /** Compute role. */
 export interface Role {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Role type. */
   kind: RoleTypes;
 }
@@ -2611,7 +2614,7 @@ export interface RoleList {
   /** The Role items on this page */
   value: RoleListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListShareByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2624,13 +2627,13 @@ export interface ListShareByDataBoxEdgeDeviceRequest {
 /** Represents a share on the Data Box Edge/Gateway device. */
 export interface Share {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The share properties. */
   properties: ShareProperties;
 }
@@ -2641,7 +2644,7 @@ export interface ShareList {
   /** The Share items on this page */
   value: ShareListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageAccountByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2654,13 +2657,13 @@ export interface ListStorageAccountByDataBoxEdgeDeviceRequest {
 /** Represents a Storage Account on the Data Box Edge/Gateway device. */
 export interface StorageAccount {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Storage Account properties. */
   properties: StorageAccountProperties;
 }
@@ -2671,7 +2674,7 @@ export interface StorageAccountList {
   /** The StorageAccount items on this page */
   value: StorageAccountListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageAccountCredentialsByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2684,13 +2687,13 @@ export interface ListStorageAccountCredentialsByDataBoxEdgeDeviceRequest {
 /** The storage account credential. */
 export interface StorageAccountCredential {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The storage account credential properties. */
   properties: StorageAccountCredentialProperties;
 }
@@ -2701,7 +2704,7 @@ export interface StorageAccountCredentialList {
   /** The StorageAccountCredential items on this page */
   value: StorageAccountCredentialListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTriggerByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2711,18 +2714,18 @@ export interface ListTriggerByDataBoxEdgeDeviceRequest {
   /** The device name. */
   deviceName: string;
   /** Specify $filter='CustomContextTag eq <tag>' to filter on custom context tag property */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Trigger details. */
 export interface Trigger {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Trigger Kind. */
   kind: TriggerEventType;
 }
@@ -2733,7 +2736,7 @@ export interface TriggerList {
   /** The Trigger items on this page */
   value: TriggerListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUserByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2743,18 +2746,18 @@ export interface ListUserByDataBoxEdgeDeviceRequest {
   /** The device name. */
   deviceName: string;
   /** Specify $filter='Type eq <type>' to filter on user type property */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Represents a user who has access to one or more shares on the Data Box Edge/Gateway device. */
 export interface User {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The storage account credential properties. */
   properties: UserProperties;
 }
@@ -2765,7 +2768,7 @@ export interface UserList {
   /** The User items on this page */
   value: UserListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface MonitoringConfigCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2781,28 +2784,28 @@ export interface MonitoringConfigCreateOrUpdateRequest {
 }
 export interface MonitoringConfigCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The metric setting properties. */
   properties: MonitoringMetricConfigurationProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Order properties. */
 export interface OrderPropertiesInput {
   /** The contact details. */
   contactInformation: ContactDetails;
   /** The shipping address. */
-  shippingAddress?: Address;
+  shippingAddress?: Address | undefined;
   /** ShipmentType of the order */
-  shipmentType?: ShipmentType | (string & {});
+  shipmentType?: ShipmentType | (string & {}) | undefined;
 }
 export interface OrdersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2812,25 +2815,25 @@ export interface OrdersCreateOrUpdateRequest {
   /** The device name. */
   deviceName: string;
   /** The order properties. */
-  properties?: OrderPropertiesInput;
+  properties?: OrderPropertiesInput | undefined;
 }
 export interface OrdersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The order properties. */
-  properties?: OrderProperties;
+  properties?: OrderProperties | undefined;
   /** It specify the order api version. */
-  kind?: string;
+  kind?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RefreshContainerRequest {
   /** The ID of the target subscription. */
@@ -2846,9 +2849,9 @@ export interface RefreshContainerRequest {
 }
 export interface RefreshContainerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RefreshShareRequest {
   /** The ID of the target subscription. */
@@ -2862,9 +2865,9 @@ export interface RefreshShareRequest {
 }
 export interface RefreshShareResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RolesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2880,19 +2883,19 @@ export interface RolesCreateOrUpdateRequest {
 }
 export interface RolesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Role type. */
   kind: RoleTypes;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Mapping of users and corresponding access rights on the share (required for SMB protocol). */
 export type SharePropertiesInputUserAccessRightsList = Array<UserAccessRight>;
@@ -2901,23 +2904,23 @@ export type SharePropertiesInputClientAccessRightsList = Array<ClientAccessRight
 /** The share properties. */
 export interface SharePropertiesInput {
   /** Description for the share. */
-  description?: string;
+  description?: string | undefined;
   /** Current status of the share. */
   shareStatus: ShareStatus | (string & {});
   /** Current monitoring status of the share. */
   monitoringStatus: MonitoringStatus | (string & {});
   /** Azure container mapping for the share. */
-  azureContainerInfo?: AzureContainerInfo;
+  azureContainerInfo?: AzureContainerInfo | undefined;
   /** Access protocol to be used by the share. */
   accessProtocol: ShareAccessProtocol | (string & {});
   /** Mapping of users and corresponding access rights on the share (required for SMB protocol). */
-  userAccessRights?: SharePropertiesInputUserAccessRightsList;
+  userAccessRights?: SharePropertiesInputUserAccessRightsList | undefined;
   /** List of IP addresses and corresponding access rights on the share(required for NFS protocol). */
-  clientAccessRights?: SharePropertiesInputClientAccessRightsList;
+  clientAccessRights?: SharePropertiesInputClientAccessRightsList | undefined;
   /** Details of the refresh job on this share. */
-  refreshDetails?: RefreshDetails;
+  refreshDetails?: RefreshDetails | undefined;
   /** Data policy of the share. */
-  dataPolicy?: DataPolicy | (string & {});
+  dataPolicy?: DataPolicy | (string & {}) | undefined;
 }
 export interface SharesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2933,19 +2936,19 @@ export interface SharesCreateOrUpdateRequest {
 }
 export interface SharesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The share properties. */
   properties: ShareProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StorageAccountCredentialsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2961,30 +2964,30 @@ export interface StorageAccountCredentialsCreateOrUpdateRequest {
 }
 export interface StorageAccountCredentialsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The storage account credential properties. */
   properties: StorageAccountCredentialProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The storage account properties. */
 export interface StorageAccountPropertiesInput {
   /** Description for the storage Account. */
-  description?: string;
+  description?: string | undefined;
   /** Current status of the storage account */
-  storageAccountStatus?: StorageAccountStatus | (string & {});
+  storageAccountStatus?: StorageAccountStatus | (string & {}) | undefined;
   /** Data policy of the storage Account. */
   dataPolicy: DataPolicy | (string & {});
   /** Storage Account Credential Id */
-  storageAccountCredentialId?: string;
+  storageAccountCredentialId?: string | undefined;
 }
 export interface StorageAccountsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -3000,19 +3003,19 @@ export interface StorageAccountsCreateOrUpdateRequest {
 }
 export interface StorageAccountsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Storage Account properties. */
   properties: StorageAccountProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface TriggersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -3028,28 +3031,28 @@ export interface TriggersCreateOrUpdateRequest {
 }
 export interface TriggersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Trigger Kind. */
   kind: TriggerEventType;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The share properties. */
 export interface SupportPackageRequestProperties {
   /** MinimumTimeStamp from where logs need to be collected */
-  minimumTimeStamp?: string;
+  minimumTimeStamp?: string | undefined;
   /** Start of the timespan of the log collection */
-  maximumTimeStamp?: string;
+  maximumTimeStamp?: string | undefined;
   /** Type of files, which need to be included in the logs This will contain the type of logs (Default/DefaultWithDumps/None/All/DefaultWithArchived) or a comma separated list of log types that are required */
-  include?: string;
+  include?: string | undefined;
 }
 export interface TriggerSupportPackageSupportPackageRequest {
   /** The ID of the target subscription. */
@@ -3063,26 +3066,26 @@ export interface TriggerSupportPackageSupportPackageRequest {
 }
 export interface TriggerSupportPackageSupportPackageResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The tags attached to the Data Box Edge/Gateway resource. */
 export type UpdateDeviceRequestTagsMap = { [key: string]: string | undefined };
 /** The Data Box Edge/Gateway Edge Profile Subscription patch. */
 export interface EdgeProfileSubscriptionPatch {
   /** The path ID that uniquely identifies the subscription of the edge profile. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The Data Box Edge/Gateway Edge Profile patch. */
 export interface EdgeProfilePatch {
   /** The Data Box Edge/Gateway Edge Profile Subscription patch */
-  subscription?: EdgeProfileSubscriptionPatch;
+  subscription?: EdgeProfileSubscriptionPatch | undefined;
 }
 /** The Data Box Edge/Gateway device properties patch. */
 export interface DataBoxEdgeDevicePropertiesPatch {
   /** Edge Profile property of the Data Box Edge/Gateway device */
-  edgeProfile?: EdgeProfilePatch;
+  edgeProfile?: EdgeProfilePatch | undefined;
 }
 export interface UpdateDeviceRequest {
   /** The ID of the target subscription. */
@@ -3092,37 +3095,37 @@ export interface UpdateDeviceRequest {
   /** The device name. */
   deviceName: string;
   /** The tags attached to the Data Box Edge/Gateway resource. */
-  tags?: UpdateDeviceRequestTagsMap;
+  tags?: UpdateDeviceRequestTagsMap | undefined;
   /** Msi identity of the resource */
-  identity?: ResourceIdentityInput;
+  identity?: ResourceIdentityInput | undefined;
   /** The properties associated with the Data Box Edge/Gateway resource */
-  properties?: DataBoxEdgeDevicePropertiesPatch;
+  properties?: DataBoxEdgeDevicePropertiesPatch | undefined;
 }
 /** Resource tags. */
 export type UpdateDeviceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDeviceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDeviceResponseTagsMap;
+  tags?: UpdateDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the Data Box Edge/Gateway device. */
-  properties?: DataBoxEdgeDeviceProperties;
+  properties?: DataBoxEdgeDeviceProperties | undefined;
   /** The SKU type. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The etag for the devices. */
-  etag?: string;
+  etag?: string | undefined;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The kind of the device. */
-  kind?: DataBoxEdgeDeviceKind;
+  kind?: DataBoxEdgeDeviceKind | undefined;
 }
 export interface UpdateDeviceExtendedInformationRequest {
   /** The ID of the target subscription. */
@@ -3132,15 +3135,15 @@ export interface UpdateDeviceExtendedInformationRequest {
   /** The device name. */
   deviceName: string;
   /** The Key Vault ARM Id for client secrets */
-  clientSecretStoreId?: string;
+  clientSecretStoreId?: string | undefined;
   /** The url to access the Client Key Vault */
-  clientSecretStoreUrl?: string;
+  clientSecretStoreUrl?: string | undefined;
   /** The name for Channel Integrity Key stored in the Client Key Vault */
-  channelIntegrityKeyName?: string;
+  channelIntegrityKeyName?: string | undefined;
   /** The version of Channel Integrity Key stored in the Client Key Vault */
-  channelIntegrityKeyVersion?: string;
+  channelIntegrityKeyVersion?: string | undefined;
   /** For changing or to initiate the resync to key-vault set the status to KeyVaultSyncPending, rest of the status will not be applicable. */
-  syncStatus?: KeyVaultSyncStatus | (string & {});
+  syncStatus?: KeyVaultSyncStatus | (string & {}) | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateDeviceExtendedInformationResponseSystemDataCreatedByType =
@@ -3157,29 +3160,31 @@ export type UpdateDeviceExtendedInformationResponseSystemDataLastModifiedByType 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateDeviceExtendedInformationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateDeviceExtendedInformationResponseSystemDataCreatedByType;
+  createdByType?: UpdateDeviceExtendedInformationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateDeviceExtendedInformationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdateDeviceExtendedInformationResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateDeviceExtendedInformationResponse {
   /** The path ID that uniquely identifies the object. */
-  id?: string;
+  id?: string | undefined;
   /** The object name. */
-  name?: string;
+  name?: string | undefined;
   /** The hierarchical type of the object. */
-  type?: string;
+  type?: string | undefined;
   /** The extended info properties. */
-  properties?: DataBoxEdgeDeviceExtendedInfoProperties;
+  properties?: DataBoxEdgeDeviceExtendedInfoProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateDeviceExtendedInformationResponseSystemData;
+  systemData?: UpdateDeviceExtendedInformationResponseSystemData | undefined;
 }
 export interface UpdateDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsRequest {
   /** The ID of the target subscription. */
@@ -3193,19 +3198,19 @@ export interface UpdateDiagnosticSettingsDiagnosticProactiveLogCollectionSetting
 }
 export interface UpdateDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the diagnostic proactive log collection settings. */
   properties: ProactiveLogCollectionSettingsProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateDiagnosticSettingsDiagnosticRemoteSupportSettingsRequest {
   /** The ID of the target subscription. */
@@ -3219,26 +3224,26 @@ export interface UpdateDiagnosticSettingsDiagnosticRemoteSupportSettingsRequest 
 }
 export interface UpdateDiagnosticSettingsDiagnosticRemoteSupportSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the remote support settings. */
   properties: DiagnosticRemoteSupportSettingsProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The authentication type. */
 export type AuthenticationType = "Invalid" | "AzureActiveDirectory";
 /** Raw Certificate Data. */
 export interface RawCertificateData {
   /** The authentication type. */
-  authenticationType?: AuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** The base64 encoded certificate raw data. */
   certificate: string;
 }
@@ -3255,26 +3260,26 @@ export interface UploadDeviceCertificateRequest {
 /** The upload registration certificate response. */
 export interface UploadCertificateResponse {
   /** Specifies authentication type. */
-  authType?: AuthenticationType;
+  authType?: AuthenticationType | undefined;
   /** The resource ID of the Data Box Edge/Gateway device. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Azure Active Directory tenant authority. */
-  aadAuthority?: string;
+  aadAuthority?: string | undefined;
   /** Azure Active Directory tenant ID. */
-  aadTenantId?: string;
+  aadTenantId?: string | undefined;
   /** Azure Active Directory service principal client ID. */
-  servicePrincipalClientId?: string;
+  servicePrincipalClientId?: string | undefined;
   /** Azure Active Directory service principal object ID. */
-  servicePrincipalObjectId?: string;
+  servicePrincipalObjectId?: string | undefined;
   /** The azure management endpoint audience. */
-  azureManagementEndpointAudience?: string;
+  azureManagementEndpointAudience?: string | undefined;
   /** Identifier of the target resource that is the recipient of the requested token. */
-  aadAudience?: string;
+  aadAudience?: string | undefined;
 }
 /** The user properties. */
 export interface UserPropertiesInput {
   /** The password details. */
-  encryptedPassword?: AsymmetricEncryptedSecret;
+  encryptedPassword?: AsymmetricEncryptedSecret | undefined;
   /** Type of the user. */
   userType: UserType | (string & {});
 }
@@ -3292,19 +3297,19 @@ export interface UsersCreateOrUpdateRequest {
 }
 export interface UsersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The storage account credential properties. */
   properties: UserProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AddonsCreateOrUpdateError = AzureOpError;
 /** Create or update a addon. */

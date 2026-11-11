@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -151,11 +152,11 @@ export interface VpcTransitConfiguration {
 }
 export interface LocationConfiguration {
   LocationName: string;
-  AlwaysOnCapacity?: number;
-  OnDemandCapacity?: number;
-  TargetIdleCapacity?: number;
-  MaximumCapacity?: number;
-  VpcTransitConfiguration?: VpcTransitConfiguration;
+  AlwaysOnCapacity?: number | undefined;
+  OnDemandCapacity?: number | undefined;
+  TargetIdleCapacity?: number | undefined;
+  MaximumCapacity?: number | undefined;
+  VpcTransitConfiguration?: VpcTransitConfiguration | undefined;
 }
 export type LocationConfigurations = LocationConfiguration[];
 export interface AddStreamGroupLocationsInput {
@@ -170,23 +171,23 @@ export type StreamGroupLocationStatus =
   | (string & {});
 export type CapacityValue = number;
 export interface VpcTransitConfigurationResponse {
-  VpcId?: string;
-  Ipv4CidrBlocks?: string[];
-  TransitGatewayId?: string;
-  TransitGatewayResourceShareArn?: string;
+  VpcId?: string | undefined;
+  Ipv4CidrBlocks?: string[] | undefined;
+  TransitGatewayId?: string | undefined;
+  TransitGatewayResourceShareArn?: string | undefined;
 }
 export interface LocationState {
-  LocationName?: string;
-  Status?: StreamGroupLocationStatus;
-  AlwaysOnCapacity?: number;
-  OnDemandCapacity?: number;
-  TargetIdleCapacity?: number;
-  MaximumCapacity?: number;
-  RequestedCapacity?: number;
-  AllocatedCapacity?: number;
-  IdleCapacity?: number;
-  InternalVpcIpv4CidrBlock?: string;
-  VpcTransitConfiguration?: VpcTransitConfigurationResponse;
+  LocationName?: string | undefined;
+  Status?: StreamGroupLocationStatus | undefined;
+  AlwaysOnCapacity?: number | undefined;
+  OnDemandCapacity?: number | undefined;
+  TargetIdleCapacity?: number | undefined;
+  MaximumCapacity?: number | undefined;
+  RequestedCapacity?: number | undefined;
+  AllocatedCapacity?: number | undefined;
+  IdleCapacity?: number | undefined;
+  InternalVpcIpv4CidrBlock?: string | undefined;
+  VpcTransitConfiguration?: VpcTransitConfigurationResponse | undefined;
 }
 export type LocationStates = LocationState[];
 export interface AddStreamGroupLocationsOutput {
@@ -201,8 +202,8 @@ export interface AssociateApplicationsInput {
 export type Arn = string;
 export type ArnList = string[];
 export interface AssociateApplicationsOutput {
-  Arn?: string;
-  ApplicationArns?: string[];
+  Arn?: string | undefined;
+  ApplicationArns?: string[] | undefined;
 }
 export type Description = string;
 export type RuntimeEnvironmentType = "PROTON" | "WINDOWS" | "UBUNTU" | (string & {});
@@ -225,10 +226,10 @@ export interface CreateApplicationInput {
   RuntimeEnvironment: RuntimeEnvironment;
   ExecutablePath: string;
   ApplicationSourceUri: string;
-  ApplicationLogPaths?: string[];
-  ApplicationLogOutputUri?: string;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  ApplicationLogPaths?: string[] | undefined;
+  ApplicationLogOutputUri?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export type Id = string;
 export type ApplicationStatus =
@@ -245,25 +246,25 @@ export type ApplicationStatusReason =
   | (string & {});
 export type ReplicationStatusType = "REPLICATING" | "COMPLETED" | (string & {});
 export interface ReplicationStatus {
-  Location?: string;
-  Status?: ReplicationStatusType;
+  Location?: string | undefined;
+  Status?: ReplicationStatusType | undefined;
 }
 export type ReplicationStatuses = ReplicationStatus[];
 export interface CreateApplicationOutput {
   Arn: string;
-  Description?: string;
-  RuntimeEnvironment?: RuntimeEnvironment;
-  ExecutablePath?: string;
-  ApplicationLogPaths?: string[];
-  ApplicationLogOutputUri?: string;
-  ApplicationSourceUri?: string;
-  Id?: string;
-  Status?: ApplicationStatus;
-  StatusReason?: ApplicationStatusReason;
-  ReplicationStatuses?: ReplicationStatus[];
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  AssociatedStreamGroups?: string[];
+  Description?: string | undefined;
+  RuntimeEnvironment?: RuntimeEnvironment | undefined;
+  ExecutablePath?: string | undefined;
+  ApplicationLogPaths?: string[] | undefined;
+  ApplicationLogOutputUri?: string | undefined;
+  ApplicationSourceUri?: string | undefined;
+  Id?: string | undefined;
+  Status?: ApplicationStatus | undefined;
+  StatusReason?: ApplicationStatusReason | undefined;
+  ReplicationStatuses?: ReplicationStatus[] | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  AssociatedStreamGroups?: string[] | undefined;
 }
 export type StreamClass =
   | "gen4n_high"
@@ -287,14 +288,14 @@ export type StreamClass =
 export interface CreateStreamGroupInput {
   Description: string;
   StreamClass: StreamClass;
-  DefaultApplicationIdentifier?: string;
-  LocationConfigurations?: LocationConfiguration[];
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  DefaultApplicationIdentifier?: string | undefined;
+  LocationConfigurations?: LocationConfiguration[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export interface DefaultApplication {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export type StreamGroupStatus =
   | "ACTIVATING"
@@ -308,17 +309,17 @@ export type StreamGroupStatus =
 export type StreamGroupStatusReason = "internalError" | "noAvailableInstances" | (string & {});
 export interface CreateStreamGroupOutput {
   Arn: string;
-  Description?: string;
-  DefaultApplication?: DefaultApplication;
-  LocationStates?: LocationState[];
-  StreamClass?: StreamClass;
-  Id?: string;
-  Status?: StreamGroupStatus;
-  StatusReason?: StreamGroupStatusReason;
-  LastUpdatedAt?: Date;
-  CreatedAt?: Date;
-  ExpiresAt?: Date;
-  AssociatedApplications?: string[];
+  Description?: string | undefined;
+  DefaultApplication?: DefaultApplication | undefined;
+  LocationStates?: LocationState[] | undefined;
+  StreamClass?: StreamClass | undefined;
+  Id?: string | undefined;
+  Status?: StreamGroupStatus | undefined;
+  StatusReason?: StreamGroupStatusReason | undefined;
+  LastUpdatedAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  ExpiresAt?: Date | undefined;
+  AssociatedApplications?: string[] | undefined;
 }
 export interface CreateStreamSessionAdminShellInput {
   Identifier: string;
@@ -328,20 +329,20 @@ export type SessionId = string;
 export type StreamUrl = string;
 export type TokenValue = string | redacted.Redacted<string>;
 export interface CreateStreamSessionAdminShellOutput {
-  SessionId?: string;
-  StreamUrl?: string;
-  TokenValue?: string | redacted.Redacted<string>;
+  SessionId?: string | undefined;
+  StreamUrl?: string | undefined;
+  TokenValue?: string | redacted.Redacted<string> | undefined;
 }
 export type SignalRequest = string | redacted.Redacted<string>;
 export interface CreateStreamSessionConnectionInput {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   Identifier: string;
   StreamSessionIdentifier: string;
   SignalRequest: string | redacted.Redacted<string>;
 }
 export type SignalResponse = string | redacted.Redacted<string>;
 export interface CreateStreamSessionConnectionOutput {
-  SignalResponse?: string | redacted.Redacted<string>;
+  SignalResponse?: string | redacted.Redacted<string> | undefined;
 }
 export type Protocol = "WebRTC" | (string & {});
 export type UrlExpiresAfterMinutes = number;
@@ -358,22 +359,22 @@ export interface Resolution {
   Height: number;
 }
 export interface DisplayConfiguration {
-  Resolution?: Resolution;
+  Resolution?: Resolution | undefined;
 }
 export interface CreateStreamUrlInput {
   Identifier: string;
   ApplicationIdentifier: string;
   Protocol: Protocol;
   UrlExpiresAfterMinutes: number;
-  UsageLimit?: number;
-  Description?: string;
+  UsageLimit?: number | undefined;
+  Description?: string | undefined;
   Locations: string[];
-  SessionLengthSeconds?: number;
-  AdditionalLaunchArgs?: string[];
-  AdditionalEnvironmentVariables?: { [key: string]: string | undefined };
-  RoleArn?: string | redacted.Redacted<string>;
-  DisplayConfiguration?: DisplayConfiguration;
-  ClientToken?: string;
+  SessionLengthSeconds?: number | undefined;
+  AdditionalLaunchArgs?: string[] | undefined;
+  AdditionalEnvironmentVariables?: { [key: string]: string | undefined } | undefined;
+  RoleArn?: string | redacted.Redacted<string> | undefined;
+  DisplayConfiguration?: DisplayConfiguration | undefined;
+  ClientToken?: string | undefined;
 }
 export type StreamSessionStreamUrl = string | redacted.Redacted<string>;
 export type StreamUrlStatus = "ACTIVE" | "EXPIRED" | "REVOKED" | "LIMIT_REACHED" | (string & {});
@@ -387,24 +388,24 @@ export type StreamUrlStatusReason =
 export type RemainingUses = number;
 export interface CreateStreamUrlOutput {
   Arn: string;
-  StreamUrlId?: string;
-  StreamUrl?: string | redacted.Redacted<string>;
-  Status?: StreamUrlStatus;
-  StatusReason?: StreamUrlStatusReason;
-  ExpiresAt?: Date;
-  CreatedAt?: Date;
-  UsageLimit?: number;
-  RemainingUses?: number;
-  StreamGroupArn?: string;
-  ApplicationArn?: string;
-  Protocol?: Protocol;
-  Locations?: string[];
-  SessionLengthSeconds?: number;
-  Description?: string;
-  AdditionalLaunchArgs?: string[];
-  AdditionalEnvironmentVariables?: { [key: string]: string | undefined };
-  RoleArn?: string | redacted.Redacted<string>;
-  DisplayConfiguration?: DisplayConfiguration;
+  StreamUrlId?: string | undefined;
+  StreamUrl?: string | redacted.Redacted<string> | undefined;
+  Status?: StreamUrlStatus | undefined;
+  StatusReason?: StreamUrlStatusReason | undefined;
+  ExpiresAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  UsageLimit?: number | undefined;
+  RemainingUses?: number | undefined;
+  StreamGroupArn?: string | undefined;
+  ApplicationArn?: string | undefined;
+  Protocol?: Protocol | undefined;
+  Locations?: string[] | undefined;
+  SessionLengthSeconds?: number | undefined;
+  Description?: string | undefined;
+  AdditionalLaunchArgs?: string[] | undefined;
+  AdditionalEnvironmentVariables?: { [key: string]: string | undefined } | undefined;
+  RoleArn?: string | redacted.Redacted<string> | undefined;
+  DisplayConfiguration?: DisplayConfiguration | undefined;
 }
 export interface DeleteApplicationInput {
   Identifier: string;
@@ -419,8 +420,8 @@ export interface DisassociateApplicationsInput {
   ApplicationIdentifiers: string[];
 }
 export interface DisassociateApplicationsOutput {
-  Arn?: string;
-  ApplicationArns?: string[];
+  Arn?: string | undefined;
+  ApplicationArns?: string[] | undefined;
 }
 export type OutputUri = string;
 export interface ExportStreamSessionFilesInput {
@@ -434,36 +435,36 @@ export interface GetApplicationInput {
 }
 export interface GetApplicationOutput {
   Arn: string;
-  Description?: string;
-  RuntimeEnvironment?: RuntimeEnvironment;
-  ExecutablePath?: string;
-  ApplicationLogPaths?: string[];
-  ApplicationLogOutputUri?: string;
-  ApplicationSourceUri?: string;
-  Id?: string;
-  Status?: ApplicationStatus;
-  StatusReason?: ApplicationStatusReason;
-  ReplicationStatuses?: ReplicationStatus[];
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  AssociatedStreamGroups?: string[];
+  Description?: string | undefined;
+  RuntimeEnvironment?: RuntimeEnvironment | undefined;
+  ExecutablePath?: string | undefined;
+  ApplicationLogPaths?: string[] | undefined;
+  ApplicationLogOutputUri?: string | undefined;
+  ApplicationSourceUri?: string | undefined;
+  Id?: string | undefined;
+  Status?: ApplicationStatus | undefined;
+  StatusReason?: ApplicationStatusReason | undefined;
+  ReplicationStatuses?: ReplicationStatus[] | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  AssociatedStreamGroups?: string[] | undefined;
 }
 export interface GetStreamGroupInput {
   Identifier: string;
 }
 export interface GetStreamGroupOutput {
   Arn: string;
-  Description?: string;
-  DefaultApplication?: DefaultApplication;
-  LocationStates?: LocationState[];
-  StreamClass?: StreamClass;
-  Id?: string;
-  Status?: StreamGroupStatus;
-  StatusReason?: StreamGroupStatusReason;
-  LastUpdatedAt?: Date;
-  CreatedAt?: Date;
-  ExpiresAt?: Date;
-  AssociatedApplications?: string[];
+  Description?: string | undefined;
+  DefaultApplication?: DefaultApplication | undefined;
+  LocationStates?: LocationState[] | undefined;
+  StreamClass?: StreamClass | undefined;
+  Id?: string | undefined;
+  Status?: StreamGroupStatus | undefined;
+  StatusReason?: StreamGroupStatusReason | undefined;
+  LastUpdatedAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  ExpiresAt?: Date | undefined;
+  AssociatedApplications?: string[] | undefined;
 }
 export interface GetStreamSessionInput {
   Identifier: string;
@@ -495,101 +496,101 @@ export type StreamSessionStatusReason =
   | (string & {});
 export type ConnectionTimeoutSeconds = number;
 export interface PerformanceStatsConfiguration {
-  SharedWithClient?: boolean;
+  SharedWithClient?: boolean | undefined;
 }
 export type FileLocationUri = string;
 export type WebSdkProtocolUrl = string;
 export type ExportFilesStatus = "SUCCEEDED" | "FAILED" | "PENDING" | (string & {});
 export type ExportFilesReason = string;
 export interface ExportFilesMetadata {
-  Status?: ExportFilesStatus;
-  StatusReason?: string;
-  OutputUri?: string;
+  Status?: ExportFilesStatus | undefined;
+  StatusReason?: string | undefined;
+  OutputUri?: string | undefined;
 }
 export interface GetStreamSessionOutput {
-  Arn?: string;
-  Description?: string;
-  StreamGroupId?: string;
-  UserId?: string;
-  Status?: StreamSessionStatus;
-  StatusReason?: StreamSessionStatusReason;
-  Protocol?: Protocol;
-  Location?: string;
-  SignalRequest?: string | redacted.Redacted<string>;
-  SignalResponse?: string | redacted.Redacted<string>;
-  ConnectionTimeoutSeconds?: number;
-  SessionLengthSeconds?: number;
-  AdditionalLaunchArgs?: string[];
-  AdditionalEnvironmentVariables?: { [key: string]: string | undefined };
-  PerformanceStatsConfiguration?: PerformanceStatsConfiguration;
-  LogFileLocationUri?: string;
-  WebSdkProtocolUrl?: string;
-  LastUpdatedAt?: Date;
-  CreatedAt?: Date;
-  ApplicationArn?: string;
-  ExportFilesMetadata?: ExportFilesMetadata;
-  RoleArn?: string | redacted.Redacted<string>;
-  DisplayConfiguration?: DisplayConfiguration;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  StreamGroupId?: string | undefined;
+  UserId?: string | undefined;
+  Status?: StreamSessionStatus | undefined;
+  StatusReason?: StreamSessionStatusReason | undefined;
+  Protocol?: Protocol | undefined;
+  Location?: string | undefined;
+  SignalRequest?: string | redacted.Redacted<string> | undefined;
+  SignalResponse?: string | redacted.Redacted<string> | undefined;
+  ConnectionTimeoutSeconds?: number | undefined;
+  SessionLengthSeconds?: number | undefined;
+  AdditionalLaunchArgs?: string[] | undefined;
+  AdditionalEnvironmentVariables?: { [key: string]: string | undefined } | undefined;
+  PerformanceStatsConfiguration?: PerformanceStatsConfiguration | undefined;
+  LogFileLocationUri?: string | undefined;
+  WebSdkProtocolUrl?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  ApplicationArn?: string | undefined;
+  ExportFilesMetadata?: ExportFilesMetadata | undefined;
+  RoleArn?: string | redacted.Redacted<string> | undefined;
+  DisplayConfiguration?: DisplayConfiguration | undefined;
 }
 export interface GetStreamUrlInput {
   Identifier: string;
   StreamUrlIdentifier: string;
 }
 export interface StreamSessionSummary {
-  Arn?: string;
-  UserId?: string;
-  Status?: StreamSessionStatus;
-  StatusReason?: StreamSessionStatusReason;
-  Protocol?: Protocol;
-  LastUpdatedAt?: Date;
-  CreatedAt?: Date;
-  ApplicationArn?: string;
-  ExportFilesMetadata?: ExportFilesMetadata;
-  Location?: string;
-  RoleArn?: string | redacted.Redacted<string>;
+  Arn?: string | undefined;
+  UserId?: string | undefined;
+  Status?: StreamSessionStatus | undefined;
+  StatusReason?: StreamSessionStatusReason | undefined;
+  Protocol?: Protocol | undefined;
+  LastUpdatedAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  ApplicationArn?: string | undefined;
+  ExportFilesMetadata?: ExportFilesMetadata | undefined;
+  Location?: string | undefined;
+  RoleArn?: string | redacted.Redacted<string> | undefined;
 }
 export type StreamSessionSummaryList = StreamSessionSummary[];
 export interface GetStreamUrlOutput {
   Arn: string;
-  StreamUrlId?: string;
-  StreamUrl?: string | redacted.Redacted<string>;
-  Status?: StreamUrlStatus;
-  StatusReason?: StreamUrlStatusReason;
-  ExpiresAt?: Date;
-  CreatedAt?: Date;
-  UsageLimit?: number;
-  RemainingUses?: number;
-  StreamGroupArn?: string;
-  ApplicationArn?: string;
-  Protocol?: Protocol;
-  Locations?: string[];
-  SessionLengthSeconds?: number;
-  Description?: string;
-  AdditionalLaunchArgs?: string[];
-  AdditionalEnvironmentVariables?: { [key: string]: string | undefined };
-  RoleArn?: string | redacted.Redacted<string>;
-  DisplayConfiguration?: DisplayConfiguration;
-  StreamSessions?: StreamSessionSummary[];
+  StreamUrlId?: string | undefined;
+  StreamUrl?: string | redacted.Redacted<string> | undefined;
+  Status?: StreamUrlStatus | undefined;
+  StatusReason?: StreamUrlStatusReason | undefined;
+  ExpiresAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  UsageLimit?: number | undefined;
+  RemainingUses?: number | undefined;
+  StreamGroupArn?: string | undefined;
+  ApplicationArn?: string | undefined;
+  Protocol?: Protocol | undefined;
+  Locations?: string[] | undefined;
+  SessionLengthSeconds?: number | undefined;
+  Description?: string | undefined;
+  AdditionalLaunchArgs?: string[] | undefined;
+  AdditionalEnvironmentVariables?: { [key: string]: string | undefined } | undefined;
+  RoleArn?: string | redacted.Redacted<string> | undefined;
+  DisplayConfiguration?: DisplayConfiguration | undefined;
+  StreamSessions?: StreamSessionSummary[] | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListApplicationsInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ApplicationSummary {
   Arn: string;
-  Id?: string;
-  Description?: string;
-  Status?: ApplicationStatus;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  RuntimeEnvironment?: RuntimeEnvironment;
+  Id?: string | undefined;
+  Description?: string | undefined;
+  Status?: ApplicationStatus | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  RuntimeEnvironment?: RuntimeEnvironment | undefined;
 }
 export type ApplicationSummaryList = ApplicationSummary[];
 export interface ListApplicationsOutput {
-  Items?: ApplicationSummary[];
-  NextToken?: string;
+  Items?: ApplicationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationShaderCachesInput {
   Identifier: string;
@@ -604,87 +605,87 @@ export type ShaderCacheStatus =
 export interface ShaderCacheSummary {
   Identifier: string;
   ApplicationArn: string;
-  Status?: ShaderCacheStatus;
-  LastUpdatedAt?: Date;
-  StorageBytes?: number;
-  AssociatedStreamGroups?: string[];
+  Status?: ShaderCacheStatus | undefined;
+  LastUpdatedAt?: Date | undefined;
+  StorageBytes?: number | undefined;
+  AssociatedStreamGroups?: string[] | undefined;
 }
 export type ShaderCacheSummaryList = ShaderCacheSummary[];
 export interface ListApplicationShaderCachesOutput {
-  Items?: ShaderCacheSummary[];
+  Items?: ShaderCacheSummary[] | undefined;
 }
 export interface ListStreamGroupsInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface StreamGroupSummary {
   Arn: string;
-  Id?: string;
-  Description?: string;
-  DefaultApplication?: DefaultApplication;
-  StreamClass?: StreamClass;
-  Status?: StreamGroupStatus;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  ExpiresAt?: Date;
+  Id?: string | undefined;
+  Description?: string | undefined;
+  DefaultApplication?: DefaultApplication | undefined;
+  StreamClass?: StreamClass | undefined;
+  Status?: StreamGroupStatus | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  ExpiresAt?: Date | undefined;
 }
 export type StreamGroupSummaryList = StreamGroupSummary[];
 export interface ListStreamGroupsOutput {
-  Items?: StreamGroupSummary[];
-  NextToken?: string;
+  Items?: StreamGroupSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListStreamSessionsInput {
-  Status?: StreamSessionStatus;
-  ExportFilesStatus?: ExportFilesStatus;
-  NextToken?: string;
-  MaxResults?: number;
+  Status?: StreamSessionStatus | undefined;
+  ExportFilesStatus?: ExportFilesStatus | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   Identifier: string;
 }
 export interface ListStreamSessionsOutput {
-  Items?: StreamSessionSummary[];
-  NextToken?: string;
+  Items?: StreamSessionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListStreamSessionsByAccountInput {
-  Status?: StreamSessionStatus;
-  ExportFilesStatus?: ExportFilesStatus;
-  NextToken?: string;
-  MaxResults?: number;
+  Status?: StreamSessionStatus | undefined;
+  ExportFilesStatus?: ExportFilesStatus | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListStreamSessionsByAccountOutput {
-  Items?: StreamSessionSummary[];
-  NextToken?: string;
+  Items?: StreamSessionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListStreamUrlsInput {
-  Status?: StreamUrlStatus;
-  StreamGroupIdentifier?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  Status?: StreamUrlStatus | undefined;
+  StreamGroupIdentifier?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface StreamUrlSummary {
   Arn: string;
-  StreamUrlId?: string;
-  StreamUrl?: string | redacted.Redacted<string>;
-  Status?: StreamUrlStatus;
-  StatusReason?: StreamUrlStatusReason;
-  ExpiresAt?: Date;
-  CreatedAt?: Date;
-  UsageLimit?: number;
-  RemainingUses?: number;
-  StreamGroupArn?: string;
-  ApplicationArn?: string;
-  SessionLengthSeconds?: number;
-  Description?: string;
+  StreamUrlId?: string | undefined;
+  StreamUrl?: string | redacted.Redacted<string> | undefined;
+  Status?: StreamUrlStatus | undefined;
+  StatusReason?: StreamUrlStatusReason | undefined;
+  ExpiresAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  UsageLimit?: number | undefined;
+  RemainingUses?: number | undefined;
+  StreamGroupArn?: string | undefined;
+  ApplicationArn?: string | undefined;
+  SessionLengthSeconds?: number | undefined;
+  Description?: string | undefined;
 }
 export type StreamUrlSummaryList = StreamUrlSummary[];
 export interface ListStreamUrlsOutput {
-  Items?: StreamUrlSummary[];
-  NextToken?: string;
+  Items?: StreamUrlSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type LocationsList = string[];
 export interface RemoveStreamGroupLocationsInput {
@@ -696,50 +697,50 @@ export type RevocationMode = "REVOKE_URL" | "REVOKE_AND_TERMINATE_SESSIONS" | (s
 export interface RevokeStreamUrlInput {
   Identifier: string;
   StreamUrlIdentifier: string;
-  RevocationMode?: RevocationMode;
+  RevocationMode?: RevocationMode | undefined;
 }
 export interface RevokeStreamUrlResponse {}
 export interface StartStreamSessionInput {
-  ClientToken?: string;
-  Description?: string;
+  ClientToken?: string | undefined;
+  Description?: string | undefined;
   Identifier: string;
   Protocol: Protocol;
   SignalRequest: string | redacted.Redacted<string>;
   ApplicationIdentifier: string;
-  UserId?: string;
-  Locations?: string[];
-  ConnectionTimeoutSeconds?: number;
-  SessionLengthSeconds?: number;
-  AdditionalLaunchArgs?: string[];
-  AdditionalEnvironmentVariables?: { [key: string]: string | undefined };
-  PerformanceStatsConfiguration?: PerformanceStatsConfiguration;
-  RoleArn?: string | redacted.Redacted<string>;
-  DisplayConfiguration?: DisplayConfiguration;
+  UserId?: string | undefined;
+  Locations?: string[] | undefined;
+  ConnectionTimeoutSeconds?: number | undefined;
+  SessionLengthSeconds?: number | undefined;
+  AdditionalLaunchArgs?: string[] | undefined;
+  AdditionalEnvironmentVariables?: { [key: string]: string | undefined } | undefined;
+  PerformanceStatsConfiguration?: PerformanceStatsConfiguration | undefined;
+  RoleArn?: string | redacted.Redacted<string> | undefined;
+  DisplayConfiguration?: DisplayConfiguration | undefined;
 }
 export interface StartStreamSessionOutput {
-  Arn?: string;
-  Description?: string;
-  StreamGroupId?: string;
-  UserId?: string;
-  Status?: StreamSessionStatus;
-  StatusReason?: StreamSessionStatusReason;
-  Protocol?: Protocol;
-  Location?: string;
-  SignalRequest?: string | redacted.Redacted<string>;
-  SignalResponse?: string | redacted.Redacted<string>;
-  ConnectionTimeoutSeconds?: number;
-  SessionLengthSeconds?: number;
-  AdditionalLaunchArgs?: string[];
-  AdditionalEnvironmentVariables?: { [key: string]: string | undefined };
-  PerformanceStatsConfiguration?: PerformanceStatsConfiguration;
-  LogFileLocationUri?: string;
-  WebSdkProtocolUrl?: string;
-  LastUpdatedAt?: Date;
-  CreatedAt?: Date;
-  ApplicationArn?: string;
-  ExportFilesMetadata?: ExportFilesMetadata;
-  RoleArn?: string | redacted.Redacted<string>;
-  DisplayConfiguration?: DisplayConfiguration;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  StreamGroupId?: string | undefined;
+  UserId?: string | undefined;
+  Status?: StreamSessionStatus | undefined;
+  StatusReason?: StreamSessionStatusReason | undefined;
+  Protocol?: Protocol | undefined;
+  Location?: string | undefined;
+  SignalRequest?: string | redacted.Redacted<string> | undefined;
+  SignalResponse?: string | redacted.Redacted<string> | undefined;
+  ConnectionTimeoutSeconds?: number | undefined;
+  SessionLengthSeconds?: number | undefined;
+  AdditionalLaunchArgs?: string[] | undefined;
+  AdditionalEnvironmentVariables?: { [key: string]: string | undefined } | undefined;
+  PerformanceStatsConfiguration?: PerformanceStatsConfiguration | undefined;
+  LogFileLocationUri?: string | undefined;
+  WebSdkProtocolUrl?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  ApplicationArn?: string | undefined;
+  ExportFilesMetadata?: ExportFilesMetadata | undefined;
+  RoleArn?: string | redacted.Redacted<string> | undefined;
+  DisplayConfiguration?: DisplayConfiguration | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -759,45 +760,45 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateApplicationInput {
   Identifier: string;
-  Description?: string;
-  ApplicationLogPaths?: string[];
-  ApplicationLogOutputUri?: string;
+  Description?: string | undefined;
+  ApplicationLogPaths?: string[] | undefined;
+  ApplicationLogOutputUri?: string | undefined;
 }
 export interface UpdateApplicationOutput {
   Arn: string;
-  Description?: string;
-  RuntimeEnvironment?: RuntimeEnvironment;
-  ExecutablePath?: string;
-  ApplicationLogPaths?: string[];
-  ApplicationLogOutputUri?: string;
-  ApplicationSourceUri?: string;
-  Id?: string;
-  Status?: ApplicationStatus;
-  StatusReason?: ApplicationStatusReason;
-  ReplicationStatuses?: ReplicationStatus[];
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  AssociatedStreamGroups?: string[];
+  Description?: string | undefined;
+  RuntimeEnvironment?: RuntimeEnvironment | undefined;
+  ExecutablePath?: string | undefined;
+  ApplicationLogPaths?: string[] | undefined;
+  ApplicationLogOutputUri?: string | undefined;
+  ApplicationSourceUri?: string | undefined;
+  Id?: string | undefined;
+  Status?: ApplicationStatus | undefined;
+  StatusReason?: ApplicationStatusReason | undefined;
+  ReplicationStatuses?: ReplicationStatus[] | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  AssociatedStreamGroups?: string[] | undefined;
 }
 export interface UpdateStreamGroupInput {
   Identifier: string;
-  LocationConfigurations?: LocationConfiguration[];
-  Description?: string;
-  DefaultApplicationIdentifier?: string;
+  LocationConfigurations?: LocationConfiguration[] | undefined;
+  Description?: string | undefined;
+  DefaultApplicationIdentifier?: string | undefined;
 }
 export interface UpdateStreamGroupOutput {
   Arn: string;
-  Description?: string;
-  DefaultApplication?: DefaultApplication;
-  LocationStates?: LocationState[];
-  StreamClass?: StreamClass;
-  Id?: string;
-  Status?: StreamGroupStatus;
-  StatusReason?: StreamGroupStatusReason;
-  LastUpdatedAt?: Date;
-  CreatedAt?: Date;
-  ExpiresAt?: Date;
-  AssociatedApplications?: string[];
+  Description?: string | undefined;
+  DefaultApplication?: DefaultApplication | undefined;
+  LocationStates?: LocationState[] | undefined;
+  StreamClass?: StreamClass | undefined;
+  Id?: string | undefined;
+  Status?: StreamGroupStatus | undefined;
+  StatusReason?: StreamGroupStatusReason | undefined;
+  LastUpdatedAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  ExpiresAt?: Date | undefined;
+  AssociatedApplications?: string[] | undefined;
 }
 export type AddStreamGroupLocationsError =
   | AccessDeniedException
@@ -813,7 +814,7 @@ export type AddStreamGroupLocationsError =
  * This operation provisions stream capacity at the specified locations. By default, all locations have 1 or 2 capacity, depending on the stream class option: 2 for 'High' and 1 for 'Ultra' and 'Win2022'. This operation also copies the content files of all associated applications to an internal S3 bucket at each location. This allows Amazon GameLift Streams to host performant stream sessions.
  */
 export const addStreamGroupLocations: API.OperationMethod<
-  AddStreamGroupLocationsInput,
+  AddStreamGroupLocationsInput & RegionInput,
   AddStreamGroupLocationsOutput,
   AddStreamGroupLocationsError,
   Credentials | HttpClient.HttpClient
@@ -849,7 +850,7 @@ export type AssociateApplicationsError =
  * If a stream group does not already have a linked application, Amazon GameLift Streams will automatically assign the first application provided in `ApplicationIdentifiers` as the default.
  */
 export const associateApplications: API.OperationMethod<
-  AssociateApplicationsInput,
+  AssociateApplicationsInput & RegionInput,
   AssociateApplicationsOutput,
   AssociateApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -891,7 +892,7 @@ export type CreateApplicationError =
  * If the request is successful, Amazon GameLift Streams begins to create an application and sets the status to `INITIALIZED`. When an application reaches `READY` status, you can use the application to set up stream groups and start streams. To track application status, call GetApplication.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationInput,
+  CreateApplicationInput & RegionInput,
   CreateApplicationOutput,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -942,7 +943,7 @@ export type CreateStreamGroupError =
  * Stream groups should be recreated every 3-4 weeks to pick up important service updates and fixes. Stream groups that are older than 180 days can no longer be updated with new application associations. Stream groups expire when they are 365 days old, at which point they can no longer stream sessions. The exact expiration date is indicated by the date value in the `ExpiresAt` field.
  */
 export const createStreamGroup: API.OperationMethod<
-  CreateStreamGroupInput,
+  CreateStreamGroupInput & RegionInput,
   CreateStreamGroupOutput,
   CreateStreamGroupError,
   Credentials | HttpClient.HttpClient
@@ -983,7 +984,7 @@ export type CreateStreamSessionAdminShellError =
  * The returned credentials grant full access to the live runtime environment of the Amazon GameLift Streams stream session. The operator who connects to the terminal session has the same level of access that your Amazon GameLift Streams applications have, including potentially user input, screen images, and application data files. Grant permissions to call this operation only to trusted IAM identities that require live runtime environment access.
  */
 export const createStreamSessionAdminShell: API.OperationMethod<
-  CreateStreamSessionAdminShellInput,
+  CreateStreamSessionAdminShellInput & RegionInput,
   CreateStreamSessionAdminShellOutput,
   CreateStreamSessionAdminShellError,
   Credentials | HttpClient.HttpClient
@@ -1043,7 +1044,7 @@ export type CreateStreamSessionConnectionError =
  * To begin re-connecting to an existing stream session, specify the stream group ID and stream session ID that you want to reconnect to, and the signal request to use with the stream.
  */
 export const createStreamSessionConnection: API.OperationMethod<
-  CreateStreamSessionConnectionInput,
+  CreateStreamSessionConnectionInput & RegionInput,
   CreateStreamSessionConnectionOutput,
   CreateStreamSessionConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1082,7 +1083,7 @@ export type CreateStreamUrlError =
  * To make the request idempotent, provide a `ClientToken`.
  */
 export const createStreamUrl: API.OperationMethod<
-  CreateStreamUrlInput,
+  CreateStreamUrlInput & RegionInput,
   CreateStreamUrlOutput,
   CreateStreamUrlError,
   Credentials | HttpClient.HttpClient
@@ -1129,7 +1130,7 @@ export type DeleteApplicationError =
  * If any active stream groups exist for this application, this request returns a `ValidationException`.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationInput,
+  DeleteApplicationInput & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1163,7 +1164,7 @@ export type DeleteStreamGroupError =
  * Permanently deletes all compute resources and information related to a stream group. To delete a stream group, specify the unique stream group identifier. During the deletion process, the stream group's status is `DELETING`. This operation stops streams in progress and prevents new streams from starting. As a best practice, before deleting the stream group, call ListStreamSessions to check for streams in progress and take action to stop them. When you delete a stream group, any application associations referring to that stream group are automatically removed.
  */
 export const deleteStreamGroup: API.OperationMethod<
-  DeleteStreamGroupInput,
+  DeleteStreamGroupInput & RegionInput,
   DeleteStreamGroupResponse,
   DeleteStreamGroupError,
   Credentials | HttpClient.HttpClient
@@ -1198,7 +1199,7 @@ export type DisassociateApplicationsError =
  * If you disassociate the default application, Amazon GameLift Streams will automatically choose a new default application from the remaining associated applications. To change which application is the default application, call UpdateStreamGroup and specify a new `DefaultApplicationIdentifier`.
  */
 export const disassociateApplications: API.OperationMethod<
-  DisassociateApplicationsInput,
+  DisassociateApplicationsInput & RegionInput,
   DisassociateApplicationsOutput,
   DisassociateApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -1244,7 +1245,7 @@ export type ExportStreamSessionFilesError =
  * To delete the files, delete the object in the S3 bucket.
  */
 export const exportStreamSessionFiles: API.OperationMethod<
-  ExportStreamSessionFilesInput,
+  ExportStreamSessionFilesInput & RegionInput,
   ExportStreamSessionFilesOutput,
   ExportStreamSessionFilesError,
   Credentials | HttpClient.HttpClient
@@ -1276,7 +1277,7 @@ export type GetApplicationError =
  * Retrieves properties for an Amazon GameLift Streams application resource. Specify the ID of the application that you want to retrieve. If the operation is successful, it returns properties for the requested application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationInput,
+  GetApplicationInput & RegionInput,
   GetApplicationOutput,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1308,7 +1309,7 @@ export type GetStreamGroupError =
  * Retrieves properties for a Amazon GameLift Streams stream group resource. Specify the ID of the stream group that you want to retrieve. If the operation is successful, it returns properties for the requested stream group.
  */
 export const getStreamGroup: API.OperationMethod<
-  GetStreamGroupInput,
+  GetStreamGroupInput & RegionInput,
   GetStreamGroupOutput,
   GetStreamGroupError,
   Credentials | HttpClient.HttpClient
@@ -1340,7 +1341,7 @@ export type GetStreamSessionError =
  * Retrieves properties for a Amazon GameLift Streams stream session resource. Specify the Amazon Resource Name (ARN) of the stream session that you want to retrieve and its stream group ARN. If the operation is successful, it returns properties for the requested resource.
  */
 export const getStreamSession: API.OperationMethod<
-  GetStreamSessionInput,
+  GetStreamSessionInput & RegionInput,
   GetStreamSessionOutput,
   GetStreamSessionError,
   Credentials | HttpClient.HttpClient
@@ -1374,7 +1375,7 @@ export type GetStreamUrlError =
  * If you delete the stream group or application that backs the stream URL, this operation updates the status of the stream URL to `REVOKED`.
  */
 export const getStreamUrl: API.OperationMethod<
-  GetStreamUrlInput,
+  GetStreamUrlInput & RegionInput,
   GetStreamUrlOutput,
   GetStreamUrlError,
   Credentials | HttpClient.HttpClient
@@ -1405,7 +1406,7 @@ export type ListApplicationsError =
  * Retrieves a list of all Amazon GameLift Streams applications that are associated with the Amazon Web Services account in use. This operation returns applications in all statuses, in no particular order. You can paginate the results as needed.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsInput,
+  ListApplicationsInput & RegionInput,
   ListApplicationsOutput,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1445,7 +1446,7 @@ export type ListApplicationShaderCachesError =
  * Returns shader caches associated with the specified Amazon GameLift Streams application in all statuses.
  */
 export const listApplicationShaderCaches: API.OperationMethod<
-  ListApplicationShaderCachesInput,
+  ListApplicationShaderCachesInput & RegionInput,
   ListApplicationShaderCachesOutput,
   ListApplicationShaderCachesError,
   Credentials | HttpClient.HttpClient
@@ -1476,7 +1477,7 @@ export type ListStreamGroupsError =
  * Retrieves a list of all Amazon GameLift Streams stream groups that are associated with the Amazon Web Services account in use. This operation returns stream groups in all statuses, in no particular order. You can paginate the results as needed.
  */
 export const listStreamGroups: API.PaginatedOperationMethod<
-  ListStreamGroupsInput,
+  ListStreamGroupsInput & RegionInput,
   ListStreamGroupsOutput,
   ListStreamGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1518,7 +1519,7 @@ export type ListStreamSessionsError =
  * This operation returns the requested stream sessions in no particular order.
  */
 export const listStreamSessions: API.PaginatedOperationMethod<
-  ListStreamSessionsInput,
+  ListStreamSessionsInput & RegionInput,
   ListStreamSessionsOutput,
   ListStreamSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -1560,7 +1561,7 @@ export type ListStreamSessionsByAccountError =
  * We don't recommend using this operation to regularly check stream session statuses because it's costly. Instead, to check status updates for a specific stream session, use GetStreamSession.
  */
 export const listStreamSessionsByAccount: API.PaginatedOperationMethod<
-  ListStreamSessionsByAccountInput,
+  ListStreamSessionsByAccountInput & RegionInput,
   ListStreamSessionsByAccountOutput,
   ListStreamSessionsByAccountError,
   Credentials | HttpClient.HttpClient,
@@ -1597,7 +1598,7 @@ export type ListStreamUrlsError =
  * Retrieves a list of the stream URLs in the current Amazon Web Services Region for your Amazon Web Services account. You can filter the results by status or by stream group. Use the pagination parameters to retrieve results as a set of sequential pages. If you delete the stream group or application that backs a stream URL, this operation updates that stream URL's status to `REVOKED`.
  */
 export const listStreamUrls: API.PaginatedOperationMethod<
-  ListStreamUrlsInput,
+  ListStreamUrlsInput & RegionInput,
   ListStreamUrlsOutput,
   ListStreamUrlsError,
   Credentials | HttpClient.HttpClient,
@@ -1640,7 +1641,7 @@ export type ListTagsForResourceError =
  * Amazon Web Services Tagging Strategies
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1673,7 +1674,7 @@ export type RemoveStreamGroupLocationsError =
  * You cannot remove the Amazon Web Services Region location where you initially created this stream group, known as the primary location. However, you can set the stream capacity to zero to avoid incurring costs for allocated compute resources in that location.
  */
 export const removeStreamGroupLocations: API.OperationMethod<
-  RemoveStreamGroupLocationsInput,
+  RemoveStreamGroupLocationsInput & RegionInput,
   RemoveStreamGroupLocationsResponse,
   RemoveStreamGroupLocationsError,
   Credentials | HttpClient.HttpClient
@@ -1707,7 +1708,7 @@ export type RevokeStreamUrlError =
  * Revoking a stream URL is permanent. The status of the stream URL changes to `REVOKED`.
  */
 export const revokeStreamUrl: API.OperationMethod<
-  RevokeStreamUrlInput,
+  RevokeStreamUrlInput & RegionInput,
   RevokeStreamUrlResponse,
   RevokeStreamUrlError,
   Credentials | HttpClient.HttpClient
@@ -1794,7 +1795,7 @@ export type StartStreamSessionError =
  * To reconnect to a stream session after a client disconnects or loses connection, use CreateStreamSessionConnection.
  */
 export const startStreamSession: API.OperationMethod<
-  StartStreamSessionInput,
+  StartStreamSessionInput & RegionInput,
   StartStreamSessionOutput,
   StartStreamSessionError,
   Credentials | HttpClient.HttpClient
@@ -1836,7 +1837,7 @@ export type TagResourceError =
  * Amazon Web Services Tagging Strategies
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1867,7 +1868,7 @@ export type TerminateStreamSessionError =
  * Permanently terminates an active stream session. When called, the stream session status changes to `TERMINATING`. You can terminate a stream session in any status except `ACTIVATING`. If the stream session is in `ACTIVATING` status, an exception is thrown.
  */
 export const terminateStreamSession: API.OperationMethod<
-  TerminateStreamSessionInput,
+  TerminateStreamSessionInput & RegionInput,
   TerminateStreamSessionResponse,
   TerminateStreamSessionError,
   Credentials | HttpClient.HttpClient
@@ -1898,7 +1899,7 @@ export type UntagResourceError =
  * Removes one or more tags from a Amazon GameLift Streams resource. To remove tags, specify the Amazon GameLift Streams resource and a list of one or more tags to remove.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1931,7 +1932,7 @@ export type UpdateApplicationError =
  * To update application settings, specify the application ID and provide the new values. If the operation is successful, it returns the complete updated set of settings for the application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationInput,
+  UpdateApplicationInput & RegionInput,
   UpdateApplicationOutput,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1977,7 +1978,7 @@ export type UpdateStreamGroupError =
  * To update a stream group, specify the stream group's Amazon Resource Name (ARN) and provide the new values. If the request is successful, Amazon GameLift Streams returns the complete updated metadata for the stream group. Expired stream groups cannot be updated.
  */
 export const updateStreamGroup: API.OperationMethod<
-  UpdateStreamGroupInput,
+  UpdateStreamGroupInput & RegionInput,
   UpdateStreamGroupOutput,
   UpdateStreamGroupError,
   Credentials | HttpClient.HttpClient

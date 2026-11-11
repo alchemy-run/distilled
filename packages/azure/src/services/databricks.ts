@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Databricks",
   service: "Databricks",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -49,7 +50,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AccessConnectorsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface AccessConnectorsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -59,13 +60,13 @@ export interface AccessConnectorsCreateOrUpdateRequest {
   /** The name of the Azure Databricks Access Connector. */
   connectorName: string;
   /** Resource tags. */
-  tags?: AccessConnectorsCreateOrUpdateRequestTagsMap;
+  tags?: AccessConnectorsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Azure Databricks Access Connector properties */
-  properties?: AccessConnectorPropertiesInput;
+  properties?: AccessConnectorPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccessConnectorsCreateOrUpdateRequestIdentity;
+  identity?: AccessConnectorsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type AccessConnectorsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -86,47 +87,47 @@ export type ProvisioningState =
 export type AccessConnectorPropertiesReferedByList = Array<string>;
 export interface AccessConnectorProperties {
   /** Provisioning status of the Access Connector. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of workspaces referring this Access Connector. */
-  referedBy?: AccessConnectorPropertiesReferedByList;
+  referedBy?: AccessConnectorPropertiesReferedByList | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AccessConnectorsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface AccessConnectorsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: AccessConnectorsCreateOrUpdateResponseTagsMap;
+  tags?: AccessConnectorsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Azure Databricks Access Connector properties */
-  properties?: AccessConnectorProperties;
+  properties?: AccessConnectorProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccessConnectorsCreateOrUpdateResponseIdentity;
+  identity?: AccessConnectorsCreateOrUpdateResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The private endpoint property of a private endpoint connection. */
 export type PrivateEndpointInput = AccessConnectorPropertiesInput;
@@ -143,16 +144,16 @@ export interface PrivateLinkServiceConnectionState {
   /** The status of a private endpoint connection */
   status: PrivateLinkServiceConnectionStatus | (string & {});
   /** The description for the current state of a private endpoint connection */
-  description?: string;
+  description?: string | undefined;
   /** Actions required for a private endpoint connection */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** Private endpoint */
-  privateEndpoint?: AccessConnectorPropertiesInput;
+  privateEndpoint?: AccessConnectorPropertiesInput | undefined;
   /** GroupIds from the private link service resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesInputGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesInputGroupIdsList | undefined;
   /** Private endpoint connection state */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -171,7 +172,7 @@ export interface CreatePrivateEndpointConnectionRequest {
 /** The private endpoint property of a private endpoint connection. */
 export interface PrivateEndpoint {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
 }
 /** GroupIds from the private link service resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -185,27 +186,27 @@ export type PrivateEndpointConnectionProvisioningState =
 /** The properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** Private endpoint */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** GroupIds from the private link service resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** Private endpoint connection state */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** Provisioning state of the private endpoint connection. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface CreatePrivateEndpointConnectionResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** The private endpoint connection properties. */
   properties: PrivateEndpointConnectionProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAccessConnectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -217,9 +218,9 @@ export interface DeleteAccessConnectorRequest {
 }
 export interface DeleteAccessConnectorResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -233,9 +234,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVNetPeeringRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -249,9 +250,9 @@ export interface DeleteVNetPeeringRequest {
 }
 export interface DeleteVNetPeeringResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -261,13 +262,13 @@ export interface DeleteWorkspaceRequest {
   /** The name of the workspace. */
   workspaceName: string;
   /** Optional parameter to retain default unity catalog data. By default the data will retained if Uc is enabled on the workspace. */
-  forceDeletion?: boolean;
+  forceDeletion?: boolean | undefined;
 }
 export interface DeleteWorkspaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAccessConnectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -283,19 +284,19 @@ export type GetAccessConnectorResponseTagsMap = { [key: string]: string | undefi
 export type GetAccessConnectorResponseIdentity = AccessConnectorsCreateOrUpdateResponseIdentity;
 export interface GetAccessConnectorResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetAccessConnectorResponseTagsMap;
+  tags?: GetAccessConnectorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Azure Databricks Access Connector properties */
-  properties?: AccessConnectorProperties;
+  properties?: AccessConnectorProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccessConnectorsCreateOrUpdateResponseIdentity;
+  identity?: AccessConnectorsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -309,11 +310,11 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** The private endpoint connection properties. */
   properties: PrivateEndpointConnectionProperties;
 }
@@ -334,19 +335,19 @@ export type GroupIdInformationPropertiesRequiredZoneNamesList = Array<string>;
 /** The properties for a group information object */
 export interface GroupIdInformationProperties {
   /** The group id */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The required members for a specific group id */
-  requiredMembers?: GroupIdInformationPropertiesRequiredMembersList;
+  requiredMembers?: GroupIdInformationPropertiesRequiredMembersList | undefined;
   /** The required DNS zones for a specific group id */
-  requiredZoneNames?: GroupIdInformationPropertiesRequiredZoneNamesList;
+  requiredZoneNames?: GroupIdInformationPropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** The group id properties. */
   properties: GroupIdInformationProperties;
 }
@@ -363,19 +364,19 @@ export interface GetVNetPeeringRequest {
 /** The remote virtual network should be in the same region. See here to learn more (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering). */
 export interface VirtualNetworkPeeringPropertiesFormatDatabricksVirtualNetwork {
   /** The Id of the databricks virtual network. */
-  id?: string;
+  id?: string | undefined;
 }
 /** A list of address blocks reserved for this virtual network in CIDR notation. */
 export type AddressSpaceAddressPrefixesList = Array<string>;
 /** AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network. */
 export interface AddressSpace {
   /** A list of address blocks reserved for this virtual network in CIDR notation. */
-  addressPrefixes?: AddressSpaceAddressPrefixesList;
+  addressPrefixes?: AddressSpaceAddressPrefixesList | undefined;
 }
 /** The remote virtual network should be in the same region. See here to learn more (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering). */
 export interface VirtualNetworkPeeringPropertiesFormatRemoteVirtualNetwork {
   /** The Id of the remote virtual network. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The status of the virtual network peering. */
 export type PeeringState = "Initiated" | "Connected" | "Disconnected";
@@ -384,33 +385,35 @@ export type PeeringProvisioningState = "Succeeded" | "Updating" | "Deleting" | "
 /** Properties of the virtual network peering. */
 export interface VirtualNetworkPeeringPropertiesFormat {
   /** Whether the VMs in the local virtual network space would be able to access the VMs in remote virtual network space. */
-  allowVirtualNetworkAccess?: boolean;
+  allowVirtualNetworkAccess?: boolean | undefined;
   /** Whether the forwarded traffic from the VMs in the local virtual network will be allowed/disallowed in remote virtual network. */
-  allowForwardedTraffic?: boolean;
+  allowForwardedTraffic?: boolean | undefined;
   /** If gateway links can be used in remote virtual networking to link to this virtual network. */
-  allowGatewayTransit?: boolean;
+  allowGatewayTransit?: boolean | undefined;
   /** If remote gateways can be used on this virtual network. If the flag is set to true, and allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a gateway. */
-  useRemoteGateways?: boolean;
+  useRemoteGateways?: boolean | undefined;
   /** The remote virtual network should be in the same region. See here to learn more (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering). */
-  databricksVirtualNetwork?: VirtualNetworkPeeringPropertiesFormatDatabricksVirtualNetwork;
+  databricksVirtualNetwork?:
+    | VirtualNetworkPeeringPropertiesFormatDatabricksVirtualNetwork
+    | undefined;
   /** The reference to the databricks virtual network address space. */
-  databricksAddressSpace?: AddressSpace;
+  databricksAddressSpace?: AddressSpace | undefined;
   /** The remote virtual network should be in the same region. See here to learn more (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering). */
   remoteVirtualNetwork: VirtualNetworkPeeringPropertiesFormatRemoteVirtualNetwork;
   /** The reference to the remote virtual network address space. */
-  remoteAddressSpace?: AddressSpace;
+  remoteAddressSpace?: AddressSpace | undefined;
   /** The status of the virtual network peering. */
-  peeringState?: PeeringState | (string & {});
+  peeringState?: PeeringState | (string & {}) | undefined;
   /** The provisioning state of the virtual network peering resource. */
-  provisioningState?: PeeringProvisioningState | (string & {});
+  provisioningState?: PeeringProvisioningState | (string & {}) | undefined;
 }
 export interface GetVNetPeeringResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** List of properties for vNet Peering */
   properties: VirtualNetworkPeeringPropertiesFormat;
 }
@@ -431,14 +434,14 @@ export type CustomParameterType = "Bool" | "Object" | "String";
 /** The Value. */
 export interface WorkspaceCustomStringParameter {
   /** The type of variable that this is */
-  type?: CustomParameterType | (string & {});
+  type?: CustomParameterType | (string & {}) | undefined;
   /** The value which should be used for this field. */
   value: string;
 }
 /** The value which should be used for this field. */
 export interface WorkspaceNoPublicIPBooleanParameter {
   /** The type of variable that this is */
-  type?: CustomParameterType | (string & {});
+  type?: CustomParameterType | (string & {}) | undefined;
   /** The value which should be used for this field. */
   value: boolean;
 }
@@ -449,62 +452,62 @@ export type EncryptionKeySource = "Default" | "Microsoft.Keyvault";
 /** The object that contains details of encryption used on the workspace. */
 export interface Encryption {
   /** The encryption keySource (provider). Possible values (case-insensitive): Default, Microsoft.Keyvault */
-  keySource?: EncryptionKeySource | (string & {});
+  keySource?: EncryptionKeySource | (string & {}) | undefined;
   /** The name of KeyVault key. */
-  KeyName?: string;
+  KeyName?: string | undefined;
   /** The version of KeyVault key. */
-  keyversion?: string;
+  keyversion?: string | undefined;
   /** The Uri of KeyVault. */
-  keyvaulturi?: string;
+  keyvaulturi?: string | undefined;
 }
 /** The object that contains details of encryption used on the workspace. */
 export interface WorkspaceEncryptionParameter {
   /** The type of variable that this is */
-  type?: CustomParameterType | (string & {});
+  type?: CustomParameterType | (string & {}) | undefined;
   /** The value which should be used for this field. */
-  value?: Encryption;
+  value?: Encryption | undefined;
 }
 /** The value which should be used for this field. */
 export interface WorkspaceCustomObjectParameter {
   /** The type of variable that this is */
-  type?: CustomParameterType | (string & {});
+  type?: CustomParameterType | (string & {}) | undefined;
   /** The value which should be used for this field. */
   value: unknown;
 }
 /** Custom Parameters used for Workspace Creation. Not allowed in Serverless ComputeMode workspace. */
 export interface WorkspaceCustomParameters {
   /** The ID of a Azure Machine Learning workspace to link with Databricks workspace. Not allowed in Serverless ComputeMode workspace. */
-  amlWorkspaceId?: WorkspaceCustomStringParameter;
+  amlWorkspaceId?: WorkspaceCustomStringParameter | undefined;
   /** The ID of a Virtual Network where this Databricks Cluster should be created. Not allowed in Serverless ComputeMode workspace. */
-  customVirtualNetworkId?: WorkspaceCustomStringParameter;
+  customVirtualNetworkId?: WorkspaceCustomStringParameter | undefined;
   /** The name of a Public Subnet within the Virtual Network. Not allowed in Serverless ComputeMode workspace. */
-  customPublicSubnetName?: WorkspaceCustomStringParameter;
+  customPublicSubnetName?: WorkspaceCustomStringParameter | undefined;
   /** The name of the Private Subnet within the Virtual Network. Not allowed in Serverless ComputeMode workspace. */
-  customPrivateSubnetName?: WorkspaceCustomStringParameter;
+  customPrivateSubnetName?: WorkspaceCustomStringParameter | undefined;
   /** Boolean indicating whether the public IP should be disabled. Default value is true. Not allowed in Serverless ComputeMode workspace. */
-  enableNoPublicIp?: WorkspaceNoPublicIPBooleanParameter;
+  enableNoPublicIp?: WorkspaceNoPublicIPBooleanParameter | undefined;
   /** Name of the outbound Load Balancer Backend Pool for Secure Cluster Connectivity (No Public IP). Not allowed in Serverless ComputeMode workspace. */
-  loadBalancerBackendPoolName?: WorkspaceCustomStringParameter;
+  loadBalancerBackendPoolName?: WorkspaceCustomStringParameter | undefined;
   /** Resource URI of Outbound Load balancer for Secure Cluster Connectivity (No Public IP) workspace. Not allowed in Serverless ComputeMode workspace. */
-  loadBalancerId?: WorkspaceCustomStringParameter;
+  loadBalancerId?: WorkspaceCustomStringParameter | undefined;
   /** Name of the NAT gateway for Secure Cluster Connectivity (No Public IP) workspace subnets. Not allowed in Serverless ComputeMode workspace. */
-  natGatewayName?: WorkspaceCustomStringParameter;
+  natGatewayName?: WorkspaceCustomStringParameter | undefined;
   /** Name of the Public IP for No Public IP workspace with managed vNet. Not allowed in Serverless ComputeMode workspace. */
-  publicIpName?: WorkspaceCustomStringParameter;
+  publicIpName?: WorkspaceCustomStringParameter | undefined;
   /** Prepare the workspace for encryption. Enables the Managed Identity for managed storage account. Not allowed in Serverless ComputeMode workspace. */
-  prepareEncryption?: WorkspaceNoPublicIPBooleanParameter;
+  prepareEncryption?: WorkspaceNoPublicIPBooleanParameter | undefined;
   /** Contains the encryption details for Customer-Managed Key (CMK) enabled workspace.Not allowed in Serverless ComputeMode workspace. */
-  encryption?: WorkspaceEncryptionParameter;
+  encryption?: WorkspaceEncryptionParameter | undefined;
   /** A boolean indicating whether or not the DBFS root file system will be enabled with secondary layer of encryption with platform managed keys for data at rest. Not allowed in Serverless ComputeMode workspace. */
-  requireInfrastructureEncryption?: WorkspaceNoPublicIPBooleanParameter;
+  requireInfrastructureEncryption?: WorkspaceNoPublicIPBooleanParameter | undefined;
   /** Default DBFS storage account name. Not allowed in Serverless ComputeMode workspace. */
-  storageAccountName?: WorkspaceCustomStringParameter;
+  storageAccountName?: WorkspaceCustomStringParameter | undefined;
   /** Storage account SKU name, ex: Standard_GRS, Standard_LRS. Refer https://aka.ms/storageskus for valid inputs. Not allowed in Serverless ComputeMode workspace. */
-  storageAccountSkuName?: WorkspaceCustomStringParameter;
+  storageAccountSkuName?: WorkspaceCustomStringParameter | undefined;
   /** Address prefix for Managed virtual network. Default value for this input is 10.139. Not allowed in Serverless ComputeMode workspace. */
-  vnetAddressPrefix?: WorkspaceCustomStringParameter;
+  vnetAddressPrefix?: WorkspaceCustomStringParameter | undefined;
   /** Tags applied to resources under Managed resource group. These can be updated by updating tags at workspace level. Not allowed in Serverless ComputeMode workspace. */
-  resourceTags?: WorkspaceCustomObjectParameter;
+  resourceTags?: WorkspaceCustomObjectParameter | undefined;
 }
 /** The workspace provider authorization. */
 export interface WorkspaceProviderAuthorization {
@@ -518,20 +521,20 @@ export type WorkspacePropertiesAuthorizationsList = Array<WorkspaceProviderAutho
 /** Provides details of the entity that created/updated the workspace. */
 export interface CreatedBy {
   /** The Object ID that created the workspace. */
-  oid?: string;
+  oid?: string | undefined;
   /** The Personal Object ID corresponding to the object ID above */
-  puid?: string;
+  puid?: string | undefined;
   /** The application ID of the application that initiated the creation of the workspace. For example, Azure Portal. */
-  applicationId?: string;
+  applicationId?: string | undefined;
 }
 /** The Managed Identity details for storage account. */
 export interface ManagedIdentityConfiguration {
   /** The objectId of the Managed Identity that is linked to the Managed Storage account. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant Id where the Managed Identity is created. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of Identity created. It can be either SystemAssigned or UserAssigned. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The encryption keySource (provider). Possible values (case-insensitive): Microsoft.Keyvault */
 export type EncryptionKeySource2 = "Microsoft.Keyvault";
@@ -549,7 +552,7 @@ export interface EncryptionV2 {
   /** The encryption keySource (provider). Possible values (case-insensitive): Microsoft.Keyvault */
   keySource: EncryptionKeySource2 | (string & {});
   /** Key Vault input properties for encryption. */
-  keyVaultProperties?: EncryptionV2KeyVaultProperties;
+  keyVaultProperties?: EncryptionV2KeyVaultProperties | undefined;
 }
 /** Key Vault input properties for encryption. */
 export interface ManagedDiskEncryptionKeyVaultProperties {
@@ -567,14 +570,14 @@ export interface ManagedDiskEncryption {
   /** Key Vault input properties for encryption. */
   keyVaultProperties: ManagedDiskEncryptionKeyVaultProperties;
   /** Indicate whether the latest key version should be automatically used for Managed Disk Encryption. */
-  rotationToLatestKeyVersionEnabled?: boolean;
+  rotationToLatestKeyVersionEnabled?: boolean | undefined;
 }
 /** Encryption entities for databricks workspace resource. */
 export interface EncryptionEntitiesDefinition {
   /** Encryption properties for the databricks managed services. Supported in both Serverless and Hybrid ComputeMode. */
-  managedServices?: EncryptionV2;
+  managedServices?: EncryptionV2 | undefined;
   /** Encryption properties for the databricks managed disks. Not allowed in Serverless ComputeMode workspace. */
-  managedDisk?: ManagedDiskEncryption;
+  managedDisk?: ManagedDiskEncryption | undefined;
 }
 /** Encryption properties for databricks workspace. Supported in both Serverless and Hybrid ComputeMode workspace. */
 export interface WorkspacePropertiesEncryption {
@@ -584,7 +587,7 @@ export interface WorkspacePropertiesEncryption {
 export type AutomaticClusterUpdateValue = "Enabled" | "Disabled";
 /** Status of automated cluster updates feature. */
 export interface AutomaticClusterUpdateDefinition {
-  value?: AutomaticClusterUpdateValue | (string & {});
+  value?: AutomaticClusterUpdateValue | (string & {}) | undefined;
 }
 /** Compliance standards associated with the workspace. */
 export type ComplianceSecurityProfileDefinitionComplianceStandardsList = Array<string>;
@@ -592,31 +595,31 @@ export type ComplianceSecurityProfileValue = "Enabled" | "Disabled";
 /** Status of Compliance Security Profile feature. */
 export interface ComplianceSecurityProfileDefinition {
   /** Compliance standards associated with the workspace. */
-  complianceStandards?: ComplianceSecurityProfileDefinitionComplianceStandardsList;
-  value?: ComplianceSecurityProfileValue | (string & {});
+  complianceStandards?: ComplianceSecurityProfileDefinitionComplianceStandardsList | undefined;
+  value?: ComplianceSecurityProfileValue | (string & {}) | undefined;
 }
 export type EnhancedSecurityMonitoringValue = "Enabled" | "Disabled";
 /** Status of Enhanced Security Monitoring feature. */
 export interface EnhancedSecurityMonitoringDefinition {
-  value?: EnhancedSecurityMonitoringValue | (string & {});
+  value?: EnhancedSecurityMonitoringValue | (string & {}) | undefined;
 }
 /** Status of settings related to the Enhanced Security and Compliance Add-On. */
 export interface EnhancedSecurityComplianceDefinition {
   /** Status of automated cluster updates feature. */
-  automaticClusterUpdate?: AutomaticClusterUpdateDefinition;
+  automaticClusterUpdate?: AutomaticClusterUpdateDefinition | undefined;
   /** Status of Compliance Security Profile feature. */
-  complianceSecurityProfile?: ComplianceSecurityProfileDefinition;
+  complianceSecurityProfile?: ComplianceSecurityProfileDefinition | undefined;
   /** Status of Enhanced Security Monitoring feature. */
-  enhancedSecurityMonitoring?: EnhancedSecurityMonitoringDefinition;
+  enhancedSecurityMonitoring?: EnhancedSecurityMonitoringDefinition | undefined;
 }
 /** The private endpoint connection of a workspace. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** The private endpoint connection properties. */
   properties: PrivateEndpointConnectionProperties;
 }
@@ -631,9 +634,9 @@ export type DefaultCatalogPropertiesInitialType = "HiveMetastore" | "UnityCatalo
 /** These properties lets user specify default catalog properties during workspace creation. Not allowed in Serverless ComputeMode workspace. */
 export interface DefaultCatalogProperties {
   /** Defines the initial type of the default catalog. Possible values (case-insensitive): HiveMetastore, UnityCatalog */
-  initialType?: DefaultCatalogPropertiesInitialType | (string & {});
+  initialType?: DefaultCatalogPropertiesInitialType | (string & {}) | undefined;
   /** Specifies the initial Name of default catalog. If not specified, the name of the workspace will be used. */
-  initialName?: string;
+  initialName?: string | undefined;
 }
 /** The identity type of the Access Connector Resource. */
 export type IdentityType = "SystemAssigned" | "UserAssigned";
@@ -644,7 +647,7 @@ export interface WorkspacePropertiesAccessConnector {
   /** The identity type of the Access Connector Resource. */
   identityType: IdentityType | (string & {});
   /** The resource ID of the User Assigned Identity associated with the Access Connector Resource. This is required for type 'UserAssigned' and not valid for type 'SystemAssigned'. */
-  userAssignedIdentityId?: string;
+  userAssignedIdentityId?: string | undefined;
 }
 /** Gets or Sets Default Storage Firewall configuration information. Not allowed in Serverless ComputeMode workspace. */
 export type DefaultStorageFirewall = "Disabled" | "Enabled";
@@ -653,72 +656,72 @@ export interface WorkspaceProperties {
   /** The workspace compute mode. Required on create, cannot be changed. Possible values include: 'Serverless', 'Hybrid' */
   computeMode: ComputeMode;
   /** The managed resource group Id. Required in Hybrid ComputeMode workspace. Not allowed in Serverless ComputeMode workspace. */
-  managedResourceGroupId?: string;
+  managedResourceGroupId?: string | undefined;
   /** The workspace's custom parameters. */
-  parameters?: WorkspaceCustomParameters;
+  parameters?: WorkspaceCustomParameters | undefined;
   /** The workspace provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The blob URI where the UI definition file is located. */
-  uiDefinitionUri?: string;
+  uiDefinitionUri?: string | undefined;
   /** The workspace provider authorizations. */
-  authorizations?: WorkspacePropertiesAuthorizationsList;
+  authorizations?: WorkspacePropertiesAuthorizationsList | undefined;
   /** Indicates the Object ID, PUID and Application ID of entity that created the workspace. */
-  createdBy?: CreatedBy;
+  createdBy?: CreatedBy | undefined;
   /** Indicates the Object ID, PUID and Application ID of entity that last updated the workspace. */
-  updatedBy?: CreatedBy;
+  updatedBy?: CreatedBy | undefined;
   /** Specifies the date and time when the workspace is created. */
-  createdDateTime?: string;
+  createdDateTime?: string | undefined;
   /** The unique identifier of the databricks workspace in databricks control plane. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
   /** The workspace URL which is of the format 'adb-{workspaceId}.{random}.azuredatabricks.net' */
-  workspaceUrl?: string;
+  workspaceUrl?: string | undefined;
   /** The details of Managed Identity of Storage Account. Only returned in Hybrid ComputeMode workspace. */
-  storageAccountIdentity?: ManagedIdentityConfiguration;
+  storageAccountIdentity?: ManagedIdentityConfiguration | undefined;
   /** The details of Managed Identity of Disk Encryption Set used for Managed Disk Encryption. Only returned in Hybrid ComputeMode workspace. */
-  managedDiskIdentity?: ManagedIdentityConfiguration;
+  managedDiskIdentity?: ManagedIdentityConfiguration | undefined;
   /** The resource Id of the managed disk encryption set. Not allowed in Serverless ComputeMode workspace. */
-  diskEncryptionSetId?: string;
+  diskEncryptionSetId?: string | undefined;
   /** Encryption properties for databricks workspace. Supported in both Serverless and Hybrid ComputeMode workspace. */
-  encryption?: WorkspacePropertiesEncryption;
+  encryption?: WorkspacePropertiesEncryption | undefined;
   /** Contains settings related to the Enhanced Security and Compliance Add-On. Supported in both Serverless and Hybrid ComputeMode workspace. */
-  enhancedSecurityCompliance?: EnhancedSecurityComplianceDefinition;
+  enhancedSecurityCompliance?: EnhancedSecurityComplianceDefinition | undefined;
   /** Private endpoint connections created on the workspace. Supported in both Serverless and Hybrid ComputeMode workspace. */
-  privateEndpointConnections?: WorkspacePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: WorkspacePropertiesPrivateEndpointConnectionsList | undefined;
   /** The network access type for accessing workspace. Set value to disabled to access workspace only via private link. Used to configure front-end only private link for Serverless ComputeMode workspace. */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** Gets or sets a value indicating whether data plane (clusters) to control plane communication happen over private endpoint. Supported values are 'AllRules' and 'NoAzureDatabricksRules'. 'NoAzureServiceRules' value is for internal use only. Not allowed in Serverless ComputeMode workspace. */
-  requiredNsgRules?: RequiredNsgRules;
+  requiredNsgRules?: RequiredNsgRules | undefined;
   /** Properties for Default Catalog configuration during workspace creation. Not allowed in Serverless ComputeMode workspace. */
-  defaultCatalog?: DefaultCatalogProperties;
+  defaultCatalog?: DefaultCatalogProperties | undefined;
   /** Indicates whether unity catalog enabled for the workspace or not. Set as true in Serverless ComputeMode workspace. */
-  isUcEnabled?: boolean;
+  isUcEnabled?: boolean | undefined;
   /** Access Connector Resource that is going to be associated with Databricks Workspace. Not allowed in Serverless ComputeMode workspace. */
-  accessConnector?: WorkspacePropertiesAccessConnector;
+  accessConnector?: WorkspacePropertiesAccessConnector | undefined;
   /** Gets or Sets Default Storage Firewall configuration information. Not allowed in Serverless ComputeMode workspace. */
-  defaultStorageFirewall?: DefaultStorageFirewall;
+  defaultStorageFirewall?: DefaultStorageFirewall | undefined;
 }
 /** SKU for the resource. */
 export interface Sku {
   /** The SKU name. */
   name: string;
   /** The SKU tier. */
-  tier?: string;
+  tier?: string | undefined;
 }
 export interface GetWorkspaceResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetWorkspaceResponseTagsMap;
+  tags?: GetWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The workspace properties. */
   properties: WorkspaceProperties;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface ListAccessConnectorByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -733,19 +736,19 @@ export type AccessConnectorIdentity = AccessConnectorsCreateOrUpdateResponseIden
 /** Information about Azure Databricks Access Connector. */
 export interface AccessConnector {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: AccessConnectorTagsMap;
+  tags?: AccessConnectorTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Azure Databricks Access Connector properties */
-  properties?: AccessConnectorProperties;
+  properties?: AccessConnectorProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccessConnectorsCreateOrUpdateResponseIdentity;
+  identity?: AccessConnectorsCreateOrUpdateResponseIdentity | undefined;
 }
 /** The AccessConnector items on this page */
 export type AccessConnectorListResultValueList = Array<AccessConnector>;
@@ -754,7 +757,7 @@ export interface AccessConnectorListResult {
   /** The AccessConnector items on this page */
   value: AccessConnectorListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAccessConnectorBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -764,29 +767,29 @@ export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: ex Microsoft.Databricks */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type: Read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description for the resource operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of Resource Provider operations supported by the Resource Provider resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list Resource Provider operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of Resource Provider operations supported by the Resource Provider resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -803,7 +806,7 @@ export interface PrivateEndpointConnectionsList {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -816,11 +819,11 @@ export interface ListPrivateLinkResourcesRequest {
 /** The group information for creating a private endpoint on a workspace */
 export interface GroupIdInformation {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** The group id properties. */
   properties: GroupIdInformationProperties;
 }
@@ -831,7 +834,7 @@ export interface PrivateLinkResourcesList {
   /** The GroupIdInformation items on this page */
   value: PrivateLinkResourcesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVNetPeeringByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -844,11 +847,11 @@ export interface ListVNetPeeringByWorkspaceRequest {
 /** Peerings in a VirtualNetwork resource */
 export interface VirtualNetworkPeering {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** List of properties for vNet Peering */
   properties: VirtualNetworkPeeringPropertiesFormat;
 }
@@ -859,7 +862,7 @@ export interface VirtualNetworkPeeringList {
   /** The VirtualNetworkPeering items on this page */
   value: VirtualNetworkPeeringListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -872,19 +875,19 @@ export type WorkspaceTagsMap = { [key: string]: string | undefined };
 /** Information about workspace. */
 export interface Workspace {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: WorkspaceTagsMap;
+  tags?: WorkspaceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The workspace properties. */
   properties: WorkspaceProperties;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** The Workspace items on this page */
 export type WorkspaceListResultValueList = Array<Workspace>;
@@ -893,7 +896,7 @@ export interface WorkspaceListResult {
   /** The Workspace items on this page */
   value: WorkspaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -911,9 +914,9 @@ export interface UpdateAccessConnectorRequest {
   /** The name of the Azure Databricks Access Connector. */
   connectorName: string;
   /** Resource tags. */
-  tags?: UpdateAccessConnectorRequestTagsMap;
+  tags?: UpdateAccessConnectorRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccessConnectorsCreateOrUpdateRequestIdentity;
+  identity?: AccessConnectorsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateAccessConnectorResponseTagsMap = { [key: string]: string | undefined };
@@ -921,23 +924,23 @@ export type UpdateAccessConnectorResponseTagsMap = { [key: string]: string | und
 export type UpdateAccessConnectorResponseIdentity = AccessConnectorsCreateOrUpdateResponseIdentity;
 export interface UpdateAccessConnectorResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateAccessConnectorResponseTagsMap;
+  tags?: UpdateAccessConnectorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Azure Databricks Access Connector properties */
-  properties?: AccessConnectorProperties;
+  properties?: AccessConnectorProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccessConnectorsCreateOrUpdateResponseIdentity;
+  identity?: AccessConnectorsCreateOrUpdateResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
@@ -949,29 +952,29 @@ export interface UpdateWorkspaceRequest {
   /** The name of the workspace. */
   workspaceName: string;
   /** Resource tags. */
-  tags?: UpdateWorkspaceRequestTagsMap;
+  tags?: UpdateWorkspaceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateWorkspaceResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateWorkspaceResponseTagsMap;
+  tags?: UpdateWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The workspace properties. */
   properties: WorkspaceProperties;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VNetPeeringCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -987,17 +990,17 @@ export interface VNetPeeringCreateOrUpdateRequest {
 }
 export interface VNetPeeringCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** List of properties for vNet Peering */
   properties: VirtualNetworkPeeringPropertiesFormat;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1012,35 +1015,35 @@ export interface WorkspacePropertiesInput {
   /** The workspace compute mode. Required on create, cannot be changed. Possible values include: 'Serverless', 'Hybrid' */
   computeMode: ComputeMode | (string & {});
   /** The managed resource group Id. Required in Hybrid ComputeMode workspace. Not allowed in Serverless ComputeMode workspace. */
-  managedResourceGroupId?: string;
+  managedResourceGroupId?: string | undefined;
   /** The workspace's custom parameters. */
-  parameters?: WorkspaceCustomParameters;
+  parameters?: WorkspaceCustomParameters | undefined;
   /** The blob URI where the UI definition file is located. */
-  uiDefinitionUri?: string;
+  uiDefinitionUri?: string | undefined;
   /** The workspace provider authorizations. */
-  authorizations?: WorkspacePropertiesInputAuthorizationsList;
+  authorizations?: WorkspacePropertiesInputAuthorizationsList | undefined;
   /** Indicates the Object ID, PUID and Application ID of entity that created the workspace. */
-  createdBy?: AccessConnectorPropertiesInput;
+  createdBy?: AccessConnectorPropertiesInput | undefined;
   /** Indicates the Object ID, PUID and Application ID of entity that last updated the workspace. */
-  updatedBy?: AccessConnectorPropertiesInput;
+  updatedBy?: AccessConnectorPropertiesInput | undefined;
   /** The details of Managed Identity of Storage Account. Only returned in Hybrid ComputeMode workspace. */
-  storageAccountIdentity?: AccessConnectorPropertiesInput;
+  storageAccountIdentity?: AccessConnectorPropertiesInput | undefined;
   /** The details of Managed Identity of Disk Encryption Set used for Managed Disk Encryption. Only returned in Hybrid ComputeMode workspace. */
-  managedDiskIdentity?: AccessConnectorPropertiesInput;
+  managedDiskIdentity?: AccessConnectorPropertiesInput | undefined;
   /** Encryption properties for databricks workspace. Supported in both Serverless and Hybrid ComputeMode workspace. */
-  encryption?: WorkspacePropertiesEncryption;
+  encryption?: WorkspacePropertiesEncryption | undefined;
   /** Contains settings related to the Enhanced Security and Compliance Add-On. Supported in both Serverless and Hybrid ComputeMode workspace. */
-  enhancedSecurityCompliance?: EnhancedSecurityComplianceDefinition;
+  enhancedSecurityCompliance?: EnhancedSecurityComplianceDefinition | undefined;
   /** The network access type for accessing workspace. Set value to disabled to access workspace only via private link. Used to configure front-end only private link for Serverless ComputeMode workspace. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Gets or sets a value indicating whether data plane (clusters) to control plane communication happen over private endpoint. Supported values are 'AllRules' and 'NoAzureDatabricksRules'. 'NoAzureServiceRules' value is for internal use only. Not allowed in Serverless ComputeMode workspace. */
-  requiredNsgRules?: RequiredNsgRules | (string & {});
+  requiredNsgRules?: RequiredNsgRules | (string & {}) | undefined;
   /** Properties for Default Catalog configuration during workspace creation. Not allowed in Serverless ComputeMode workspace. */
-  defaultCatalog?: DefaultCatalogProperties;
+  defaultCatalog?: DefaultCatalogProperties | undefined;
   /** Access Connector Resource that is going to be associated with Databricks Workspace. Not allowed in Serverless ComputeMode workspace. */
-  accessConnector?: WorkspacePropertiesAccessConnector;
+  accessConnector?: WorkspacePropertiesAccessConnector | undefined;
   /** Gets or Sets Default Storage Firewall configuration information. Not allowed in Serverless ComputeMode workspace. */
-  defaultStorageFirewall?: DefaultStorageFirewall | (string & {});
+  defaultStorageFirewall?: DefaultStorageFirewall | (string & {}) | undefined;
 }
 export interface WorkspacesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1050,35 +1053,35 @@ export interface WorkspacesCreateOrUpdateRequest {
   /** The name of the workspace. */
   workspaceName: string;
   /** Resource tags. */
-  tags?: WorkspacesCreateOrUpdateRequestTagsMap;
+  tags?: WorkspacesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The workspace properties. */
   properties: WorkspacePropertiesInput;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface WorkspacesCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: WorkspacesCreateOrUpdateResponseTagsMap;
+  tags?: WorkspacesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The workspace properties. */
   properties: WorkspaceProperties;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AccessConnectorsCreateOrUpdateError = AzureOpError;
 /** Creates or updates Azure Databricks Access Connector. */

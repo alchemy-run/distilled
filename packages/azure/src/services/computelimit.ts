@@ -41,7 +41,7 @@ export interface CreateGuestSubscriptionRequest {
   /** The name of the GuestSubscription */
   guestSubscriptionId: string;
   /** The resource-specific properties for this resource. */
-  properties?: GuestSubscriptionPropertiesInput;
+  properties?: GuestSubscriptionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -50,36 +50,36 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The provisioning state of a resource type. */
 export type AzureResourceManagerResourceProvisioningState = "Succeeded" | "Failed" | "Canceled";
 /** Properties for guest subscription. */
 export interface GuestSubscriptionProperties {
   /** The provisioning state of the resource. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface CreateGuestSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: GuestSubscriptionProperties;
+  properties?: GuestSubscriptionProperties | undefined;
 }
 /** Properties of the compute shared limit. */
 export type SharedLimitPropertiesInput = GuestSubscriptionPropertiesInput;
@@ -91,37 +91,37 @@ export interface CreateSharedLimitRequest {
   /** The name of the SharedLimit */
   name: string;
   /** The resource-specific properties for this resource. */
-  properties?: GuestSubscriptionPropertiesInput;
+  properties?: GuestSubscriptionPropertiesInput | undefined;
 }
 /** Properties of the limit name. */
 export interface LimitName {
   /** The limit name. */
   value: string;
   /** The localized limit name. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Properties of the compute shared limit. */
 export interface SharedLimitProperties {
   /** The limit name properties. */
-  resourceName?: LimitName;
+  resourceName?: LimitName | undefined;
   /** The maximum permitted usage of the resource. */
-  limit?: number;
+  limit?: number | undefined;
   /** The quota units, such as Count. */
-  unit?: string;
+  unit?: string | undefined;
   /** The provisioning state of the resource. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface CreateSharedLimitResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SharedLimitProperties;
+  properties?: SharedLimitProperties | undefined;
 }
 export interface CreateTrustedHostSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -133,13 +133,13 @@ export interface CreateTrustedHostSubscriptionRequest {
 }
 export interface CreateTrustedHostSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface DeleteGuestSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -203,71 +203,71 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList;
+  operations?: OperationStatusResultOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type DisableFeatureResponseOperationsList = Array<OperationStatusResult>;
 export interface DisableFeatureResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: DisableFeatureResponseOperationsList;
+  operations?: DisableFeatureResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface EnableFeatureRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -277,33 +277,33 @@ export interface EnableFeatureRequest {
   /** The name of the Feature */
   featureName: string;
   /** The Service Tree identifier associated with this feature action. */
-  serviceTreeId?: string;
+  serviceTreeId?: string | undefined;
 }
 /** The operations list. */
 export type EnableFeatureResponseOperationsList = Array<OperationStatusResult>;
 export interface EnableFeatureResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: EnableFeatureResponseOperationsList;
+  operations?: EnableFeatureResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetFeatureRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -318,21 +318,21 @@ export type FeatureState = "Enabled" | "Disabled";
 /** Properties of the compute limit feature. */
 export interface FeatureProperties {
   /** The current state of the feature (for example, Enabled, Disabled). */
-  state?: FeatureState;
+  state?: FeatureState | undefined;
   /** The provisioning state of the resource. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface GetFeatureResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FeatureProperties;
+  properties?: FeatureProperties | undefined;
 }
 export interface GetGuestSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -344,15 +344,15 @@ export interface GetGuestSubscriptionRequest {
 }
 export interface GetGuestSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: GuestSubscriptionProperties;
+  properties?: GuestSubscriptionProperties | undefined;
 }
 export interface GetMemberCapOverrideRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -369,19 +369,19 @@ export interface MemberCapOverrideProperties {
   /** The cap value in count units for this member subscription. */
   cap: number;
   /** The provisioning state of the resource. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface GetMemberCapOverrideResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: MemberCapOverrideProperties;
+  properties?: MemberCapOverrideProperties | undefined;
 }
 export interface GetSharedLimitRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -393,15 +393,15 @@ export interface GetSharedLimitRequest {
 }
 export interface GetSharedLimitResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SharedLimitProperties;
+  properties?: SharedLimitProperties | undefined;
 }
 export interface GetSharedLimitCapRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -414,23 +414,23 @@ export interface GetSharedLimitCapRequest {
 /** Properties of a shared limit cap resource. */
 export interface SharedLimitCapProperties {
   /** The default member cap value (in count units). Set to a non-negative integer to apply a cap to all member subscriptions that do not have a per-member override. Omit the property to leave no default cap in effect. */
-  defaultMemberCap?: number;
+  defaultMemberCap?: number | undefined;
   /** Controls whether the service validates the aggregate cap against the group limit for the VM family. SUM(caps) is the sum of all per-member overrides' cap values plus `defaultMemberCap` multiplied by the number of member subscriptions without an override. When true, the service rejects any configuration where SUM(caps) exceeds the group limit. When false, SUM(caps) is permitted to exceed the group limit. Enabling this flag is rejected if the current configuration already breaches the group limit; reduce caps first, then enable. */
   isBoundedCap: boolean;
   /** The provisioning state of the resource. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface GetSharedLimitCapResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SharedLimitCapProperties;
+  properties?: SharedLimitCapProperties | undefined;
 }
 export interface GetTrustedHostSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -442,13 +442,13 @@ export interface GetTrustedHostSubscriptionRequest {
 }
 export interface GetTrustedHostSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface GetVmFamilyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -461,21 +461,21 @@ export interface GetVmFamilyRequest {
 /** Properties of a VM family resource. */
 export interface VmFamilyProperties {
   /** The category of the VM family (for example, GeneralPurpose, ComputeOptimized). */
-  category?: string;
+  category?: string | undefined;
   /** The provisioning state of the resource. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface GetVmFamilyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: VmFamilyProperties;
+  properties?: VmFamilyProperties | undefined;
 }
 export interface ListFeatureBySubscriptionLocationResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -486,15 +486,15 @@ export interface ListFeatureBySubscriptionLocationResourceRequest {
 /** Compute limit feature. */
 export interface Feature {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FeatureProperties;
+  properties?: FeatureProperties | undefined;
 }
 /** The Feature items on this page */
 export type FeatureListResultValueList = Array<Feature>;
@@ -503,7 +503,7 @@ export interface FeatureListResult {
   /** The Feature items on this page */
   value: FeatureListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGuestSubscriptionBySubscriptionLocationResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -514,15 +514,15 @@ export interface ListGuestSubscriptionBySubscriptionLocationResourceRequest {
 /** Guest subscription that consumes shared compute limits. */
 export interface GuestSubscription {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: GuestSubscriptionProperties;
+  properties?: GuestSubscriptionProperties | undefined;
 }
 /** The GuestSubscription items on this page */
 export type GuestSubscriptionListResultValueList = Array<GuestSubscription>;
@@ -531,7 +531,7 @@ export interface GuestSubscriptionListResult {
   /** The GuestSubscription items on this page */
   value: GuestSubscriptionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMemberCapOverrideByParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -544,15 +544,15 @@ export interface ListMemberCapOverrideByParentRequest {
 /** Member cap override as a standalone child resource of `SharedLimitCap`. Use this resource to read or modify a single member's cap without resending the entire `memberCapOverrides` array on the parent. */
 export interface MemberCapOverride {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: MemberCapOverrideProperties;
+  properties?: MemberCapOverrideProperties | undefined;
 }
 /** The MemberCapOverride items on this page */
 export type MemberCapOverrideListResultValueList = Array<MemberCapOverride>;
@@ -561,19 +561,19 @@ export interface MemberCapOverrideListResult {
   /** The MemberCapOverride items on this page */
   value: MemberCapOverrideListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -582,23 +582,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSharedLimitBySubscriptionLocationResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -609,15 +609,15 @@ export interface ListSharedLimitBySubscriptionLocationResourceRequest {
 /** Compute limits shared by the subscription. */
 export interface SharedLimit {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SharedLimitProperties;
+  properties?: SharedLimitProperties | undefined;
 }
 /** The SharedLimit items on this page */
 export type SharedLimitListResultValueList = Array<SharedLimit>;
@@ -626,7 +626,7 @@ export interface SharedLimitListResult {
   /** The SharedLimit items on this page */
   value: SharedLimitListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSharedLimitCapBySubscriptionLocationResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -637,15 +637,15 @@ export interface ListSharedLimitCapBySubscriptionLocationResourceRequest {
 /** Shared limit cap configuration for a VM family, owned by a host subscription and propagated to its member subscriptions. The same resource type is readable by host and member subscriptions, but write operations (PUT/DELETE) are scoped to the caller's subscription as the host. */
 export interface SharedLimitCap {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SharedLimitCapProperties;
+  properties?: SharedLimitCapProperties | undefined;
 }
 /** The SharedLimitCap items on this page */
 export type SharedLimitCapListResultValueList = Array<SharedLimitCap>;
@@ -654,7 +654,7 @@ export interface SharedLimitCapListResult {
   /** The SharedLimitCap items on this page */
   value: SharedLimitCapListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTrustedHostSubscriptionBySubscriptionLocationResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -665,13 +665,13 @@ export interface ListTrustedHostSubscriptionBySubscriptionLocationResourceReques
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** The TrustedHostSubscription items on this page */
 export type TrustedHostSubscriptionListResultValueList = Array<Resource>;
@@ -680,7 +680,7 @@ export interface TrustedHostSubscriptionListResult {
   /** The TrustedHostSubscription items on this page */
   value: TrustedHostSubscriptionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVmFamilyBySubscriptionLocationResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -688,20 +688,20 @@ export interface ListVmFamilyBySubscriptionLocationResourceRequest {
   /** The name of the Azure region. */
   location: string;
   /** The filter to apply to the list operation. Filter can be applied to the 'category' property. Example: $filter=category eq 'generalPurposeCategory'. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** VM family resource representing a virtual machine family and its category. */
 export interface VmFamily {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: VmFamilyProperties;
+  properties?: VmFamilyProperties | undefined;
 }
 /** The VmFamily items on this page */
 export type VmFamilyListResultValueList = Array<VmFamily>;
@@ -710,7 +710,7 @@ export interface VmFamilyListResult {
   /** The VmFamily items on this page */
   value: VmFamilyListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Properties of a per-member cap override. */
 export interface MemberCapOverridePropertiesInput {
@@ -727,19 +727,19 @@ export interface MemberCapOverridesCreateOrUpdateRequest {
   /** The name of the MemberCapOverride */
   memberSubscriptionId: string;
   /** The resource-specific properties for this resource. */
-  properties?: MemberCapOverridePropertiesInput;
+  properties?: MemberCapOverridePropertiesInput | undefined;
 }
 export interface MemberCapOverridesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: MemberCapOverrideProperties;
+  properties?: MemberCapOverrideProperties | undefined;
 }
 /** Per-member cap override. Pairs a member subscription with its cap value. */
 export interface MemberCap {
@@ -770,7 +770,7 @@ export interface SetMemberCapOverridesResult {
 /** Properties of a shared limit cap resource. */
 export interface SharedLimitCapPropertiesInput {
   /** The default member cap value (in count units). Set to a non-negative integer to apply a cap to all member subscriptions that do not have a per-member override. Omit the property to leave no default cap in effect. */
-  defaultMemberCap?: number;
+  defaultMemberCap?: number | undefined;
   /** Controls whether the service validates the aggregate cap against the group limit for the VM family. SUM(caps) is the sum of all per-member overrides' cap values plus `defaultMemberCap` multiplied by the number of member subscriptions without an override. When true, the service rejects any configuration where SUM(caps) exceeds the group limit. When false, SUM(caps) is permitted to exceed the group limit. Enabling this flag is rejected if the current configuration already breaches the group limit; reduce caps first, then enable. */
   isBoundedCap: boolean;
 }
@@ -782,19 +782,19 @@ export interface SharedLimitCapsCreateOrUpdateRequest {
   /** The name of the SharedLimitCap */
   vmFamilyName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SharedLimitCapPropertiesInput;
+  properties?: SharedLimitCapPropertiesInput | undefined;
 }
 export interface SharedLimitCapsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SharedLimitCapProperties;
+  properties?: SharedLimitCapProperties | undefined;
 }
 export type CreateGuestSubscriptionError = AzureOpError;
 /** Adds a subscription as a guest to consume the compute limits shared by the host subscription. */

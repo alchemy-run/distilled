@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ClerkProtocol -- hand-written.
  *
@@ -37,7 +38,8 @@ export type ClerkOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | ClerkParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Clerk operation. */
 export type ClerkOpContext = Credentials | HttpClient.HttpClient;

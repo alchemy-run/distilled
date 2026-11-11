@@ -1,0 +1,433 @@
+{
+  "description": "Disk operations the official TypeScript SDK (`disk` on npm, types from `@archildata/api-types`) calls but the published OpenAPI document omits: branches, allowed IPs, sandbox mounting, and write delegations. Shapes are copied from `@archildata/api-types@0.0.75`. Merged into the published spec by scripts/convert.ts; a path the published spec already has wins.",
+  "paths": {
+    "/api/disks/{id}/branches": {
+      "get": {
+        "operationId": "listBranches",
+        "summary": "List a disk's branches",
+        "description": "Lists every branch of the disk, including branches of branches, in no particular order.\n",
+        "tags": ["Disks"],
+        "parameters": [{ "$ref": "#/components/parameters/DiskId" }],
+        "responses": {
+          "200": {
+            "description": "Branches",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BranchListApiResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalError" }
+        }
+      },
+      "post": {
+        "operationId": "createBranch",
+        "summary": "Create a branch",
+        "description": "Creates an independent, writable fork of the disk that starts from a committed checkpoint. Writes on the branch don't affect its source. Fails with 409 when the branch name exists or the checkpoint is not committed yet, and 404 when the checkpoint or `from_branch` doesn't exist.\n",
+        "tags": ["Disks"],
+        "parameters": [
+          { "$ref": "#/components/parameters/DiskId" },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "description": "Makes retries of the same create return the first result.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateBranchRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Branch created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BranchApiResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": {
+            "description": "The branch exists, or the checkpoint is not committed yet",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/InternalError" }
+        }
+      }
+    },
+    "/api/disks/{id}/branches/{name}": {
+      "get": {
+        "operationId": "getBranch",
+        "summary": "Get a branch",
+        "tags": ["Disks"],
+        "parameters": [
+          { "$ref": "#/components/parameters/DiskId" },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": { "$ref": "#/components/schemas/BranchName" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Branch",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BranchApiResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalError" }
+        }
+      }
+    },
+    "/api/disks/{id}/allowed-ips": {
+      "get": {
+        "operationId": "getAllowedIps",
+        "summary": "Get a disk's allowed IPs",
+        "description": "IPv4 addresses and CIDR ranges allowed to mount the disk. An empty list allows any address.\n",
+        "tags": ["Disks"],
+        "parameters": [{ "$ref": "#/components/parameters/DiskId" }],
+        "responses": {
+          "200": {
+            "description": "Allowed IPs",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponse_AllowedIps" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalError" }
+        }
+      },
+      "put": {
+        "operationId": "setAllowedIps",
+        "summary": "Replace a disk's allowed IPs",
+        "tags": ["Disks"],
+        "parameters": [{ "$ref": "#/components/parameters/DiskId" }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SetAllowedIpsRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Allowed IPs updated",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponse_AllowedIps" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalError" }
+        }
+      }
+    },
+    "/api/disks/{id}/sandbox-mount": {
+      "get": {
+        "operationId": "getSandboxMount",
+        "summary": "Get whether sandboxes may mount a disk",
+        "tags": ["Disks"],
+        "parameters": [{ "$ref": "#/components/parameters/DiskId" }],
+        "responses": {
+          "200": {
+            "description": "Current sandbox mount setting",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponse_SandboxMount" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalError" }
+        }
+      },
+      "put": {
+        "operationId": "setSandboxMount",
+        "summary": "Set whether sandboxes may mount a disk",
+        "tags": ["Disks"],
+        "parameters": [{ "$ref": "#/components/parameters/DiskId" }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SetSandboxMountRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sandbox mount setting updated",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponse_SandboxMount" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalError" }
+        }
+      }
+    },
+    "/api/disks/{id}/delegations": {
+      "get": {
+        "operationId": "listDelegations",
+        "summary": "List a disk's write delegations",
+        "description": "Lists every delegation held on the disk. A delegation grants one client exclusive write access to an inode; it is identified by the (clientId, inodeId) pair. `isOrphaned` marks delegations held by clients no longer connected.\n",
+        "tags": ["Disks"],
+        "parameters": [{ "$ref": "#/components/parameters/DiskId" }],
+        "responses": {
+          "200": {
+            "description": "Delegations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponse_Delegations" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalError" }
+        }
+      }
+    },
+    "/api/disks/{id}/revoke-delegation": {
+      "post": {
+        "operationId": "revokeDelegation",
+        "summary": "Revoke a write delegation",
+        "description": "Forcibly reclaims write access from a client that is unreachable or crashed without checking its delegation in.\n",
+        "tags": ["Disks"],
+        "parameters": [{ "$ref": "#/components/parameters/DiskId" }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RevokeDelegationRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Delegation revoked",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponse_Message" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalError" }
+        }
+      }
+    }
+  },
+  "schemas": {
+    "BranchName": {
+      "type": "string",
+      "description": "Branch name, unique within the disk."
+    },
+    "CreateBranchRequest": {
+      "type": "object",
+      "required": ["branch_name", "from_checkpoint_name"],
+      "properties": {
+        "branch_name": { "$ref": "#/components/schemas/BranchName" },
+        "from_checkpoint_name": {
+          "type": "string",
+          "description": "Name of a committed checkpoint on the source, which is the root disk or `from_branch` when set."
+        },
+        "from_branch": {
+          "type": "string",
+          "description": "Name of the branch the checkpoint was taken on. Omit to use the root disk."
+        }
+      }
+    },
+    "BranchResponse": {
+      "type": "object",
+      "required": [
+        "root_filesystem_id",
+        "branch_name",
+        "filesystem_id",
+        "from_checkpoint_name",
+        "from_checkpoint_filesystem_id",
+        "created_at"
+      ],
+      "properties": {
+        "root_filesystem_id": {
+          "type": "string",
+          "description": "ID of the disk the branch belongs to."
+        },
+        "branch_name": { "$ref": "#/components/schemas/BranchName" },
+        "filesystem_id": {
+          "type": "string",
+          "description": "ID of the branch's own writable filesystem."
+        },
+        "from_checkpoint_name": {
+          "type": "string",
+          "description": "Name of the checkpoint the branch started from."
+        },
+        "from_checkpoint_filesystem_id": {
+          "type": "string",
+          "description": "ID of the filesystem the checkpoint was taken on: the disk ID for the root disk, or the source branch's `filesystem_id`."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the branch was created."
+        }
+      }
+    },
+    "BranchApiResponse": {
+      "type": "object",
+      "required": ["success", "data"],
+      "properties": {
+        "success": { "type": "boolean" },
+        "data": { "$ref": "#/components/schemas/BranchResponse" }
+      }
+    },
+    "BranchListApiResponse": {
+      "type": "object",
+      "required": ["success", "data"],
+      "properties": {
+        "success": { "type": "boolean" },
+        "data": {
+          "type": "array",
+          "items": { "$ref": "#/components/schemas/BranchResponse" }
+        }
+      }
+    },
+    "SetAllowedIpsRequest": {
+      "type": "object",
+      "required": ["allowedIps"],
+      "properties": {
+        "allowedIps": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "IPv4 addresses and CIDR ranges. An empty list allows any address."
+        }
+      }
+    },
+    "ApiResponse_AllowedIps": {
+      "type": "object",
+      "required": ["success", "data"],
+      "properties": {
+        "success": { "type": "boolean" },
+        "data": {
+          "type": "object",
+          "required": ["allowedIps"],
+          "properties": {
+            "allowedIps": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "SetSandboxMountRequest": {
+      "type": "object",
+      "required": ["allowSandboxMount"],
+      "properties": {
+        "allowSandboxMount": {
+          "type": "boolean",
+          "description": "Whether sandboxes and exec commands may mount the disk."
+        }
+      }
+    },
+    "ApiResponse_SandboxMount": {
+      "type": "object",
+      "required": ["success", "data"],
+      "properties": {
+        "success": { "type": "boolean" },
+        "data": {
+          "type": "object",
+          "required": ["allowSandboxMount"],
+          "properties": {
+            "allowSandboxMount": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "DelegationEntry": {
+      "type": "object",
+      "required": ["clientId", "inodeId", "isPending", "isOrphaned"],
+      "properties": {
+        "clientId": { "type": "string", "description": "ID of the client holding the delegation." },
+        "inodeId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Inode the delegation covers."
+        },
+        "path": {
+          "type": "string",
+          "description": "Path of the inode, resolved best-effort. Omitted when the server could not resolve it."
+        },
+        "isPending": {
+          "type": "boolean",
+          "description": "True while the checkout is still in flight."
+        },
+        "isOrphaned": {
+          "type": "boolean",
+          "description": "True when the holding client is no longer connected to the disk."
+        }
+      }
+    },
+    "ApiResponse_Delegations": {
+      "type": "object",
+      "required": ["success", "data"],
+      "properties": {
+        "success": { "type": "boolean" },
+        "data": {
+          "type": "object",
+          "required": ["delegations"],
+          "properties": {
+            "delegations": {
+              "type": "array",
+              "items": { "$ref": "#/components/schemas/DelegationEntry" }
+            }
+          }
+        }
+      }
+    },
+    "RevokeDelegationRequest": {
+      "type": "object",
+      "required": ["inodeId", "clientId"],
+      "properties": {
+        "inodeId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Inode the delegation covers."
+        },
+        "clientId": { "type": "string", "description": "ID of the client holding the delegation." }
+      }
+    }
+  }
+}

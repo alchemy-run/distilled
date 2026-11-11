@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Elastic",
   service: "Elastic",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -40,13 +41,13 @@ export interface AssociateTrafficFilterAssociateRequest {
   /** Monitor resource name */
   monitorName: string;
   /** Ruleset Id of the filter */
-  rulesetId?: string;
+  rulesetId?: string | undefined;
 }
 export interface AssociateTrafficFilterAssociateResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CreateCreateAndAssociateIPFilterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -56,15 +57,15 @@ export interface CreateCreateAndAssociateIPFilterRequest {
   /** Monitor resource name */
   monitorName: string;
   /** List of ips */
-  ips?: string;
+  ips?: string | undefined;
   /** Name of the traffic filter */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateCreateAndAssociateIPFilterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CreateCreateAndAssociatePLFilterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -74,17 +75,17 @@ export interface CreateCreateAndAssociatePLFilterRequest {
   /** Monitor resource name */
   monitorName: string;
   /** Name of the traffic filter */
-  name?: string;
+  name?: string | undefined;
   /** Guid of the private endpoint */
-  privateEndpointGuid?: string;
+  privateEndpointGuid?: string | undefined;
   /** Name of the private endpoint */
-  privateEndpointName?: string;
+  privateEndpointName?: string | undefined;
 }
 export interface CreateCreateAndAssociatePLFilterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateMonitorRequestTagsMap = { [key: string]: string | undefined };
@@ -97,48 +98,48 @@ export type ElasticCloudDeploymentInput = ElasticCloudUserInput;
 /** Elastic Resource Properties. */
 export interface ElasticPropertiesInput {
   /** Details of the user's elastic account. */
-  elasticCloudUser?: ElasticCloudUserInput;
+  elasticCloudUser?: ElasticCloudUserInput | undefined;
   /** Details of the elastic cloud deployment. */
-  elasticCloudDeployment?: ElasticCloudUserInput;
+  elasticCloudDeployment?: ElasticCloudUserInput | undefined;
 }
 /** Company information of the user to be passed to partners. */
 export interface CompanyInfo {
   /** Domain of the company */
-  domain?: string;
+  domain?: string | undefined;
   /** Business of the company */
-  business?: string;
+  business?: string | undefined;
   /** Number of employees in the company */
-  employeesNumber?: string;
+  employeesNumber?: string | undefined;
   /** State of the company location. */
-  state?: string;
+  state?: string | undefined;
   /** Country of the company location. */
-  country?: string;
+  country?: string | undefined;
 }
 /** User Information to be passed to partners. */
 export interface UserInfo {
   /** First name of the user */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Last name of the user */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Company name of the user */
-  companyName?: string;
+  companyName?: string | undefined;
   /** Email of the user used by Elastic for contacting them if needed */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
   /** Company information of the user to be passed to partners. */
-  companyInfo?: CompanyInfo;
+  companyInfo?: CompanyInfo | undefined;
 }
 /** Plan details of the monitor resource. */
 export interface PlanDetails {
   /** Offer ID of the plan */
-  offerID?: string;
+  offerID?: string | undefined;
   /** Publisher ID of the plan */
-  publisherID?: string;
+  publisherID?: string | undefined;
   /** Term ID of the plan */
-  termID?: string;
+  termID?: string | undefined;
   /** Plan ID */
-  planID?: string;
+  planID?: string | undefined;
   /** Plan Name */
-  planName?: string;
+  planName?: string | undefined;
 }
 /** Hosting type of the monitor resource - either Hosted deployments or Serverless Projects. */
 export type HostingType = "Hosted" | "Serverless";
@@ -149,36 +150,36 @@ export type ConfigurationType = "GeneralPurpose" | "Vector" | "TimeSeries" | "No
 /** Project details of the monitor resource IF it belongs to Serverless offer kind. */
 export interface ProjectDetails {
   /** Project type; ex: Elasticsearch / Observability / Security */
-  projectType?: ProjectType | (string & {});
+  projectType?: ProjectType | (string & {}) | undefined;
   /** Configuration type of the Elasticsearch project */
-  configurationType?: ConfigurationType | (string & {});
+  configurationType?: ConfigurationType | (string & {}) | undefined;
 }
 /** Properties specific to the monitor resource. */
 export interface MonitorPropertiesInput {
   /** Flag specifying if the resource monitoring is enabled or disabled. */
-  monitoringStatus?: MonitoringStatus | (string & {});
+  monitoringStatus?: MonitoringStatus | (string & {}) | undefined;
   /** Elastic cloud properties. */
-  elasticProperties?: ElasticPropertiesInput;
+  elasticProperties?: ElasticPropertiesInput | undefined;
   /** User information. */
-  userInfo?: UserInfo;
+  userInfo?: UserInfo | undefined;
   /** Plan details of the monitor resource. */
-  planDetails?: PlanDetails;
+  planDetails?: PlanDetails | undefined;
   /** Version of elastic of the monitor resource */
-  version?: string;
+  version?: string | undefined;
   /** State of the Azure Subscription containing the monitor resource */
-  subscriptionState?: string;
+  subscriptionState?: string | undefined;
   /** Status of Azure Subscription where Marketplace SaaS is located. */
-  saaSAzureSubscriptionStatus?: string;
+  saaSAzureSubscriptionStatus?: string | undefined;
   /** Name of the marketing campaign. */
-  sourceCampaignName?: string;
+  sourceCampaignName?: string | undefined;
   /** A unique identifier associated with the campaign. */
-  sourceCampaignId?: string;
+  sourceCampaignId?: string | undefined;
   /** Flag to determine if User API Key has to be generated and shared. */
-  generateApiKey?: boolean;
+  generateApiKey?: boolean | undefined;
   /** Hosting type of the monitor resource - either Hosted deployments OR Serverless Projects. */
-  hostingType?: HostingType | (string & {});
+  hostingType?: HostingType | (string & {}) | undefined;
   /** Project details of the monitor resource IF it belongs to Serverless offer kind. */
-  projectDetails?: ProjectDetails;
+  projectDetails?: ProjectDetails | undefined;
 }
 /** Represents the SKU of a resource. */
 export interface ResourceSku {
@@ -190,7 +191,7 @@ export type ManagedIdentityTypes = "SystemAssigned";
 /** Identity properties. */
 export interface IdentityPropertiesInput {
   /** Managed identity type. */
-  type?: ManagedIdentityTypes | (string & {});
+  type?: ManagedIdentityTypes | (string & {}) | undefined;
 }
 export interface CreateMonitorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -199,17 +200,17 @@ export interface CreateMonitorRequest {
   resourceGroupName: string;
   monitorName: string;
   /** Resource tags. */
-  tags?: CreateMonitorRequestTagsMap;
+  tags?: CreateMonitorRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the monitor resource. */
-  properties?: MonitorPropertiesInput;
+  properties?: MonitorPropertiesInput | undefined;
   /** The kind of the Elastic resource - observability, security, search etc. */
-  kind?: string;
+  kind?: string | undefined;
   /** SKU of the monitor resource. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Identity properties of the monitor resource. */
-  identity?: IdentityPropertiesInput;
+  identity?: IdentityPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -218,17 +219,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateMonitorResponseTagsMap = { [key: string]: string | undefined };
@@ -246,103 +247,103 @@ export type ProvisioningState =
 /** Details of the user's elastic account. */
 export interface ElasticCloudUser {
   /** Email of the Elastic User Account. */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
   /** User Id of the elastic account of the User. */
-  id?: string;
+  id?: string | undefined;
   /** Elastic cloud default dashboard sso URL of the Elastic user account. */
-  elasticCloudSsoDefaultUrl?: string;
+  elasticCloudSsoDefaultUrl?: string | undefined;
 }
 /** Details of the user's elastic deployment associated with the monitor resource. */
 export interface ElasticCloudDeployment {
   /** Elastic deployment name */
-  name?: string;
+  name?: string | undefined;
   /** Elastic deployment Id */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** Associated Azure subscription Id for the elastic deployment. */
-  azureSubscriptionId?: string;
+  azureSubscriptionId?: string | undefined;
   /** Region where Deployment at Elastic side took place. */
-  elasticsearchRegion?: string;
+  elasticsearchRegion?: string | undefined;
   /** Elasticsearch ingestion endpoint of the Elastic deployment. */
-  elasticsearchServiceUrl?: string;
+  elasticsearchServiceUrl?: string | undefined;
   /** Kibana endpoint of the Elastic deployment. */
-  kibanaServiceUrl?: string;
+  kibanaServiceUrl?: string | undefined;
   /** Kibana dashboard sso URL of the Elastic deployment. */
-  kibanaSsoUrl?: string;
+  kibanaSsoUrl?: string | undefined;
 }
 /** Elastic Resource Properties. */
 export interface ElasticProperties {
   /** Details of the user's elastic account. */
-  elasticCloudUser?: ElasticCloudUser;
+  elasticCloudUser?: ElasticCloudUser | undefined;
   /** Details of the elastic cloud deployment. */
-  elasticCloudDeployment?: ElasticCloudDeployment;
+  elasticCloudDeployment?: ElasticCloudDeployment | undefined;
 }
 export type LiftrResourceCategories = "Unknown" | "MonitorLogs";
 /** Properties specific to the monitor resource. */
 export interface MonitorProperties {
   /** Provisioning state of the monitor resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Flag specifying if the resource monitoring is enabled or disabled. */
-  monitoringStatus?: MonitoringStatus;
+  monitoringStatus?: MonitoringStatus | undefined;
   /** Elastic cloud properties. */
-  elasticProperties?: ElasticProperties;
+  elasticProperties?: ElasticProperties | undefined;
   /** User information. */
-  userInfo?: UserInfo;
+  userInfo?: UserInfo | undefined;
   /** Plan details of the monitor resource. */
-  planDetails?: PlanDetails;
+  planDetails?: PlanDetails | undefined;
   /** Version of elastic of the monitor resource */
-  version?: string;
+  version?: string | undefined;
   /** State of the Azure Subscription containing the monitor resource */
-  subscriptionState?: string;
+  subscriptionState?: string | undefined;
   /** Status of Azure Subscription where Marketplace SaaS is located. */
-  saaSAzureSubscriptionStatus?: string;
+  saaSAzureSubscriptionStatus?: string | undefined;
   /** Name of the marketing campaign. */
-  sourceCampaignName?: string;
+  sourceCampaignName?: string | undefined;
   /** A unique identifier associated with the campaign. */
-  sourceCampaignId?: string;
-  liftrResourceCategory?: LiftrResourceCategories;
+  sourceCampaignId?: string | undefined;
+  liftrResourceCategory?: LiftrResourceCategories | undefined;
   /** The priority of the resource. */
-  liftrResourcePreference?: number;
+  liftrResourcePreference?: number | undefined;
   /** Flag to determine if User API Key has to be generated and shared. */
-  generateApiKey?: boolean;
+  generateApiKey?: boolean | undefined;
   /** Hosting type of the monitor resource - either Hosted deployments OR Serverless Projects. */
-  hostingType?: HostingType;
+  hostingType?: HostingType | undefined;
   /** Project details of the monitor resource IF it belongs to Serverless offer kind. */
-  projectDetails?: ProjectDetails;
+  projectDetails?: ProjectDetails | undefined;
 }
 /** Identity properties. */
 export interface IdentityProperties {
   /** The identity ID. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Managed identity type. */
-  type?: ManagedIdentityTypes;
+  type?: ManagedIdentityTypes | undefined;
 }
 export interface CreateMonitorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateMonitorResponseTagsMap;
+  tags?: CreateMonitorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the monitor resource. */
-  properties?: MonitorProperties;
+  properties?: MonitorProperties | undefined;
   /** The kind of the Elastic resource - observability, security, search etc. */
-  kind?: string;
+  kind?: string | undefined;
   /** SKU of the monitor resource. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Identity properties of the monitor resource. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDetachAndDeleteTrafficFilterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -352,7 +353,7 @@ export interface DeleteDetachAndDeleteTrafficFilterRequest {
   /** Monitor resource name */
   monitorName: string;
   /** Ruleset Id of the filter */
-  rulesetId?: string;
+  rulesetId?: string | undefined;
 }
 export interface DeleteDetachAndDeleteTrafficFilterResponse {}
 export interface DeleteMonitorRequest {
@@ -365,9 +366,9 @@ export interface DeleteMonitorRequest {
 }
 export interface DeleteMonitorResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMonitoredSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -381,9 +382,9 @@ export interface DeleteMonitoredSubscriptionRequest {
 }
 export interface DeleteMonitoredSubscriptionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteOpenAIRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -408,9 +409,9 @@ export interface DeleteTagRuleRequest {
 }
 export interface DeleteTagRuleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteTrafficFilterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -420,7 +421,7 @@ export interface DeleteTrafficFilterRequest {
   /** Monitor resource name */
   monitorName: string;
   /** Ruleset Id of the filter */
-  rulesetId?: string;
+  rulesetId?: string | undefined;
 }
 export interface DeleteTrafficFilterResponse {}
 /** Roles to be assigned for created or updated user */
@@ -433,20 +434,20 @@ export interface ExternalUserCreateOrUpdateRequest {
   /** Monitor resource name */
   monitorName: string;
   /** Username of the user to be created or updated */
-  userName?: string;
+  userName?: string | undefined;
   /** Full name of the user to be created or updated */
-  fullName?: string;
+  fullName?: string | undefined;
   /** Password of the user to be created or updated */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Email id of the user to be created or updated */
-  emailId?: string;
+  emailId?: string | undefined;
   /** Roles to be assigned for created or updated user */
-  roles?: ExternalUserCreateOrUpdateRequestRolesList;
+  roles?: ExternalUserCreateOrUpdateRequestRolesList | undefined;
 }
 /** The properties of the response we got from elastic while creating external user */
 export interface ExternalUserCreationResponse {
   /** Shows if user is created or updated */
-  created?: boolean;
+  created?: boolean | undefined;
 }
 export interface GetBillingInfoRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -459,42 +460,42 @@ export interface GetBillingInfoRequest {
 /** Marketplace Subscription */
 export interface MarketplaceSaaSInfoMarketplaceSubscription {
   /** Marketplace Subscription Id. This is a GUID-formatted string. */
-  id?: string;
+  id?: string | undefined;
   /** Publisher Id of the Marketplace offer. */
-  publisherId?: string;
+  publisherId?: string | undefined;
   /** Offer Id of the Marketplace offer, */
-  offerId?: string;
+  offerId?: string | undefined;
 }
 /** Marketplace SAAS Info of the resource. */
 export interface MarketplaceSaaSInfo {
   /** Marketplace Subscription */
-  marketplaceSubscription?: MarketplaceSaaSInfoMarketplaceSubscription;
+  marketplaceSubscription?: MarketplaceSaaSInfoMarketplaceSubscription | undefined;
   /** Marketplace Subscription Details: SAAS Name */
-  marketplaceName?: string;
+  marketplaceName?: string | undefined;
   /** Marketplace Subscription Details: Resource URI */
-  marketplaceResourceId?: string;
+  marketplaceResourceId?: string | undefined;
   /** Marketplace Subscription Details: SaaS Subscription Status */
-  marketplaceStatus?: string;
+  marketplaceStatus?: string | undefined;
   /** The Azure Subscription ID to which the Marketplace Subscription belongs and gets billed into. */
-  billedAzureSubscriptionId?: string;
+  billedAzureSubscriptionId?: string | undefined;
   /** Flag specifying if the Marketplace status is subscribed or not. */
-  subscribed?: boolean;
+  subscribed?: boolean | undefined;
 }
 /** Partner Billing details associated with the resource. */
 export interface PartnerBillingEntity {
   /** The Elastic Organization Id. */
-  id?: string;
+  id?: string | undefined;
   /** The Elastic Organization Name. */
-  name?: string;
+  name?: string | undefined;
   /** Link to the elastic organization page */
-  partnerEntityUri?: string;
+  partnerEntityUri?: string | undefined;
 }
 /** Marketplace Subscription and Organization details to which resource gets billed into. */
 export interface BillingInfoResponse {
   /** Marketplace Subscription details */
-  marketplaceSaasInfo?: MarketplaceSaaSInfo;
+  marketplaceSaasInfo?: MarketplaceSaaSInfo | undefined;
   /** Partner Billing Entity details: Organization Info */
-  partnerBillingEntity?: PartnerBillingEntity;
+  partnerBillingEntity?: PartnerBillingEntity | undefined;
 }
 export interface GetMonitorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -508,25 +509,25 @@ export interface GetMonitorRequest {
 export type GetMonitorResponseTagsMap = { [key: string]: string | undefined };
 export interface GetMonitorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetMonitorResponseTagsMap;
+  tags?: GetMonitorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the monitor resource. */
-  properties?: MonitorProperties;
+  properties?: MonitorProperties | undefined;
   /** The kind of the Elastic resource - observability, security, search etc. */
-  kind?: string;
+  kind?: string | undefined;
   /** SKU of the monitor resource. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Identity properties of the monitor resource. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
 }
 export interface GetMonitoredSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -547,65 +548,65 @@ export type TagAction = "Include" | "Exclude";
 /** The definition of a filtering tag. Filtering tags are used for capturing resources and include/exclude them from being monitored. */
 export interface FilteringTag {
   /** The name (also known as the key) of the tag. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the tag. */
-  value?: string;
+  value?: string | undefined;
   /** Valid actions for a filtering tag. */
-  action?: TagAction | (string & {});
+  action?: TagAction | (string & {}) | undefined;
 }
 /** List of filtering tags to be used for capturing logs. This only takes effect if SendActivityLogs flag is enabled. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
 export type LogRulesFilteringTagsList = Array<FilteringTag>;
 /** Set of rules for sending logs for the Monitor resource. */
 export interface LogRules {
   /** Flag specifying if AAD logs should be sent for the Monitor resource. */
-  sendAadLogs?: boolean;
+  sendAadLogs?: boolean | undefined;
   /** Flag specifying if subscription logs should be sent for the Monitor resource. */
-  sendSubscriptionLogs?: boolean;
+  sendSubscriptionLogs?: boolean | undefined;
   /** Flag specifying if activity logs from Azure resources should be sent for the Monitor resource. */
-  sendActivityLogs?: boolean;
+  sendActivityLogs?: boolean | undefined;
   /** List of filtering tags to be used for capturing logs. This only takes effect if SendActivityLogs flag is enabled. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
-  filteringTags?: LogRulesFilteringTagsList;
+  filteringTags?: LogRulesFilteringTagsList | undefined;
 }
 /** Definition of the properties for a TagRules resource. */
 export interface MonitoringTagRulesProperties {
   /** Provisioning state of the monitoring tag rules. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** Rules for sending logs. */
-  logRules?: LogRules;
+  logRules?: LogRules | undefined;
 }
 /** The list of subscriptions and it's monitoring status by current Elastic monitor. */
 export interface MonitoredSubscription {
   /** The subscriptionId to be monitored. */
   subscriptionId: string;
   /** The state of monitoring. */
-  status?: Status | (string & {});
+  status?: Status | (string & {}) | undefined;
   /** The reason of not monitoring the subscription. */
-  error?: string;
+  error?: string | undefined;
   /** Definition of the properties for a TagRules resource. */
-  tagRules?: MonitoringTagRulesProperties;
+  tagRules?: MonitoringTagRulesProperties | undefined;
 }
 /** List of subscriptions and the state of the monitoring. */
 export type SubscriptionListMonitoredSubscriptionListList = Array<MonitoredSubscription>;
 /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
 export interface SubscriptionList {
   /** The operation for the patch on the resource. */
-  operation?: Operation | (string & {});
+  operation?: Operation | (string & {}) | undefined;
   /** List of subscriptions and the state of the monitoring. */
-  monitoredSubscriptionList?: SubscriptionListMonitoredSubscriptionListList;
+  monitoredSubscriptionList?: SubscriptionListMonitoredSubscriptionListList | undefined;
   /** Provisioning State of the resource */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 export interface GetMonitoredSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
-  properties?: SubscriptionList;
+  properties?: SubscriptionList | undefined;
 }
 export interface GetOpenAIRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -620,27 +621,27 @@ export interface GetOpenAIRequest {
 /** Open AI Integration details. */
 export interface OpenAIIntegrationProperties {
   /** The resource name of Open AI resource */
-  openAIResourceId?: string;
+  openAIResourceId?: string | undefined;
   /** The API endpoint for Open AI resource */
-  openAIResourceEndpoint?: string;
+  openAIResourceEndpoint?: string | undefined;
   /** The connector id of Open AI resource */
-  openAIConnectorId?: string;
+  openAIConnectorId?: string | undefined;
   /** Value of API key for Open AI resource */
-  key?: string;
+  key?: string | undefined;
   /** Last Update Timestamp for key updation */
-  lastRefreshAt?: string;
+  lastRefreshAt?: string | undefined;
 }
 export interface GetOpenAIResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Open AI Integration details. */
-  properties?: OpenAIIntegrationProperties;
+  properties?: OpenAIIntegrationProperties | undefined;
 }
 export interface GetOpenAIStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -655,26 +656,26 @@ export interface GetOpenAIStatusRequest {
 /** Status of the OpenAI Integration */
 export interface OpenAIIntegrationStatusResponseProperties {
   /** Status of the OpenAI Integration */
-  status?: string;
+  status?: string | undefined;
 }
 /** Status of the OpenAI Integration */
 export interface OpenAIIntegrationStatusResponse {
   /** Status of the OpenAI Integration */
-  properties?: OpenAIIntegrationStatusResponseProperties;
+  properties?: OpenAIIntegrationStatusResponseProperties | undefined;
 }
 export interface GetOrganizationApiKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The User email Id */
-  emailId?: string;
+  emailId?: string | undefined;
 }
 export interface UserApiKeyResponseProperties {
   /** The User Api Key Generated based on GenerateApiKey flag. This is applicable for non-Portal clients only. */
-  apiKey?: string | Redacted.Redacted<string>;
+  apiKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** The User Api Key created for the Organization associated with the User Email Id that was passed in the request */
 export interface UserApiKeyResponse {
-  properties?: UserApiKeyResponseProperties;
+  properties?: UserApiKeyResponseProperties | undefined;
 }
 export interface GetOrganizationElasticToAzureSubscriptionMappingRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -683,18 +684,18 @@ export interface GetOrganizationElasticToAzureSubscriptionMappingRequest {
 /** The properties of Azure Subscription ID to which the Organization of the logged in user belongs and gets billed into. */
 export interface ElasticOrganizationToAzureSubscriptionMappingResponseProperties {
   /** The Azure Subscription ID to which the Organization belongs and gets billed into. This is empty for a new user OR a user without an Elastic Organization. */
-  billedAzureSubscriptionId?: string;
+  billedAzureSubscriptionId?: string | undefined;
   /** Marketplace SaaS Info of the resource. */
-  marketplaceSaasInfo?: MarketplaceSaaSInfo;
+  marketplaceSaasInfo?: MarketplaceSaaSInfo | undefined;
   /** The Elastic Organization Id. */
-  elasticOrganizationId?: string;
+  elasticOrganizationId?: string | undefined;
   /** The Elastic Organization Name. */
-  elasticOrganizationName?: string;
+  elasticOrganizationName?: string | undefined;
 }
 /** The Azure Subscription ID to which the Organization of the logged in user belongs and gets billed into. */
 export interface ElasticOrganizationToAzureSubscriptionMappingResponse {
   /** The properties of Azure Subscription ID to which the Organization of the logged in user belongs and gets billed into. */
-  properties?: ElasticOrganizationToAzureSubscriptionMappingResponseProperties;
+  properties?: ElasticOrganizationToAzureSubscriptionMappingResponseProperties | undefined;
 }
 export interface GetTagRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -708,15 +709,15 @@ export interface GetTagRuleRequest {
 }
 export interface GetTagRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the monitoring tag rules. */
-  properties?: MonitoringTagRulesProperties;
+  properties?: MonitoringTagRulesProperties | undefined;
 }
 export interface ListAllTrafficFiltersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -731,41 +732,41 @@ export type Type = "ip" | "azure_private_endpoint";
 /** Elastic traffic filter rule object */
 export interface ElasticTrafficFilterRule {
   /** IP of the elastic filter rule */
-  source?: string;
+  source?: string | undefined;
   /** Description of the elastic filter rule */
-  description?: string;
+  description?: string | undefined;
   /** Guid of Private Endpoint in the elastic filter rule */
-  azureEndpointGuid?: string;
+  azureEndpointGuid?: string | undefined;
   /** Name of the Private Endpoint in the elastic filter rule */
-  azureEndpointName?: string;
+  azureEndpointName?: string | undefined;
   /** Id of the elastic filter rule */
-  id?: string;
+  id?: string | undefined;
 }
 /** Rules in the elastic filter */
 export type ElasticTrafficFilterRulesList = Array<ElasticTrafficFilterRule>;
 /** Elastic traffic filter object */
 export interface ElasticTrafficFilter {
   /** Id of the elastic filter */
-  id?: string;
+  id?: string | undefined;
   /** Name of the elastic filter */
-  name?: string;
+  name?: string | undefined;
   /** Description of the elastic filter */
-  description?: string;
+  description?: string | undefined;
   /** Region of the elastic filter */
-  region?: string;
+  region?: string | undefined;
   /** Type of the elastic filter */
-  type?: Type;
+  type?: Type | undefined;
   /** IncludeByDefault for the elastic filter */
-  includeByDefault?: boolean;
+  includeByDefault?: boolean | undefined;
   /** Rules in the elastic filter */
-  rules?: ElasticTrafficFilterRulesList;
+  rules?: ElasticTrafficFilterRulesList | undefined;
 }
 /** List of elastic traffic filters in the account */
 export type ElasticTrafficFilterResponseRulesetsList = Array<ElasticTrafficFilter>;
 /** List of elastic traffic filters in the account */
 export interface ElasticTrafficFilterResponse {
   /** List of elastic traffic filters in the account */
-  rulesets?: ElasticTrafficFilterResponseRulesetsList;
+  rulesets?: ElasticTrafficFilterResponseRulesetsList | undefined;
 }
 export interface ListConnectedPartnerResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -778,20 +779,20 @@ export interface ListConnectedPartnerResourcesRequest {
 /** Connected Partner Resource Properties */
 export interface ConnectedPartnerResourceProperties {
   /** Elastic resource name */
-  partnerDeploymentName?: string;
+  partnerDeploymentName?: string | undefined;
   /** URL of the resource in Elastic cloud. */
-  partnerDeploymentUri?: string;
+  partnerDeploymentUri?: string | undefined;
   /** The azure resource Id of the resource. */
-  azureResourceId?: string;
+  azureResourceId?: string | undefined;
   /** The location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The hosting type of the resource. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Connected Partner Resources List Format */
 export interface ConnectedPartnerResourcesListFormat {
   /** Connected Partner Resource Properties */
-  properties?: ConnectedPartnerResourceProperties;
+  properties?: ConnectedPartnerResourceProperties | undefined;
 }
 /** The ConnectedPartnerResourcesListFormat items on this page */
 export type ConnectedPartnerResourcesListResponseValueList =
@@ -801,7 +802,7 @@ export interface ConnectedPartnerResourcesListResponse {
   /** The ConnectedPartnerResourcesListFormat items on this page */
   value: ConnectedPartnerResourcesListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentInfoRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -816,23 +817,23 @@ export type ElasticDeploymentStatus = "Healthy" | "Unhealthy";
 /** The properties of deployment in Elastic cloud corresponding to the Elastic monitor resource. */
 export interface DeploymentInfoResponse {
   /** The Elastic deployment status. */
-  status?: ElasticDeploymentStatus;
+  status?: ElasticDeploymentStatus | undefined;
   /** Version of the elasticsearch in Elastic cloud deployment. */
-  version?: string;
+  version?: string | undefined;
   /** RAM capacity of the elasticsearch in Elastic cloud deployment. */
-  memoryCapacity?: string;
+  memoryCapacity?: string | undefined;
   /** Disk capacity of the elasticsearch in Elastic cloud deployment. */
-  diskCapacity?: string;
+  diskCapacity?: string | undefined;
   /** Elasticsearch endpoint in Elastic cloud deployment. This is either the aliased_endpoint if available, or the service_url otherwise. */
-  elasticsearchEndPoint?: string;
+  elasticsearchEndPoint?: string | undefined;
   /** Deployment URL of the elasticsearch in Elastic cloud deployment. */
-  deploymentUrl?: string;
+  deploymentUrl?: string | undefined;
   /** Marketplace SaaS Info of the resource. */
-  marketplaceSaasInfo?: MarketplaceSaaSInfo;
+  marketplaceSaasInfo?: MarketplaceSaaSInfo | undefined;
   /** Project Type - Applicable for Serverless only. */
-  projectType?: string;
+  projectType?: string | undefined;
   /** ConfigurationType Type - Applicable for Serverless only. */
-  configurationType?: string;
+  configurationType?: string | undefined;
 }
 export interface ListElasticVersionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -843,12 +844,12 @@ export interface ListElasticVersionsRequest {
 /** Elastic Version Properties */
 export interface ElasticVersionListProperties {
   /** Available elastic version of the given region */
-  version?: string;
+  version?: string | undefined;
 }
 /** Elastic Version List Format */
 export interface ElasticVersionListFormat {
   /** Elastic Version Properties */
-  properties?: ElasticVersionListProperties;
+  properties?: ElasticVersionListProperties | undefined;
 }
 /** The ElasticVersionListFormat items on this page */
 export type ElasticVersionsListResponseValueList = Array<ElasticVersionListFormat>;
@@ -857,7 +858,7 @@ export interface ElasticVersionsListResponse {
   /** The ElasticVersionListFormat items on this page */
   value: ElasticVersionsListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListListAssociatedTrafficFiltersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -878,25 +879,25 @@ export type ElasticMonitorResourceTagsMap = { [key: string]: string | undefined 
 /** Monitor resource. */
 export interface ElasticMonitorResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ElasticMonitorResourceTagsMap;
+  tags?: ElasticMonitorResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the monitor resource. */
-  properties?: MonitorProperties;
+  properties?: MonitorProperties | undefined;
   /** The kind of the Elastic resource - observability, security, search etc. */
-  kind?: string;
+  kind?: string | undefined;
   /** SKU of the monitor resource. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Identity properties of the monitor resource. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
 }
 /** The ElasticMonitorResource items on this page */
 export type ElasticMonitorResourceListResponseValueList = Array<ElasticMonitorResource>;
@@ -905,7 +906,7 @@ export interface ElasticMonitorResourceListResponse {
   /** The ElasticMonitorResource items on this page */
   value: ElasticMonitorResourceListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMonitoredResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -920,11 +921,11 @@ export type SendingLogs = "True" | "False";
 /** The properties of a resource currently being monitored by the Elastic monitor resource. */
 export interface MonitoredResource {
   /** The ARM id of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Flag indicating the status of the resource for sending logs operation to Elastic. */
-  sendingLogs?: SendingLogs;
+  sendingLogs?: SendingLogs | undefined;
   /** Reason for why the resource is sending logs (or why it is not sending). */
-  reasonForLogsStatus?: string;
+  reasonForLogsStatus?: string | undefined;
 }
 /** The MonitoredResource items on this page */
 export type MonitoredResourceListResponseValueList = Array<MonitoredResource>;
@@ -933,7 +934,7 @@ export interface MonitoredResourceListResponse {
   /** The MonitoredResource items on this page */
   value: MonitoredResourceListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMonitoredSubscriptionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -946,15 +947,15 @@ export interface ListMonitoredSubscriptionsRequest {
 /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
 export interface MonitoredSubscriptionProperties {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
-  properties?: SubscriptionList;
+  properties?: SubscriptionList | undefined;
 }
 /** The MonitoredSubscriptionProperties items on this page */
 export type MonitoredSubscriptionPropertiesListValueList = Array<MonitoredSubscriptionProperties>;
@@ -963,7 +964,7 @@ export interface MonitoredSubscriptionPropertiesList {
   /** The MonitoredSubscriptionProperties items on this page */
   value: MonitoredSubscriptionPropertiesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMonitorsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -980,15 +981,15 @@ export interface ListOpenAIRequest {
 /** Capture properties of Open AI resource Integration. */
 export interface OpenAIIntegrationRPModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Open AI Integration details. */
-  properties?: OpenAIIntegrationProperties;
+  properties?: OpenAIIntegrationProperties | undefined;
 }
 /** The OpenAIIntegrationRPModel items on this page */
 export type OpenAIIntegrationRPModelListResponseValueList = Array<OpenAIIntegrationRPModel>;
@@ -997,30 +998,30 @@ export interface OpenAIIntegrationRPModelListResponse {
   /** The OpenAIIntegrationRPModel items on this page */
   value: OpenAIIntegrationRPModelListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Represents the display information for an operation. */
 export interface OperationDisplay {
   /** The service provider of the operation. */
-  provider?: string;
+  provider?: string | undefined;
   /** The resource type of the operation. */
-  resource?: string;
+  resource?: string | undefined;
   /** The name of the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** A description of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** A Microsoft.Elastic REST API operation. */
 export interface OperationResult {
   /** Operation name, i.e., {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** The list of operations. */
 export type OperationListResultValueList = Array<OperationResult>;
@@ -1029,7 +1030,7 @@ export interface OperationListResult {
   /** The list of operations. */
   value: OperationListResultValueList;
   /** The URL to get the next set of results, if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTagRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1042,15 +1043,15 @@ export interface ListTagRulesRequest {
 /** Capture logs and metrics of Azure resources based on ARM tags. */
 export interface MonitoringTagRules {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the monitoring tag rules. */
-  properties?: MonitoringTagRulesProperties;
+  properties?: MonitoringTagRulesProperties | undefined;
 }
 /** The MonitoringTagRules items on this page */
 export type MonitoringTagRulesListResponseValueList = Array<MonitoringTagRules>;
@@ -1059,7 +1060,7 @@ export interface MonitoringTagRulesListResponse {
   /** The MonitoringTagRules items on this page */
   value: MonitoringTagRulesListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVMHostRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1072,7 +1073,7 @@ export interface ListVMHostRequest {
 /** The vm resource properties that is currently being monitored by the Elastic monitor resource. */
 export interface VMResources {
   /** The ARM id of the VM resource. */
-  vmResourceId?: string;
+  vmResourceId?: string | undefined;
 }
 /** The VMResources items on this page */
 export type VMHostListResponseValueList = Array<VMResources>;
@@ -1081,7 +1082,7 @@ export interface VMHostListResponse {
   /** The VMResources items on this page */
   value: VMHostListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface MonitorUpgradeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1091,24 +1092,24 @@ export interface MonitorUpgradeRequest {
   /** Monitor resource name */
   monitorName: string;
   /** Version to which the elastic monitor should be upgraded to */
-  version?: string;
+  version?: string | undefined;
 }
 export interface MonitorUpgradeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Open AI Integration details. */
 export interface OpenAIIntegrationPropertiesInput {
   /** The resource name of Open AI resource */
-  openAIResourceId?: string;
+  openAIResourceId?: string | undefined;
   /** The API endpoint for Open AI resource */
-  openAIResourceEndpoint?: string;
+  openAIResourceEndpoint?: string | undefined;
   /** The connector id of Open AI resource */
-  openAIConnectorId?: string;
+  openAIConnectorId?: string | undefined;
   /** Value of API key for Open AI resource */
-  key?: string;
+  key?: string | undefined;
 }
 export interface OpenAICreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1118,19 +1119,19 @@ export interface OpenAICreateOrUpdateRequest {
   monitorName: string;
   integrationName: string;
   /** Open AI Integration details. */
-  properties?: OpenAIIntegrationPropertiesInput;
+  properties?: OpenAIIntegrationPropertiesInput | undefined;
 }
 export interface OpenAICreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Open AI Integration details. */
-  properties?: OpenAIIntegrationProperties;
+  properties?: OpenAIIntegrationProperties | undefined;
 }
 export interface OrganizationsResubscribeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1140,41 +1141,41 @@ export interface OrganizationsResubscribeRequest {
   /** Monitor resource name */
   monitorName: string;
   /** Newly selected plan Id to create the new Marketplace subscription for Resubscribe */
-  planId?: string;
+  planId?: string | undefined;
   /** Newly selected term to create the new Marketplace subscription for Resubscribe */
-  term?: string;
+  term?: string | undefined;
   /** Newly selected Azure resource group in which the new Marketplace subscription will be created for Resubscribe */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** Organization Id of the Elastic Organization that needs to be resubscribed */
-  organizationId?: string;
+  organizationId?: string | undefined;
 }
 /** Resource tags. */
 export type OrganizationsResubscribeResponseTagsMap = { [key: string]: string | undefined };
 export interface OrganizationsResubscribeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: OrganizationsResubscribeResponseTagsMap;
+  tags?: OrganizationsResubscribeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the monitor resource. */
-  properties?: MonitorProperties;
+  properties?: MonitorProperties | undefined;
   /** The kind of the Elastic resource - observability, security, search etc. */
-  kind?: string;
+  kind?: string | undefined;
   /** SKU of the monitor resource. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Identity properties of the monitor resource. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface TagRulesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1184,19 +1185,19 @@ export interface TagRulesCreateOrUpdateRequest {
   monitorName: string;
   ruleSetName: string;
   /** Properties of the monitoring tag rules. */
-  properties?: MonitoringTagRulesProperties;
+  properties?: MonitoringTagRulesProperties | undefined;
 }
 export interface TagRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the monitoring tag rules. */
-  properties?: MonitoringTagRulesProperties;
+  properties?: MonitoringTagRulesProperties | undefined;
 }
 export interface UpdateDetachTrafficFilterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1206,13 +1207,13 @@ export interface UpdateDetachTrafficFilterRequest {
   /** Monitor resource name */
   monitorName: string;
   /** Ruleset Id of the filter */
-  rulesetId?: string;
+  rulesetId?: string | undefined;
 }
 export interface UpdateDetachTrafficFilterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** elastic monitor resource tags. */
 export type UpdateMonitorRequestTagsMap = { [key: string]: string | undefined };
@@ -1223,33 +1224,33 @@ export interface UpdateMonitorRequest {
   resourceGroupName: string;
   monitorName: string;
   /** elastic monitor resource tags. */
-  tags?: UpdateMonitorRequestTagsMap;
+  tags?: UpdateMonitorRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateMonitorResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateMonitorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateMonitorResponseTagsMap;
+  tags?: UpdateMonitorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the monitor resource. */
-  properties?: MonitorProperties;
+  properties?: MonitorProperties | undefined;
   /** The kind of the Elastic resource - observability, security, search etc. */
-  kind?: string;
+  kind?: string | undefined;
   /** SKU of the monitor resource. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Identity properties of the monitor resource. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface UpdateMonitoredSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1259,23 +1260,23 @@ export interface UpdateMonitoredSubscriptionRequest {
   monitorName: string;
   configurationName: string;
   /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
-  properties?: SubscriptionList;
+  properties?: SubscriptionList | undefined;
 }
 export interface UpdateMonitoredSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
-  properties?: SubscriptionList;
+  properties?: SubscriptionList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateMonitoredSubscriptionsCreateorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1285,23 +1286,23 @@ export interface UpdateMonitoredSubscriptionsCreateorRequest {
   monitorName: string;
   configurationName: string;
   /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
-  properties?: SubscriptionList;
+  properties?: SubscriptionList | undefined;
 }
 export interface UpdateMonitoredSubscriptionsCreateorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
-  properties?: SubscriptionList;
+  properties?: SubscriptionList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Operation to be performed on the given vm resource id. */
 export type OperationName = "Add" | "Delete";
@@ -1313,9 +1314,9 @@ export interface UpdateVMCollectionRequest {
   /** Monitor resource name */
   monitorName: string;
   /** ARM id of the VM resource. */
-  vmResourceId?: string;
+  vmResourceId?: string | undefined;
   /** Operation to be performed for given VM. */
-  operationName?: OperationName | (string & {});
+  operationName?: OperationName | (string & {}) | undefined;
 }
 export interface UpdateVMCollectionResponse {}
 export interface UpgradableVersionsDetailsRequest {
@@ -1331,9 +1332,9 @@ export type UpgradableVersionsListUpgradableVersionsList = Array<string>;
 /** Stack Versions that this version can upgrade to */
 export interface UpgradableVersionsList {
   /** Current version of the elastic monitor */
-  currentVersion?: string;
+  currentVersion?: string | undefined;
   /** Stack Versions that this version can upgrade to */
-  upgradableVersions?: UpgradableVersionsListUpgradableVersionsList;
+  upgradableVersions?: UpgradableVersionsListUpgradableVersionsList | undefined;
 }
 export interface VMIngestionDetailsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1346,9 +1347,9 @@ export interface VMIngestionDetailsRequest {
 /** The vm ingestion details to install an agent. */
 export interface VMIngestionDetailsResponse {
   /** The cloudId of given Elastic monitor resource. */
-  cloudId?: string;
+  cloudId?: string | undefined;
   /** Ingestion details to install agent on given VM. */
-  ingestionKey?: string;
+  ingestionKey?: string | undefined;
 }
 export type AssociateTrafficFilterAssociateError = AzureOpError;
 /** Associate a traffic filter with your Elastic monitor resource to control and manage network traffic. */

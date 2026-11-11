@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -146,8 +147,8 @@ export type CompletionStatus = "ready" | "failed" | (string & {});
 export interface CompleteRolloutRequest {
   JobArn: string;
   TrajectoryId: string;
-  Status?: CompletionStatus;
-  ClientToken?: string;
+  Status?: CompletionStatus | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CompleteRolloutResponse {}
 export interface SampleRequest {
@@ -156,7 +157,7 @@ export interface SampleRequest {
   Body: T.StreamingInputBody;
 }
 export interface SampleResponse {
-  ContentType?: string;
+  ContentType?: string | undefined;
   Body: T.StreamingOutputBody;
 }
 export interface SampleWithResponseStreamRequest {
@@ -165,7 +166,7 @@ export interface SampleWithResponseStreamRequest {
   Body: T.StreamingInputBody;
 }
 export interface SampleWithResponseStreamResponse {
-  ContentType?: string;
+  ContentType?: string | undefined;
   Body: T.StreamingOutputBody;
 }
 export type DoubleList = number[];
@@ -173,7 +174,7 @@ export interface UpdateRewardRequest {
   JobArn: string;
   TrajectoryId: string;
   Rewards: number[];
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface UpdateRewardResponse {}
 export type FailureReason = string;
@@ -192,7 +193,7 @@ export type CompleteRolloutError =
  * eligible for reward submission via the UpdateReward operation.
  */
 export const completeRollout: API.OperationMethod<
-  CompleteRolloutRequest,
+  CompleteRolloutRequest & RegionInput,
   CompleteRolloutResponse,
   CompleteRolloutError,
   Credentials | HttpClient.HttpClient
@@ -229,7 +230,7 @@ export type SampleError =
  * Each turn (prompt and response) is captured for later use.
  */
 export const sample: API.OperationMethod<
-  SampleRequest,
+  SampleRequest & RegionInput,
   SampleResponse,
   SampleError,
   Credentials | HttpClient.HttpClient
@@ -265,7 +266,7 @@ export type SampleWithResponseStreamError =
  * for later use.
  */
 export const sampleWithResponseStream: API.OperationMethod<
-  SampleWithResponseStreamRequest,
+  SampleWithResponseStreamRequest & RegionInput,
   SampleWithResponseStreamResponse,
   SampleWithResponseStreamError,
   Credentials | HttpClient.HttpClient
@@ -302,7 +303,7 @@ export type UpdateRewardError =
  * operation after CompleteRollout to provide the computed reward scores.
  */
 export const updateReward: API.OperationMethod<
-  UpdateRewardRequest,
+  UpdateRewardRequest & RegionInput,
   UpdateRewardResponse,
   UpdateRewardError,
   Credentials | HttpClient.HttpClient

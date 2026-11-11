@@ -36,15 +36,15 @@ export interface CreateCertificateRequest {
   /** Name of the Certificate. */
   name: string;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreateCertificateRequestLabelsMap;
+  labels?: CreateCertificateRequestLabelsMap | undefined;
   /** Choose between uploading a Certificate in PEM format or requesting a managed *Let's Encrypt* Certificate. */
-  type?: CreateCertificateRequestType | (string & {});
+  type?: CreateCertificateRequestType | (string & {}) | undefined;
   /** Certificate and chain in PEM format, in order so that each record directly certifies the one preceding. Required for type `uploaded` Certificates. */
-  certificate?: string;
+  certificate?: string | undefined;
   /** Certificate key in PEM format. Required for type `uploaded` Certificates. */
-  private_key?: string | Redacted.Redacted<string>;
+  private_key?: string | Redacted.Redacted<string> | undefined;
   /** Domains and subdomains that should be contained in the Certificate issued by *Let's Encrypt*. Required for type `managed` Certificates. */
-  domain_names?: CreateCertificateRequestDomainNamesList;
+  domain_names?: CreateCertificateRequestDomainNamesList | undefined;
 }
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type CreateCertificateResponseCertificateLabelsMap = { [key: string]: string | undefined };
@@ -62,17 +62,17 @@ export type CreateCertificateResponseCertificateStatusRenewal =
   | "unavailable";
 /** If issuance or renewal reports `failed`, this property contains information about what happened. */
 export interface CreateCertificateResponseCertificateStatusError {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 /** Current status of a type `managed` Certificate, always *null* for type `uploaded` Certificates. */
 export interface CreateCertificateResponseCertificateStatus {
   /** Status of the issuance process of the Certificate. */
-  issuance?: CreateCertificateResponseCertificateStatusIssuance;
+  issuance?: CreateCertificateResponseCertificateStatusIssuance | undefined;
   /** Status of the renewal process of the Certificate. */
-  renewal?: CreateCertificateResponseCertificateStatusRenewal;
+  renewal?: CreateCertificateResponseCertificateStatusRenewal | undefined;
   /** If issuance or renewal reports `failed`, this property contains information about what happened. */
-  error?: CreateCertificateResponseCertificateStatusError | null;
+  error?: CreateCertificateResponseCertificateStatusError | null | undefined;
 }
 export interface CreateCertificateResponseCertificateUsedByItem {
   /** ID of resource referenced. */
@@ -91,7 +91,7 @@ export interface CreateCertificateResponseCertificate {
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
   labels: CreateCertificateResponseCertificateLabelsMap;
   /** Type of the Certificate. */
-  type?: CreateCertificateResponseCertificateType;
+  type?: CreateCertificateResponseCertificateType | undefined;
   /** Certificate and chain in PEM format, in order so that each record directly certifies the one preceding. */
   certificate: string | null;
   /** Point in time when the Resource was created (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -105,7 +105,7 @@ export interface CreateCertificateResponseCertificate {
   /** SHA256 fingerprint of the Certificate. */
   fingerprint: string | null;
   /** Current status of a type `managed` Certificate, always *null* for type `uploaded` Certificates. */
-  status?: CreateCertificateResponseCertificateStatus | null;
+  status?: CreateCertificateResponseCertificateStatus | null | undefined;
   /** Resources currently using the Certificate. */
   used_by: CreateCertificateResponseCertificateUsedByList;
 }
@@ -147,7 +147,7 @@ export interface CreateCertificateResponseAction {
 }
 export interface CreateCertificateResponse {
   certificate: CreateCertificateResponseCertificate;
-  action?: CreateCertificateResponseAction | null;
+  action?: CreateCertificateResponseAction | null | undefined;
 }
 export interface DeleteCertificateRequest {
   /** ID of the Certificate. */
@@ -178,11 +178,11 @@ export type GetCertificateResponseCertificateStatusError =
 /** Current status of a type `managed` Certificate, always *null* for type `uploaded` Certificates. */
 export interface GetCertificateResponseCertificateStatus {
   /** Status of the issuance process of the Certificate. */
-  issuance?: GetCertificateResponseCertificateStatusIssuance;
+  issuance?: GetCertificateResponseCertificateStatusIssuance | undefined;
   /** Status of the renewal process of the Certificate. */
-  renewal?: GetCertificateResponseCertificateStatusRenewal;
+  renewal?: GetCertificateResponseCertificateStatusRenewal | undefined;
   /** If issuance or renewal reports `failed`, this property contains information about what happened. */
-  error?: CreateCertificateResponseCertificateStatusError | null;
+  error?: CreateCertificateResponseCertificateStatusError | null | undefined;
 }
 export type GetCertificateResponseCertificateUsedByItem =
   CreateCertificateResponseCertificateUsedByItem;
@@ -197,7 +197,7 @@ export interface GetCertificateResponseCertificate {
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
   labels: GetCertificateResponseCertificateLabelsMap;
   /** Type of the Certificate. */
-  type?: GetCertificateResponseCertificateType;
+  type?: GetCertificateResponseCertificateType | undefined;
   /** Certificate and chain in PEM format, in order so that each record directly certifies the one preceding. */
   certificate: string | null;
   /** Point in time when the Resource was created (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -211,7 +211,7 @@ export interface GetCertificateResponseCertificate {
   /** SHA256 fingerprint of the Certificate. */
   fingerprint: string | null;
   /** Current status of a type `managed` Certificate, always *null* for type `uploaded` Certificates. */
-  status?: GetCertificateResponseCertificateStatus | null;
+  status?: GetCertificateResponseCertificateStatus | null | undefined;
   /** Resources currently using the Certificate. */
   used_by: GetCertificateResponseCertificateUsedByList;
 }
@@ -238,17 +238,17 @@ export type ListCertificatesRequestTypeList = Array<
 >;
 export interface ListCertificatesRequest {
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListCertificatesRequestSortList;
+  sort?: ListCertificatesRequestSortList | undefined;
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter resources by labels. The response will only contain resources matching the label selector. For more information, see "[Label Selector](#description/label-selector)". */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Filter resources by type. May be used multiple times. The response will only contain the resources with the specified type. */
-  type?: ListCertificatesRequestTypeList;
+  type?: ListCertificatesRequestTypeList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type ListCertificatesResponseCertificatesItemLabelsMap = {
@@ -275,11 +275,11 @@ export type ListCertificatesResponseCertificatesItemStatusError =
 /** Current status of a type `managed` Certificate, always *null* for type `uploaded` Certificates. */
 export interface ListCertificatesResponseCertificatesItemStatus {
   /** Status of the issuance process of the Certificate. */
-  issuance?: ListCertificatesResponseCertificatesItemStatusIssuance;
+  issuance?: ListCertificatesResponseCertificatesItemStatusIssuance | undefined;
   /** Status of the renewal process of the Certificate. */
-  renewal?: ListCertificatesResponseCertificatesItemStatusRenewal;
+  renewal?: ListCertificatesResponseCertificatesItemStatusRenewal | undefined;
   /** If issuance or renewal reports `failed`, this property contains information about what happened. */
-  error?: CreateCertificateResponseCertificateStatusError | null;
+  error?: CreateCertificateResponseCertificateStatusError | null | undefined;
 }
 export type ListCertificatesResponseCertificatesItemUsedByItem =
   CreateCertificateResponseCertificateUsedByItem;
@@ -294,7 +294,7 @@ export interface ListCertificatesResponseCertificatesItem {
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
   labels: ListCertificatesResponseCertificatesItemLabelsMap;
   /** Type of the Certificate. */
-  type?: ListCertificatesResponseCertificatesItemType;
+  type?: ListCertificatesResponseCertificatesItemType | undefined;
   /** Certificate and chain in PEM format, in order so that each record directly certifies the one preceding. */
   certificate: string | null;
   /** Point in time when the Resource was created (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -308,7 +308,7 @@ export interface ListCertificatesResponseCertificatesItem {
   /** SHA256 fingerprint of the Certificate. */
   fingerprint: string | null;
   /** Current status of a type `managed` Certificate, always *null* for type `uploaded` Certificates. */
-  status?: ListCertificatesResponseCertificatesItemStatus | null;
+  status?: ListCertificatesResponseCertificatesItemStatus | null | undefined;
   /** Resources currently using the Certificate. */
   used_by: ListCertificatesResponseCertificatesItemUsedByList;
 }
@@ -343,9 +343,9 @@ export interface UpdateCertificateRequest {
   /** ID of the Certificate. */
   id: number;
   /** New Certificate name. */
-  name?: string;
+  name?: string | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-  labels?: UpdateCertificateRequestLabelsMap;
+  labels?: UpdateCertificateRequestLabelsMap | undefined;
 }
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type UpdateCertificateResponseCertificateLabelsMap = { [key: string]: string | undefined };
@@ -367,11 +367,11 @@ export type UpdateCertificateResponseCertificateStatusError =
 /** Current status of a type `managed` Certificate, always *null* for type `uploaded` Certificates. */
 export interface UpdateCertificateResponseCertificateStatus {
   /** Status of the issuance process of the Certificate. */
-  issuance?: UpdateCertificateResponseCertificateStatusIssuance;
+  issuance?: UpdateCertificateResponseCertificateStatusIssuance | undefined;
   /** Status of the renewal process of the Certificate. */
-  renewal?: UpdateCertificateResponseCertificateStatusRenewal;
+  renewal?: UpdateCertificateResponseCertificateStatusRenewal | undefined;
   /** If issuance or renewal reports `failed`, this property contains information about what happened. */
-  error?: CreateCertificateResponseCertificateStatusError | null;
+  error?: CreateCertificateResponseCertificateStatusError | null | undefined;
 }
 export type UpdateCertificateResponseCertificateUsedByItem =
   CreateCertificateResponseCertificateUsedByItem;
@@ -386,7 +386,7 @@ export interface UpdateCertificateResponseCertificate {
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
   labels: UpdateCertificateResponseCertificateLabelsMap;
   /** Type of the Certificate. */
-  type?: UpdateCertificateResponseCertificateType;
+  type?: UpdateCertificateResponseCertificateType | undefined;
   /** Certificate and chain in PEM format, in order so that each record directly certifies the one preceding. */
   certificate: string | null;
   /** Point in time when the Resource was created (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -400,7 +400,7 @@ export interface UpdateCertificateResponseCertificate {
   /** SHA256 fingerprint of the Certificate. */
   fingerprint: string | null;
   /** Current status of a type `managed` Certificate, always *null* for type `uploaded` Certificates. */
-  status?: UpdateCertificateResponseCertificateStatus | null;
+  status?: UpdateCertificateResponseCertificateStatus | null | undefined;
   /** Resources currently using the Certificate. */
   used_by: UpdateCertificateResponseCertificateUsedByList;
 }

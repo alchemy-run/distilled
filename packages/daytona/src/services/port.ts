@@ -27,14 +27,14 @@ const TELEMETRY = {
 export interface GetPortsRequest {}
 export type PortListPortsList = Array<number>;
 export interface PortList {
-  ports?: PortListPortsList;
+  ports?: PortListPortsList | undefined;
 }
 export interface IsPortInUseRequest {
   /** Port number (3000-9999) */
   port: number;
 }
 export interface IsPortInUseResponse {
-  isInUse?: boolean;
+  isInUse?: boolean | undefined;
 }
 export type GetPortsError = DaytonaOpError;
 /** Get active ports Get a list of all currently active ports */

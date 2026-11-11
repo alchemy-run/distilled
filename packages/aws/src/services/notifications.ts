@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -163,13 +164,13 @@ export type ManagedNotificationConfigurationOsArn = string;
 export interface AssociateManagedNotificationAccountContactRequest {
   contactIdentifier: string;
   managedNotificationConfigurationArn: string;
-  isSensitiveEventsSubscribed?: boolean;
+  isSensitiveEventsSubscribed?: boolean | undefined;
 }
 export interface AssociateManagedNotificationAccountContactResponse {}
 export interface AssociateManagedNotificationAdditionalChannelRequest {
   channelArn: string;
   managedNotificationConfigurationArn: string;
-  isSensitiveEventsSubscribed?: boolean;
+  isSensitiveEventsSubscribed?: boolean | undefined;
 }
 export interface AssociateManagedNotificationAdditionalChannelResponse {}
 export type OrganizationalUnitId = string;
@@ -187,7 +188,7 @@ export interface CreateEventRuleRequest {
   notificationConfigurationArn: string;
   source: string;
   eventType: string;
-  eventPattern?: string;
+  eventPattern?: string | undefined;
   regions: string[];
 }
 export type EventRuleArn = string;
@@ -212,8 +213,8 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateNotificationConfigurationRequest {
   name: string;
   description: string;
-  aggregationDuration?: string;
-  tags?: { [key: string]: string | undefined };
+  aggregationDuration?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type NotificationConfigurationStatus = string;
 export interface CreateNotificationConfigurationResponse {
@@ -286,7 +287,7 @@ export type ManagedNotificationChildEventArn = string;
 export type LocaleCode = string;
 export interface GetManagedNotificationChildEventRequest {
   arn: string;
-  locale?: string;
+  locale?: string | undefined;
 }
 export type SchemaVersion = string;
 export type NotificationEventId = string;
@@ -297,11 +298,11 @@ export interface Dimension {
 }
 export type Dimensions = Dimension[];
 export interface MessageComponents {
-  headline?: string;
-  paragraphSummary?: string;
-  completeDescription?: string;
-  markupDescription?: string;
-  dimensions?: Dimension[];
+  headline?: string | undefined;
+  paragraphSummary?: string | undefined;
+  completeDescription?: string | undefined;
+  markupDescription?: string | undefined;
+  dimensions?: Dimension[] | undefined;
 }
 export type Url = string;
 export type NotificationType = string;
@@ -312,9 +313,9 @@ export type TextPartType = string;
 export type TextByLocale = { [key: string]: string | undefined };
 export interface TextPartValue {
   type: string;
-  displayText?: string;
-  textByLocale?: { [key: string]: string | undefined };
-  url?: string;
+  displayText?: string | undefined;
+  textByLocale?: { [key: string]: string | undefined } | undefined;
+  url?: string | undefined;
 }
 export type TextParts = { [key: string]: TextPartValue | undefined };
 export interface SummarizationDimensionDetail {
@@ -323,22 +324,22 @@ export interface SummarizationDimensionDetail {
 }
 export type SummarizationDimensionDetails = SummarizationDimensionDetail[];
 export interface AggregationDetail {
-  summarizationDimensions?: SummarizationDimensionDetail[];
+  summarizationDimensions?: SummarizationDimensionDetail[] | undefined;
 }
 export interface ManagedNotificationChildEvent {
   schemaVersion: string;
   id: string;
   messageComponents: MessageComponents;
-  sourceEventDetailUrl?: string;
-  sourceEventDetailUrlDisplayText?: string;
+  sourceEventDetailUrl?: string | undefined;
+  sourceEventDetailUrlDisplayText?: string | undefined;
   notificationType: string;
-  eventStatus?: string;
+  eventStatus?: string | undefined;
   aggregateManagedNotificationEventArn: string;
-  startTime?: Date;
-  endTime?: Date;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
   textParts: { [key: string]: TextPartValue | undefined };
-  organizationalUnitId?: string;
-  aggregationDetail?: AggregationDetail;
+  organizationalUnitId?: string | undefined;
+  aggregationDetail?: AggregationDetail | undefined;
 }
 export interface GetManagedNotificationChildEventResponse {
   arn: string;
@@ -360,7 +361,7 @@ export interface GetManagedNotificationConfigurationResponse {
 }
 export interface GetManagedNotificationEventRequest {
   arn: string;
-  locale?: string;
+  locale?: string | undefined;
 }
 export type AggregationEventType = string;
 export interface AggregationKey {
@@ -372,7 +373,7 @@ export type SampleAggregationDimensionValues = string[];
 export interface SummarizationDimensionOverview {
   name: string;
   count: number;
-  sampleValues?: string[];
+  sampleValues?: string[] | undefined;
 }
 export type SummarizationDimensionOverviews = SummarizationDimensionOverview[];
 export interface AggregationSummary {
@@ -380,15 +381,15 @@ export interface AggregationSummary {
   aggregatedBy: AggregationKey[];
   aggregatedAccounts: SummarizationDimensionOverview;
   aggregatedRegions: SummarizationDimensionOverview;
-  aggregatedOrganizationalUnits?: SummarizationDimensionOverview;
-  additionalSummarizationDimensions?: SummarizationDimensionOverview[];
+  aggregatedOrganizationalUnits?: SummarizationDimensionOverview | undefined;
+  additionalSummarizationDimensions?: SummarizationDimensionOverview[] | undefined;
 }
 export type AttachmentDisplayName = string;
 export type SensitiveUrl = string | redacted.Redacted<string>;
 export type AttachmentContentType = string;
 export interface NotificationEventAttachment {
   displayName: string;
-  attachmentDownloadUrl?: string | redacted.Redacted<string>;
+  attachmentDownloadUrl?: string | redacted.Redacted<string> | undefined;
   contentType: string;
 }
 export type NotificationEventAttachmentList = NotificationEventAttachment[];
@@ -396,17 +397,17 @@ export interface ManagedNotificationEvent {
   schemaVersion: string;
   id: string;
   messageComponents: MessageComponents;
-  sourceEventDetailUrl?: string;
-  sourceEventDetailUrlDisplayText?: string;
+  sourceEventDetailUrl?: string | undefined;
+  sourceEventDetailUrlDisplayText?: string | undefined;
   notificationType: string;
-  eventStatus?: string;
-  aggregationEventType?: string;
-  aggregationSummary?: AggregationSummary;
-  startTime?: Date;
-  endTime?: Date;
+  eventStatus?: string | undefined;
+  aggregationEventType?: string | undefined;
+  aggregationSummary?: AggregationSummary | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
   textParts: { [key: string]: TextPartValue | undefined };
-  organizationalUnitId?: string;
-  attachments?: NotificationEventAttachment[];
+  organizationalUnitId?: string | undefined;
+  attachments?: NotificationEventAttachment[] | undefined;
 }
 export interface GetManagedNotificationEventResponse {
   arn: string;
@@ -424,28 +425,28 @@ export interface GetNotificationConfigurationResponse {
   description: string;
   status: string;
   creationTime: Date;
-  aggregationDuration?: string;
-  subtype?: string;
+  aggregationDuration?: string | undefined;
+  subtype?: string | undefined;
 }
 export type NotificationEventArn = string;
 export interface GetNotificationEventRequest {
   arn: string;
-  locale?: string;
+  locale?: string | undefined;
 }
 export type AccountId = string;
 export type Arn = string;
 export type Tags = string[];
 export interface Resource {
-  id?: string;
-  arn?: string;
-  detailUrl?: string;
-  tags?: string[];
+  id?: string | undefined;
+  arn?: string | undefined;
+  detailUrl?: string | undefined;
+  tags?: string[] | undefined;
 }
 export type Resources = Resource[];
 export interface SourceEventMetadata {
   eventTypeVersion: string;
   sourceEventId: string;
-  eventOriginRegion?: string;
+  eventOriginRegion?: string | undefined;
   relatedAccount: string;
   source: string;
   eventOccurrenceTime: Date;
@@ -466,18 +467,18 @@ export interface NotificationEventSchema {
   id: string;
   sourceEventMetadata: SourceEventMetadata;
   messageComponents: MessageComponents;
-  sourceEventDetailUrl?: string;
-  sourceEventDetailUrlDisplayText?: string;
+  sourceEventDetailUrl?: string | undefined;
+  sourceEventDetailUrlDisplayText?: string | undefined;
   notificationType: string;
-  eventStatus?: string;
-  aggregationEventType?: string;
-  aggregateNotificationEventArn?: string;
-  aggregationSummary?: AggregationSummary;
-  startTime?: Date;
-  endTime?: Date;
+  eventStatus?: string | undefined;
+  aggregationEventType?: string | undefined;
+  aggregateNotificationEventArn?: string | undefined;
+  aggregationSummary?: AggregationSummary | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
   textParts: { [key: string]: TextPartValue | undefined };
   media: MediaElement[];
-  organizationalUnitId?: string;
+  organizationalUnitId?: string | undefined;
 }
 export interface GetNotificationEventResponse {
   arn: string;
@@ -496,18 +497,18 @@ export interface GetNotificationsAccessForOrganizationResponse {
 export type NextToken = string;
 export interface ListChannelsRequest {
   notificationConfigurationArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type Channels = string[];
 export interface ListChannelsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   channels: string[];
 }
 export interface ListEventRulesRequest {
   notificationConfigurationArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface EventRuleStructure {
   arn: string;
@@ -522,39 +523,39 @@ export interface EventRuleStructure {
 }
 export type EventRules = EventRuleStructure[];
 export interface ListEventRulesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   eventRules: EventRuleStructure[];
 }
 export interface ListManagedNotificationChannelAssociationsRequest {
   managedNotificationConfigurationArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ChannelType = "MOBILE" | "CHATBOT" | "EMAIL" | "ACCOUNT_CONTACT" | (string & {});
 export type ChannelAssociationOverrideOption = string;
 export interface ManagedNotificationChannelAssociationSummary {
   channelIdentifier: string;
   channelType: ChannelType;
-  overrideOption?: string;
-  isSensitiveEventsSubscribed?: boolean;
+  overrideOption?: string | undefined;
+  isSensitiveEventsSubscribed?: boolean | undefined;
 }
 export type ManagedNotificationChannelAssociations = ManagedNotificationChannelAssociationSummary[];
 export interface ListManagedNotificationChannelAssociationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   channelAssociations: ManagedNotificationChannelAssociationSummary[];
 }
 export interface ListManagedNotificationChildEventsRequest {
   aggregateManagedNotificationEventArn: string;
-  startTime?: Date;
-  endTime?: Date;
-  locale?: string;
-  maxResults?: number;
-  relatedAccount?: string;
-  organizationalUnitId?: string;
-  nextToken?: string;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  locale?: string | undefined;
+  maxResults?: number | undefined;
+  relatedAccount?: string | undefined;
+  organizationalUnitId?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface ManagedSourceEventMetadataSummary {
-  eventOriginRegion?: string;
+  eventOriginRegion?: string | undefined;
   source: string;
   eventType: string;
 }
@@ -576,18 +577,18 @@ export interface ManagedNotificationChildEventOverview {
   creationTime: Date;
   childEvent: ManagedNotificationChildEventSummary;
   aggregateManagedNotificationEventArn: string;
-  organizationalUnitId?: string;
+  organizationalUnitId?: string | undefined;
 }
 export type ManagedNotificationChildEvents = ManagedNotificationChildEventOverview[];
 export interface ListManagedNotificationChildEventsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   managedNotificationChildEvents: ManagedNotificationChildEventOverview[];
 }
 export type ChannelIdentifier = string;
 export interface ListManagedNotificationConfigurationsRequest {
-  channelIdentifier?: string;
-  maxResults?: number;
-  nextToken?: string;
+  channelIdentifier?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ManagedNotificationConfigurationStructure {
   arn: string;
@@ -596,19 +597,19 @@ export interface ManagedNotificationConfigurationStructure {
 }
 export type ManagedNotificationConfigurations = ManagedNotificationConfigurationStructure[];
 export interface ListManagedNotificationConfigurationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   managedNotificationConfigurations: ManagedNotificationConfigurationStructure[];
 }
 export interface ListManagedNotificationEventsRequest {
-  startTime?: Date;
-  endTime?: Date;
-  locale?: string;
-  source?: string;
-  maxResults?: number;
-  nextToken?: string;
-  organizationalUnitId?: string;
-  relatedAccount?: string;
-  includeSensitiveEvents?: boolean;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  locale?: string | undefined;
+  source?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  organizationalUnitId?: string | undefined;
+  relatedAccount?: string | undefined;
+  includeSensitiveEvents?: boolean | undefined;
 }
 export interface ManagedNotificationEventSummary {
   schemaVersion: string;
@@ -624,27 +625,27 @@ export interface ManagedNotificationEventOverview {
   relatedAccount: string;
   creationTime: Date;
   notificationEvent: ManagedNotificationEventSummary;
-  aggregationEventType?: string;
-  organizationalUnitId?: string;
-  aggregationSummary?: AggregationSummary;
-  aggregatedNotificationRegions?: string[];
+  aggregationEventType?: string | undefined;
+  organizationalUnitId?: string | undefined;
+  aggregationSummary?: AggregationSummary | undefined;
+  aggregatedNotificationRegions?: string[] | undefined;
 }
 export type ManagedNotificationEvents = ManagedNotificationEventOverview[];
 export interface ListManagedNotificationEventsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   managedNotificationEvents: ManagedNotificationEventOverview[];
 }
 export type MemberAccountNotificationConfigurationStatus = string;
 export interface ListMemberAccountsRequest {
   notificationConfigurationArn: string;
-  maxResults?: number;
-  nextToken?: string;
-  memberAccount?: string;
-  status?: string;
-  organizationalUnitId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  memberAccount?: string | undefined;
+  status?: string | undefined;
+  organizationalUnitId?: string | undefined;
 }
 export interface MemberAccount {
-  notificationConfigurationArn?: string;
+  notificationConfigurationArn?: string | undefined;
   accountId: string;
   status: string;
   statusReason: string;
@@ -653,15 +654,15 @@ export interface MemberAccount {
 export type MemberAccounts = MemberAccount[];
 export interface ListMemberAccountsResponse {
   memberAccounts: MemberAccount[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListNotificationConfigurationsRequest {
-  eventRuleSource?: string;
-  channelArn?: string;
-  status?: string;
-  subtype?: string;
-  maxResults?: number;
-  nextToken?: string;
+  eventRuleSource?: string | undefined;
+  channelArn?: string | undefined;
+  status?: string | undefined;
+  subtype?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface NotificationConfigurationStructure {
   arn: string;
@@ -669,27 +670,27 @@ export interface NotificationConfigurationStructure {
   description: string;
   status: string;
   creationTime: Date;
-  aggregationDuration?: string;
-  subtype?: string;
+  aggregationDuration?: string | undefined;
+  subtype?: string | undefined;
 }
 export type NotificationConfigurations = NotificationConfigurationStructure[];
 export interface ListNotificationConfigurationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   notificationConfigurations: NotificationConfigurationStructure[];
 }
 export interface ListNotificationEventsRequest {
-  startTime?: Date;
-  endTime?: Date;
-  locale?: string;
-  source?: string;
-  includeChildEvents?: boolean;
-  aggregateNotificationEventArn?: string;
-  maxResults?: number;
-  nextToken?: string;
-  organizationalUnitId?: string;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  locale?: string | undefined;
+  source?: string | undefined;
+  includeChildEvents?: boolean | undefined;
+  aggregateNotificationEventArn?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  organizationalUnitId?: string | undefined;
 }
 export interface SourceEventMetadataSummary {
-  eventOriginRegion?: string;
+  eventOriginRegion?: string | undefined;
   source: string;
   eventType: string;
 }
@@ -706,47 +707,47 @@ export interface NotificationEventOverview {
   relatedAccount: string;
   creationTime: Date;
   notificationEvent: NotificationEventSummary;
-  aggregationEventType?: string;
-  aggregateNotificationEventArn?: string;
-  aggregationSummary?: AggregationSummary;
-  organizationalUnitId?: string;
+  aggregationEventType?: string | undefined;
+  aggregateNotificationEventArn?: string | undefined;
+  aggregationSummary?: AggregationSummary | undefined;
+  organizationalUnitId?: string | undefined;
 }
 export type NotificationEvents = NotificationEventOverview[];
 export interface ListNotificationEventsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   notificationEvents: NotificationEventOverview[];
 }
 export interface ListNotificationHubsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type LastActivationTime = Date;
 export interface NotificationHubOverview {
   notificationHubRegion: string;
   statusSummary: NotificationHubStatusSummary;
   creationTime: Date;
-  lastActivationTime?: Date;
+  lastActivationTime?: Date | undefined;
 }
 export type NotificationHubs = NotificationHubOverview[];
 export interface ListNotificationHubsResponse {
   notificationHubs: NotificationHubOverview[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListOrganizationalUnitsRequest {
   notificationConfigurationArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type OrganizationalUnits = string[];
 export interface ListOrganizationalUnitsResponse {
   organizationalUnits: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterNotificationHubRequest {
   notificationHubRegion: string;
@@ -755,7 +756,7 @@ export interface RegisterNotificationHubResponse {
   notificationHubRegion: string;
   statusSummary: NotificationHubStatusSummary;
   creationTime: Date;
-  lastActivationTime?: Date;
+  lastActivationTime?: Date | undefined;
 }
 export interface TagResourceRequest {
   arn: string;
@@ -770,8 +771,8 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateEventRuleRequest {
   arn: string;
-  eventPattern?: string;
-  regions?: string[];
+  eventPattern?: string | undefined;
+  regions?: string[] | undefined;
 }
 export interface UpdateEventRuleResponse {
   arn: string;
@@ -782,14 +783,14 @@ export type ManagedNotificationChannelIdentifier = string;
 export interface UpdateManagedNotificationChannelAssociationRequest {
   managedNotificationConfigurationArn: string;
   channelIdentifier: string;
-  isSensitiveEventsSubscribed?: boolean;
+  isSensitiveEventsSubscribed?: boolean | undefined;
 }
 export interface UpdateManagedNotificationChannelAssociationResponse {}
 export interface UpdateNotificationConfigurationRequest {
   arn: string;
-  name?: string;
-  description?: string;
-  aggregationDuration?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  aggregationDuration?: string | undefined;
 }
 export interface UpdateNotificationConfigurationResponse {
   arn: string;
@@ -818,7 +819,7 @@ export type AssociateChannelError =
  * Associates a delivery Channel with a particular `NotificationConfiguration`. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
 export const associateChannel: API.OperationMethod<
-  AssociateChannelRequest,
+  AssociateChannelRequest & RegionInput,
   AssociateChannelResponse,
   AssociateChannelError,
   Credentials | HttpClient.HttpClient
@@ -854,7 +855,7 @@ export type AssociateManagedNotificationAccountContactError =
  * Associates an Account Contact with a particular `ManagedNotificationConfiguration`.
  */
 export const associateManagedNotificationAccountContact: API.OperationMethod<
-  AssociateManagedNotificationAccountContactRequest,
+  AssociateManagedNotificationAccountContactRequest & RegionInput,
   AssociateManagedNotificationAccountContactResponse,
   AssociateManagedNotificationAccountContactError,
   Credentials | HttpClient.HttpClient
@@ -892,7 +893,7 @@ export type AssociateManagedNotificationAdditionalChannelError =
  * Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
 export const associateManagedNotificationAdditionalChannel: API.OperationMethod<
-  AssociateManagedNotificationAdditionalChannelRequest,
+  AssociateManagedNotificationAdditionalChannelRequest & RegionInput,
   AssociateManagedNotificationAdditionalChannelResponse,
   AssociateManagedNotificationAdditionalChannelError,
   Credentials | HttpClient.HttpClient
@@ -936,7 +937,7 @@ export type AssociateOrganizationalUnitError =
  * Associates an organizational unit with a notification configuration.
  */
 export const associateOrganizationalUnit: API.OperationMethod<
-  AssociateOrganizationalUnitRequest,
+  AssociateOrganizationalUnitRequest & RegionInput,
   AssociateOrganizationalUnitResponse,
   AssociateOrganizationalUnitError,
   Credentials | HttpClient.HttpClient
@@ -972,7 +973,7 @@ export type CreateEventRuleError =
  * Creates an `EventRule` that is associated with a specified `NotificationConfiguration`.
  */
 export const createEventRule: API.OperationMethod<
-  CreateEventRuleRequest,
+  CreateEventRuleRequest & RegionInput,
   CreateEventRuleResponse,
   CreateEventRuleError,
   Credentials | HttpClient.HttpClient
@@ -1007,7 +1008,7 @@ export type CreateNotificationConfigurationError =
  * Creates a new `NotificationConfiguration`.
  */
 export const createNotificationConfiguration: API.OperationMethod<
-  CreateNotificationConfigurationRequest,
+  CreateNotificationConfigurationRequest & RegionInput,
   CreateNotificationConfigurationResponse,
   CreateNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1041,7 +1042,7 @@ export type DeleteEventRuleError =
  * Deletes an `EventRule`.
  */
 export const deleteEventRule: API.OperationMethod<
-  DeleteEventRuleRequest,
+  DeleteEventRuleRequest & RegionInput,
   DeleteEventRuleResponse,
   DeleteEventRuleError,
   Credentials | HttpClient.HttpClient
@@ -1075,7 +1076,7 @@ export type DeleteNotificationConfigurationError =
  * Deletes a `NotificationConfiguration`.
  */
 export const deleteNotificationConfiguration: API.OperationMethod<
-  DeleteNotificationConfigurationRequest,
+  DeleteNotificationConfigurationRequest & RegionInput,
   DeleteNotificationConfigurationResponse,
   DeleteNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1111,7 +1112,7 @@ export type DeregisterNotificationHubError =
  * You can't deregister the last `NotificationHub` in the account. `NotificationEvents` stored in the deregistered `NotificationHub` are no longer visible. Recreating a new `NotificationHub` in the same Region restores access to those `NotificationEvents`.
  */
 export const deregisterNotificationHub: API.OperationMethod<
-  DeregisterNotificationHubRequest,
+  DeregisterNotificationHubRequest & RegionInput,
   DeregisterNotificationHubResponse,
   DeregisterNotificationHubError,
   Credentials | HttpClient.HttpClient
@@ -1146,7 +1147,7 @@ export type DisableNotificationsAccessForOrganizationError =
  * Disables service trust between User Notifications and Amazon Web Services Organizations.
  */
 export const disableNotificationsAccessForOrganization: API.OperationMethod<
-  DisableNotificationsAccessForOrganizationRequest,
+  DisableNotificationsAccessForOrganizationRequest & RegionInput,
   DisableNotificationsAccessForOrganizationResponse,
   DisableNotificationsAccessForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1180,7 +1181,7 @@ export type DisassociateChannelError =
  * Disassociates a Channel from a specified `NotificationConfiguration`. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
 export const disassociateChannel: API.OperationMethod<
-  DisassociateChannelRequest,
+  DisassociateChannelRequest & RegionInput,
   DisassociateChannelResponse,
   DisassociateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1213,7 +1214,7 @@ export type DisassociateManagedNotificationAccountContactError =
  * Disassociates an Account Contact with a particular `ManagedNotificationConfiguration`.
  */
 export const disassociateManagedNotificationAccountContact: API.OperationMethod<
-  DisassociateManagedNotificationAccountContactRequest,
+  DisassociateManagedNotificationAccountContactRequest & RegionInput,
   DisassociateManagedNotificationAccountContactResponse,
   DisassociateManagedNotificationAccountContactError,
   Credentials | HttpClient.HttpClient
@@ -1256,7 +1257,7 @@ export type DisassociateManagedNotificationAdditionalChannelError =
  * Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
 export const disassociateManagedNotificationAdditionalChannel: API.OperationMethod<
-  DisassociateManagedNotificationAdditionalChannelRequest,
+  DisassociateManagedNotificationAdditionalChannelRequest & RegionInput,
   DisassociateManagedNotificationAdditionalChannelResponse,
   DisassociateManagedNotificationAdditionalChannelError,
   Credentials | HttpClient.HttpClient
@@ -1296,7 +1297,7 @@ export type DisassociateOrganizationalUnitError =
  * Removes the association between an organizational unit and a notification configuration.
  */
 export const disassociateOrganizationalUnit: API.OperationMethod<
-  DisassociateOrganizationalUnitRequest,
+  DisassociateOrganizationalUnitRequest & RegionInput,
   DisassociateOrganizationalUnitResponse,
   DisassociateOrganizationalUnitError,
   Credentials | HttpClient.HttpClient
@@ -1330,7 +1331,7 @@ export type EnableNotificationsAccessForOrganizationError =
  * Enables service trust between User Notifications and Amazon Web Services Organizations.
  */
 export const enableNotificationsAccessForOrganization: API.OperationMethod<
-  EnableNotificationsAccessForOrganizationRequest,
+  EnableNotificationsAccessForOrganizationRequest & RegionInput,
   EnableNotificationsAccessForOrganizationResponse,
   EnableNotificationsAccessForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1364,7 +1365,7 @@ export type GetEventRuleError =
  * Returns a specified `EventRule`.
  */
 export const getEventRule: API.OperationMethod<
-  GetEventRuleRequest,
+  GetEventRuleRequest & RegionInput,
   GetEventRuleResponse,
   GetEventRuleError,
   Credentials | HttpClient.HttpClient
@@ -1396,7 +1397,7 @@ export type GetManagedNotificationChildEventError =
  * Returns the child event of a specific given `ManagedNotificationEvent`.
  */
 export const getManagedNotificationChildEvent: API.OperationMethod<
-  GetManagedNotificationChildEventRequest,
+  GetManagedNotificationChildEventRequest & RegionInput,
   GetManagedNotificationChildEventResponse,
   GetManagedNotificationChildEventError,
   Credentials | HttpClient.HttpClient
@@ -1428,7 +1429,7 @@ export type GetManagedNotificationConfigurationError =
  * Returns a specified `ManagedNotificationConfiguration`.
  */
 export const getManagedNotificationConfiguration: API.OperationMethod<
-  GetManagedNotificationConfigurationRequest,
+  GetManagedNotificationConfigurationRequest & RegionInput,
   GetManagedNotificationConfigurationResponse,
   GetManagedNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1460,7 +1461,7 @@ export type GetManagedNotificationEventError =
  * Returns a specified `ManagedNotificationEvent`.
  */
 export const getManagedNotificationEvent: API.OperationMethod<
-  GetManagedNotificationEventRequest,
+  GetManagedNotificationEventRequest & RegionInput,
   GetManagedNotificationEventResponse,
   GetManagedNotificationEventError,
   Credentials | HttpClient.HttpClient
@@ -1492,7 +1493,7 @@ export type GetNotificationConfigurationError =
  * Returns a specified `NotificationConfiguration`.
  */
 export const getNotificationConfiguration: API.OperationMethod<
-  GetNotificationConfigurationRequest,
+  GetNotificationConfigurationRequest & RegionInput,
   GetNotificationConfigurationResponse,
   GetNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1526,7 +1527,7 @@ export type GetNotificationEventError =
  * User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. `GetNotificationEvent` only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see Notification hubs in the *Amazon Web Services User Notifications User Guide*.
  */
 export const getNotificationEvent: API.OperationMethod<
-  GetNotificationEventRequest,
+  GetNotificationEventRequest & RegionInput,
   GetNotificationEventResponse,
   GetNotificationEventError,
   Credentials | HttpClient.HttpClient
@@ -1557,7 +1558,7 @@ export type GetNotificationsAccessForOrganizationError =
  * Returns the AccessStatus of Service Trust Enablement for User Notifications and Amazon Web Services Organizations.
  */
 export const getNotificationsAccessForOrganization: API.OperationMethod<
-  GetNotificationsAccessForOrganizationRequest,
+  GetNotificationsAccessForOrganizationRequest & RegionInput,
   GetNotificationsAccessForOrganizationResponse,
   GetNotificationsAccessForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1588,7 +1589,7 @@ export type ListChannelsError =
  * Returns a list of Channels for a `NotificationConfiguration`.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1627,7 +1628,7 @@ export type ListEventRulesError =
  * Returns a list of `EventRules` according to specified filters, in reverse chronological order (newest first).
  */
 export const listEventRules: API.PaginatedOperationMethod<
-  ListEventRulesRequest,
+  ListEventRulesRequest & RegionInput,
   ListEventRulesResponse,
   ListEventRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1666,7 +1667,7 @@ export type ListManagedNotificationChannelAssociationsError =
  * Returns a list of Account contacts and Channels associated with a `ManagedNotificationConfiguration`, in paginated format.
  */
 export const listManagedNotificationChannelAssociations: API.PaginatedOperationMethod<
-  ListManagedNotificationChannelAssociationsRequest,
+  ListManagedNotificationChannelAssociationsRequest & RegionInput,
   ListManagedNotificationChannelAssociationsResponse,
   ListManagedNotificationChannelAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1705,7 +1706,7 @@ export type ListManagedNotificationChildEventsError =
  * Returns a list of `ManagedNotificationChildEvents` for a specified aggregate `ManagedNotificationEvent`, ordered by creation time in reverse chronological order (newest first).
  */
 export const listManagedNotificationChildEvents: API.PaginatedOperationMethod<
-  ListManagedNotificationChildEventsRequest,
+  ListManagedNotificationChildEventsRequest & RegionInput,
   ListManagedNotificationChildEventsResponse,
   ListManagedNotificationChildEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1743,7 +1744,7 @@ export type ListManagedNotificationConfigurationsError =
  * Returns a list of Managed Notification Configurations according to specified filters, ordered by creation time in reverse chronological order (newest first).
  */
 export const listManagedNotificationConfigurations: API.PaginatedOperationMethod<
-  ListManagedNotificationConfigurationsRequest,
+  ListManagedNotificationConfigurationsRequest & RegionInput,
   ListManagedNotificationConfigurationsResponse,
   ListManagedNotificationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1780,7 +1781,7 @@ export type ListManagedNotificationEventsError =
  * Returns a list of Managed Notification Events according to specified filters, ordered by creation time in reverse chronological order (newest first).
  */
 export const listManagedNotificationEvents: API.PaginatedOperationMethod<
-  ListManagedNotificationEventsRequest,
+  ListManagedNotificationEventsRequest & RegionInput,
   ListManagedNotificationEventsResponse,
   ListManagedNotificationEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1818,7 +1819,7 @@ export type ListMemberAccountsError =
  * Returns a list of member accounts associated with a notification configuration.
  */
 export const listMemberAccounts: API.PaginatedOperationMethod<
-  ListMemberAccountsRequest,
+  ListMemberAccountsRequest & RegionInput,
   ListMemberAccountsResponse,
   ListMemberAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1856,7 +1857,7 @@ export type ListNotificationConfigurationsError =
  * Returns a list of abbreviated `NotificationConfigurations` according to specified filters, in reverse chronological order (newest first).
  */
 export const listNotificationConfigurations: API.PaginatedOperationMethod<
-  ListNotificationConfigurationsRequest,
+  ListNotificationConfigurationsRequest & RegionInput,
   ListNotificationConfigurationsResponse,
   ListNotificationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1895,7 +1896,7 @@ export type ListNotificationEventsError =
  * User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. ListNotificationEvents only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see Notification hubs in the *Amazon Web Services User Notifications User Guide*.
  */
 export const listNotificationEvents: API.PaginatedOperationMethod<
-  ListNotificationEventsRequest,
+  ListNotificationEventsRequest & RegionInput,
   ListNotificationEventsResponse,
   ListNotificationEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1932,7 +1933,7 @@ export type ListNotificationHubsError =
  * Returns a list of `NotificationHubs`.
  */
 export const listNotificationHubs: API.PaginatedOperationMethod<
-  ListNotificationHubsRequest,
+  ListNotificationHubsRequest & RegionInput,
   ListNotificationHubsResponse,
   ListNotificationHubsError,
   Credentials | HttpClient.HttpClient,
@@ -1970,7 +1971,7 @@ export type ListOrganizationalUnitsError =
  * Returns a list of organizational units associated with a notification configuration.
  */
 export const listOrganizationalUnits: API.PaginatedOperationMethod<
-  ListOrganizationalUnitsRequest,
+  ListOrganizationalUnitsRequest & RegionInput,
   ListOrganizationalUnitsResponse,
   ListOrganizationalUnitsError,
   Credentials | HttpClient.HttpClient,
@@ -2013,7 +2014,7 @@ export type ListTagsForResourceError =
  * This is only supported for `NotificationConfigurations`.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2048,7 +2049,7 @@ export type RegisterNotificationHubError =
  * There is a maximum of one `NotificationHub` per Region. You can have a maximum of 3 `NotificationHub` resources at a time.
  */
 export const registerNotificationHub: API.OperationMethod<
-  RegisterNotificationHubRequest,
+  RegisterNotificationHubRequest & RegionInput,
   RegisterNotificationHubResponse,
   RegisterNotificationHubError,
   Credentials | HttpClient.HttpClient
@@ -2085,7 +2086,7 @@ export type TagResourceError =
  * This is only supported for `NotificationConfigurations`.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2119,7 +2120,7 @@ export type UntagResourceError =
  * For more information, see Tagging your Amazon Web Services resources in the *Tagging Amazon Web Services Resources User Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2152,7 +2153,7 @@ export type UpdateEventRuleError =
  * Updates an existing `EventRule`.
  */
 export const updateEventRule: API.OperationMethod<
-  UpdateEventRuleRequest,
+  UpdateEventRuleRequest & RegionInput,
   UpdateEventRuleResponse,
   UpdateEventRuleError,
   Credentials | HttpClient.HttpClient
@@ -2186,7 +2187,7 @@ export type UpdateManagedNotificationChannelAssociationError =
  * Updates the `isSensitiveEventsSubscribed` property of a particular ManagedNotification channel association.
  */
 export const updateManagedNotificationChannelAssociation: API.OperationMethod<
-  UpdateManagedNotificationChannelAssociationRequest,
+  UpdateManagedNotificationChannelAssociationRequest & RegionInput,
   UpdateManagedNotificationChannelAssociationResponse,
   UpdateManagedNotificationChannelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2224,7 +2225,7 @@ export type UpdateNotificationConfigurationError =
  * Updates a `NotificationConfiguration`.
  */
 export const updateNotificationConfiguration: API.OperationMethod<
-  UpdateNotificationConfigurationRequest,
+  UpdateNotificationConfigurationRequest & RegionInput,
   UpdateNotificationConfigurationResponse,
   UpdateNotificationConfigurationError,
   Credentials | HttpClient.HttpClient

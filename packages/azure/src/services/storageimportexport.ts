@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Storageimportexport",
   service: "Storageimportexport",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -38,11 +39,11 @@ export interface ReturnAddress {
   /** The first line of the street address to use when returning the drives. */
   streetAddress1: string;
   /** The second line of the street address to use when returning the drives. */
-  streetAddress2?: string;
+  streetAddress2?: string | undefined;
   /** The city name to use when returning the drives. */
   city: string;
   /** The state or province to use when returning the drives. */
-  stateOrProvince?: string;
+  stateOrProvince?: string | undefined;
   /** The postal code to use when returning the drives. */
   postalCode: string;
   /** The country or region to use when returning the drives. */
@@ -62,21 +63,21 @@ export interface ReturnShipping {
 /** Contains information about the Microsoft datacenter to which the drives should be shipped. */
 export interface ShippingInformationInput {
   /** The name of the recipient who will receive the hard drives when they are returned. */
-  recipientName?: string;
+  recipientName?: string | undefined;
   /** The first line of the street address to use when returning the drives. */
-  streetAddress1?: string;
+  streetAddress1?: string | undefined;
   /** The second line of the street address to use when returning the drives. */
-  streetAddress2?: string;
+  streetAddress2?: string | undefined;
   /** The city name to use when returning the drives. */
-  city?: string;
+  city?: string | undefined;
   /** The state or province to use when returning the drives. */
-  stateOrProvince?: string;
+  stateOrProvince?: string | undefined;
   /** The postal code to use when returning the drives. */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** The country or region to use when returning the drives. */
-  countryOrRegion?: string;
+  countryOrRegion?: string | undefined;
   /** Phone number of the recipient of the returned drives. */
-  phone?: string;
+  phone?: string | undefined;
 }
 /** Contains information about the delivery package being shipped by the customer to the Microsoft data center. */
 export interface DeliveryPackageInformation {
@@ -85,9 +86,9 @@ export interface DeliveryPackageInformation {
   /** The tracking number of the package. */
   trackingNumber: string;
   /** The number of drives included in the package. */
-  driveCount?: number;
+  driveCount?: number | undefined;
   /** The date when the package is shipped. */
-  shipDate?: string;
+  shipDate?: string | undefined;
 }
 /** Contains information about the package being shipped by the customer to the Microsoft data center. */
 export interface PackageInformation {
@@ -112,29 +113,29 @@ export type DriveStatusState =
 /** Provides information about the drive's status */
 export interface DriveStatus {
   /** The drive's hardware serial number, without spaces. */
-  driveId?: string;
+  driveId?: string | undefined;
   /** The BitLocker key used to encrypt the drive. */
-  bitLockerKey?: string;
+  bitLockerKey?: string | undefined;
   /** The relative path of the manifest file on the drive. */
-  manifestFile?: string;
+  manifestFile?: string | undefined;
   /** The Base16-encoded MD5 hash of the manifest file on the drive. */
-  manifestHash?: string;
+  manifestHash?: string | undefined;
   /** The drive header hash value. */
-  driveHeaderHash?: string;
+  driveHeaderHash?: string | undefined;
   /** The drive's current state. */
-  state?: DriveStatusState | (string & {});
+  state?: DriveStatusState | (string & {}) | undefined;
   /** Detailed status about the data transfer process. This field is not returned in the response until the drive is in the Transferring state. */
-  copyStatus?: string;
+  copyStatus?: string | undefined;
   /** Percentage completed for the drive. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** A URI that points to the blob containing the verbose log for the data transfer operation. */
-  verboseLogUri?: string;
+  verboseLogUri?: string | undefined;
   /** A URI that points to the blob containing the error log for the data transfer operation. */
-  errorLogUri?: string;
+  errorLogUri?: string | undefined;
   /** A URI that points to the blob containing the drive manifest file. */
-  manifestUri?: string;
+  manifestUri?: string | undefined;
   /** Bytes successfully transferred for the drive. */
-  bytesSucceeded?: number;
+  bytesSucceeded?: number | undefined;
 }
 /** List of up to ten drives that comprise the job. The drive list is a required element for an import job; it is not specified for export jobs. */
 export type JobDetailsInputDriveListList = Array<DriveStatus>;
@@ -145,66 +146,66 @@ export type ExportBlobListBlobPathPrefixList = Array<string>;
 /** A list of the blobs to be exported. */
 export interface ExportBlobList {
   /** A collection of blob-path strings. */
-  blobPath?: ExportBlobListBlobPathList;
+  blobPath?: ExportBlobListBlobPathList | undefined;
   /** A collection of blob-prefix strings. */
-  blobPathPrefix?: ExportBlobListBlobPathPrefixList;
+  blobPathPrefix?: ExportBlobListBlobPathPrefixList | undefined;
 }
 /** A property containing information about the blobs to be exported for an export job. This property is required for export jobs, but must not be specified for import jobs. */
 export interface Export {
   /** A list of the blobs to be exported. */
-  blobList?: ExportBlobList;
+  blobList?: ExportBlobList | undefined;
   /** The relative URI to the block blob that contains the list of blob paths or blob path prefixes as defined above, beginning with the container name. If the blob is in root container, the URI must begin with $root. */
-  blobListBlobPath?: string;
+  blobListBlobPath?: string | undefined;
 }
 /** The type of kek encryption key */
 export type EncryptionKeyDetailsKekType = "MicrosoftManaged" | "CustomerManaged";
 /** Specifies the encryption key properties */
 export interface EncryptionKeyDetails {
   /** The type of kek encryption key */
-  kekType?: EncryptionKeyDetailsKekType | (string & {});
+  kekType?: EncryptionKeyDetailsKekType | (string & {}) | undefined;
   /** Specifies the url for kek encryption key. */
-  kekUrl?: string;
+  kekUrl?: string | undefined;
   /** Specifies the keyvault resource id for kek encryption key. */
-  kekVaultResourceID?: string;
+  kekVaultResourceID?: string | undefined;
 }
 /** Specifies the job properties */
 export interface JobDetailsInput {
   /** The resource identifier of the storage account where data will be imported to or exported from. */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
   /** The type of job */
-  jobType?: string;
+  jobType?: string | undefined;
   /** Specifies the return address information for the job. */
-  returnAddress?: ReturnAddress;
+  returnAddress?: ReturnAddress | undefined;
   /** Specifies the return carrier and customer's account with the carrier. */
-  returnShipping?: ReturnShipping;
+  returnShipping?: ReturnShipping | undefined;
   /** Contains information about the Microsoft datacenter to which the drives should be shipped. */
-  shippingInformation?: ShippingInformationInput;
+  shippingInformation?: ShippingInformationInput | undefined;
   /** Contains information about the package being shipped by the customer to the Microsoft data center. */
-  deliveryPackage?: DeliveryPackageInformation;
+  deliveryPackage?: DeliveryPackageInformation | undefined;
   /** Contains information about the package being shipped from the Microsoft data center to the customer to return the drives. The format is the same as the deliveryPackage property above. This property is not included if the drives have not yet been returned. */
-  returnPackage?: PackageInformation;
+  returnPackage?: PackageInformation | undefined;
   /** The virtual blob directory to which the copy logs and backups of drive manifest files (if enabled) will be stored. */
-  diagnosticsPath?: string;
+  diagnosticsPath?: string | undefined;
   /** Default value is Error. Indicates whether error logging or verbose logging will be enabled. */
-  logLevel?: string;
+  logLevel?: string | undefined;
   /** Default value is false. Indicates whether the manifest files on the drives should be copied to block blobs. */
-  backupDriveManifest?: boolean;
+  backupDriveManifest?: boolean | undefined;
   /** Current state of the job. */
-  state?: string;
+  state?: string | undefined;
   /** Indicates whether a request has been submitted to cancel the job. */
-  cancelRequested?: boolean;
+  cancelRequested?: boolean | undefined;
   /** Overall percentage completed for the job. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** A blob path that points to a block blob containing a list of blob names that were not exported due to insufficient drive space. If all blobs were exported successfully, then this element is not included in the response. */
-  incompleteBlobListUri?: string;
+  incompleteBlobListUri?: string | undefined;
   /** List of up to ten drives that comprise the job. The drive list is a required element for an import job; it is not specified for export jobs. */
-  driveList?: JobDetailsInputDriveListList;
+  driveList?: JobDetailsInputDriveListList | undefined;
   /** A property containing information about the blobs to be exported for an export job. This property is included for export jobs only. */
-  export?: Export;
+  export?: Export | undefined;
   /** Specifies the provisioning state of the job. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Contains information about the encryption key. */
-  encryptionKey?: EncryptionKeyDetails;
+  encryptionKey?: EncryptionKeyDetails | undefined;
 }
 export interface CreateJobRequest {
   /** The subscription ID for the Azure user. */
@@ -214,11 +215,11 @@ export interface CreateJobRequest {
   /** The name of the import/export job. */
   jobName: string;
   /** Specifies the supported Azure location where the job should be created */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the tags that will be assigned to the job. */
-  tags?: unknown;
+  tags?: unknown | undefined;
   /** Specifies the job properties */
-  properties?: JobDetailsInput;
+  properties?: JobDetailsInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type JobResponseSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -231,109 +232,109 @@ export type JobResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface JobResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: JobResponseSystemDataCreatedByType;
+  createdByType?: JobResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: JobResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: JobResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Contains information about the Microsoft datacenter to which the drives should be shipped. */
 export interface ShippingInformation {
   /** The name of the recipient who will receive the hard drives when they are returned. */
-  recipientName?: string;
+  recipientName?: string | undefined;
   /** The first line of the street address to use when returning the drives. */
-  streetAddress1?: string;
+  streetAddress1?: string | undefined;
   /** The second line of the street address to use when returning the drives. */
-  streetAddress2?: string;
+  streetAddress2?: string | undefined;
   /** The city name to use when returning the drives. */
-  city?: string;
+  city?: string | undefined;
   /** The state or province to use when returning the drives. */
-  stateOrProvince?: string;
+  stateOrProvince?: string | undefined;
   /** The postal code to use when returning the drives. */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** The country or region to use when returning the drives. */
-  countryOrRegion?: string;
+  countryOrRegion?: string | undefined;
   /** Phone number of the recipient of the returned drives. */
-  phone?: string;
+  phone?: string | undefined;
   /** Additional shipping information for customer, specific to datacenter to which customer should send their disks. */
-  additionalInformation?: string;
+  additionalInformation?: string | undefined;
 }
 /** List of up to ten drives that comprise the job. The drive list is a required element for an import job; it is not specified for export jobs. */
 export type JobDetailsDriveListList = Array<DriveStatus>;
 /** Specifies the job properties */
 export interface JobDetails {
   /** The resource identifier of the storage account where data will be imported to or exported from. */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
   /** The type of job */
-  jobType?: string;
+  jobType?: string | undefined;
   /** Specifies the return address information for the job. */
-  returnAddress?: ReturnAddress;
+  returnAddress?: ReturnAddress | undefined;
   /** Specifies the return carrier and customer's account with the carrier. */
-  returnShipping?: ReturnShipping;
+  returnShipping?: ReturnShipping | undefined;
   /** Contains information about the Microsoft datacenter to which the drives should be shipped. */
-  shippingInformation?: ShippingInformation;
+  shippingInformation?: ShippingInformation | undefined;
   /** Contains information about the package being shipped by the customer to the Microsoft data center. */
-  deliveryPackage?: DeliveryPackageInformation;
+  deliveryPackage?: DeliveryPackageInformation | undefined;
   /** Contains information about the package being shipped from the Microsoft data center to the customer to return the drives. The format is the same as the deliveryPackage property above. This property is not included if the drives have not yet been returned. */
-  returnPackage?: PackageInformation;
+  returnPackage?: PackageInformation | undefined;
   /** The virtual blob directory to which the copy logs and backups of drive manifest files (if enabled) will be stored. */
-  diagnosticsPath?: string;
+  diagnosticsPath?: string | undefined;
   /** Default value is Error. Indicates whether error logging or verbose logging will be enabled. */
-  logLevel?: string;
+  logLevel?: string | undefined;
   /** Default value is false. Indicates whether the manifest files on the drives should be copied to block blobs. */
-  backupDriveManifest?: boolean;
+  backupDriveManifest?: boolean | undefined;
   /** Current state of the job. */
-  state?: string;
+  state?: string | undefined;
   /** Indicates whether a request has been submitted to cancel the job. */
-  cancelRequested?: boolean;
+  cancelRequested?: boolean | undefined;
   /** Overall percentage completed for the job. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** A blob path that points to a block blob containing a list of blob names that were not exported due to insufficient drive space. If all blobs were exported successfully, then this element is not included in the response. */
-  incompleteBlobListUri?: string;
+  incompleteBlobListUri?: string | undefined;
   /** List of up to ten drives that comprise the job. The drive list is a required element for an import job; it is not specified for export jobs. */
-  driveList?: JobDetailsDriveListList;
+  driveList?: JobDetailsDriveListList | undefined;
   /** A property containing information about the blobs to be exported for an export job. This property is included for export jobs only. */
-  export?: Export;
+  export?: Export | undefined;
   /** Specifies the provisioning state of the job. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Contains information about the encryption key. */
-  encryptionKey?: EncryptionKeyDetails;
+  encryptionKey?: EncryptionKeyDetails | undefined;
 }
 /** The type of identity */
 export type IdentityDetailsType = "None" | "SystemAssigned" | "UserAssigned";
 /** Specifies the identity properties. */
 export interface IdentityDetails {
   /** The type of identity */
-  type?: IdentityDetailsType;
+  type?: IdentityDetailsType | undefined;
   /** Specifies the principal id for the identity for the job. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Specifies the tenant id for the identity for the job. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** Contains the job information. */
 export interface JobResponse {
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: JobResponseSystemData;
+  systemData?: JobResponseSystemData | undefined;
   /** Specifies the resource identifier of the job. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the job. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the type of the job resource. */
-  type?: string;
+  type?: string | undefined;
   /** Specifies the Azure location where the job is created. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the tags that are assigned to the job. */
-  tags?: unknown;
+  tags?: unknown | undefined;
   /** Specifies the job properties */
-  properties?: JobDetails;
+  properties?: JobDetails | undefined;
   /** Specifies the job identity details */
-  identity?: IdentityDetails;
+  identity?: IdentityDetails | undefined;
 }
 export interface DeleteJobRequest {
   /** The subscription ID for the Azure user. */
@@ -363,38 +364,38 @@ export type LocationPropertiesAlternateLocationsList = Array<string>;
 /** location properties */
 export interface LocationProperties {
   /** The recipient name to use when shipping the drives to the Azure data center. */
-  recipientName?: string;
+  recipientName?: string | undefined;
   /** The first line of the street address to use when shipping the drives to the Azure data center. */
-  streetAddress1?: string;
+  streetAddress1?: string | undefined;
   /** The second line of the street address to use when shipping the drives to the Azure data center. */
-  streetAddress2?: string;
+  streetAddress2?: string | undefined;
   /** The city name to use when shipping the drives to the Azure data center. */
-  city?: string;
+  city?: string | undefined;
   /** The state or province to use when shipping the drives to the Azure data center. */
-  stateOrProvince?: string;
+  stateOrProvince?: string | undefined;
   /** The postal code to use when shipping the drives to the Azure data center. */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** The country or region to use when shipping the drives to the Azure data center. */
-  countryOrRegion?: string;
+  countryOrRegion?: string | undefined;
   /** The phone number for the Azure data center. */
-  phone?: string;
+  phone?: string | undefined;
   /** Additional shipping information for customer, specific to datacenter to which customer should send their disks. */
-  additionalShippingInformation?: string;
+  additionalShippingInformation?: string | undefined;
   /** A list of carriers that are supported at this location. */
-  supportedCarriers?: LocationPropertiesSupportedCarriersList;
+  supportedCarriers?: LocationPropertiesSupportedCarriersList | undefined;
   /** A list of location IDs that should be used to ship shipping drives to for jobs created against the current location. If the current location is active, it will be part of the list. If it is temporarily closed due to maintenance, this list may contain other locations. */
-  alternateLocations?: LocationPropertiesAlternateLocationsList;
+  alternateLocations?: LocationPropertiesAlternateLocationsList | undefined;
 }
 /** Provides information about an Azure data center location. */
 export interface Location {
   /** Specifies the resource identifier of the location. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the location. Use List Locations to get all supported locations. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the type of the location. */
-  type?: string;
+  type?: string | undefined;
   /** location properties */
-  properties?: LocationProperties;
+  properties?: LocationProperties | undefined;
 }
 export interface ListBitLockerKeysRequest {
   /** The subscription ID for the Azure user. */
@@ -407,16 +408,16 @@ export interface ListBitLockerKeysRequest {
 /** BitLocker recovery key or password to the specified drive */
 export interface DriveBitLockerKey {
   /** BitLocker recovery key or password */
-  bitLockerKey?: string;
+  bitLockerKey?: string | undefined;
   /** Drive ID */
-  driveId?: string;
+  driveId?: string | undefined;
 }
 /** drive status */
 export type GetBitLockerKeysResponseValueList = Array<DriveBitLockerKey>;
 /** GetBitLockerKeys response */
 export interface GetBitLockerKeysResponse {
   /** drive status */
-  value?: GetBitLockerKeysResponseValueList;
+  value?: GetBitLockerKeysResponseValueList | undefined;
 }
 export interface ListJobByResourceGroupRequest {
   /** The subscription ID for the Azure user. */
@@ -424,26 +425,26 @@ export interface ListJobByResourceGroupRequest {
   /** The resource group name uniquely identifies the resource group within the user subscription. */
   resourceGroupName: string;
   /** An integer value that specifies how many jobs at most should be returned. The value cannot exceed 100. */
-  _top?: number;
+  _top?: number | undefined;
   /** Can be used to restrict the results to certain conditions. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Job list */
 export type ListJobsResponseValueList = Array<JobResponse>;
 /** List jobs response */
 export interface ListJobsResponse {
   /** link to next batch of jobs */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Job list */
-  value?: ListJobsResponseValueList;
+  value?: ListJobsResponseValueList | undefined;
 }
 export interface ListJobBySubscriptionRequest {
   /** The subscription ID for the Azure user. */
   subscriptionId: string;
   /** An integer value that specifies how many jobs at most should be returned. The value cannot exceed 100. */
-  _top?: number;
+  _top?: number | undefined;
   /** Can be used to restrict the results to certain conditions. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListLocationsRequest {}
 /** locations */
@@ -451,19 +452,19 @@ export type LocationsResponseValueList = Array<Location>;
 /** Locations response */
 export interface LocationsResponse {
   /** locations */
-  value?: LocationsResponseValueList;
+  value?: LocationsResponseValueList | undefined;
 }
 export interface ListOperationsRequest {}
 /** operation display properties */
 export interface OperationDisplay {
   /** The resource provider name to which the operation belongs. */
-  provider?: string;
+  provider?: string | undefined;
   /** The name of the resource to which the operation belongs. */
-  resource?: string;
+  resource?: string | undefined;
   /** The display name of the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** Short description of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Describes a supported operation by the Storage Import/Export job API. */
 export interface Operation {
@@ -477,28 +478,28 @@ export type ListOperationsResponseValueList = Array<Operation>;
 /** List operations response */
 export interface ListOperationsResponse {
   /** operations */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
 }
 /** List of drives that comprise the job. */
 export type UpdateJobRequestPropertiesDriveListList = Array<DriveStatus>;
 /** Specifies the properties of a UpdateJob. */
 export interface UpdateJobRequestProperties {
   /** If specified, the value must be true. The service will attempt to cancel the job. */
-  cancelRequested?: boolean;
+  cancelRequested?: boolean | undefined;
   /** If specified, the value must be Shipping, which tells the Import/Export service that the package for the job has been shipped. The ReturnAddress and DeliveryPackage properties must have been set either in this request or in a previous request, otherwise the request will fail. */
-  state?: string;
+  state?: string | undefined;
   /** Specifies the return address information for the job. */
-  returnAddress?: ReturnAddress;
+  returnAddress?: ReturnAddress | undefined;
   /** Specifies the return carrier and customer's account with the carrier. */
-  returnShipping?: ReturnShipping;
+  returnShipping?: ReturnShipping | undefined;
   /** Contains information about the package being shipped by the customer to the Microsoft data center. */
-  deliveryPackage?: DeliveryPackageInformation;
+  deliveryPackage?: DeliveryPackageInformation | undefined;
   /** Indicates whether error logging or verbose logging is enabled. */
-  logLevel?: string;
+  logLevel?: string | undefined;
   /** Indicates whether the manifest files on the drives should be copied to block blobs. */
-  backupDriveManifest?: boolean;
+  backupDriveManifest?: boolean | undefined;
   /** List of drives that comprise the job. */
-  driveList?: UpdateJobRequestPropertiesDriveListList;
+  driveList?: UpdateJobRequestPropertiesDriveListList | undefined;
 }
 export interface UpdateJobRequest {
   /** The subscription ID for the Azure user. */
@@ -508,9 +509,9 @@ export interface UpdateJobRequest {
   /** The name of the import/export job. */
   jobName: string;
   /** Specifies the tags that will be assigned to the job */
-  tags?: unknown;
+  tags?: unknown | undefined;
   /** Specifies the properties of a UpdateJob. */
-  properties?: UpdateJobRequestProperties;
+  properties?: UpdateJobRequestProperties | undefined;
 }
 export type CreateJobError = AzureOpError;
 /** Creates a new job or updates an existing job in the specified subscription. */

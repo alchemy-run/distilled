@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Relay",
   service: "Relay",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -48,11 +49,11 @@ export type UnavailableReason =
 /** Description of the check name availability request properties. */
 export interface CheckNameAvailabilityResult {
   /** The detailed info regarding the reason associated with the namespace. */
-  message?: string;
+  message?: string | undefined;
   /** Value indicating namespace is available. Returns true if the namespace is available; otherwise, false. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason for unavailability of a namespace. */
-  reason?: UnavailableReason;
+  reason?: UnavailableReason | undefined;
 }
 export interface DeleteHybridConnectionRequest {
   /** The ID of the target subscription. */
@@ -88,9 +89,9 @@ export interface DeleteNamespaceRequest {
 }
 export interface DeleteNamespaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNamespaceAuthorizationRuleRequest {
   /** The ID of the target subscription. */
@@ -115,9 +116,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteWCFRelayRequest {
   /** The ID of the target subscription. */
@@ -160,44 +161,44 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Properties of the HybridConnection. */
 export interface HybridConnectionProperties {
   /** The time the hybrid connection was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The time the namespace was updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** The number of listeners for this hybrid connection. Note that min : 1 and max:25 are supported. */
-  listenerCount?: number;
+  listenerCount?: number | undefined;
   /** Returns true if client authorization is needed for this hybrid connection; otherwise, false. */
-  requiresClientAuthorization?: boolean;
+  requiresClientAuthorization?: boolean | undefined;
   /** The usermetadata is a placeholder to store user-defined string data for the hybrid connection endpoint. For example, it can be used to store descriptive data, such as a list of teams and their contact information. Also, user-defined configuration settings can be stored. */
-  userMetadata?: string;
+  userMetadata?: string | undefined;
 }
 export interface GetHybridConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the HybridConnection. */
-  properties?: HybridConnectionProperties;
+  properties?: HybridConnectionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetHybridConnectionAuthorizationRuleRequest {
   /** The ID of the target subscription. */
@@ -221,17 +222,17 @@ export interface AuthorizationRuleProperties {
 }
 export interface GetHybridConnectionAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetNamespaceRequest {
   /** The ID of the target subscription. */
@@ -246,16 +247,16 @@ export type GetNamespaceResponseTagsMap = { [key: string]: string | undefined };
 /** PrivateEndpoint information. */
 export interface PrivateEndpoint {
   /** The ARM identifier for Private Endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Status of the connection. */
 export type PrivateLinkConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 /** ConnectionState information. */
 export interface ConnectionState {
   /** Status of the connection. */
-  status?: PrivateLinkConnectionStatus | (string & {});
+  status?: PrivateLinkConnectionStatus | (string & {}) | undefined;
   /** Description of the connection state. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Provisioning state of the Private Endpoint Connection. */
 export type EndPointProvisioningState =
@@ -268,26 +269,26 @@ export type EndPointProvisioningState =
 /** Properties of the private endpoint connection resource. */
 export interface PrivateEndpointConnectionProperties {
   /** The Private Endpoint resource for this Connection. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** Details about the state of the connection. */
-  privateLinkServiceConnectionState?: ConnectionState;
+  privateLinkServiceConnectionState?: ConnectionState | undefined;
   /** Provisioning state of the Private Endpoint Connection. */
-  provisioningState?: EndPointProvisioningState | (string & {});
+  provisioningState?: EndPointProvisioningState | (string & {}) | undefined;
 }
 /** Properties of the PrivateEndpointConnection. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** List of private endpoint connections. */
 export type RelayNamespacePropertiesPrivateEndpointConnectionsList =
@@ -302,23 +303,23 @@ export type TlsVersion = "1.2" | "1.3";
 /** Properties of the namespace. */
 export interface RelayNamespaceProperties {
   /** Provisioning state of the Namespace. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Status of the Namespace. */
-  status?: string;
+  status?: string | undefined;
   /** The time the namespace was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The time the namespace was updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Endpoint you can use to perform Service Bus operations. */
-  serviceBusEndpoint?: string;
+  serviceBusEndpoint?: string | undefined;
   /** Identifier for Azure Insights metrics. */
-  metricId?: string;
+  metricId?: string | undefined;
   /** List of private endpoint connections. */
-  privateEndpointConnections?: RelayNamespacePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: RelayNamespacePropertiesPrivateEndpointConnectionsList | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. */
-  publicNetworkAccess?: RelayNamespacePropertiesPublicNetworkAccess;
+  publicNetworkAccess?: RelayNamespacePropertiesPublicNetworkAccess | undefined;
   /** The minimum TLS version for the namespace. Supported values are 1.2 and 1.3. The service defaults to 1.2 when the property is omitted. Existing namespaces configured with TLS 1.0 or 1.1 are reported as TLS 1.2. */
-  minimumTlsVersion?: TlsVersion;
+  minimumTlsVersion?: TlsVersion | undefined;
 }
 /** Name of this SKU. */
 export type SkuName = "Standard";
@@ -329,25 +330,25 @@ export interface Sku {
   /** Name of this SKU. */
   name: SkuName | (string & {});
   /** The tier of this SKU. */
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
 }
 export interface GetNamespaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNamespaceResponseTagsMap;
+  tags?: GetNamespaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Description of Relay namespace */
-  properties?: RelayNamespaceProperties;
+  properties?: RelayNamespaceProperties | undefined;
   /** SKU of the namespace. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface GetNamespaceAuthorizationRuleRequest {
   /** The ID of the target subscription. */
@@ -361,17 +362,17 @@ export interface GetNamespaceAuthorizationRuleRequest {
 }
 export interface GetNamespaceAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetNamespaceNetworkRuleSetRequest {
   /** The ID of the target subscription. */
@@ -390,34 +391,34 @@ export type NetworkRuleIPAction = "Allow";
 /** The response from the List namespace operation. */
 export interface NWRuleSetIpRules {
   /** IP Mask */
-  ipMask?: string;
+  ipMask?: string | undefined;
   /** The IP Filter Action */
-  action?: NetworkRuleIPAction | (string & {});
+  action?: NetworkRuleIPAction | (string & {}) | undefined;
 }
 /** List of IpRules */
 export type NetworkRuleSetPropertiesIpRulesList = Array<NWRuleSetIpRules>;
 /** NetworkRuleSet properties */
 export interface NetworkRuleSetProperties {
   /** Value that indicates whether Trusted Service Access is Enabled or not. */
-  trustedServiceAccessEnabled?: boolean;
+  trustedServiceAccessEnabled?: boolean | undefined;
   /** Default Action for Network Rule Set */
-  defaultAction?: DefaultAction | (string & {});
+  defaultAction?: DefaultAction | (string & {}) | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** List of IpRules */
-  ipRules?: NetworkRuleSetPropertiesIpRulesList;
+  ipRules?: NetworkRuleSetPropertiesIpRulesList | undefined;
 }
 export interface GetNamespaceNetworkRuleSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** NetworkRuleSet properties */
-  properties?: NetworkRuleSetProperties;
+  properties?: NetworkRuleSetProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -431,17 +432,17 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. */
@@ -460,23 +461,23 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of PrivateLinkResource */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A resource that supports private link capabilities. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetWCFRelayRequest {
   /** The ID of the target subscription. */
@@ -493,35 +494,35 @@ export type Relaytype = "NetTcp" | "Http";
 /** Properties of the WCF relay. */
 export interface WcfRelayProperties {
   /** Returns true if the relay is dynamic; otherwise, false. */
-  isDynamic?: boolean;
+  isDynamic?: boolean | undefined;
   /** The time the WCF relay was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The time the namespace was updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** The number of listeners for this relay. Note that min :1 and max:25 are supported. */
-  listenerCount?: number;
+  listenerCount?: number | undefined;
   /** WCF relay type. */
-  relayType?: Relaytype;
+  relayType?: Relaytype | undefined;
   /** Returns true if client authorization is needed for this relay; otherwise, false. */
-  requiresClientAuthorization?: boolean;
+  requiresClientAuthorization?: boolean | undefined;
   /** Returns true if transport security is needed for this relay; otherwise, false. */
-  requiresTransportSecurity?: boolean;
+  requiresTransportSecurity?: boolean | undefined;
   /** The usermetadata is a placeholder to store user-defined string data for the WCF Relay endpoint. For example, it can be used to store descriptive data, such as list of teams and their contact information. Also, user-defined configuration settings can be stored. */
-  userMetadata?: string;
+  userMetadata?: string | undefined;
 }
 export interface GetWCFRelayResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the WCF relay. */
-  properties?: WcfRelayProperties;
+  properties?: WcfRelayProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetWCFRelayAuthorizationRuleRequest {
   /** The ID of the target subscription. */
@@ -537,24 +538,24 @@ export interface GetWCFRelayAuthorizationRuleRequest {
 }
 export interface GetWCFRelayAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Properties of the HybridConnection. */
 export interface HybridConnectionPropertiesInput {
   /** Returns true if client authorization is needed for this hybrid connection; otherwise, false. */
-  requiresClientAuthorization?: boolean;
+  requiresClientAuthorization?: boolean | undefined;
   /** The usermetadata is a placeholder to store user-defined string data for the hybrid connection endpoint. For example, it can be used to store descriptive data, such as a list of teams and their contact information. Also, user-defined configuration settings can be stored. */
-  userMetadata?: string;
+  userMetadata?: string | undefined;
 }
 export interface HybridConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -566,21 +567,21 @@ export interface HybridConnectionsCreateOrUpdateRequest {
   /** The hybrid connection name. */
   hybridConnectionName: string;
   /** Properties of the HybridConnection. */
-  properties?: HybridConnectionPropertiesInput;
+  properties?: HybridConnectionPropertiesInput | undefined;
 }
 export interface HybridConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the HybridConnection. */
-  properties?: HybridConnectionProperties;
+  properties?: HybridConnectionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface HybridConnectionsCreateOrUpdateAuthorizationRuleRequest {
   /** The ID of the target subscription. */
@@ -594,21 +595,21 @@ export interface HybridConnectionsCreateOrUpdateAuthorizationRuleRequest {
   /** The authorization rule name. */
   authorizationRuleName: string;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
 }
 export interface HybridConnectionsCreateOrUpdateAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface ListHybridConnectionAuthorizationRulesRequest {
   /** The ID of the target subscription. */
@@ -623,17 +624,17 @@ export interface ListHybridConnectionAuthorizationRulesRequest {
 /** Single item in a List or Get AuthorizationRule operation */
 export interface AuthorizationRule {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The AuthorizationRule items on this page */
 export type AuthorizationRuleListResultValueList = Array<AuthorizationRule>;
@@ -642,7 +643,7 @@ export interface AuthorizationRuleListResult {
   /** The AuthorizationRule items on this page */
   value: AuthorizationRuleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHybridConnectionByNamespaceRequest {
   /** The ID of the target subscription. */
@@ -655,17 +656,17 @@ export interface ListHybridConnectionByNamespaceRequest {
 /** Description of hybrid connection resource. */
 export interface HybridConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the HybridConnection. */
-  properties?: HybridConnectionProperties;
+  properties?: HybridConnectionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The HybridConnection items on this page */
 export type HybridConnectionListResultValueList = Array<HybridConnection>;
@@ -674,7 +675,7 @@ export interface HybridConnectionListResult {
   /** The HybridConnection items on this page */
   value: HybridConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHybridConnectionKeysRequest {
   /** The ID of the target subscription. */
@@ -691,15 +692,15 @@ export interface ListHybridConnectionKeysRequest {
 /** Namespace/Relay Connection String */
 export interface AccessKeys {
   /** Primary connection string of the created namespace authorization rule. */
-  primaryConnectionString?: string;
+  primaryConnectionString?: string | undefined;
   /** Secondary connection string of the created namespace authorization rule. */
-  secondaryConnectionString?: string;
+  secondaryConnectionString?: string | undefined;
   /** A base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** A base64-encoded 256-bit secondary key for signing and validating the SAS token. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** A string that describes the authorization rule. */
-  keyName?: string;
+  keyName?: string | undefined;
 }
 export interface ListNamespaceAuthorizationRulesRequest {
   /** The ID of the target subscription. */
@@ -720,21 +721,21 @@ export type RelayNamespaceTagsMap = { [key: string]: string | undefined };
 /** Description of a namespace resource. */
 export interface RelayNamespace {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RelayNamespaceTagsMap;
+  tags?: RelayNamespaceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Description of Relay namespace */
-  properties?: RelayNamespaceProperties;
+  properties?: RelayNamespaceProperties | undefined;
   /** SKU of the namespace. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** The RelayNamespace items on this page */
 export type RelayNamespaceListResultValueList = Array<RelayNamespace>;
@@ -743,7 +744,7 @@ export interface RelayNamespaceListResult {
   /** The RelayNamespace items on this page */
   value: RelayNamespaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceKeysRequest {
   /** The ID of the target subscription. */
@@ -763,13 +764,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -778,23 +779,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
@@ -811,7 +812,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesRequest {
   /** The ID of the target subscription. */
@@ -824,15 +825,15 @@ export interface ListPrivateLinkResourcesRequest {
 /** A resource that supports private link capabilities. */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A resource that supports private link capabilities. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** A collection of private link resources */
 export type PrivateLinkResourcesListResultValueList = Array<PrivateLinkResource>;
@@ -841,7 +842,7 @@ export interface PrivateLinkResourcesListResult {
   /** A collection of private link resources */
   value: PrivateLinkResourcesListResultValueList;
   /** A link for the next page of private link resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWCFRelayAuthorizationRulesRequest {
   /** The ID of the target subscription. */
@@ -864,17 +865,17 @@ export interface ListWCFRelayByNamespaceRequest {
 /** Description of the WCF relay resource. */
 export interface WcfRelay {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the WCF relay. */
-  properties?: WcfRelayProperties;
+  properties?: WcfRelayProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The WcfRelay items on this page */
 export type WcfRelaysListResultValueList = Array<WcfRelay>;
@@ -883,7 +884,7 @@ export interface WcfRelaysListResult {
   /** The WcfRelay items on this page */
   value: WcfRelaysListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWCFRelayKeysRequest {
   /** The ID of the target subscription. */
@@ -902,7 +903,7 @@ export type NamespacesCreateOrUpdateRequestTagsMap = { [key: string]: string | u
 /** Properties of the PrivateEndpointConnection. */
 export interface PrivateEndpointConnectionInput {
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections. */
 export type RelayNamespacePropertiesInputPrivateEndpointConnectionsList =
@@ -915,11 +916,16 @@ export type RelayNamespacePropertiesInputPublicNetworkAccess =
 /** Properties of the namespace. */
 export interface RelayNamespacePropertiesInput {
   /** List of private endpoint connections. */
-  privateEndpointConnections?: RelayNamespacePropertiesInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | RelayNamespacePropertiesInputPrivateEndpointConnectionsList
+    | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. */
-  publicNetworkAccess?: RelayNamespacePropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | RelayNamespacePropertiesInputPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** The minimum TLS version for the namespace. Supported values are 1.2 and 1.3. The service defaults to 1.2 when the property is omitted. Existing namespaces configured with TLS 1.0 or 1.1 are reported as TLS 1.2. */
-  minimumTlsVersion?: TlsVersion | (string & {});
+  minimumTlsVersion?: TlsVersion | (string & {}) | undefined;
 }
 export interface NamespacesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -929,37 +935,37 @@ export interface NamespacesCreateOrUpdateRequest {
   /** The namespace name */
   namespaceName: string;
   /** Resource tags. */
-  tags?: NamespacesCreateOrUpdateRequestTagsMap;
+  tags?: NamespacesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Description of Relay namespace */
-  properties?: RelayNamespacePropertiesInput;
+  properties?: RelayNamespacePropertiesInput | undefined;
   /** SKU of the namespace. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Resource tags. */
 export type NamespacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface NamespacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NamespacesCreateOrUpdateResponseTagsMap;
+  tags?: NamespacesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Description of Relay namespace */
-  properties?: RelayNamespaceProperties;
+  properties?: RelayNamespaceProperties | undefined;
   /** SKU of the namespace. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NamespacesCreateOrUpdateAuthorizationRuleRequest {
   /** The ID of the target subscription. */
@@ -971,21 +977,21 @@ export interface NamespacesCreateOrUpdateAuthorizationRuleRequest {
   /** The authorization rule name. */
   authorizationRuleName: string;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
 }
 export interface NamespacesCreateOrUpdateAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface NamespacesCreateOrUpdateNetworkRuleSetRequest {
   /** The ID of the target subscription. */
@@ -995,19 +1001,19 @@ export interface NamespacesCreateOrUpdateNetworkRuleSetRequest {
   /** The namespace name */
   namespaceName: string;
   /** NetworkRuleSet properties */
-  properties?: NetworkRuleSetProperties;
+  properties?: NetworkRuleSetProperties | undefined;
 }
 export interface NamespacesCreateOrUpdateNetworkRuleSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** NetworkRuleSet properties */
-  properties?: NetworkRuleSetProperties;
+  properties?: NetworkRuleSetProperties | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1019,21 +1025,21 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The PrivateEndpointConnection name */
   privateEndpointConnectionName: string;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The access key to regenerate. */
 export type KeyType = "PrimaryKey" | "SecondaryKey";
@@ -1051,7 +1057,7 @@ export interface RegenerateHybridConnectionKeysRequest {
   /** The access key to regenerate. */
   keyType: KeyType | (string & {});
   /** Optional. If the key value is provided, this is set to key type, or autogenerated key value set for key type. */
-  key?: string;
+  key?: string | undefined;
 }
 export interface RegenerateNamespaceKeysRequest {
   /** The ID of the target subscription. */
@@ -1065,7 +1071,7 @@ export interface RegenerateNamespaceKeysRequest {
   /** The access key to regenerate. */
   keyType: KeyType | (string & {});
   /** Optional. If the key value is provided, this is set to key type, or autogenerated key value set for key type. */
-  key?: string;
+  key?: string | undefined;
 }
 export interface RegenerateWCFRelayKeysRequest {
   /** The ID of the target subscription. */
@@ -1081,7 +1087,7 @@ export interface RegenerateWCFRelayKeysRequest {
   /** The access key to regenerate. */
   keyType: KeyType | (string & {});
   /** Optional. If the key value is provided, this is set to key type, or autogenerated key value set for key type. */
-  key?: string;
+  key?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceRequestTagsMap = { [key: string]: string | undefined };
@@ -1093,42 +1099,42 @@ export interface UpdateNamespaceRequest {
   /** The namespace name */
   namespaceName: string;
   /** Resource tags. */
-  tags?: UpdateNamespaceRequestTagsMap;
+  tags?: UpdateNamespaceRequestTagsMap | undefined;
   /** SKU of the namespace. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Description of Relay namespace. */
-  properties?: RelayNamespacePropertiesInput;
+  properties?: RelayNamespacePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNamespaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNamespaceResponseTagsMap;
+  tags?: UpdateNamespaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Description of Relay namespace */
-  properties?: RelayNamespaceProperties;
+  properties?: RelayNamespaceProperties | undefined;
   /** SKU of the namespace. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Properties of the WCF relay. */
 export interface WcfRelayPropertiesInput {
   /** WCF relay type. */
-  relayType?: Relaytype | (string & {});
+  relayType?: Relaytype | (string & {}) | undefined;
   /** Returns true if client authorization is needed for this relay; otherwise, false. */
-  requiresClientAuthorization?: boolean;
+  requiresClientAuthorization?: boolean | undefined;
   /** Returns true if transport security is needed for this relay; otherwise, false. */
-  requiresTransportSecurity?: boolean;
+  requiresTransportSecurity?: boolean | undefined;
   /** The usermetadata is a placeholder to store user-defined string data for the WCF Relay endpoint. For example, it can be used to store descriptive data, such as list of teams and their contact information. Also, user-defined configuration settings can be stored. */
-  userMetadata?: string;
+  userMetadata?: string | undefined;
 }
 export interface WCFRelaysCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1140,21 +1146,21 @@ export interface WCFRelaysCreateOrUpdateRequest {
   /** The relay name. */
   relayName: string;
   /** Properties of the WCF relay. */
-  properties?: WcfRelayPropertiesInput;
+  properties?: WcfRelayPropertiesInput | undefined;
 }
 export interface WCFRelaysCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the WCF relay. */
-  properties?: WcfRelayProperties;
+  properties?: WcfRelayProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface WCFRelaysCreateOrUpdateAuthorizationRuleRequest {
   /** The ID of the target subscription. */
@@ -1168,21 +1174,21 @@ export interface WCFRelaysCreateOrUpdateAuthorizationRuleRequest {
   /** The authorization rule name. */
   authorizationRuleName: string;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
 }
 export interface WCFRelaysCreateOrUpdateAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export type CheckNamespaceNameAvailabilityError = AzureOpError;
 /** Check the specified namespace name availability. */

@@ -28,18 +28,19 @@ const TELEMETRY = {
   prefix: "Networkfunction",
   service: "Networkfunction",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
 /** Resource reference properties. */
 export interface ResourceReferenceInput {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Azure Traffic Collector resource properties. */
 export interface AzureTrafficCollectorPropertiesFormatInput {
   /** The virtualHub to which the Azure Traffic Collector belongs. */
-  virtualHub?: ResourceReferenceInput;
+  virtualHub?: ResourceReferenceInput | undefined;
 }
 /** Resource tags. */
 export type AzureTrafficCollectorsCreateOrUpdateRequestTagsMap = {
@@ -53,11 +54,11 @@ export interface AzureTrafficCollectorsCreateOrUpdateRequest {
   /** Azure Traffic Collector name */
   azureTrafficCollectorName: string;
   /** Properties of the Azure Traffic Collector. */
-  properties?: AzureTrafficCollectorPropertiesFormatInput;
+  properties?: AzureTrafficCollectorPropertiesFormatInput | undefined;
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: AzureTrafficCollectorsCreateOrUpdateRequestTagsMap;
+  tags?: AzureTrafficCollectorsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -66,17 +67,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource reference properties. */
 export type ResourceReference = ResourceReferenceInput;
@@ -88,11 +89,11 @@ export type ProvisioningState = "Succeeded" | "Updating" | "Deleting" | "Failed"
 /** Azure Traffic Collector resource properties. */
 export interface AzureTrafficCollectorPropertiesFormat {
   /** Collector Policies for Azure Traffic Collector. */
-  collectorPolicies?: AzureTrafficCollectorPropertiesFormatCollectorPoliciesList;
+  collectorPolicies?: AzureTrafficCollectorPropertiesFormatCollectorPoliciesList | undefined;
   /** The virtualHub to which the Azure Traffic Collector belongs. */
-  virtualHub?: ResourceReferenceInput;
+  virtualHub?: ResourceReferenceInput | undefined;
   /** The provisioning state of the application rule collection resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** Resource tags. */
 export type AzureTrafficCollectorsCreateOrUpdateResponseTagsMap = {
@@ -100,25 +101,25 @@ export type AzureTrafficCollectorsCreateOrUpdateResponseTagsMap = {
 };
 export interface AzureTrafficCollectorsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Azure Traffic Collector. */
-  properties?: AzureTrafficCollectorPropertiesFormat;
+  properties?: AzureTrafficCollectorPropertiesFormat | undefined;
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: AzureTrafficCollectorsCreateOrUpdateResponseTagsMap;
+  tags?: AzureTrafficCollectorsCreateOrUpdateResponseTagsMap | undefined;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The ingestion type. */
 export type IngestionType = "IPFIX";
@@ -127,9 +128,9 @@ export type SourceType = "Resource";
 /** Ingestion policy properties. */
 export interface IngestionSourcesPropertiesFormat {
   /** Ingestion source type. */
-  sourceType?: SourceType | (string & {});
+  sourceType?: SourceType | (string & {}) | undefined;
   /** Resource ID. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** Ingestion Sources. */
 export type IngestionPolicyPropertiesFormatIngestionSourcesList =
@@ -137,9 +138,9 @@ export type IngestionPolicyPropertiesFormatIngestionSourcesList =
 /** Ingestion Policy properties. */
 export interface IngestionPolicyPropertiesFormat {
   /** The ingestion type. */
-  ingestionType?: IngestionType | (string & {});
+  ingestionType?: IngestionType | (string & {}) | undefined;
   /** Ingestion Sources. */
-  ingestionSources?: IngestionPolicyPropertiesFormatIngestionSourcesList;
+  ingestionSources?: IngestionPolicyPropertiesFormatIngestionSourcesList | undefined;
 }
 /** Emission format type. */
 export type EmissionType = "IPFIX";
@@ -148,7 +149,7 @@ export type DestinationType = "AzureMonitor";
 /** Emission policy destination properties. */
 export interface EmissionPolicyDestination {
   /** Emission destination type. */
-  destinationType?: DestinationType | (string & {});
+  destinationType?: DestinationType | (string & {}) | undefined;
 }
 /** Emission policy destinations. */
 export type EmissionPoliciesPropertiesFormatEmissionDestinationsList =
@@ -156,9 +157,9 @@ export type EmissionPoliciesPropertiesFormatEmissionDestinationsList =
 /** Emission policy properties. */
 export interface EmissionPoliciesPropertiesFormat {
   /** Emission format type. */
-  emissionType?: EmissionType | (string & {});
+  emissionType?: EmissionType | (string & {}) | undefined;
   /** Emission policy destinations. */
-  emissionDestinations?: EmissionPoliciesPropertiesFormatEmissionDestinationsList;
+  emissionDestinations?: EmissionPoliciesPropertiesFormatEmissionDestinationsList | undefined;
 }
 /** Emission policies. */
 export type CollectorPolicyPropertiesFormatEmissionPoliciesList =
@@ -166,11 +167,11 @@ export type CollectorPolicyPropertiesFormatEmissionPoliciesList =
 /** Collection policy properties. */
 export interface CollectorPolicyPropertiesFormat {
   /** Ingestion policies. */
-  ingestionPolicy?: IngestionPolicyPropertiesFormat;
+  ingestionPolicy?: IngestionPolicyPropertiesFormat | undefined;
   /** Emission policies. */
-  emissionPolicies?: CollectorPolicyPropertiesFormatEmissionPoliciesList;
+  emissionPolicies?: CollectorPolicyPropertiesFormatEmissionPoliciesList | undefined;
   /** The provisioning state. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type CollectorPoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -184,35 +185,35 @@ export interface CollectorPoliciesCreateOrUpdateRequest {
   /** Collector Policy Name */
   collectorPolicyName: string;
   /** Properties of the Collector Policy. */
-  properties?: CollectorPolicyPropertiesFormat;
+  properties?: CollectorPolicyPropertiesFormat | undefined;
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: CollectorPoliciesCreateOrUpdateRequestTagsMap;
+  tags?: CollectorPoliciesCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type CollectorPoliciesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface CollectorPoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Collector Policy. */
-  properties?: CollectorPolicyPropertiesFormat;
+  properties?: CollectorPolicyPropertiesFormat | undefined;
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: CollectorPoliciesCreateOrUpdateResponseTagsMap;
+  tags?: CollectorPoliciesCreateOrUpdateResponseTagsMap | undefined;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAzureTrafficCollectorRequest {
   /** The ID of the target subscription. */
@@ -224,9 +225,9 @@ export interface DeleteAzureTrafficCollectorRequest {
 }
 export interface DeleteAzureTrafficCollectorResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCollectorPolicyRequest {
   /** The ID of the target subscription. */
@@ -240,9 +241,9 @@ export interface DeleteCollectorPolicyRequest {
 }
 export interface DeleteCollectorPolicyResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAzureTrafficCollectorRequest {
   /** The ID of the target subscription. */
@@ -256,21 +257,21 @@ export interface GetAzureTrafficCollectorRequest {
 export type GetAzureTrafficCollectorResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAzureTrafficCollectorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Azure Traffic Collector. */
-  properties?: AzureTrafficCollectorPropertiesFormat;
+  properties?: AzureTrafficCollectorPropertiesFormat | undefined;
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: GetAzureTrafficCollectorResponseTagsMap;
+  tags?: GetAzureTrafficCollectorResponseTagsMap | undefined;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetCollectorPolicyRequest {
   /** The ID of the target subscription. */
@@ -286,21 +287,21 @@ export interface GetCollectorPolicyRequest {
 export type GetCollectorPolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCollectorPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Collector Policy. */
-  properties?: CollectorPolicyPropertiesFormat;
+  properties?: CollectorPolicyPropertiesFormat | undefined;
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: GetCollectorPolicyResponseTagsMap;
+  tags?: GetCollectorPolicyResponseTagsMap | undefined;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface ListAzureTrafficCollectorsByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -313,21 +314,21 @@ export type AzureTrafficCollectorTagsMap = { [key: string]: string | undefined }
 /** Azure Traffic Collector resource. */
 export interface AzureTrafficCollector {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Azure Traffic Collector. */
-  properties?: AzureTrafficCollectorPropertiesFormat;
+  properties?: AzureTrafficCollectorPropertiesFormat | undefined;
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: AzureTrafficCollectorTagsMap;
+  tags?: AzureTrafficCollectorTagsMap | undefined;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The AzureTrafficCollector items on this page */
 export type AzureTrafficCollectorListResultValueList = Array<AzureTrafficCollector>;
@@ -336,7 +337,7 @@ export interface AzureTrafficCollectorListResult {
   /** The AzureTrafficCollector items on this page */
   value: AzureTrafficCollectorListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAzureTrafficCollectorsBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -355,21 +356,21 @@ export type CollectorPolicyTagsMap = { [key: string]: string | undefined };
 /** Collector policy resource. */
 export interface CollectorPolicy {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Collector Policy. */
-  properties?: CollectorPolicyPropertiesFormat;
+  properties?: CollectorPolicyPropertiesFormat | undefined;
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: CollectorPolicyTagsMap;
+  tags?: CollectorPolicyTagsMap | undefined;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The CollectorPolicy items on this page */
 export type CollectorPolicyListResultValueList = Array<CollectorPolicy>;
@@ -378,30 +379,30 @@ export interface CollectorPolicyListResult {
   /** The CollectorPolicy items on this page */
   value: CollectorPolicyListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkFunctionOperationsRequest {}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft NetworkFunction. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Type of operation: get, read, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Azure Traffic Collector REST API operation definition. */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Display metadata associated with the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** The Operation items on this page */
 export type OperationListResultValueList = Array<Operation>;
@@ -410,7 +411,7 @@ export interface OperationListResult {
   /** The Operation items on this page */
   value: OperationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateAzureTrafficCollectorTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -422,27 +423,27 @@ export interface UpdateAzureTrafficCollectorTagsRequest {
   /** Azure Traffic Collector name */
   azureTrafficCollectorName: string;
   /** Resource tags. */
-  tags?: UpdateAzureTrafficCollectorTagsRequestTagsMap;
+  tags?: UpdateAzureTrafficCollectorTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateAzureTrafficCollectorTagsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAzureTrafficCollectorTagsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Azure Traffic Collector. */
-  properties?: AzureTrafficCollectorPropertiesFormat;
+  properties?: AzureTrafficCollectorPropertiesFormat | undefined;
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: UpdateAzureTrafficCollectorTagsResponseTagsMap;
+  tags?: UpdateAzureTrafficCollectorTagsResponseTagsMap | undefined;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateCollectorPolicyTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -456,27 +457,27 @@ export interface UpdateCollectorPolicyTagsRequest {
   /** Collector Policy Name */
   collectorPolicyName: string;
   /** Resource tags. */
-  tags?: UpdateCollectorPolicyTagsRequestTagsMap;
+  tags?: UpdateCollectorPolicyTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateCollectorPolicyTagsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateCollectorPolicyTagsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Collector Policy. */
-  properties?: CollectorPolicyPropertiesFormat;
+  properties?: CollectorPolicyPropertiesFormat | undefined;
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: UpdateCollectorPolicyTagsResponseTagsMap;
+  tags?: UpdateCollectorPolicyTagsResponseTagsMap | undefined;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export type AzureTrafficCollectorsCreateOrUpdateError = AzureOpError;
 /** Creates or updates a Azure Traffic Collector resource */

@@ -28,13 +28,14 @@ const TELEMETRY = {
   prefix: "Automanage",
   service: "Automanage",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
 /** Automanage configuration profile assignment properties. */
 export interface ConfigurationProfileAssignmentPropertiesInput {
   /** The Automanage configurationProfile ARM Resource URI. */
-  configurationProfile?: string;
+  configurationProfile?: string | undefined;
 }
 export interface ConfigurationProfileAssignmentsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -46,16 +47,16 @@ export interface ConfigurationProfileAssignmentsCreateOrUpdateRequest {
   /** Name of the configuration profile assignment. Only default is supported. */
   configurationProfileAssignmentName: string;
   /** Properties of the configuration profile assignment. */
-  properties?: ConfigurationProfileAssignmentPropertiesInput;
+  properties?: ConfigurationProfileAssignmentPropertiesInput | undefined;
 }
 /** Automanage configuration profile assignment properties. */
 export interface ConfigurationProfileAssignmentProperties {
   /** The Automanage configurationProfile ARM Resource URI. */
-  configurationProfile?: string;
+  configurationProfile?: string | undefined;
   /** The target VM resource URI */
-  targetId?: string;
+  targetId?: string | undefined;
   /** The status of onboarding, which only appears in the response. */
-  status?: string;
+  status?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type ConfigurationProfileAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -72,31 +73,35 @@ export type ConfigurationProfileAssignmentsCreateOrUpdateResponseSystemDataLastM
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ConfigurationProfileAssignmentsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ConfigurationProfileAssignmentsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | ConfigurationProfileAssignmentsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ConfigurationProfileAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ConfigurationProfileAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ConfigurationProfileAssignmentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the configuration profile assignment. */
-  properties?: ConfigurationProfileAssignmentProperties;
+  properties?: ConfigurationProfileAssignmentProperties | undefined;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ConfigurationProfileAssignmentsCreateOrUpdateResponseSystemData;
+  systemData?: ConfigurationProfileAssignmentsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface ConfigurationProfileHCIAssignmentsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -108,7 +113,7 @@ export interface ConfigurationProfileHCIAssignmentsCreateOrUpdateRequest {
   /** Name of the configuration profile assignment. Only default is supported. */
   configurationProfileAssignmentName: string;
   /** Properties of the configuration profile assignment. */
-  properties?: ConfigurationProfileAssignmentPropertiesInput;
+  properties?: ConfigurationProfileAssignmentPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type ConfigurationProfileHCIAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -125,31 +130,35 @@ export type ConfigurationProfileHCIAssignmentsCreateOrUpdateResponseSystemDataLa
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ConfigurationProfileHCIAssignmentsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ConfigurationProfileHCIAssignmentsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | ConfigurationProfileHCIAssignmentsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ConfigurationProfileHCIAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ConfigurationProfileHCIAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ConfigurationProfileHCIAssignmentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the configuration profile assignment. */
-  properties?: ConfigurationProfileAssignmentProperties;
+  properties?: ConfigurationProfileAssignmentProperties | undefined;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ConfigurationProfileHCIAssignmentsCreateOrUpdateResponseSystemData;
+  systemData?: ConfigurationProfileHCIAssignmentsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface ConfigurationProfileHCRPAssignmentsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -161,7 +170,7 @@ export interface ConfigurationProfileHCRPAssignmentsCreateOrUpdateRequest {
   /** Name of the configuration profile assignment. Only default is supported. */
   configurationProfileAssignmentName: string;
   /** Properties of the configuration profile assignment. */
-  properties?: ConfigurationProfileAssignmentPropertiesInput;
+  properties?: ConfigurationProfileAssignmentPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type ConfigurationProfileHCRPAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -178,31 +187,35 @@ export type ConfigurationProfileHCRPAssignmentsCreateOrUpdateResponseSystemDataL
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ConfigurationProfileHCRPAssignmentsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ConfigurationProfileHCRPAssignmentsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | ConfigurationProfileHCRPAssignmentsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ConfigurationProfileHCRPAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ConfigurationProfileHCRPAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ConfigurationProfileHCRPAssignmentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the configuration profile assignment. */
-  properties?: ConfigurationProfileAssignmentProperties;
+  properties?: ConfigurationProfileAssignmentProperties | undefined;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ConfigurationProfileHCRPAssignmentsCreateOrUpdateResponseSystemData;
+  systemData?: ConfigurationProfileHCRPAssignmentsCreateOrUpdateResponseSystemData | undefined;
 }
 /** Resource tags. */
 export type ConfigurationProfilesCreateOrUpdateRequestTagsMap = {
@@ -211,7 +224,7 @@ export type ConfigurationProfilesCreateOrUpdateRequestTagsMap = {
 /** Automanage configuration profile properties. */
 export interface ConfigurationProfileProperties {
   /** configuration dictionary of the configuration profile. */
-  configuration?: unknown;
+  configuration?: unknown | undefined;
 }
 export interface ConfigurationProfilesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -221,11 +234,11 @@ export interface ConfigurationProfilesCreateOrUpdateRequest {
   /** Name of the configuration profile. */
   configurationProfileName: string;
   /** Resource tags. */
-  tags?: ConfigurationProfilesCreateOrUpdateRequestTagsMap;
+  tags?: ConfigurationProfilesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the configuration profile. */
-  properties?: ConfigurationProfileProperties;
+  properties?: ConfigurationProfileProperties | undefined;
 }
 /** Resource tags. */
 export type ConfigurationProfilesCreateOrUpdateResponseTagsMap = {
@@ -246,33 +259,35 @@ export type ConfigurationProfilesCreateOrUpdateResponseSystemDataLastModifiedByT
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ConfigurationProfilesCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ConfigurationProfilesCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: ConfigurationProfilesCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ConfigurationProfilesCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ConfigurationProfilesCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ConfigurationProfilesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ConfigurationProfilesCreateOrUpdateResponseTagsMap;
+  tags?: ConfigurationProfilesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the configuration profile. */
-  properties?: ConfigurationProfileProperties;
+  properties?: ConfigurationProfileProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ConfigurationProfilesCreateOrUpdateResponseSystemData;
+  systemData?: ConfigurationProfilesCreateOrUpdateResponseSystemData | undefined;
 }
 /** Resource tags. */
 export type ConfigurationProfilesVersionsCreateOrUpdateRequestTagsMap = {
@@ -288,11 +303,11 @@ export interface ConfigurationProfilesVersionsCreateOrUpdateRequest {
   /** The configuration profile version name. */
   versionName: string;
   /** Resource tags. */
-  tags?: ConfigurationProfilesVersionsCreateOrUpdateRequestTagsMap;
+  tags?: ConfigurationProfilesVersionsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the configuration profile. */
-  properties?: ConfigurationProfileProperties;
+  properties?: ConfigurationProfileProperties | undefined;
 }
 /** Resource tags. */
 export type ConfigurationProfilesVersionsCreateOrUpdateResponseTagsMap = {
@@ -313,33 +328,37 @@ export type ConfigurationProfilesVersionsCreateOrUpdateResponseSystemDataLastMod
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ConfigurationProfilesVersionsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ConfigurationProfilesVersionsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | ConfigurationProfilesVersionsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ConfigurationProfilesVersionsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ConfigurationProfilesVersionsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ConfigurationProfilesVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ConfigurationProfilesVersionsCreateOrUpdateResponseTagsMap;
+  tags?: ConfigurationProfilesVersionsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the configuration profile. */
-  properties?: ConfigurationProfileProperties;
+  properties?: ConfigurationProfileProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ConfigurationProfilesVersionsCreateOrUpdateResponseSystemData;
+  systemData?: ConfigurationProfilesVersionsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface DeleteConfigurationProfileRequest {
   /** The ID of the target subscription. */
@@ -413,30 +432,30 @@ export type BestPracticeSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface BestPracticeSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: BestPracticeSystemDataCreatedByType;
+  createdByType?: BestPracticeSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: BestPracticeSystemDataLastModifiedByType;
+  lastModifiedByType?: BestPracticeSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Definition of the Automanage best practice. */
 export interface BestPractice {
   /** The fully qualified ID for the best practice. For example, /providers/Microsoft.Automanage/bestPractices/azureBestPracticesProduction */
-  id?: string;
+  id?: string | undefined;
   /** The type of the resource. For example, Microsoft.Automanage/bestPractices */
-  type?: string;
+  type?: string | undefined;
   /** The name of the best practice. For example, azureBestPracticesProduction */
-  name?: string;
+  name?: string | undefined;
   /** Properties of the best practice. */
-  properties?: ConfigurationProfileProperties;
+  properties?: ConfigurationProfileProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: BestPracticeSystemData;
+  systemData?: BestPracticeSystemData | undefined;
 }
 export interface GetBestPracticesVersionRequest {
   /** The Automanage best practice name. */
@@ -469,33 +488,33 @@ export type GetConfigurationProfileResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetConfigurationProfileResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetConfigurationProfileResponseSystemDataCreatedByType;
+  createdByType?: GetConfigurationProfileResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetConfigurationProfileResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetConfigurationProfileResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetConfigurationProfileResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetConfigurationProfileResponseTagsMap;
+  tags?: GetConfigurationProfileResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the configuration profile. */
-  properties?: ConfigurationProfileProperties;
+  properties?: ConfigurationProfileProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetConfigurationProfileResponseSystemData;
+  systemData?: GetConfigurationProfileResponseSystemData | undefined;
 }
 export interface GetConfigurationProfileAssignmentRequest {
   /** The ID of the target subscription. */
@@ -522,31 +541,33 @@ export type GetConfigurationProfileAssignmentResponseSystemDataLastModifiedByTyp
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetConfigurationProfileAssignmentResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetConfigurationProfileAssignmentResponseSystemDataCreatedByType;
+  createdByType?: GetConfigurationProfileAssignmentResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetConfigurationProfileAssignmentResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetConfigurationProfileAssignmentResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetConfigurationProfileAssignmentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the configuration profile assignment. */
-  properties?: ConfigurationProfileAssignmentProperties;
+  properties?: ConfigurationProfileAssignmentProperties | undefined;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetConfigurationProfileAssignmentResponseSystemData;
+  systemData?: GetConfigurationProfileAssignmentResponseSystemData | undefined;
 }
 export interface GetConfigurationProfileHCIAssignmentRequest {
   /** The ID of the target subscription. */
@@ -573,31 +594,33 @@ export type GetConfigurationProfileHCIAssignmentResponseSystemDataLastModifiedBy
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetConfigurationProfileHCIAssignmentResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetConfigurationProfileHCIAssignmentResponseSystemDataCreatedByType;
+  createdByType?: GetConfigurationProfileHCIAssignmentResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetConfigurationProfileHCIAssignmentResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetConfigurationProfileHCIAssignmentResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetConfigurationProfileHCIAssignmentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the configuration profile assignment. */
-  properties?: ConfigurationProfileAssignmentProperties;
+  properties?: ConfigurationProfileAssignmentProperties | undefined;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetConfigurationProfileHCIAssignmentResponseSystemData;
+  systemData?: GetConfigurationProfileHCIAssignmentResponseSystemData | undefined;
 }
 export interface GetConfigurationProfileHCRPAssignmentRequest {
   /** The ID of the target subscription. */
@@ -624,31 +647,33 @@ export type GetConfigurationProfileHCRPAssignmentResponseSystemDataLastModifiedB
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetConfigurationProfileHCRPAssignmentResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetConfigurationProfileHCRPAssignmentResponseSystemDataCreatedByType;
+  createdByType?: GetConfigurationProfileHCRPAssignmentResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetConfigurationProfileHCRPAssignmentResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetConfigurationProfileHCRPAssignmentResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetConfigurationProfileHCRPAssignmentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the configuration profile assignment. */
-  properties?: ConfigurationProfileAssignmentProperties;
+  properties?: ConfigurationProfileAssignmentProperties | undefined;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetConfigurationProfileHCRPAssignmentResponseSystemData;
+  systemData?: GetConfigurationProfileHCRPAssignmentResponseSystemData | undefined;
 }
 export interface GetConfigurationProfilesVersionRequest {
   /** The ID of the target subscription. */
@@ -677,33 +702,35 @@ export type GetConfigurationProfilesVersionResponseSystemDataLastModifiedByType 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetConfigurationProfilesVersionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetConfigurationProfilesVersionResponseSystemDataCreatedByType;
+  createdByType?: GetConfigurationProfilesVersionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetConfigurationProfilesVersionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetConfigurationProfilesVersionResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetConfigurationProfilesVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetConfigurationProfilesVersionResponseTagsMap;
+  tags?: GetConfigurationProfilesVersionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the configuration profile. */
-  properties?: ConfigurationProfileProperties;
+  properties?: ConfigurationProfileProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetConfigurationProfilesVersionResponseSystemData;
+  systemData?: GetConfigurationProfilesVersionResponseSystemData | undefined;
 }
 export interface GetHCIReportRequest {
   /** The ID of the target subscription. */
@@ -722,24 +749,24 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The error details. */
 export type ReportResourceErrorDetailsList = Array<ErrorDetail>;
@@ -748,28 +775,28 @@ export type ReportResourceErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ReportResourceError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ReportResourceErrorDetailsList;
+  details?: ReportResourceErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ReportResourceErrorAdditionalInfoList;
+  additionalInfo?: ReportResourceErrorAdditionalInfoList | undefined;
 }
 /** Details about the resource processed by the configuration profile assignment */
 export interface ReportResource {
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** ARM id of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Status of the resource. */
-  status?: string;
+  status?: string | undefined;
   /** The error detail. */
-  error?: ReportResourceError;
+  error?: ReportResourceError | undefined;
 }
 /** List of resources processed by the configuration profile assignment. */
 export type AssignmentReportPropertiesResourcesList = Array<ReportResource>;
@@ -780,38 +807,38 @@ export type AssignmentReportPropertiesErrorAdditionalInfoList = Array<ErrorAddit
 /** The error detail. */
 export interface AssignmentReportPropertiesError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: AssignmentReportPropertiesErrorDetailsList;
+  details?: AssignmentReportPropertiesErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: AssignmentReportPropertiesErrorAdditionalInfoList;
+  additionalInfo?: AssignmentReportPropertiesErrorAdditionalInfoList | undefined;
 }
 /** Data related to the report detail. */
 export interface AssignmentReportProperties {
   /** Start time of the configuration profile assignment processing. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of the configuration profile assignment processing. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Last modified time of the configuration profile assignment processing. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Duration of the configuration profile assignment processing. */
-  duration?: string;
+  duration?: string | undefined;
   /** Type of the configuration profile assignment processing (Initial/Consistency). */
-  type?: string;
+  type?: string | undefined;
   /** The status of the configuration profile assignment. */
-  status?: string;
+  status?: string | undefined;
   /** The configurationProfile linked to the assignment. */
-  configurationProfile?: string;
+  configurationProfile?: string | undefined;
   /** List of resources processed by the configuration profile assignment. */
-  resources?: AssignmentReportPropertiesResourcesList;
+  resources?: AssignmentReportPropertiesResourcesList | undefined;
   /** The error detail. */
-  error?: AssignmentReportPropertiesError;
+  error?: AssignmentReportPropertiesError | undefined;
   /** Version of the report format */
-  reportFormatVersion?: string;
+  reportFormatVersion?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetHCIReportResponseSystemDataCreatedByType =
@@ -828,29 +855,29 @@ export type GetHCIReportResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetHCIReportResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetHCIReportResponseSystemDataCreatedByType;
+  createdByType?: GetHCIReportResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetHCIReportResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetHCIReportResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetHCIReportResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The properties for the report. */
-  properties?: AssignmentReportProperties;
+  properties?: AssignmentReportProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetHCIReportResponseSystemData;
+  systemData?: GetHCIReportResponseSystemData | undefined;
 }
 export interface GetHCRPReportRequest {
   /** The ID of the target subscription. */
@@ -879,29 +906,29 @@ export type GetHCRPReportResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetHCRPReportResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetHCRPReportResponseSystemDataCreatedByType;
+  createdByType?: GetHCRPReportResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetHCRPReportResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetHCRPReportResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetHCRPReportResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The properties for the report. */
-  properties?: AssignmentReportProperties;
+  properties?: AssignmentReportProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetHCRPReportResponseSystemData;
+  systemData?: GetHCRPReportResponseSystemData | undefined;
 }
 export interface GetReportRequest {
   /** The ID of the target subscription. */
@@ -930,29 +957,29 @@ export type GetReportResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetReportResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetReportResponseSystemDataCreatedByType;
+  createdByType?: GetReportResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetReportResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetReportResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetReportResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The properties for the report. */
-  properties?: AssignmentReportProperties;
+  properties?: AssignmentReportProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetReportResponseSystemData;
+  systemData?: GetReportResponseSystemData | undefined;
 }
 export interface GetServicePrincipalRequest {
   /** The ID of the target subscription. */
@@ -961,9 +988,9 @@ export interface GetServicePrincipalRequest {
 /** The Service Principal properties for the subscription. */
 export interface ServicePrincipalProperties {
   /** The Service Principal Id for the subscription. */
-  servicePrincipalId?: string;
+  servicePrincipalId?: string | undefined;
   /** Returns the contributor RBAC Role exist or not for the Service Principal Id. */
-  authorizationSet?: boolean;
+  authorizationSet?: boolean | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetServicePrincipalResponseSystemDataCreatedByType =
@@ -980,29 +1007,29 @@ export type GetServicePrincipalResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetServicePrincipalResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetServicePrincipalResponseSystemDataCreatedByType;
+  createdByType?: GetServicePrincipalResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetServicePrincipalResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetServicePrincipalResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetServicePrincipalResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The Service Principal properties for the subscription */
-  properties?: ServicePrincipalProperties;
+  properties?: ServicePrincipalProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetServicePrincipalResponseSystemData;
+  systemData?: GetServicePrincipalResponseSystemData | undefined;
 }
 export interface ListBestPracticeByTenantRequest {}
 /** Result of the list best practice operation. */
@@ -1010,7 +1037,7 @@ export type BestPracticeListValueList = Array<BestPractice>;
 /** The response of the list best practice operation. */
 export interface BestPracticeList {
   /** Result of the list best practice operation. */
-  value?: BestPracticeListValueList;
+  value?: BestPracticeListValueList | undefined;
 }
 export interface ListBestPracticesVersionByTenantRequest {
   /** The Automanage best practice name. */
@@ -1039,39 +1066,39 @@ export type ConfigurationProfileAssignmentSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ConfigurationProfileAssignmentSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ConfigurationProfileAssignmentSystemDataCreatedByType;
+  createdByType?: ConfigurationProfileAssignmentSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ConfigurationProfileAssignmentSystemDataLastModifiedByType;
+  lastModifiedByType?: ConfigurationProfileAssignmentSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Configuration profile assignment is an association between a VM and automanage profile configuration. */
 export interface ConfigurationProfileAssignment {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the configuration profile assignment. */
-  properties?: ConfigurationProfileAssignmentProperties;
+  properties?: ConfigurationProfileAssignmentProperties | undefined;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ConfigurationProfileAssignmentSystemData;
+  systemData?: ConfigurationProfileAssignmentSystemData | undefined;
 }
 /** Result of the list configuration profile assignment operation. */
 export type ConfigurationProfileAssignmentListValueList = Array<ConfigurationProfileAssignment>;
 /** The response of the list configuration profile assignment operation. */
 export interface ConfigurationProfileAssignmentList {
   /** Result of the list configuration profile assignment operation. */
-  value?: ConfigurationProfileAssignmentListValueList;
+  value?: ConfigurationProfileAssignmentListValueList | undefined;
 }
 export interface ListConfigurationProfileAssignmentByMachineNameRequest {
   /** The ID of the target subscription. */
@@ -1122,41 +1149,41 @@ export type ConfigurationProfileSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ConfigurationProfileSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ConfigurationProfileSystemDataCreatedByType;
+  createdByType?: ConfigurationProfileSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ConfigurationProfileSystemDataLastModifiedByType;
+  lastModifiedByType?: ConfigurationProfileSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Definition of the configuration profile. */
 export interface ConfigurationProfile {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ConfigurationProfileTagsMap;
+  tags?: ConfigurationProfileTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the configuration profile. */
-  properties?: ConfigurationProfileProperties;
+  properties?: ConfigurationProfileProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ConfigurationProfileSystemData;
+  systemData?: ConfigurationProfileSystemData | undefined;
 }
 /** Result of the list ConfigurationProfile operation. */
 export type ConfigurationProfileListValueList = Array<ConfigurationProfile>;
 /** The response of the list configuration profile operation. */
 export interface ConfigurationProfileList {
   /** Result of the list ConfigurationProfile operation. */
-  value?: ConfigurationProfileListValueList;
+  value?: ConfigurationProfileListValueList | undefined;
 }
 export interface ListConfigurationProfileBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1187,37 +1214,37 @@ export type ReportSystemDataLastModifiedByType = "User" | "Application" | "Manag
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ReportSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ReportSystemDataCreatedByType;
+  createdByType?: ReportSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ReportSystemDataLastModifiedByType;
+  lastModifiedByType?: ReportSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Definition of the report. */
 export interface Report {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The properties for the report. */
-  properties?: AssignmentReportProperties;
+  properties?: AssignmentReportProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ReportSystemData;
+  systemData?: ReportSystemData | undefined;
 }
 /** Result of the list report operation. */
 export type ReportListValueList = Array<Report>;
 /** The response of the list report operation. */
 export interface ReportList {
   /** Result of the list report operation. */
-  value?: ReportListValueList;
+  value?: ReportListValueList | undefined;
 }
 export interface ListHCRPReportByConfigurationProfileAssignmentsRequest {
   /** The ID of the target subscription. */
@@ -1233,13 +1260,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1248,23 +1275,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReportByConfigurationProfileAssignmentsRequest {
   /** The ID of the target subscription. */
@@ -1295,37 +1322,37 @@ export type ServicePrincipalSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ServicePrincipalSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ServicePrincipalSystemDataCreatedByType;
+  createdByType?: ServicePrincipalSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ServicePrincipalSystemDataLastModifiedByType;
+  lastModifiedByType?: ServicePrincipalSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The Service Principal Id for the subscription. */
 export interface ServicePrincipal {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The Service Principal properties for the subscription */
-  properties?: ServicePrincipalProperties;
+  properties?: ServicePrincipalProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ServicePrincipalSystemData;
+  systemData?: ServicePrincipalSystemData | undefined;
 }
 /** The list of servicePrincipals. */
 export type ServicePrincipalListResultValueList = Array<ServicePrincipal>;
 /** The list of ServicePrincipals. */
 export interface ServicePrincipalListResult {
   /** The list of servicePrincipals. */
-  value?: ServicePrincipalListResultValueList;
+  value?: ServicePrincipalListResultValueList | undefined;
 }
 /** The tags of the resource. */
 export type UpdateConfigurationProfileRequestTagsMap = { [key: string]: string | undefined };
@@ -1337,9 +1364,9 @@ export interface UpdateConfigurationProfileRequest {
   /** Name of the configuration profile. */
   configurationProfileName: string;
   /** The tags of the resource. */
-  tags?: UpdateConfigurationProfileRequestTagsMap;
+  tags?: UpdateConfigurationProfileRequestTagsMap | undefined;
   /** Properties of the configuration profile. */
-  properties?: ConfigurationProfileProperties;
+  properties?: ConfigurationProfileProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateConfigurationProfileResponseTagsMap = { [key: string]: string | undefined };
@@ -1358,33 +1385,33 @@ export type UpdateConfigurationProfileResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateConfigurationProfileResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateConfigurationProfileResponseSystemDataCreatedByType;
+  createdByType?: UpdateConfigurationProfileResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateConfigurationProfileResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateConfigurationProfileResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateConfigurationProfileResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateConfigurationProfileResponseTagsMap;
+  tags?: UpdateConfigurationProfileResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the configuration profile. */
-  properties?: ConfigurationProfileProperties;
+  properties?: ConfigurationProfileProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateConfigurationProfileResponseSystemData;
+  systemData?: UpdateConfigurationProfileResponseSystemData | undefined;
 }
 export type ConfigurationProfileAssignmentsCreateOrUpdateError = AzureOpError;
 /** Creates an association between a VM and Automanage configuration profile */

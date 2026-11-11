@@ -79,22 +79,22 @@ export type IPListUsageItemsList = Array<string>;
 /** IPListUsage describes which NLB/ALB currently reference an IP list. */
 export interface IPListUsage {
   /** Number of load balancers currently using this IP list. */
-  count?: number;
+  count?: number | undefined;
   /** List of load balancers that reference this IP list. */
-  items?: IPListUsageItemsList;
+  items?: IPListUsageItemsList | undefined;
 }
 /** GetIPListResponse returns IP list configuration without CIDR entries. */
 export interface GetIPListResponse {
   /** Unique SHA-256 hex fingerprint used to verify the stored IP list content. */
-  contentHash?: string;
+  contentHash?: string | undefined;
   /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per IP list. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: GetIPListResponseLabelsMap;
+  labels?: GetIPListResponseLabelsMap | undefined;
   /** IP list name. */
   name: string;
   /** Number of IPv4 CIDR entries stored in the list. */
-  numberOfIps?: number;
+  numberOfIps?: number | undefined;
   /** Current use of this IP list in load balancers. */
-  usage?: IPListUsage;
+  usage?: IPListUsage | undefined;
 }
 export interface GetQuotaRequest {
   projectId: string;
@@ -103,21 +103,21 @@ export interface GetQuotaRequest {
 /** IPListsQuota holds the limits and current usage for IP list resources. Defaults: limit=3 per project, max_entries_per_list=50000. */
 export interface IPListsQuota {
   /** The maximum number of IP lists allowed in this project. Defaults to 3. Use -1 to indicate unlimited. */
-  limit?: number;
+  limit?: number | undefined;
   /** The number of IP lists that currently exist in this project. */
-  usage?: number;
+  usage?: number | undefined;
 }
 /** Quotas holds the specific quota elements for resources managed by this API. */
 export interface Quotas {
-  ipLists?: IPListsQuota;
+  ipLists?: IPListsQuota | undefined;
 }
 /** GetQuotaResponse returns the configured IP list quota for the project and region. */
 export interface GetQuotaResponse {
   /** Project identifier */
-  projectId?: string;
-  quotas?: Quotas;
+  projectId?: string | undefined;
+  quotas?: Quotas | undefined;
   /** Region */
-  region?: string;
+  region?: string | undefined;
 }
 export interface ListIPListsRequest {
   projectId: string;
@@ -128,7 +128,7 @@ export type ListIPListsResponseItemsList = Array<GetIPListResponse>;
 /** ListIPListsResponse returns metadata for all IP lists in a project and region. The CIDR entries themselves are never returned. */
 export interface ListIPListsResponse {
   /** Every IP list in the project and region. Never includes the CIDR entries themselves. */
-  items?: ListIPListsResponseItemsList;
+  items?: ListIPListsResponseItemsList | undefined;
 }
 /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per IP list. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
 export type UploadIPListRequestLabelsMap = { [key: string]: string | undefined };
@@ -139,7 +139,7 @@ export interface UploadIPListRequest {
   /** Raw upload payload as a plain UTF-8 string. Newline-separated `.txt` list of IPv4 CIDR entries, or CSV with `cidr,labels` columns (any other columns are ignored). */
   fileContent: string;
   /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per IP list. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: UploadIPListRequestLabelsMap;
+  labels?: UploadIPListRequestLabelsMap | undefined;
 }
 export type DeleteIPListError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Delete an IP List configuration Removes the IP list configuration from the project. If the IP list is referenced by load balancers, clear or replace the reference first. */

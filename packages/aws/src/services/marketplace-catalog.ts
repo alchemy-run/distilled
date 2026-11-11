@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -169,23 +170,23 @@ export type Identifier = string;
 export type DateTimeISO8601 = string;
 export type JsonDocumentType = unknown;
 export interface EntityDetail {
-  EntityType?: string;
-  EntityArn?: string;
-  EntityIdentifier?: string;
-  LastModifiedDate?: string;
-  DetailsDocument?: any;
+  EntityType?: string | undefined;
+  EntityArn?: string | undefined;
+  EntityIdentifier?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  DetailsDocument?: any | undefined;
 }
 export type EntityDetails = { [key: string]: EntityDetail | undefined };
 export type BatchDescribeErrorCodeString = string;
 export type BatchDescribeErrorMessageContent = string;
 export interface BatchDescribeErrorDetail {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type Errors = { [key: string]: BatchDescribeErrorDetail | undefined };
 export interface BatchDescribeEntitiesResponse {
-  EntityDetails?: { [key: string]: EntityDetail | undefined };
-  Errors?: { [key: string]: BatchDescribeErrorDetail | undefined };
+  EntityDetails?: { [key: string]: EntityDetail | undefined } | undefined;
+  Errors?: { [key: string]: BatchDescribeErrorDetail | undefined } | undefined;
 }
 export type ResourceId = string;
 export interface CancelChangeSetRequest {
@@ -193,8 +194,8 @@ export interface CancelChangeSetRequest {
   ChangeSetId: string;
 }
 export interface CancelChangeSetResponse {
-  ChangeSetId?: string;
-  ChangeSetArn?: string;
+  ChangeSetId?: string | undefined;
+  ChangeSetArn?: string | undefined;
 }
 export type ResourceARN = string;
 export interface DeleteResourcePolicyRequest {
@@ -207,23 +208,23 @@ export type NextToken = string;
 export interface DescribeAssessmentRequest {
   Catalog: string;
   AssessmentIdentifier: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type VersionedFrameworkId = string;
 export interface AssessmentTargetSummary {
-  EntityId?: string;
-  ChangeSetId?: string;
+  EntityId?: string | undefined;
+  ChangeSetId?: string | undefined;
 }
 export interface AMISecuritySummary {
-  DeliveryOptionId?: string;
+  DeliveryOptionId?: string | undefined;
 }
 export interface ContainerSecuritySummary {
-  DeliveryOptionId?: string;
+  DeliveryOptionId?: string | undefined;
 }
 export type FrameworkSummary =
-  | { AMISecuritySummary: AMISecuritySummary; ContainerSecuritySummary?: never }
-  | { AMISecuritySummary?: never; ContainerSecuritySummary: ContainerSecuritySummary };
+  | { AMISecuritySummary: AMISecuritySummary; ContainerSecuritySummary?: undefined }
+  | { AMISecuritySummary?: undefined; ContainerSecuritySummary: ContainerSecuritySummary };
 export type AssessmentResult = "PASS" | "FAIL" | (string & {});
 export type ControlAssessmentResult =
   | "PASS"
@@ -236,33 +237,33 @@ export type ErrorMessage = string;
 export type ScopeName = string;
 export type ScopeValue = string;
 export interface ErrorScope {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type ErrorScopeList = ErrorScope[];
 export interface ControlError {
-  Code?: string;
-  Message?: string;
-  Scope?: ErrorScope[];
+  Code?: string | undefined;
+  Message?: string | undefined;
+  Scope?: ErrorScope[] | undefined;
 }
 export type ControlErrorList = ControlError[];
 export interface ControlAssessment {
-  ControlId?: string;
-  ControlAssessmentResult?: ControlAssessmentResult;
-  Errors?: ControlError[];
+  ControlId?: string | undefined;
+  ControlAssessmentResult?: ControlAssessmentResult | undefined;
+  Errors?: ControlError[] | undefined;
 }
 export type ControlAssessmentList = ControlAssessment[];
 export interface DescribeAssessmentResponse {
-  AssessmentArn?: string;
-  AssessmentId?: string;
-  FrameworkId?: string;
-  AssessmentTargetSummary?: AssessmentTargetSummary;
-  FrameworkSummary?: FrameworkSummary;
-  AssessmentResult?: AssessmentResult;
-  CreatedAt?: string;
-  ExpiresAt?: string;
-  ControlAssessments?: ControlAssessment[];
-  NextToken?: string;
+  AssessmentArn?: string | undefined;
+  AssessmentId?: string | undefined;
+  FrameworkId?: string | undefined;
+  AssessmentTargetSummary?: AssessmentTargetSummary | undefined;
+  FrameworkSummary?: FrameworkSummary | undefined;
+  AssessmentResult?: AssessmentResult | undefined;
+  CreatedAt?: string | undefined;
+  ExpiresAt?: string | undefined;
+  ControlAssessments?: ControlAssessment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeChangeSetRequest {
   Catalog: string;
@@ -282,144 +283,144 @@ export type ExceptionMessageContent = string;
 export type ChangeType = string;
 export interface Entity {
   Type: string;
-  Identifier?: string;
+  Identifier?: string | undefined;
 }
 export type Json = string;
 export type ErrorCodeString = string;
 export interface ErrorDetail {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type ErrorDetailList = ErrorDetail[];
 export type ChangeName = string;
 export interface ChangeSummary {
-  ChangeType?: string;
-  Entity?: Entity;
-  Details?: string;
-  DetailsDocument?: any;
-  ErrorDetailList?: ErrorDetail[];
-  ChangeName?: string;
+  ChangeType?: string | undefined;
+  Entity?: Entity | undefined;
+  Details?: string | undefined;
+  DetailsDocument?: any | undefined;
+  ErrorDetailList?: ErrorDetail[] | undefined;
+  ChangeName?: string | undefined;
 }
 export type ChangeSetDescription = ChangeSummary[];
 export interface DescribeChangeSetResponse {
-  ChangeSetId?: string;
-  ChangeSetArn?: string;
-  ChangeSetName?: string;
-  Intent?: Intent;
-  StartTime?: string;
-  EndTime?: string;
-  Status?: ChangeStatus;
-  FailureCode?: FailureCode;
-  FailureDescription?: string;
-  ChangeSet?: ChangeSummary[];
+  ChangeSetId?: string | undefined;
+  ChangeSetArn?: string | undefined;
+  ChangeSetName?: string | undefined;
+  Intent?: Intent | undefined;
+  StartTime?: string | undefined;
+  EndTime?: string | undefined;
+  Status?: ChangeStatus | undefined;
+  FailureCode?: FailureCode | undefined;
+  FailureDescription?: string | undefined;
+  ChangeSet?: ChangeSummary[] | undefined;
 }
 export interface DescribeEntityRequest {
   Catalog: string;
   EntityId: string;
 }
 export interface DescribeEntityResponse {
-  EntityType?: string;
-  EntityIdentifier?: string;
-  EntityArn?: string;
-  LastModifiedDate?: string;
-  Details?: string;
-  DetailsDocument?: any;
+  EntityType?: string | undefined;
+  EntityIdentifier?: string | undefined;
+  EntityArn?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Details?: string | undefined;
+  DetailsDocument?: any | undefined;
 }
 export interface GetResourcePolicyRequest {
   ResourceArn: string;
 }
 export type ResourcePolicyJson = string;
 export interface GetResourcePolicyResponse {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export type FrameworkId = string;
 export interface AssessmentTargetFilter {
-  EntityId?: string;
-  ChangeSetId?: string;
+  EntityId?: string | undefined;
+  ChangeSetId?: string | undefined;
 }
 export interface AMISecurityFilters {
-  DeliveryOptionId?: string;
+  DeliveryOptionId?: string | undefined;
 }
 export interface ContainerSecurityFilters {
-  DeliveryOptionId?: string;
+  DeliveryOptionId?: string | undefined;
 }
 export type FrameworkFilters =
-  | { AMISecurityFilters: AMISecurityFilters; ContainerSecurityFilters?: never }
-  | { AMISecurityFilters?: never; ContainerSecurityFilters: ContainerSecurityFilters };
+  | { AMISecurityFilters: AMISecurityFilters; ContainerSecurityFilters?: undefined }
+  | { AMISecurityFilters?: undefined; ContainerSecurityFilters: ContainerSecurityFilters };
 export type ListAssessmentsMaxResultInteger = number;
 export interface ListAssessmentsRequest {
   Catalog: string;
-  FrameworkId?: string;
-  AssessmentTargetFilter?: AssessmentTargetFilter;
-  FrameworkFilters?: FrameworkFilters;
-  MaxResults?: number;
-  NextToken?: string;
+  FrameworkId?: string | undefined;
+  AssessmentTargetFilter?: AssessmentTargetFilter | undefined;
+  FrameworkFilters?: FrameworkFilters | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AssessmentSummary {
-  AssessmentArn?: string;
-  AssessmentId?: string;
-  FrameworkId?: string;
-  AssessmentTargetSummary?: AssessmentTargetSummary;
-  FrameworkSummary?: FrameworkSummary;
-  AssessmentResult?: AssessmentResult;
-  CreatedAt?: string;
-  ExpiresAt?: string;
+  AssessmentArn?: string | undefined;
+  AssessmentId?: string | undefined;
+  FrameworkId?: string | undefined;
+  AssessmentTargetSummary?: AssessmentTargetSummary | undefined;
+  FrameworkSummary?: FrameworkSummary | undefined;
+  AssessmentResult?: AssessmentResult | undefined;
+  CreatedAt?: string | undefined;
+  ExpiresAt?: string | undefined;
 }
 export type AssessmentSummaryList = AssessmentSummary[];
 export interface ListAssessmentsResponse {
-  AssessmentSummaryList?: AssessmentSummary[];
-  NextToken?: string;
+  AssessmentSummaryList?: AssessmentSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type FilterName = string;
 export type FilterValueContent = string;
 export type ValueList = string[];
 export interface Filter {
-  Name?: string;
-  ValueList?: string[];
+  Name?: string | undefined;
+  ValueList?: string[] | undefined;
 }
 export type FilterList = Filter[];
 export type SortBy = string;
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface Sort {
-  SortBy?: string;
-  SortOrder?: SortOrder;
+  SortBy?: string | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type ListChangeSetsMaxResultInteger = number;
 export interface ListChangeSetsRequest {
   Catalog: string;
-  FilterList?: Filter[];
-  Sort?: Sort;
-  MaxResults?: number;
-  NextToken?: string;
+  FilterList?: Filter[] | undefined;
+  Sort?: Sort | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceIdList = string[];
 export interface ChangeSetSummaryListItem {
-  ChangeSetId?: string;
-  ChangeSetArn?: string;
-  ChangeSetName?: string;
-  StartTime?: string;
-  EndTime?: string;
-  Status?: ChangeStatus;
-  EntityIdList?: string[];
-  FailureCode?: FailureCode;
+  ChangeSetId?: string | undefined;
+  ChangeSetArn?: string | undefined;
+  ChangeSetName?: string | undefined;
+  StartTime?: string | undefined;
+  EndTime?: string | undefined;
+  Status?: ChangeStatus | undefined;
+  EntityIdList?: string[] | undefined;
+  FailureCode?: FailureCode | undefined;
 }
 export type ChangeSetSummaryList = ChangeSetSummaryListItem[];
 export interface ListChangeSetsResponse {
-  ChangeSetSummaryList?: ChangeSetSummaryListItem[];
-  NextToken?: string;
+  ChangeSetSummaryList?: ChangeSetSummaryListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListEntitiesMaxResultInteger = number;
 export type OwnershipType = "SELF" | "SHARED" | (string & {});
 export type DataProductEntityIdString = string;
 export type DataProductEntityIdFilterValueList = string[];
 export interface DataProductEntityIdFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export type DataProductTitleString = string;
 export type DataProductTitleFilterValueList = string[];
 export interface DataProductTitleFilter {
-  ValueList?: string[];
-  WildCardValue?: string;
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
 }
 export type DataProductVisibilityString =
   | "Limited"
@@ -430,31 +431,31 @@ export type DataProductVisibilityString =
   | (string & {});
 export type DataProductVisibilityFilterValueList = DataProductVisibilityString[];
 export interface DataProductVisibilityFilter {
-  ValueList?: DataProductVisibilityString[];
+  ValueList?: DataProductVisibilityString[] | undefined;
 }
 export interface DataProductLastModifiedDateFilterDateRange {
-  AfterValue?: string;
-  BeforeValue?: string;
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
 }
 export interface DataProductLastModifiedDateFilter {
-  DateRange?: DataProductLastModifiedDateFilterDateRange;
+  DateRange?: DataProductLastModifiedDateFilterDateRange | undefined;
 }
 export interface DataProductFilters {
-  EntityId?: DataProductEntityIdFilter;
-  ProductTitle?: DataProductTitleFilter;
-  Visibility?: DataProductVisibilityFilter;
-  LastModifiedDate?: DataProductLastModifiedDateFilter;
+  EntityId?: DataProductEntityIdFilter | undefined;
+  ProductTitle?: DataProductTitleFilter | undefined;
+  Visibility?: DataProductVisibilityFilter | undefined;
+  LastModifiedDate?: DataProductLastModifiedDateFilter | undefined;
 }
 export type SaaSProductEntityIdString = string;
 export type SaaSProductEntityIdFilterValueList = string[];
 export interface SaaSProductEntityIdFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export type SaaSProductTitleString = string;
 export type SaaSProductTitleFilterValueList = string[];
 export interface SaaSProductTitleFilter {
-  ValueList?: string[];
-  WildCardValue?: string;
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
 }
 export type SaaSProductVisibilityString =
   | "Limited"
@@ -464,38 +465,38 @@ export type SaaSProductVisibilityString =
   | (string & {});
 export type SaaSProductVisibilityFilterValueList = SaaSProductVisibilityString[];
 export interface SaaSProductVisibilityFilter {
-  ValueList?: SaaSProductVisibilityString[];
+  ValueList?: SaaSProductVisibilityString[] | undefined;
 }
 export interface SaaSProductLastModifiedDateFilterDateRange {
-  AfterValue?: string;
-  BeforeValue?: string;
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
 }
 export interface SaaSProductLastModifiedDateFilter {
-  DateRange?: SaaSProductLastModifiedDateFilterDateRange;
+  DateRange?: SaaSProductLastModifiedDateFilterDateRange | undefined;
 }
 export interface SaaSProductFilters {
-  EntityId?: SaaSProductEntityIdFilter;
-  ProductTitle?: SaaSProductTitleFilter;
-  Visibility?: SaaSProductVisibilityFilter;
-  LastModifiedDate?: SaaSProductLastModifiedDateFilter;
+  EntityId?: SaaSProductEntityIdFilter | undefined;
+  ProductTitle?: SaaSProductTitleFilter | undefined;
+  Visibility?: SaaSProductVisibilityFilter | undefined;
+  LastModifiedDate?: SaaSProductLastModifiedDateFilter | undefined;
 }
 export type AmiProductEntityIdString = string;
 export type AmiProductEntityIdFilterValueList = string[];
 export interface AmiProductEntityIdFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export interface AmiProductLastModifiedDateFilterDateRange {
-  AfterValue?: string;
-  BeforeValue?: string;
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
 }
 export interface AmiProductLastModifiedDateFilter {
-  DateRange?: AmiProductLastModifiedDateFilterDateRange;
+  DateRange?: AmiProductLastModifiedDateFilterDateRange | undefined;
 }
 export type AmiProductTitleString = string;
 export type AmiProductTitleFilterValueList = string[];
 export interface AmiProductTitleFilter {
-  ValueList?: string[];
-  WildCardValue?: string;
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
 }
 export type AmiProductVisibilityString =
   | "Limited"
@@ -505,57 +506,57 @@ export type AmiProductVisibilityString =
   | (string & {});
 export type AmiProductVisibilityFilterValueList = AmiProductVisibilityString[];
 export interface AmiProductVisibilityFilter {
-  ValueList?: AmiProductVisibilityString[];
+  ValueList?: AmiProductVisibilityString[] | undefined;
 }
 export interface AmiProductFilters {
-  EntityId?: AmiProductEntityIdFilter;
-  LastModifiedDate?: AmiProductLastModifiedDateFilter;
-  ProductTitle?: AmiProductTitleFilter;
-  Visibility?: AmiProductVisibilityFilter;
+  EntityId?: AmiProductEntityIdFilter | undefined;
+  LastModifiedDate?: AmiProductLastModifiedDateFilter | undefined;
+  ProductTitle?: AmiProductTitleFilter | undefined;
+  Visibility?: AmiProductVisibilityFilter | undefined;
 }
 export type OfferEntityIdString = string;
 export type OfferEntityIdFilterValueList = string[];
 export interface OfferEntityIdFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export type OfferNameString = string;
 export type OfferNameFilterValueList = string[];
 export interface OfferNameFilter {
-  ValueList?: string[];
-  WildCardValue?: string;
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
 }
 export type OfferProductIdString = string;
 export type OfferProductIdFilterValueList = string[];
 export interface OfferProductIdFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export type OfferResaleAuthorizationIdString = string;
 export type OfferResaleAuthorizationIdFilterValueList = string[];
 export interface OfferResaleAuthorizationIdFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export interface OfferReleaseDateFilterDateRange {
-  AfterValue?: string;
-  BeforeValue?: string;
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
 }
 export interface OfferReleaseDateFilter {
-  DateRange?: OfferReleaseDateFilterDateRange;
+  DateRange?: OfferReleaseDateFilterDateRange | undefined;
 }
 export interface OfferAvailabilityEndDateFilterDateRange {
-  AfterValue?: string;
-  BeforeValue?: string;
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
 }
 export interface OfferAvailabilityEndDateFilter {
-  DateRange?: OfferAvailabilityEndDateFilterDateRange;
+  DateRange?: OfferAvailabilityEndDateFilterDateRange | undefined;
 }
 export type OfferBuyerAccountsFilterWildcard = string;
 export interface OfferBuyerAccountsFilter {
-  WildCardValue?: string;
+  WildCardValue?: string | undefined;
 }
 export type OfferStateString = "Draft" | "Released" | (string & {});
 export type OfferStateFilterValueList = OfferStateString[];
 export interface OfferStateFilter {
-  ValueList?: OfferStateString[];
+  ValueList?: OfferStateString[] | undefined;
 }
 export type OfferTargetingString =
   | "BuyerAccounts"
@@ -565,68 +566,68 @@ export type OfferTargetingString =
   | (string & {});
 export type OfferTargetingFilterValueList = OfferTargetingString[];
 export interface OfferTargetingFilter {
-  ValueList?: OfferTargetingString[];
+  ValueList?: OfferTargetingString[] | undefined;
 }
 export interface OfferLastModifiedDateFilterDateRange {
-  AfterValue?: string;
-  BeforeValue?: string;
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
 }
 export interface OfferLastModifiedDateFilter {
-  DateRange?: OfferLastModifiedDateFilterDateRange;
+  DateRange?: OfferLastModifiedDateFilterDateRange | undefined;
 }
 export type OfferSetIdString = string;
 export type OfferSetIdFilterValueList = string[];
 export interface OfferSetIdFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export type OfferTargetAgreementIdString = string;
 export type OfferTargetAgreementIdFilterValueList = string[];
 export interface OfferTargetAgreementIdFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export type OfferTargetAgreementIntentString = "Renew" | (string & {});
 export type OfferTargetAgreementIntentFilterValueList = OfferTargetAgreementIntentString[];
 export interface OfferTargetAgreementIntentFilter {
-  ValueList?: OfferTargetAgreementIntentString[];
+  ValueList?: OfferTargetAgreementIntentString[] | undefined;
 }
 export type OfferCreatedBySourceString = "Seller" | "AwsMarketplace" | (string & {});
 export type OfferCreatedBySourceFilterValueList = OfferCreatedBySourceString[];
 export interface OfferCreatedBySourceFilter {
-  ValueList?: OfferCreatedBySourceString[];
+  ValueList?: OfferCreatedBySourceString[] | undefined;
 }
 export interface OfferFilters {
-  EntityId?: OfferEntityIdFilter;
-  Name?: OfferNameFilter;
-  ProductId?: OfferProductIdFilter;
-  ResaleAuthorizationId?: OfferResaleAuthorizationIdFilter;
-  ReleaseDate?: OfferReleaseDateFilter;
-  AvailabilityEndDate?: OfferAvailabilityEndDateFilter;
-  BuyerAccounts?: OfferBuyerAccountsFilter;
-  State?: OfferStateFilter;
-  Targeting?: OfferTargetingFilter;
-  LastModifiedDate?: OfferLastModifiedDateFilter;
-  OfferSetId?: OfferSetIdFilter;
-  TargetAgreementId?: OfferTargetAgreementIdFilter;
-  TargetAgreementIntent?: OfferTargetAgreementIntentFilter;
-  CreatedBySource?: OfferCreatedBySourceFilter;
+  EntityId?: OfferEntityIdFilter | undefined;
+  Name?: OfferNameFilter | undefined;
+  ProductId?: OfferProductIdFilter | undefined;
+  ResaleAuthorizationId?: OfferResaleAuthorizationIdFilter | undefined;
+  ReleaseDate?: OfferReleaseDateFilter | undefined;
+  AvailabilityEndDate?: OfferAvailabilityEndDateFilter | undefined;
+  BuyerAccounts?: OfferBuyerAccountsFilter | undefined;
+  State?: OfferStateFilter | undefined;
+  Targeting?: OfferTargetingFilter | undefined;
+  LastModifiedDate?: OfferLastModifiedDateFilter | undefined;
+  OfferSetId?: OfferSetIdFilter | undefined;
+  TargetAgreementId?: OfferTargetAgreementIdFilter | undefined;
+  TargetAgreementIntent?: OfferTargetAgreementIntentFilter | undefined;
+  CreatedBySource?: OfferCreatedBySourceFilter | undefined;
 }
 export type ContainerProductEntityIdString = string;
 export type ContainerProductEntityIdFilterValueList = string[];
 export interface ContainerProductEntityIdFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export interface ContainerProductLastModifiedDateFilterDateRange {
-  AfterValue?: string;
-  BeforeValue?: string;
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
 }
 export interface ContainerProductLastModifiedDateFilter {
-  DateRange?: ContainerProductLastModifiedDateFilterDateRange;
+  DateRange?: ContainerProductLastModifiedDateFilterDateRange | undefined;
 }
 export type ContainerProductTitleString = string;
 export type ContainerProductTitleFilterValueList = string[];
 export interface ContainerProductTitleFilter {
-  ValueList?: string[];
-  WildCardValue?: string;
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
 }
 export type ContainerProductVisibilityString =
   | "Limited"
@@ -636,102 +637,102 @@ export type ContainerProductVisibilityString =
   | (string & {});
 export type ContainerProductVisibilityFilterValueList = ContainerProductVisibilityString[];
 export interface ContainerProductVisibilityFilter {
-  ValueList?: ContainerProductVisibilityString[];
+  ValueList?: ContainerProductVisibilityString[] | undefined;
 }
 export interface ContainerProductFilters {
-  EntityId?: ContainerProductEntityIdFilter;
-  LastModifiedDate?: ContainerProductLastModifiedDateFilter;
-  ProductTitle?: ContainerProductTitleFilter;
-  Visibility?: ContainerProductVisibilityFilter;
+  EntityId?: ContainerProductEntityIdFilter | undefined;
+  LastModifiedDate?: ContainerProductLastModifiedDateFilter | undefined;
+  ProductTitle?: ContainerProductTitleFilter | undefined;
+  Visibility?: ContainerProductVisibilityFilter | undefined;
 }
 export type ResaleAuthorizationEntityIdString = string;
 export type ResaleAuthorizationEntityIdFilterValueList = string[];
 export interface ResaleAuthorizationEntityIdFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export type ResaleAuthorizationNameString = string;
 export type ResaleAuthorizationNameFilterValueList = string[];
 export type ResaleAuthorizationNameFilterWildcard = string;
 export interface ResaleAuthorizationNameFilter {
-  ValueList?: string[];
-  WildCardValue?: string;
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
 }
 export type ResaleAuthorizationProductIdString = string;
 export type ResaleAuthorizationProductIdFilterValueList = string[];
 export type ResaleAuthorizationProductIdFilterWildcard = string;
 export interface ResaleAuthorizationProductIdFilter {
-  ValueList?: string[];
-  WildCardValue?: string;
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
 }
 export interface ResaleAuthorizationCreatedDateFilterDateRange {
-  AfterValue?: string;
-  BeforeValue?: string;
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
 }
 export type ResaleAuthorizationCreatedDateFilterValueList = string[];
 export interface ResaleAuthorizationCreatedDateFilter {
-  DateRange?: ResaleAuthorizationCreatedDateFilterDateRange;
-  ValueList?: string[];
+  DateRange?: ResaleAuthorizationCreatedDateFilterDateRange | undefined;
+  ValueList?: string[] | undefined;
 }
 export interface ResaleAuthorizationAvailabilityEndDateFilterDateRange {
-  AfterValue?: string;
-  BeforeValue?: string;
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
 }
 export type ResaleAuthorizationAvailabilityEndDateFilterValueList = string[];
 export interface ResaleAuthorizationAvailabilityEndDateFilter {
-  DateRange?: ResaleAuthorizationAvailabilityEndDateFilterDateRange;
-  ValueList?: string[];
+  DateRange?: ResaleAuthorizationAvailabilityEndDateFilterDateRange | undefined;
+  ValueList?: string[] | undefined;
 }
 export type ResaleAuthorizationManufacturerAccountIdString = string;
 export type ResaleAuthorizationManufacturerAccountIdFilterValueList = string[];
 export type ResaleAuthorizationManufacturerAccountIdFilterWildcard = string;
 export interface ResaleAuthorizationManufacturerAccountIdFilter {
-  ValueList?: string[];
-  WildCardValue?: string;
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
 }
 export type ResaleAuthorizationProductNameString = string;
 export type ResaleAuthorizationProductNameFilterValueList = string[];
 export type ResaleAuthorizationProductNameFilterWildcard = string;
 export interface ResaleAuthorizationProductNameFilter {
-  ValueList?: string[];
-  WildCardValue?: string;
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
 }
 export type ResaleAuthorizationManufacturerLegalNameString = string;
 export type ResaleAuthorizationManufacturerLegalNameFilterValueList = string[];
 export type ResaleAuthorizationManufacturerLegalNameFilterWildcard = string;
 export interface ResaleAuthorizationManufacturerLegalNameFilter {
-  ValueList?: string[];
-  WildCardValue?: string;
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
 }
 export type ResaleAuthorizationResellerAccountIDString = string;
 export type ResaleAuthorizationResellerAccountIDFilterValueList = string[];
 export type ResaleAuthorizationResellerAccountIDFilterWildcard = string;
 export interface ResaleAuthorizationResellerAccountIDFilter {
-  ValueList?: string[];
-  WildCardValue?: string;
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
 }
 export type ResaleAuthorizationResellerLegalNameString = string;
 export type ResaleAuthorizationResellerLegalNameFilterValueList = string[];
 export type ResaleAuthorizationResellerLegalNameFilterWildcard = string;
 export interface ResaleAuthorizationResellerLegalNameFilter {
-  ValueList?: string[];
-  WildCardValue?: string;
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
 }
 export type ResaleAuthorizationStatusString = "Draft" | "Active" | "Restricted" | (string & {});
 export type ResaleAuthorizationStatusFilterValueList = ResaleAuthorizationStatusString[];
 export interface ResaleAuthorizationStatusFilter {
-  ValueList?: ResaleAuthorizationStatusString[];
+  ValueList?: ResaleAuthorizationStatusString[] | undefined;
 }
 export type ResaleAuthorizationOfferExtendedStatusString = string;
 export type ResaleAuthorizationOfferExtendedStatusFilterValueList = string[];
 export interface ResaleAuthorizationOfferExtendedStatusFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export interface ResaleAuthorizationLastModifiedDateFilterDateRange {
-  AfterValue?: string;
-  BeforeValue?: string;
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
 }
 export interface ResaleAuthorizationLastModifiedDateFilter {
-  DateRange?: ResaleAuthorizationLastModifiedDateFilterDateRange;
+  DateRange?: ResaleAuthorizationLastModifiedDateFilterDateRange | undefined;
 }
 export type ResaleAuthorizationResellerRoleString =
   | "ChannelPartner"
@@ -740,53 +741,53 @@ export type ResaleAuthorizationResellerRoleString =
 export type ResaleAuthorizationResellerRoleFilterValueList =
   ResaleAuthorizationResellerRoleString[];
 export interface ResaleAuthorizationResellerRoleFilter {
-  ValueList?: ResaleAuthorizationResellerRoleString[];
+  ValueList?: ResaleAuthorizationResellerRoleString[] | undefined;
 }
 export type ResaleAuthorizationSourceAuthorizationString = string;
 export type ResaleAuthorizationSourceAuthorizationFilterValueList = string[];
 export interface ResaleAuthorizationSourceAuthorizationFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export type ResaleAuthorizationIssuerAccountIdString = string;
 export type ResaleAuthorizationIssuerAccountIdFilterValueList = string[];
 export interface ResaleAuthorizationIssuerAccountIdFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export interface ResaleAuthorizationFilters {
-  EntityId?: ResaleAuthorizationEntityIdFilter;
-  Name?: ResaleAuthorizationNameFilter;
-  ProductId?: ResaleAuthorizationProductIdFilter;
-  CreatedDate?: ResaleAuthorizationCreatedDateFilter;
-  AvailabilityEndDate?: ResaleAuthorizationAvailabilityEndDateFilter;
-  ManufacturerAccountId?: ResaleAuthorizationManufacturerAccountIdFilter;
-  ProductName?: ResaleAuthorizationProductNameFilter;
-  ManufacturerLegalName?: ResaleAuthorizationManufacturerLegalNameFilter;
-  ResellerAccountID?: ResaleAuthorizationResellerAccountIDFilter;
-  ResellerLegalName?: ResaleAuthorizationResellerLegalNameFilter;
-  Status?: ResaleAuthorizationStatusFilter;
-  OfferExtendedStatus?: ResaleAuthorizationOfferExtendedStatusFilter;
-  LastModifiedDate?: ResaleAuthorizationLastModifiedDateFilter;
-  ResellerRole?: ResaleAuthorizationResellerRoleFilter;
-  SourceAuthorization?: ResaleAuthorizationSourceAuthorizationFilter;
-  IssuerAccountId?: ResaleAuthorizationIssuerAccountIdFilter;
+  EntityId?: ResaleAuthorizationEntityIdFilter | undefined;
+  Name?: ResaleAuthorizationNameFilter | undefined;
+  ProductId?: ResaleAuthorizationProductIdFilter | undefined;
+  CreatedDate?: ResaleAuthorizationCreatedDateFilter | undefined;
+  AvailabilityEndDate?: ResaleAuthorizationAvailabilityEndDateFilter | undefined;
+  ManufacturerAccountId?: ResaleAuthorizationManufacturerAccountIdFilter | undefined;
+  ProductName?: ResaleAuthorizationProductNameFilter | undefined;
+  ManufacturerLegalName?: ResaleAuthorizationManufacturerLegalNameFilter | undefined;
+  ResellerAccountID?: ResaleAuthorizationResellerAccountIDFilter | undefined;
+  ResellerLegalName?: ResaleAuthorizationResellerLegalNameFilter | undefined;
+  Status?: ResaleAuthorizationStatusFilter | undefined;
+  OfferExtendedStatus?: ResaleAuthorizationOfferExtendedStatusFilter | undefined;
+  LastModifiedDate?: ResaleAuthorizationLastModifiedDateFilter | undefined;
+  ResellerRole?: ResaleAuthorizationResellerRoleFilter | undefined;
+  SourceAuthorization?: ResaleAuthorizationSourceAuthorizationFilter | undefined;
+  IssuerAccountId?: ResaleAuthorizationIssuerAccountIdFilter | undefined;
 }
 export type MachineLearningProductEntityIdString = string;
 export type MachineLearningProductEntityIdFilterValueList = string[];
 export interface MachineLearningProductEntityIdFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export interface MachineLearningProductLastModifiedDateFilterDateRange {
-  AfterValue?: string;
-  BeforeValue?: string;
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
 }
 export interface MachineLearningProductLastModifiedDateFilter {
-  DateRange?: MachineLearningProductLastModifiedDateFilterDateRange;
+  DateRange?: MachineLearningProductLastModifiedDateFilterDateRange | undefined;
 }
 export type MachineLearningProductTitleString = string;
 export type MachineLearningProductTitleFilterValueList = string[];
 export interface MachineLearningProductTitleFilter {
-  ValueList?: string[];
-  WildCardValue?: string;
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
 }
 export type MachineLearningProductVisibilityString =
   | "Limited"
@@ -797,142 +798,261 @@ export type MachineLearningProductVisibilityString =
 export type MachineLearningProductVisibilityFilterValueList =
   MachineLearningProductVisibilityString[];
 export interface MachineLearningProductVisibilityFilter {
-  ValueList?: MachineLearningProductVisibilityString[];
+  ValueList?: MachineLearningProductVisibilityString[] | undefined;
 }
 export interface MachineLearningProductFilters {
-  EntityId?: MachineLearningProductEntityIdFilter;
-  LastModifiedDate?: MachineLearningProductLastModifiedDateFilter;
-  ProductTitle?: MachineLearningProductTitleFilter;
-  Visibility?: MachineLearningProductVisibilityFilter;
+  EntityId?: MachineLearningProductEntityIdFilter | undefined;
+  LastModifiedDate?: MachineLearningProductLastModifiedDateFilter | undefined;
+  ProductTitle?: MachineLearningProductTitleFilter | undefined;
+  Visibility?: MachineLearningProductVisibilityFilter | undefined;
 }
 export type OfferSetEntityIdString = string;
 export type OfferSetEntityIdFilterValueList = string[];
 export interface OfferSetEntityIdFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export type OfferSetNameString = string;
 export type OfferSetNameFilterValueList = string[];
 export interface OfferSetNameFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export type OfferSetStateString = "Draft" | "Released" | (string & {});
 export type OfferSetStateFilterValueList = OfferSetStateString[];
 export interface OfferSetStateFilter {
-  ValueList?: OfferSetStateString[];
+  ValueList?: OfferSetStateString[] | undefined;
 }
 export interface OfferSetReleaseDateFilterDateRange {
-  AfterValue?: string;
-  BeforeValue?: string;
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
 }
 export interface OfferSetReleaseDateFilter {
-  DateRange?: OfferSetReleaseDateFilterDateRange;
+  DateRange?: OfferSetReleaseDateFilterDateRange | undefined;
 }
 export type OfferSetAssociatedOfferIdsString = string;
 export type OfferSetAssociatedOfferIdsFilterValueList = string[];
 export interface OfferSetAssociatedOfferIdsFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export type OfferSetSolutionIdString = string;
 export type OfferSetSolutionIdFilterValueList = string[];
 export interface OfferSetSolutionIdFilter {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export interface OfferSetLastModifiedDateFilterDateRange {
-  AfterValue?: string;
-  BeforeValue?: string;
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
 }
 export interface OfferSetLastModifiedDateFilter {
-  DateRange?: OfferSetLastModifiedDateFilterDateRange;
+  DateRange?: OfferSetLastModifiedDateFilterDateRange | undefined;
 }
 export interface OfferSetFilters {
-  EntityId?: OfferSetEntityIdFilter;
-  Name?: OfferSetNameFilter;
-  State?: OfferSetStateFilter;
-  ReleaseDate?: OfferSetReleaseDateFilter;
-  AssociatedOfferIds?: OfferSetAssociatedOfferIdsFilter;
-  SolutionId?: OfferSetSolutionIdFilter;
-  LastModifiedDate?: OfferSetLastModifiedDateFilter;
+  EntityId?: OfferSetEntityIdFilter | undefined;
+  Name?: OfferSetNameFilter | undefined;
+  State?: OfferSetStateFilter | undefined;
+  ReleaseDate?: OfferSetReleaseDateFilter | undefined;
+  AssociatedOfferIds?: OfferSetAssociatedOfferIdsFilter | undefined;
+  SolutionId?: OfferSetSolutionIdFilter | undefined;
+  LastModifiedDate?: OfferSetLastModifiedDateFilter | undefined;
+}
+export type ExpressPrivateOfferConfigurationEntityIdString = string;
+export type ExpressPrivateOfferConfigurationEntityIdFilterValueList = string[];
+export interface ExpressPrivateOfferConfigurationEntityIdFilter {
+  ValueList?: string[] | undefined;
+}
+export type ExpressPrivateOfferConfigurationProductIdString = string;
+export type ExpressPrivateOfferConfigurationProductIdFilterValueList = string[];
+export interface ExpressPrivateOfferConfigurationProductIdFilter {
+  ValueList?: string[] | undefined;
+}
+export type ExpressPrivateOfferConfigurationStateString = "ACTIVE" | "INACTIVE" | (string & {});
+export type ExpressPrivateOfferConfigurationStateFilterValueList =
+  ExpressPrivateOfferConfigurationStateString[];
+export interface ExpressPrivateOfferConfigurationStateFilter {
+  ValueList?: ExpressPrivateOfferConfigurationStateString[] | undefined;
+}
+export interface ExpressPrivateOfferConfigurationFilters {
+  EntityId?: ExpressPrivateOfferConfigurationEntityIdFilter | undefined;
+  ProductId?: ExpressPrivateOfferConfigurationProductIdFilter | undefined;
+  State?: ExpressPrivateOfferConfigurationStateFilter | undefined;
+}
+export type SubsidiaryAuthorizationEntityIdString = string;
+export type SubsidiaryAuthorizationEntityIdFilterValueList = string[];
+export interface SubsidiaryAuthorizationEntityIdFilter {
+  ValueList?: string[] | undefined;
+}
+export type SubsidiaryAuthorizationStatusString = "Draft" | "Active" | "Restricted" | (string & {});
+export type SubsidiaryAuthorizationStatusFilterValueList = SubsidiaryAuthorizationStatusString[];
+export interface SubsidiaryAuthorizationStatusFilter {
+  ValueList?: SubsidiaryAuthorizationStatusString[] | undefined;
+}
+export type SubsidiaryAuthorizationResourceIdString = string;
+export type SubsidiaryAuthorizationResourceIdFilterValueList = string[];
+export interface SubsidiaryAuthorizationResourceIdFilter {
+  ValueList?: string[] | undefined;
+}
+export type SubsidiaryAuthorizationResourceNameString = string;
+export type SubsidiaryAuthorizationResourceNameFilterValueList = string[];
+export type SubsidiaryAuthorizationResourceNameFilterWildcard = string;
+export interface SubsidiaryAuthorizationResourceNameFilter {
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
+}
+export type SubsidiaryAuthorizationNameString = string;
+export type SubsidiaryAuthorizationNameFilterValueList = string[];
+export type SubsidiaryAuthorizationNameFilterWildcard = string;
+export interface SubsidiaryAuthorizationNameFilter {
+  ValueList?: string[] | undefined;
+  WildCardValue?: string | undefined;
+}
+export type SubsidiaryAuthorizationSubsidiaryAccountIdString = string;
+export type SubsidiaryAuthorizationSubsidiaryAccountIdFilterValueList = string[];
+export interface SubsidiaryAuthorizationSubsidiaryAccountIdFilter {
+  ValueList?: string[] | undefined;
+}
+export interface SubsidiaryAuthorizationCreatedDateFilterDateRange {
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
+}
+export interface SubsidiaryAuthorizationCreatedDateFilter {
+  DateRange?: SubsidiaryAuthorizationCreatedDateFilterDateRange | undefined;
+}
+export interface SubsidiaryAuthorizationLastModifiedDateFilterDateRange {
+  AfterValue?: string | undefined;
+  BeforeValue?: string | undefined;
+}
+export interface SubsidiaryAuthorizationLastModifiedDateFilter {
+  DateRange?: SubsidiaryAuthorizationLastModifiedDateFilterDateRange | undefined;
+}
+export interface SubsidiaryAuthorizationFilters {
+  EntityId?: SubsidiaryAuthorizationEntityIdFilter | undefined;
+  Status?: SubsidiaryAuthorizationStatusFilter | undefined;
+  ResourceId?: SubsidiaryAuthorizationResourceIdFilter | undefined;
+  ResourceName?: SubsidiaryAuthorizationResourceNameFilter | undefined;
+  Name?: SubsidiaryAuthorizationNameFilter | undefined;
+  SubsidiaryAccountId?: SubsidiaryAuthorizationSubsidiaryAccountIdFilter | undefined;
+  CreatedDate?: SubsidiaryAuthorizationCreatedDateFilter | undefined;
+  LastModifiedDate?: SubsidiaryAuthorizationLastModifiedDateFilter | undefined;
 }
 export type EntityTypeFilters =
   | {
       DataProductFilters: DataProductFilters;
-      SaaSProductFilters?: never;
-      AmiProductFilters?: never;
-      OfferFilters?: never;
-      ContainerProductFilters?: never;
-      ResaleAuthorizationFilters?: never;
-      MachineLearningProductFilters?: never;
-      OfferSetFilters?: never;
+      SaaSProductFilters?: undefined;
+      AmiProductFilters?: undefined;
+      OfferFilters?: undefined;
+      ContainerProductFilters?: undefined;
+      ResaleAuthorizationFilters?: undefined;
+      MachineLearningProductFilters?: undefined;
+      OfferSetFilters?: undefined;
+      ExpressPrivateOfferConfigurationFilters?: undefined;
+      SubsidiaryAuthorizationFilters?: undefined;
     }
   | {
-      DataProductFilters?: never;
+      DataProductFilters?: undefined;
       SaaSProductFilters: SaaSProductFilters;
-      AmiProductFilters?: never;
-      OfferFilters?: never;
-      ContainerProductFilters?: never;
-      ResaleAuthorizationFilters?: never;
-      MachineLearningProductFilters?: never;
-      OfferSetFilters?: never;
+      AmiProductFilters?: undefined;
+      OfferFilters?: undefined;
+      ContainerProductFilters?: undefined;
+      ResaleAuthorizationFilters?: undefined;
+      MachineLearningProductFilters?: undefined;
+      OfferSetFilters?: undefined;
+      ExpressPrivateOfferConfigurationFilters?: undefined;
+      SubsidiaryAuthorizationFilters?: undefined;
     }
   | {
-      DataProductFilters?: never;
-      SaaSProductFilters?: never;
+      DataProductFilters?: undefined;
+      SaaSProductFilters?: undefined;
       AmiProductFilters: AmiProductFilters;
-      OfferFilters?: never;
-      ContainerProductFilters?: never;
-      ResaleAuthorizationFilters?: never;
-      MachineLearningProductFilters?: never;
-      OfferSetFilters?: never;
+      OfferFilters?: undefined;
+      ContainerProductFilters?: undefined;
+      ResaleAuthorizationFilters?: undefined;
+      MachineLearningProductFilters?: undefined;
+      OfferSetFilters?: undefined;
+      ExpressPrivateOfferConfigurationFilters?: undefined;
+      SubsidiaryAuthorizationFilters?: undefined;
     }
   | {
-      DataProductFilters?: never;
-      SaaSProductFilters?: never;
-      AmiProductFilters?: never;
+      DataProductFilters?: undefined;
+      SaaSProductFilters?: undefined;
+      AmiProductFilters?: undefined;
       OfferFilters: OfferFilters;
-      ContainerProductFilters?: never;
-      ResaleAuthorizationFilters?: never;
-      MachineLearningProductFilters?: never;
-      OfferSetFilters?: never;
+      ContainerProductFilters?: undefined;
+      ResaleAuthorizationFilters?: undefined;
+      MachineLearningProductFilters?: undefined;
+      OfferSetFilters?: undefined;
+      ExpressPrivateOfferConfigurationFilters?: undefined;
+      SubsidiaryAuthorizationFilters?: undefined;
     }
   | {
-      DataProductFilters?: never;
-      SaaSProductFilters?: never;
-      AmiProductFilters?: never;
-      OfferFilters?: never;
+      DataProductFilters?: undefined;
+      SaaSProductFilters?: undefined;
+      AmiProductFilters?: undefined;
+      OfferFilters?: undefined;
       ContainerProductFilters: ContainerProductFilters;
-      ResaleAuthorizationFilters?: never;
-      MachineLearningProductFilters?: never;
-      OfferSetFilters?: never;
+      ResaleAuthorizationFilters?: undefined;
+      MachineLearningProductFilters?: undefined;
+      OfferSetFilters?: undefined;
+      ExpressPrivateOfferConfigurationFilters?: undefined;
+      SubsidiaryAuthorizationFilters?: undefined;
     }
   | {
-      DataProductFilters?: never;
-      SaaSProductFilters?: never;
-      AmiProductFilters?: never;
-      OfferFilters?: never;
-      ContainerProductFilters?: never;
+      DataProductFilters?: undefined;
+      SaaSProductFilters?: undefined;
+      AmiProductFilters?: undefined;
+      OfferFilters?: undefined;
+      ContainerProductFilters?: undefined;
       ResaleAuthorizationFilters: ResaleAuthorizationFilters;
-      MachineLearningProductFilters?: never;
-      OfferSetFilters?: never;
+      MachineLearningProductFilters?: undefined;
+      OfferSetFilters?: undefined;
+      ExpressPrivateOfferConfigurationFilters?: undefined;
+      SubsidiaryAuthorizationFilters?: undefined;
     }
   | {
-      DataProductFilters?: never;
-      SaaSProductFilters?: never;
-      AmiProductFilters?: never;
-      OfferFilters?: never;
-      ContainerProductFilters?: never;
-      ResaleAuthorizationFilters?: never;
+      DataProductFilters?: undefined;
+      SaaSProductFilters?: undefined;
+      AmiProductFilters?: undefined;
+      OfferFilters?: undefined;
+      ContainerProductFilters?: undefined;
+      ResaleAuthorizationFilters?: undefined;
       MachineLearningProductFilters: MachineLearningProductFilters;
-      OfferSetFilters?: never;
+      OfferSetFilters?: undefined;
+      ExpressPrivateOfferConfigurationFilters?: undefined;
+      SubsidiaryAuthorizationFilters?: undefined;
     }
   | {
-      DataProductFilters?: never;
-      SaaSProductFilters?: never;
-      AmiProductFilters?: never;
-      OfferFilters?: never;
-      ContainerProductFilters?: never;
-      ResaleAuthorizationFilters?: never;
-      MachineLearningProductFilters?: never;
+      DataProductFilters?: undefined;
+      SaaSProductFilters?: undefined;
+      AmiProductFilters?: undefined;
+      OfferFilters?: undefined;
+      ContainerProductFilters?: undefined;
+      ResaleAuthorizationFilters?: undefined;
+      MachineLearningProductFilters?: undefined;
       OfferSetFilters: OfferSetFilters;
+      ExpressPrivateOfferConfigurationFilters?: undefined;
+      SubsidiaryAuthorizationFilters?: undefined;
+    }
+  | {
+      DataProductFilters?: undefined;
+      SaaSProductFilters?: undefined;
+      AmiProductFilters?: undefined;
+      OfferFilters?: undefined;
+      ContainerProductFilters?: undefined;
+      ResaleAuthorizationFilters?: undefined;
+      MachineLearningProductFilters?: undefined;
+      OfferSetFilters?: undefined;
+      ExpressPrivateOfferConfigurationFilters: ExpressPrivateOfferConfigurationFilters;
+      SubsidiaryAuthorizationFilters?: undefined;
+    }
+  | {
+      DataProductFilters?: undefined;
+      SaaSProductFilters?: undefined;
+      AmiProductFilters?: undefined;
+      OfferFilters?: undefined;
+      ContainerProductFilters?: undefined;
+      ResaleAuthorizationFilters?: undefined;
+      MachineLearningProductFilters?: undefined;
+      OfferSetFilters?: undefined;
+      ExpressPrivateOfferConfigurationFilters?: undefined;
+      SubsidiaryAuthorizationFilters: SubsidiaryAuthorizationFilters;
     };
 export type DataProductSortBy =
   | "EntityId"
@@ -941,8 +1061,8 @@ export type DataProductSortBy =
   | "LastModifiedDate"
   | (string & {});
 export interface DataProductSort {
-  SortBy?: DataProductSortBy;
-  SortOrder?: SortOrder;
+  SortBy?: DataProductSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type SaaSProductSortBy =
   | "EntityId"
@@ -952,8 +1072,8 @@ export type SaaSProductSortBy =
   | "DeliveryOptionTypes"
   | (string & {});
 export interface SaaSProductSort {
-  SortBy?: SaaSProductSortBy;
-  SortOrder?: SortOrder;
+  SortBy?: SaaSProductSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type AmiProductSortBy =
   | "EntityId"
@@ -962,8 +1082,8 @@ export type AmiProductSortBy =
   | "Visibility"
   | (string & {});
 export interface AmiProductSort {
-  SortBy?: AmiProductSortBy;
-  SortOrder?: SortOrder;
+  SortBy?: AmiProductSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type OfferSortBy =
   | "EntityId"
@@ -982,8 +1102,8 @@ export type OfferSortBy =
   | "CreatedBySource"
   | (string & {});
 export interface OfferSort {
-  SortBy?: OfferSortBy;
-  SortOrder?: SortOrder;
+  SortBy?: OfferSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type ContainerProductSortBy =
   | "EntityId"
@@ -993,8 +1113,8 @@ export type ContainerProductSortBy =
   | "CompatibleAWSServices"
   | (string & {});
 export interface ContainerProductSort {
-  SortBy?: ContainerProductSortBy;
-  SortOrder?: SortOrder;
+  SortBy?: ContainerProductSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type ResaleAuthorizationSortBy =
   | "EntityId"
@@ -1015,8 +1135,8 @@ export type ResaleAuthorizationSortBy =
   | "IssuerAccountId"
   | (string & {});
 export interface ResaleAuthorizationSort {
-  SortBy?: ResaleAuthorizationSortBy;
-  SortOrder?: SortOrder;
+  SortBy?: ResaleAuthorizationSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type MachineLearningProductSortBy =
   | "EntityId"
@@ -1025,8 +1145,8 @@ export type MachineLearningProductSortBy =
   | "Visibility"
   | (string & {});
 export interface MachineLearningProductSort {
-  SortBy?: MachineLearningProductSortBy;
-  SortOrder?: SortOrder;
+  SortBy?: MachineLearningProductSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type OfferSetSortBy =
   | "Name"
@@ -1037,184 +1157,265 @@ export type OfferSetSortBy =
   | "LastModifiedDate"
   | (string & {});
 export interface OfferSetSort {
-  SortBy?: OfferSetSortBy;
-  SortOrder?: SortOrder;
+  SortBy?: OfferSetSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
+}
+export type ExpressPrivateOfferConfigurationSortBy =
+  | "EntityId"
+  | "LastModifiedDate"
+  | "ProductId"
+  | "State"
+  | (string & {});
+export interface ExpressPrivateOfferConfigurationSort {
+  SortBy?: ExpressPrivateOfferConfigurationSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
+}
+export type SubsidiaryAuthorizationSortBy =
+  | "EntityId"
+  | "Status"
+  | "ResourceId"
+  | "SubsidiaryAccountId"
+  | "CreatedDate"
+  | "LastModifiedDate"
+  | (string & {});
+export interface SubsidiaryAuthorizationSort {
+  SortBy?: SubsidiaryAuthorizationSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type EntityTypeSort =
   | {
       DataProductSort: DataProductSort;
-      SaaSProductSort?: never;
-      AmiProductSort?: never;
-      OfferSort?: never;
-      ContainerProductSort?: never;
-      ResaleAuthorizationSort?: never;
-      MachineLearningProductSort?: never;
-      OfferSetSort?: never;
+      SaaSProductSort?: undefined;
+      AmiProductSort?: undefined;
+      OfferSort?: undefined;
+      ContainerProductSort?: undefined;
+      ResaleAuthorizationSort?: undefined;
+      MachineLearningProductSort?: undefined;
+      OfferSetSort?: undefined;
+      ExpressPrivateOfferConfigurationSort?: undefined;
+      SubsidiaryAuthorizationSort?: undefined;
     }
   | {
-      DataProductSort?: never;
+      DataProductSort?: undefined;
       SaaSProductSort: SaaSProductSort;
-      AmiProductSort?: never;
-      OfferSort?: never;
-      ContainerProductSort?: never;
-      ResaleAuthorizationSort?: never;
-      MachineLearningProductSort?: never;
-      OfferSetSort?: never;
+      AmiProductSort?: undefined;
+      OfferSort?: undefined;
+      ContainerProductSort?: undefined;
+      ResaleAuthorizationSort?: undefined;
+      MachineLearningProductSort?: undefined;
+      OfferSetSort?: undefined;
+      ExpressPrivateOfferConfigurationSort?: undefined;
+      SubsidiaryAuthorizationSort?: undefined;
     }
   | {
-      DataProductSort?: never;
-      SaaSProductSort?: never;
+      DataProductSort?: undefined;
+      SaaSProductSort?: undefined;
       AmiProductSort: AmiProductSort;
-      OfferSort?: never;
-      ContainerProductSort?: never;
-      ResaleAuthorizationSort?: never;
-      MachineLearningProductSort?: never;
-      OfferSetSort?: never;
+      OfferSort?: undefined;
+      ContainerProductSort?: undefined;
+      ResaleAuthorizationSort?: undefined;
+      MachineLearningProductSort?: undefined;
+      OfferSetSort?: undefined;
+      ExpressPrivateOfferConfigurationSort?: undefined;
+      SubsidiaryAuthorizationSort?: undefined;
     }
   | {
-      DataProductSort?: never;
-      SaaSProductSort?: never;
-      AmiProductSort?: never;
+      DataProductSort?: undefined;
+      SaaSProductSort?: undefined;
+      AmiProductSort?: undefined;
       OfferSort: OfferSort;
-      ContainerProductSort?: never;
-      ResaleAuthorizationSort?: never;
-      MachineLearningProductSort?: never;
-      OfferSetSort?: never;
+      ContainerProductSort?: undefined;
+      ResaleAuthorizationSort?: undefined;
+      MachineLearningProductSort?: undefined;
+      OfferSetSort?: undefined;
+      ExpressPrivateOfferConfigurationSort?: undefined;
+      SubsidiaryAuthorizationSort?: undefined;
     }
   | {
-      DataProductSort?: never;
-      SaaSProductSort?: never;
-      AmiProductSort?: never;
-      OfferSort?: never;
+      DataProductSort?: undefined;
+      SaaSProductSort?: undefined;
+      AmiProductSort?: undefined;
+      OfferSort?: undefined;
       ContainerProductSort: ContainerProductSort;
-      ResaleAuthorizationSort?: never;
-      MachineLearningProductSort?: never;
-      OfferSetSort?: never;
+      ResaleAuthorizationSort?: undefined;
+      MachineLearningProductSort?: undefined;
+      OfferSetSort?: undefined;
+      ExpressPrivateOfferConfigurationSort?: undefined;
+      SubsidiaryAuthorizationSort?: undefined;
     }
   | {
-      DataProductSort?: never;
-      SaaSProductSort?: never;
-      AmiProductSort?: never;
-      OfferSort?: never;
-      ContainerProductSort?: never;
+      DataProductSort?: undefined;
+      SaaSProductSort?: undefined;
+      AmiProductSort?: undefined;
+      OfferSort?: undefined;
+      ContainerProductSort?: undefined;
       ResaleAuthorizationSort: ResaleAuthorizationSort;
-      MachineLearningProductSort?: never;
-      OfferSetSort?: never;
+      MachineLearningProductSort?: undefined;
+      OfferSetSort?: undefined;
+      ExpressPrivateOfferConfigurationSort?: undefined;
+      SubsidiaryAuthorizationSort?: undefined;
     }
   | {
-      DataProductSort?: never;
-      SaaSProductSort?: never;
-      AmiProductSort?: never;
-      OfferSort?: never;
-      ContainerProductSort?: never;
-      ResaleAuthorizationSort?: never;
+      DataProductSort?: undefined;
+      SaaSProductSort?: undefined;
+      AmiProductSort?: undefined;
+      OfferSort?: undefined;
+      ContainerProductSort?: undefined;
+      ResaleAuthorizationSort?: undefined;
       MachineLearningProductSort: MachineLearningProductSort;
-      OfferSetSort?: never;
+      OfferSetSort?: undefined;
+      ExpressPrivateOfferConfigurationSort?: undefined;
+      SubsidiaryAuthorizationSort?: undefined;
     }
   | {
-      DataProductSort?: never;
-      SaaSProductSort?: never;
-      AmiProductSort?: never;
-      OfferSort?: never;
-      ContainerProductSort?: never;
-      ResaleAuthorizationSort?: never;
-      MachineLearningProductSort?: never;
+      DataProductSort?: undefined;
+      SaaSProductSort?: undefined;
+      AmiProductSort?: undefined;
+      OfferSort?: undefined;
+      ContainerProductSort?: undefined;
+      ResaleAuthorizationSort?: undefined;
+      MachineLearningProductSort?: undefined;
       OfferSetSort: OfferSetSort;
+      ExpressPrivateOfferConfigurationSort?: undefined;
+      SubsidiaryAuthorizationSort?: undefined;
+    }
+  | {
+      DataProductSort?: undefined;
+      SaaSProductSort?: undefined;
+      AmiProductSort?: undefined;
+      OfferSort?: undefined;
+      ContainerProductSort?: undefined;
+      ResaleAuthorizationSort?: undefined;
+      MachineLearningProductSort?: undefined;
+      OfferSetSort?: undefined;
+      ExpressPrivateOfferConfigurationSort: ExpressPrivateOfferConfigurationSort;
+      SubsidiaryAuthorizationSort?: undefined;
+    }
+  | {
+      DataProductSort?: undefined;
+      SaaSProductSort?: undefined;
+      AmiProductSort?: undefined;
+      OfferSort?: undefined;
+      ContainerProductSort?: undefined;
+      ResaleAuthorizationSort?: undefined;
+      MachineLearningProductSort?: undefined;
+      OfferSetSort?: undefined;
+      ExpressPrivateOfferConfigurationSort?: undefined;
+      SubsidiaryAuthorizationSort: SubsidiaryAuthorizationSort;
     };
 export interface ListEntitiesRequest {
   Catalog: string;
   EntityType: string;
-  FilterList?: Filter[];
-  Sort?: Sort;
-  NextToken?: string;
-  MaxResults?: number;
-  OwnershipType?: OwnershipType;
-  EntityTypeFilters?: EntityTypeFilters;
-  EntityTypeSort?: EntityTypeSort;
+  FilterList?: Filter[] | undefined;
+  Sort?: Sort | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  OwnershipType?: OwnershipType | undefined;
+  EntityTypeFilters?: EntityTypeFilters | undefined;
+  EntityTypeSort?: EntityTypeSort | undefined;
 }
 export type EntityNameString = string;
 export type VisibilityValue = string;
 export interface AmiProductSummary {
-  ProductTitle?: string;
-  Visibility?: AmiProductVisibilityString;
+  ProductTitle?: string | undefined;
+  Visibility?: AmiProductVisibilityString | undefined;
 }
 export interface ContainerProductSummary {
-  ProductTitle?: string;
-  Visibility?: ContainerProductVisibilityString;
+  ProductTitle?: string | undefined;
+  Visibility?: ContainerProductVisibilityString | undefined;
 }
 export interface DataProductSummary {
-  ProductTitle?: string;
-  Visibility?: DataProductVisibilityString;
+  ProductTitle?: string | undefined;
+  Visibility?: DataProductVisibilityString | undefined;
 }
 export interface SaaSProductSummary {
-  ProductTitle?: string;
-  Visibility?: SaaSProductVisibilityString;
+  ProductTitle?: string | undefined;
+  Visibility?: SaaSProductVisibilityString | undefined;
 }
 export type OfferBuyerAccountsString = string;
 export type OfferBuyerAccountsList = string[];
 export type OfferTargetingList = OfferTargetingString[];
 export interface OfferSummary {
-  Name?: string;
-  ProductId?: string;
-  ResaleAuthorizationId?: string;
-  ReleaseDate?: string;
-  AvailabilityEndDate?: string;
-  BuyerAccounts?: string[];
-  State?: OfferStateString;
-  Targeting?: OfferTargetingString[];
-  OfferSetId?: string;
-  TargetAgreementId?: string;
-  TargetAgreementIntent?: OfferTargetAgreementIntentString;
-  CreatedBySource?: OfferCreatedBySourceString;
+  Name?: string | undefined;
+  ProductId?: string | undefined;
+  ResaleAuthorizationId?: string | undefined;
+  ReleaseDate?: string | undefined;
+  AvailabilityEndDate?: string | undefined;
+  BuyerAccounts?: string[] | undefined;
+  State?: OfferStateString | undefined;
+  Targeting?: OfferTargetingString[] | undefined;
+  OfferSetId?: string | undefined;
+  TargetAgreementId?: string | undefined;
+  TargetAgreementIntent?: OfferTargetAgreementIntentString | undefined;
+  CreatedBySource?: OfferCreatedBySourceString | undefined;
 }
 export interface ResaleAuthorizationSummary {
-  Name?: string;
-  ProductId?: string;
-  ProductName?: string;
-  ManufacturerAccountId?: string;
-  ManufacturerLegalName?: string;
-  ResellerAccountID?: string;
-  ResellerLegalName?: string;
-  Status?: ResaleAuthorizationStatusString;
-  OfferExtendedStatus?: string;
-  CreatedDate?: string;
-  AvailabilityEndDate?: string;
-  ResellerRole?: ResaleAuthorizationResellerRoleString;
-  SourceAuthorization?: string;
-  IssuerAccountId?: string;
+  Name?: string | undefined;
+  ProductId?: string | undefined;
+  ProductName?: string | undefined;
+  ManufacturerAccountId?: string | undefined;
+  ManufacturerLegalName?: string | undefined;
+  ResellerAccountID?: string | undefined;
+  ResellerLegalName?: string | undefined;
+  Status?: ResaleAuthorizationStatusString | undefined;
+  OfferExtendedStatus?: string | undefined;
+  CreatedDate?: string | undefined;
+  AvailabilityEndDate?: string | undefined;
+  ResellerRole?: ResaleAuthorizationResellerRoleString | undefined;
+  SourceAuthorization?: string | undefined;
+  IssuerAccountId?: string | undefined;
 }
 export interface MachineLearningProductSummary {
-  ProductTitle?: string;
-  Visibility?: MachineLearningProductVisibilityString;
+  ProductTitle?: string | undefined;
+  Visibility?: MachineLearningProductVisibilityString | undefined;
 }
 export type OfferSetAssociatedOfferIdsList = string[];
 export interface OfferSetSummary {
-  Name?: string;
-  State?: OfferSetStateString;
-  ReleaseDate?: string;
-  AssociatedOfferIds?: string[];
-  SolutionId?: string;
+  Name?: string | undefined;
+  State?: OfferSetStateString | undefined;
+  ReleaseDate?: string | undefined;
+  AssociatedOfferIds?: string[] | undefined;
+  SolutionId?: string | undefined;
+}
+export interface ExpressPrivateOfferConfigurationSummary {
+  ProductId?: string | undefined;
+  State?: ExpressPrivateOfferConfigurationStateString | undefined;
+}
+export type SubsidiaryAuthorizationSummaryNameString = string;
+export type SubsidiaryAuthorizationSummaryStatusString = string;
+export type SubsidiaryAuthorizationSummaryResourceIdString = string;
+export type SubsidiaryAuthorizationSummaryResourceNameString = string;
+export type SubsidiaryAuthorizationSummarySubsidiaryAccountIdString = string;
+export interface SubsidiaryAuthorizationSummary {
+  Name?: string | undefined;
+  Status?: string | undefined;
+  ResourceId?: string | undefined;
+  ResourceName?: string | undefined;
+  SubsidiaryAccountId?: string | undefined;
+  CreatedDate?: string | undefined;
 }
 export interface EntitySummary {
-  Name?: string;
-  EntityType?: string;
-  EntityId?: string;
-  EntityArn?: string;
-  LastModifiedDate?: string;
-  Visibility?: string;
-  AmiProductSummary?: AmiProductSummary;
-  ContainerProductSummary?: ContainerProductSummary;
-  DataProductSummary?: DataProductSummary;
-  SaaSProductSummary?: SaaSProductSummary;
-  OfferSummary?: OfferSummary;
-  ResaleAuthorizationSummary?: ResaleAuthorizationSummary;
-  MachineLearningProductSummary?: MachineLearningProductSummary;
-  OfferSetSummary?: OfferSetSummary;
+  Name?: string | undefined;
+  EntityType?: string | undefined;
+  EntityId?: string | undefined;
+  EntityArn?: string | undefined;
+  LastModifiedDate?: string | undefined;
+  Visibility?: string | undefined;
+  AmiProductSummary?: AmiProductSummary | undefined;
+  ContainerProductSummary?: ContainerProductSummary | undefined;
+  DataProductSummary?: DataProductSummary | undefined;
+  SaaSProductSummary?: SaaSProductSummary | undefined;
+  OfferSummary?: OfferSummary | undefined;
+  ResaleAuthorizationSummary?: ResaleAuthorizationSummary | undefined;
+  MachineLearningProductSummary?: MachineLearningProductSummary | undefined;
+  OfferSetSummary?: OfferSetSummary | undefined;
+  ExpressPrivateOfferConfigurationSummary?: ExpressPrivateOfferConfigurationSummary | undefined;
+  SubsidiaryAuthorizationSummary?: SubsidiaryAuthorizationSummary | undefined;
 }
 export type EntitySummaryList = EntitySummary[];
 export interface ListEntitiesResponse {
-  EntitySummaryList?: EntitySummary[];
-  NextToken?: string;
+  EntitySummaryList?: EntitySummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
@@ -1227,8 +1428,8 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface ListTagsForResourceResponse {
-  ResourceArn?: string;
-  Tags?: Tag[];
+  ResourceArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
@@ -1238,24 +1439,24 @@ export interface PutResourcePolicyResponse {}
 export interface Change {
   ChangeType: string;
   Entity: Entity;
-  EntityTags?: Tag[];
-  Details?: string;
-  DetailsDocument?: any;
-  ChangeName?: string;
+  EntityTags?: Tag[] | undefined;
+  Details?: string | undefined;
+  DetailsDocument?: any | undefined;
+  ChangeName?: string | undefined;
 }
 export type RequestedChangeList = Change[];
 export type ClientRequestToken = string;
 export interface StartChangeSetRequest {
   Catalog: string;
   ChangeSet: Change[];
-  ChangeSetName?: string;
-  ClientRequestToken?: string;
-  ChangeSetTags?: Tag[];
-  Intent?: Intent;
+  ChangeSetName?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  ChangeSetTags?: Tag[] | undefined;
+  Intent?: Intent | undefined;
 }
 export interface StartChangeSetResponse {
-  ChangeSetId?: string;
-  ChangeSetArn?: string;
+  ChangeSetId?: string | undefined;
+  ChangeSetArn?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -1276,12 +1477,12 @@ export type ValidationExceptionReason =
   | (string & {});
 export type FieldName = string;
 export interface ValidationExceptionField {
-  Reason?: ValidationExceptionReason;
-  EntityType?: string;
-  EntityId?: string;
-  ChangeType?: string;
-  Field?: string;
-  Message?: string;
+  Reason?: ValidationExceptionReason | undefined;
+  EntityType?: string | undefined;
+  EntityId?: string | undefined;
+  ChangeType?: string | undefined;
+  Field?: string | undefined;
+  Message?: string | undefined;
 }
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export type BatchDescribeEntitiesError =
@@ -1294,7 +1495,7 @@ export type BatchDescribeEntitiesError =
  * Returns metadata and content for multiple entities. This is the Batch version of the `DescribeEntity` API and uses the same IAM permission action as `DescribeEntity` API.
  */
 export const batchDescribeEntities: API.OperationMethod<
-  BatchDescribeEntitiesRequest,
+  BatchDescribeEntitiesRequest & RegionInput,
   BatchDescribeEntitiesResponse,
   BatchDescribeEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -1329,7 +1530,7 @@ export type CancelChangeSetError =
  * calls.
  */
 export const cancelChangeSet: API.OperationMethod<
-  CancelChangeSetRequest,
+  CancelChangeSetRequest & RegionInput,
   CancelChangeSetResponse,
   CancelChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -1363,7 +1564,7 @@ export type DeleteResourcePolicyError =
  * ARN.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1400,7 +1601,7 @@ export type DescribeAssessmentError =
  * `ListAssessments` action.
  */
 export const describeAssessment: API.PaginatedOperationMethod<
-  DescribeAssessmentRequest,
+  DescribeAssessmentRequest & RegionInput,
   DescribeAssessmentResponse,
   DescribeAssessmentError,
   Credentials | HttpClient.HttpClient,
@@ -1439,7 +1640,7 @@ export type DescribeChangeSetError =
  * Provides information about a given change set.
  */
 export const describeChangeSet: API.OperationMethod<
-  DescribeChangeSetRequest,
+  DescribeChangeSetRequest & RegionInput,
   DescribeChangeSetResponse,
   DescribeChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -1472,7 +1673,7 @@ export type DescribeEntityError =
  * Returns the metadata and content of the entity.
  */
 export const describeEntity: API.OperationMethod<
-  DescribeEntityRequest,
+  DescribeEntityRequest & RegionInput,
   DescribeEntityResponse,
   DescribeEntityError,
   Credentials | HttpClient.HttpClient
@@ -1506,7 +1707,7 @@ export type GetResourcePolicyError =
  * ARN.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1547,7 +1748,7 @@ export type ListAssessmentsError =
  * Results are sorted by assessment creation time in descending order.
  */
 export const listAssessments: API.PaginatedOperationMethod<
-  ListAssessmentsRequest,
+  ListAssessmentsRequest & RegionInput,
   ListAssessmentsResponse,
   ListAssessmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1590,7 +1791,7 @@ export type ListChangeSetsError =
  * calls.
  */
 export const listChangeSets: API.PaginatedOperationMethod<
-  ListChangeSetsRequest,
+  ListChangeSetsRequest & RegionInput,
   ListChangeSetsResponse,
   ListChangeSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1628,14 +1829,14 @@ export type ListEntitiesError =
  * Provides the list of entities of a given type.
  */
 export const listEntities: API.PaginatedOperationMethod<
-  ListEntitiesRequest,
+  ListEntitiesRequest & RegionInput,
   ListEntitiesResponse,
   ListEntitiesError,
   Credentials | HttpClient.HttpClient,
   EntitySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(400, __c12, 16) as any as S.Schema<ListEntitiesRequest>,
-  output: __S(407, __c12, 23) as any as S.Schema<ListEntitiesResponse>,
+  input: __S(402, __c12, 18) as any as S.Schema<ListEntitiesRequest>,
+  output: __S(411, __c12, 27) as any as S.Schema<ListEntitiesResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -1667,7 +1868,7 @@ export type ListTagsForResourceError =
  * Lists all tags that have been added to a resource (either an entity or change set).
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1700,7 +1901,7 @@ export type PutResourcePolicyError =
  * `AmiProduct` and `ContainerProduct`.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1751,7 +1952,7 @@ export type StartChangeSetError =
  * and Java shapes on GitHub.
  */
 export const startChangeSet: API.OperationMethod<
-  StartChangeSetRequest,
+  StartChangeSetRequest & RegionInput,
   StartChangeSetResponse,
   StartChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -1785,7 +1986,7 @@ export type TagResourceError =
  * Tags a resource (either an entity or change set).
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1817,7 +2018,7 @@ export type UntagResourceError =
  * Removes a tag or list of tags from a resource (either an entity or change set).
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2242,6 +2443,27 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "OfferSetFilters" });
     case 13:
+      return S.suspend(() =>
+        S.Struct({
+          EntityId: S.optional(__S(384, __c12, 0)),
+          ProductId: S.optional(__S(384, __c12, 0)),
+          State: S.optional(__S(387, __c12, 3)),
+        }),
+      ).annotate({ identifier: "ExpressPrivateOfferConfigurationFilters" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          EntityId: S.optional(__S(384, __c12, 0)),
+          Status: S.optional(__S(387, __c12, 3)),
+          ResourceId: S.optional(__S(384, __c12, 0)),
+          ResourceName: S.optional(__S(385, __c12, 1)),
+          Name: S.optional(__S(385, __c12, 1)),
+          SubsidiaryAccountId: S.optional(__S(384, __c12, 0)),
+          CreatedDate: S.optional(__S(389, __c12, 5)),
+          LastModifiedDate: S.optional(__S(389, __c12, 5)),
+        }),
+      ).annotate({ identifier: "SubsidiaryAuthorizationFilters" });
+    case 15:
       return S.Union([
         /*@__PURE__*/ S.Struct({ DataProductFilters: __S(390, __c12, 6) }),
         /*@__PURE__*/ S.Struct({ SaaSProductFilters: __S(390, __c12, 6) }),
@@ -2251,23 +2473,27 @@ function __c12(j: number): any {
         /*@__PURE__*/ S.Struct({ ResaleAuthorizationFilters: __S(395, __c12, 11) }),
         /*@__PURE__*/ S.Struct({ MachineLearningProductFilters: __S(391, __c12, 7) }),
         /*@__PURE__*/ S.Struct({ OfferSetFilters: __S(396, __c12, 12) }),
+        /*@__PURE__*/ S.Struct({ ExpressPrivateOfferConfigurationFilters: __S(397, __c12, 13) }),
+        /*@__PURE__*/ S.Struct({ SubsidiaryAuthorizationFilters: __S(398, __c12, 14) }),
       ]);
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }),
       ).annotate({ identifier: "DataProductSort" });
-    case 15:
+    case 17:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ DataProductSort: __S(398, __c12, 14) }),
-        /*@__PURE__*/ S.Struct({ SaaSProductSort: __S(398, __c12, 14) }),
-        /*@__PURE__*/ S.Struct({ AmiProductSort: __S(398, __c12, 14) }),
-        /*@__PURE__*/ S.Struct({ OfferSort: __S(398, __c12, 14) }),
-        /*@__PURE__*/ S.Struct({ ContainerProductSort: __S(398, __c12, 14) }),
-        /*@__PURE__*/ S.Struct({ ResaleAuthorizationSort: __S(398, __c12, 14) }),
-        /*@__PURE__*/ S.Struct({ MachineLearningProductSort: __S(398, __c12, 14) }),
-        /*@__PURE__*/ S.Struct({ OfferSetSort: __S(398, __c12, 14) }),
+        /*@__PURE__*/ S.Struct({ DataProductSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ SaaSProductSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ AmiProductSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ OfferSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ ContainerProductSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ ResaleAuthorizationSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ MachineLearningProductSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ OfferSetSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ ExpressPrivateOfferConfigurationSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ SubsidiaryAuthorizationSort: __S(400, __c12, 16) }),
       ]);
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           Catalog: S.String,
@@ -2277,17 +2503,17 @@ function __c12(j: number): any {
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           OwnershipType: S.optional(S.String),
-          EntityTypeFilters: S.optional(__S(397, __c12, 13)),
-          EntityTypeSort: S.optional(__S(399, __c12, 15)),
+          EntityTypeFilters: S.optional(__S(399, __c12, 15)),
+          EntityTypeSort: S.optional(__S(401, __c12, 17)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/ListEntities" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "ListEntitiesRequest" });
-    case 17:
+    case 19:
       return S.suspend(() =>
         S.Struct({ ProductTitle: S.optional(S.String), Visibility: S.optional(S.String) }),
       ).annotate({ identifier: "AmiProductSummary" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
@@ -2304,7 +2530,7 @@ function __c12(j: number): any {
           CreatedBySource: S.optional(S.String),
         }),
       ).annotate({ identifier: "OfferSummary" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
@@ -2323,7 +2549,7 @@ function __c12(j: number): any {
           IssuerAccountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResaleAuthorizationSummary" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
@@ -2333,7 +2559,22 @@ function __c12(j: number): any {
           SolutionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "OfferSetSummary" });
-    case 21:
+    case 23:
+      return S.suspend(() =>
+        S.Struct({ ProductId: S.optional(S.String), State: S.optional(S.String) }),
+      ).annotate({ identifier: "ExpressPrivateOfferConfigurationSummary" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          ResourceId: S.optional(S.String),
+          ResourceName: S.optional(S.String),
+          SubsidiaryAccountId: S.optional(S.String),
+          CreatedDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SubsidiaryAuthorizationSummary" });
+    case 25:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
@@ -2342,22 +2583,24 @@ function __c12(j: number): any {
           EntityArn: S.optional(S.String),
           LastModifiedDate: S.optional(S.String),
           Visibility: S.optional(S.String),
-          AmiProductSummary: S.optional(__S(401, __c12, 17)),
-          ContainerProductSummary: S.optional(__S(401, __c12, 17)),
-          DataProductSummary: S.optional(__S(401, __c12, 17)),
-          SaaSProductSummary: S.optional(__S(401, __c12, 17)),
-          OfferSummary: S.optional(__S(402, __c12, 18)),
-          ResaleAuthorizationSummary: S.optional(__S(403, __c12, 19)),
-          MachineLearningProductSummary: S.optional(__S(401, __c12, 17)),
-          OfferSetSummary: S.optional(__S(404, __c12, 20)),
+          AmiProductSummary: S.optional(__S(403, __c12, 19)),
+          ContainerProductSummary: S.optional(__S(403, __c12, 19)),
+          DataProductSummary: S.optional(__S(403, __c12, 19)),
+          SaaSProductSummary: S.optional(__S(403, __c12, 19)),
+          OfferSummary: S.optional(__S(404, __c12, 20)),
+          ResaleAuthorizationSummary: S.optional(__S(405, __c12, 21)),
+          MachineLearningProductSummary: S.optional(__S(403, __c12, 19)),
+          OfferSetSummary: S.optional(__S(406, __c12, 22)),
+          ExpressPrivateOfferConfigurationSummary: S.optional(__S(407, __c12, 23)),
+          SubsidiaryAuthorizationSummary: S.optional(__S(408, __c12, 24)),
         }),
       ).annotate({ identifier: "EntitySummary" });
-    case 22:
-      return S.Array(__S(405, __c12, 21));
-    case 23:
+    case 26:
+      return S.Array(__S(409, __c12, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
-          EntitySummaryList: S.optional(__S(406, __c12, 22)),
+          EntitySummaryList: S.optional(__S(410, __c12, 26)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEntitiesResponse" });

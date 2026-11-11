@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Liftrweightsandbiases",
   service: "Liftrweightsandbiases",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -41,9 +42,9 @@ export interface DeleteInstanceRequest {
 }
 export interface DeleteInstanceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -60,17 +61,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -89,33 +90,33 @@ export interface LiftrBaseOfferDetails {
   /** Plan Id for the marketplace offer */
   planId: string;
   /** Plan Name for the marketplace offer */
-  planName?: string;
+  planName?: string | undefined;
   /** Plan Display Name for the marketplace offer */
-  termUnit?: string;
+  termUnit?: string | undefined;
   /** Plan Display Name for the marketplace offer */
-  termId?: string;
+  termId?: string | undefined;
 }
 /** Marketplace details for an organization */
 export interface LiftrBaseMarketplaceDetails {
   /** Azure subscription id for the the marketplace offer is purchased from */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Marketplace subscription status */
-  subscriptionStatus?: LiftrBaseMarketplaceSubscriptionStatus | (string & {});
+  subscriptionStatus?: LiftrBaseMarketplaceSubscriptionStatus | (string & {}) | undefined;
   /** Offer details for the marketplace that is selected by the user */
   offerDetails: LiftrBaseOfferDetails;
 }
 /** User details for an organization */
 export interface LiftrBaseUserDetails {
   /** First name of the user */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Last name of the user */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Email address of the user */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
   /** User's principal name */
-  upn?: string;
+  upn?: string | undefined;
   /** User's phone number */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
 }
 /** The provisioning state of a resource type. */
 export type AzureResourceManagerResourceProvisioningState = "Succeeded" | "Failed" | "Canceled";
@@ -145,13 +146,13 @@ export interface LiftrBaseSingleSignOnPropertiesV2 {
   /** Type of Single Sign-On mechanism being used */
   type: LiftrBaseSingleSignOnType | (string & {});
   /** State of the Single Sign On for the resource */
-  state?: LiftrBaseSingleSignOnStates | (string & {});
+  state?: LiftrBaseSingleSignOnStates | (string & {}) | undefined;
   /** AAD enterprise application Id used to setup SSO */
-  enterpriseAppId?: string;
+  enterpriseAppId?: string | undefined;
   /** URL for SSO to be used by the partner to redirect the user to their system */
-  url?: string;
+  url?: string | undefined;
   /** List of AAD domains fetched from Microsoft Graph for user. */
-  aadDomains?: LiftrBaseSingleSignOnPropertiesV2AadDomainsList;
+  aadDomains?: LiftrBaseSingleSignOnPropertiesV2AadDomainsList | undefined;
 }
 /** Properties specific to Instance */
 export interface InstanceProperties {
@@ -160,11 +161,11 @@ export interface InstanceProperties {
   /** Details of the user. */
   user: LiftrBaseUserDetails;
   /** Provisioning state of the resource. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** partner properties */
   partnerProperties: PartnerProperties;
   /** Single sign-on properties */
-  singleSignOnProperties?: LiftrBaseSingleSignOnPropertiesV2;
+  singleSignOnProperties?: LiftrBaseSingleSignOnPropertiesV2 | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -175,38 +176,38 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetInstanceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface GetInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetInstanceResponseTagsMap;
+  tags?: GetInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetInstanceResponseIdentity;
+  identity?: GetInstanceResponseIdentity | undefined;
 }
 /** Resource tags. */
 export type InstancesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -219,7 +220,7 @@ export interface InstancePropertiesInput {
   /** partner properties */
   partnerProperties: PartnerProperties;
   /** Single sign-on properties */
-  singleSignOnProperties?: LiftrBaseSingleSignOnPropertiesV2;
+  singleSignOnProperties?: LiftrBaseSingleSignOnPropertiesV2 | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -230,7 +231,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface InstancesCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface InstancesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -240,13 +241,13 @@ export interface InstancesCreateOrUpdateRequest {
   /** Name of the Instance resource */
   instancename: string;
   /** Resource tags. */
-  tags?: InstancesCreateOrUpdateRequestTagsMap;
+  tags?: InstancesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: InstancePropertiesInput;
+  properties?: InstancePropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: InstancesCreateOrUpdateRequestIdentity;
+  identity?: InstancesCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type InstancesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -254,25 +255,25 @@ export type InstancesCreateOrUpdateResponseTagsMap = { [key: string]: string | u
 export type InstancesCreateOrUpdateResponseIdentity = GetInstanceResponseIdentity;
 export interface InstancesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: InstancesCreateOrUpdateResponseTagsMap;
+  tags?: InstancesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetInstanceResponseIdentity;
+  identity?: GetInstanceResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListInstanceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -287,21 +288,21 @@ export type InstanceResourceIdentity = GetInstanceResponseIdentity;
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface InstanceResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: InstanceResourceTagsMap;
+  tags?: InstanceResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetInstanceResponseIdentity;
+  identity?: GetInstanceResponseIdentity | undefined;
 }
 /** The InstanceResource items on this page */
 export type InstanceResourceListResultValueList = Array<InstanceResource>;
@@ -310,7 +311,7 @@ export interface InstanceResourceListResult {
   /** The InstanceResource items on this page */
   value: InstanceResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListInstanceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -320,13 +321,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -335,23 +336,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -370,9 +371,14 @@ export type AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUser
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType | (string & {});
+  type?:
+    | AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType
+    | (string & {})
+    | undefined;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface UpdateInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -382,9 +388,9 @@ export interface UpdateInstanceRequest {
   /** Name of the Instance resource */
   instancename: string;
   /** Resource tags. */
-  tags?: UpdateInstanceRequestTagsMap;
+  tags?: UpdateInstanceRequestTagsMap | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput;
+  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput | undefined;
 }
 /** Resource tags. */
 export type UpdateInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -392,21 +398,21 @@ export type UpdateInstanceResponseTagsMap = { [key: string]: string | undefined 
 export type UpdateInstanceResponseIdentity = GetInstanceResponseIdentity;
 export interface UpdateInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateInstanceResponseTagsMap;
+  tags?: UpdateInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetInstanceResponseIdentity;
+  identity?: GetInstanceResponseIdentity | undefined;
 }
 export type DeleteInstanceError = AzureOpError;
 /** Delete a InstanceResource */

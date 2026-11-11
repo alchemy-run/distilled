@@ -87,15 +87,14 @@ export interface GetBillingAccountsLocationsInsightTypesInsightsRequest {
   /** Required. Name of the insight. */
   name: string;
 }
-export type DocumentMap = { [key: string]: unknown | undefined };
 /** Reference to an associated recommendation. */
 export interface GoogleCloudRecommenderV1beta1InsightRecommendationReference {
   /** Recommendation resource name, e.g. projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/recommendations/[RECOMMENDATION_ID] */
-  recommendation?: string;
+  recommendation?: string | undefined;
 }
 export type GoogleCloudRecommenderV1beta1InsightRecommendationReferenceList =
   Array<GoogleCloudRecommenderV1beta1InsightRecommendationReference>;
-export type StringList = Array<string>;
+export type DocumentMap = { [key: string]: unknown | undefined };
 export type GoogleCloudRecommenderV1beta1InsightCategoryEnum =
   | "CATEGORY_UNSPECIFIED"
   | "COST"
@@ -104,183 +103,59 @@ export type GoogleCloudRecommenderV1beta1InsightCategoryEnum =
   | "MANAGEABILITY"
   | "SUSTAINABILITY"
   | "RELIABILITY";
+export type StringList = Array<string>;
 export type GoogleCloudRecommenderV1beta1InsightSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
   | "LOW"
   | "MEDIUM"
   | "HIGH"
   | "CRITICAL";
-export type StringMap = { [key: string]: string | undefined };
 export type GoogleCloudRecommenderV1beta1InsightStateInfoStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
   | "ACCEPTED"
   | "DISMISSED";
+export type StringMap = { [key: string]: string | undefined };
 /** Information related to insight state. */
 export interface GoogleCloudRecommenderV1beta1InsightStateInfo {
-  /** A map of metadata for the state, provided by user or automations systems. */
-  stateMetadata?: StringMap;
   /** Insight state. */
-  state?: GoogleCloudRecommenderV1beta1InsightStateInfoStateEnum;
+  state?: GoogleCloudRecommenderV1beta1InsightStateInfoStateEnum | undefined;
+  /** A map of metadata for the state, provided by user or automations systems. */
+  stateMetadata?: StringMap | undefined;
 }
 /** An insight along with the information used to derive the insight. The insight may have associated recommendations as well. */
 export interface GoogleCloudRecommenderV1beta1Insight {
-  /** A struct of custom fields to explain the insight. Example: "grantedPermissionsCount": "1000" */
-  content?: DocumentMap;
-  /** Recommendations derived from this insight. */
-  associatedRecommendations?: GoogleCloudRecommenderV1beta1InsightRecommendationReferenceList;
-  /** Insight subtype. Insight content schema will be stable for a given subtype. */
-  insightSubtype?: string;
-  /** Free-form human readable summary in English. The maximum length is 500 characters. */
-  description?: string;
-  /** Observation period that led to the insight. The source data used to generate the insight ends at last_refresh_time and begins at (last_refresh_time - observation_period). */
-  observationPeriod?: string;
-  /** Fully qualified resource names that this insight is targeting. */
-  targetResources?: StringList;
-  /** Category being targeted by the insight. */
-  category?: GoogleCloudRecommenderV1beta1InsightCategoryEnum;
-  /** Insight's severity. */
-  severity?: GoogleCloudRecommenderV1beta1InsightSeverityEnum;
   /** Timestamp of the latest data used to generate the insight. */
-  lastRefreshTime?: string;
-  /** Information state and metadata. */
-  stateInfo?: GoogleCloudRecommenderV1beta1InsightStateInfo;
-  /** Identifier. Name of the insight. */
-  name?: string;
+  lastRefreshTime?: string | undefined;
+  /** Insight subtype. Insight content schema will be stable for a given subtype. */
+  insightSubtype?: string | undefined;
+  /** Recommendations derived from this insight. */
+  associatedRecommendations?:
+    | GoogleCloudRecommenderV1beta1InsightRecommendationReferenceList
+    | undefined;
+  /** A struct of custom fields to explain the insight. Example: "grantedPermissionsCount": "1000" */
+  content?: DocumentMap | undefined;
+  /** Observation period that led to the insight. The source data used to generate the insight ends at last_refresh_time and begins at (last_refresh_time - observation_period). */
+  observationPeriod?: string | undefined;
+  /** Category being targeted by the insight. */
+  category?: GoogleCloudRecommenderV1beta1InsightCategoryEnum | undefined;
   /** Fingerprint of the Insight. Provides optimistic locking when updating states. */
-  etag?: string;
+  etag?: string | undefined;
+  /** Identifier. Name of the insight. */
+  name?: string | undefined;
+  /** Fully qualified resource names that this insight is targeting. */
+  targetResources?: StringList | undefined;
+  /** Insight's severity. */
+  severity?: GoogleCloudRecommenderV1beta1InsightSeverityEnum | undefined;
+  /** Information state and metadata. */
+  stateInfo?: GoogleCloudRecommenderV1beta1InsightStateInfo | undefined;
+  /** Free-form human readable summary in English. The maximum length is 500 characters. */
+  description?: string | undefined;
 }
 export interface GetBillingAccountsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
 }
-export type GoogleCloudRecommenderV1beta1RecommendationPriorityEnum =
-  | "PRIORITY_UNSPECIFIED"
-  | "P4"
-  | "P3"
-  | "P2"
-  | "P1";
-/** Contains various matching options for values for a GCP resource field. */
-export interface GoogleCloudRecommenderV1beta1ValueMatcher {
-  /** To be used for full regex matching. The regular expression is using the Google RE2 syntax (https://github.com/google/re2/wiki/Syntax), so to be used with RE2::FullMatch */
-  matchesPattern?: string;
-}
-export type GoogleCloudRecommenderV1beta1ValueMatcherMap = {
-  [key: string]: GoogleCloudRecommenderV1beta1ValueMatcher | undefined;
-};
-/** Contains an operation for a resource loosely based on the JSON-PATCH format with support for: * Custom filters for describing partial array patch. * Extended path values for describing nested arrays. * Custom fields for describing the resource for which the operation is being described. * Allows extension to custom operations not natively supported by RFC6902. See https://tools.ietf.org/html/rfc6902 for details on the original RFC. */
-export interface GoogleCloudRecommenderV1beta1Operation {
-  /** Similar to path_filters, this contains set of filters to apply if `path` field refers to array elements. This is meant to support value matching beyond exact match. To perform exact match, use path_filters. When both path_filters and path_value_matchers are set, an implicit AND must be performed. */
-  pathValueMatchers?: GoogleCloudRecommenderV1beta1ValueMatcherMap;
-  /** Set of filters to apply if `path` refers to array elements or nested array elements in order to narrow down to a single unique element that is being tested/modified. This is intended to be an exact match per filter. To perform advanced matching, use path_value_matchers. * Example: ``` { "/versions/*\/name" : "it-123" "/versions/*\/targetSize/percent": 20 } ``` * Example: ``` { "/bindings/*\/role": "roles/owner" "/bindings/*\/condition" : null } ``` * Example: ``` { "/bindings/*\/role": "roles/owner" "/bindings/*\/members/*" : ["x@example.com", "y@example.com"] } ``` When both path_filters and path_value_matchers are set, an implicit AND must be performed. */
-  pathFilters?: DocumentMap;
-  /** Type of this operation. Contains one of 'add', 'remove', 'replace', 'move', 'copy', 'test' and 'custom' operations. This field is case-insensitive and always populated. */
-  action?: string;
-  /** Contains the fully qualified resource name. This field is always populated. ex: //cloudresourcemanager.googleapis.com/projects/foo. */
-  resource?: string;
-  /** Can be set with action 'copy' to copy resource configuration across different resources of the same type. Example: A resource clone can be done via action = 'copy', path = "/", from = "/", source_resource = and resource_name = . This field is empty for all other values of `action`. */
-  sourceResource?: string;
-  /** Type of GCP resource being modified/tested. This field is always populated. Example: cloudresourcemanager.googleapis.com/Project, compute.googleapis.com/Instance */
-  resourceType?: string;
-  /** Path to the target field being operated on. If the operation is at the resource level, then path should be "/". This field is always populated. */
-  path?: string;
-  /** Can be set with action 'copy' or 'move' to indicate the source field within resource or source_resource, ignored if provided for other operation types. */
-  sourcePath?: string;
-  /** Value for the `path` field. Will be set for actions:'add'/'replace'. Maybe set for action: 'test'. Either this or `value_matcher` will be set for 'test' operation. An exact match must be performed. */
-  value?: unknown;
-  /** Can be set for action 'test' for advanced matching for the value of 'path' field. Either this or `value` will be set for 'test' operation. */
-  valueMatcher?: GoogleCloudRecommenderV1beta1ValueMatcher;
-}
-export type GoogleCloudRecommenderV1beta1OperationList =
-  Array<GoogleCloudRecommenderV1beta1Operation>;
-/** Group of operations that need to be performed atomically. */
-export interface GoogleCloudRecommenderV1beta1OperationGroup {
-  /** List of operations across one or more resources that belong to this group. Loosely based on RFC6902 and should be performed in the order they appear. */
-  operations?: GoogleCloudRecommenderV1beta1OperationList;
-}
-export type GoogleCloudRecommenderV1beta1OperationGroupList =
-  Array<GoogleCloudRecommenderV1beta1OperationGroup>;
-/** Contains what resources are changing and how they are changing. */
-export interface GoogleCloudRecommenderV1beta1RecommendationContent {
-  /** Operations to one or more Google Cloud resources grouped in such a way that, all operations within one group are expected to be performed atomically and in an order. */
-  operationGroups?: GoogleCloudRecommenderV1beta1OperationGroupList;
-  /** Condensed overview information about the recommendation. */
-  overview?: DocumentMap;
-}
-/** Represents an amount of money with its currency type. */
-export interface GoogleTypeMoney {
-  /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string;
-  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string;
-  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number;
-}
-export type GoogleCloudRecommenderV1beta1CostProjectionPricingTypeEnum =
-  | "PRICING_TYPE_UNSPECIFIED"
-  | "LIST_PRICE"
-  | "CUSTOM_PRICE";
-/** Contains metadata about how much money a recommendation can save or incur. */
-export interface GoogleCloudRecommenderV1beta1CostProjection {
-  /** The approximate cost savings in the billing account's local currency. */
-  costInLocalCurrency?: GoogleTypeMoney;
-  /** An approximate projection on amount saved or amount incurred. Negative cost units indicate cost savings and positive cost units indicate increase. See google.type.Money documentation for positive/negative units. A user's permissions may affect whether the cost is computed using list prices or custom contract prices. */
-  cost?: GoogleTypeMoney;
-  /** Duration for which this cost applies. */
-  duration?: string;
-  /** How the cost is calculated. */
-  pricingType?: GoogleCloudRecommenderV1beta1CostProjectionPricingTypeEnum;
-}
-export type GoogleCloudRecommenderV1beta1ImpactCategoryEnum =
-  | "CATEGORY_UNSPECIFIED"
-  | "COST"
-  | "SECURITY"
-  | "PERFORMANCE"
-  | "MANAGEABILITY"
-  | "SUSTAINABILITY"
-  | "RELIABILITY";
-export type GoogleCloudRecommenderV1beta1ReliabilityProjectionRisksItemEnum =
-  | "RISK_TYPE_UNSPECIFIED"
-  | "SERVICE_DISRUPTION"
-  | "DATA_LOSS"
-  | "ACCESS_DENY";
-export type GoogleCloudRecommenderV1beta1ReliabilityProjectionRisksItemEnumList =
-  Array<GoogleCloudRecommenderV1beta1ReliabilityProjectionRisksItemEnum>;
-/** Contains information on the impact of a reliability recommendation. */
-export interface GoogleCloudRecommenderV1beta1ReliabilityProjection {
-  /** Reliability risks mitigated by this recommendation. */
-  risks?: GoogleCloudRecommenderV1beta1ReliabilityProjectionRisksItemEnumList;
-  /** Per-recommender projection. */
-  details?: DocumentMap;
-}
-/** Contains metadata about how much sustainability a recommendation can save or incur. */
-export interface GoogleCloudRecommenderV1beta1SustainabilityProjection {
-  /** Duration for which this sustanability applies. */
-  duration?: string;
-  /** Carbon Footprint generated in kg of CO2 equivalent. Chose kg_c_o2e so that the name renders correctly in camelCase (kgCO2e). */
-  kgCO2e?: number;
-}
-/** Contains various ways of describing the impact on Security. */
-export interface GoogleCloudRecommenderV1beta1SecurityProjection {
-  /** This field can be used by the recommender to define details specific to security impact. */
-  details?: DocumentMap;
-}
-/** Contains the impact a recommendation can have for a given category. */
-export interface GoogleCloudRecommenderV1beta1Impact {
-  /** Use with CategoryType.COST */
-  costProjection?: GoogleCloudRecommenderV1beta1CostProjection;
-  /** Category that is being targeted. */
-  category?: GoogleCloudRecommenderV1beta1ImpactCategoryEnum;
-  /** The service that this impact is associated with. */
-  service?: string;
-  /** Use with CategoryType.RELIABILITY */
-  reliabilityProjection?: GoogleCloudRecommenderV1beta1ReliabilityProjection;
-  /** Use with CategoryType.SUSTAINABILITY */
-  sustainabilityProjection?: GoogleCloudRecommenderV1beta1SustainabilityProjection;
-  /** Use with CategoryType.SECURITY */
-  securityProjection?: GoogleCloudRecommenderV1beta1SecurityProjection;
-}
-export type GoogleCloudRecommenderV1beta1ImpactList = Array<GoogleCloudRecommenderV1beta1Impact>;
 export type GoogleCloudRecommenderV1beta1RecommendationStateInfoStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
@@ -291,45 +166,172 @@ export type GoogleCloudRecommenderV1beta1RecommendationStateInfoStateEnum =
 /** Information for state. Contains state and metadata. */
 export interface GoogleCloudRecommenderV1beta1RecommendationStateInfo {
   /** The state of the recommendation, Eg ACTIVE, SUCCEEDED, FAILED. */
-  state?: GoogleCloudRecommenderV1beta1RecommendationStateInfoStateEnum;
+  state?: GoogleCloudRecommenderV1beta1RecommendationStateInfoStateEnum | undefined;
   /** A map of metadata for the state, provided by user or automations systems. */
-  stateMetadata?: StringMap;
+  stateMetadata?: StringMap | undefined;
 }
 /** Reference to an associated insight. */
 export interface GoogleCloudRecommenderV1beta1RecommendationInsightReference {
   /** Insight resource name, e.g. projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/insights/[INSIGHT_ID] */
-  insight?: string;
+  insight?: string | undefined;
 }
 export type GoogleCloudRecommenderV1beta1RecommendationInsightReferenceList =
   Array<GoogleCloudRecommenderV1beta1RecommendationInsightReference>;
+export type GoogleCloudRecommenderV1beta1ReliabilityProjectionRisksItemEnum =
+  | "RISK_TYPE_UNSPECIFIED"
+  | "SERVICE_DISRUPTION"
+  | "DATA_LOSS"
+  | "ACCESS_DENY";
+export type GoogleCloudRecommenderV1beta1ReliabilityProjectionRisksItemEnumList =
+  Array<GoogleCloudRecommenderV1beta1ReliabilityProjectionRisksItemEnum>;
+/** Contains information on the impact of a reliability recommendation. */
+export interface GoogleCloudRecommenderV1beta1ReliabilityProjection {
+  /** Reliability risks mitigated by this recommendation. */
+  risks?: GoogleCloudRecommenderV1beta1ReliabilityProjectionRisksItemEnumList | undefined;
+  /** Per-recommender projection. */
+  details?: DocumentMap | undefined;
+}
+export type GoogleCloudRecommenderV1beta1ImpactCategoryEnum =
+  | "CATEGORY_UNSPECIFIED"
+  | "COST"
+  | "SECURITY"
+  | "PERFORMANCE"
+  | "MANAGEABILITY"
+  | "SUSTAINABILITY"
+  | "RELIABILITY";
+/** Contains various ways of describing the impact on Security. */
+export interface GoogleCloudRecommenderV1beta1SecurityProjection {
+  /** This field can be used by the recommender to define details specific to security impact. */
+  details?: DocumentMap | undefined;
+}
+/** Contains metadata about how much sustainability a recommendation can save or incur. */
+export interface GoogleCloudRecommenderV1beta1SustainabilityProjection {
+  /** Duration for which this sustanability applies. */
+  duration?: string | undefined;
+  /** Carbon Footprint generated in kg of CO2 equivalent. Chose kg_c_o2e so that the name renders correctly in camelCase (kgCO2e). */
+  kgCO2e?: number | undefined;
+}
+/** Represents an amount of money with its currency type. */
+export interface GoogleTypeMoney {
+  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
+  units?: string | undefined;
+  /** The three-letter currency code defined in ISO 4217. */
+  currencyCode?: string | undefined;
+  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
+  nanos?: number | undefined;
+}
+export type GoogleCloudRecommenderV1beta1CostProjectionPricingTypeEnum =
+  | "PRICING_TYPE_UNSPECIFIED"
+  | "LIST_PRICE"
+  | "CUSTOM_PRICE";
+/** Contains metadata about how much money a recommendation can save or incur. */
+export interface GoogleCloudRecommenderV1beta1CostProjection {
+  /** The approximate cost savings in the billing account's local currency. */
+  costInLocalCurrency?: GoogleTypeMoney | undefined;
+  /** How the cost is calculated. */
+  pricingType?: GoogleCloudRecommenderV1beta1CostProjectionPricingTypeEnum | undefined;
+  /** An approximate projection on amount saved or amount incurred. Negative cost units indicate cost savings and positive cost units indicate increase. See google.type.Money documentation for positive/negative units. A user's permissions may affect whether the cost is computed using list prices or custom contract prices. */
+  cost?: GoogleTypeMoney | undefined;
+  /** Duration for which this cost applies. */
+  duration?: string | undefined;
+}
+/** Contains the impact a recommendation can have for a given category. */
+export interface GoogleCloudRecommenderV1beta1Impact {
+  /** Use with CategoryType.RELIABILITY */
+  reliabilityProjection?: GoogleCloudRecommenderV1beta1ReliabilityProjection | undefined;
+  /** Category that is being targeted. */
+  category?: GoogleCloudRecommenderV1beta1ImpactCategoryEnum | undefined;
+  /** Use with CategoryType.SECURITY */
+  securityProjection?: GoogleCloudRecommenderV1beta1SecurityProjection | undefined;
+  /** Use with CategoryType.SUSTAINABILITY */
+  sustainabilityProjection?: GoogleCloudRecommenderV1beta1SustainabilityProjection | undefined;
+  /** Use with CategoryType.COST */
+  costProjection?: GoogleCloudRecommenderV1beta1CostProjection | undefined;
+  /** The service that this impact is associated with. */
+  service?: string | undefined;
+}
+export type GoogleCloudRecommenderV1beta1ImpactList = Array<GoogleCloudRecommenderV1beta1Impact>;
+export type GoogleCloudRecommenderV1beta1RecommendationPriorityEnum =
+  | "PRIORITY_UNSPECIFIED"
+  | "P4"
+  | "P3"
+  | "P2"
+  | "P1";
+/** Contains various matching options for values for a GCP resource field. */
+export interface GoogleCloudRecommenderV1beta1ValueMatcher {
+  /** To be used for full regex matching. The regular expression is using the Google RE2 syntax (https://github.com/google/re2/wiki/Syntax), so to be used with RE2::FullMatch */
+  matchesPattern?: string | undefined;
+}
+export type GoogleCloudRecommenderV1beta1ValueMatcherMap = {
+  [key: string]: GoogleCloudRecommenderV1beta1ValueMatcher | undefined;
+};
+/** Contains an operation for a resource loosely based on the JSON-PATCH format with support for: * Custom filters for describing partial array patch. * Extended path values for describing nested arrays. * Custom fields for describing the resource for which the operation is being described. * Allows extension to custom operations not natively supported by RFC6902. See https://tools.ietf.org/html/rfc6902 for details on the original RFC. */
+export interface GoogleCloudRecommenderV1beta1Operation {
+  /** Type of this operation. Contains one of 'add', 'remove', 'replace', 'move', 'copy', 'test' and 'custom' operations. This field is case-insensitive and always populated. */
+  action?: string | undefined;
+  /** Set of filters to apply if `path` refers to array elements or nested array elements in order to narrow down to a single unique element that is being tested/modified. This is intended to be an exact match per filter. To perform advanced matching, use path_value_matchers. * Example: ``` { "/versions/*\/name" : "it-123" "/versions/*\/targetSize/percent": 20 } ``` * Example: ``` { "/bindings/*\/role": "roles/owner" "/bindings/*\/condition" : null } ``` * Example: ``` { "/bindings/*\/role": "roles/owner" "/bindings/*\/members/*" : ["x@example.com", "y@example.com"] } ``` When both path_filters and path_value_matchers are set, an implicit AND must be performed. */
+  pathFilters?: DocumentMap | undefined;
+  /** Contains the fully qualified resource name. This field is always populated. ex: //cloudresourcemanager.googleapis.com/projects/foo. */
+  resource?: string | undefined;
+  /** Path to the target field being operated on. If the operation is at the resource level, then path should be "/". This field is always populated. */
+  path?: string | undefined;
+  /** Can be set for action 'test' for advanced matching for the value of 'path' field. Either this or `value` will be set for 'test' operation. */
+  valueMatcher?: GoogleCloudRecommenderV1beta1ValueMatcher | undefined;
+  /** Can be set with action 'copy' or 'move' to indicate the source field within resource or source_resource, ignored if provided for other operation types. */
+  sourcePath?: string | undefined;
+  /** Can be set with action 'copy' to copy resource configuration across different resources of the same type. Example: A resource clone can be done via action = 'copy', path = "/", from = "/", source_resource = and resource_name = . This field is empty for all other values of `action`. */
+  sourceResource?: string | undefined;
+  /** Similar to path_filters, this contains set of filters to apply if `path` field refers to array elements. This is meant to support value matching beyond exact match. To perform exact match, use path_filters. When both path_filters and path_value_matchers are set, an implicit AND must be performed. */
+  pathValueMatchers?: GoogleCloudRecommenderV1beta1ValueMatcherMap | undefined;
+  /** Value for the `path` field. Will be set for actions:'add'/'replace'. Maybe set for action: 'test'. Either this or `value_matcher` will be set for 'test' operation. An exact match must be performed. */
+  value?: unknown | undefined;
+  /** Type of GCP resource being modified/tested. This field is always populated. Example: cloudresourcemanager.googleapis.com/Project, compute.googleapis.com/Instance */
+  resourceType?: string | undefined;
+}
+export type GoogleCloudRecommenderV1beta1OperationList =
+  Array<GoogleCloudRecommenderV1beta1Operation>;
+/** Group of operations that need to be performed atomically. */
+export interface GoogleCloudRecommenderV1beta1OperationGroup {
+  /** List of operations across one or more resources that belong to this group. Loosely based on RFC6902 and should be performed in the order they appear. */
+  operations?: GoogleCloudRecommenderV1beta1OperationList | undefined;
+}
+export type GoogleCloudRecommenderV1beta1OperationGroupList =
+  Array<GoogleCloudRecommenderV1beta1OperationGroup>;
+/** Contains what resources are changing and how they are changing. */
+export interface GoogleCloudRecommenderV1beta1RecommendationContent {
+  /** Condensed overview information about the recommendation. */
+  overview?: DocumentMap | undefined;
+  /** Operations to one or more Google Cloud resources grouped in such a way that, all operations within one group are expected to be performed atomically and in an order. */
+  operationGroups?: GoogleCloudRecommenderV1beta1OperationGroupList | undefined;
+}
 /** A recommendation along with a suggested action. E.g., a rightsizing recommendation for an underutilized VM, IAM role recommendations, etc */
 export interface GoogleCloudRecommenderV1beta1Recommendation {
-  /** Recommendation's priority. */
-  priority?: GoogleCloudRecommenderV1beta1RecommendationPriorityEnum;
-  /** Last time this recommendation was refreshed by the system that created it in the first place. */
-  lastRefreshTime?: string;
-  /** Contains an identifier for a subtype of recommendations produced for the same recommender. Subtype is a function of content and impact, meaning a new subtype might be added when significant changes to `content` or `primary_impact.category` are introduced. See the Recommenders section to see a list of subtypes for a given Recommender. Examples: For recommender = "google.iam.policy.Recommender", recommender_subtype can be one of "REMOVE_ROLE"/"REPLACE_ROLE" */
-  recommenderSubtype?: string;
-  /** Content of the recommendation describing recommended changes to resources. */
-  content?: GoogleCloudRecommenderV1beta1RecommendationContent;
-  /** Corresponds to a mutually exclusive group ID within a recommender. A non-empty ID indicates that the recommendation belongs to a mutually exclusive group. This means that only one recommendation within the group is suggested to be applied. */
-  xorGroupId?: string;
-  /** Fingerprint of the Recommendation. Provides optimistic locking when updating states. */
-  etag?: string;
-  /** Optional set of additional impact that this recommendation may have when trying to optimize for the primary category. These may be positive or negative. */
-  additionalImpact?: GoogleCloudRecommenderV1beta1ImpactList;
   /** Fully qualified resource names that this recommendation is targeting. */
-  targetResources?: StringList;
-  /** Information for state. Contains state and metadata. */
-  stateInfo?: GoogleCloudRecommenderV1beta1RecommendationStateInfo;
+  targetResources?: StringList | undefined;
   /** Free-form human readable summary in English. The maximum length is 500 characters. */
-  description?: string;
+  description?: string | undefined;
+  /** Information for state. Contains state and metadata. */
+  stateInfo?: GoogleCloudRecommenderV1beta1RecommendationStateInfo | undefined;
+  /** Contains an identifier for a subtype of recommendations produced for the same recommender. Subtype is a function of content and impact, meaning a new subtype might be added when significant changes to `content` or `primary_impact.category` are introduced. See the Recommenders section to see a list of subtypes for a given Recommender. Examples: For recommender = "google.iam.policy.Recommender", recommender_subtype can be one of "REMOVE_ROLE"/"REPLACE_ROLE" */
+  recommenderSubtype?: string | undefined;
   /** Identifier. Name of recommendation. */
-  name?: string;
+  name?: string | undefined;
   /** Insights that led to this recommendation. */
-  associatedInsights?: GoogleCloudRecommenderV1beta1RecommendationInsightReferenceList;
+  associatedInsights?: GoogleCloudRecommenderV1beta1RecommendationInsightReferenceList | undefined;
+  /** Last time this recommendation was refreshed by the system that created it in the first place. */
+  lastRefreshTime?: string | undefined;
+  /** Corresponds to a mutually exclusive group ID within a recommender. A non-empty ID indicates that the recommendation belongs to a mutually exclusive group. This means that only one recommendation within the group is suggested to be applied. */
+  xorGroupId?: string | undefined;
   /** The primary impact that this recommendation can have while trying to optimize for one category. */
-  primaryImpact?: GoogleCloudRecommenderV1beta1Impact;
+  primaryImpact?: GoogleCloudRecommenderV1beta1Impact | undefined;
+  /** Fingerprint of the Recommendation. Provides optimistic locking when updating states. */
+  etag?: string | undefined;
+  /** Optional set of additional impact that this recommendation may have when trying to optimize for the primary category. These may be positive or negative. */
+  additionalImpact?: GoogleCloudRecommenderV1beta1ImpactList | undefined;
+  /** Recommendation's priority. */
+  priority?: GoogleCloudRecommenderV1beta1RecommendationPriorityEnum | undefined;
+  /** Content of the recommendation describing recommended changes to resources. */
+  content?: GoogleCloudRecommenderV1beta1RecommendationContent | undefined;
 }
 export interface GetConfigBillingAccountsLocationsInsightTypesRequest {
   /** Required. Name of the InsightTypeConfig to get. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `projects/[PROJECT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` */
@@ -338,24 +340,26 @@ export interface GetConfigBillingAccountsLocationsInsightTypesRequest {
 /** A configuration to customize the generation of insights. Eg, customizing the lookback period considered when generating a insight. */
 export interface GoogleCloudRecommenderV1beta1InsightTypeGenerationConfig {
   /** Parameters for this InsightTypeGenerationConfig. These configs can be used by or are applied to all subtypes. */
-  params?: DocumentMap;
+  params?: DocumentMap | undefined;
 }
 /** Configuration for an InsightType. */
 export interface GoogleCloudRecommenderV1beta1InsightTypeConfig {
-  /** Last time when the config was updated. */
-  updateTime?: string;
-  /** Fingerprint of the InsightTypeConfig. Provides optimistic locking when updating. */
-  etag?: string;
   /** InsightTypeGenerationConfig which configures the generation of insights for this insight type. */
-  insightTypeGenerationConfig?: GoogleCloudRecommenderV1beta1InsightTypeGenerationConfig;
+  insightTypeGenerationConfig?:
+    | GoogleCloudRecommenderV1beta1InsightTypeGenerationConfig
+    | undefined;
+  /** Last time when the config was updated. */
+  updateTime?: string | undefined;
+  /** Fingerprint of the InsightTypeConfig. Provides optimistic locking when updating. */
+  etag?: string | undefined;
   /** Output only. Immutable. The revision ID of the config. A new revision is committed whenever the config is changed in any way. The format is an 8-character hexadecimal string. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** Allows clients to store small amounts of arbitrary data. Annotations must follow the Kubernetes syntax. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** A user-settable field to provide a human-readable name to be used in user interfaces. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identifier. Name of insight type config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetConfigBillingAccountsLocationsRecommendersRequest {
   /** Required. Name of the Recommendation Config to get. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` * `projects/[PROJECT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` */
@@ -364,24 +368,26 @@ export interface GetConfigBillingAccountsLocationsRecommendersRequest {
 /** A Configuration to customize the generation of recommendations. Eg, customizing the lookback period considered when generating a recommendation. */
 export interface GoogleCloudRecommenderV1beta1RecommenderGenerationConfig {
   /** Parameters for this RecommenderGenerationConfig. These configs can be used by or are applied to all subtypes. */
-  params?: DocumentMap;
+  params?: DocumentMap | undefined;
 }
 /** Configuration for a Recommender. */
 export interface GoogleCloudRecommenderV1beta1RecommenderConfig {
-  /** Output only. Immutable. The revision ID of the config. A new revision is committed whenever the config is changed in any way. The format is an 8-character hexadecimal string. */
-  revisionId?: string;
-  /** Identifier. Name of recommender config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config */
-  name?: string;
-  /** Last time when the config was updated. */
-  updateTime?: string;
-  /** A user-settable field to provide a human-readable name to be used in user interfaces. */
-  displayName?: string;
-  /** RecommenderGenerationConfig which configures the Generation of recommendations for this recommender. */
-  recommenderGenerationConfig?: GoogleCloudRecommenderV1beta1RecommenderGenerationConfig;
   /** Fingerprint of the RecommenderConfig. Provides optimistic locking when updating. */
-  etag?: string;
+  etag?: string | undefined;
+  /** Output only. Immutable. The revision ID of the config. A new revision is committed whenever the config is changed in any way. The format is an 8-character hexadecimal string. */
+  revisionId?: string | undefined;
+  /** Identifier. Name of recommender config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config */
+  name?: string | undefined;
+  /** RecommenderGenerationConfig which configures the Generation of recommendations for this recommender. */
+  recommenderGenerationConfig?:
+    | GoogleCloudRecommenderV1beta1RecommenderGenerationConfig
+    | undefined;
+  /** A user-settable field to provide a human-readable name to be used in user interfaces. */
+  displayName?: string | undefined;
+  /** Last time when the config was updated. */
+  updateTime?: string | undefined;
   /** Allows clients to store small amounts of arbitrary data. Annotations must follow the Kubernetes syntax. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
 }
 export interface GetConfigOrganizationsLocationsInsightTypesRequest {
   /** Required. Name of the InsightTypeConfig to get. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `projects/[PROJECT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` */
@@ -424,419 +430,419 @@ export interface GetProjectsLocationsRecommendersRecommendationsRequest {
   name: string;
 }
 export interface ListBillingAccountsLocationsRequest {
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
 }
 /** A resource that represents a Google Cloud location. */
 export interface GoogleCloudLocationLocation {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
 }
 export type GoogleCloudLocationLocationList = Array<GoogleCloudLocationLocation>;
 /** The response message for Locations.ListLocations. */
 export interface GoogleCloudLocationListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: GoogleCloudLocationLocationList;
+  locations?: GoogleCloudLocationLocationList | undefined;
 }
 export interface ListBillingAccountsLocationsInsightTypesInsightsRequest {
+  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters must be identical to those in the previous call. */
+  pageToken?: string | undefined;
+  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. If not specified, the server will determine the number of results to return. */
+  pageSize?: number | undefined;
   /** Required. The container resource on which to execute the request. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `projects/[PROJECT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `folders/[FOLDER_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` LOCATION here refers to GCP Locations: https://cloud.google.com/about/locations/ INSIGHT_TYPE_ID refers to supported insight types: https://cloud.google.com/recommender/docs/insights/insight-types. */
   parent: string;
-  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters must be identical to those in the previous call. */
-  pageToken?: string;
   /** Optional. Filter expression to restrict the insights returned. Supported filter fields: * `stateInfo.state` * `insightSubtype` * `severity` * `targetResources` Examples: * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED` * `insightSubtype = PERMISSIONS_USAGE` * `severity = CRITICAL OR severity = HIGH` * `targetResources : //compute.googleapis.com/projects/1234/zones/us-central1-a/instances/instance-1` * `stateInfo.state = ACTIVE AND (severity = CRITICAL OR severity = HIGH)` The max allowed filter length is 500 characters. (These expressions are based on the filter language described at https://google.aip.dev/160) */
-  filter?: string;
-  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. If not specified, the server will determine the number of results to return. */
-  pageSize?: number;
+  filter?: string | undefined;
 }
 export type GoogleCloudRecommenderV1beta1InsightList = Array<GoogleCloudRecommenderV1beta1Insight>;
 /** Response to the `ListInsights` method. */
 export interface GoogleCloudRecommenderV1beta1ListInsightsResponse {
-  /** The set of insights for the `parent` resource. */
-  insights?: GoogleCloudRecommenderV1beta1InsightList;
   /** A token that can be used to request the next page of results. This field is empty if there are no additional results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** The set of insights for the `parent` resource. */
+  insights?: GoogleCloudRecommenderV1beta1InsightList | undefined;
 }
 export interface ListBillingAccountsLocationsRecommendersRecommendationsRequest {
   /** Filter expression to restrict the recommendations returned. Supported filter fields: * `state_info.state` * `recommenderSubtype` * `priority` * `targetResources` Examples: * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED` * `recommenderSubtype = REMOVE_ROLE OR recommenderSubtype = REPLACE_ROLE` * `priority = P1 OR priority = P2` * `targetResources : //compute.googleapis.com/projects/1234/zones/us-central1-a/instances/instance-1` * `stateInfo.state = ACTIVE AND (priority = P1 OR priority = P2)` The max allowed filter length is 500 characters. (These expressions are based on the filter language described at https://google.aip.dev/160) */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters must be identical to those in the previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The container resource on which to execute the request. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `projects/[PROJECT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `folders/[FOLDER_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` LOCATION here refers to GCP Locations: https://cloud.google.com/about/locations/ RECOMMENDER_ID refers to supported recommenders: https://cloud.google.com/recommender/docs/recommenders. */
   parent: string;
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. If not specified, the server will determine the number of results to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleCloudRecommenderV1beta1RecommendationList =
   Array<GoogleCloudRecommenderV1beta1Recommendation>;
 /** Response to the `ListRecommendations` method. */
 export interface GoogleCloudRecommenderV1beta1ListRecommendationsResponse {
-  /** A token that can be used to request the next page of results. This field is empty if there are no additional results. */
-  nextPageToken?: string;
   /** The set of recommendations for the `parent` resource. */
-  recommendations?: GoogleCloudRecommenderV1beta1RecommendationList;
+  recommendations?: GoogleCloudRecommenderV1beta1RecommendationList | undefined;
+  /** A token that can be used to request the next page of results. This field is empty if there are no additional results. */
+  nextPageToken?: string | undefined;
 }
 export interface ListFoldersLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
 }
 export interface ListFoldersLocationsInsightTypesInsightsRequest {
-  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. If not specified, the server will determine the number of results to return. */
-  pageSize?: number;
-  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters must be identical to those in the previous call. */
-  pageToken?: string;
   /** Required. The container resource on which to execute the request. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `projects/[PROJECT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `folders/[FOLDER_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` LOCATION here refers to GCP Locations: https://cloud.google.com/about/locations/ INSIGHT_TYPE_ID refers to supported insight types: https://cloud.google.com/recommender/docs/insights/insight-types. */
   parent: string;
   /** Optional. Filter expression to restrict the insights returned. Supported filter fields: * `stateInfo.state` * `insightSubtype` * `severity` * `targetResources` Examples: * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED` * `insightSubtype = PERMISSIONS_USAGE` * `severity = CRITICAL OR severity = HIGH` * `targetResources : //compute.googleapis.com/projects/1234/zones/us-central1-a/instances/instance-1` * `stateInfo.state = ACTIVE AND (severity = CRITICAL OR severity = HIGH)` The max allowed filter length is 500 characters. (These expressions are based on the filter language described at https://google.aip.dev/160) */
-  filter?: string;
+  filter?: string | undefined;
+  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters must be identical to those in the previous call. */
+  pageToken?: string | undefined;
+  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. If not specified, the server will determine the number of results to return. */
+  pageSize?: number | undefined;
 }
 export interface ListFoldersLocationsRecommendersRecommendationsRequest {
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. If not specified, the server will determine the number of results to return. */
-  pageSize?: number;
-  /** Filter expression to restrict the recommendations returned. Supported filter fields: * `state_info.state` * `recommenderSubtype` * `priority` * `targetResources` Examples: * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED` * `recommenderSubtype = REMOVE_ROLE OR recommenderSubtype = REPLACE_ROLE` * `priority = P1 OR priority = P2` * `targetResources : //compute.googleapis.com/projects/1234/zones/us-central1-a/instances/instance-1` * `stateInfo.state = ACTIVE AND (priority = P1 OR priority = P2)` The max allowed filter length is 500 characters. (These expressions are based on the filter language described at https://google.aip.dev/160) */
-  filter?: string;
+  pageSize?: number | undefined;
   /** Required. The container resource on which to execute the request. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `projects/[PROJECT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `folders/[FOLDER_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` LOCATION here refers to GCP Locations: https://cloud.google.com/about/locations/ RECOMMENDER_ID refers to supported recommenders: https://cloud.google.com/recommender/docs/recommenders. */
   parent: string;
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters must be identical to those in the previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** Filter expression to restrict the recommendations returned. Supported filter fields: * `state_info.state` * `recommenderSubtype` * `priority` * `targetResources` Examples: * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED` * `recommenderSubtype = REMOVE_ROLE OR recommenderSubtype = REPLACE_ROLE` * `priority = P1 OR priority = P2` * `targetResources : //compute.googleapis.com/projects/1234/zones/us-central1-a/instances/instance-1` * `stateInfo.state = ACTIVE AND (priority = P1 OR priority = P2)` The max allowed filter length is 500 characters. (These expressions are based on the filter language described at https://google.aip.dev/160) */
+  filter?: string | undefined;
 }
 export interface ListInsightTypesRequest {
   /** Optional. The number of InsightTypes to return per page. The service may return fewer than this value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListRecommenders` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The type of insight. */
 export interface GoogleCloudRecommenderV1beta1InsightType {
   /** The insight_type's name in format insightTypes/{insight_type} eg: insightTypes/google.iam.policy.Insight */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleCloudRecommenderV1beta1InsightTypeList =
   Array<GoogleCloudRecommenderV1beta1InsightType>;
 /** Response for the `ListInsightTypes` method. Next ID: 3 */
 export interface GoogleCloudRecommenderV1beta1ListInsightTypesResponse {
   /** The set of recommenders available */
-  insightTypes?: GoogleCloudRecommenderV1beta1InsightTypeList;
+  insightTypes?: GoogleCloudRecommenderV1beta1InsightTypeList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
 }
 export interface ListOrganizationsLocationsInsightTypesInsightsRequest {
+  /** Optional. Filter expression to restrict the insights returned. Supported filter fields: * `stateInfo.state` * `insightSubtype` * `severity` * `targetResources` Examples: * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED` * `insightSubtype = PERMISSIONS_USAGE` * `severity = CRITICAL OR severity = HIGH` * `targetResources : //compute.googleapis.com/projects/1234/zones/us-central1-a/instances/instance-1` * `stateInfo.state = ACTIVE AND (severity = CRITICAL OR severity = HIGH)` The max allowed filter length is 500 characters. (These expressions are based on the filter language described at https://google.aip.dev/160) */
+  filter?: string | undefined;
+  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters must be identical to those in the previous call. */
+  pageToken?: string | undefined;
   /** Required. The container resource on which to execute the request. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `projects/[PROJECT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `folders/[FOLDER_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` LOCATION here refers to GCP Locations: https://cloud.google.com/about/locations/ INSIGHT_TYPE_ID refers to supported insight types: https://cloud.google.com/recommender/docs/insights/insight-types. */
   parent: string;
-  /** Optional. Filter expression to restrict the insights returned. Supported filter fields: * `stateInfo.state` * `insightSubtype` * `severity` * `targetResources` Examples: * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED` * `insightSubtype = PERMISSIONS_USAGE` * `severity = CRITICAL OR severity = HIGH` * `targetResources : //compute.googleapis.com/projects/1234/zones/us-central1-a/instances/instance-1` * `stateInfo.state = ACTIVE AND (severity = CRITICAL OR severity = HIGH)` The max allowed filter length is 500 characters. (These expressions are based on the filter language described at https://google.aip.dev/160) */
-  filter?: string;
-  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters must be identical to those in the previous call. */
-  pageToken?: string;
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. If not specified, the server will determine the number of results to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListOrganizationsLocationsRecommendersRecommendationsRequest {
+  /** Filter expression to restrict the recommendations returned. Supported filter fields: * `state_info.state` * `recommenderSubtype` * `priority` * `targetResources` Examples: * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED` * `recommenderSubtype = REMOVE_ROLE OR recommenderSubtype = REPLACE_ROLE` * `priority = P1 OR priority = P2` * `targetResources : //compute.googleapis.com/projects/1234/zones/us-central1-a/instances/instance-1` * `stateInfo.state = ACTIVE AND (priority = P1 OR priority = P2)` The max allowed filter length is 500 characters. (These expressions are based on the filter language described at https://google.aip.dev/160) */
+  filter?: string | undefined;
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. If not specified, the server will determine the number of results to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters must be identical to those in the previous call. */
+  pageToken?: string | undefined;
   /** Required. The container resource on which to execute the request. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `projects/[PROJECT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `folders/[FOLDER_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` LOCATION here refers to GCP Locations: https://cloud.google.com/about/locations/ RECOMMENDER_ID refers to supported recommenders: https://cloud.google.com/recommender/docs/recommenders. */
   parent: string;
-  /** Filter expression to restrict the recommendations returned. Supported filter fields: * `state_info.state` * `recommenderSubtype` * `priority` * `targetResources` Examples: * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED` * `recommenderSubtype = REMOVE_ROLE OR recommenderSubtype = REPLACE_ROLE` * `priority = P1 OR priority = P2` * `targetResources : //compute.googleapis.com/projects/1234/zones/us-central1-a/instances/instance-1` * `stateInfo.state = ACTIVE AND (priority = P1 OR priority = P2)` The max allowed filter length is 500 characters. (These expressions are based on the filter language described at https://google.aip.dev/160) */
-  filter?: string;
-  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters must be identical to those in the previous call. */
-  pageToken?: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsInsightTypesInsightsRequest {
   /** Required. The container resource on which to execute the request. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `projects/[PROJECT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `folders/[FOLDER_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` LOCATION here refers to GCP Locations: https://cloud.google.com/about/locations/ INSIGHT_TYPE_ID refers to supported insight types: https://cloud.google.com/recommender/docs/insights/insight-types. */
   parent: string;
-  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. If not specified, the server will determine the number of results to return. */
-  pageSize?: number;
   /** Optional. Filter expression to restrict the insights returned. Supported filter fields: * `stateInfo.state` * `insightSubtype` * `severity` * `targetResources` Examples: * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED` * `insightSubtype = PERMISSIONS_USAGE` * `severity = CRITICAL OR severity = HIGH` * `targetResources : //compute.googleapis.com/projects/1234/zones/us-central1-a/instances/instance-1` * `stateInfo.state = ACTIVE AND (severity = CRITICAL OR severity = HIGH)` The max allowed filter length is 500 characters. (These expressions are based on the filter language described at https://google.aip.dev/160) */
-  filter?: string;
+  filter?: string | undefined;
+  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. If not specified, the server will determine the number of results to return. */
+  pageSize?: number | undefined;
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters must be identical to those in the previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsRecommendersRecommendationsRequest {
   /** Required. The container resource on which to execute the request. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `projects/[PROJECT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `folders/[FOLDER_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` LOCATION here refers to GCP Locations: https://cloud.google.com/about/locations/ RECOMMENDER_ID refers to supported recommenders: https://cloud.google.com/recommender/docs/recommenders. */
   parent: string;
-  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters must be identical to those in the previous call. */
-  pageToken?: string;
-  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. If not specified, the server will determine the number of results to return. */
-  pageSize?: number;
   /** Filter expression to restrict the recommendations returned. Supported filter fields: * `state_info.state` * `recommenderSubtype` * `priority` * `targetResources` Examples: * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED` * `recommenderSubtype = REMOVE_ROLE OR recommenderSubtype = REPLACE_ROLE` * `priority = P1 OR priority = P2` * `targetResources : //compute.googleapis.com/projects/1234/zones/us-central1-a/instances/instance-1` * `stateInfo.state = ACTIVE AND (priority = P1 OR priority = P2)` The max allowed filter length is 500 characters. (These expressions are based on the filter language described at https://google.aip.dev/160) */
-  filter?: string;
+  filter?: string | undefined;
+  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters must be identical to those in the previous call. */
+  pageToken?: string | undefined;
+  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. If not specified, the server will determine the number of results to return. */
+  pageSize?: number | undefined;
 }
 export interface ListRecommendersRequest {
-  /** Optional. The number of RecommenderTypes to return per page. The service may return fewer than this value. */
-  pageSize?: number;
   /** Optional. A page token, received from a previous `ListRecommenders` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** Optional. The number of RecommenderTypes to return per page. The service may return fewer than this value. */
+  pageSize?: number | undefined;
 }
 /** The type of a recommender. */
 export interface GoogleCloudRecommenderV1beta1RecommenderType {
   /** The recommender's name in format RecommenderTypes/{recommender_type} eg: recommenderTypes/google.iam.policy.Recommender */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleCloudRecommenderV1beta1RecommenderTypeList =
   Array<GoogleCloudRecommenderV1beta1RecommenderType>;
 /** Response for the `ListRecommender` method. Next ID: 3 */
 export interface GoogleCloudRecommenderV1beta1ListRecommendersResponse {
-  /** The set of recommenders available */
-  recommenders?: GoogleCloudRecommenderV1beta1RecommenderTypeList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** The set of recommenders available */
+  recommenders?: GoogleCloudRecommenderV1beta1RecommenderTypeList | undefined;
 }
 /** Request for the `MarkInsightAccepted` method. */
 export interface GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest {
   /** Optional. State properties user wish to include with this state. Full replace of the current state_metadata. */
-  stateMetadata?: StringMap;
+  stateMetadata?: StringMap | undefined;
   /** Required. Fingerprint of the Insight. Provides optimistic locking. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface MarkAcceptedBillingAccountsLocationsInsightTypesInsightsRequest {
   /** Required. Name of the insight. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest | undefined;
 }
 export interface MarkAcceptedFoldersLocationsInsightTypesInsightsRequest {
   /** Required. Name of the insight. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest | undefined;
 }
 export interface MarkAcceptedOrganizationsLocationsInsightTypesInsightsRequest {
   /** Required. Name of the insight. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest | undefined;
 }
 export interface MarkAcceptedProjectsLocationsInsightTypesInsightsRequest {
   /** Required. Name of the insight. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest | undefined;
 }
 /** Request for the `MarkRecommendationClaimed` Method. */
 export interface GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest {
   /** Required. Fingerprint of the Recommendation. Provides optimistic locking. */
-  etag?: string;
+  etag?: string | undefined;
   /** State properties to include with this state. Overwrites any existing `state_metadata`. Keys must match the regex `/^a-z0-9{0,62}$/`. Values must match the regex `/^[a-zA-Z0-9_./-]{0,255}$/`. */
-  stateMetadata?: StringMap;
+  stateMetadata?: StringMap | undefined;
 }
 export interface MarkClaimedBillingAccountsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest | undefined;
 }
 export interface MarkClaimedFoldersLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest | undefined;
 }
 export interface MarkClaimedOrganizationsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest | undefined;
 }
 export interface MarkClaimedProjectsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest | undefined;
 }
 /** Request for the `MarkRecommendationDismissed` Method. */
 export interface GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest {
   /** Fingerprint of the Recommendation. Provides optimistic locking. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface MarkDismissedBillingAccountsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest | undefined;
 }
 export interface MarkDismissedFoldersLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest | undefined;
 }
 export interface MarkDismissedOrganizationsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest | undefined;
 }
 export interface MarkDismissedProjectsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest | undefined;
 }
 /** Request for the `MarkRecommendationFailed` Method. */
-export type GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest =
-  GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest;
+export interface GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest {
+  /** State properties to include with this state. Overwrites any existing `state_metadata`. Keys must match the regex `/^a-z0-9{0,62}$/`. Values must match the regex `/^[a-zA-Z0-9_./-]{0,255}$/`. */
+  stateMetadata?: StringMap | undefined;
+  /** Required. Fingerprint of the Recommendation. Provides optimistic locking. */
+  etag?: string | undefined;
+}
 export interface MarkFailedBillingAccountsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
 export interface MarkFailedFoldersLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
 export interface MarkFailedOrganizationsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
 export interface MarkFailedProjectsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
 /** Request for the `MarkRecommendationSucceeded` Method. */
-export interface GoogleCloudRecommenderV1beta1MarkRecommendationSucceededRequest {
-  /** State properties to include with this state. Overwrites any existing `state_metadata`. Keys must match the regex `/^a-z0-9{0,62}$/`. Values must match the regex `/^[a-zA-Z0-9_./-]{0,255}$/`. */
-  stateMetadata?: StringMap;
-  /** Required. Fingerprint of the Recommendation. Provides optimistic locking. */
-  etag?: string;
-}
+export type GoogleCloudRecommenderV1beta1MarkRecommendationSucceededRequest =
+  GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest;
 export interface MarkSucceededBillingAccountsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationSucceededRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
 export interface MarkSucceededFoldersLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationSucceededRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
 export interface MarkSucceededOrganizationsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationSucceededRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
 export interface MarkSucceededProjectsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationSucceededRequest;
+  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
 export interface UpdateConfigBillingAccountsLocationsInsightTypesRequest {
   /** If true, validate the request and preview the change, but do not actually update it. */
-  validateOnly?: boolean;
-  /** The list of fields to be updated. */
-  updateMask?: string;
+  validateOnly?: boolean | undefined;
   /** Identifier. Name of insight type config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config */
   name: string;
+  /** The list of fields to be updated. */
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1InsightTypeConfig;
+  body?: GoogleCloudRecommenderV1beta1InsightTypeConfig | undefined;
 }
 export interface UpdateConfigBillingAccountsLocationsRecommendersRequest {
+  /** If true, validate the request and preview the change, but do not actually update it. */
+  validateOnly?: boolean | undefined;
   /** Identifier. Name of recommender config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config */
   name: string;
   /** The list of fields to be updated. */
-  updateMask?: string;
-  /** If true, validate the request and preview the change, but do not actually update it. */
-  validateOnly?: boolean;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1RecommenderConfig;
+  body?: GoogleCloudRecommenderV1beta1RecommenderConfig | undefined;
 }
 export interface UpdateConfigOrganizationsLocationsInsightTypesRequest {
-  /** If true, validate the request and preview the change, but do not actually update it. */
-  validateOnly?: boolean;
   /** Identifier. Name of insight type config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config */
   name: string;
   /** The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
+  /** If true, validate the request and preview the change, but do not actually update it. */
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1InsightTypeConfig;
+  body?: GoogleCloudRecommenderV1beta1InsightTypeConfig | undefined;
 }
 export interface UpdateConfigOrganizationsLocationsRecommendersRequest {
   /** Identifier. Name of recommender config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config */
   name: string;
-  /** The list of fields to be updated. */
-  updateMask?: string;
   /** If true, validate the request and preview the change, but do not actually update it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
+  /** The list of fields to be updated. */
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1RecommenderConfig;
+  body?: GoogleCloudRecommenderV1beta1RecommenderConfig | undefined;
 }
 export interface UpdateConfigProjectsLocationsInsightTypesRequest {
   /** If true, validate the request and preview the change, but do not actually update it. */
-  validateOnly?: boolean;
-  /** The list of fields to be updated. */
-  updateMask?: string;
+  validateOnly?: boolean | undefined;
   /** Identifier. Name of insight type config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config */
   name: string;
+  /** The list of fields to be updated. */
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1InsightTypeConfig;
+  body?: GoogleCloudRecommenderV1beta1InsightTypeConfig | undefined;
 }
 export interface UpdateConfigProjectsLocationsRecommendersRequest {
-  /** If true, validate the request and preview the change, but do not actually update it. */
-  validateOnly?: boolean;
+  /** The list of fields to be updated. */
+  updateMask?: string | undefined;
   /** Identifier. Name of recommender config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config */
   name: string;
-  /** The list of fields to be updated. */
-  updateMask?: string;
+  /** If true, validate the request and preview the change, but do not actually update it. */
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: GoogleCloudRecommenderV1beta1RecommenderConfig;
+  body?: GoogleCloudRecommenderV1beta1RecommenderConfig | undefined;
 }
 export type GetBillingAccountsLocationsInsightTypesInsightsError =
   | NotFound
@@ -854,7 +860,7 @@ export const getBillingAccountsLocationsInsightTypesInsights: API.OperationMetho
     __c36,
     0,
   ) as any as S.Schema<GetBillingAccountsLocationsInsightTypesInsightsRequest>,
-  output: __S(1187, __c37, 3) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
+  output: __S(1186, __c37, 2) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -874,11 +880,11 @@ export const getBillingAccountsLocationsRecommendersRecommendations: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1632,
-    __c51,
+    1664,
+    __c52,
     0,
   ) as any as S.Schema<GetBillingAccountsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -895,11 +901,11 @@ export const getConfigBillingAccountsLocationsInsightTypes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1952,
-    __c61,
+    1984,
+    __c62,
     0,
   ) as any as S.Schema<GetConfigBillingAccountsLocationsInsightTypesRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1InsightTypeConfig>,
+  output: __S(2048, __c64, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1InsightTypeConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -916,11 +922,11 @@ export const getConfigBillingAccountsLocationsRecommenders: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2048,
-    __c64,
+    2080,
+    __c65,
     0,
   ) as any as S.Schema<GetConfigBillingAccountsLocationsRecommendersRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1RecommenderConfig>,
+  output: __S(2112, __c66, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1RecommenderConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -936,8 +942,8 @@ export const getConfigOrganizationsLocationsInsightTypes: API.OperationMethod<
   GetConfigOrganizationsLocationsInsightTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetConfigOrganizationsLocationsInsightTypesRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1InsightTypeConfig>,
+  input: __S(2144, __c67, 0) as any as S.Schema<GetConfigOrganizationsLocationsInsightTypesRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1InsightTypeConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -953,8 +959,8 @@ export const getConfigOrganizationsLocationsRecommenders: API.OperationMethod<
   GetConfigOrganizationsLocationsRecommendersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<GetConfigOrganizationsLocationsRecommendersRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1RecommenderConfig>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetConfigOrganizationsLocationsRecommendersRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1RecommenderConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -971,7 +977,7 @@ export const getConfigProjectsLocationsInsightTypes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetConfigProjectsLocationsInsightTypesRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1InsightTypeConfig>,
+  output: __S(2048, __c64, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1InsightTypeConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -988,7 +994,7 @@ export const getConfigProjectsLocationsRecommenders: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<GetConfigProjectsLocationsRecommendersRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1RecommenderConfig>,
+  output: __S(2112, __c66, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1RecommenderConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1005,7 +1011,7 @@ export const getFoldersLocationsInsightTypesInsights: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<GetFoldersLocationsInsightTypesInsightsRequest>,
-  output: __S(1187, __c37, 3) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
+  output: __S(1186, __c37, 2) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1022,7 +1028,7 @@ export const getFoldersLocationsRecommendersRecommendations: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<GetFoldersLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1039,7 +1045,7 @@ export const getOrganizationsLocationsInsightTypesInsights: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetOrganizationsLocationsInsightTypesInsightsRequest>,
-  output: __S(1187, __c37, 3) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
+  output: __S(1186, __c37, 2) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1063,7 +1069,7 @@ export const getOrganizationsLocationsRecommendersRecommendations: API.Operation
     __c5,
     0,
   ) as any as S.Schema<GetOrganizationsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1080,7 +1086,7 @@ export const getProjectsLocationsInsightTypesInsights: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetProjectsLocationsInsightTypesInsightsRequest>,
-  output: __S(1187, __c37, 3) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
+  output: __S(1186, __c37, 2) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1104,7 +1110,7 @@ export const getProjectsLocationsRecommendersRecommendations: API.OperationMetho
     __c7,
     0,
   ) as any as S.Schema<GetProjectsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1459,7 +1465,7 @@ export const markAcceptedBillingAccountsLocationsInsightTypesInsights: API.Opera
     __c26,
     0,
   ) as any as S.Schema<MarkAcceptedBillingAccountsLocationsInsightTypesInsightsRequest>,
-  output: __S(1187, __c37, 3) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
+  output: __S(1186, __c37, 2) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1485,7 +1491,7 @@ export const markAcceptedFoldersLocationsInsightTypesInsights: API.OperationMeth
     __c28,
     0,
   ) as any as S.Schema<MarkAcceptedFoldersLocationsInsightTypesInsightsRequest>,
-  output: __S(1187, __c37, 3) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
+  output: __S(1186, __c37, 2) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1511,7 +1517,7 @@ export const markAcceptedOrganizationsLocationsInsightTypesInsights: API.Operati
     __c29,
     0,
   ) as any as S.Schema<MarkAcceptedOrganizationsLocationsInsightTypesInsightsRequest>,
-  output: __S(1187, __c37, 3) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
+  output: __S(1186, __c37, 2) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1537,7 +1543,7 @@ export const markAcceptedProjectsLocationsInsightTypesInsights: API.OperationMet
     __c30,
     0,
   ) as any as S.Schema<MarkAcceptedProjectsLocationsInsightTypesInsightsRequest>,
-  output: __S(1187, __c37, 3) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
+  output: __S(1186, __c37, 2) as any as S.Schema<GoogleCloudRecommenderV1beta1Insight>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1563,7 +1569,7 @@ export const markClaimedBillingAccountsLocationsRecommendersRecommendations: API
     __c31,
     0,
   ) as any as S.Schema<MarkClaimedBillingAccountsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1589,7 +1595,7 @@ export const markClaimedFoldersLocationsRecommendersRecommendations: API.Operati
     __c33,
     0,
   ) as any as S.Schema<MarkClaimedFoldersLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1615,7 +1621,7 @@ export const markClaimedOrganizationsLocationsRecommendersRecommendations: API.O
     __c34,
     0,
   ) as any as S.Schema<MarkClaimedOrganizationsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1641,7 +1647,7 @@ export const markClaimedProjectsLocationsRecommendersRecommendations: API.Operat
     __c35,
     0,
   ) as any as S.Schema<MarkClaimedProjectsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1663,11 +1669,11 @@ export const markDismissedBillingAccountsLocationsRecommendersRecommendations: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1280,
-    __c40,
+    1312,
+    __c41,
     0,
   ) as any as S.Schema<MarkDismissedBillingAccountsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1689,11 +1695,11 @@ export const markDismissedFoldersLocationsRecommendersRecommendations: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1344,
-    __c42,
+    1376,
+    __c43,
     0,
   ) as any as S.Schema<MarkDismissedFoldersLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1715,11 +1721,11 @@ export const markDismissedOrganizationsLocationsRecommendersRecommendations: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1376,
-    __c43,
+    1408,
+    __c44,
     0,
   ) as any as S.Schema<MarkDismissedOrganizationsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1741,11 +1747,11 @@ export const markDismissedProjectsLocationsRecommendersRecommendations: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1408,
-    __c44,
+    1440,
+    __c45,
     0,
   ) as any as S.Schema<MarkDismissedProjectsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1767,11 +1773,11 @@ export const markFailedBillingAccountsLocationsRecommendersRecommendations: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1440,
-    __c45,
+    1472,
+    __c46,
     0,
   ) as any as S.Schema<MarkFailedBillingAccountsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1793,11 +1799,11 @@ export const markFailedFoldersLocationsRecommendersRecommendations: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1472,
-    __c46,
+    1504,
+    __c47,
     0,
   ) as any as S.Schema<MarkFailedFoldersLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1819,11 +1825,11 @@ export const markFailedOrganizationsLocationsRecommendersRecommendations: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1504,
-    __c47,
+    1536,
+    __c48,
     0,
   ) as any as S.Schema<MarkFailedOrganizationsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1845,11 +1851,11 @@ export const markFailedProjectsLocationsRecommendersRecommendations: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1536,
-    __c48,
+    1568,
+    __c49,
     0,
   ) as any as S.Schema<MarkFailedProjectsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1871,11 +1877,11 @@ export const markSucceededBillingAccountsLocationsRecommendersRecommendations: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1568,
-    __c49,
+    1600,
+    __c50,
     0,
   ) as any as S.Schema<MarkSucceededBillingAccountsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1897,11 +1903,11 @@ export const markSucceededFoldersLocationsRecommendersRecommendations: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1600,
-    __c50,
+    1632,
+    __c51,
     0,
   ) as any as S.Schema<MarkSucceededFoldersLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1923,11 +1929,11 @@ export const markSucceededOrganizationsLocationsRecommendersRecommendations: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1696,
-    __c53,
+    1728,
+    __c54,
     0,
   ) as any as S.Schema<MarkSucceededOrganizationsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1949,11 +1955,11 @@ export const markSucceededProjectsLocationsRecommendersRecommendations: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1728,
-    __c54,
+    1760,
+    __c55,
     0,
   ) as any as S.Schema<MarkSucceededProjectsLocationsRecommendersRecommendationsRequest>,
-  output: __S(1682, __c52, 18) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
+  output: __S(1713, __c53, 17) as any as S.Schema<GoogleCloudRecommenderV1beta1Recommendation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1975,11 +1981,11 @@ export const updateConfigBillingAccountsLocationsInsightTypes: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1760,
-    __c55,
+    1792,
+    __c56,
     0,
   ) as any as S.Schema<UpdateConfigBillingAccountsLocationsInsightTypesRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1InsightTypeConfig>,
+  output: __S(2048, __c64, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1InsightTypeConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2001,11 +2007,11 @@ export const updateConfigBillingAccountsLocationsRecommenders: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1792,
-    __c56,
+    1824,
+    __c57,
     0,
   ) as any as S.Schema<UpdateConfigBillingAccountsLocationsRecommendersRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1RecommenderConfig>,
+  output: __S(2112, __c66, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1RecommenderConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2027,11 +2033,11 @@ export const updateConfigOrganizationsLocationsInsightTypes: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1824,
-    __c57,
+    1856,
+    __c58,
     0,
   ) as any as S.Schema<UpdateConfigOrganizationsLocationsInsightTypesRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1InsightTypeConfig>,
+  output: __S(2048, __c64, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1InsightTypeConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2053,11 +2059,11 @@ export const updateConfigOrganizationsLocationsRecommenders: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1856,
-    __c58,
+    1888,
+    __c59,
     0,
   ) as any as S.Schema<UpdateConfigOrganizationsLocationsRecommendersRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1RecommenderConfig>,
+  output: __S(2112, __c66, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1RecommenderConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2078,8 +2084,8 @@ export const updateConfigProjectsLocationsInsightTypes: API.OperationMethod<
   UpdateConfigProjectsLocationsInsightTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<UpdateConfigProjectsLocationsInsightTypesRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1InsightTypeConfig>,
+  input: __S(1920, __c60, 0) as any as S.Schema<UpdateConfigProjectsLocationsInsightTypesRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1InsightTypeConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2100,8 +2106,8 @@ export const updateConfigProjectsLocationsRecommenders: API.OperationMethod<
   UpdateConfigProjectsLocationsRecommendersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<UpdateConfigProjectsLocationsRecommendersRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1RecommenderConfig>,
+  input: __S(1952, __c61, 0) as any as S.Schema<UpdateConfigProjectsLocationsRecommendersRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<GoogleCloudRecommenderV1beta1RecommenderConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2243,11 +2249,11 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extraLocationTypes: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
+          extraLocationTypes: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2263,10 +2269,10 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1248, __c39, 0)),
           name: S.optional(S.String),
-          labels: S.optional(__S(1249, __c39, 1)),
           displayName: S.optional(S.String),
+          metadata: S.optional(__S(1280, __c40, 0)),
+          labels: S.optional(__S(1281, __c40, 1)),
           locationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudLocationLocation" });
@@ -2286,10 +2292,10 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2303,12 +2309,12 @@ function __c10(j: number): any {
 function __c11(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1187, __c37, 3));
+      return S.Array(__S(1186, __c37, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          insights: S.optional(__S(352, __c11, 0)),
           nextPageToken: S.optional(S.String),
+          insights: S.optional(__S(352, __c11, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudRecommenderV1beta1ListInsightsResponse" });
   }
@@ -2335,12 +2341,12 @@ function __c12(j: number): any {
 function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1682, __c52, 18));
+      return S.Array(__S(1713, __c53, 17));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           recommendations: S.optional(__S(416, __c13, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudRecommenderV1beta1ListRecommendationsResponse" });
   }
@@ -2353,8 +2359,8 @@ function __c14(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2370,10 +2376,10 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2390,9 +2396,9 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2444,11 +2450,11 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2464,9 +2470,9 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2483,10 +2489,10 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2502,10 +2508,10 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2523,8 +2529,8 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2542,9 +2548,9 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2560,8 +2566,8 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2573,8 +2579,8 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          recommenders: S.optional(__S(577, __c18, 1)),
           nextPageToken: S.optional(S.String),
+          recommenders: S.optional(__S(577, __c18, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudRecommenderV1beta1ListRecommendersResponse" });
   }
@@ -2601,7 +2607,7 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          stateMetadata: S.optional(__S(1249, __c39, 1)),
+          stateMetadata: S.optional(__S(1281, __c40, 1)),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest" });
@@ -2683,7 +2689,7 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           etag: S.optional(S.String),
-          stateMetadata: S.optional(__S(1249, __c39, 1)),
+          stateMetadata: S.optional(__S(1281, __c40, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest" });
   }
@@ -2770,25 +2776,18 @@ function __c37(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          stateMetadata: S.optional(__S(1249, __c39, 1)),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1InsightStateInfo" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          content: S.optional(__S(1248, __c39, 0)),
-          associatedRecommendations: S.optional(__S(1185, __c37, 1)),
-          insightSubtype: S.optional(S.String),
-          description: S.optional(S.String),
-          observationPeriod: S.optional(S.String),
-          targetResources: S.optional(__S(1216, __c38, 0)),
-          category: S.optional(S.String),
-          severity: S.optional(S.String),
           lastRefreshTime: S.optional(S.String),
-          stateInfo: S.optional(__S(1186, __c37, 2)),
-          name: S.optional(S.String),
+          insightSubtype: S.optional(S.String),
+          associatedRecommendations: S.optional(__S(1185, __c37, 1)),
+          content: S.optional(__S(1280, __c40, 0)),
+          observationPeriod: S.optional(S.String),
+          category: S.optional(S.String),
           etag: S.optional(S.String),
+          name: S.optional(S.String),
+          targetResources: S.optional(__S(1216, __c38, 0)),
+          severity: S.optional(S.String),
+          stateInfo: S.optional(__S(1248, __c39, 0)),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudRecommenderV1beta1Insight" });
   }
@@ -2802,18 +2801,29 @@ function __c38(j: number): any {
 function __c39(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          stateMetadata: S.optional(__S(1281, __c40, 1)),
+        }),
+      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1InsightStateInfo" });
   }
 }
 function __c40(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2826,7 +2836,7 @@ function __c40(j: number): any {
       });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2836,13 +2846,13 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2853,13 +2863,13 @@ function __c42(j: number): any {
       ).annotate({ identifier: "MarkDismissedFoldersLocationsRecommendersRecommendationsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2872,13 +2882,13 @@ function __c43(j: number): any {
       });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2891,13 +2901,13 @@ function __c44(j: number): any {
       });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2910,13 +2920,13 @@ function __c45(j: number): any {
       });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2927,13 +2937,13 @@ function __c46(j: number): any {
       ).annotate({ identifier: "MarkFailedFoldersLocationsRecommendersRecommendationsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2946,13 +2956,13 @@ function __c47(j: number): any {
       });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2963,7 +2973,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "MarkFailedProjectsLocationsRecommendersRecommendationsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2982,7 +2992,7 @@ function __c49(j: number): any {
       });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2999,7 +3009,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "MarkSucceededFoldersLocationsRecommendersRecommendationsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3015,136 +3025,129 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetBillingAccountsLocationsRecommendersRecommendationsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          matchesPattern: S.optional(S.String),
+          insight: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1ValueMatcher" });
+      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1RecommendationInsightReference" });
     case 1:
-      return S.Record(S.String, __S(1664, __c52, 0));
+      return S.Array(__S(1696, __c53, 0));
     case 2:
+      return S.Array(S.String);
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          pathValueMatchers: S.optional(__S(1665, __c52, 1)),
-          pathFilters: S.optional(__S(1248, __c39, 0)),
-          action: S.optional(S.String),
-          resource: S.optional(S.String),
-          sourceResource: S.optional(S.String),
-          resourceType: S.optional(S.String),
-          path: S.optional(S.String),
-          sourcePath: S.optional(S.String),
-          value: S.optional(S.Unknown),
-          valueMatcher: S.optional(__S(1664, __c52, 0)),
+          risks: S.optional(__S(1698, __c53, 2)),
+          details: S.optional(__S(1280, __c40, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1Operation" });
-    case 3:
-      return S.Array(__S(1666, __c52, 2));
+      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1ReliabilityProjection" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(1667, __c52, 3)),
+          details: S.optional(__S(1280, __c40, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1OperationGroup" });
+      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1SecurityProjection" });
     case 5:
-      return S.Array(__S(1668, __c52, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          operationGroups: S.optional(__S(1669, __c52, 5)),
-          overview: S.optional(__S(1248, __c39, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1RecommendationContent" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          currencyCode: S.optional(S.String),
-          units: S.optional(S.String),
-          nanos: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleTypeMoney" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          costInLocalCurrency: S.optional(__S(1671, __c52, 7)),
-          cost: S.optional(__S(1671, __c52, 7)),
-          duration: S.optional(S.String),
-          pricingType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1CostProjection" });
-    case 9:
-      return S.Array(S.String);
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          risks: S.optional(__S(1673, __c52, 9)),
-          details: S.optional(__S(1248, __c39, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1ReliabilityProjection" });
-    case 11:
       return S.suspend(() =>
         S.Struct({
           duration: S.optional(S.String),
           kgCO2e: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudRecommenderV1beta1SustainabilityProjection" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          units: S.optional(S.String),
+          currencyCode: S.optional(S.String),
+          nanos: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleTypeMoney" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          costInLocalCurrency: S.optional(__S(1702, __c53, 6)),
+          pricingType: S.optional(S.String),
+          cost: S.optional(__S(1702, __c53, 6)),
+          duration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1CostProjection" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          reliabilityProjection: S.optional(__S(1699, __c53, 3)),
+          category: S.optional(S.String),
+          securityProjection: S.optional(__S(1700, __c53, 4)),
+          sustainabilityProjection: S.optional(__S(1701, __c53, 5)),
+          costProjection: S.optional(__S(1703, __c53, 7)),
+          service: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1Impact" });
+    case 9:
+      return S.Array(__S(1704, __c53, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          matchesPattern: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1ValueMatcher" });
+    case 11:
+      return S.Record(S.String, __S(1706, __c53, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(1248, __c39, 0)),
+          action: S.optional(S.String),
+          pathFilters: S.optional(__S(1280, __c40, 0)),
+          resource: S.optional(S.String),
+          path: S.optional(S.String),
+          valueMatcher: S.optional(__S(1706, __c53, 10)),
+          sourcePath: S.optional(S.String),
+          sourceResource: S.optional(S.String),
+          pathValueMatchers: S.optional(__S(1707, __c53, 11)),
+          value: S.optional(S.Unknown),
+          resourceType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1SecurityProjection" });
+      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1Operation" });
     case 13:
-      return S.suspend(() =>
-        S.Struct({
-          costProjection: S.optional(__S(1672, __c52, 8)),
-          category: S.optional(S.String),
-          service: S.optional(S.String),
-          reliabilityProjection: S.optional(__S(1674, __c52, 10)),
-          sustainabilityProjection: S.optional(__S(1675, __c52, 11)),
-          securityProjection: S.optional(__S(1676, __c52, 12)),
-        }),
-      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1Impact" });
+      return S.Array(__S(1708, __c53, 12));
     case 14:
-      return S.Array(__S(1677, __c52, 13));
-    case 15:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
-          stateMetadata: S.optional(__S(1249, __c39, 1)),
+          operations: S.optional(__S(1709, __c53, 13)),
         }),
-      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1RecommendationStateInfo" });
+      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1OperationGroup" });
+    case 15:
+      return S.Array(__S(1710, __c53, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          insight: S.optional(S.String),
+          overview: S.optional(__S(1280, __c40, 0)),
+          operationGroups: S.optional(__S(1711, __c53, 15)),
         }),
-      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1RecommendationInsightReference" });
+      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1RecommendationContent" });
     case 17:
-      return S.Array(__S(1680, __c52, 16));
-    case 18:
       return S.suspend(() =>
         S.Struct({
-          priority: S.optional(S.String),
-          lastRefreshTime: S.optional(S.String),
-          recommenderSubtype: S.optional(S.String),
-          content: S.optional(__S(1670, __c52, 6)),
-          xorGroupId: S.optional(S.String),
-          etag: S.optional(S.String),
-          additionalImpact: S.optional(__S(1678, __c52, 14)),
           targetResources: S.optional(__S(1216, __c38, 0)),
-          stateInfo: S.optional(__S(1679, __c52, 15)),
           description: S.optional(S.String),
+          stateInfo: S.optional(__S(1248, __c39, 0)),
+          recommenderSubtype: S.optional(S.String),
           name: S.optional(S.String),
-          associatedInsights: S.optional(__S(1681, __c52, 17)),
-          primaryImpact: S.optional(__S(1677, __c52, 13)),
+          associatedInsights: S.optional(__S(1697, __c53, 1)),
+          lastRefreshTime: S.optional(S.String),
+          xorGroupId: S.optional(S.String),
+          primaryImpact: S.optional(__S(1704, __c53, 8)),
+          etag: S.optional(S.String),
+          additionalImpact: S.optional(__S(1705, __c53, 9)),
+          priority: S.optional(S.String),
+          content: S.optional(__S(1712, __c53, 16)),
         }),
       ).annotate({ identifier: "GoogleCloudRecommenderV1beta1Recommendation" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3163,7 +3166,7 @@ function __c53(j: number): any {
       });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3182,15 +3185,15 @@ function __c54(j: number): any {
       });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3201,15 +3204,15 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpdateConfigBillingAccountsLocationsInsightTypesRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3220,15 +3223,15 @@ function __c56(j: number): any {
       ).annotate({ identifier: "UpdateConfigBillingAccountsLocationsRecommendersRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3239,15 +3242,15 @@ function __c57(j: number): any {
       ).annotate({ identifier: "UpdateConfigOrganizationsLocationsInsightTypesRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3258,15 +3261,15 @@ function __c58(j: number): any {
       ).annotate({ identifier: "UpdateConfigOrganizationsLocationsRecommendersRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3277,15 +3280,15 @@ function __c59(j: number): any {
       ).annotate({ identifier: "UpdateConfigProjectsLocationsInsightTypesRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
+          name: S.String.pipe(T.Label()),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3296,7 +3299,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "UpdateConfigProjectsLocationsRecommendersRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3312,33 +3315,33 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GetConfigBillingAccountsLocationsInsightTypesRequest" });
   }
 }
-function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          params: S.optional(__S(1248, __c39, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1InsightTypeGenerationConfig" });
-  }
-}
 function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          params: S.optional(__S(1280, __c40, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudRecommenderV1beta1InsightTypeGenerationConfig" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          insightTypeGenerationConfig: S.optional(__S(2016, __c63, 0)),
           updateTime: S.optional(S.String),
           etag: S.optional(S.String),
-          insightTypeGenerationConfig: S.optional(__S(1984, __c62, 0)),
           revisionId: S.optional(S.String),
-          annotations: S.optional(__S(1249, __c39, 1)),
+          annotations: S.optional(__S(1281, __c40, 1)),
           displayName: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudRecommenderV1beta1InsightTypeConfig" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3354,23 +3357,23 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetConfigBillingAccountsLocationsRecommendersRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          etag: S.optional(S.String),
           revisionId: S.optional(S.String),
           name: S.optional(S.String),
-          updateTime: S.optional(S.String),
+          recommenderGenerationConfig: S.optional(__S(2016, __c63, 0)),
           displayName: S.optional(S.String),
-          recommenderGenerationConfig: S.optional(__S(1984, __c62, 0)),
-          etag: S.optional(S.String),
-          annotations: S.optional(__S(1249, __c39, 1)),
+          updateTime: S.optional(S.String),
+          annotations: S.optional(__S(1281, __c40, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudRecommenderV1beta1RecommenderConfig" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3386,7 +3389,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetConfigOrganizationsLocationsInsightTypesRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -59,45 +59,45 @@ export interface CreateCertificateRequest {
   projectId: string;
   region: string;
   /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per Certificate. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: CreateCertificateRequestLabelsMap;
+  labels?: CreateCertificateRequestLabelsMap | undefined;
   /** TLS certificate name */
-  name?: string;
+  name?: string | undefined;
   /** The PEM encoded private key part */
-  privateKey?: string | Redacted.Redacted<string>;
+  privateKey?: string | Redacted.Redacted<string> | undefined;
   /** The PEM encoded public key part */
-  publicKey?: string;
+  publicKey?: string | undefined;
 }
 export interface Data {
   /** Comma-separated list of all domains and IP addresses the certificate is valid for (Subject Alternative Names). */
-  dnsNames?: string;
+  dnsNames?: string | undefined;
   /** Comma-separated list of purposes the cert is valid for. 'Server Auth' is required for Load Balancer use. */
-  extendedKeyUsage?: string;
+  extendedKeyUsage?: string | undefined;
   /** The legacy SHA1 thumbprint. Provided for cross-referencing with older systems and browsers. */
-  fingerprintSha1?: string;
+  fingerprintSha1?: string | undefined;
   /** The unique SHA256 hash of the raw certificate bytes. Use this as the primary unique identifier. */
-  fingerprintSha256?: string;
+  fingerprintSha256?: string | undefined;
   /** Indicates if the certificate is a Certificate Authority, meaning it can sign other certificates. */
-  isCa?: boolean;
+  isCa?: boolean | undefined;
   /** Indicates if the certificate was signed by its own private key rather than a trusted third-party CA. */
-  isSelfSigned?: boolean;
+  isSelfSigned?: boolean | undefined;
   /** The Common Name of the Certificate Authority (CA) that signed and issued the certificate. */
-  issuerCn?: string;
+  issuerCn?: string | undefined;
   /** Human-readable summary of the public key's algorithm and bit-length or curve name. */
-  keyStrength?: string;
+  keyStrength?: string | undefined;
   /** The expiration timestamp. After this date, browsers will show security warnings (RFC3339 format). */
-  notAfter?: string;
+  notAfter?: string | undefined;
   /** The timestamp indicating when the certificate starts being valid (RFC3339 format). */
-  notBefore?: string;
+  notBefore?: string | undefined;
   /** Organization name associated with the certificate subject. */
-  organization?: string;
+  organization?: string | undefined;
   /** The cryptographic algorithm used to generate the public/private key pair. */
-  publicKeyAlgorithm?: string;
+  publicKeyAlgorithm?: string | undefined;
   /** The unique serial number assigned by the CA, represented in uppercase hexadecimal format. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** The algorithm used by the CA to sign this certificate. */
-  signatureAlgorithm?: string;
+  signatureAlgorithm?: string | undefined;
   /** The primary identity of the certificate. Fallback sequence: Common Name -> First DNS Name -> Full Subject String. */
-  subjectCn?: string;
+  subjectCn?: string | undefined;
 }
 /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per Certificate. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
 export type GetCertificateResponseLabelsMap = { [key: string]: string | undefined };
@@ -105,32 +105,32 @@ export type GetCertificateResponseLabelsMap = { [key: string]: string | undefine
 export type UsageItemListenerNamesList = Array<string>;
 export interface UsageItem {
   /** The list of listener names in this Load Balancer, that are using the certificate. */
-  listenerNames?: UsageItemListenerNamesList;
+  listenerNames?: UsageItemListenerNamesList | undefined;
   /** The display name of the Load Balancer. */
-  loadBalancerName?: string;
+  loadBalancerName?: string | undefined;
 }
 /** List of Load Balancers with their associated listeners that use this certificate. */
 export type UsageItemsList = Array<UsageItem>;
 export interface Usage {
   /** Number of listeners using this certificate. */
-  count?: number;
+  count?: number | undefined;
   /** List of Load Balancers with their associated listeners that use this certificate. */
-  items?: UsageItemsList;
+  items?: UsageItemsList | undefined;
 }
 /** GetCertificateResponse returns name, id and public key */
 export interface GetCertificateResponse {
-  data?: Data;
+  data?: Data | undefined;
   /** The certificates resource id */
-  id?: string;
+  id?: string | undefined;
   /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per Certificate. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: GetCertificateResponseLabelsMap;
+  labels?: GetCertificateResponseLabelsMap | undefined;
   /** Certificate display name */
-  name?: string;
+  name?: string | undefined;
   /** The PEM encoded public key part */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** Region of the LoadBalancer */
-  region?: string;
-  usage?: Usage;
+  region?: string | undefined;
+  usage?: Usage | undefined;
 }
 export interface DeleteCertificateRequest {
   projectId: string;
@@ -150,35 +150,35 @@ export interface GetQuotaRequest {
 /** Certificates quotas holds the limits and usage for certificates resources */
 export interface CertificatesQuota {
   /** The maximum number of TLS certificates in this project. */
-  limit?: number;
+  limit?: number | undefined;
   /** The number of certificates that are currently existing in this project. */
-  usage?: number;
+  usage?: number | undefined;
 }
 /** Quotas holds the specific quota elements for different resources */
 export interface Quotas {
-  certificates?: CertificatesQuota;
+  certificates?: CertificatesQuota | undefined;
 }
 export interface GetQuotaResponse {
   /** Project identifier */
-  projectId?: string;
-  quotas?: Quotas;
+  projectId?: string | undefined;
+  quotas?: Quotas | undefined;
   /** Region */
-  region?: string;
+  region?: string | undefined;
 }
 export interface ListCertificatesRequest {
   projectId: string;
   region: string;
   /** page_size specifies how many certificates should be returned on this page. Must be a positive number <= 1000 */
-  pageSize?: string;
+  pageSize?: string | undefined;
   /** page_id is a page identifier returned by the previous response and is used to request the next page */
-  pageId?: string;
+  pageId?: string | undefined;
 }
 export type ListCertificatesResponseItemsList = Array<GetCertificateResponse>;
 /** ListCertificateResponse returns a list of certificate responses */
 export interface ListCertificatesResponse {
-  items?: ListCertificatesResponseItemsList;
+  items?: ListCertificatesResponseItemsList | undefined;
   /** Continue token from the ListCertificatesResponse with Limit option */
-  nextPageId?: string;
+  nextPageId?: string | undefined;
 }
 export type CreateCertificateError = BadRequest | Forbidden | StackitOpError;
 /** Store a TLS certificate in a project. CreateCertificate will store a TLS certificate in a project. */

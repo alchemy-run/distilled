@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Extendedlocation",
   service: "Extendedlocation",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -38,14 +39,14 @@ export type IdentityInputType = "SystemAssigned" | "None";
 /** Identity for the resource. */
 export interface IdentityInput {
   /** The identity type. */
-  type?: IdentityInputType | (string & {});
+  type?: IdentityInputType | (string & {}) | undefined;
 }
 /** This is optional input that contains the authentication that should be used to generate the namespace. */
 export interface CustomLocationPropertiesAuthentication {
   /** The type of the Custom Locations authentication */
-  type?: string;
+  type?: string | undefined;
   /** The kubeconfig value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Contains the reference to the add-on that contains charts to deploy CRDs and operators. */
 export type CustomLocationPropertiesClusterExtensionIdsList = Array<string>;
@@ -54,19 +55,19 @@ export type CustomLocationPropertiesHostType = "Kubernetes";
 /** Properties for a custom location. */
 export interface CustomLocationProperties {
   /** This is optional input that contains the authentication that should be used to generate the namespace. */
-  authentication?: CustomLocationPropertiesAuthentication;
+  authentication?: CustomLocationPropertiesAuthentication | undefined;
   /** Contains the reference to the add-on that contains charts to deploy CRDs and operators. */
-  clusterExtensionIds?: CustomLocationPropertiesClusterExtensionIdsList;
+  clusterExtensionIds?: CustomLocationPropertiesClusterExtensionIdsList | undefined;
   /** Display name for the Custom Locations location. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Connected Cluster or AKS Cluster. The Custom Locations RP will perform a checkAccess API for listAdminCredentials permissions. */
-  hostResourceId?: string;
+  hostResourceId?: string | undefined;
   /** Type of host the Custom Locations is referencing (Kubernetes, etc...). */
-  hostType?: CustomLocationPropertiesHostType | (string & {});
+  hostType?: CustomLocationPropertiesHostType | (string & {}) | undefined;
   /** Kubernetes namespace that will be created on the specified cluster. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Provisioning State for the Custom Location. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface CustomLocationsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -76,13 +77,13 @@ export interface CustomLocationsCreateOrUpdateRequest {
   /** Custom Locations name. */
   resourceName: string;
   /** Resource tags. */
-  tags?: CustomLocationsCreateOrUpdateRequestTagsMap;
+  tags?: CustomLocationsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Identity for the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** The set of properties specific to a Custom Location */
-  properties?: CustomLocationProperties;
+  properties?: CustomLocationProperties | undefined;
 }
 /** Resource tags. */
 export type CustomLocationsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -91,11 +92,11 @@ export type IdentityType = "SystemAssigned" | "None";
 /** Identity for the resource. */
 export interface Identity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: IdentityType;
+  type?: IdentityType | undefined;
 }
 /** The type of identity that created the resource. */
 export type CustomLocationsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -112,35 +113,37 @@ export type CustomLocationsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface CustomLocationsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: CustomLocationsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: CustomLocationsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CustomLocationsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | CustomLocationsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface CustomLocationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: CustomLocationsCreateOrUpdateResponseTagsMap;
+  tags?: CustomLocationsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The set of properties specific to a Custom Location */
-  properties?: CustomLocationProperties;
+  properties?: CustomLocationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CustomLocationsCreateOrUpdateResponseSystemData;
+  systemData?: CustomLocationsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface DeleteCustomLocationRequest {
   /** The ID of the target subscription. */
@@ -176,35 +179,35 @@ export type GetCustomLocationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetCustomLocationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetCustomLocationResponseSystemDataCreatedByType;
+  createdByType?: GetCustomLocationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetCustomLocationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetCustomLocationResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetCustomLocationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetCustomLocationResponseTagsMap;
+  tags?: GetCustomLocationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The set of properties specific to a Custom Location */
-  properties?: CustomLocationProperties;
+  properties?: CustomLocationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetCustomLocationResponseSystemData;
+  systemData?: GetCustomLocationResponseSystemData | undefined;
 }
 export interface ListCustomLocationByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -229,45 +232,45 @@ export type CustomLocationSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface CustomLocationSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: CustomLocationSystemDataCreatedByType;
+  createdByType?: CustomLocationSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CustomLocationSystemDataLastModifiedByType;
+  lastModifiedByType?: CustomLocationSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Custom Locations definition. */
 export interface CustomLocation {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: CustomLocationTagsMap;
+  tags?: CustomLocationTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The set of properties specific to a Custom Location */
-  properties?: CustomLocationProperties;
+  properties?: CustomLocationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CustomLocationSystemData;
+  systemData?: CustomLocationSystemData | undefined;
 }
 /** The list of Custom Locations. */
 export type CustomLocationListResultValueList = Array<CustomLocation>;
 /** The List Custom Locations operation response. */
 export interface CustomLocationListResult {
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of Custom Locations. */
-  value?: CustomLocationListResultValueList;
+  value?: CustomLocationListResultValueList | undefined;
 }
 export interface ListCustomLocationBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -284,11 +287,11 @@ export interface ListCustomLocationEnabledResourceTypesRequest {
 /** Metadata of the Resource Type. */
 export interface EnabledResourceTypePropertiesTypesMetadataItem {
   /** Api Version of Resource Type */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Resource Provider Namespace of Resource Type */
-  resourceProviderNamespace?: string;
+  resourceProviderNamespace?: string | undefined;
   /** Resource Type */
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 /** Metadata of the Resource Type */
 export type EnabledResourceTypePropertiesTypesMetadataList =
@@ -296,11 +299,11 @@ export type EnabledResourceTypePropertiesTypesMetadataList =
 /** Properties for EnabledResourceType of a custom location. */
 export interface EnabledResourceTypeProperties {
   /** Cluster Extension ID */
-  clusterExtensionId?: string;
+  clusterExtensionId?: string | undefined;
   /** Cluster Extension Type */
-  extensionType?: string;
+  extensionType?: string | undefined;
   /** Metadata of the Resource Type */
-  typesMetadata?: EnabledResourceTypePropertiesTypesMetadataList;
+  typesMetadata?: EnabledResourceTypePropertiesTypesMetadataList | undefined;
 }
 /** The type of identity that created the resource. */
 export type EnabledResourceTypeSystemDataCreatedByType =
@@ -317,69 +320,69 @@ export type EnabledResourceTypeSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface EnabledResourceTypeSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: EnabledResourceTypeSystemDataCreatedByType;
+  createdByType?: EnabledResourceTypeSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: EnabledResourceTypeSystemDataLastModifiedByType;
+  lastModifiedByType?: EnabledResourceTypeSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** EnabledResourceType definition. */
 export interface EnabledResourceType {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The set of properties for EnabledResourceType specific to a Custom Location */
-  properties?: EnabledResourceTypeProperties;
+  properties?: EnabledResourceTypeProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: EnabledResourceTypeSystemData;
+  systemData?: EnabledResourceTypeSystemData | undefined;
 }
 /** The list of EnabledResourceTypes available for a customLocation. */
 export type EnabledResourceTypesListResultValueList = Array<EnabledResourceType>;
 /** List of EnabledResourceTypes definition. */
 export interface EnabledResourceTypesListResult {
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of EnabledResourceTypes available for a customLocation. */
-  value?: EnabledResourceTypesListResultValueList;
+  value?: EnabledResourceTypesListResultValueList | undefined;
 }
 export interface ListCustomLocationOperationsRequest {}
 /** Describes the properties of a Custom Locations Operation Value Display. */
 export interface CustomLocationOperationValueDisplay {
   /** The description of the operation. */
-  description?: string;
+  description?: string | undefined;
   /** The display name of the compute operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** The resource provider for the operation. */
-  provider?: string;
+  provider?: string | undefined;
   /** The display name of the resource the operation applies to. */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** Custom Locations operation. */
 export interface CustomLocationOperation {
   /** Describes the properties of a Custom Locations Operation Value Display. */
-  display?: CustomLocationOperationValueDisplay;
+  display?: CustomLocationOperationValueDisplay | undefined;
   /** Is this Operation a data plane operation */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** The name of the compute operation. */
-  name?: string;
+  name?: string | undefined;
   /** The origin of the compute operation. */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** Array of customLocationOperation */
 export type CustomLocationOperationsListValueList = Array<CustomLocationOperation>;
 /** Lists of Custom Locations operations. */
 export interface CustomLocationOperationsList {
   /** Next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of customLocationOperation */
   value: CustomLocationOperationsListValueList;
 }
@@ -393,11 +396,11 @@ export interface UpdateCustomLocationRequest {
   /** Custom Locations name. */
   resourceName: string;
   /** Identity for the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** The Custom Locations patchable properties. */
-  properties?: CustomLocationProperties;
+  properties?: CustomLocationProperties | undefined;
   /** Resource tags */
-  tags?: UpdateCustomLocationRequestTagsMap;
+  tags?: UpdateCustomLocationRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateCustomLocationResponseTagsMap = { [key: string]: string | undefined };
@@ -416,35 +419,35 @@ export type UpdateCustomLocationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateCustomLocationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateCustomLocationResponseSystemDataCreatedByType;
+  createdByType?: UpdateCustomLocationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateCustomLocationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateCustomLocationResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateCustomLocationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateCustomLocationResponseTagsMap;
+  tags?: UpdateCustomLocationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The set of properties specific to a Custom Location */
-  properties?: CustomLocationProperties;
+  properties?: CustomLocationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateCustomLocationResponseSystemData;
+  systemData?: UpdateCustomLocationResponseSystemData | undefined;
 }
 export type CustomLocationsCreateOrUpdateError = AzureOpError;
 /** Creates or updates a Custom Location. Creates or updates a Custom Location in the specified Subscription and Resource Group */

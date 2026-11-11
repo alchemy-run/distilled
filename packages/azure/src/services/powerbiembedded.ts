@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Powerbiembedded",
   service: "Powerbiembedded",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -37,19 +38,19 @@ export interface CheckWorkspaceCollectionNameAvailabilityRequest {
   /** Azure location */
   location: string;
   /** Workspace collection name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
 }
 /** Reason why the workspace collection name cannot be used. */
 export type CheckNameResponseReason = "Unavailable" | "Invalid";
 export interface CheckNameResponse {
   /** Specifies a Boolean value that indicates whether the specified Power BI Workspace Collection name is available to use. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** Reason why the workspace collection name cannot be used. */
-  reason?: CheckNameResponseReason;
+  reason?: CheckNameResponseReason | undefined;
   /** Message indicating an unavailable name due to a conflict, or a description of the naming rules that are violated. */
-  message?: string;
+  message?: string | undefined;
 }
 export type CreateWorkspaceCollectionRequestTagsMap = { [key: string]: string | undefined };
 /** SKU name */
@@ -70,24 +71,24 @@ export interface CreateWorkspaceCollectionRequest {
   /** Power BI Embedded Workspace Collection name */
   workspaceCollectionName: string;
   /** Azure location */
-  location?: string;
-  tags?: CreateWorkspaceCollectionRequestTagsMap;
-  sku?: AzureSku;
+  location?: string | undefined;
+  tags?: CreateWorkspaceCollectionRequestTagsMap | undefined;
+  sku?: AzureSku | undefined;
 }
 export type WorkspaceCollectionTagsMap = { [key: string]: string | undefined };
 export interface WorkspaceCollection {
   /** Resource id */
-  id?: string;
+  id?: string | undefined;
   /** Workspace collection name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Azure location */
-  location?: string;
-  tags?: WorkspaceCollectionTagsMap;
-  sku?: AzureSku;
+  location?: string | undefined;
+  tags?: WorkspaceCollectionTagsMap | undefined;
+  sku?: AzureSku | undefined;
   /** Properties */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface DeleteWorkspaceCollectionRequest {
   /** Gets subscription credentials which uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -101,24 +102,24 @@ export interface DeleteWorkspaceCollectionResponse {}
 export interface GetAvailableOperationsRequest {}
 export interface Display {
   /** The localized friendly form of the resource provider name. This form is also expected to include the publisher/company responsible. Use Title Casing. Begin with "Microsoft" for 1st party services. */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly form of the resource type related to this action/operation. This form should match the public documentation for the resource provider. Use Title Casing. For examples, refer to the "name" section. */
-  resource?: string;
+  resource?: string | undefined;
   /** The localized friendly name for the operation as shown to the user. This name should be concise (to fit in drop downs), but clear (self-documenting). Use Title Casing and include the entity/resource to which it applies. */
-  operation?: string;
+  operation?: string | undefined;
   /** The localized friendly description for the operation as shown to the user. This description should be thorough, yet concise. It will be used in tool-tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
   /** The intended executor of the operation; governs the display of the operation in the RBAC UX and the audit logs UX. Default value is 'user,system' */
-  origin?: string;
+  origin?: string | undefined;
 }
 export interface Operation {
   /** The name of the operation being performed on this particular object. This name should match the action name that appears in RBAC / the event service. */
-  name?: string;
-  display?: Display;
+  name?: string | undefined;
+  display?: Display | undefined;
 }
 export type OperationListValueList = Array<Operation>;
 export interface OperationList {
-  value?: OperationListValueList;
+  value?: OperationListValueList | undefined;
 }
 export interface GetWorkspaceCollectionAccessKeysRequest {
   /** Gets subscription credentials which uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -130,9 +131,9 @@ export interface GetWorkspaceCollectionAccessKeysRequest {
 }
 export interface WorkspaceCollectionAccessKeys {
   /** Access key 1 */
-  key1?: string;
+  key1?: string | undefined;
   /** Access key 2 */
-  key2?: string;
+  key2?: string | undefined;
 }
 export interface GetWorkspaceCollectionByNameRequest {
   /** Gets subscription credentials which uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -150,7 +151,7 @@ export interface ListWorkspaceCollectionByResourceGroupRequest {
 }
 export type WorkspaceCollectionListValueList = Array<WorkspaceCollection>;
 export interface WorkspaceCollectionList {
-  value?: WorkspaceCollectionListValueList;
+  value?: WorkspaceCollectionListValueList | undefined;
 }
 export interface ListWorkspaceCollectionBySubscriptionRequest {
   /** Gets subscription credentials which uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -166,17 +167,17 @@ export interface ListWorkspacesRequest {
 }
 export interface Workspace {
   /** Workspace id */
-  id?: string;
+  id?: string | undefined;
   /** Workspace name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Property bag */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export type WorkspaceListValueList = Array<Workspace>;
 export interface WorkspaceList {
-  value?: WorkspaceListValueList;
+  value?: WorkspaceListValueList | undefined;
 }
 export type MigrateWorkspaceCollectionRequestResourcesList = Array<string>;
 export interface MigrateWorkspaceCollectionRequest {
@@ -185,8 +186,8 @@ export interface MigrateWorkspaceCollectionRequest {
   /** Azure resource group */
   resourceGroupName: string;
   /** Name of the resource group the Power BI workspace collections will be migrated to. */
-  targetResourceGroup?: string;
-  resources?: MigrateWorkspaceCollectionRequestResourcesList;
+  targetResourceGroup?: string | undefined;
+  resources?: MigrateWorkspaceCollectionRequestResourcesList | undefined;
 }
 export interface MigrateWorkspaceCollectionResponse {}
 /** Key name */
@@ -199,7 +200,7 @@ export interface RegenerateWorkspaceCollectionKeyRequest {
   /** Power BI Embedded Workspace Collection name */
   workspaceCollectionName: string;
   /** Key name */
-  keyName?: RegenerateWorkspaceCollectionKeyRequestKeyName | (string & {});
+  keyName?: RegenerateWorkspaceCollectionKeyRequestKeyName | (string & {}) | undefined;
 }
 export type UpdateWorkspaceCollectionRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateWorkspaceCollectionRequest {
@@ -209,8 +210,8 @@ export interface UpdateWorkspaceCollectionRequest {
   resourceGroupName: string;
   /** Power BI Embedded Workspace Collection name */
   workspaceCollectionName: string;
-  tags?: UpdateWorkspaceCollectionRequestTagsMap;
-  sku?: AzureSku;
+  tags?: UpdateWorkspaceCollectionRequestTagsMap | undefined;
+  sku?: AzureSku | undefined;
 }
 export type CheckWorkspaceCollectionNameAvailabilityError = AzureOpError;
 /** Verify the specified Power BI Workspace Collection name is valid and not already in use. */

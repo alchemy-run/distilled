@@ -1,0 +1,10 @@
+{
+  "description": "Mark the npm token exchangeOidcToken returns as sensitive, so it is Redacted on decode. The spec documents it as the short-lived npm registry token that the OIDC id_token is exchanged for.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.npmjs.registry.oidc#ExchangeOidcTokenResponse/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

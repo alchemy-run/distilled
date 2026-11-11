@@ -957,7 +957,12 @@
       ]
     },
     "describeAddresses": {
-      "errors": ["RequestLimitExceeded", "InvalidAllocationID.NotFound", "UnauthorizedOperation"]
+      "errors": [
+        "RequestLimitExceeded",
+        "InvalidAllocationID.NotFound",
+        "InvalidAddress.NotFound",
+        "UnauthorizedOperation"
+      ]
     },
     "describeEgressOnlyInternetGateways": {
       "errors": [

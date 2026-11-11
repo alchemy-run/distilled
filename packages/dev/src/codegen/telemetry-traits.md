@@ -60,12 +60,13 @@ On each operation shape.
 | --- | --- |
 | `name` | Span name. |
 | `nameTemplate` | Span name with `{attribute}` placeholders, filled from the call's input attributes when the span starts; `name` when any is missing. Messaging operations use `{operation} {destination}` (`send orders`). |
-| `method` | `rpc.method`, `{service}/{operation}` (semantic conventions v1.39+). |
+| `method` | `rpc.method`, `{service}/{operation}` (semantic conventions v1.44). |
 | `kind` | `client` (default), `producer` or `consumer`. |
 | `attributes` | Fixed attributes, applied after the service's. Operations with `smithy.api#http` carry `url.template`, the path of its `uri`. |
 | `copy` | `{ from: to }`: attributes recorded under a second name once the request is built (Lambda `Invoke`: `cloud.region` -> `faas.invoked_region`). |
 | `inject` | Write the span's trace context into the request's messages (see below). |
 | `extract` | Link the span to the trace context the response's messages carry (see below). |
+| `stream` | `{ member, firstChunk?, events? }`: the span covers the caller's read of this streamed output member, and `events` reads attributes from its items (see below). |
 
 ### Message trace context
 
@@ -96,6 +97,46 @@ the caller set is kept. Formats:
 Nothing is injected or linked when no span is recorded (no exporter
 installed).
 
+### When the span ends
+
+An operation span ends when the call returns: after the response headers
+and the decoding of the response, after every retry. A streamed output
+member (S3 `GetObject`'s `Body`) is read later by the caller, outside the
+span, as in the OpenTelemetry AWS SDK instrumentations and the HTTP client
+span conventions ("SHOULD end sometime after the HTTP response headers are
+fully read").
+
+`stream` changes that for one operation. The GenAI conventions end a span
+"when the response is fully received", so Bedrock `ConverseStream` carries
+`{ "member": "stream", "firstChunk": "gen_ai.response.time_to_first_chunk" }`:
+its span ends when the caller has read `stream` to its end, and records the
+seconds from the span's start to the first event. An error while reading
+fails the span and sets `error.type`; a caller that stops early
+(`Stream.take`) ends it then, with success. A stream the caller never reads
+never ends the span, as in the OpenTelemetry instrumentations.
+`TelemetryHooks`' `onEnd` and the `rpc.client.call.duration` histogram
+still run when the call returns. With `TelemetryDebug.layer`, a
+`distilled.read_stream` span under the operation span covers the read, with
+`distilled.stream.member`, `distilled.stream.items` and
+`distilled.stream.bytes`.
+
+`events` reads attributes from the stream's items as the caller reads
+them: rules like an output member's, keyed by the event (union) member.
+`ConverseStream` returns its usage and finish reason as events, where
+`Converse` returns them in its output:
+
+```json
+"events": {
+  "metadata": [{ "name": "gen_ai.usage.input_tokens", "field": "usage.inputTokens" }],
+  "messageStop": [
+    { "name": "gen_ai.response.finish_reasons", "field": "stopReason", "transform": "list" }
+  ]
+}
+```
+
+A caller that stops reading before an event records none of its
+attributes.
+
 ## `com.distilled.telemetry#attributes`
 
 On a member of an operation's input structure: a list of attributes read
@@ -124,7 +165,7 @@ transform does not apply to records nothing.
 
 | `transform` | Value → attribute |
 | --- | --- |
-| (none) | a string, number or boolean, as is |
+| (none) | a string, number or boolean, or a non-empty array of them, as is |
 | `list` | a string `s` → `[s]` |
 | `keys` | an object → its keys |
 | `count` | an array → its length |
@@ -132,6 +173,7 @@ transform does not apply to records nothing.
 | `arnResource` | a string → the text after its last `:` |
 | `arn` | a string that starts with `arn:`, as is |
 | `jsonList` | an object → `[JSON]`; an array → each element as JSON |
+| `nonZero` | a number other than 0 |
 
 ## Attributes every span gets
 
@@ -162,7 +204,8 @@ Besides the traits, the operation span always carries:
   request id header (`cf-ray`, `x-github-request-id`, ...), as
   `http.response.header.<name>`;
 - GCP: `gcp.client.service` (the first label of the model's
-  `*.googleapis.com` host); Azure: `azure.resource_provider.namespace` (the
+  `*.googleapis.com` host); Azure: `azure.resource_group.name` for the
+  `resourceGroupName` label, `azure.resource_provider.namespace` (the
   last `/providers/<Namespace>/` of the operation's path) and
   `azure.service.request.id` (`x-ms-request-id`).
 
@@ -171,7 +214,10 @@ conventions instead: `<sdkId>.<Operation>`, `aws-api`, `aws.request_id`,
 X-Ray propagation, and per-service attributes such as `aws.s3.bucket`,
 `aws.dynamodb.table_names` (and, from the response, `aws.dynamodb.count`
 and `consumed_capacity`), `aws.secretsmanager.secret.arn`; SQS and SNS
-messaging spans; Bedrock `Converse` as a GenAI `chat {model}` span with
+messaging spans; Bedrock `Converse` / `ConverseStream` as a GenAI
+`chat {model}` span (GenAI conventions, now in
+`open-telemetry/semantic-conventions-genai`) with `gen_ai.request.stream`,
+stop sequences, `aws.bedrock.guardrail.id`, cache token usage, and
 `gen_ai.*` request and usage attributes; Lambda `Invoke` and EventBridge
 `PutEvents` with trace context in the request. GraphQL operations add `graphql.operation.name`
 and `graphql.operation.type`.
@@ -190,11 +236,12 @@ operation never bundles that code:
 | `#operation` `extract` (`awsMessageAttributes`) | `core/telemetry-message-context` | `extract: TxMessage.extractAwsMessageAttributes({ member, list?, request? })` |
 | `#operation` `inject` (`xrayTraceHeader`) | `core/telemetry-xray` | `inject: TxXray.injectTraceHeader({ member, list? })` |
 | `#operation` `inject` (`lambdaClientContext`) | `core/telemetry-lambda-context` | `inject: TxLambda.injectLambdaClientContext({ member })` |
+| `#operation` `stream` | `core/telemetry-stream` | `hold: TxStream.holdForStream({ member, firstChunk?, events? })` |
 | `#service` `hosts` | `core/telemetry-host-rules` | `onRequest: TxHost.hostRules([...])` |
 | `#service` `propagation` (`xray`) | `core/telemetry-xray` | `propagate: TxXray.propagate` |
 | `#service` `propagation` (`w3c`) | (core) | `propagate: "w3c"` |
 
-Member names in `inject` and `extract` are the generated property names.
+Member names in `inject`, `extract` and `stream` (and the event names in `events`) are the generated property names.
 
 ### Compact `span` config
 
@@ -204,7 +251,8 @@ operation, only what the runtime cannot derive (`Telemetry.operationInfo`):
 - the module's `TELEMETRY` const adds the rules most of its operations
   follow, inferred from the traits: `prefix` (span name `<prefix>.<op>`),
   `service` (`rpc.method` `<service>/<op>`), `labels` (each `T.Label`
-  property as `<labels>.<snake_case>`), `templates: false` when most
+  property as `<labels>.<snake_case>`, or as `labelNames[property]` when most
+  operations name it another way), `templates: false` when most
   operations have no `url.template`, and in its `attributes` every
   operation attribute more than half of its operations share;
 - an operation that follows them is `span: "GetProject"`, its model name;
@@ -260,6 +308,6 @@ do not use it never bundle it.
 
 | Layer | Adds |
 | --- | --- |
-| `TelemetryDebug.layer` (`core/telemetry-debug`) | spans for distilled's internals; `layerWith({ logRequests: true })` also logs each request to stderr |
+| `TelemetryDebug.layer` (`core/telemetry-debug`) | spans for distilled's internals, and `Effect.logDebug` lines for each call and HTTP exchange |
 | `TelemetryMetrics.layer` (`core/telemetry-metrics`) | the `rpc.client.call.duration` histogram (seconds) per call, with `rpc.system.name`, `rpc.method`, `error.type` |
 | `TelemetryHooks.layer({ onStart, onEnd })` (`core/telemetry-hooks`) | app callbacks on each recorded operation span |

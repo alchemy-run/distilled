@@ -49,9 +49,9 @@ export interface OidcConfig {
   /** Which identity provider the advertised issuer above belongs to. The dashboard needs this because provider-specific logout URLs are not discoverable from the issuer alone: ending an Auth0 session uses its proprietary /v2/logout, which does not exist on WorkOS AuthKit. Anything that branches on provider behaviour must read this rather than pattern-matching the issuer hostname. */
   provider: OidcConfigProvider;
   /** WorkOS "Authentication API" custom domain the dashboard's client-side SDK should call instead of api.workos.com, so the refresh-token cookie is first-party. Present only when the provider is workos and a custom domain is configured (WorkOS production environments only); absent means the SDK runs in devMode and keeps the refresh token in localStorage. */
-  authApiHostname?: string;
+  authApiHostname?: string | undefined;
   /** WorkOS application the Daytona CLI logs in through, configured apart from the dashboard's so CLI sessions can have their own lifetime. Present only when the provider is workos and a CLI application is configured; absent means the CLI uses the issuer and client ID above. */
-  cli?: CliOidcConfig;
+  cli?: CliOidcConfig | undefined;
 }
 export interface SsoOidcConfig {
   /** OIDC issuer for org-SSO logins (Daytona Auth) */
@@ -65,7 +65,7 @@ export interface Announcement {
   /** The announcement text */
   text: string;
   /** URL to learn more about the announcement */
-  learnMoreUrl?: string;
+  learnMoreUrl?: string | undefined;
 }
 /** System announcements */
 export type DaytonaConfigurationAnnouncementsMap = { [key: string]: Announcement | undefined };
@@ -75,41 +75,41 @@ export type DaytonaConfigurationSshGatewayHostKeysList = Array<string>;
 export type DaytonaConfigurationSshGatewayHostKeyFingerprintsList = Array<string>;
 export interface RateLimitEntry {
   /** Rate limit TTL in seconds */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Rate limit max requests */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface RateLimitConfig {
   /** Failed authentication rate limit */
-  failedAuth?: RateLimitEntry;
+  failedAuth?: RateLimitEntry | undefined;
   /** Authenticated rate limit */
-  authenticated?: RateLimitEntry;
+  authenticated?: RateLimitEntry | undefined;
   /** Sandbox create rate limit */
-  sandboxCreate?: RateLimitEntry;
+  sandboxCreate?: RateLimitEntry | undefined;
   /** Sandbox lifecycle rate limit */
-  sandboxLifecycle?: RateLimitEntry;
+  sandboxLifecycle?: RateLimitEntry | undefined;
   /** Sandbox list rate limit */
-  sandboxList?: RateLimitEntry;
+  sandboxList?: RateLimitEntry | undefined;
 }
 export interface DaytonaConfiguration {
   /** Daytona version */
   version: string;
   /** Commit sha of the source the app was built from */
-  buildSha?: string;
+  buildSha?: string | undefined;
   /** PostHog configuration */
-  posthog?: PosthogConfig;
+  posthog?: PosthogConfig | undefined;
   /** OIDC configuration */
   oidc: OidcConfig;
   /** OIDC configuration for org-SSO logins (Daytona Auth issuer). Present only when the secondary (org-SSO) issuer is configured; the dashboard uses it as its authority when entered via an organization SSO link. */
-  ssoOidc?: SsoOidcConfig;
+  ssoOidc?: SsoOidcConfig | undefined;
   /** Feature flags forced on for this deployment regardless of PostHog targeting. Lets environments without PostHog (previews, local dev) enable flag-gated dashboard features. */
-  forcedFeatureFlags?: DaytonaConfigurationForcedFeatureFlagsList;
+  forcedFeatureFlags?: DaytonaConfigurationForcedFeatureFlagsList | undefined;
   /** Whether linked accounts are enabled */
   linkedAccountsEnabled: boolean;
   /** System announcements */
   announcements: DaytonaConfigurationAnnouncementsMap;
   /** Pylon application ID */
-  pylonAppId?: string;
+  pylonAppId?: string | undefined;
   /** Proxy template URL */
   proxyTemplateUrl: string;
   /** Toolbox template URL */
@@ -125,25 +125,27 @@ export interface DaytonaConfiguration {
   /** Current environment */
   environment: string;
   /** Billing API URL */
-  billingApiUrl?: string;
+  billingApiUrl?: string | undefined;
   /** Analytics API URL */
-  analyticsApiUrl?: string;
+  analyticsApiUrl?: string | undefined;
+  /** Base URL of the new Daytona dashboard. The dashboard links to it, with the selected organization id appended, from its "Switch to the new Daytona" entry point when that is enabled for the organization. Absent when the deployment does not advertise one. */
+  v2DashboardUrl?: string | undefined;
   /** Stripe publishable key for client-side Stripe.js */
-  stripePublishableKey?: string;
+  stripePublishableKey?: string | undefined;
   /** SSH Gateway command */
-  sshGatewayCommand?: string;
+  sshGatewayCommand?: string | undefined;
   /** Base64 encoded SSH Gateway public key */
-  sshGatewayPublicKey?: string;
+  sshGatewayPublicKey?: string | undefined;
   /** Hostname of the SSH Gateway that sandbox SSH connections terminate at */
-  sshGatewayHost?: string;
+  sshGatewayHost?: string | undefined;
   /** TCP port of the SSH Gateway */
-  sshGatewayPort?: number;
+  sshGatewayPort?: number | undefined;
   /** SSH host public keys presented by the SSH Gateway, as OpenSSH public key lines (`<type> <base64>`). To build a known_hosts entry, prefix each with `sshGatewayHost` when `sshGatewayPort` is 22, or with `[sshGatewayHost]:sshGatewayPort` otherwise. */
-  sshGatewayHostKeys?: DaytonaConfigurationSshGatewayHostKeysList;
+  sshGatewayHostKeys?: DaytonaConfigurationSshGatewayHostKeysList | undefined;
   /** SHA256 fingerprints of sshGatewayHostKeys, in the same order, in `ssh-keygen -lf` format. Compare against the fingerprint published at https://github.com/daytona/.github/blob/main/SECURITY.md#ssh-host-key-verification */
-  sshGatewayHostKeyFingerprints?: DaytonaConfigurationSshGatewayHostKeyFingerprintsList;
+  sshGatewayHostKeyFingerprints?: DaytonaConfigurationSshGatewayHostKeyFingerprintsList | undefined;
   /** Rate limit configuration */
-  rateLimit?: RateLimitConfig;
+  rateLimit?: RateLimitConfig | undefined;
 }
 export type GetConfigControllerConfigError = DaytonaOpError;
 /** Get config */
@@ -243,6 +245,7 @@ function __c0(j: number): any {
           environment: S.String,
           billingApiUrl: S.optional(S.String),
           analyticsApiUrl: S.optional(S.String),
+          v2DashboardUrl: S.optional(S.String),
           stripePublishableKey: S.optional(S.String),
           sshGatewayCommand: S.optional(S.String),
           sshGatewayPublicKey: S.optional(S.String),

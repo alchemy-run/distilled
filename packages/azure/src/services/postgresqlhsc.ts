@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Postgresqlhsc",
   service: "Postgresqlhsc",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -45,13 +46,13 @@ export interface CheckClusterNameAvailabilityRequest {
 /** Represents cluster name availability. */
 export interface NameAvailability {
   /** Error message. */
-  message?: string;
+  message?: string | undefined;
   /** Indicates whether the cluster name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** Name of the cluster. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the cluster. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface ClustersPromoteReadReplicaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -62,61 +63,61 @@ export interface ClustersPromoteReadReplicaRequest {
   clusterName: string;
 }
 export interface ClustersPromoteReadReplicaResponse {
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type CreateClusterRequestTagsMap = { [key: string]: string | undefined };
 /** Schedule settings for regular cluster updates. */
 export interface MaintenanceWindow {
   /** Indicates whether custom maintenance window is enabled or not. */
-  customWindow?: string;
+  customWindow?: string | undefined;
   /** Start hour within preferred day of the week for maintenance window. */
-  startHour?: number;
+  startHour?: number | undefined;
   /** Start minute within the start hour for maintenance window. */
-  startMinute?: number;
+  startMinute?: number | undefined;
   /** Preferred day of the week for maintenance window. */
-  dayOfWeek?: number;
+  dayOfWeek?: number | undefined;
 }
 /** Properties of the cluster. */
 export interface ClusterPropertiesInput {
   /** The password of the administrator login. Required for creation. */
-  administratorLoginPassword?: string | Redacted.Redacted<string>;
+  administratorLoginPassword?: string | Redacted.Redacted<string> | undefined;
   /** The major PostgreSQL version on all cluster servers. */
-  postgresqlVersion?: string;
+  postgresqlVersion?: string | undefined;
   /** The Citus extension version on all cluster servers. */
-  citusVersion?: string;
+  citusVersion?: string | undefined;
   /** Maintenance window of a cluster. */
-  maintenanceWindow?: MaintenanceWindow;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   /** Preferred primary availability zone (AZ) for all cluster servers. */
-  preferredPrimaryZone?: string;
+  preferredPrimaryZone?: string | undefined;
   /** If distributed tables are placed on coordinator or not. Should be set to 'true' on single node clusters. Requires shard rebalancing after value is changed. */
-  enableShardsOnCoordinator?: boolean;
+  enableShardsOnCoordinator?: boolean | undefined;
   /** If high availability (HA) is enabled or not for the cluster. */
-  enableHa?: boolean;
+  enableHa?: boolean | undefined;
   /** The edition of a coordinator server (default: GeneralPurpose). Required for creation. */
-  coordinatorServerEdition?: string;
+  coordinatorServerEdition?: string | undefined;
   /** The storage of a server in MB. Required for creation. See https://learn.microsoft.com/azure/cosmos-db/postgresql/resources-compute for more information. */
-  coordinatorStorageQuotaInMb?: number;
+  coordinatorStorageQuotaInMb?: number | undefined;
   /** The vCores count of a server (max: 96). Required for creation. See https://learn.microsoft.com/azure/cosmos-db/postgresql/resources-compute for more information. */
-  coordinatorVCores?: number;
+  coordinatorVCores?: number | undefined;
   /** If public access is enabled on coordinator. */
-  coordinatorEnablePublicIpAccess?: boolean;
+  coordinatorEnablePublicIpAccess?: boolean | undefined;
   /** The edition of a node server (default: MemoryOptimized). */
-  nodeServerEdition?: string;
+  nodeServerEdition?: string | undefined;
   /** Worker node count of the cluster. When node count is 0, it represents a single node configuration with the ability to create distributed tables on that node. 2 or more worker nodes represent multi-node configuration. Node count value cannot be 1. Required for creation. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** The storage in MB on each worker node. See https://learn.microsoft.com/azure/cosmos-db/postgresql/resources-compute for more information. */
-  nodeStorageQuotaInMb?: number;
+  nodeStorageQuotaInMb?: number | undefined;
   /** The compute in vCores on each worker node (max: 104). See https://learn.microsoft.com/azure/cosmos-db/postgresql/resources-compute for more information. */
-  nodeVCores?: number;
+  nodeVCores?: number | undefined;
   /** If public access is enabled on worker nodes. */
-  nodeEnablePublicIpAccess?: boolean;
+  nodeEnablePublicIpAccess?: boolean | undefined;
   /** The resource id of source cluster for read replica clusters. */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** The Azure region of source cluster for read replica clusters. */
-  sourceLocation?: string;
+  sourceLocation?: string | undefined;
   /** Date and time in UTC (ISO8601 format) for cluster restore. */
-  pointInTimeUTC?: string;
+  pointInTimeUTC?: string | undefined;
 }
 export interface CreateClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -126,11 +127,11 @@ export interface CreateClusterRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** Resource tags. */
-  tags?: CreateClusterRequestTagsMap;
+  tags?: CreateClusterRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the cluster. */
-  properties?: ClusterPropertiesInput;
+  properties?: ClusterPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -139,26 +140,26 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateClusterResponseTagsMap = { [key: string]: string | undefined };
 /** The name object for a server. */
 export interface ServerNameItem {
   /** The name of a server. */
-  name?: string;
+  name?: string | undefined;
   /** The fully qualified domain name of a server. */
-  fullyQualifiedDomainName?: string;
+  fullyQualifiedDomainName?: string | undefined;
 }
 /** The list of server names in the cluster */
 export type ClusterPropertiesServerNamesList = Array<ServerNameItem>;
@@ -167,7 +168,7 @@ export type ClusterPropertiesReadReplicasList = Array<string>;
 /** Property to represent resource id of the private endpoint. */
 export interface PrivateEndpointProperty {
   /** Resource id of the private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Group ids of the private endpoint connection. */
 export type PrivateEndpointConnectionSimplePropertiesGroupIdsList = Array<string>;
@@ -176,33 +177,35 @@ export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "R
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateEndpointConnectionSimplePropertiesPrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
+  status?: PrivateEndpointServiceConnectionStatus | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The properties in private endpoint connection */
 export interface PrivateEndpointConnectionSimpleProperties {
   /** Private endpoint which the connection belongs to. */
-  privateEndpoint?: PrivateEndpointProperty;
+  privateEndpoint?: PrivateEndpointProperty | undefined;
   /** Group ids of the private endpoint connection. */
-  groupIds?: PrivateEndpointConnectionSimplePropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionSimplePropertiesGroupIdsList | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState?: PrivateEndpointConnectionSimplePropertiesPrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?:
+    | PrivateEndpointConnectionSimplePropertiesPrivateLinkServiceConnectionState
+    | undefined;
 }
 /** A private endpoint connection. */
 export interface SimplePrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: PrivateEndpointConnectionSimpleProperties;
+  properties?: PrivateEndpointConnectionSimpleProperties | undefined;
 }
 /** The private endpoint connections for a cluster. */
 export type ClusterPropertiesPrivateEndpointConnectionsList =
@@ -210,74 +213,74 @@ export type ClusterPropertiesPrivateEndpointConnectionsList =
 /** Properties of the cluster. */
 export interface ClusterProperties {
   /** The administrator's login name of the servers in the cluster. */
-  administratorLogin?: string;
+  administratorLogin?: string | undefined;
   /** The password of the administrator login. Required for creation. */
-  administratorLoginPassword?: string | Redacted.Redacted<string>;
+  administratorLoginPassword?: string | Redacted.Redacted<string> | undefined;
   /** Provisioning state of the cluster */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** A state of a cluster/server that is visible to user. */
-  state?: string;
+  state?: string | undefined;
   /** The major PostgreSQL version on all cluster servers. */
-  postgresqlVersion?: string;
+  postgresqlVersion?: string | undefined;
   /** The Citus extension version on all cluster servers. */
-  citusVersion?: string;
+  citusVersion?: string | undefined;
   /** Maintenance window of a cluster. */
-  maintenanceWindow?: MaintenanceWindow;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   /** Preferred primary availability zone (AZ) for all cluster servers. */
-  preferredPrimaryZone?: string;
+  preferredPrimaryZone?: string | undefined;
   /** If distributed tables are placed on coordinator or not. Should be set to 'true' on single node clusters. Requires shard rebalancing after value is changed. */
-  enableShardsOnCoordinator?: boolean;
+  enableShardsOnCoordinator?: boolean | undefined;
   /** If high availability (HA) is enabled or not for the cluster. */
-  enableHa?: boolean;
+  enableHa?: boolean | undefined;
   /** The edition of a coordinator server (default: GeneralPurpose). Required for creation. */
-  coordinatorServerEdition?: string;
+  coordinatorServerEdition?: string | undefined;
   /** The storage of a server in MB. Required for creation. See https://learn.microsoft.com/azure/cosmos-db/postgresql/resources-compute for more information. */
-  coordinatorStorageQuotaInMb?: number;
+  coordinatorStorageQuotaInMb?: number | undefined;
   /** The vCores count of a server (max: 96). Required for creation. See https://learn.microsoft.com/azure/cosmos-db/postgresql/resources-compute for more information. */
-  coordinatorVCores?: number;
+  coordinatorVCores?: number | undefined;
   /** If public access is enabled on coordinator. */
-  coordinatorEnablePublicIpAccess?: boolean;
+  coordinatorEnablePublicIpAccess?: boolean | undefined;
   /** The edition of a node server (default: MemoryOptimized). */
-  nodeServerEdition?: string;
+  nodeServerEdition?: string | undefined;
   /** Worker node count of the cluster. When node count is 0, it represents a single node configuration with the ability to create distributed tables on that node. 2 or more worker nodes represent multi-node configuration. Node count value cannot be 1. Required for creation. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** The storage in MB on each worker node. See https://learn.microsoft.com/azure/cosmos-db/postgresql/resources-compute for more information. */
-  nodeStorageQuotaInMb?: number;
+  nodeStorageQuotaInMb?: number | undefined;
   /** The compute in vCores on each worker node (max: 104). See https://learn.microsoft.com/azure/cosmos-db/postgresql/resources-compute for more information. */
-  nodeVCores?: number;
+  nodeVCores?: number | undefined;
   /** If public access is enabled on worker nodes. */
-  nodeEnablePublicIpAccess?: boolean;
+  nodeEnablePublicIpAccess?: boolean | undefined;
   /** The list of server names in the cluster */
-  serverNames?: ClusterPropertiesServerNamesList;
+  serverNames?: ClusterPropertiesServerNamesList | undefined;
   /** The resource id of source cluster for read replica clusters. */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** The Azure region of source cluster for read replica clusters. */
-  sourceLocation?: string;
+  sourceLocation?: string | undefined;
   /** Date and time in UTC (ISO8601 format) for cluster restore. */
-  pointInTimeUTC?: string;
+  pointInTimeUTC?: string | undefined;
   /** The array of read replica clusters. */
-  readReplicas?: ClusterPropertiesReadReplicasList;
+  readReplicas?: ClusterPropertiesReadReplicasList | undefined;
   /** The earliest restore point time (ISO8601 format) for the cluster. */
-  earliestRestoreTime?: string;
+  earliestRestoreTime?: string | undefined;
   /** The private endpoint connections for a cluster. */
-  privateEndpointConnections?: ClusterPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: ClusterPropertiesPrivateEndpointConnectionsList | undefined;
 }
 export interface CreateClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateClusterResponseTagsMap;
+  tags?: CreateClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the cluster. */
-  properties?: ClusterProperties;
-  locationHeader?: string;
+  properties?: ClusterProperties | undefined;
+  locationHeader?: string | undefined;
 }
 /** The properties of a cluster role. */
 export interface RolePropertiesInput {
@@ -301,22 +304,22 @@ export type ProvisioningState = "Succeeded" | "Canceled" | "InProgress" | "Faile
 /** The properties of a cluster role. */
 export interface RoleProperties {
   /** The password of the cluster role. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Provisioning state of the role */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CreateRoleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a role. */
   properties: RoleProperties;
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -327,7 +330,7 @@ export interface DeleteClusterRequest {
   clusterName: string;
 }
 export interface DeleteClusterResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteFirewallRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -340,7 +343,7 @@ export interface DeleteFirewallRuleRequest {
   firewallRuleName: string;
 }
 export interface DeleteFirewallRuleResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -353,7 +356,7 @@ export interface DeletePrivateEndpointConnectionRequest {
   privateEndpointConnectionName: string;
 }
 export interface DeletePrivateEndpointConnectionResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteRoleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -366,7 +369,7 @@ export interface DeleteRoleRequest {
   roleName: string;
 }
 export interface DeleteRoleResponse {
-  location?: string;
+  location?: string | undefined;
 }
 /** The properties of a cluster firewall rule. */
 export interface FirewallRulePropertiesInput {
@@ -394,20 +397,20 @@ export interface FirewallRuleProperties {
   /** The end IP address of the cluster firewall rule. Must be IPv4 format. */
   endIpAddress: string;
   /** Provisioning state of the firewall rule. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface FirewallRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a firewall rule. */
   properties: FirewallRuleProperties;
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -421,19 +424,19 @@ export interface GetClusterRequest {
 export type GetClusterResponseTagsMap = { [key: string]: string | undefined };
 export interface GetClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetClusterResponseTagsMap;
+  tags?: GetClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the cluster. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
 }
 export interface GetConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -456,9 +459,9 @@ export interface ServerRoleGroupConfiguration {
   /** Value of the configuration. */
   value: string;
   /** Default value of the configuration. */
-  defaultValue?: string;
+  defaultValue?: string | undefined;
   /** Source of the configuration. */
-  source?: string;
+  source?: string | undefined;
 }
 /** The list of server role group configuration values. */
 export type ConfigurationPropertiesServerRoleGroupConfigurationsList =
@@ -466,29 +469,29 @@ export type ConfigurationPropertiesServerRoleGroupConfigurationsList =
 /** The properties of configuration. */
 export interface ConfigurationProperties {
   /** Description of the configuration. */
-  description?: string;
+  description?: string | undefined;
   /** Data type of the configuration. */
-  dataType?: ConfigurationPropertiesDataType;
+  dataType?: ConfigurationPropertiesDataType | undefined;
   /** Allowed values of the configuration. */
-  allowedValues?: string;
+  allowedValues?: string | undefined;
   /** If configuration change requires restart. */
-  requiresRestart?: boolean;
+  requiresRestart?: boolean | undefined;
   /** The list of server role group configuration values. */
   serverRoleGroupConfigurations: ConfigurationPropertiesServerRoleGroupConfigurationsList;
   /** Provisioning state of the configuration */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of configuration. */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
 }
 export interface GetConfigurationCoordinatorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -511,31 +514,31 @@ export interface ServerConfigurationProperties {
   /** Value of the configuration. */
   value: string;
   /** Source of the configuration. */
-  source?: string;
+  source?: string | undefined;
   /** Description of the configuration. */
-  description?: string;
+  description?: string | undefined;
   /** Default value of the configuration. */
-  defaultValue?: string;
+  defaultValue?: string | undefined;
   /** Data type of the configuration. */
-  dataType?: ServerConfigurationPropertiesDataType;
+  dataType?: ServerConfigurationPropertiesDataType | undefined;
   /** Allowed values of the configuration. */
-  allowedValues?: string;
+  allowedValues?: string | undefined;
   /** If configuration change requires restart. */
-  requiresRestart?: boolean;
+  requiresRestart?: boolean | undefined;
   /** Provisioning state of the configuration. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetConfigurationCoordinatorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a configuration. */
-  properties?: ServerConfigurationProperties;
+  properties?: ServerConfigurationProperties | undefined;
 }
 export interface GetConfigurationNodeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -549,15 +552,15 @@ export interface GetConfigurationNodeRequest {
 }
 export interface GetConfigurationNodeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a configuration. */
-  properties?: ServerConfigurationProperties;
+  properties?: ServerConfigurationProperties | undefined;
 }
 export interface GetFirewallRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -571,13 +574,13 @@ export interface GetFirewallRuleRequest {
 }
 export interface GetFirewallRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a firewall rule. */
   properties: FirewallRuleProperties;
 }
@@ -596,16 +599,16 @@ export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** The private endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -616,25 +619,25 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -653,23 +656,23 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetRoleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -683,13 +686,13 @@ export interface GetRoleRequest {
 }
 export interface GetRoleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a role. */
   properties: RoleProperties;
 }
@@ -706,45 +709,45 @@ export interface GetServerRequest {
 /** The properties of a server in cluster. */
 export interface ClusterServerProperties {
   /** The edition of a server. */
-  serverEdition?: string;
+  serverEdition?: string | undefined;
   /** The storage of a server in MB. */
-  storageQuotaInMb?: number;
+  storageQuotaInMb?: number | undefined;
   /** The vCores count of a server. */
-  vCores?: number;
+  vCores?: number | undefined;
   /** If high availability (HA) is enabled or not for the server. */
-  enableHa?: boolean;
+  enableHa?: boolean | undefined;
   /** If public access is enabled on server. */
-  enablePublicIpAccess?: boolean;
+  enablePublicIpAccess?: boolean | undefined;
   /** If server database is set to read-only by system maintenance depending on high disk space usage. */
-  isReadOnly?: boolean;
+  isReadOnly?: boolean | undefined;
   /** The administrator's login name of the servers in the cluster. */
-  administratorLogin?: string;
+  administratorLogin?: string | undefined;
   /** The fully qualified domain name of a server. */
-  fullyQualifiedDomainName?: string;
+  fullyQualifiedDomainName?: string | undefined;
   /** The role of server in the cluster. */
-  role?: ServerRole;
+  role?: ServerRole | undefined;
   /** A state of a cluster/server that is visible to user. */
-  state?: string;
+  state?: string | undefined;
   /** A state of HA feature for the cluster. */
-  haState?: string;
+  haState?: string | undefined;
   /** Availability Zone information of the server. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** The major PostgreSQL version of server. */
-  postgresqlVersion?: string;
+  postgresqlVersion?: string | undefined;
   /** The Citus extension version of server. */
-  citusVersion?: string;
+  citusVersion?: string | undefined;
 }
 export interface GetServerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a server in a cluster. */
-  properties?: ClusterServerProperties;
+  properties?: ClusterServerProperties | undefined;
 }
 export interface ListClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -757,28 +760,28 @@ export type ClusterTagsMap = { [key: string]: string | undefined };
 /** Represents a cluster. */
 export interface Cluster {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ClusterTagsMap;
+  tags?: ClusterTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the cluster. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
 }
 /** The list of clusters */
 export type ClusterListResultValueList = Array<Cluster>;
 /** A list of clusters. */
 export interface ClusterListResult {
   /** The list of clusters */
-  value?: ClusterListResultValueList;
+  value?: ClusterListResultValueList | undefined;
   /** The link used to get the next page of cluster list. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClustersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -795,24 +798,24 @@ export interface ListConfigurationByClusterRequest {
 /** Represents configuration details for coordinator and node. */
 export interface Configuration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of configuration. */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
 }
 /** The list of cluster configurations. */
 export type ClusterConfigurationListResultValueList = Array<Configuration>;
 /** A list of cluster configurations. */
 export interface ClusterConfigurationListResult {
   /** The list of cluster configurations. */
-  value?: ClusterConfigurationListResultValueList;
+  value?: ClusterConfigurationListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -827,24 +830,24 @@ export interface ListConfigurationByServerRequest {
 /** Represents a configuration. */
 export interface ServerConfiguration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a configuration. */
-  properties?: ServerConfigurationProperties;
+  properties?: ServerConfigurationProperties | undefined;
 }
 /** The list of server configurations. */
 export type ServerConfigurationListResultValueList = Array<ServerConfiguration>;
 /** A list of server configurations. */
 export interface ServerConfigurationListResult {
   /** The list of server configurations. */
-  value?: ServerConfigurationListResultValueList;
+  value?: ServerConfigurationListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFirewallRuleByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -857,13 +860,13 @@ export interface ListFirewallRuleByClusterRequest {
 /** Represents a cluster firewall rule. */
 export interface FirewallRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a firewall rule. */
   properties: FirewallRuleProperties;
 }
@@ -872,19 +875,19 @@ export type FirewallRuleListResultValueList = Array<FirewallRule>;
 /** A list of firewall rules. */
 export interface FirewallRuleListResult {
   /** The list of firewall rules in a cluster. */
-  value?: FirewallRuleListResultValueList;
+  value?: FirewallRuleListResultValueList | undefined;
 }
 export interface ListOperationsRequest {}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** Operation resource provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** Localized friendly name for the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** Operation description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation. */
 export type OperationOrigin = "NotSpecified" | "user" | "system";
@@ -893,24 +896,24 @@ export type OperationPropertiesMap = { [key: string]: unknown | undefined };
 /** REST API operation definition. */
 export interface Operation {
   /** The name of the operation being performed on this particular object. */
-  name?: string;
+  name?: string | undefined;
   /** The localized display information for this particular operation or action. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Indicates whether the operation is a data action. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** The intended executor of the operation. */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Additional descriptions for the operation. */
-  properties?: OperationPropertiesMap;
+  properties?: OperationPropertiesMap | undefined;
 }
 /** Collection of available operation details. */
 export type OperationListResultValueList = Array<Operation>;
 /** A list of resource provider operations. */
 export interface OperationListResult {
   /** Collection of available operation details. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -923,15 +926,15 @@ export interface ListPrivateEndpointConnectionByClusterRequest {
 /** The private endpoint connection resource. */
 export interface PrivateEndpointConnectionListResultValueItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Array of private endpoint connections. */
 export type PrivateEndpointConnectionListResultValueList =
@@ -939,7 +942,7 @@ export type PrivateEndpointConnectionListResultValueList =
 /** List of private endpoint connections associated with the specified resource. */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections. */
-  value?: PrivateEndpointConnectionListResultValueList;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
 }
 export interface ListPrivateLinkResourceByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -952,22 +955,22 @@ export interface ListPrivateLinkResourceByClusterRequest {
 /** A private link resource. */
 export interface PrivateLinkResourceListResultValueItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResourceListResultValueItem>;
 /** A list of private link resources. */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList;
+  value?: PrivateLinkResourceListResultValueList | undefined;
 }
 export interface ListRoleByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -980,13 +983,13 @@ export interface ListRoleByClusterRequest {
 /** Represents a cluster role. */
 export interface Role {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a role. */
   properties: RoleProperties;
 }
@@ -995,7 +998,7 @@ export type RoleListResultValueList = Array<Role>;
 /** A list of roles. */
 export interface RoleListResult {
   /** The list of roles in a cluster. */
-  value?: RoleListResultValueList;
+  value?: RoleListResultValueList | undefined;
 }
 export interface ListServerByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1008,29 +1011,29 @@ export interface ListServerByClusterRequest {
 /** Represents a server in a cluster. */
 export interface ClusterServer {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a server in a cluster. */
-  properties?: ClusterServerProperties;
+  properties?: ClusterServerProperties | undefined;
 }
 /** The list of servers in a cluster. */
 export type ClusterServerListResultValueList = Array<ClusterServer>;
 /** A list of servers in a cluster. */
 export interface ClusterServerListResult {
   /** The list of servers in a cluster. */
-  value?: ClusterServerListResultValueList;
+  value?: ClusterServerListResultValueList | undefined;
 }
 /** The private endpoint resource. */
 export interface PrivateEndpointInput {}
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -1044,20 +1047,20 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The name of the private endpoint connection associated with the cluster. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
-  location?: string;
+  properties?: PrivateEndpointConnectionProperties | undefined;
+  location?: string | undefined;
 }
 export interface RestartClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1068,7 +1071,7 @@ export interface RestartClusterRequest {
   clusterName: string;
 }
 export interface RestartClusterResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface StartClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1079,7 +1082,7 @@ export interface StartClusterRequest {
   clusterName: string;
 }
 export interface StartClusterResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface StopClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1090,40 +1093,40 @@ export interface StopClusterRequest {
   clusterName: string;
 }
 export interface StopClusterResponse {
-  location?: string;
+  location?: string | undefined;
 }
 /** The properties used to update a cluster. */
 export interface ClusterPropertiesForUpdateInput {
   /** The password of the administrator login. Each cluster is created with pre-defined administrative role called 'citus'. */
-  administratorLoginPassword?: string | Redacted.Redacted<string>;
+  administratorLoginPassword?: string | Redacted.Redacted<string> | undefined;
   /** The major PostgreSQL version on all cluster servers. */
-  postgresqlVersion?: string;
+  postgresqlVersion?: string | undefined;
   /** The Citus extension version on all cluster servers. */
-  citusVersion?: string;
+  citusVersion?: string | undefined;
   /** If distributed tables are placed on coordinator or not. Should be set to 'true' on single node clusters. Requires shard rebalancing after value is changed. */
-  enableShardsOnCoordinator?: boolean;
+  enableShardsOnCoordinator?: boolean | undefined;
   /** If high availability (HA) is enabled or not for the cluster. */
-  enableHa?: boolean;
+  enableHa?: boolean | undefined;
   /** Preferred primary availability zone (AZ) for all cluster servers. */
-  preferredPrimaryZone?: string;
+  preferredPrimaryZone?: string | undefined;
   /** The edition of the coordinator (default: GeneralPurpose). */
-  coordinatorServerEdition?: string;
+  coordinatorServerEdition?: string | undefined;
   /** The storage of the coordinator in MB. */
-  coordinatorStorageQuotaInMb?: number;
+  coordinatorStorageQuotaInMb?: number | undefined;
   /** The vCores count of the coordinator (max: 96). */
-  coordinatorVCores?: number;
+  coordinatorVCores?: number | undefined;
   /** If public access is enabled on coordinator. */
-  coordinatorEnablePublicIpAccess?: boolean;
+  coordinatorEnablePublicIpAccess?: boolean | undefined;
   /** The edition of a node (default: MemoryOptimized). */
-  nodeServerEdition?: string;
+  nodeServerEdition?: string | undefined;
   /** Worker node count of the cluster. When node count is 0, it represents a single node configuration with the ability to create distributed tables on that node. 2 or more worker nodes represent multi-node configuration. Node count value cannot be 1. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** The storage in MB on each worker node. */
-  nodeStorageQuotaInMb?: number;
+  nodeStorageQuotaInMb?: number | undefined;
   /** The compute in vCores on each worker node (max: 104). */
-  nodeVCores?: number;
+  nodeVCores?: number | undefined;
   /** Maintenance window of a cluster. */
-  maintenanceWindow?: MaintenanceWindow;
+  maintenanceWindow?: MaintenanceWindow | undefined;
 }
 /** Application-specific metadata in the form of key-value pairs. */
 export type UpdateClusterRequestTagsMap = { [key: string]: string | undefined };
@@ -1135,28 +1138,28 @@ export interface UpdateClusterRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** Properties of the cluster. */
-  properties?: ClusterPropertiesForUpdateInput;
+  properties?: ClusterPropertiesForUpdateInput | undefined;
   /** Application-specific metadata in the form of key-value pairs. */
-  tags?: UpdateClusterRequestTagsMap;
+  tags?: UpdateClusterRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateClusterResponseTagsMap;
+  tags?: UpdateClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the cluster. */
-  properties?: ClusterProperties;
-  locationHeader?: string;
+  properties?: ClusterProperties | undefined;
+  locationHeader?: string | undefined;
 }
 /** The properties of a configuration. */
 export interface ServerConfigurationPropertiesInput {
@@ -1173,20 +1176,20 @@ export interface UpdateConfigurationOnCoordinatorRequest {
   /** The name of the cluster configuration. */
   configurationName: string;
   /** The properties of a configuration. */
-  properties?: ServerConfigurationPropertiesInput;
+  properties?: ServerConfigurationPropertiesInput | undefined;
 }
 export interface UpdateConfigurationOnCoordinatorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a configuration. */
-  properties?: ServerConfigurationProperties;
-  location?: string;
+  properties?: ServerConfigurationProperties | undefined;
+  location?: string | undefined;
 }
 export interface UpdateConfigurationOnNodeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1198,20 +1201,20 @@ export interface UpdateConfigurationOnNodeRequest {
   /** The name of the cluster configuration. */
   configurationName: string;
   /** The properties of a configuration. */
-  properties?: ServerConfigurationPropertiesInput;
+  properties?: ServerConfigurationPropertiesInput | undefined;
 }
 export interface UpdateConfigurationOnNodeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a configuration. */
-  properties?: ServerConfigurationProperties;
-  location?: string;
+  properties?: ServerConfigurationProperties | undefined;
+  location?: string | undefined;
 }
 export type CheckClusterNameAvailabilityError = AzureOpError;
 /** Checks availability of a cluster name. Cluster names should be globally unique; at least 3 characters and at most 40 characters long; they must only contain lowercase letters, numbers, and hyphens; and must not start or end with a hyphen. */

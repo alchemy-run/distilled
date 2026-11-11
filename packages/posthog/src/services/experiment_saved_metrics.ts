@@ -56,12 +56,12 @@ export interface CreateExperimentSavedMetricsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Name of the shared metric. Must be unique within the project (case-insensitive). */
-  name?: string;
+  name?: string | undefined;
   /** Short description of what the metric measures. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** ExperimentMetric JSON. Must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Legacy kinds (ExperimentTrendsQuery, ExperimentFunnelsQuery) are rejected for new shared metrics. */
-  query?: unknown;
-  tags?: CreateExperimentSavedMetricsRequestTagsList;
+  query?: unknown | undefined;
+  tags?: CreateExperimentSavedMetricsRequestTagsList | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -78,15 +78,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export type ExperimentSavedMetricTagsList = Array<unknown>;
 export interface ExperimentSavedMetricLinkedExperiment {
@@ -102,21 +102,21 @@ export type ExperimentSavedMetricLinkedExperimentsList =
   Array<ExperimentSavedMetricLinkedExperiment>;
 /** Mixin for serializers to add user access control fields */
 export interface ExperimentSavedMetric {
-  id?: number;
+  id?: number | undefined;
   /** Name of the shared metric. Must be unique within the project (case-insensitive). */
-  name?: string;
+  name?: string | undefined;
   /** Short description of what the metric measures. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** ExperimentMetric JSON. Must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Legacy kinds (ExperimentTrendsQuery, ExperimentFunnelsQuery) are rejected for new shared metrics. */
-  query?: unknown;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  updated_at?: string;
-  tags?: ExperimentSavedMetricTagsList;
+  query?: unknown | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  tags?: ExperimentSavedMetricTagsList | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
   /** Experiments using this shared metric (soft-deleted experiments excluded). Populated only on single-metric retrieve; always an empty list in list responses. */
-  linked_experiments?: ExperimentSavedMetricLinkedExperimentsList;
+  linked_experiments?: ExperimentSavedMetricLinkedExperimentsList | undefined;
 }
 export interface ExperimentSavedMetricsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -135,20 +135,20 @@ export interface ListExperimentSavedMetricsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter to shared metrics whose query references this event name. Matches events used directly in metric queries as well as events behind any actions those metrics reference. Use this for reuse discovery (find a metric by what it measures); distinct from 'search', which matches the metric's own name/description/tags. */
-  event?: string;
+  event?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedExperimentSavedMetricListResultsList = Array<ExperimentSavedMetric>;
 export interface PaginatedExperimentSavedMetricList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedExperimentSavedMetricListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedExperimentSavedMetricListResultsList | undefined;
 }
 export type UpdateExperimentSavedMetricsRequestTagsList = Array<unknown>;
 export interface UpdateExperimentSavedMetricsRequest {
@@ -157,12 +157,12 @@ export interface UpdateExperimentSavedMetricsRequest {
   /** A unique integer value identifying this experiment saved metric. */
   id: number;
   /** Name of the shared metric. Must be unique within the project (case-insensitive). */
-  name?: string;
+  name?: string | undefined;
   /** Short description of what the metric measures. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** ExperimentMetric JSON. Must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Legacy kinds (ExperimentTrendsQuery, ExperimentFunnelsQuery) are rejected for new shared metrics. */
-  query?: unknown;
-  tags?: UpdateExperimentSavedMetricsRequestTagsList;
+  query?: unknown | undefined;
+  tags?: UpdateExperimentSavedMetricsRequestTagsList | undefined;
 }
 export type UpdateExperimentSavedMetricsPartialRequestTagsList = Array<unknown>;
 export interface UpdateExperimentSavedMetricsPartialRequest {
@@ -171,12 +171,12 @@ export interface UpdateExperimentSavedMetricsPartialRequest {
   /** A unique integer value identifying this experiment saved metric. */
   id: number;
   /** Name of the shared metric. Must be unique within the project (case-insensitive). */
-  name?: string;
+  name?: string | undefined;
   /** Short description of what the metric measures. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** ExperimentMetric JSON. Must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Legacy kinds (ExperimentTrendsQuery, ExperimentFunnelsQuery) are rejected for new shared metrics. */
-  query?: unknown;
-  tags?: UpdateExperimentSavedMetricsPartialRequestTagsList;
+  query?: unknown | undefined;
+  tags?: UpdateExperimentSavedMetricsPartialRequestTagsList | undefined;
 }
 export type CreateExperimentSavedMetricsError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createExperimentSavedMetrics: API.OperationMethod<

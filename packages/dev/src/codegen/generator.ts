@@ -1,3 +1,4 @@
+import type { PaginatedTrait } from "@distilled.cloud/core/pagination";
 import { booleanStringEnums, STRING_ENCODED_TRAIT } from "./boolean-string-enums.ts";
 import {
   enumDecl,
@@ -10,7 +11,13 @@ import {
   suspendConst,
 } from "./emit.ts";
 import { orderIndex, reachableFrom, shapeDeps, topoOrder, type ShapeMap } from "./graph.ts";
-import { ADDITIONAL_PROPERTIES_TRAIT, memberBases, smithyWireName } from "./members.ts";
+import {
+  ADDITIONAL_PROPERTIES_TRAIT,
+  DEFAULT_TRAIT,
+  memberBases,
+  SERVER_STREAMING_TRAIT,
+  smithyWireName,
+} from "./members.ts";
 /**
  * The generic smithy→SDK service generator (dev-time only).
  *
@@ -35,7 +42,13 @@ import {
   modelNamespace,
   type OpEntry,
 } from "./operations.ts";
-import { validatePaginated } from "./pagination.ts";
+import {
+  assertPaginationFields,
+  CORE_STRATEGY_FIELDS,
+  defaultStrategyFields,
+  type PaginationField,
+  validatePaginated,
+} from "./pagination.ts";
 import { JSON_PRELUDE, makeSchemaRef, makeTsRef, TS_JSON_PRELUDE } from "./prelude.ts";
 import {
   ATTRIBUTES_TRAIT as TELEMETRY_ATTRIBUTES_TRAIT,
@@ -125,6 +138,12 @@ export interface PaginationProfile {
   readonly protocol?: string;
   /** Strategy expression passed as makePaginated's second argument. */
   readonly strategy?: string;
+  /**
+   * The trait fields {@link strategy} reads. Core strategies (and no
+   * strategy, i.e. `paginateWithDefaults`) have them built in; a provider
+   * strategy must declare them, or generation fails.
+   */
+  readonly requires?: (trait: PaginatedTrait) => readonly PaginationField[];
   /** Items path fallback when the trait omits `items`. */
   readonly itemsFallback: string;
   /** Output names accepted even when not modeled (delivered by the protocol). */
@@ -289,6 +308,14 @@ export interface SdkSpec {
    * profiles this becomes required for ops to paginate.
    */
   readonly paginationProfileFor?: (trait: any, op: OpEntry) => string | undefined;
+
+  /**
+   * The operations' protocol implements `stream` (core's gRPC protocol
+   * does), so server-streaming operations may be emitted as
+   * `API.makeStreaming`. Without it, generation fails on one: its
+   * `.stream()` would die on every call.
+   */
+  readonly streams?: boolean;
 
   /**
    * Service-wide fallback key dictionary stamped on op I/O roots (emitted
@@ -599,6 +626,12 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const binding = bindingOf(traits);
       return {
         ...base,
+        // A member with a default (Smithy 2.0 `@default`) is always present
+        // in a response, so response-only shapes require it. Shapes a
+        // request also reaches keep it optional: the sender may omit it.
+        required:
+          base.required ||
+          (DEFAULT_TRAIT in traits && ownerId !== undefined && !requestReachable.has(ownerId)),
         binding,
         wire: smithyWireName(traits, base.name, wireKind(binding)),
         nullable:
@@ -700,14 +733,18 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     (spec.extraBindings ?? []).find((b) => b.binding === info.binding && b.tsType !== undefined)
       ?.tsType;
 
-  const emitMember = (info: EmittedMember, selfIdx: number): string => {
+  const memberExpr = (info: EmittedMember, selfIdx: number): string => {
     let expr =
       spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ?? ref(info.target, selfIdx);
     if (info.nullable) expr = `S.NullOr(${expr})`;
     const pipes = memberPipes(info);
     if (pipes.length) expr = `${expr}.pipe(${pipes.join(", ")})`;
-    if (!info.required) expr = `S.optional(${expr})`;
-    return `  ${q(info.tsName)}: ${expr},`;
+    return expr;
+  };
+
+  const emitMember = (info: EmittedMember, selfIdx: number): string => {
+    const expr = memberExpr(info, selfIdx);
+    return `  ${q(info.tsName)}: ${info.required ? expr : `S.optional(${expr})`},`;
   };
 
   const opIoShapes = new Set<string>();
@@ -752,9 +789,25 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         syntheticOutputs: new Set(profile.syntheticOutputs ?? []),
       });
       if (ok) {
+        const strategy = profile.strategy ?? "paginateWithDefaults";
+        const fields =
+          profile.requires?.(pg) ??
+          (profile.strategy === undefined
+            ? defaultStrategyFields(pg)
+            : CORE_STRATEGY_FIELDS[profile.strategy]);
+        if (fields === undefined) {
+          throw new Error(
+            `pagination profile "${profileName}": ${strategy} is not a core strategy; ` +
+              `declare the trait fields it reads in \`requires\``,
+          );
+        }
+        assertPaginationFields(op.id, strategy, fields, pg);
         op.def.__pagination = pg;
         paginatedOutputs.add(op.def.__output);
-        if (outNames.size === 1 && outNames.has(pg.items)) rootItemsOutputs.add(op.def.__output);
+        // A profile that injects a page member (Cloudflare's `resultInfo`)
+        // needs the struct form to carry it, so its items stay addressable.
+        if (outNames.size === 1 && outNames.has(pg.items) && !profile.injectOutputMember)
+          rootItemsOutputs.add(op.def.__output);
         paginatedItemsRoot.set(op.def.__output, itemsRoot);
         paginatedItemsPath.set(op.id, String(pg.items ?? profile.itemsFallback ?? ""));
         outputProfile.set(op.def.__output, profile);
@@ -957,25 +1010,33 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
           }),
         );
       }
-    } else if (d.type === "list") {
-      const nullable =
-        spec.nullableTrait !== undefined && spec.nullableTrait in (d.member.traits ?? {});
-      const item = ref(d.member.target, i);
+    } else if (d.type === "list" || d.type === "map") {
+      // The element takes a structure member's traits, so a sensitive one
+      // types and decodes as Redacted.
+      const [elemName, elem] = d.type === "list" ? ["member", d.member] : ["value", d.value];
+      const traits = elem.traits ?? {};
+      const member: EmittedMember = {
+        name: elemName,
+        tsName: elemName,
+        wire: elemName,
+        target: elem.target,
+        binding: "body",
+        required: true,
+        nullable: spec.nullableTrait !== undefined && spec.nullableTrait in traits,
+        doc: undefined,
+        traits,
+      };
+      const elemType =
+        memberTsTypeOf(member, tsRef) ??
+        `${tsRefAt(member.target, id)}${member.nullable ? " | null" : ""}`;
+      const elemExpr = memberExpr(member, i);
       out.push(
-        `export type ${name} = Array<${tsRefAt(d.member.target, id)}${nullable ? " | null" : ""}>;`,
+        d.type === "list"
+          ? `export type ${name} = Array<${elemType}>;`
+          : `export type ${name} = { [key: string]: ${elemType} | undefined };`,
       );
       out.push(
-        `export const ${name} = ${pure}S.Array(${nullable ? `S.NullOr(${item})` : item}) as any as S.${spec.schemaType ?? "Schema"}<${name}>;\n`,
-      );
-    } else if (d.type === "map") {
-      const nullable =
-        spec.nullableTrait !== undefined && spec.nullableTrait in (d.value.traits ?? {});
-      const value = ref(d.value.target, i);
-      out.push(
-        `export type ${name} = { [key: string]: ${tsRefAt(d.value.target, id)}${nullable ? " | null" : ""} | undefined };`,
-      );
-      out.push(
-        `export const ${name} = ${pure}S.Record(S.String, ${nullable ? `S.NullOr(${value})` : value}) as any as S.${spec.schemaType ?? "Schema"}<${name}>;\n`,
+        `export const ${name} = ${pure}${d.type === "list" ? `S.Array(${elemExpr})` : `S.Record(S.String, ${elemExpr})`} as any as S.${spec.schemaType ?? "Schema"}<${name}>;\n`,
       );
     } else if (d.type === "union") {
       // A union arm targeting the union itself carries no information
@@ -1098,12 +1159,19 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const overrides = decl.overrides?.(ctx);
       const contextType = overrides?.contextType ?? decl.contextType;
       const paginated = ctx.pagination !== undefined;
+      const streaming = !paginated && SERVER_STREAMING_TRAIT in (ctx.op.def.traits ?? {});
+      if (streaming && !spec.streams) {
+        throw new Error(
+          `${ctx.op.id}: a server-streaming operation needs a protocol that streams; ` +
+            "set `streams: true` on the SdkSpec only if its protocol implements `stream`",
+        );
+      }
       const itemTsType = paginated
         ? paginatedItemTsType(ctx.op.def.__output, paginatedItemsPath.get(ctx.op.id) ?? "")
         : undefined;
       const typeAnnotation =
         overrides?.typeAnnotation ??
-        `API.${paginated ? "PaginatedOperationMethod" : "OperationMethod"}<\n` +
+        `API.${paginated ? "PaginatedOperationMethod" : streaming ? "StreamingOperationMethod" : "OperationMethod"}<\n` +
           `  ${ctx.inputName},\n` +
           `  ${ctx.outputTsType},\n` +
           `  ${ctx.opName}Error,\n` +
@@ -1130,7 +1198,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         operationConst({
           exportName: ctx.exportName,
           typeAnnotation,
-          factory: paginated ? "API.makePaginated" : "API.make",
+          factory: paginated ? "API.makePaginated" : streaming ? "API.makeStreaming" : "API.make",
           pure,
           extraArg: paginated ? opProfile.get(ctx.op.id)?.strategy : undefined,
           config,
@@ -1152,6 +1220,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   const TX_HOST = ["TxHost", "@distilled.cloud/core/telemetry-host-rules"] as const;
   const TX_XRAY = ["TxXray", "@distilled.cloud/core/telemetry-xray"] as const;
   const TX_LAMBDA = ["TxLambda", "@distilled.cloud/core/telemetry-lambda-context"] as const;
+  const TX_STREAM = ["TxStream", "@distilled.cloud/core/telemetry-stream"] as const;
   /** Message trace context: format and direction -> module and function. */
   const MESSAGE_FORMATS: Record<string, readonly [readonly [string, string], string]> = {
     "awsMessageAttributes/inject": [TX_MESSAGE, "injectAwsMessageAttributes"],
@@ -1183,6 +1252,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     const prefixes: string[] = [];
     const services: string[] = [];
     const namespaces: string[] = [];
+    // Path-label property -> single-rule attribute name -> count, to hoist
+    // a label most operations name the same non-default way.
+    const labelUses = new Map<string, Map<string, number>>();
     for (const op of selected) {
       const trait = op.def.traits?.[TELEMETRY_OPERATION_TRAIT];
       if (trait === undefined) continue;
@@ -1207,6 +1279,10 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         if (rules?.length === 1 && !rules[0].transform && rules[0].name.endsWith(tail)) {
           namespaces.push(rules[0].name.slice(0, -tail.length));
         }
+        const uses = labelUses.get(m.tsName) ?? new Map<string, number>();
+        const key = rules?.length === 1 && !rules[0].transform ? rules[0].name : "";
+        uses.set(key, (uses.get(key) ?? 0) + 1);
+        labelUses.set(m.tsName, uses);
       }
     }
     const hoisted: Record<string, unknown> = {};
@@ -1214,10 +1290,21 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const [key, value] = JSON.parse(pair) as [string, unknown];
       if (count * 2 > traced && !(key in hoisted)) hoisted[key] = value;
     }
+    const labels = mostCommon(namespaces);
+    const labelNames: Record<string, string> = {};
+    // Only modules that derive labels (a `labels` rule) can rename them.
+    for (const [property, uses] of labels === undefined ? [] : labelUses) {
+      const total = [...uses.values()].reduce((a, b) => a + b, 0);
+      const [name, count] = [...uses].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]!;
+      const fallback =
+        labels === undefined ? undefined : `${labels}.${telemetrySnakeCase(property)}`;
+      if (name !== "" && name !== fallback && count * 2 > total) labelNames[property] = name;
+    }
     return {
       prefix: mostCommon(prefixes),
       service: mostCommon(services),
-      labels: mostCommon(namespaces),
+      labels,
+      labelNames,
       hoisted,
       // Most operations of RPC protocols have no url.template.
       templates: withTemplate * 2 >= traced,
@@ -1276,7 +1363,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       }
       return out;
     };
-    const { nameTemplate, inject, extract, ...data } = trait;
+    const { nameTemplate, inject, extract, stream, ...data } = trait;
     let span: Record<string, unknown>;
     {
       const { name, method, attributes, ...rest } = data;
@@ -1301,7 +1388,13 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         for (const m of members) {
           if (!("smithy.api#httpLabel" in m.traits)) continue;
           derived.add(m.tsName);
-          const want = [{ name: `${telemetryRules.labels}.${telemetrySnakeCase(m.tsName)}` }];
+          const want = [
+            {
+              name:
+                telemetryRules.labelNames[m.tsName] ??
+                `${telemetryRules.labels}.${telemetrySnakeCase(m.tsName)}`,
+            },
+          ];
           if (!sameRules(input[m.tsName], want)) overrides[m.tsName] = input[m.tsName] ?? [];
         }
       }
@@ -1336,6 +1429,20 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       }
       const { format: _format, ...place } = message(ctx, shapeId)!;
       extensions.push(`${key}: ${use(target[0])}.${target[1]}(${JSON.stringify(place)})`);
+    }
+    if (stream !== undefined) {
+      const rule: Record<string, unknown> = {
+        ...stream,
+        member: tsName(op.def.__output, stream.member),
+      };
+      if (stream.events !== undefined) {
+        // Event rules are keyed by the stream union's members.
+        const union = (shapes[op.def.__output]?.members ?? {})[stream.member]?.target;
+        rule.events = Object.fromEntries(
+          Object.entries(stream.events).map(([event, rules]) => [tsName(union, event), rules]),
+        );
+      }
+      extensions.push(`hold: ${use(TX_STREAM)}.holdForStream(${JSON.stringify(rule)})`);
     }
     const spanCode =
       extensions.length > 0
@@ -1464,6 +1571,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       ...(telemetryRules.prefix !== undefined ? { prefix: telemetryRules.prefix } : {}),
       ...(telemetryRules.service !== undefined ? { service: telemetryRules.service } : {}),
       ...(telemetryRules.labels !== undefined ? { labels: telemetryRules.labels } : {}),
+      ...(Object.keys(telemetryRules.labelNames).length > 0
+        ? { labelNames: telemetryRules.labelNames }
+        : {}),
       ...(telemetryRules.templates ? {} : { templates: false }),
     };
     const extra: string[] = [];

@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "CustomerInsights",
   service: "CustomerInsights",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -40,9 +41,9 @@ export interface AuthorizationPolicyInput {
   /** The permissions associated with the policy. */
   permissions: AuthorizationPolicyInputPermissionsList;
   /** Primary key associated with the policy. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Secondary key associated with the policy. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
 }
 export interface AuthorizationPoliciesCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -53,29 +54,29 @@ export interface AuthorizationPoliciesCreateOrUpdateRequest {
   hubName: string;
   /** The name of the policy. */
   authorizationPolicyName: string;
-  properties?: AuthorizationPolicyInput;
+  properties?: AuthorizationPolicyInput | undefined;
 }
 /** The permissions associated with the policy. */
 export type AuthorizationPolicyPermissionsList = Array<PermissionTypes>;
 /** The authorization policy. */
 export interface AuthorizationPolicy {
   /** Name of the policy. */
-  policyName?: string;
+  policyName?: string | undefined;
   /** The permissions associated with the policy. */
   permissions: AuthorizationPolicyPermissionsList;
   /** Primary key associated with the policy. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Secondary key associated with the policy. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
 }
 export interface AuthorizationPoliciesCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: AuthorizationPolicy;
+  type?: string | undefined;
+  properties?: AuthorizationPolicy | undefined;
 }
 /** Type of connector. */
 export type ConnectorType =
@@ -97,7 +98,7 @@ export interface ConnectorMappingErrorManagement {
   /** The type of error management to use for the mapping. */
   errorManagementType: ConnectorMappingErrorManagementErrorManagementType | (string & {});
   /** The error limit allowed while importing data. */
-  errorLimit?: number;
+  errorLimit?: number | undefined;
 }
 /** The type mapping format. */
 export type ConnectorMappingFormatFormatType = "TextFormat";
@@ -106,22 +107,22 @@ export interface ConnectorMappingFormat {
   /** The type mapping format. */
   formatType: ConnectorMappingFormatFormatType | (string & {});
   /** The character that signifies a break between columns. */
-  columnDelimiter?: string;
+  columnDelimiter?: string | undefined;
   /** The oData language. */
-  acceptLanguage?: string;
+  acceptLanguage?: string | undefined;
   /** Quote character, used to indicate enquoted fields. */
-  quoteCharacter?: string;
+  quoteCharacter?: string | undefined;
   /** Escape character for quotes, can be the same as the quoteCharacter. */
-  quoteEscapeCharacter?: string;
+  quoteEscapeCharacter?: string | undefined;
   /** Character separating array elements. */
-  arraySeparator?: string;
+  arraySeparator?: string | undefined;
 }
 /** The frequency to update. */
 export type ConnectorMappingAvailabilityFrequency = "Minute" | "Hour" | "Day" | "Week" | "Month";
 /** Connector mapping property availability. */
 export interface ConnectorMappingAvailability {
   /** The frequency to update. */
-  frequency?: ConnectorMappingAvailabilityFrequency | (string & {});
+  frequency?: ConnectorMappingAvailabilityFrequency | (string & {}) | undefined;
   /** The interval of the given frequency to use. */
   interval: number;
 }
@@ -132,9 +133,9 @@ export interface ConnectorMappingStructure {
   /** The column name of the import file. */
   columnName: string;
   /** Custom format specifier for input parsing. */
-  customFormatSpecifier?: string;
+  customFormatSpecifier?: string | undefined;
   /** Indicates if the column is encrypted. */
-  isEncrypted?: boolean;
+  isEncrypted?: boolean | undefined;
 }
 /** Ingestion mapping information at property level. */
 export type ConnectorMappingPropertiesStructureList = Array<ConnectorMappingStructure>;
@@ -148,18 +149,19 @@ export interface ConnectorMappingCompleteOperation {
   /** The type of completion operation. */
   completionOperationType?:
     | ConnectorMappingCompleteOperationCompletionOperationType
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The destination folder where files will be moved to once the import is done. */
-  destinationFolder?: string;
+  destinationFolder?: string | undefined;
 }
 /** The connector mapping properties. */
 export interface ConnectorMappingProperties {
   /** The folder path for the mapping. */
-  folderPath?: string;
+  folderPath?: string | undefined;
   /** The file filter for the mapping. */
-  fileFilter?: string;
+  fileFilter?: string | undefined;
   /** If the file contains a header or not. */
-  hasHeader?: boolean;
+  hasHeader?: boolean | undefined;
   /** The error management setting for the mapping. */
   errorManagement: ConnectorMappingErrorManagement;
   /** The format of mapping property. */
@@ -174,15 +176,15 @@ export interface ConnectorMappingProperties {
 /** The connector mapping definition. */
 export interface ConnectorMappingInput {
   /** Type of connector. */
-  connectorType?: ConnectorType | (string & {});
+  connectorType?: ConnectorType | (string & {}) | undefined;
   /** Defines which entity type the file should map to. */
   entityType: ConnectorMappingInputEntityType | (string & {});
   /** The mapping entity name. */
   entityTypeName: string;
   /** Display name for the connector mapping. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the connector mapping. */
-  description?: string;
+  description?: string | undefined;
   /** The properties of the mapping. */
   mappingProperties: ConnectorMappingProperties;
 }
@@ -197,7 +199,7 @@ export interface ConnectorMappingsCreateOrUpdateRequest {
   connectorName: string;
   /** The name of the connector mapping. */
   mappingName: string;
-  properties?: ConnectorMappingInput;
+  properties?: ConnectorMappingInput | undefined;
 }
 /** Defines which entity type the file should map to. */
 export type ConnectorMappingEntityType = "None" | "Profile" | "Interaction" | "Relationship";
@@ -213,61 +215,61 @@ export type ConnectorMappingState =
 /** The connector mapping definition. */
 export interface ConnectorMapping {
   /** The connector name. */
-  connectorName?: string;
+  connectorName?: string | undefined;
   /** Type of connector. */
-  connectorType?: ConnectorType;
+  connectorType?: ConnectorType | undefined;
   /** The created time. */
-  created?: string;
+  created?: string | undefined;
   /** The last modified time. */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** Defines which entity type the file should map to. */
   entityType: ConnectorMappingEntityType;
   /** The mapping entity name. */
   entityTypeName: string;
   /** The connector mapping name */
-  connectorMappingName?: string;
+  connectorMappingName?: string | undefined;
   /** Display name for the connector mapping. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the connector mapping. */
-  description?: string;
+  description?: string | undefined;
   /** The DataFormat ID. */
-  dataFormatId?: string;
+  dataFormatId?: string | undefined;
   /** The properties of the mapping. */
   mappingProperties: ConnectorMappingProperties;
   /** The next run time based on customer's settings. */
-  nextRunTime?: string;
+  nextRunTime?: string | undefined;
   /** The RunId. */
-  runId?: string;
+  runId?: string | undefined;
   /** State of connector mapping. */
-  state?: ConnectorMappingState;
+  state?: ConnectorMappingState | undefined;
   /** The hub name. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface ConnectorMappingsCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: ConnectorMapping;
+  type?: string | undefined;
+  properties?: ConnectorMapping | undefined;
 }
 /** The connector properties. */
 export type ConnectorInputConnectorPropertiesMap = { [key: string]: unknown | undefined };
 /** Properties of connector. */
 export interface ConnectorInput {
   /** Name of the connector. */
-  connectorName?: string;
+  connectorName?: string | undefined;
   /** Type of connector. */
   connectorType: ConnectorType | (string & {});
   /** Display name of the connector. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of the connector. */
-  description?: string;
+  description?: string | undefined;
   /** The connector properties. */
   connectorProperties: ConnectorInputConnectorPropertiesMap;
   /** If this is an internal connector. */
-  isInternal?: boolean;
+  isInternal?: boolean | undefined;
 }
 export interface ConnectorsCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -278,7 +280,7 @@ export interface ConnectorsCreateOrUpdateRequest {
   hubName: string;
   /** The name of the connector. */
   connectorName: string;
-  properties?: ConnectorInput;
+  properties?: ConnectorInput | undefined;
 }
 /** The connector properties. */
 export type ConnectorConnectorPropertiesMap = { [key: string]: unknown | undefined };
@@ -287,36 +289,36 @@ export type ConnectorState = "Creating" | "Created" | "Ready" | "Expiring" | "De
 /** Properties of connector. */
 export interface Connector {
   /** ID of the connector. */
-  connectorId?: number;
+  connectorId?: number | undefined;
   /** Name of the connector. */
-  connectorName?: string;
+  connectorName?: string | undefined;
   /** Type of connector. */
   connectorType: ConnectorType;
   /** Display name of the connector. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of the connector. */
-  description?: string;
+  description?: string | undefined;
   /** The connector properties. */
   connectorProperties: ConnectorConnectorPropertiesMap;
   /** The created time. */
-  created?: string;
+  created?: string | undefined;
   /** The last modified time. */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** State of connector. */
-  state?: ConnectorState;
+  state?: ConnectorState | undefined;
   /** The hub name. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** If this is an internal connector. */
-  isInternal?: boolean;
+  isInternal?: boolean | undefined;
 }
 export interface ConnectorsCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: Connector;
+  type?: string | undefined;
+  properties?: Connector | undefined;
 }
 export interface DeleteConnectorRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -394,7 +396,7 @@ export interface DeleteProfileRequest {
   /** The name of the profile. */
   profileName: string;
   /** Locale of profile to retrieve, default is en-us. */
-  locale_code?: string;
+  locale_code?: string | undefined;
 }
 export interface DeleteProfileResponse {}
 export interface DeleteRelationshipRequest {
@@ -455,12 +457,12 @@ export interface GetAuthorizationPolicyRequest {
 }
 export interface GetAuthorizationPolicyResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: AuthorizationPolicy;
+  type?: string | undefined;
+  properties?: AuthorizationPolicy | undefined;
 }
 export interface GetConnectorRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -474,12 +476,12 @@ export interface GetConnectorRequest {
 }
 export interface GetConnectorResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: Connector;
+  type?: string | undefined;
+  properties?: Connector | undefined;
 }
 export interface GetConnectorMappingRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -495,12 +497,12 @@ export interface GetConnectorMappingRequest {
 }
 export interface GetConnectorMappingResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: ConnectorMapping;
+  type?: string | undefined;
+  properties?: ConnectorMapping | undefined;
 }
 export interface GetHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -515,37 +517,37 @@ export type GetHubResponseTagsMap = { [key: string]: string | undefined };
 /** Hub billing info. */
 export interface HubBillingInfoFormat {
   /** The sku name. */
-  skuName?: string;
+  skuName?: string | undefined;
   /** The minimum number of units will be billed. One unit is 10,000 Profiles and 100,000 Interactions. */
-  minUnits?: number;
+  minUnits?: number | undefined;
   /** The maximum number of units can be used. One unit is 10,000 Profiles and 100,000 Interactions. */
-  maxUnits?: number;
+  maxUnits?: number | undefined;
 }
 /** Properties of hub. */
 export interface HubPropertiesFormat {
   /** API endpoint URL of the hub. */
-  apiEndpoint?: string;
+  apiEndpoint?: string | undefined;
   /** Web endpoint URL of the hub. */
-  webEndpoint?: string;
+  webEndpoint?: string | undefined;
   /** Provisioning state of the hub. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The bit flags for enabled hub features. Bit 0 is set to 1 indicates graph is enabled, or disabled if set to 0. Bit 1 is set to 1 indicates the hub is disabled, or enabled if set to 0. */
-  tenantFeatures?: number;
+  tenantFeatures?: number | undefined;
   /** Billing settings of the hub. */
-  hubBillingInfo?: HubBillingInfoFormat;
+  hubBillingInfo?: HubBillingInfoFormat | undefined;
 }
 export interface GetHubResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetHubResponseTagsMap;
-  properties?: HubPropertiesFormat;
+  tags?: GetHubResponseTagsMap | undefined;
+  properties?: HubPropertiesFormat | undefined;
 }
 export interface GetInteractionRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -557,7 +559,7 @@ export interface GetInteractionRequest {
   /** The name of the interaction. */
   interactionName: string;
   /** Locale of interaction to retrieve, default is en-us. */
-  locale_code?: string;
+  locale_code?: string | undefined;
 }
 export type InteractionTypeDefinitionAttributesValueList = Array<string>;
 /** The attributes for the Type. */
@@ -588,9 +590,9 @@ export type ProfileEnumValidValuesFormatLocalizedValueNamesMap = {
 /** Valid enum values in case of an enum property. */
 export interface ProfileEnumValidValuesFormat {
   /** The integer value of the enum member. */
-  value?: number;
+  value?: number | undefined;
   /** Localized names of the enum member. */
-  localizedValueNames?: ProfileEnumValidValuesFormatLocalizedValueNamesMap;
+  localizedValueNames?: ProfileEnumValidValuesFormatLocalizedValueNamesMap | undefined;
 }
 /** Describes valid values for an enum property. */
 export type PropertyDefinitionEnumValidValuesList = Array<ProfileEnumValidValuesFormat>;
@@ -601,58 +603,58 @@ export type DataSourceStatus = "None" | "Active" | "Deleted";
 /** Data Source is a way for us to know the source of instances. A single type can have data coming in from multiple places. In activities we use this to determine precedence rules. */
 export interface DataSource {
   /** The data source name */
-  name?: string;
+  name?: string | undefined;
   /** The data source type. */
-  dataSourceType?: DataSourceDataSourceType;
+  dataSourceType?: DataSourceDataSourceType | undefined;
   /** The data source status. */
-  status?: DataSourceStatus;
+  status?: DataSourceStatus | undefined;
   /** The data source ID. */
-  id?: number;
+  id?: number | undefined;
   /** The data source reference id. */
-  dataSourceReferenceId?: string;
+  dataSourceReferenceId?: string | undefined;
 }
 /** The data source precedence is a way to know the precedence of each data source. */
 export interface DataSourcePrecedence {
-  dataSource?: DataSource;
+  dataSource?: DataSource | undefined;
   /** the precedence value. */
-  precedence?: number;
+  precedence?: number | undefined;
 }
 /** This is specific to interactions modeled as activities. Data sources are used to determine where data is stored and also in precedence rules. */
 export type PropertyDefinitionDataSourcePrecedenceRulesList = Array<DataSourcePrecedence>;
 /** Property definition. */
 export interface PropertyDefinition {
   /** Array value separator for properties with isArray set. */
-  arrayValueSeparator?: string;
+  arrayValueSeparator?: string | undefined;
   /** Describes valid values for an enum property. */
-  enumValidValues?: PropertyDefinitionEnumValidValuesList;
+  enumValidValues?: PropertyDefinitionEnumValidValuesList | undefined;
   /** Name of the property. */
   fieldName: string;
   /** Type of the property. */
   fieldType: string;
   /** Indicates if the property is actually an array of the fieldType above on the data api. */
-  isArray?: boolean;
+  isArray?: boolean | undefined;
   /** Indicates if the property is an enum. */
-  isEnum?: boolean;
+  isEnum?: boolean | undefined;
   /** Indicates if the property is an flag enum. */
-  isFlagEnum?: boolean;
+  isFlagEnum?: boolean | undefined;
   /** Whether the property is an Image. */
-  isImage?: boolean;
+  isImage?: boolean | undefined;
   /** Whether the property is a localized string. */
-  isLocalizedString?: boolean;
+  isLocalizedString?: boolean | undefined;
   /** Whether the property is a name or a part of name. */
-  isName?: boolean;
+  isName?: boolean | undefined;
   /** Whether property value is required on instances, IsRequired field only for Interaction. Profile Instance will not check for required field. */
-  isRequired?: boolean;
+  isRequired?: boolean | undefined;
   /** The ID associated with the property. */
-  propertyId?: string;
+  propertyId?: string | undefined;
   /** URL encoded schema.org item prop link for the property. */
-  schemaItemPropLink?: string;
+  schemaItemPropLink?: string | undefined;
   /** Max length of string. Used only if type is string. */
-  maxLength?: number;
+  maxLength?: number | undefined;
   /** Whether property is available in graph or not. */
-  isAvailableInGraph?: boolean;
+  isAvailableInGraph?: boolean | undefined;
   /** This is specific to interactions modeled as activities. Data sources are used to determine where data is stored and also in precedence rules. */
-  dataSourcePrecedenceRules?: PropertyDefinitionDataSourcePrecedenceRulesList;
+  dataSourcePrecedenceRules?: PropertyDefinitionDataSourcePrecedenceRulesList | undefined;
 }
 /** The properties of the Profile. */
 export type InteractionTypeDefinitionFieldsList = Array<PropertyDefinition>;
@@ -688,11 +690,11 @@ export interface Participant {
   /** Participant name. */
   participantName: string;
   /** Localized display name. */
-  displayName?: ParticipantDisplayNameMap;
+  displayName?: ParticipantDisplayNameMap | undefined;
   /** Localized descriptions. */
-  description?: ParticipantDescriptionMap;
+  description?: ParticipantDescriptionMap | undefined;
   /** The role that the participant is playing in the interaction. */
-  role?: string;
+  role?: string | undefined;
 }
 /** Profiles that participated in the interaction. */
 export type InteractionTypeDefinitionParticipantProfilesList = Array<Participant>;
@@ -701,60 +703,60 @@ export type InteractionTypeDefinitionDataSourcePrecedenceRulesList = Array<DataS
 /** The Interaction Type Definition */
 export interface InteractionTypeDefinition {
   /** The attributes for the Type. */
-  attributes?: InteractionTypeDefinitionAttributesMap;
+  attributes?: InteractionTypeDefinitionAttributesMap | undefined;
   /** Localized descriptions for the property. */
-  description?: InteractionTypeDefinitionDescriptionMap;
+  description?: InteractionTypeDefinitionDescriptionMap | undefined;
   /** Localized display names for the property. */
-  displayName?: InteractionTypeDefinitionDisplayNameMap;
+  displayName?: InteractionTypeDefinitionDisplayNameMap | undefined;
   /** Any custom localized attributes for the Type. */
-  localizedAttributes?: InteractionTypeDefinitionLocalizedAttributesMap;
+  localizedAttributes?: InteractionTypeDefinitionLocalizedAttributesMap | undefined;
   /** Small Image associated with the Property or EntityType. */
-  smallImage?: string;
+  smallImage?: string | undefined;
   /** Medium Image associated with the Property or EntityType. */
-  mediumImage?: string;
+  mediumImage?: string | undefined;
   /** Large Image associated with the Property or EntityType. */
-  largeImage?: string;
+  largeImage?: string | undefined;
   /** The api entity set name. This becomes the odata entity set name for the entity Type being referred in this object. */
-  apiEntitySetName?: string;
+  apiEntitySetName?: string | undefined;
   /** Type of entity. */
-  entityType?: InteractionTypeDefinitionEntityType;
+  entityType?: InteractionTypeDefinitionEntityType | undefined;
   /** The properties of the Profile. */
-  fields?: InteractionTypeDefinitionFieldsList;
+  fields?: InteractionTypeDefinitionFieldsList | undefined;
   /** The instance count. */
-  instancesCount?: number;
+  instancesCount?: number | undefined;
   /** The last changed time for the type definition. */
-  lastChangedUtc?: string;
+  lastChangedUtc?: string | undefined;
   /** Provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The schema org link. This helps ACI identify and suggest semantic models. */
-  schemaItemTypeLink?: string;
+  schemaItemTypeLink?: string | undefined;
   /** The hub name. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The timestamp property name. Represents the time when the interaction or profile update happened. */
-  timestampFieldName?: string;
+  timestampFieldName?: string | undefined;
   /** The name of the entity. */
-  typeName?: string;
+  typeName?: string | undefined;
   /** The id property names. Properties which uniquely identify an interaction instance. */
-  idPropertyNames?: InteractionTypeDefinitionIdPropertyNamesList;
+  idPropertyNames?: InteractionTypeDefinitionIdPropertyNamesList | undefined;
   /** Profiles that participated in the interaction. */
-  participantProfiles?: InteractionTypeDefinitionParticipantProfilesList;
+  participantProfiles?: InteractionTypeDefinitionParticipantProfilesList | undefined;
   /** The primary participant property name for an interaction ,This is used to logically represent the agent of the interaction, Specify the participant name here from ParticipantName. */
-  primaryParticipantProfilePropertyName?: string;
+  primaryParticipantProfilePropertyName?: string | undefined;
   /** This is specific to interactions modeled as activities. Data sources are used to determine where data is stored and also in precedence rules. */
-  dataSourcePrecedenceRules?: InteractionTypeDefinitionDataSourcePrecedenceRulesList;
+  dataSourcePrecedenceRules?: InteractionTypeDefinitionDataSourcePrecedenceRulesList | undefined;
   /** Default data source is specifically used in cases where data source is not specified in an instance. */
-  defaultDataSource?: DataSource;
+  defaultDataSource?: DataSource | undefined;
   /** An interaction can be tagged as an activity only during create. This enables the interaction to be editable and can enable merging of properties from multiple data sources based on precedence, which is defined at a link level. */
-  isActivity?: boolean;
+  isActivity?: boolean | undefined;
 }
 export interface GetInteractionResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: InteractionTypeDefinition;
+  type?: string | undefined;
+  properties?: InteractionTypeDefinition | undefined;
 }
 export interface GetKpiRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -791,11 +793,11 @@ export type KpiGroupByMetadataDisplayNameMap = { [key: string]: string | undefin
 /** The KPI GroupBy field metadata. */
 export interface KpiGroupByMetadata {
   /** The display name. */
-  displayName?: KpiGroupByMetadataDisplayNameMap;
+  displayName?: KpiGroupByMetadataDisplayNameMap | undefined;
   /** The name of the field. */
-  fieldName?: string;
+  fieldName?: string | undefined;
   /** The type of the field. */
-  fieldType?: string;
+  fieldType?: string | undefined;
 }
 /** The KPI GroupByMetadata. */
 export type KpiDefinitionGroupByMetadataList = Array<KpiGroupByMetadata>;
@@ -840,48 +842,48 @@ export interface KpiDefinition {
   /** The mapping entity name. */
   entityTypeName: string;
   /** The hub name. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The KPI name. */
-  kpiName?: string;
+  kpiName?: string | undefined;
   /** Localized display name for the KPI. */
-  displayName?: KpiDefinitionDisplayNameMap;
+  displayName?: KpiDefinitionDisplayNameMap | undefined;
   /** Localized description for the KPI. */
-  description?: KpiDefinitionDescriptionMap;
+  description?: KpiDefinitionDescriptionMap | undefined;
   /** The calculation window. */
   calculationWindow: KpiDefinitionCalculationWindow;
   /** Name of calculation window field. */
-  calculationWindowFieldName?: string;
+  calculationWindowFieldName?: string | undefined;
   /** The computation function for the KPI. */
   function: KpiDefinitionFunction;
   /** The computation expression for the KPI. */
   expression: string;
   /** The unit of measurement for the KPI. */
-  unit?: string;
+  unit?: string | undefined;
   /** The filter expression for the KPI. */
-  filter?: string;
+  filter?: string | undefined;
   /** the group by properties for the KPI. */
-  groupBy?: KpiDefinitionGroupByList;
+  groupBy?: KpiDefinitionGroupByList | undefined;
   /** The KPI GroupByMetadata. */
-  groupByMetadata?: KpiDefinitionGroupByMetadataList;
+  groupByMetadata?: KpiDefinitionGroupByMetadataList | undefined;
   /** The participant profiles. */
-  participantProfilesMetadata?: KpiDefinitionParticipantProfilesMetadataList;
+  participantProfilesMetadata?: KpiDefinitionParticipantProfilesMetadataList | undefined;
   /** Provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The KPI thresholds. */
-  thresHolds?: KpiThresholds;
+  thresHolds?: KpiThresholds | undefined;
   /** The aliases. */
-  aliases?: KpiDefinitionAliasesList;
+  aliases?: KpiDefinitionAliasesList | undefined;
   /** The KPI extracts. */
-  extracts?: KpiDefinitionExtractsList;
+  extracts?: KpiDefinitionExtractsList | undefined;
 }
 export interface GetKpiResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: KpiDefinition;
+  type?: string | undefined;
+  properties?: KpiDefinition | undefined;
 }
 export interface GetLinkRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -910,7 +912,7 @@ export interface TypePropertiesMapping {
   /** Property name on the target Entity Type. */
   targetPropertyName: string;
   /** Link type. */
-  linkType?: TypePropertiesMappingLinkType | (string & {});
+  linkType?: TypePropertiesMappingLinkType | (string & {}) | undefined;
 }
 /** The set of properties mappings between the source and target Types. */
 export type LinkDefinitionMappingsList = Array<TypePropertiesMapping>;
@@ -921,9 +923,9 @@ export type LinkDefinitionOperationType = "Upsert" | "Delete";
 /** The definition of Link. */
 export interface LinkDefinition {
   /** The hub name. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The link name. */
-  linkName?: string;
+  linkName?: string | undefined;
   /** Type of source entity. */
   sourceEntityType: LinkDefinitionSourceEntityType;
   /** Type of target entity. */
@@ -933,28 +935,28 @@ export interface LinkDefinition {
   /** Name of the target Entity Type. */
   targetEntityTypeName: string;
   /** Localized display name for the Link. */
-  displayName?: LinkDefinitionDisplayNameMap;
+  displayName?: LinkDefinitionDisplayNameMap | undefined;
   /** Localized descriptions for the Link. */
-  description?: LinkDefinitionDescriptionMap;
+  description?: LinkDefinitionDescriptionMap | undefined;
   /** The set of properties mappings between the source and target Types. */
-  mappings?: LinkDefinitionMappingsList;
+  mappings?: LinkDefinitionMappingsList | undefined;
   /** The properties that represent the participating profile. */
   participantPropertyReferences: LinkDefinitionParticipantPropertyReferencesList;
   /** Provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Indicating whether the link is reference only link. This flag is ignored if the Mappings are defined. If the mappings are not defined and it is set to true, links processing will not create or update profiles. */
-  referenceOnly?: boolean;
+  referenceOnly?: boolean | undefined;
   /** Determines whether this link is supposed to create or delete instances if Link is NOT Reference Only. */
-  operationType?: LinkDefinitionOperationType;
+  operationType?: LinkDefinitionOperationType | undefined;
 }
 export interface GetLinkResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: LinkDefinition;
+  type?: string | undefined;
+  properties?: LinkDefinition | undefined;
 }
 export interface GetPredictionRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -988,11 +990,11 @@ export interface PredictionMappings {
 /** The definition of a prediction grade. */
 export interface PredictionGradesItem {
   /** Name of the grade. */
-  gradeName?: string;
+  gradeName?: string | undefined;
   /** Minimum score threshold. */
-  minScoreThreshold?: number;
+  minScoreThreshold?: number | undefined;
   /** Maximum score threshold. */
-  maxScoreThreshold?: number;
+  maxScoreThreshold?: number | undefined;
 }
 /** The prediction grades. */
 export type PredictionGradesList = Array<PredictionGradesItem>;
@@ -1007,24 +1009,26 @@ export type PredictionSystemGeneratedEntitiesGeneratedKpisMap = {
 /** System generated entities. */
 export interface PredictionSystemGeneratedEntities {
   /** Generated interaction types. */
-  generatedInteractionTypes?: PredictionSystemGeneratedEntitiesGeneratedInteractionTypesList;
+  generatedInteractionTypes?:
+    | PredictionSystemGeneratedEntitiesGeneratedInteractionTypesList
+    | undefined;
   /** Generated links. */
-  generatedLinks?: PredictionSystemGeneratedEntitiesGeneratedLinksList;
+  generatedLinks?: PredictionSystemGeneratedEntitiesGeneratedLinksList | undefined;
   /** Generated KPIs. */
-  generatedKpis?: PredictionSystemGeneratedEntitiesGeneratedKpisMap;
+  generatedKpis?: PredictionSystemGeneratedEntitiesGeneratedKpisMap | undefined;
 }
 /** The prediction definition. */
 export interface Prediction {
   /** Description of the prediction. */
-  description?: PredictionDescriptionMap;
+  description?: PredictionDescriptionMap | undefined;
   /** Display name of the prediction. */
-  displayName?: PredictionDisplayNameMap;
+  displayName?: PredictionDisplayNameMap | undefined;
   /** Interaction types involved in the prediction. */
-  involvedInteractionTypes?: PredictionInvolvedInteractionTypesList;
+  involvedInteractionTypes?: PredictionInvolvedInteractionTypesList | undefined;
   /** KPI types involved in the prediction. */
-  involvedKpiTypes?: PredictionInvolvedKpiTypesList;
+  involvedKpiTypes?: PredictionInvolvedKpiTypesList | undefined;
   /** Relationships involved in the prediction. */
-  involvedRelationships?: PredictionInvolvedRelationshipsList;
+  involvedRelationships?: PredictionInvolvedRelationshipsList | undefined;
   /** Negative outcome expression. */
   negativeOutcomeExpression: string;
   /** Positive outcome expression. */
@@ -1032,13 +1036,13 @@ export interface Prediction {
   /** Primary profile type. */
   primaryProfileType: string;
   /** Provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Name of the prediction. */
-  predictionName?: string;
+  predictionName?: string | undefined;
   /** Scope expression. */
   scopeExpression: string;
   /** The hub name. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Whether do auto analyze. */
   autoAnalyze: boolean;
   /** Definition of the link mapping of prediction. */
@@ -1046,18 +1050,18 @@ export interface Prediction {
   /** Score label. */
   scoreLabel: string;
   /** The prediction grades. */
-  grades?: PredictionGradesList;
+  grades?: PredictionGradesList | undefined;
   /** System generated entities. */
-  systemGeneratedEntities?: PredictionSystemGeneratedEntities;
+  systemGeneratedEntities?: PredictionSystemGeneratedEntities | undefined;
 }
 export interface GetPredictionResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: Prediction;
+  type?: string | undefined;
+  properties?: Prediction | undefined;
 }
 export interface GetPredictionModelStatusRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1092,27 +1096,27 @@ export type PredictionModelStatusStatus =
 /** The prediction model status. */
 export interface PredictionModelStatus {
   /** The hub name. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The prediction name. */
-  predictionName?: string;
+  predictionName?: string | undefined;
   /** The prediction GUID ID. */
-  predictionGuidId?: string;
+  predictionGuidId?: string | undefined;
   /** Prediction model life cycle. When prediction is in PendingModelConfirmation status, it is allowed to update the status to PendingFeaturing or Active through API. */
   status: PredictionModelStatusStatus;
   /** The model status message. */
-  message?: string;
+  message?: string | undefined;
   /** Count of the training set. */
-  trainingSetCount?: number;
+  trainingSetCount?: number | undefined;
   /** Count of the test set. */
-  testSetCount?: number;
+  testSetCount?: number | undefined;
   /** Count of the validation set. */
-  validationSetCount?: number;
+  validationSetCount?: number | undefined;
   /** The training accuracy. */
-  trainingAccuracy?: number;
+  trainingAccuracy?: number | undefined;
   /** The signals used. */
-  signalsUsed?: number;
+  signalsUsed?: number | undefined;
   /** Version of the model. */
-  modelVersion?: string;
+  modelVersion?: string | undefined;
 }
 export interface GetPredictionTrainingResultsRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1127,15 +1131,15 @@ export interface GetPredictionTrainingResultsRequest {
 /** The definition of a prediction distribution. */
 export interface PredictionDistributionDefinitionDistributionsItem {
   /** Score threshold. */
-  scoreThreshold?: number;
+  scoreThreshold?: number | undefined;
   /** Number of positives. */
-  positives?: number;
+  positives?: number | undefined;
   /** Number of negatives. */
-  negatives?: number;
+  negatives?: number | undefined;
   /** Number of positives above threshold. */
-  positivesAboveThreshold?: number;
+  positivesAboveThreshold?: number | undefined;
   /** Number of negatives above threshold. */
-  negativesAboveThreshold?: number;
+  negativesAboveThreshold?: number | undefined;
 }
 /** Distributions of the prediction. */
 export type PredictionDistributionDefinitionDistributionsList =
@@ -1143,11 +1147,11 @@ export type PredictionDistributionDefinitionDistributionsList =
 /** The definition of the prediction distribution. */
 export interface PredictionDistributionDefinition {
   /** Total positive in the distribution. */
-  totalPositives?: number;
+  totalPositives?: number | undefined;
   /** Total negatives in the distribution. */
-  totalNegatives?: number;
+  totalNegatives?: number | undefined;
   /** Distributions of the prediction. */
-  distributions?: PredictionDistributionDefinitionDistributionsList;
+  distributions?: PredictionDistributionDefinitionDistributionsList | undefined;
 }
 /** Type of canonical property value. */
 export type CanonicalProfileDefinitionPropertiesItemType =
@@ -1158,15 +1162,15 @@ export type CanonicalProfileDefinitionPropertiesItemType =
 /** The definition of a canonical profile property. */
 export interface CanonicalProfileDefinitionPropertiesItem {
   /** Profile name. */
-  profileName?: string;
+  profileName?: string | undefined;
   /** Property name of profile. */
-  profilePropertyName?: string;
+  profilePropertyName?: string | undefined;
   /** The rank. */
-  rank?: number;
+  rank?: number | undefined;
   /** Type of canonical property value. */
-  type?: CanonicalProfileDefinitionPropertiesItemType;
+  type?: CanonicalProfileDefinitionPropertiesItemType | undefined;
   /** Value of the canonical property. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Properties of the canonical profile. */
 export type CanonicalProfileDefinitionPropertiesList =
@@ -1174,24 +1178,24 @@ export type CanonicalProfileDefinitionPropertiesList =
 /** Definition of canonical profile. */
 export interface CanonicalProfileDefinition {
   /** Canonical profile ID. */
-  canonicalProfileId?: number;
+  canonicalProfileId?: number | undefined;
   /** Properties of the canonical profile. */
-  properties?: CanonicalProfileDefinitionPropertiesList;
+  properties?: CanonicalProfileDefinitionPropertiesList | undefined;
 }
 /** Canonical profiles. */
 export type PredictionTrainingResultsCanonicalProfilesList = Array<CanonicalProfileDefinition>;
 /** The training results of the prediction. */
 export interface PredictionTrainingResults {
   /** The hub name. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Score name. */
-  scoreName?: string;
+  scoreName?: string | undefined;
   /** Prediction distribution. */
-  predictionDistribution?: PredictionDistributionDefinition;
+  predictionDistribution?: PredictionDistributionDefinition | undefined;
   /** Canonical profiles. */
-  canonicalProfiles?: PredictionTrainingResultsCanonicalProfilesList;
+  canonicalProfiles?: PredictionTrainingResultsCanonicalProfilesList | undefined;
   /** Instance count of the primary profile. */
-  primaryProfileInstanceCount?: number;
+  primaryProfileInstanceCount?: number | undefined;
 }
 export interface GetProfileRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1203,7 +1207,7 @@ export interface GetProfileRequest {
   /** The name of the profile. */
   profileName: string;
   /** Locale of profile to retrieve, default is en-us. */
-  locale_code?: string;
+  locale_code?: string | undefined;
 }
 export type ProfileTypeDefinitionAttributesValueList = Array<string>;
 /** The attributes for the Type. */
@@ -1238,59 +1242,59 @@ export interface StrongId {
   /** The Name identifying the strong ID. */
   strongIdName: string;
   /** Localized display name. */
-  displayName?: StrongIdDisplayNameMap;
+  displayName?: StrongIdDisplayNameMap | undefined;
   /** Localized descriptions. */
-  description?: StrongIdDescriptionMap;
+  description?: StrongIdDescriptionMap | undefined;
 }
 /** The strong IDs. */
 export type ProfileTypeDefinitionStrongIdsList = Array<StrongId>;
 /** The profile type definition. */
 export interface ProfileTypeDefinition {
   /** The attributes for the Type. */
-  attributes?: ProfileTypeDefinitionAttributesMap;
+  attributes?: ProfileTypeDefinitionAttributesMap | undefined;
   /** Localized descriptions for the property. */
-  description?: ProfileTypeDefinitionDescriptionMap;
+  description?: ProfileTypeDefinitionDescriptionMap | undefined;
   /** Localized display names for the property. */
-  displayName?: ProfileTypeDefinitionDisplayNameMap;
+  displayName?: ProfileTypeDefinitionDisplayNameMap | undefined;
   /** Any custom localized attributes for the Type. */
-  localizedAttributes?: ProfileTypeDefinitionLocalizedAttributesMap;
+  localizedAttributes?: ProfileTypeDefinitionLocalizedAttributesMap | undefined;
   /** Small Image associated with the Property or EntityType. */
-  smallImage?: string;
+  smallImage?: string | undefined;
   /** Medium Image associated with the Property or EntityType. */
-  mediumImage?: string;
+  mediumImage?: string | undefined;
   /** Large Image associated with the Property or EntityType. */
-  largeImage?: string;
+  largeImage?: string | undefined;
   /** The api entity set name. This becomes the odata entity set name for the entity Type being referred in this object. */
-  apiEntitySetName?: string;
+  apiEntitySetName?: string | undefined;
   /** Type of entity. */
-  entityType?: ProfileTypeDefinitionEntityType;
+  entityType?: ProfileTypeDefinitionEntityType | undefined;
   /** The properties of the Profile. */
-  fields?: ProfileTypeDefinitionFieldsList;
+  fields?: ProfileTypeDefinitionFieldsList | undefined;
   /** The instance count. */
-  instancesCount?: number;
+  instancesCount?: number | undefined;
   /** The last changed time for the type definition. */
-  lastChangedUtc?: string;
+  lastChangedUtc?: string | undefined;
   /** Provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The schema org link. This helps ACI identify and suggest semantic models. */
-  schemaItemTypeLink?: string;
+  schemaItemTypeLink?: string | undefined;
   /** The hub name. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The timestamp property name. Represents the time when the interaction or profile update happened. */
-  timestampFieldName?: string;
+  timestampFieldName?: string | undefined;
   /** The name of the entity. */
-  typeName?: string;
+  typeName?: string | undefined;
   /** The strong IDs. */
-  strongIds?: ProfileTypeDefinitionStrongIdsList;
+  strongIds?: ProfileTypeDefinitionStrongIdsList | undefined;
 }
 export interface GetProfileResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: ProfileTypeDefinition;
+  type?: string | undefined;
+  properties?: ProfileTypeDefinition | undefined;
 }
 export interface GetProfileEnrichingKpisRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1341,38 +1345,38 @@ export type RelationshipDefinitionLookupMappingsList = Array<RelationshipTypeMap
 /** The definition of Relationship. */
 export interface RelationshipDefinition {
   /** The Relationship Cardinality. */
-  cardinality?: RelationshipDefinitionCardinality;
+  cardinality?: RelationshipDefinitionCardinality | undefined;
   /** Localized display name for the Relationship. */
-  displayName?: RelationshipDefinitionDisplayNameMap;
+  displayName?: RelationshipDefinitionDisplayNameMap | undefined;
   /** Localized descriptions for the Relationship. */
-  description?: RelationshipDefinitionDescriptionMap;
+  description?: RelationshipDefinitionDescriptionMap | undefined;
   /** The expiry date time in UTC. */
-  expiryDateTimeUtc?: string;
+  expiryDateTimeUtc?: string | undefined;
   /** The properties of the Relationship. */
-  fields?: RelationshipDefinitionFieldsList;
+  fields?: RelationshipDefinitionFieldsList | undefined;
   /** Optional property to be used to map fields in profile to their strong ids in related profile. */
-  lookupMappings?: RelationshipDefinitionLookupMappingsList;
+  lookupMappings?: RelationshipDefinitionLookupMappingsList | undefined;
   /** Profile type. */
   profileType: string;
   /** Provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The Relationship name. */
-  relationshipName?: string;
+  relationshipName?: string | undefined;
   /** Related profile being referenced. */
   relatedProfileType: string;
   /** The relationship guid id. */
-  relationshipGuidId?: string;
+  relationshipGuidId?: string | undefined;
   /** The hub name. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface GetRelationshipResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: RelationshipDefinition;
+  type?: string | undefined;
+  properties?: RelationshipDefinition | undefined;
 }
 export interface GetRelationshipLinkRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1395,7 +1399,7 @@ export interface RelationshipLinkFieldMapping {
   /** The field name on the Interaction Type. */
   interactionFieldName: string;
   /** Link type. */
-  linkType?: RelationshipLinkFieldMappingLinkType | (string & {});
+  linkType?: RelationshipLinkFieldMappingLinkType | (string & {}) | undefined;
   /** The field name on the Relationship metadata. */
   relationshipFieldName: string;
 }
@@ -1417,36 +1421,36 @@ export type RelationshipLinkDefinitionRelatedProfilePropertyReferencesList =
 /** The definition of relationship link. */
 export interface RelationshipLinkDefinition {
   /** Localized display name for the Relationship Link. */
-  displayName?: RelationshipLinkDefinitionDisplayNameMap;
+  displayName?: RelationshipLinkDefinitionDisplayNameMap | undefined;
   /** Localized descriptions for the Relationship Link. */
-  description?: RelationshipLinkDefinitionDescriptionMap;
+  description?: RelationshipLinkDefinitionDescriptionMap | undefined;
   /** The InteractionType associated with the Relationship Link. */
   interactionType: string;
   /** The name of the Relationship Link. */
-  linkName?: string;
+  linkName?: string | undefined;
   /** The mappings between Interaction and Relationship fields. */
-  mappings?: RelationshipLinkDefinitionMappingsList;
+  mappings?: RelationshipLinkDefinitionMappingsList | undefined;
   /** The property references for the Profile of the Relationship. */
   profilePropertyReferences: RelationshipLinkDefinitionProfilePropertyReferencesList;
   /** Provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The property references for the Related Profile of the Relationship. */
   relatedProfilePropertyReferences: RelationshipLinkDefinitionRelatedProfilePropertyReferencesList;
   /** The Relationship associated with the Link. */
   relationshipName: string;
   /** The relationship guid id. */
-  relationshipGuidId?: string;
+  relationshipGuidId?: string | undefined;
   /** The hub name. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface GetRelationshipLinkResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: RelationshipLinkDefinition;
+  type?: string | undefined;
+  properties?: RelationshipLinkDefinition | undefined;
 }
 export interface GetRoleAssignmentRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1479,7 +1483,7 @@ export interface AssignmentPrincipal {
   /** The Type of the principal ID. */
   principalType: string;
   /** Other metadata for the principal. */
-  principalMetadata?: AssignmentPrincipalPrincipalMetadataMap;
+  principalMetadata?: AssignmentPrincipalPrincipalMetadataMap | undefined;
 }
 /** The principals being assigned to. */
 export type RoleAssignmentPrincipalsList = Array<AssignmentPrincipal>;
@@ -1490,61 +1494,61 @@ export type ResourceSetDescriptionExceptionsList = Array<string>;
 /** The resource set description. */
 export interface ResourceSetDescription {
   /** The elements included in the set. */
-  elements?: ResourceSetDescriptionElementsList;
+  elements?: ResourceSetDescriptionElementsList | undefined;
   /** The elements that are not included in the set, in case elements contains '*' indicating 'all'. */
-  exceptions?: ResourceSetDescriptionExceptionsList;
+  exceptions?: ResourceSetDescriptionExceptionsList | undefined;
 }
 /** The Role Assignment definition. */
 export interface RoleAssignment {
   /** The hub name. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The name of the metadata object. */
-  assignmentName?: string;
+  assignmentName?: string | undefined;
   /** Localized display names for the metadata. */
-  displayName?: RoleAssignmentDisplayNameMap;
+  displayName?: RoleAssignmentDisplayNameMap | undefined;
   /** Localized description for the metadata. */
-  description?: RoleAssignmentDescriptionMap;
+  description?: RoleAssignmentDescriptionMap | undefined;
   /** Provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Type of roles. */
   role: RoleAssignmentRole;
   /** The principals being assigned to. */
   principals: RoleAssignmentPrincipalsList;
   /** Profiles set for the assignment. */
-  profiles?: ResourceSetDescription;
+  profiles?: ResourceSetDescription | undefined;
   /** Interactions set for the assignment. */
-  interactions?: ResourceSetDescription;
+  interactions?: ResourceSetDescription | undefined;
   /** Links set for the assignment. */
-  links?: ResourceSetDescription;
+  links?: ResourceSetDescription | undefined;
   /** Kpis set for the assignment. */
-  kpis?: ResourceSetDescription;
+  kpis?: ResourceSetDescription | undefined;
   /** Sas Policies set for the assignment. */
-  sasPolicies?: ResourceSetDescription;
+  sasPolicies?: ResourceSetDescription | undefined;
   /** Connectors set for the assignment. */
-  connectors?: ResourceSetDescription;
+  connectors?: ResourceSetDescription | undefined;
   /** Views set for the assignment. */
-  views?: ResourceSetDescription;
+  views?: ResourceSetDescription | undefined;
   /** The Role assignments set for the relationship links. */
-  relationshipLinks?: ResourceSetDescription;
+  relationshipLinks?: ResourceSetDescription | undefined;
   /** The Role assignments set for the relationships. */
-  relationships?: ResourceSetDescription;
+  relationships?: ResourceSetDescription | undefined;
   /** Widget types set for the assignment. */
-  widgetTypes?: ResourceSetDescription;
+  widgetTypes?: ResourceSetDescription | undefined;
   /** The Role assignments set for the assignment. */
-  roleAssignments?: ResourceSetDescription;
+  roleAssignments?: ResourceSetDescription | undefined;
   /** Widget types set for the assignment. */
-  conflationPolicies?: ResourceSetDescription;
+  conflationPolicies?: ResourceSetDescription | undefined;
   /** The Role assignments set for the assignment. */
-  segments?: ResourceSetDescription;
+  segments?: ResourceSetDescription | undefined;
 }
 export interface GetRoleAssignmentResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: RoleAssignment;
+  type?: string | undefined;
+  properties?: RoleAssignment | undefined;
 }
 export interface GetViewRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1563,28 +1567,28 @@ export type ViewDisplayNameMap = { [key: string]: string | undefined };
 /** The view in Customer 360 web application. */
 export interface View {
   /** Name of the view. */
-  viewName?: string;
+  viewName?: string | undefined;
   /** the user ID. */
-  userId?: string;
+  userId?: string | undefined;
   /** the hub name. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Localized display name for the view. */
-  displayName?: ViewDisplayNameMap;
+  displayName?: ViewDisplayNameMap | undefined;
   /** View definition. */
   definition: string;
   /** Date time when view was last modified. */
-  changed?: string;
+  changed?: string | undefined;
   /** Date time when view was created. */
-  created?: string;
+  created?: string | undefined;
 }
 export interface GetViewResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: View;
+  type?: string | undefined;
+  properties?: View | undefined;
 }
 export interface GetWidgetTypeRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1601,41 +1605,41 @@ export type WidgetTypeDisplayNameMap = { [key: string]: string | undefined };
 /** Definition of WidgetType. */
 export interface WidgetType {
   /** Name of the widget type. */
-  widgetTypeName?: string;
+  widgetTypeName?: string | undefined;
   /** Definition for widget type. */
   definition: string;
   /** Description for widget type. */
-  description?: string;
+  description?: string | undefined;
   /** Localized display name for the widget type. */
-  displayName?: WidgetTypeDisplayNameMap;
+  displayName?: WidgetTypeDisplayNameMap | undefined;
   /** The image URL. */
-  imageUrl?: string;
+  imageUrl?: string | undefined;
   /** The hub name. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The widget version. */
-  widgetVersion?: string;
+  widgetVersion?: string | undefined;
   /** Date time when widget type was last modified. */
-  changed?: string;
+  changed?: string | undefined;
   /** Date time when widget type was created. */
-  created?: string;
+  created?: string | undefined;
 }
 export interface GetWidgetTypeResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: WidgetType;
+  type?: string | undefined;
+  properties?: WidgetType | undefined;
 }
 /** Resource tags. */
 export type HubsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Properties of hub. */
 export interface HubPropertiesFormatInput {
   /** The bit flags for enabled hub features. Bit 0 is set to 1 indicates graph is enabled, or disabled if set to 0. Bit 1 is set to 1 indicates the hub is disabled, or enabled if set to 0. */
-  tenantFeatures?: number;
+  tenantFeatures?: number | undefined;
   /** Billing settings of the hub. */
-  hubBillingInfo?: HubBillingInfoFormat;
+  hubBillingInfo?: HubBillingInfoFormat | undefined;
 }
 export interface HubsCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1645,25 +1649,25 @@ export interface HubsCreateOrUpdateRequest {
   /** The name of the Hub. */
   hubName: string;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: HubsCreateOrUpdateRequestTagsMap;
-  properties?: HubPropertiesFormatInput;
+  tags?: HubsCreateOrUpdateRequestTagsMap | undefined;
+  properties?: HubPropertiesFormatInput | undefined;
 }
 /** Resource tags. */
 export type HubsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface HubsCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: HubsCreateOrUpdateResponseTagsMap;
-  properties?: HubPropertiesFormat;
+  tags?: HubsCreateOrUpdateResponseTagsMap | undefined;
+  properties?: HubPropertiesFormat | undefined;
 }
 export interface ImagesGetUploadUrlForDataRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1673,20 +1677,20 @@ export interface ImagesGetUploadUrlForDataRequest {
   /** The name of the hub. */
   hubName: string;
   /** Type of entity. Can be Profile or Interaction. */
-  entityType?: string;
+  entityType?: string | undefined;
   /** Name of the entity type. */
-  entityTypeName?: string;
+  entityTypeName?: string | undefined;
   /** Relative path of the image. */
-  relativePath?: string;
+  relativePath?: string | undefined;
 }
 /** The image definition. */
 export interface ImageDefinition {
   /** Whether image exists already. */
-  imageExists?: boolean;
+  imageExists?: boolean | undefined;
   /** Content URL for the image blob. */
-  contentUrl?: string;
+  contentUrl?: string | undefined;
   /** Relative path of the image. */
-  relativePath?: string;
+  relativePath?: string | undefined;
 }
 export interface ImagesGetUploadUrlForEntityTypeRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1696,11 +1700,11 @@ export interface ImagesGetUploadUrlForEntityTypeRequest {
   /** The name of the hub. */
   hubName: string;
   /** Type of entity. Can be Profile or Interaction. */
-  entityType?: string;
+  entityType?: string | undefined;
   /** Name of the entity type. */
-  entityTypeName?: string;
+  entityTypeName?: string | undefined;
   /** Relative path of the image. */
-  relativePath?: string;
+  relativePath?: string | undefined;
 }
 export type InteractionTypeDefinitionInputAttributesValueList = Array<string>;
 /** The attributes for the Type. */
@@ -1729,35 +1733,35 @@ export type PropertyDefinitionInputEnumValidValuesList = Array<ProfileEnumValidV
 /** Property definition. */
 export interface PropertyDefinitionInput {
   /** Array value separator for properties with isArray set. */
-  arrayValueSeparator?: string;
+  arrayValueSeparator?: string | undefined;
   /** Describes valid values for an enum property. */
-  enumValidValues?: PropertyDefinitionInputEnumValidValuesList;
+  enumValidValues?: PropertyDefinitionInputEnumValidValuesList | undefined;
   /** Name of the property. */
   fieldName: string;
   /** Type of the property. */
   fieldType: string;
   /** Indicates if the property is actually an array of the fieldType above on the data api. */
-  isArray?: boolean;
+  isArray?: boolean | undefined;
   /** Indicates if the property is an enum. */
-  isEnum?: boolean;
+  isEnum?: boolean | undefined;
   /** Indicates if the property is an flag enum. */
-  isFlagEnum?: boolean;
+  isFlagEnum?: boolean | undefined;
   /** Whether the property is an Image. */
-  isImage?: boolean;
+  isImage?: boolean | undefined;
   /** Whether the property is a localized string. */
-  isLocalizedString?: boolean;
+  isLocalizedString?: boolean | undefined;
   /** Whether the property is a name or a part of name. */
-  isName?: boolean;
+  isName?: boolean | undefined;
   /** Whether property value is required on instances, IsRequired field only for Interaction. Profile Instance will not check for required field. */
-  isRequired?: boolean;
+  isRequired?: boolean | undefined;
   /** The ID associated with the property. */
-  propertyId?: string;
+  propertyId?: string | undefined;
   /** URL encoded schema.org item prop link for the property. */
-  schemaItemPropLink?: string;
+  schemaItemPropLink?: string | undefined;
   /** Max length of string. Used only if type is string. */
-  maxLength?: number;
+  maxLength?: number | undefined;
   /** Whether property is available in graph or not. */
-  isAvailableInGraph?: boolean;
+  isAvailableInGraph?: boolean | undefined;
 }
 /** The properties of the Profile. */
 export type InteractionTypeDefinitionInputFieldsList = Array<PropertyDefinitionInput>;
@@ -1770,43 +1774,43 @@ export interface DataSourceInput {}
 /** The Interaction Type Definition */
 export interface InteractionTypeDefinitionInput {
   /** The attributes for the Type. */
-  attributes?: InteractionTypeDefinitionInputAttributesMap;
+  attributes?: InteractionTypeDefinitionInputAttributesMap | undefined;
   /** Localized descriptions for the property. */
-  description?: InteractionTypeDefinitionInputDescriptionMap;
+  description?: InteractionTypeDefinitionInputDescriptionMap | undefined;
   /** Localized display names for the property. */
-  displayName?: InteractionTypeDefinitionInputDisplayNameMap;
+  displayName?: InteractionTypeDefinitionInputDisplayNameMap | undefined;
   /** Any custom localized attributes for the Type. */
-  localizedAttributes?: InteractionTypeDefinitionInputLocalizedAttributesMap;
+  localizedAttributes?: InteractionTypeDefinitionInputLocalizedAttributesMap | undefined;
   /** Small Image associated with the Property or EntityType. */
-  smallImage?: string;
+  smallImage?: string | undefined;
   /** Medium Image associated with the Property or EntityType. */
-  mediumImage?: string;
+  mediumImage?: string | undefined;
   /** Large Image associated with the Property or EntityType. */
-  largeImage?: string;
+  largeImage?: string | undefined;
   /** The api entity set name. This becomes the odata entity set name for the entity Type being referred in this object. */
-  apiEntitySetName?: string;
+  apiEntitySetName?: string | undefined;
   /** Type of entity. */
-  entityType?: InteractionTypeDefinitionInputEntityType | (string & {});
+  entityType?: InteractionTypeDefinitionInputEntityType | (string & {}) | undefined;
   /** The properties of the Profile. */
-  fields?: InteractionTypeDefinitionInputFieldsList;
+  fields?: InteractionTypeDefinitionInputFieldsList | undefined;
   /** The instance count. */
-  instancesCount?: number;
+  instancesCount?: number | undefined;
   /** The schema org link. This helps ACI identify and suggest semantic models. */
-  schemaItemTypeLink?: string;
+  schemaItemTypeLink?: string | undefined;
   /** The timestamp property name. Represents the time when the interaction or profile update happened. */
-  timestampFieldName?: string;
+  timestampFieldName?: string | undefined;
   /** The name of the entity. */
-  typeName?: string;
+  typeName?: string | undefined;
   /** The id property names. Properties which uniquely identify an interaction instance. */
-  idPropertyNames?: InteractionTypeDefinitionInputIdPropertyNamesList;
+  idPropertyNames?: InteractionTypeDefinitionInputIdPropertyNamesList | undefined;
   /** Profiles that participated in the interaction. */
-  participantProfiles?: InteractionTypeDefinitionInputParticipantProfilesList;
+  participantProfiles?: InteractionTypeDefinitionInputParticipantProfilesList | undefined;
   /** The primary participant property name for an interaction ,This is used to logically represent the agent of the interaction, Specify the participant name here from ParticipantName. */
-  primaryParticipantProfilePropertyName?: string;
+  primaryParticipantProfilePropertyName?: string | undefined;
   /** Default data source is specifically used in cases where data source is not specified in an instance. */
-  defaultDataSource?: DataSourceInput;
+  defaultDataSource?: DataSourceInput | undefined;
   /** An interaction can be tagged as an activity only during create. This enables the interaction to be editable and can enable merging of properties from multiple data sources based on precedence, which is defined at a link level. */
-  isActivity?: boolean;
+  isActivity?: boolean | undefined;
 }
 export interface InteractionsCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1817,16 +1821,16 @@ export interface InteractionsCreateOrUpdateRequest {
   hubName: string;
   /** The name of the interaction. */
   interactionName: string;
-  properties?: InteractionTypeDefinitionInput;
+  properties?: InteractionTypeDefinitionInput | undefined;
 }
 export interface InteractionsCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: InteractionTypeDefinition;
+  type?: string | undefined;
+  properties?: InteractionTypeDefinition | undefined;
 }
 export interface InteractionsSuggestRelationshipLinksRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1847,24 +1851,26 @@ export type RelationshipsLookupRelatedProfilePropertyReferencesList =
 /** The definition of suggested relationship for the type. */
 export interface RelationshipsLookup {
   /** The relationship profile. */
-  profileName?: string;
+  profileName?: string | undefined;
   /** The property references for the profile type. */
-  profilePropertyReferences?: RelationshipsLookupProfilePropertyReferencesList;
+  profilePropertyReferences?: RelationshipsLookupProfilePropertyReferencesList | undefined;
   /** The related profile. */
-  relatedProfileName?: string;
+  relatedProfileName?: string | undefined;
   /** The property references for the related profile type. */
-  relatedProfilePropertyReferences?: RelationshipsLookupRelatedProfilePropertyReferencesList;
+  relatedProfilePropertyReferences?:
+    | RelationshipsLookupRelatedProfilePropertyReferencesList
+    | undefined;
   /** The name of existing Relationship. */
-  existingRelationshipName?: string;
+  existingRelationshipName?: string | undefined;
 }
 /** Suggested relationships for the type. */
 export type SuggestRelationshipLinksResponseSuggestedRelationshipsList = Array<RelationshipsLookup>;
 /** The response of suggest relationship links operation. */
 export interface SuggestRelationshipLinksResponse {
   /** The interaction name. */
-  interactionName?: string;
+  interactionName?: string | undefined;
   /** Suggested relationships for the type. */
-  suggestedRelationships?: SuggestRelationshipLinksResponseSuggestedRelationshipsList;
+  suggestedRelationships?: SuggestRelationshipLinksResponseSuggestedRelationshipsList | undefined;
 }
 /** The mapping entity type. */
 export type KpiDefinitionInputEntityType = "None" | "Profile" | "Interaction" | "Relationship";
@@ -1897,29 +1903,29 @@ export interface KpiDefinitionInput {
   /** The mapping entity name. */
   entityTypeName: string;
   /** Localized display name for the KPI. */
-  displayName?: KpiDefinitionInputDisplayNameMap;
+  displayName?: KpiDefinitionInputDisplayNameMap | undefined;
   /** Localized description for the KPI. */
-  description?: KpiDefinitionInputDescriptionMap;
+  description?: KpiDefinitionInputDescriptionMap | undefined;
   /** The calculation window. */
   calculationWindow: KpiDefinitionInputCalculationWindow | (string & {});
   /** Name of calculation window field. */
-  calculationWindowFieldName?: string;
+  calculationWindowFieldName?: string | undefined;
   /** The computation function for the KPI. */
   function: KpiDefinitionInputFunction | (string & {});
   /** The computation expression for the KPI. */
   expression: string;
   /** The unit of measurement for the KPI. */
-  unit?: string;
+  unit?: string | undefined;
   /** The filter expression for the KPI. */
-  filter?: string;
+  filter?: string | undefined;
   /** the group by properties for the KPI. */
-  groupBy?: KpiDefinitionInputGroupByList;
+  groupBy?: KpiDefinitionInputGroupByList | undefined;
   /** The KPI thresholds. */
-  thresHolds?: KpiThresholds;
+  thresHolds?: KpiThresholds | undefined;
   /** The aliases. */
-  aliases?: KpiDefinitionInputAliasesList;
+  aliases?: KpiDefinitionInputAliasesList | undefined;
   /** The KPI extracts. */
-  extracts?: KpiDefinitionInputExtractsList;
+  extracts?: KpiDefinitionInputExtractsList | undefined;
 }
 export interface KpiCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1930,16 +1936,16 @@ export interface KpiCreateOrUpdateRequest {
   hubName: string;
   /** The name of the KPI. */
   kpiName: string;
-  properties?: KpiDefinitionInput;
+  properties?: KpiDefinitionInput | undefined;
 }
 export interface KpiCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: KpiDefinition;
+  type?: string | undefined;
+  properties?: KpiDefinition | undefined;
 }
 export interface KpiReprocessRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1986,17 +1992,17 @@ export interface LinkDefinitionInput {
   /** Name of the target Entity Type. */
   targetEntityTypeName: string;
   /** Localized display name for the Link. */
-  displayName?: LinkDefinitionInputDisplayNameMap;
+  displayName?: LinkDefinitionInputDisplayNameMap | undefined;
   /** Localized descriptions for the Link. */
-  description?: LinkDefinitionInputDescriptionMap;
+  description?: LinkDefinitionInputDescriptionMap | undefined;
   /** The set of properties mappings between the source and target Types. */
-  mappings?: LinkDefinitionInputMappingsList;
+  mappings?: LinkDefinitionInputMappingsList | undefined;
   /** The properties that represent the participating profile. */
   participantPropertyReferences: LinkDefinitionInputParticipantPropertyReferencesList;
   /** Indicating whether the link is reference only link. This flag is ignored if the Mappings are defined. If the mappings are not defined and it is set to true, links processing will not create or update profiles. */
-  referenceOnly?: boolean;
+  referenceOnly?: boolean | undefined;
   /** Determines whether this link is supposed to create or delete instances if Link is NOT Reference Only. */
-  operationType?: LinkDefinitionInputOperationType | (string & {});
+  operationType?: LinkDefinitionInputOperationType | (string & {}) | undefined;
 }
 export interface LinksCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2007,16 +2013,16 @@ export interface LinksCreateOrUpdateRequest {
   hubName: string;
   /** The name of the link. */
   linkName: string;
-  properties?: LinkDefinitionInput;
+  properties?: LinkDefinitionInput | undefined;
 }
 export interface LinksCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: LinkDefinition;
+  type?: string | undefined;
+  properties?: LinkDefinition | undefined;
 }
 export interface ListAuthorizationPolicyByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2029,21 +2035,21 @@ export interface ListAuthorizationPolicyByHubRequest {
 /** The authorization policy resource format. */
 export interface AuthorizationPolicyResourceFormat {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: AuthorizationPolicy;
+  type?: string | undefined;
+  properties?: AuthorizationPolicy | undefined;
 }
 /** Results of the list operation. */
 export type AuthorizationPolicyListResultValueList = Array<AuthorizationPolicyResourceFormat>;
 /** The response of list authorization policy operation. */
 export interface AuthorizationPolicyListResult {
   /** Results of the list operation. */
-  value?: AuthorizationPolicyListResultValueList;
+  value?: AuthorizationPolicyListResultValueList | undefined;
   /** Link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConnectorByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2056,21 +2062,21 @@ export interface ListConnectorByHubRequest {
 /** The connector resource format. */
 export interface ConnectorResourceFormat {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: Connector;
+  type?: string | undefined;
+  properties?: Connector | undefined;
 }
 /** Results of the list operation. */
 export type ConnectorListResultValueList = Array<ConnectorResourceFormat>;
 /** The response of list connector operation. */
 export interface ConnectorListResult {
   /** Results of the list operation. */
-  value?: ConnectorListResultValueList;
+  value?: ConnectorListResultValueList | undefined;
   /** Link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConnectorMappingByConnectorRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2085,21 +2091,21 @@ export interface ListConnectorMappingByConnectorRequest {
 /** The connector mapping resource format. */
 export interface ConnectorMappingResourceFormat {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: ConnectorMapping;
+  type?: string | undefined;
+  properties?: ConnectorMapping | undefined;
 }
 /** Results of the list operation. */
 export type ConnectorMappingListResultValueList = Array<ConnectorMappingResourceFormat>;
 /** The response of list connector mapping operation. */
 export interface ConnectorMappingListResult {
   /** Results of the list operation. */
-  value?: ConnectorMappingListResultValueList;
+  value?: ConnectorMappingListResultValueList | undefined;
   /** Link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHubByResourceGroupRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2112,25 +2118,25 @@ export type HubTagsMap = { [key: string]: string | undefined };
 /** Hub resource. */
 export interface Hub {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: HubTagsMap;
-  properties?: HubPropertiesFormat;
+  tags?: HubTagsMap | undefined;
+  properties?: HubPropertiesFormat | undefined;
 }
 /** Results of the list operation. */
 export type HubListResultValueList = Array<Hub>;
 /** Response of list hub operation. */
 export interface HubListResult {
   /** Results of the list operation. */
-  value?: HubListResultValueList;
+  value?: HubListResultValueList | undefined;
   /** Link for next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHubsRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2144,26 +2150,26 @@ export interface ListInteractionByHubRequest {
   /** The name of the hub. */
   hubName: string;
   /** Locale of interaction to retrieve, default is en-us. */
-  locale_code?: string;
+  locale_code?: string | undefined;
 }
 /** The interaction resource format. */
 export interface InteractionResourceFormat {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: InteractionTypeDefinition;
+  type?: string | undefined;
+  properties?: InteractionTypeDefinition | undefined;
 }
 /** Results of the list operation. */
 export type InteractionListResultValueList = Array<InteractionResourceFormat>;
 /** The response of list interaction operation. */
 export interface InteractionListResult {
   /** Results of the list operation. */
-  value?: InteractionListResultValueList;
+  value?: InteractionListResultValueList | undefined;
   /** Link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListKpiByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2176,21 +2182,21 @@ export interface ListKpiByHubRequest {
 /** The KPI resource format. */
 export interface KpiResourceFormat {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: KpiDefinition;
+  type?: string | undefined;
+  properties?: KpiDefinition | undefined;
 }
 /** Results of the list operation. */
 export type KpiListResultValueList = Array<KpiResourceFormat>;
 /** The response of list KPI operation. */
 export interface KpiListResult {
   /** Results of the list operation. */
-  value?: KpiListResultValueList;
+  value?: KpiListResultValueList | undefined;
   /** Link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLinkByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2203,47 +2209,47 @@ export interface ListLinkByHubRequest {
 /** The link resource format. */
 export interface LinkResourceFormat {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: LinkDefinition;
+  type?: string | undefined;
+  properties?: LinkDefinition | undefined;
 }
 /** Results of the list operation. */
 export type LinkListResultValueList = Array<LinkResourceFormat>;
 /** The response of list link operation. */
 export interface LinkListResult {
   /** Results of the list operation. */
-  value?: LinkListResultValueList;
+  value?: LinkListResultValueList | undefined;
   /** Link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.CustomerInsights */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed: Invoice, etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type: Read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
 }
 /** A Customer Insights REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of Customer Insights operations supported by the Microsoft.CustomerInsights resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list Customer Insights operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of Customer Insights operations supported by the Microsoft.CustomerInsights resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPredictionByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2256,21 +2262,21 @@ export interface ListPredictionByHubRequest {
 /** The prediction resource format. */
 export interface PredictionResourceFormat {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: Prediction;
+  type?: string | undefined;
+  properties?: Prediction | undefined;
 }
 /** Results of the list operation. */
 export type PredictionListResultValueList = Array<PredictionResourceFormat>;
 /** The response of list predictions operation. */
 export interface PredictionListResult {
   /** Results of the list operation. */
-  value?: PredictionListResultValueList;
+  value?: PredictionListResultValueList | undefined;
   /** Link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProfileByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2280,26 +2286,26 @@ export interface ListProfileByHubRequest {
   /** The name of the hub. */
   hubName: string;
   /** Locale of profile to retrieve, default is en-us. */
-  locale_code?: string;
+  locale_code?: string | undefined;
 }
 /** The profile resource format. */
 export interface ProfileResourceFormat {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: ProfileTypeDefinition;
+  type?: string | undefined;
+  properties?: ProfileTypeDefinition | undefined;
 }
 /** Results of the list operation. */
 export type ProfileListResultValueList = Array<ProfileResourceFormat>;
 /** The response of list profile operation. */
 export interface ProfileListResult {
   /** Results of the list operation. */
-  value?: ProfileListResultValueList;
+  value?: ProfileListResultValueList | undefined;
   /** Link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRelationshipByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2312,21 +2318,21 @@ export interface ListRelationshipByHubRequest {
 /** The relationship resource format. */
 export interface RelationshipResourceFormat {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: RelationshipDefinition;
+  type?: string | undefined;
+  properties?: RelationshipDefinition | undefined;
 }
 /** Results of the list operation. */
 export type RelationshipListResultValueList = Array<RelationshipResourceFormat>;
 /** The response of list relationship operation. */
 export interface RelationshipListResult {
   /** Results of the list operation. */
-  value?: RelationshipListResultValueList;
+  value?: RelationshipListResultValueList | undefined;
   /** Link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRelationshipLinkByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2339,21 +2345,21 @@ export interface ListRelationshipLinkByHubRequest {
 /** The relationship link resource format. */
 export interface RelationshipLinkResourceFormat {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: RelationshipLinkDefinition;
+  type?: string | undefined;
+  properties?: RelationshipLinkDefinition | undefined;
 }
 /** Results of the list operation. */
 export type RelationshipLinkListResultValueList = Array<RelationshipLinkResourceFormat>;
 /** The response of list relationship link operation. */
 export interface RelationshipLinkListResult {
   /** Results of the list operation. */
-  value?: RelationshipLinkListResultValueList;
+  value?: RelationshipLinkListResultValueList | undefined;
   /** Link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRoleAssignmentByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2366,21 +2372,21 @@ export interface ListRoleAssignmentByHubRequest {
 /** The Role Assignment resource format. */
 export interface RoleAssignmentResourceFormat {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: RoleAssignment;
+  type?: string | undefined;
+  properties?: RoleAssignment | undefined;
 }
 /** Results of the list operation. */
 export type RoleAssignmentListResultValueList = Array<RoleAssignmentResourceFormat>;
 /** The response of list role assignment operation. */
 export interface RoleAssignmentListResult {
   /** Results of the list operation. */
-  value?: RoleAssignmentListResultValueList;
+  value?: RoleAssignmentListResultValueList | undefined;
   /** Link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRoleByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2393,28 +2399,28 @@ export interface ListRoleByHubRequest {
 /** The Role definition. */
 export interface Role {
   /** The role name. */
-  roleName?: string;
+  roleName?: string | undefined;
   /** The description of the role. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The role resource format. */
 export interface RoleResourceFormat {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: Role;
+  type?: string | undefined;
+  properties?: Role | undefined;
 }
 /** Results of the list operation. */
 export type RoleListResultValueList = Array<RoleResourceFormat>;
 /** The response of list role assignment operation. */
 export interface RoleListResult {
   /** Results of the list operation. */
-  value?: RoleListResultValueList;
+  value?: RoleListResultValueList | undefined;
   /** Link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListViewByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2429,21 +2435,21 @@ export interface ListViewByHubRequest {
 /** The view resource format. */
 export interface ViewResourceFormat {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: View;
+  type?: string | undefined;
+  properties?: View | undefined;
 }
 /** Results of the list operation. */
 export type ViewListResultValueList = Array<ViewResourceFormat>;
 /** The response of list view operation. */
 export interface ViewListResult {
   /** Results of the list operation. */
-  value?: ViewListResultValueList;
+  value?: ViewListResultValueList | undefined;
   /** Link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWidgetTypeByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2456,21 +2462,21 @@ export interface ListWidgetTypeByHubRequest {
 /** The WidgetTypeResourceFormat */
 export interface WidgetTypeResourceFormat {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: WidgetType;
+  type?: string | undefined;
+  properties?: WidgetType | undefined;
 }
 /** Results of the list operation. */
 export type WidgetTypeListResultValueList = Array<WidgetTypeResourceFormat>;
 /** The response of list widget type operation. */
 export interface WidgetTypeListResult {
   /** Results of the list operation. */
-  value?: WidgetTypeListResultValueList;
+  value?: WidgetTypeListResultValueList | undefined;
   /** Link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Description of the prediction. */
 export type PredictionInputDescriptionMap = { [key: string]: string | undefined };
@@ -2491,15 +2497,15 @@ export type PredictionInputGradesList = Array<PredictionGradesItem>;
 /** The prediction definition. */
 export interface PredictionInput {
   /** Description of the prediction. */
-  description?: PredictionInputDescriptionMap;
+  description?: PredictionInputDescriptionMap | undefined;
   /** Display name of the prediction. */
-  displayName?: PredictionInputDisplayNameMap;
+  displayName?: PredictionInputDisplayNameMap | undefined;
   /** Interaction types involved in the prediction. */
-  involvedInteractionTypes?: PredictionInputInvolvedInteractionTypesList;
+  involvedInteractionTypes?: PredictionInputInvolvedInteractionTypesList | undefined;
   /** KPI types involved in the prediction. */
-  involvedKpiTypes?: PredictionInputInvolvedKpiTypesList;
+  involvedKpiTypes?: PredictionInputInvolvedKpiTypesList | undefined;
   /** Relationships involved in the prediction. */
-  involvedRelationships?: PredictionInputInvolvedRelationshipsList;
+  involvedRelationships?: PredictionInputInvolvedRelationshipsList | undefined;
   /** Negative outcome expression. */
   negativeOutcomeExpression: string;
   /** Positive outcome expression. */
@@ -2507,7 +2513,7 @@ export interface PredictionInput {
   /** Primary profile type. */
   primaryProfileType: string;
   /** Name of the prediction. */
-  predictionName?: string;
+  predictionName?: string | undefined;
   /** Scope expression. */
   scopeExpression: string;
   /** Whether do auto analyze. */
@@ -2517,7 +2523,7 @@ export interface PredictionInput {
   /** Score label. */
   scoreLabel: string;
   /** The prediction grades. */
-  grades?: PredictionInputGradesList;
+  grades?: PredictionInputGradesList | undefined;
 }
 export interface PredictionsCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2528,16 +2534,16 @@ export interface PredictionsCreateOrUpdateRequest {
   hubName: string;
   /** The name of the Prediction. */
   predictionName: string;
-  properties?: PredictionInput;
+  properties?: PredictionInput | undefined;
 }
 export interface PredictionsCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: Prediction;
+  type?: string | undefined;
+  properties?: Prediction | undefined;
 }
 /** Prediction model life cycle. When prediction is in PendingModelConfirmation status, it is allowed to update the status to PendingFeaturing or Active through API. */
 export type PredictionsModelStatusRequestStatus =
@@ -2601,35 +2607,35 @@ export type ProfileTypeDefinitionInputStrongIdsList = Array<StrongId>;
 /** The profile type definition. */
 export interface ProfileTypeDefinitionInput {
   /** The attributes for the Type. */
-  attributes?: ProfileTypeDefinitionInputAttributesMap;
+  attributes?: ProfileTypeDefinitionInputAttributesMap | undefined;
   /** Localized descriptions for the property. */
-  description?: ProfileTypeDefinitionInputDescriptionMap;
+  description?: ProfileTypeDefinitionInputDescriptionMap | undefined;
   /** Localized display names for the property. */
-  displayName?: ProfileTypeDefinitionInputDisplayNameMap;
+  displayName?: ProfileTypeDefinitionInputDisplayNameMap | undefined;
   /** Any custom localized attributes for the Type. */
-  localizedAttributes?: ProfileTypeDefinitionInputLocalizedAttributesMap;
+  localizedAttributes?: ProfileTypeDefinitionInputLocalizedAttributesMap | undefined;
   /** Small Image associated with the Property or EntityType. */
-  smallImage?: string;
+  smallImage?: string | undefined;
   /** Medium Image associated with the Property or EntityType. */
-  mediumImage?: string;
+  mediumImage?: string | undefined;
   /** Large Image associated with the Property or EntityType. */
-  largeImage?: string;
+  largeImage?: string | undefined;
   /** The api entity set name. This becomes the odata entity set name for the entity Type being referred in this object. */
-  apiEntitySetName?: string;
+  apiEntitySetName?: string | undefined;
   /** Type of entity. */
-  entityType?: ProfileTypeDefinitionInputEntityType | (string & {});
+  entityType?: ProfileTypeDefinitionInputEntityType | (string & {}) | undefined;
   /** The properties of the Profile. */
-  fields?: ProfileTypeDefinitionInputFieldsList;
+  fields?: ProfileTypeDefinitionInputFieldsList | undefined;
   /** The instance count. */
-  instancesCount?: number;
+  instancesCount?: number | undefined;
   /** The schema org link. This helps ACI identify and suggest semantic models. */
-  schemaItemTypeLink?: string;
+  schemaItemTypeLink?: string | undefined;
   /** The timestamp property name. Represents the time when the interaction or profile update happened. */
-  timestampFieldName?: string;
+  timestampFieldName?: string | undefined;
   /** The name of the entity. */
-  typeName?: string;
+  typeName?: string | undefined;
   /** The strong IDs. */
-  strongIds?: ProfileTypeDefinitionInputStrongIdsList;
+  strongIds?: ProfileTypeDefinitionInputStrongIdsList | undefined;
 }
 export interface ProfilesCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2640,16 +2646,16 @@ export interface ProfilesCreateOrUpdateRequest {
   hubName: string;
   /** The name of the profile. */
   profileName: string;
-  properties?: ProfileTypeDefinitionInput;
+  properties?: ProfileTypeDefinitionInput | undefined;
 }
 export interface ProfilesCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: ProfileTypeDefinition;
+  type?: string | undefined;
+  properties?: ProfileTypeDefinition | undefined;
 }
 export interface RegenerateAuthorizationPolicyPrimaryKeyRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2686,13 +2692,13 @@ export type RelationshipLinkDefinitionInputRelatedProfilePropertyReferencesList 
 /** The definition of relationship link. */
 export interface RelationshipLinkDefinitionInput {
   /** Localized display name for the Relationship Link. */
-  displayName?: RelationshipLinkDefinitionInputDisplayNameMap;
+  displayName?: RelationshipLinkDefinitionInputDisplayNameMap | undefined;
   /** Localized descriptions for the Relationship Link. */
-  description?: RelationshipLinkDefinitionInputDescriptionMap;
+  description?: RelationshipLinkDefinitionInputDescriptionMap | undefined;
   /** The InteractionType associated with the Relationship Link. */
   interactionType: string;
   /** The mappings between Interaction and Relationship fields. */
-  mappings?: RelationshipLinkDefinitionInputMappingsList;
+  mappings?: RelationshipLinkDefinitionInputMappingsList | undefined;
   /** The property references for the Profile of the Relationship. */
   profilePropertyReferences: RelationshipLinkDefinitionInputProfilePropertyReferencesList;
   /** The property references for the Related Profile of the Relationship. */
@@ -2709,16 +2715,16 @@ export interface RelationshipLinksCreateOrUpdateRequest {
   hubName: string;
   /** The name of the relationship link. */
   relationshipLinkName: string;
-  properties?: RelationshipLinkDefinitionInput;
+  properties?: RelationshipLinkDefinitionInput | undefined;
 }
 export interface RelationshipLinksCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: RelationshipLinkDefinition;
+  type?: string | undefined;
+  properties?: RelationshipLinkDefinition | undefined;
 }
 /** The Relationship Cardinality. */
 export type RelationshipDefinitionInputCardinality = "OneToOne" | "OneToMany" | "ManyToMany";
@@ -2733,17 +2739,17 @@ export type RelationshipDefinitionInputLookupMappingsList = Array<RelationshipTy
 /** The definition of Relationship. */
 export interface RelationshipDefinitionInput {
   /** The Relationship Cardinality. */
-  cardinality?: RelationshipDefinitionInputCardinality | (string & {});
+  cardinality?: RelationshipDefinitionInputCardinality | (string & {}) | undefined;
   /** Localized display name for the Relationship. */
-  displayName?: RelationshipDefinitionInputDisplayNameMap;
+  displayName?: RelationshipDefinitionInputDisplayNameMap | undefined;
   /** Localized descriptions for the Relationship. */
-  description?: RelationshipDefinitionInputDescriptionMap;
+  description?: RelationshipDefinitionInputDescriptionMap | undefined;
   /** The expiry date time in UTC. */
-  expiryDateTimeUtc?: string;
+  expiryDateTimeUtc?: string | undefined;
   /** The properties of the Relationship. */
-  fields?: RelationshipDefinitionInputFieldsList;
+  fields?: RelationshipDefinitionInputFieldsList | undefined;
   /** Optional property to be used to map fields in profile to their strong ids in related profile. */
-  lookupMappings?: RelationshipDefinitionInputLookupMappingsList;
+  lookupMappings?: RelationshipDefinitionInputLookupMappingsList | undefined;
   /** Profile type. */
   profileType: string;
   /** Related profile being referenced. */
@@ -2758,16 +2764,16 @@ export interface RelationshipsCreateOrUpdateRequest {
   hubName: string;
   /** The name of the Relationship. */
   relationshipName: string;
-  properties?: RelationshipDefinitionInput;
+  properties?: RelationshipDefinitionInput | undefined;
 }
 export interface RelationshipsCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: RelationshipDefinition;
+  type?: string | undefined;
+  properties?: RelationshipDefinition | undefined;
 }
 /** Localized display names for the metadata. */
 export type RoleAssignmentInputDisplayNameMap = { [key: string]: string | undefined };
@@ -2786,39 +2792,39 @@ export type RoleAssignmentInputPrincipalsList = Array<AssignmentPrincipal>;
 /** The Role Assignment definition. */
 export interface RoleAssignmentInput {
   /** Localized display names for the metadata. */
-  displayName?: RoleAssignmentInputDisplayNameMap;
+  displayName?: RoleAssignmentInputDisplayNameMap | undefined;
   /** Localized description for the metadata. */
-  description?: RoleAssignmentInputDescriptionMap;
+  description?: RoleAssignmentInputDescriptionMap | undefined;
   /** Type of roles. */
   role: RoleAssignmentInputRole | (string & {});
   /** The principals being assigned to. */
   principals: RoleAssignmentInputPrincipalsList;
   /** Profiles set for the assignment. */
-  profiles?: ResourceSetDescription;
+  profiles?: ResourceSetDescription | undefined;
   /** Interactions set for the assignment. */
-  interactions?: ResourceSetDescription;
+  interactions?: ResourceSetDescription | undefined;
   /** Links set for the assignment. */
-  links?: ResourceSetDescription;
+  links?: ResourceSetDescription | undefined;
   /** Kpis set for the assignment. */
-  kpis?: ResourceSetDescription;
+  kpis?: ResourceSetDescription | undefined;
   /** Sas Policies set for the assignment. */
-  sasPolicies?: ResourceSetDescription;
+  sasPolicies?: ResourceSetDescription | undefined;
   /** Connectors set for the assignment. */
-  connectors?: ResourceSetDescription;
+  connectors?: ResourceSetDescription | undefined;
   /** Views set for the assignment. */
-  views?: ResourceSetDescription;
+  views?: ResourceSetDescription | undefined;
   /** The Role assignments set for the relationship links. */
-  relationshipLinks?: ResourceSetDescription;
+  relationshipLinks?: ResourceSetDescription | undefined;
   /** The Role assignments set for the relationships. */
-  relationships?: ResourceSetDescription;
+  relationships?: ResourceSetDescription | undefined;
   /** Widget types set for the assignment. */
-  widgetTypes?: ResourceSetDescription;
+  widgetTypes?: ResourceSetDescription | undefined;
   /** The Role assignments set for the assignment. */
-  roleAssignments?: ResourceSetDescription;
+  roleAssignments?: ResourceSetDescription | undefined;
   /** Widget types set for the assignment. */
-  conflationPolicies?: ResourceSetDescription;
+  conflationPolicies?: ResourceSetDescription | undefined;
   /** The Role assignments set for the assignment. */
-  segments?: ResourceSetDescription;
+  segments?: ResourceSetDescription | undefined;
 }
 export interface RoleAssignmentsCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2829,16 +2835,16 @@ export interface RoleAssignmentsCreateOrUpdateRequest {
   hubName: string;
   /** The assignment name */
   assignmentName: string;
-  properties?: RoleAssignmentInput;
+  properties?: RoleAssignmentInput | undefined;
 }
 export interface RoleAssignmentsCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: RoleAssignment;
+  type?: string | undefined;
+  properties?: RoleAssignment | undefined;
 }
 /** Resource tags. */
 export type UpdateHubRequestTagsMap = { [key: string]: string | undefined };
@@ -2850,34 +2856,34 @@ export interface UpdateHubRequest {
   /** The name of the Hub. */
   hubName: string;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateHubRequestTagsMap;
-  properties?: HubPropertiesFormatInput;
+  tags?: UpdateHubRequestTagsMap | undefined;
+  properties?: HubPropertiesFormatInput | undefined;
 }
 /** Resource tags. */
 export type UpdateHubResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateHubResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateHubResponseTagsMap;
-  properties?: HubPropertiesFormat;
+  tags?: UpdateHubResponseTagsMap | undefined;
+  properties?: HubPropertiesFormat | undefined;
 }
 /** Localized display name for the view. */
 export type ViewInputDisplayNameMap = { [key: string]: string | undefined };
 /** The view in Customer 360 web application. */
 export interface ViewInput {
   /** the user ID. */
-  userId?: string;
+  userId?: string | undefined;
   /** Localized display name for the view. */
-  displayName?: ViewInputDisplayNameMap;
+  displayName?: ViewInputDisplayNameMap | undefined;
   /** View definition. */
   definition: string;
 }
@@ -2890,16 +2896,16 @@ export interface ViewsCreateOrUpdateRequest {
   hubName: string;
   /** The name of the view. */
   viewName: string;
-  properties?: ViewInput;
+  properties?: ViewInput | undefined;
 }
 export interface ViewsCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: View;
+  type?: string | undefined;
+  properties?: View | undefined;
 }
 export type AuthorizationPoliciesCreateOrUpdateError = AzureOpError;
 /** Creates an authorization policy or updates an existing authorization policy. */

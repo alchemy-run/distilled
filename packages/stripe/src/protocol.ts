@@ -1,5 +1,4 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   ConfigError,
   HTTP_STATUS_MAP,
@@ -25,14 +24,9 @@ import {
   matchTypedError,
   nameOf,
 } from "@distilled.cloud/core/protocol-http";
-import {
-  hasSensitive,
-  hasSensitiveMember,
-  unwrapRedactedDeep,
-  wrapSensitive,
-} from "@distilled.cloud/core/protocol-rest";
-import { checkResponse, withholdActual } from "@distilled.cloud/core/response-validation";
+import { checkSuccess, unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * StripeProtocol -- hand-written.
@@ -185,7 +179,8 @@ export type StripeOpError =
   | CoreDefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Stripe operation. */
 export type StripeOpContext = Credentials | HttpClient.HttpClient;
@@ -304,12 +299,12 @@ interface RequestPlan {
 }
 
 const requestPlans = /*@__PURE__*/ new WeakMap<AST.AST, RequestPlan>();
-const requestPlanFor = (inputAst: AST.AST): RequestPlan => {
+const requestPlanFor = (inputAst: AST.AST): RequestPlan | SdkError => {
   let plan = requestPlans.get(inputAst);
   if (plan !== undefined) return plan;
   const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
   if (!http) {
-    throw new Error("operation input is missing the Http() trait");
+    return new SdkError({ message: "operation input is missing the Http() trait" });
   }
   const members = getProps(inputAst).map((prop): MemberPlan => {
     const key = String(prop.name);
@@ -353,8 +348,10 @@ const requestFor = (
   options: StripeRequestOptions | undefined,
   input: unknown,
   inputAst: AST.AST,
-): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> => {
-  const { http, members, known } = requestPlanFor(inputAst);
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput | SdkError> => {
+  const plan = requestPlanFor(inputAst);
+  if (plan instanceof SdkError) return Effect.fail(plan);
+  const { http, members, known } = plan;
 
   const baseHeaders: Record<string, string> = {
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
@@ -427,12 +424,6 @@ const requestFor = (
 
   const qs = query === undefined ? "" : query.toString();
   const url = qs ? `${creds.apiBaseUrl}${uri}?${qs}` : `${creds.apiBaseUrl}${uri}`;
-  if (debugHttp()) {
-    console.error(
-      `[distilled] ${http.method} ${url}` +
-        (bodyKeys && !bodyless ? ` body=${JSON.stringify(body).slice(0, 400)}` : ""),
-    );
-  }
 
   const request = makeRequest(http.method, url, headers);
   if (bodyless || bodyKeys === 0) return Effect.succeed(request);
@@ -541,7 +532,7 @@ const matchStripeError = (
     case "idempotency_error":
       return new IdempotencyError(common);
     case "invalid_request_error":
-      return new InvalidRequestError({ ...common, param: str(err.param) });
+      return new InvalidRequestError({ ...common, param: str(err.param), status });
     case "api_error":
       return new ApiError({ ...common, param: str(err.param) });
   }
@@ -598,9 +589,6 @@ const decodeResponse = (
     onSuccess: (read): Effect.Effect<unknown> => {
       // Read as text and parse tolerantly -- error pages can be non-JSON.
       const text = read ?? "";
-      if (debugHttp()) {
-        console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-      }
       let json: unknown;
       let nonJson = false;
       if (text.trim().length > 0) {
@@ -635,25 +623,16 @@ const decodeResponse = (
 
       // 2xx: the response body IS the payload (no envelope). Wire->TS key
       // mapping is schema-driven; sensitive members come back Redacted.
-      // Strict mode checks the mapped body against the output schema first.
-      // For an output with sensitive members, a non-JSON body fails in every
-      // mode and parse errors withhold the body.
-      const withholdBody = hasSensitiveMember(outputAst);
-      if (nonJson && withholdBody) {
-        return fail(new StripeParseError({ body: "[REDACTED]", cause: "Invalid JSON response" }));
-      }
+      // Strict mode checks the mapped body against the output schema first,
+      // and parse errors withhold a body that can hold a secret (core
+      // `checkSuccess`).
       const body: unknown = nonJson ? text : (json ?? {});
-      const mapped = mapsVerbatim(outputAst, "decode") ? body : mapKeys(outputAst, body, "decode");
-      const cause = checkResponse(context, outputAst, mapped);
-      if (cause !== undefined) {
-        return fail(
-          new StripeParseError({
-            body: withholdBody ? "[REDACTED]" : nonJson ? text : json,
-            cause: withholdBody ? withholdActual(cause) : cause,
-          }),
-        );
-      }
-      return Effect.succeed(hasSensitive(outputAst) ? wrapSensitive(outputAst, mapped) : mapped);
+      const checked = checkSuccess(context, outputAst, {
+        value: mapsVerbatim(outputAst, "decode") ? body : mapKeys(outputAst, body, "decode"),
+        body: nonJson ? text : json,
+        nonJson,
+      });
+      return checked.ok ? Effect.succeed(checked.value) : fail(new StripeParseError(checked.error));
     },
   });
 

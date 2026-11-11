@@ -28,13 +28,13 @@ const TELEMETRY = {
 export type AddDistributionsPermissionsRequestUserIdsList = Array<string>;
 export interface AddDistributionsPermissionsRequest {
   /** The encoded ID of the function */
-  function_id?: string;
+  function_id?: string | undefined;
   /** The callback ID defined in the function's definition file */
-  function_callback_id?: string;
+  function_callback_id?: string | undefined;
   /** The encoded ID of the app */
-  function_app_id?: string;
+  function_app_id?: string | undefined;
   /** List of encoded user IDs */
-  user_ids?: AddDistributionsPermissionsRequestUserIdsList;
+  user_ids?: AddDistributionsPermissionsRequestUserIdsList | undefined;
 }
 export type AddDistributionsPermissionsResponsePermissionType =
   | "everyone"
@@ -42,9 +42,9 @@ export type AddDistributionsPermissionsResponsePermissionType =
   | "named_entities"
   | "system";
 export interface AddDistributionsPermissionsResponseUsersItem {
-  user_id?: string;
-  username?: string;
-  email?: string;
+  user_id?: string | undefined;
+  username?: string | undefined;
+  email?: string | undefined;
 }
 export type AddDistributionsPermissionsResponseUsersList =
   Array<AddDistributionsPermissionsResponseUsersItem>;
@@ -52,7 +52,7 @@ export interface AddDistributionsPermissionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   permission_type: AddDistributionsPermissionsResponsePermissionType;
-  users?: AddDistributionsPermissionsResponseUsersList;
+  users?: AddDistributionsPermissionsResponseUsersList | undefined;
 }
 export interface CompleteErrorRequest {
   /** Context identifier that maps to the executed function */
@@ -78,11 +78,11 @@ export interface CompleteSuccessResponse {
 }
 export interface ExportWorkflowsStepsResponseRequest {
   /** The workflow ID, starts with Wf* */
-  workflow_id?: string;
+  workflow_id?: string | undefined;
   /** The workflow encoded ID or workflow reference */
-  workflow?: string;
+  workflow?: string | undefined;
   /** The app tied to the workflow reference. */
-  workflow_app_id?: string;
+  workflow_app_id?: string | undefined;
   /** The ID of the OpenForm step to export. */
   step_id: string;
 }
@@ -92,11 +92,11 @@ export interface ExportWorkflowsStepsResponseResponse {
 }
 export interface ListDistributionsPermissionsRequest {
   /** The encoded ID of the function */
-  function_id?: string;
+  function_id?: string | undefined;
   /** The callback ID defined in the function's definition file */
-  function_callback_id?: string;
+  function_callback_id?: string | undefined;
   /** The encoded ID of the app */
-  function_app_id?: string;
+  function_app_id?: string | undefined;
 }
 export type ListDistributionsPermissionsResponsePermissionType =
   | "everyone"
@@ -115,19 +115,19 @@ export interface ListDistributionsPermissionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   permission_type: ListDistributionsPermissionsResponsePermissionType;
-  users?: ListDistributionsPermissionsResponseUsersList;
+  users?: ListDistributionsPermissionsResponseUsersList | undefined;
   /** List of team IDs allowed with named_entities permission. */
-  team_ids?: ListDistributionsPermissionsResponseTeamIdsList;
+  team_ids?: ListDistributionsPermissionsResponseTeamIdsList | undefined;
   /** List of org IDs allowed with named_entities permission. */
-  org_ids?: ListDistributionsPermissionsResponseOrgIdsList;
+  org_ids?: ListDistributionsPermissionsResponseOrgIdsList | undefined;
 }
 export interface ListWorkflowsStepsRequest {
   /** The workflow ID, starts with Wf* */
-  workflow_id?: string;
+  workflow_id?: string | undefined;
   /** The workflow encoded ID or workflow reference */
-  workflow?: string;
+  workflow?: string | undefined;
   /** The app tied to the workflow reference. */
-  workflow_app_id?: string;
+  workflow_app_id?: string | undefined;
   /** The ID of the function to query */
   function_id: string;
 }
@@ -141,13 +141,13 @@ export interface ListWorkflowsStepsResponse {
 export type RemoveDistributionsPermissionsRequestUserIdsList = Array<string>;
 export interface RemoveDistributionsPermissionsRequest {
   /** The encoded ID of the function */
-  function_id?: string;
+  function_id?: string | undefined;
   /** The callback ID defined in the function's definition file */
-  function_callback_id?: string;
+  function_callback_id?: string | undefined;
   /** The encoded ID of the app. */
-  function_app_id?: string;
+  function_app_id?: string | undefined;
   /** List of encoded user IDs */
-  user_ids?: RemoveDistributionsPermissionsRequestUserIdsList;
+  user_ids?: RemoveDistributionsPermissionsRequestUserIdsList | undefined;
 }
 export type RemoveDistributionsPermissionsResponsePermissionType =
   | "everyone"
@@ -162,7 +162,7 @@ export interface RemoveDistributionsPermissionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   permission_type: RemoveDistributionsPermissionsResponsePermissionType;
-  users?: RemoveDistributionsPermissionsResponseUsersList;
+  users?: RemoveDistributionsPermissionsResponseUsersList | undefined;
 }
 /** The type of permission that defines how the function can be distributed */
 export type SetDistributionsPermissionsRequestPermissionType =
@@ -178,19 +178,19 @@ export type SetDistributionsPermissionsRequestTeamIdsList = Array<string>;
 export type SetDistributionsPermissionsRequestOrgIdsList = Array<string>;
 export interface SetDistributionsPermissionsRequest {
   /** The encoded ID of the function */
-  function_id?: string;
+  function_id?: string | undefined;
   /** The callback ID defined in the function's definition file */
-  function_callback_id?: string;
+  function_callback_id?: string | undefined;
   /** The encoded ID of the app */
-  function_app_id?: string;
+  function_app_id?: string | undefined;
   /** The type of permission that defines how the function can be distributed */
-  permission_type?: SetDistributionsPermissionsRequestPermissionType | (string & {});
+  permission_type?: SetDistributionsPermissionsRequestPermissionType | (string & {}) | undefined;
   /** List of encoded user IDs */
-  user_ids?: SetDistributionsPermissionsRequestUserIdsList;
+  user_ids?: SetDistributionsPermissionsRequestUserIdsList | undefined;
   /** List of team IDs to allow for named_entities permission */
-  team_ids?: SetDistributionsPermissionsRequestTeamIdsList;
+  team_ids?: SetDistributionsPermissionsRequestTeamIdsList | undefined;
   /** List of org IDs to allow for named_entities permission */
-  org_ids?: SetDistributionsPermissionsRequestOrgIdsList;
+  org_ids?: SetDistributionsPermissionsRequestOrgIdsList | undefined;
 }
 export type SetDistributionsPermissionsResponsePermissionType =
   | "everyone"
@@ -209,14 +209,14 @@ export interface SetDistributionsPermissionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   permission_type: SetDistributionsPermissionsResponsePermissionType;
-  users?: SetDistributionsPermissionsResponseUsersList;
+  users?: SetDistributionsPermissionsResponseUsersList | undefined;
   /** List of team IDs allowed with named_entities permission. */
-  team_ids?: SetDistributionsPermissionsResponseTeamIdsList;
+  team_ids?: SetDistributionsPermissionsResponseTeamIdsList | undefined;
   /** List of org IDs allowed with named_entities permission. */
-  org_ids?: SetDistributionsPermissionsResponseOrgIdsList;
+  org_ids?: SetDistributionsPermissionsResponseOrgIdsList | undefined;
 }
 export type AddDistributionsPermissionsError = SlackOpError;
-/** Grant users access to a custom slack function if its permission_type is set to named_entities Required scopes -- configuration: `app_configurations:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `unknown_method` -- This method does not exist. - `access_denied` -- This actor does not have access to the permissions on this resource. - `function_not_found` -- This function does not exist. - `invalid_permission_type` -- This function requires permission_type to be set as named_entities before adding users. - `user_not_found` -- One or more of the named entities was not found. - `app_not_found` -- This app does not exist. See https://docs.slack.dev/reference/methods/functions.distributions.permissions.add */
+/** Grant users access to a custom slack function if its permission_type is set to named_entities Required scopes -- configuration: `app_configurations:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `unknown_method` -- This method does not exist. - `access_denied` -- This actor does not have access to the permissions on this resource. - `function_not_found` -- This function does not exist. - `invalid_permission_type` -- This function requires permission_type to be set as named_entities before adding users. - `user_not_found` -- One or more of the named entities was not found. - `app_not_found` -- This app does not exist. - `app_edit_disabled` -- The app is managed in Salesforce, so access to its functions can't be changed here. See https://docs.slack.dev/reference/methods/functions.distributions.permissions.add */
 export const addDistributionsPermissions: API.OperationMethod<
   AddDistributionsPermissionsRequest,
   AddDistributionsPermissionsResponse,
@@ -335,7 +335,7 @@ export const removeDistributionsPermissions: API.OperationMethod<
 }));
 
 export type SetDistributionsPermissionsError = SlackOpError;
-/** Set the access type of a custom slack function and define the users, team or org ids to be granted access if permission_type is set to named_entities Required scopes -- configuration: `app_configurations:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `unknown_method` -- This method does not exist. - `access_denied` -- This actor does not have access to the permissions on this resource. - `function_not_found` -- This function does not exist. - `invalid_named_entities` -- One or more of the named entities was not found - `invalid_permission_type` -- This function requires permission_type to be set as named_entities before adding users. - `user_not_found` -- One or more of the named entities was not found. - `app_not_found` -- This app does not exist. - `permission_type_required` -- `permission_type` is a required input. See https://docs.slack.dev/reference/methods/functions.distributions.permissions.set */
+/** Set the access type of a custom slack function and define the users, team or org ids to be granted access if permission_type is set to named_entities Required scopes -- configuration: `app_configurations:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `unknown_method` -- This method does not exist. - `access_denied` -- This actor does not have access to the permissions on this resource. - `function_not_found` -- This function does not exist. - `invalid_named_entities` -- One or more of the named entities was not found - `invalid_permission_type` -- This function requires permission_type to be set as named_entities before adding users. - `user_not_found` -- One or more of the named entities was not found. - `app_not_found` -- This app does not exist. - `permission_type_required` -- `permission_type` is a required input. - `app_edit_disabled` -- The app is managed in Salesforce, so access to its functions can't be changed here. See https://docs.slack.dev/reference/methods/functions.distributions.permissions.set */
 export const setDistributionsPermissions: API.OperationMethod<
   SetDistributionsPermissionsRequest,
   SetDistributionsPermissionsResponse,

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -124,6 +125,17 @@ export class BulkLoadIdNotFoundException
     },
     /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(404), /*@__PURE__*/ T.Retryable()),
   ).pipe(C.withBadRequestError, C.withRetryableError) {}
+export class CancelledByMaintenanceException
+  extends /*@__PURE__*/ S.TaggedError<CancelledByMaintenanceException>()(
+    "CancelledByMaintenanceException",
+    {
+      detailedMessage: S.String,
+      requestId: S.String,
+      code: S.String,
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    },
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(500), /*@__PURE__*/ T.Retryable()),
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class CancelledByUserException
   extends /*@__PURE__*/ S.TaggedError<CancelledByUserException>()(
     "CancelledByUserException",
@@ -377,6 +389,17 @@ export class ReadOnlyViolationException
     },
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
+export class ResourceNotFoundException
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+    "ResourceNotFoundException",
+    {
+      detailedMessage: S.String,
+      requestId: S.String,
+      code: S.String,
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    },
+    /*@__PURE__*/ T.HttpError(404),
+  ).pipe(C.withBadRequestError) {}
 export class S3Exception
   extends /*@__PURE__*/ S.TaggedError<S3Exception>()(
     "S3Exception",
@@ -465,137 +488,166 @@ export class UnsupportedOperationException
     },
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
+export class ValidationException
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+    "ValidationException",
+    {
+      detailedMessage: S.String,
+      requestId: S.String,
+      code: S.String,
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    },
+    /*@__PURE__*/ T.HttpError(400),
+  ).pipe(C.withBadRequestError) {}
 export interface CancelGremlinQueryInput {
   queryId: string;
 }
 export interface CancelGremlinQueryOutput {
-  status?: string;
+  status?: string | undefined;
+}
+export interface CancelIndexRebuildInput {
+  rebuildId: string;
+}
+export type RebuildStatus =
+  | "PREPARING"
+  | "REBUILDING"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELLED"
+  | "CANCELLING"
+  | (string & {});
+export type RebuildConcurrency = number;
+export type WriteBufferSize = "LOW" | "MEDIUM" | "HIGH" | (string & {});
+export interface CancelIndexRebuildOutput {
+  status: RebuildStatus;
+  concurrency: number;
+  writeBufferSize: WriteBufferSize;
 }
 export interface CancelLoaderJobInput {
   loadId: string;
 }
 export interface CancelLoaderJobOutput {
-  status?: string;
+  status?: string | undefined;
 }
 export interface CancelMLDataProcessingJobInput {
   id: string;
-  neptuneIamRoleArn?: string;
-  clean?: boolean;
+  neptuneIamRoleArn?: string | undefined;
+  clean?: boolean | undefined;
 }
 export interface CancelMLDataProcessingJobOutput {
-  status?: string;
+  status?: string | undefined;
 }
 export interface CancelMLModelTrainingJobInput {
   id: string;
-  neptuneIamRoleArn?: string;
-  clean?: boolean;
+  neptuneIamRoleArn?: string | undefined;
+  clean?: boolean | undefined;
 }
 export interface CancelMLModelTrainingJobOutput {
-  status?: string;
+  status?: string | undefined;
 }
 export interface CancelMLModelTransformJobInput {
   id: string;
-  neptuneIamRoleArn?: string;
-  clean?: boolean;
+  neptuneIamRoleArn?: string | undefined;
+  clean?: boolean | undefined;
 }
 export interface CancelMLModelTransformJobOutput {
-  status?: string;
+  status?: string | undefined;
 }
 export interface CancelOpenCypherQueryInput {
   queryId: string;
-  silent?: boolean;
+  silent?: boolean | undefined;
 }
 export interface CancelOpenCypherQueryOutput {
-  status?: string;
-  payload?: boolean;
+  status?: string | undefined;
+  payload?: boolean | undefined;
 }
 export interface CreateMLEndpointInput {
-  id?: string;
-  mlModelTrainingJobId?: string;
-  mlModelTransformJobId?: string;
-  update?: boolean;
-  neptuneIamRoleArn?: string;
-  modelName?: string;
-  instanceType?: string;
-  instanceCount?: number;
-  volumeEncryptionKMSKey?: string;
+  id?: string | undefined;
+  mlModelTrainingJobId?: string | undefined;
+  mlModelTransformJobId?: string | undefined;
+  update?: boolean | undefined;
+  neptuneIamRoleArn?: string | undefined;
+  modelName?: string | undefined;
+  instanceType?: string | undefined;
+  instanceCount?: number | undefined;
+  volumeEncryptionKMSKey?: string | undefined;
 }
 export interface CreateMLEndpointOutput {
-  id?: string;
-  arn?: string;
-  creationTimeInMillis?: number;
+  id?: string | undefined;
+  arn?: string | undefined;
+  creationTimeInMillis?: number | undefined;
 }
 export interface DeleteMLEndpointInput {
   id: string;
-  neptuneIamRoleArn?: string;
-  clean?: boolean;
+  neptuneIamRoleArn?: string | undefined;
+  clean?: boolean | undefined;
 }
 export interface DeleteMLEndpointOutput {
-  status?: string;
+  status?: string | undefined;
 }
 export interface DeletePropertygraphStatisticsRequest {}
 export interface DeleteStatisticsValueMap {
-  active?: boolean;
-  statisticsId?: string;
+  active?: boolean | undefined;
+  statisticsId?: string | undefined;
 }
 export interface DeletePropertygraphStatisticsOutput {
-  statusCode?: number;
-  status?: string;
-  payload?: DeleteStatisticsValueMap;
+  statusCode?: number | undefined;
+  status?: string | undefined;
+  payload?: DeleteStatisticsValueMap | undefined;
 }
 export interface DeleteSparqlStatisticsRequest {}
 export interface DeleteSparqlStatisticsOutput {
-  statusCode?: number;
-  status?: string;
-  payload?: DeleteStatisticsValueMap;
+  statusCode?: number | undefined;
+  status?: string | undefined;
+  payload?: DeleteStatisticsValueMap | undefined;
 }
 export type Action = "initiateDatabaseReset" | "performDatabaseReset" | (string & {});
 export interface ExecuteFastResetInput {
   action: Action;
-  token?: string;
+  token?: string | undefined;
 }
 export interface FastResetToken {
-  token?: string;
+  token?: string | undefined;
 }
 export interface ExecuteFastResetOutput {
   status: string;
-  payload?: FastResetToken;
+  payload?: FastResetToken | undefined;
 }
 export interface ExecuteGremlinExplainQueryInput {
   gremlinQuery: string;
 }
 export interface ExecuteGremlinExplainQueryOutput {
-  output?: T.StreamingOutputBody;
+  output?: T.StreamingOutputBody | undefined;
 }
 export interface ExecuteGremlinProfileQueryInput {
   gremlinQuery: string;
-  results?: boolean;
-  chop?: number;
-  serializer?: string;
-  indexOps?: boolean;
+  results?: boolean | undefined;
+  chop?: number | undefined;
+  serializer?: string | undefined;
+  indexOps?: boolean | undefined;
 }
 export interface ExecuteGremlinProfileQueryOutput {
-  output?: T.StreamingOutputBody;
+  output?: T.StreamingOutputBody | undefined;
 }
 export interface ExecuteGremlinQueryInput {
   gremlinQuery: string;
-  serializer?: string;
+  serializer?: string | undefined;
 }
 export interface GremlinQueryStatusAttributes {
-  message?: string;
-  code?: number;
-  attributes?: any;
+  message?: string | undefined;
+  code?: number | undefined;
+  attributes?: any | undefined;
 }
 export interface ExecuteGremlinQueryOutput {
-  requestId?: string;
-  status?: GremlinQueryStatusAttributes;
-  result?: any;
-  meta?: any;
+  requestId?: string | undefined;
+  status?: GremlinQueryStatusAttributes | undefined;
+  result?: any | undefined;
+  meta?: any | undefined;
 }
 export type OpenCypherExplainMode = "static" | "dynamic" | "details" | (string & {});
 export interface ExecuteOpenCypherExplainQueryInput {
   openCypherQuery: string;
-  parameters?: string;
+  parameters?: string | undefined;
   explainMode: OpenCypherExplainMode;
 }
 export interface ExecuteOpenCypherExplainQueryOutput {
@@ -603,7 +655,7 @@ export interface ExecuteOpenCypherExplainQueryOutput {
 }
 export interface ExecuteOpenCypherQueryInput {
   openCypherQuery: string;
-  parameters?: string;
+  parameters?: string | undefined;
 }
 export interface ExecuteOpenCypherQueryOutput {
   results: any;
@@ -615,41 +667,56 @@ export interface QueryLanguageVersion {
 export type StringValuedMap = { [key: string]: string | undefined };
 export type DocumentValuedMap = { [key: string]: any | undefined };
 export interface GetEngineStatusOutput {
-  status?: string;
-  startTime?: string;
-  dbEngineVersion?: string;
-  role?: string;
-  dfeQueryEngine?: string;
-  gremlin?: QueryLanguageVersion;
-  sparql?: QueryLanguageVersion;
-  opencypher?: QueryLanguageVersion;
-  labMode?: { [key: string]: string | undefined };
-  rollingBackTrxCount?: number;
-  rollingBackTrxEarliestStartTime?: string;
-  features?: { [key: string]: any | undefined };
-  settings?: { [key: string]: string | undefined };
+  status?: string | undefined;
+  startTime?: string | undefined;
+  dbEngineVersion?: string | undefined;
+  role?: string | undefined;
+  dfeQueryEngine?: string | undefined;
+  gremlin?: QueryLanguageVersion | undefined;
+  sparql?: QueryLanguageVersion | undefined;
+  opencypher?: QueryLanguageVersion | undefined;
+  labMode?: { [key: string]: string | undefined } | undefined;
+  rollingBackTrxCount?: number | undefined;
+  rollingBackTrxEarliestStartTime?: string | undefined;
+  features?: { [key: string]: any | undefined } | undefined;
+  settings?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetGremlinQueryStatusInput {
   queryId: string;
 }
 export interface QueryEvalStats {
-  waited?: number;
-  elapsed?: number;
-  cancelled?: boolean;
-  subqueries?: any;
+  waited?: number | undefined;
+  elapsed?: number | undefined;
+  cancelled?: boolean | undefined;
+  subqueries?: any | undefined;
 }
 export interface GetGremlinQueryStatusOutput {
-  queryId?: string;
-  queryString?: string;
-  queryEvalStats?: QueryEvalStats;
+  queryId?: string | undefined;
+  queryString?: string | undefined;
+  queryEvalStats?: QueryEvalStats | undefined;
+}
+export interface GetIndexRebuildStatusInput {
+  rebuildId: string;
+}
+export type Scope = "ALL" | "QUADS" | "DICTIONARIES" | (string & {});
+export interface GetIndexRebuildStatusOutput {
+  status: RebuildStatus;
+  scope: Scope;
+  concurrency: number;
+  writeBufferSize: WriteBufferSize;
+  startTime: Date;
+  progressPercentage: number;
+  estimatedEndTime?: Date | undefined;
+  endTime?: Date | undefined;
+  failureReason?: string | undefined;
 }
 export type PositiveInteger = number;
 export interface GetLoaderJobStatusInput {
   loadId: string;
-  details?: boolean;
-  errors?: boolean;
-  page?: number;
-  errorsPerPage?: number;
+  details?: boolean | undefined;
+  errors?: boolean | undefined;
+  page?: number | undefined;
+  errorsPerPage?: number | undefined;
 }
 export interface GetLoaderJobStatusOutput {
   status: string;
@@ -657,81 +724,81 @@ export interface GetLoaderJobStatusOutput {
 }
 export interface GetMLDataProcessingJobInput {
   id: string;
-  neptuneIamRoleArn?: string;
+  neptuneIamRoleArn?: string | undefined;
 }
 export interface MlResourceDefinition {
-  name?: string;
-  arn?: string;
-  status?: string;
-  outputLocation?: string;
-  failureReason?: string;
-  cloudwatchLogUrl?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
+  outputLocation?: string | undefined;
+  failureReason?: string | undefined;
+  cloudwatchLogUrl?: string | undefined;
 }
 export interface GetMLDataProcessingJobOutput {
-  status?: string;
-  id?: string;
-  processingJob?: MlResourceDefinition;
+  status?: string | undefined;
+  id?: string | undefined;
+  processingJob?: MlResourceDefinition | undefined;
 }
 export interface GetMLEndpointInput {
   id: string;
-  neptuneIamRoleArn?: string;
+  neptuneIamRoleArn?: string | undefined;
 }
 export interface MlConfigDefinition {
-  name?: string;
-  arn?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
 }
 export interface GetMLEndpointOutput {
-  status?: string;
-  id?: string;
-  endpoint?: MlResourceDefinition;
-  endpointConfig?: MlConfigDefinition;
+  status?: string | undefined;
+  id?: string | undefined;
+  endpoint?: MlResourceDefinition | undefined;
+  endpointConfig?: MlConfigDefinition | undefined;
 }
 export interface GetMLModelTrainingJobInput {
   id: string;
-  neptuneIamRoleArn?: string;
+  neptuneIamRoleArn?: string | undefined;
 }
 export type MlModels = MlConfigDefinition[];
 export interface GetMLModelTrainingJobOutput {
-  status?: string;
-  id?: string;
-  processingJob?: MlResourceDefinition;
-  hpoJob?: MlResourceDefinition;
-  modelTransformJob?: MlResourceDefinition;
-  mlModels?: MlConfigDefinition[];
+  status?: string | undefined;
+  id?: string | undefined;
+  processingJob?: MlResourceDefinition | undefined;
+  hpoJob?: MlResourceDefinition | undefined;
+  modelTransformJob?: MlResourceDefinition | undefined;
+  mlModels?: MlConfigDefinition[] | undefined;
 }
 export interface GetMLModelTransformJobInput {
   id: string;
-  neptuneIamRoleArn?: string;
+  neptuneIamRoleArn?: string | undefined;
 }
 export type Models = MlConfigDefinition[];
 export interface GetMLModelTransformJobOutput {
-  status?: string;
-  id?: string;
-  baseProcessingJob?: MlResourceDefinition;
-  remoteModelTransformJob?: MlResourceDefinition;
-  models?: MlConfigDefinition[];
+  status?: string | undefined;
+  id?: string | undefined;
+  baseProcessingJob?: MlResourceDefinition | undefined;
+  remoteModelTransformJob?: MlResourceDefinition | undefined;
+  models?: MlConfigDefinition[] | undefined;
 }
 export interface GetOpenCypherQueryStatusInput {
   queryId: string;
 }
 export interface GetOpenCypherQueryStatusOutput {
-  queryId?: string;
-  queryString?: string;
-  queryEvalStats?: QueryEvalStats;
+  queryId?: string | undefined;
+  queryString?: string | undefined;
+  queryEvalStats?: QueryEvalStats | undefined;
 }
 export interface GetPropertygraphStatisticsRequest {}
 export interface StatisticsSummary {
-  signatureCount?: number;
-  instanceCount?: number;
-  predicateCount?: number;
+  signatureCount?: number | undefined;
+  instanceCount?: number | undefined;
+  predicateCount?: number | undefined;
 }
 export interface Statistics {
-  autoCompute?: boolean;
-  active?: boolean;
-  statisticsId?: string;
-  date?: Date;
-  note?: string;
-  signatureInfo?: StatisticsSummary;
+  autoCompute?: boolean | undefined;
+  active?: boolean | undefined;
+  statisticsId?: string | undefined;
+  date?: Date | undefined;
+  note?: string | undefined;
+  signatureInfo?: StatisticsSummary | undefined;
 }
 export interface GetPropertygraphStatisticsOutput {
   status: string;
@@ -745,26 +812,26 @@ export type IteratorType =
   | (string & {});
 export type Encoding = "gzip" | (string & {});
 export interface GetPropertygraphStreamInput {
-  limit?: number;
-  iteratorType?: IteratorType;
-  commitNum?: number;
-  opNum?: number;
-  encoding?: Encoding;
+  limit?: number | undefined;
+  iteratorType?: IteratorType | undefined;
+  commitNum?: number | undefined;
+  opNum?: number | undefined;
+  encoding?: Encoding | undefined;
 }
 export interface PropertygraphData {
   id: string;
   type: string;
   key: string;
   value: any;
-  from?: string;
-  to?: string;
+  from?: string | undefined;
+  to?: string | undefined;
 }
 export interface PropertygraphRecord {
   commitTimestampInMillis: number;
   eventId: { [key: string]: string | undefined };
   data: PropertygraphData;
   op: string;
-  isLastOp?: boolean;
+  isLastOp?: boolean | undefined;
 }
 export type PropertygraphRecordsList = PropertygraphRecord[];
 export interface GetPropertygraphStreamOutput {
@@ -776,7 +843,7 @@ export interface GetPropertygraphStreamOutput {
 }
 export type GraphSummaryType = "basic" | "detailed" | (string & {});
 export interface GetPropertygraphSummaryInput {
-  mode?: GraphSummaryType;
+  mode?: GraphSummaryType | undefined;
 }
 export type NodeLabels = string[];
 export type EdgeLabels = string[];
@@ -785,69 +852,69 @@ export type LongValuedMapList = { [key: string]: number | undefined }[];
 export type NodeProperties = string[];
 export type OutgoingEdgeLabels = string[];
 export interface NodeStructure {
-  count?: number;
-  nodeProperties?: string[];
-  distinctOutgoingEdgeLabels?: string[];
+  count?: number | undefined;
+  nodeProperties?: string[] | undefined;
+  distinctOutgoingEdgeLabels?: string[] | undefined;
 }
 export type NodeStructures = NodeStructure[];
 export type EdgeProperties = string[];
 export interface EdgeStructure {
-  count?: number;
-  edgeProperties?: string[];
+  count?: number | undefined;
+  edgeProperties?: string[] | undefined;
 }
 export type EdgeStructures = EdgeStructure[];
 export interface PropertygraphSummary {
-  numNodes?: number;
-  numEdges?: number;
-  numNodeLabels?: number;
-  numEdgeLabels?: number;
-  nodeLabels?: string[];
-  edgeLabels?: string[];
-  numNodeProperties?: number;
-  numEdgeProperties?: number;
-  nodeProperties?: { [key: string]: number | undefined }[];
-  edgeProperties?: { [key: string]: number | undefined }[];
-  totalNodePropertyValues?: number;
-  totalEdgePropertyValues?: number;
-  nodeStructures?: NodeStructure[];
-  edgeStructures?: EdgeStructure[];
+  numNodes?: number | undefined;
+  numEdges?: number | undefined;
+  numNodeLabels?: number | undefined;
+  numEdgeLabels?: number | undefined;
+  nodeLabels?: string[] | undefined;
+  edgeLabels?: string[] | undefined;
+  numNodeProperties?: number | undefined;
+  numEdgeProperties?: number | undefined;
+  nodeProperties?: { [key: string]: number | undefined }[] | undefined;
+  edgeProperties?: { [key: string]: number | undefined }[] | undefined;
+  totalNodePropertyValues?: number | undefined;
+  totalEdgePropertyValues?: number | undefined;
+  nodeStructures?: NodeStructure[] | undefined;
+  edgeStructures?: EdgeStructure[] | undefined;
 }
 export interface PropertygraphSummaryValueMap {
-  version?: string;
-  lastStatisticsComputationTime?: Date;
-  graphSummary?: PropertygraphSummary;
+  version?: string | undefined;
+  lastStatisticsComputationTime?: Date | undefined;
+  graphSummary?: PropertygraphSummary | undefined;
 }
 export interface GetPropertygraphSummaryOutput {
-  statusCode?: number;
-  payload?: PropertygraphSummaryValueMap;
+  statusCode?: number | undefined;
+  payload?: PropertygraphSummaryValueMap | undefined;
 }
 export interface GetRDFGraphSummaryInput {
-  mode?: GraphSummaryType;
+  mode?: GraphSummaryType | undefined;
 }
 export type Classes = string[];
 export type Predicates = string[];
 export interface SubjectStructure {
-  count?: number;
-  predicates?: string[];
+  count?: number | undefined;
+  predicates?: string[] | undefined;
 }
 export type SubjectStructures = SubjectStructure[];
 export interface RDFGraphSummary {
-  numDistinctSubjects?: number;
-  numDistinctPredicates?: number;
-  numQuads?: number;
-  numClasses?: number;
-  classes?: string[];
-  predicates?: { [key: string]: number | undefined }[];
-  subjectStructures?: SubjectStructure[];
+  numDistinctSubjects?: number | undefined;
+  numDistinctPredicates?: number | undefined;
+  numQuads?: number | undefined;
+  numClasses?: number | undefined;
+  classes?: string[] | undefined;
+  predicates?: { [key: string]: number | undefined }[] | undefined;
+  subjectStructures?: SubjectStructure[] | undefined;
 }
 export interface RDFGraphSummaryValueMap {
-  version?: string;
-  lastStatisticsComputationTime?: Date;
-  graphSummary?: RDFGraphSummary;
+  version?: string | undefined;
+  lastStatisticsComputationTime?: Date | undefined;
+  graphSummary?: RDFGraphSummary | undefined;
 }
 export interface GetRDFGraphSummaryOutput {
-  statusCode?: number;
-  payload?: RDFGraphSummaryValueMap;
+  statusCode?: number | undefined;
+  payload?: RDFGraphSummaryValueMap | undefined;
 }
 export interface GetSparqlStatisticsRequest {}
 export interface GetSparqlStatisticsOutput {
@@ -855,11 +922,11 @@ export interface GetSparqlStatisticsOutput {
   payload: Statistics;
 }
 export interface GetSparqlStreamInput {
-  limit?: number;
-  iteratorType?: IteratorType;
-  commitNum?: number;
-  opNum?: number;
-  encoding?: Encoding;
+  limit?: number | undefined;
+  iteratorType?: IteratorType | undefined;
+  commitNum?: number | undefined;
+  opNum?: number | undefined;
+  encoding?: Encoding | undefined;
 }
 export interface SparqlData {
   stmt: string;
@@ -869,7 +936,7 @@ export interface SparqlRecord {
   eventId: { [key: string]: string | undefined };
   data: SparqlData;
   op: string;
-  isLastOp?: boolean;
+  isLastOp?: boolean | undefined;
 }
 export type SparqlRecordsList = SparqlRecord[];
 export interface GetSparqlStreamOutput {
@@ -879,68 +946,107 @@ export interface GetSparqlStreamOutput {
   records: SparqlRecord[];
   totalRecords: number;
 }
+export interface GetStorageInfoRequest {}
+export interface StorageMetrics {
+  sizeInBytes: number;
+  count: number;
+}
+export interface QuadsInfo {
+  SPOG?: StorageMetrics | undefined;
+  POGS?: StorageMetrics | undefined;
+  GPSO?: StorageMetrics | undefined;
+  OSGP?: StorageMetrics | undefined;
+  PZSOG?: StorageMetrics | undefined;
+}
+export interface QuadsIndexesInfo {
+  RDF?: QuadsInfo | undefined;
+  PG?: QuadsInfo | undefined;
+}
+export interface DictionariesInfo {
+  total?: StorageMetrics | undefined;
+  blobs?: StorageMetrics | undefined;
+}
+export interface UndoLogsMetrics {
+  sizeInBytes: number;
+  listSize: number;
+}
+export interface GetStorageOutput {
+  totalStorageBytesUsed?: number | undefined;
+  quads?: QuadsIndexesInfo | undefined;
+  dictionaries?: DictionariesInfo | undefined;
+  undoLogs?: UndoLogsMetrics | undefined;
+  streams?: StorageMetrics | undefined;
+  dfeStatistics?: StorageMetrics | undefined;
+  schema?: StorageMetrics | undefined;
+  internals?: StorageMetrics | undefined;
+}
 export interface ListGremlinQueriesInput {
-  includeWaiting?: boolean;
+  includeWaiting?: boolean | undefined;
 }
 export interface GremlinQueryStatus {
-  queryId?: string;
-  queryString?: string;
-  queryEvalStats?: QueryEvalStats;
+  queryId?: string | undefined;
+  queryString?: string | undefined;
+  queryEvalStats?: QueryEvalStats | undefined;
 }
 export type GremlinQueries = GremlinQueryStatus[];
 export interface ListGremlinQueriesOutput {
-  acceptedQueryCount?: number;
-  runningQueryCount?: number;
-  queries?: GremlinQueryStatus[];
+  acceptedQueryCount?: number | undefined;
+  runningQueryCount?: number | undefined;
+  queries?: GremlinQueryStatus[] | undefined;
+}
+export interface ListIndexRebuildsRequest {}
+export type RebuildIdList = string[];
+export interface ListIndexRebuildsOutput {
+  rebuildIds: string[];
 }
 export interface ListLoaderJobsInput {
-  limit?: number;
-  includeQueuedLoads?: boolean;
+  limit?: number | undefined;
+  includeQueuedLoads?: boolean | undefined;
 }
 export type StringList = string[];
 export interface LoaderIdResult {
-  loadIds?: string[];
+  loadIds?: string[] | undefined;
 }
 export interface ListLoaderJobsOutput {
   status: string;
   payload: LoaderIdResult;
 }
 export interface ListMLDataProcessingJobsInput {
-  maxItems?: number;
-  neptuneIamRoleArn?: string;
+  maxItems?: number | undefined;
+  neptuneIamRoleArn?: string | undefined;
 }
 export interface ListMLDataProcessingJobsOutput {
-  ids?: string[];
+  ids?: string[] | undefined;
 }
 export interface ListMLEndpointsInput {
-  maxItems?: number;
-  neptuneIamRoleArn?: string;
+  maxItems?: number | undefined;
+  neptuneIamRoleArn?: string | undefined;
 }
 export interface ListMLEndpointsOutput {
-  ids?: string[];
+  ids?: string[] | undefined;
 }
 export interface ListMLModelTrainingJobsInput {
-  maxItems?: number;
-  neptuneIamRoleArn?: string;
+  maxItems?: number | undefined;
+  neptuneIamRoleArn?: string | undefined;
 }
 export interface ListMLModelTrainingJobsOutput {
-  ids?: string[];
+  ids?: string[] | undefined;
 }
 export interface ListMLModelTransformJobsInput {
-  maxItems?: number;
-  neptuneIamRoleArn?: string;
+  maxItems?: number | undefined;
+  neptuneIamRoleArn?: string | undefined;
 }
 export interface ListMLModelTransformJobsOutput {
-  ids?: string[];
+  ids?: string[] | undefined;
 }
 export interface ListOpenCypherQueriesInput {
-  includeWaiting?: boolean;
+  includeWaiting?: boolean | undefined;
 }
 export type OpenCypherQueries = GremlinQueryStatus[];
 export interface ListOpenCypherQueriesOutput {
-  acceptedQueryCount?: number;
-  runningQueryCount?: number;
-  queries?: GremlinQueryStatus[];
+  acceptedQueryCount?: number | undefined;
+  runningQueryCount?: number | undefined;
+  queries?: GremlinQueryStatus[] | undefined;
 }
 export type StatisticsAutoGenerationMode =
   | "disableAutoCompute"
@@ -948,21 +1054,34 @@ export type StatisticsAutoGenerationMode =
   | "refresh"
   | (string & {});
 export interface ManagePropertygraphStatisticsInput {
-  mode?: StatisticsAutoGenerationMode;
+  mode?: StatisticsAutoGenerationMode | undefined;
 }
 export interface RefreshStatisticsIdMap {
-  statisticsId?: string;
+  statisticsId?: string | undefined;
 }
 export interface ManagePropertygraphStatisticsOutput {
   status: string;
-  payload?: RefreshStatisticsIdMap;
+  payload?: RefreshStatisticsIdMap | undefined;
 }
 export interface ManageSparqlStatisticsInput {
-  mode?: StatisticsAutoGenerationMode;
+  mode?: StatisticsAutoGenerationMode | undefined;
 }
 export interface ManageSparqlStatisticsOutput {
   status: string;
-  payload?: RefreshStatisticsIdMap;
+  payload?: RefreshStatisticsIdMap | undefined;
+}
+export interface StartIndexRebuildInput {
+  scope?: Scope | undefined;
+  concurrency?: number | undefined;
+  writeBufferSize?: WriteBufferSize | undefined;
+  clientToken?: string | undefined;
+}
+export interface StartIndexRebuildOutput {
+  status: RebuildStatus;
+  rebuildId: string;
+  scope: Scope;
+  concurrency: number;
+  writeBufferSize: WriteBufferSize;
 }
 export type Format =
   | "csv"
@@ -1017,96 +1136,96 @@ export interface StartLoaderJobInput {
   format: Format;
   s3BucketRegion: S3BucketRegion;
   iamRoleArn: string;
-  mode?: Mode;
-  failOnError?: boolean;
-  parallelism?: Parallelism;
-  parserConfiguration?: { [key: string]: string | undefined };
-  updateSingleCardinalityProperties?: boolean;
-  queueRequest?: boolean;
-  dependencies?: string[];
-  userProvidedEdgeIds?: boolean;
-  edgeOnlyLoad?: boolean;
+  mode?: Mode | undefined;
+  failOnError?: boolean | undefined;
+  parallelism?: Parallelism | undefined;
+  parserConfiguration?: { [key: string]: string | undefined } | undefined;
+  updateSingleCardinalityProperties?: boolean | undefined;
+  queueRequest?: boolean | undefined;
+  dependencies?: string[] | undefined;
+  userProvidedEdgeIds?: boolean | undefined;
+  edgeOnlyLoad?: boolean | undefined;
 }
 export interface StartLoaderJobOutput {
   status: string;
   payload: { [key: string]: string | undefined };
 }
 export interface StartMLDataProcessingJobInput {
-  id?: string;
-  previousDataProcessingJobId?: string;
+  id?: string | undefined;
+  previousDataProcessingJobId?: string | undefined;
   inputDataS3Location: string;
   processedDataS3Location: string;
-  sagemakerIamRoleArn?: string;
-  neptuneIamRoleArn?: string;
-  processingInstanceType?: string;
-  processingInstanceVolumeSizeInGB?: number;
-  processingTimeOutInSeconds?: number;
-  modelType?: string;
-  configFileName?: string;
-  subnets?: string[];
-  securityGroupIds?: string[];
-  volumeEncryptionKMSKey?: string;
-  s3OutputEncryptionKMSKey?: string;
+  sagemakerIamRoleArn?: string | undefined;
+  neptuneIamRoleArn?: string | undefined;
+  processingInstanceType?: string | undefined;
+  processingInstanceVolumeSizeInGB?: number | undefined;
+  processingTimeOutInSeconds?: number | undefined;
+  modelType?: string | undefined;
+  configFileName?: string | undefined;
+  subnets?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  volumeEncryptionKMSKey?: string | undefined;
+  s3OutputEncryptionKMSKey?: string | undefined;
 }
 export interface StartMLDataProcessingJobOutput {
-  id?: string;
-  arn?: string;
-  creationTimeInMillis?: number;
+  id?: string | undefined;
+  arn?: string | undefined;
+  creationTimeInMillis?: number | undefined;
 }
 export interface CustomModelTrainingParameters {
   sourceS3DirectoryPath: string;
-  trainingEntryPointScript?: string;
-  transformEntryPointScript?: string;
+  trainingEntryPointScript?: string | undefined;
+  transformEntryPointScript?: string | undefined;
 }
 export interface StartMLModelTrainingJobInput {
-  id?: string;
-  previousModelTrainingJobId?: string;
+  id?: string | undefined;
+  previousModelTrainingJobId?: string | undefined;
   dataProcessingJobId: string;
   trainModelS3Location: string;
-  sagemakerIamRoleArn?: string;
-  neptuneIamRoleArn?: string;
-  baseProcessingInstanceType?: string;
-  trainingInstanceType?: string;
-  trainingInstanceVolumeSizeInGB?: number;
-  trainingTimeOutInSeconds?: number;
-  maxHPONumberOfTrainingJobs?: number;
-  maxHPOParallelTrainingJobs?: number;
-  subnets?: string[];
-  securityGroupIds?: string[];
-  volumeEncryptionKMSKey?: string;
-  s3OutputEncryptionKMSKey?: string;
-  enableManagedSpotTraining?: boolean;
-  customModelTrainingParameters?: CustomModelTrainingParameters;
+  sagemakerIamRoleArn?: string | undefined;
+  neptuneIamRoleArn?: string | undefined;
+  baseProcessingInstanceType?: string | undefined;
+  trainingInstanceType?: string | undefined;
+  trainingInstanceVolumeSizeInGB?: number | undefined;
+  trainingTimeOutInSeconds?: number | undefined;
+  maxHPONumberOfTrainingJobs?: number | undefined;
+  maxHPOParallelTrainingJobs?: number | undefined;
+  subnets?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  volumeEncryptionKMSKey?: string | undefined;
+  s3OutputEncryptionKMSKey?: string | undefined;
+  enableManagedSpotTraining?: boolean | undefined;
+  customModelTrainingParameters?: CustomModelTrainingParameters | undefined;
 }
 export interface StartMLModelTrainingJobOutput {
-  id?: string;
-  arn?: string;
-  creationTimeInMillis?: number;
+  id?: string | undefined;
+  arn?: string | undefined;
+  creationTimeInMillis?: number | undefined;
 }
 export interface CustomModelTransformParameters {
   sourceS3DirectoryPath: string;
-  transformEntryPointScript?: string;
+  transformEntryPointScript?: string | undefined;
 }
 export interface StartMLModelTransformJobInput {
-  id?: string;
-  dataProcessingJobId?: string;
-  mlModelTrainingJobId?: string;
-  trainingJobName?: string;
+  id?: string | undefined;
+  dataProcessingJobId?: string | undefined;
+  mlModelTrainingJobId?: string | undefined;
+  trainingJobName?: string | undefined;
   modelTransformOutputS3Location: string;
-  sagemakerIamRoleArn?: string;
-  neptuneIamRoleArn?: string;
-  customModelTransformParameters?: CustomModelTransformParameters;
-  baseProcessingInstanceType?: string;
-  baseProcessingInstanceVolumeSizeInGB?: number;
-  subnets?: string[];
-  securityGroupIds?: string[];
-  volumeEncryptionKMSKey?: string;
-  s3OutputEncryptionKMSKey?: string;
+  sagemakerIamRoleArn?: string | undefined;
+  neptuneIamRoleArn?: string | undefined;
+  customModelTransformParameters?: CustomModelTransformParameters | undefined;
+  baseProcessingInstanceType?: string | undefined;
+  baseProcessingInstanceVolumeSizeInGB?: number | undefined;
+  subnets?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  volumeEncryptionKMSKey?: string | undefined;
+  s3OutputEncryptionKMSKey?: string | undefined;
 }
 export interface StartMLModelTransformJobOutput {
-  id?: string;
-  arn?: string;
-  creationTimeInMillis?: number;
+  id?: string | undefined;
+  arn?: string | undefined;
+  creationTimeInMillis?: number | undefined;
 }
 export type CancelGremlinQueryError =
   | BadRequestException
@@ -1130,7 +1249,7 @@ export type CancelGremlinQueryError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster.
  */
 export const cancelGremlinQuery: API.OperationMethod<
-  CancelGremlinQueryInput,
+  CancelGremlinQueryInput & RegionInput,
   CancelGremlinQueryOutput,
   CancelGremlinQueryError,
   Credentials | HttpClient.HttpClient
@@ -1160,6 +1279,62 @@ export const cancelGremlinQuery: API.OperationMethod<
   span: "CancelGremlinQuery",
 }));
 
+export type CancelIndexRebuildError =
+  | AccessDeniedException
+  | CancelledByMaintenanceException
+  | CancelledByUserException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InternalFailureException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MethodNotAllowedException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | ServerShutdownException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Cancels an in-progress index rebuild operation.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelIndexRebuild IAM action in that cluster.
+ */
+export const cancelIndexRebuild: API.OperationMethod<
+  CancelIndexRebuildInput & RegionInput,
+  CancelIndexRebuildOutput,
+  CancelIndexRebuildError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(16, __c2, 0) as any as S.Schema<CancelIndexRebuildInput>,
+  output: __S(17, __c2, 1) as any as S.Schema<CancelIndexRebuildOutput>,
+  errors: [
+    AccessDeniedException,
+    CancelledByMaintenanceException,
+    CancelledByUserException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InternalFailureException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MethodNotAllowedException,
+    PreconditionsFailedException,
+    ReadOnlyViolationException,
+    ServerShutdownException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CancelIndexRebuild",
+  telemetry: TELEMETRY,
+  span: "CancelIndexRebuild",
+}));
+
 export type CancelLoaderJobError =
   | BadRequestException
   | BulkLoadIdNotFoundException
@@ -1181,12 +1356,12 @@ export type CancelLoaderJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelLoaderJob IAM action in that cluster..
  */
 export const cancelLoaderJob: API.OperationMethod<
-  CancelLoaderJobInput,
+  CancelLoaderJobInput & RegionInput,
   CancelLoaderJobOutput,
   CancelLoaderJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CancelLoaderJobInput>,
+  input: __S(24, __c3, 0) as any as S.Schema<CancelLoaderJobInput>,
   output: __S(8, __c1, 0) as any as S.Schema<CancelLoaderJobOutput>,
   errors: [
     BadRequestException,
@@ -1229,12 +1404,12 @@ export type CancelMLDataProcessingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLDataProcessingJob IAM action in that cluster.
  */
 export const cancelMLDataProcessingJob: API.OperationMethod<
-  CancelMLDataProcessingJobInput,
+  CancelMLDataProcessingJobInput & RegionInput,
   CancelMLDataProcessingJobOutput,
   CancelMLDataProcessingJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CancelMLDataProcessingJobInput>,
+  input: __S(32, __c4, 0) as any as S.Schema<CancelMLDataProcessingJobInput>,
   output: __S(8, __c1, 0) as any as S.Schema<CancelMLDataProcessingJobOutput>,
   errors: [
     BadRequestException,
@@ -1275,12 +1450,12 @@ export type CancelMLModelTrainingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTrainingJob IAM action in that cluster.
  */
 export const cancelMLModelTrainingJob: API.OperationMethod<
-  CancelMLModelTrainingJobInput,
+  CancelMLModelTrainingJobInput & RegionInput,
   CancelMLModelTrainingJobOutput,
   CancelMLModelTrainingJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CancelMLModelTrainingJobInput>,
+  input: __S(40, __c5, 0) as any as S.Schema<CancelMLModelTrainingJobInput>,
   output: __S(8, __c1, 0) as any as S.Schema<CancelMLModelTrainingJobOutput>,
   errors: [
     BadRequestException,
@@ -1321,12 +1496,12 @@ export type CancelMLModelTransformJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTransformJob IAM action in that cluster.
  */
 export const cancelMLModelTransformJob: API.OperationMethod<
-  CancelMLModelTransformJobInput,
+  CancelMLModelTransformJobInput & RegionInput,
   CancelMLModelTransformJobOutput,
   CancelMLModelTransformJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CancelMLModelTransformJobInput>,
+  input: __S(48, __c6, 0) as any as S.Schema<CancelMLModelTransformJobInput>,
   output: __S(8, __c1, 0) as any as S.Schema<CancelMLModelTransformJobOutput>,
   errors: [
     BadRequestException,
@@ -1371,13 +1546,13 @@ export type CancelOpenCypherQueryError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster.
  */
 export const cancelOpenCypherQuery: API.OperationMethod<
-  CancelOpenCypherQueryInput,
+  CancelOpenCypherQueryInput & RegionInput,
   CancelOpenCypherQueryOutput,
   CancelOpenCypherQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<CancelOpenCypherQueryInput>,
-  output: __S(49, __c6, 1) as any as S.Schema<CancelOpenCypherQueryOutput>,
+  input: __S(56, __c7, 0) as any as S.Schema<CancelOpenCypherQueryInput>,
+  output: __S(57, __c7, 1) as any as S.Schema<CancelOpenCypherQueryOutput>,
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -1421,13 +1596,13 @@ export type CreateMLEndpointError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CreateMLEndpoint IAM action in that cluster.
  */
 export const createMLEndpoint: API.OperationMethod<
-  CreateMLEndpointInput,
+  CreateMLEndpointInput & RegionInput,
   CreateMLEndpointOutput,
   CreateMLEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateMLEndpointInput>,
-  output: __S(64, __c8, 0) as any as S.Schema<CreateMLEndpointOutput>,
+  input: __S(64, __c8, 0) as any as S.Schema<CreateMLEndpointInput>,
+  output: __S(72, __c9, 0) as any as S.Schema<CreateMLEndpointOutput>,
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -1467,12 +1642,12 @@ export type DeleteMLEndpointError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteMLEndpoint IAM action in that cluster.
  */
 export const deleteMLEndpoint: API.OperationMethod<
-  DeleteMLEndpointInput,
+  DeleteMLEndpointInput & RegionInput,
   DeleteMLEndpointOutput,
   DeleteMLEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DeleteMLEndpointInput>,
+  input: __S(80, __c10, 0) as any as S.Schema<DeleteMLEndpointInput>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteMLEndpointOutput>,
   errors: [
     BadRequestException,
@@ -1515,13 +1690,13 @@ export type DeletePropertygraphStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteStatistics IAM action in that cluster.
  */
 export const deletePropertygraphStatistics: API.OperationMethod<
-  DeletePropertygraphStatisticsRequest,
+  DeletePropertygraphStatisticsRequest & RegionInput,
   DeletePropertygraphStatisticsOutput,
   DeletePropertygraphStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DeletePropertygraphStatisticsRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<DeletePropertygraphStatisticsOutput>,
+  input: __S(88, __c11, 0) as any as S.Schema<DeletePropertygraphStatisticsRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<DeletePropertygraphStatisticsOutput>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1565,13 +1740,13 @@ export type DeleteSparqlStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteStatistics IAM action in that cluster.
  */
 export const deleteSparqlStatistics: API.OperationMethod<
-  DeleteSparqlStatisticsRequest,
+  DeleteSparqlStatisticsRequest & RegionInput,
   DeleteSparqlStatisticsOutput,
   DeleteSparqlStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<DeleteSparqlStatisticsRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<DeleteSparqlStatisticsOutput>,
+  input: __S(104, __c13, 0) as any as S.Schema<DeleteSparqlStatisticsRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<DeleteSparqlStatisticsOutput>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1617,13 +1792,13 @@ export type ExecuteFastResetError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ResetDatabase IAM action in that cluster.
  */
 export const executeFastReset: API.OperationMethod<
-  ExecuteFastResetInput,
+  ExecuteFastResetInput & RegionInput,
   ExecuteFastResetOutput,
   ExecuteFastResetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<ExecuteFastResetInput>,
-  output: __S(106, __c13, 2) as any as S.Schema<ExecuteFastResetOutput>,
+  input: __S(112, __c14, 0) as any as S.Schema<ExecuteFastResetInput>,
+  output: __S(114, __c14, 2) as any as S.Schema<ExecuteFastResetOutput>,
   errors: [
     AccessDeniedException,
     ClientTimeoutException,
@@ -1648,6 +1823,7 @@ export const executeFastReset: API.OperationMethod<
 
 export type ExecuteGremlinExplainQueryError =
   | BadRequestException
+  | CancelledByMaintenanceException
   | CancelledByUserException
   | ClientTimeoutException
   | ConcurrentModificationException
@@ -1686,15 +1862,16 @@ export type ExecuteGremlinExplainQueryError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeGremlinExplainQuery: API.OperationMethod<
-  ExecuteGremlinExplainQueryInput,
+  ExecuteGremlinExplainQueryInput & RegionInput,
   ExecuteGremlinExplainQueryOutput,
   ExecuteGremlinExplainQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<ExecuteGremlinExplainQueryInput>,
-  output: __S(120, __c15, 0) as any as S.Schema<ExecuteGremlinExplainQueryOutput>,
+  input: __S(120, __c15, 0) as any as S.Schema<ExecuteGremlinExplainQueryInput>,
+  output: __S(128, __c16, 0) as any as S.Schema<ExecuteGremlinExplainQueryOutput>,
   errors: [
     BadRequestException,
+    CancelledByMaintenanceException,
     CancelledByUserException,
     ClientTimeoutException,
     ConcurrentModificationException,
@@ -1724,6 +1901,7 @@ export const executeGremlinExplainQuery: API.OperationMethod<
 
 export type ExecuteGremlinProfileQueryError =
   | BadRequestException
+  | CancelledByMaintenanceException
   | CancelledByUserException
   | ClientTimeoutException
   | ConcurrentModificationException
@@ -1752,15 +1930,16 @@ export type ExecuteGremlinProfileQueryError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeGremlinProfileQuery: API.OperationMethod<
-  ExecuteGremlinProfileQueryInput,
+  ExecuteGremlinProfileQueryInput & RegionInput,
   ExecuteGremlinProfileQueryOutput,
   ExecuteGremlinProfileQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ExecuteGremlinProfileQueryInput>,
-  output: __S(120, __c15, 0) as any as S.Schema<ExecuteGremlinProfileQueryOutput>,
+  input: __S(136, __c17, 0) as any as S.Schema<ExecuteGremlinProfileQueryInput>,
+  output: __S(128, __c16, 0) as any as S.Schema<ExecuteGremlinProfileQueryOutput>,
   errors: [
     BadRequestException,
+    CancelledByMaintenanceException,
     CancelledByUserException,
     ClientTimeoutException,
     ConcurrentModificationException,
@@ -1790,6 +1969,7 @@ export const executeGremlinProfileQuery: API.OperationMethod<
 
 export type ExecuteGremlinQueryError =
   | BadRequestException
+  | CancelledByMaintenanceException
   | CancelledByUserException
   | ClientTimeoutException
   | ConcurrentModificationException
@@ -1824,15 +2004,16 @@ export type ExecuteGremlinQueryError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeGremlinQuery: API.OperationMethod<
-  ExecuteGremlinQueryInput,
+  ExecuteGremlinQueryInput & RegionInput,
   ExecuteGremlinQueryOutput,
   ExecuteGremlinQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<ExecuteGremlinQueryInput>,
-  output: __S(138, __c17, 2) as any as S.Schema<ExecuteGremlinQueryOutput>,
+  input: __S(144, __c18, 0) as any as S.Schema<ExecuteGremlinQueryInput>,
+  output: __S(146, __c18, 2) as any as S.Schema<ExecuteGremlinQueryOutput>,
   errors: [
     BadRequestException,
+    CancelledByMaintenanceException,
     CancelledByUserException,
     ClientTimeoutException,
     ConcurrentModificationException,
@@ -1862,6 +2043,7 @@ export const executeGremlinQuery: API.OperationMethod<
 
 export type ExecuteOpenCypherExplainQueryError =
   | BadRequestException
+  | CancelledByMaintenanceException
   | CancelledByUserException
   | ClientTimeoutException
   | ConcurrentModificationException
@@ -1891,15 +2073,16 @@ export type ExecuteOpenCypherExplainQueryError =
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeOpenCypherExplainQuery: API.OperationMethod<
-  ExecuteOpenCypherExplainQueryInput,
+  ExecuteOpenCypherExplainQueryInput & RegionInput,
   ExecuteOpenCypherExplainQueryOutput,
   ExecuteOpenCypherExplainQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ExecuteOpenCypherExplainQueryInput>,
-  output: __S(145, __c18, 1) as any as S.Schema<ExecuteOpenCypherExplainQueryOutput>,
+  input: __S(152, __c19, 0) as any as S.Schema<ExecuteOpenCypherExplainQueryInput>,
+  output: __S(153, __c19, 1) as any as S.Schema<ExecuteOpenCypherExplainQueryOutput>,
   errors: [
     BadRequestException,
+    CancelledByMaintenanceException,
     CancelledByUserException,
     ClientTimeoutException,
     ConcurrentModificationException,
@@ -1930,6 +2113,7 @@ export const executeOpenCypherExplainQuery: API.OperationMethod<
 
 export type ExecuteOpenCypherQueryError =
   | BadRequestException
+  | CancelledByMaintenanceException
   | CancelledByUserException
   | ClientTimeoutException
   | ConcurrentModificationException
@@ -1969,15 +2153,16 @@ export type ExecuteOpenCypherQueryError =
  * Note also that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeOpenCypherQuery: API.OperationMethod<
-  ExecuteOpenCypherQueryInput,
+  ExecuteOpenCypherQueryInput & RegionInput,
   ExecuteOpenCypherQueryOutput,
   ExecuteOpenCypherQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<ExecuteOpenCypherQueryInput>,
-  output: __S(153, __c19, 1) as any as S.Schema<ExecuteOpenCypherQueryOutput>,
+  input: __S(160, __c20, 0) as any as S.Schema<ExecuteOpenCypherQueryInput>,
+  output: __S(161, __c20, 1) as any as S.Schema<ExecuteOpenCypherQueryOutput>,
   errors: [
     BadRequestException,
+    CancelledByMaintenanceException,
     CancelledByUserException,
     ClientTimeoutException,
     ConcurrentModificationException,
@@ -2022,13 +2207,13 @@ export type GetEngineStatusError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetEngineStatus IAM action in that cluster.
  */
 export const getEngineStatus: API.OperationMethod<
-  GetEngineStatusRequest,
+  GetEngineStatusRequest & RegionInput,
   GetEngineStatusOutput,
   GetEngineStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetEngineStatusRequest>,
-  output: __S(163, __c20, 3) as any as S.Schema<GetEngineStatusOutput>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetEngineStatusRequest>,
+  output: __S(171, __c21, 3) as any as S.Schema<GetEngineStatusOutput>,
   errors: [
     ClientTimeoutException,
     ConstraintViolationException,
@@ -2072,13 +2257,13 @@ export type GetGremlinQueryStatusError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const getGremlinQueryStatus: API.OperationMethod<
-  GetGremlinQueryStatusInput,
+  GetGremlinQueryStatusInput & RegionInput,
   GetGremlinQueryStatusOutput,
   GetGremlinQueryStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetGremlinQueryStatusInput>,
-  output: __S(185, __c23, 1) as any as S.Schema<GetGremlinQueryStatusOutput>,
+  input: __S(184, __c23, 0) as any as S.Schema<GetGremlinQueryStatusInput>,
+  output: __S(193, __c24, 1) as any as S.Schema<GetGremlinQueryStatusOutput>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -2104,6 +2289,54 @@ export const getGremlinQueryStatus: API.OperationMethod<
   span: "GetGremlinQueryStatus",
 }));
 
+export type GetIndexRebuildStatusError =
+  | AccessDeniedException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InternalFailureException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MethodNotAllowedException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves the status of an index rebuild operation.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetIndexRebuildStatus IAM action in that cluster.
+ */
+export const getIndexRebuildStatus: API.OperationMethod<
+  GetIndexRebuildStatusInput & RegionInput,
+  GetIndexRebuildStatusOutput,
+  GetIndexRebuildStatusError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(200, __c25, 0) as any as S.Schema<GetIndexRebuildStatusInput>,
+  output: __S(201, __c25, 1) as any as S.Schema<GetIndexRebuildStatusOutput>,
+  errors: [
+    AccessDeniedException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InternalFailureException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MethodNotAllowedException,
+    PreconditionsFailedException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetIndexRebuildStatus",
+  telemetry: TELEMETRY,
+  span: "GetIndexRebuildStatus",
+}));
+
 export type GetLoaderJobStatusError =
   | BadRequestException
   | BulkLoadIdNotFoundException
@@ -2127,13 +2360,13 @@ export type GetLoaderJobStatusError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetLoaderJobStatus IAM action in that cluster..
  */
 export const getLoaderJobStatus: API.OperationMethod<
-  GetLoaderJobStatusInput,
+  GetLoaderJobStatusInput & RegionInput,
   GetLoaderJobStatusOutput,
   GetLoaderJobStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetLoaderJobStatusInput>,
-  output: __S(193, __c24, 1) as any as S.Schema<GetLoaderJobStatusOutput>,
+  input: __S(208, __c26, 0) as any as S.Schema<GetLoaderJobStatusInput>,
+  output: __S(209, __c26, 1) as any as S.Schema<GetLoaderJobStatusOutput>,
   errors: [
     BadRequestException,
     BulkLoadIdNotFoundException,
@@ -2175,13 +2408,13 @@ export type GetMLDataProcessingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:GetMLDataProcessingJobStatus IAM action in that cluster.
  */
 export const getMLDataProcessingJob: API.OperationMethod<
-  GetMLDataProcessingJobInput,
+  GetMLDataProcessingJobInput & RegionInput,
   GetMLDataProcessingJobOutput,
   GetMLDataProcessingJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetMLDataProcessingJobInput>,
-  output: __S(201, __c25, 1) as any as S.Schema<GetMLDataProcessingJobOutput>,
+  input: __S(216, __c27, 0) as any as S.Schema<GetMLDataProcessingJobInput>,
+  output: __S(217, __c27, 1) as any as S.Schema<GetMLDataProcessingJobOutput>,
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -2221,13 +2454,13 @@ export type GetMLEndpointError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLEndpointStatus IAM action in that cluster.
  */
 export const getMLEndpoint: API.OperationMethod<
-  GetMLEndpointInput,
+  GetMLEndpointInput & RegionInput,
   GetMLEndpointOutput,
   GetMLEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetMLEndpointInput>,
-  output: __S(217, __c27, 1) as any as S.Schema<GetMLEndpointOutput>,
+  input: __S(232, __c29, 0) as any as S.Schema<GetMLEndpointInput>,
+  output: __S(233, __c29, 1) as any as S.Schema<GetMLEndpointOutput>,
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -2267,13 +2500,13 @@ export type GetMLModelTrainingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTrainingJobStatus IAM action in that cluster.
  */
 export const getMLModelTrainingJob: API.OperationMethod<
-  GetMLModelTrainingJobInput,
+  GetMLModelTrainingJobInput & RegionInput,
   GetMLModelTrainingJobOutput,
   GetMLModelTrainingJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<GetMLModelTrainingJobInput>,
-  output: __S(233, __c29, 1) as any as S.Schema<GetMLModelTrainingJobOutput>,
+  input: __S(248, __c31, 0) as any as S.Schema<GetMLModelTrainingJobInput>,
+  output: __S(249, __c31, 1) as any as S.Schema<GetMLModelTrainingJobOutput>,
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -2313,13 +2546,13 @@ export type GetMLModelTransformJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTransformJobStatus IAM action in that cluster.
  */
 export const getMLModelTransformJob: API.OperationMethod<
-  GetMLModelTransformJobInput,
+  GetMLModelTransformJobInput & RegionInput,
   GetMLModelTransformJobOutput,
   GetMLModelTransformJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<GetMLModelTransformJobInput>,
-  output: __S(249, __c31, 1) as any as S.Schema<GetMLModelTransformJobOutput>,
+  input: __S(264, __c33, 0) as any as S.Schema<GetMLModelTransformJobInput>,
+  output: __S(265, __c33, 1) as any as S.Schema<GetMLModelTransformJobOutput>,
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -2367,13 +2600,13 @@ export type GetOpenCypherQueryStatusError =
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const getOpenCypherQueryStatus: API.OperationMethod<
-  GetOpenCypherQueryStatusInput,
+  GetOpenCypherQueryStatusInput & RegionInput,
   GetOpenCypherQueryStatusOutput,
   GetOpenCypherQueryStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<GetOpenCypherQueryStatusInput>,
-  output: __S(185, __c23, 1) as any as S.Schema<GetOpenCypherQueryStatusOutput>,
+  input: __S(272, __c34, 0) as any as S.Schema<GetOpenCypherQueryStatusInput>,
+  output: __S(193, __c24, 1) as any as S.Schema<GetOpenCypherQueryStatusOutput>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -2421,13 +2654,13 @@ export type GetPropertygraphStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetStatisticsStatus IAM action in that cluster.
  */
 export const getPropertygraphStatistics: API.OperationMethod<
-  GetPropertygraphStatisticsRequest,
+  GetPropertygraphStatisticsRequest & RegionInput,
   GetPropertygraphStatisticsOutput,
   GetPropertygraphStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<GetPropertygraphStatisticsRequest>,
-  output: __S(274, __c34, 2) as any as S.Schema<GetPropertygraphStatisticsOutput>,
+  input: __S(280, __c35, 0) as any as S.Schema<GetPropertygraphStatisticsRequest>,
+  output: __S(290, __c36, 2) as any as S.Schema<GetPropertygraphStatisticsOutput>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -2486,13 +2719,13 @@ export type GetPropertygraphStreamError =
  * See Condition keys available in Neptune IAM data-access policy statements).
  */
 export const getPropertygraphStream: API.OperationMethod<
-  GetPropertygraphStreamInput,
+  GetPropertygraphStreamInput & RegionInput,
   GetPropertygraphStreamOutput,
   GetPropertygraphStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<GetPropertygraphStreamInput>,
-  output: __S(284, __c35, 4) as any as S.Schema<GetPropertygraphStreamOutput>,
+  input: __S(296, __c37, 0) as any as S.Schema<GetPropertygraphStreamInput>,
+  output: __S(300, __c37, 4) as any as S.Schema<GetPropertygraphStreamOutput>,
   errors: [
     ClientTimeoutException,
     ConstraintViolationException,
@@ -2535,13 +2768,13 @@ export type GetPropertygraphSummaryError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
  */
 export const getPropertygraphSummary: API.OperationMethod<
-  GetPropertygraphSummaryInput,
+  GetPropertygraphSummaryInput & RegionInput,
   GetPropertygraphSummaryOutput,
   GetPropertygraphSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<GetPropertygraphSummaryInput>,
-  output: __S(295, __c36, 7) as any as S.Schema<GetPropertygraphSummaryOutput>,
+  input: __S(304, __c38, 0) as any as S.Schema<GetPropertygraphSummaryInput>,
+  output: __S(311, __c38, 7) as any as S.Schema<GetPropertygraphSummaryOutput>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -2585,13 +2818,13 @@ export type GetRDFGraphSummaryError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
  */
 export const getRDFGraphSummary: API.OperationMethod<
-  GetRDFGraphSummaryInput,
+  GetRDFGraphSummaryInput & RegionInput,
   GetRDFGraphSummaryOutput,
   GetRDFGraphSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<GetRDFGraphSummaryInput>,
-  output: __S(317, __c39, 5) as any as S.Schema<GetRDFGraphSummaryOutput>,
+  input: __S(328, __c41, 0) as any as S.Schema<GetRDFGraphSummaryInput>,
+  output: __S(333, __c41, 5) as any as S.Schema<GetRDFGraphSummaryOutput>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -2633,13 +2866,13 @@ export type GetSparqlStatisticsError =
  * Gets RDF statistics (SPARQL).
  */
 export const getSparqlStatistics: API.OperationMethod<
-  GetSparqlStatisticsRequest,
+  GetSparqlStatisticsRequest & RegionInput,
   GetSparqlStatisticsOutput,
   GetSparqlStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<GetSparqlStatisticsRequest>,
-  output: __S(274, __c34, 2) as any as S.Schema<GetSparqlStatisticsOutput>,
+  input: __S(336, __c42, 0) as any as S.Schema<GetSparqlStatisticsRequest>,
+  output: __S(290, __c36, 2) as any as S.Schema<GetSparqlStatisticsOutput>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -2690,13 +2923,13 @@ export type GetSparqlStreamError =
  * Note that the neptune-db:QueryLanguage:Sparql IAM condition key can be used in the policy document to restrict the use of SPARQL queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const getSparqlStream: API.OperationMethod<
-  GetSparqlStreamInput,
+  GetSparqlStreamInput & RegionInput,
   GetSparqlStreamOutput,
   GetSparqlStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<GetSparqlStreamInput>,
-  output: __S(332, __c41, 4) as any as S.Schema<GetSparqlStreamOutput>,
+  input: __S(344, __c43, 0) as any as S.Schema<GetSparqlStreamInput>,
+  output: __S(348, __c43, 4) as any as S.Schema<GetSparqlStreamOutput>,
   errors: [
     ClientTimeoutException,
     ConstraintViolationException,
@@ -2716,6 +2949,68 @@ export const getSparqlStream: API.OperationMethod<
   operationName: "GetSparqlStream",
   telemetry: TELEMETRY,
   span: "GetSparqlStream",
+}));
+
+export type GetStorageInfoError =
+  | AccessDeniedException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InternalFailureException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MethodNotAllowedException
+  | PreconditionsFailedException
+  | ServerShutdownException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | CommonErrors;
+/**
+ * Retrieves storage information for the Neptune database instance, including approximate total storage used and per-category size and entry counts. Storage categories include:
+ *
+ * - *Quad indexes* - the indexes that store graph data, for both RDF (SPARQL) and Property Graph (Gremlin/openCypher) models.
+ *
+ * - *Dictionaries* - the term dictionaries, including total dictionary storage and the portion used by blob (large value) entries.
+ *
+ * - *Undo logs* - the undo logs, reported as a total size and the number of entries in the undo log list.
+ *
+ * - *Streams* - the change-log streams.
+ *
+ * - *Schema* - the schema.
+ *
+ * - *DFE statistics* - the DFE engine statistics.
+ *
+ * - *System metadata* - internal system metadata.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetStorageInfo IAM action in that cluster.
+ */
+export const getStorageInfo: API.OperationMethod<
+  GetStorageInfoRequest & RegionInput,
+  GetStorageOutput,
+  GetStorageInfoError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(352, __c44, 0) as any as S.Schema<GetStorageInfoRequest>,
+  output: __S(358, __c44, 6) as any as S.Schema<GetStorageOutput>,
+  errors: [
+    AccessDeniedException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InternalFailureException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MethodNotAllowedException,
+    PreconditionsFailedException,
+    ServerShutdownException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetStorageInfo",
+  telemetry: TELEMETRY,
+  span: "GetStorageInfo",
 }));
 
 export type ListGremlinQueriesError =
@@ -2744,13 +3039,13 @@ export type ListGremlinQueriesError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const listGremlinQueries: API.OperationMethod<
-  ListGremlinQueriesInput,
+  ListGremlinQueriesInput & RegionInput,
   ListGremlinQueriesOutput,
   ListGremlinQueriesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<ListGremlinQueriesInput>,
-  output: __S(345, __c43, 1) as any as S.Schema<ListGremlinQueriesOutput>,
+  input: __S(360, __c45, 0) as any as S.Schema<ListGremlinQueriesInput>,
+  output: __S(369, __c46, 1) as any as S.Schema<ListGremlinQueriesOutput>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -2776,6 +3071,52 @@ export const listGremlinQueries: API.OperationMethod<
   span: "ListGremlinQueries",
 }));
 
+export type ListIndexRebuildsError =
+  | AccessDeniedException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InternalFailureException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MethodNotAllowedException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | CommonErrors;
+/**
+ * Retrieves a list of all index rebuild operation identifiers.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListIndexRebuilds IAM action in that cluster.
+ */
+export const listIndexRebuilds: API.OperationMethod<
+  ListIndexRebuildsRequest & RegionInput,
+  ListIndexRebuildsOutput,
+  ListIndexRebuildsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(376, __c47, 0) as any as S.Schema<ListIndexRebuildsRequest>,
+  output: __S(377, __c47, 1) as any as S.Schema<ListIndexRebuildsOutput>,
+  errors: [
+    AccessDeniedException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InternalFailureException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MethodNotAllowedException,
+    PreconditionsFailedException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListIndexRebuilds",
+  telemetry: TELEMETRY,
+  span: "ListIndexRebuilds",
+}));
+
 export type ListLoaderJobsError =
   | BadRequestException
   | BulkLoadIdNotFoundException
@@ -2796,13 +3137,13 @@ export type ListLoaderJobsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListLoaderJobs IAM action in that cluster..
  */
 export const listLoaderJobs: API.OperationMethod<
-  ListLoaderJobsInput,
+  ListLoaderJobsInput & RegionInput,
   ListLoaderJobsOutput,
   ListLoaderJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<ListLoaderJobsInput>,
-  output: __S(354, __c44, 2) as any as S.Schema<ListLoaderJobsOutput>,
+  input: __S(384, __c48, 0) as any as S.Schema<ListLoaderJobsInput>,
+  output: __S(386, __c48, 2) as any as S.Schema<ListLoaderJobsOutput>,
   errors: [
     BadRequestException,
     BulkLoadIdNotFoundException,
@@ -2843,13 +3184,13 @@ export type ListMLDataProcessingJobsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLDataProcessingJobs IAM action in that cluster.
  */
 export const listMLDataProcessingJobs: API.OperationMethod<
-  ListMLDataProcessingJobsInput,
+  ListMLDataProcessingJobsInput & RegionInput,
   ListMLDataProcessingJobsOutput,
   ListMLDataProcessingJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<ListMLDataProcessingJobsInput>,
-  output: __S(368, __c46, 0) as any as S.Schema<ListMLDataProcessingJobsOutput>,
+  input: __S(392, __c49, 0) as any as S.Schema<ListMLDataProcessingJobsInput>,
+  output: __S(400, __c50, 0) as any as S.Schema<ListMLDataProcessingJobsOutput>,
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -2889,13 +3230,13 @@ export type ListMLEndpointsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLEndpoints IAM action in that cluster.
  */
 export const listMLEndpoints: API.OperationMethod<
-  ListMLEndpointsInput,
+  ListMLEndpointsInput & RegionInput,
   ListMLEndpointsOutput,
   ListMLEndpointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<ListMLEndpointsInput>,
-  output: __S(368, __c46, 0) as any as S.Schema<ListMLEndpointsOutput>,
+  input: __S(408, __c51, 0) as any as S.Schema<ListMLEndpointsInput>,
+  output: __S(400, __c50, 0) as any as S.Schema<ListMLEndpointsOutput>,
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -2935,13 +3276,13 @@ export type ListMLModelTrainingJobsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:ListMLModelTrainingJobs IAM action in that cluster.
  */
 export const listMLModelTrainingJobs: API.OperationMethod<
-  ListMLModelTrainingJobsInput,
+  ListMLModelTrainingJobsInput & RegionInput,
   ListMLModelTrainingJobsOutput,
   ListMLModelTrainingJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<ListMLModelTrainingJobsInput>,
-  output: __S(368, __c46, 0) as any as S.Schema<ListMLModelTrainingJobsOutput>,
+  input: __S(416, __c52, 0) as any as S.Schema<ListMLModelTrainingJobsInput>,
+  output: __S(400, __c50, 0) as any as S.Schema<ListMLModelTrainingJobsOutput>,
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -2981,13 +3322,13 @@ export type ListMLModelTransformJobsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLModelTransformJobs IAM action in that cluster.
  */
 export const listMLModelTransformJobs: API.OperationMethod<
-  ListMLModelTransformJobsInput,
+  ListMLModelTransformJobsInput & RegionInput,
   ListMLModelTransformJobsOutput,
   ListMLModelTransformJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<ListMLModelTransformJobsInput>,
-  output: __S(368, __c46, 0) as any as S.Schema<ListMLModelTransformJobsOutput>,
+  input: __S(424, __c53, 0) as any as S.Schema<ListMLModelTransformJobsInput>,
+  output: __S(400, __c50, 0) as any as S.Schema<ListMLModelTransformJobsOutput>,
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -3035,13 +3376,13 @@ export type ListOpenCypherQueriesError =
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const listOpenCypherQueries: API.OperationMethod<
-  ListOpenCypherQueriesInput,
+  ListOpenCypherQueriesInput & RegionInput,
   ListOpenCypherQueriesOutput,
   ListOpenCypherQueriesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<ListOpenCypherQueriesInput>,
-  output: __S(345, __c43, 1) as any as S.Schema<ListOpenCypherQueriesOutput>,
+  input: __S(432, __c54, 0) as any as S.Schema<ListOpenCypherQueriesInput>,
+  output: __S(369, __c46, 1) as any as S.Schema<ListOpenCypherQueriesOutput>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -3089,13 +3430,13 @@ export type ManagePropertygraphStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster.
  */
 export const managePropertygraphStatistics: API.OperationMethod<
-  ManagePropertygraphStatisticsInput,
+  ManagePropertygraphStatisticsInput & RegionInput,
   ManagePropertygraphStatisticsOutput,
   ManagePropertygraphStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<ManagePropertygraphStatisticsInput>,
-  output: __S(417, __c52, 1) as any as S.Schema<ManagePropertygraphStatisticsOutput>,
+  input: __S(440, __c55, 0) as any as S.Schema<ManagePropertygraphStatisticsInput>,
+  output: __S(449, __c56, 1) as any as S.Schema<ManagePropertygraphStatisticsOutput>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -3139,13 +3480,13 @@ export type ManageSparqlStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster.
  */
 export const manageSparqlStatistics: API.OperationMethod<
-  ManageSparqlStatisticsInput,
+  ManageSparqlStatisticsInput & RegionInput,
   ManageSparqlStatisticsOutput,
   ManageSparqlStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<ManageSparqlStatisticsInput>,
-  output: __S(417, __c52, 1) as any as S.Schema<ManageSparqlStatisticsOutput>,
+  input: __S(456, __c57, 0) as any as S.Schema<ManageSparqlStatisticsInput>,
+  output: __S(449, __c56, 1) as any as S.Schema<ManageSparqlStatisticsOutput>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -3166,6 +3507,62 @@ export const manageSparqlStatistics: API.OperationMethod<
   operationName: "ManageSparqlStatistics",
   telemetry: TELEMETRY,
   span: "ManageSparqlStatistics",
+}));
+
+export type StartIndexRebuildError =
+  | AccessDeniedException
+  | ClientTimeoutException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InternalFailureException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MemoryLimitExceededException
+  | MethodNotAllowedException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | ResourceNotFoundException
+  | ServerShutdownException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | CommonErrors;
+/**
+ * Initiates an index rebuild operation to optimize storage and improve query performance. The rebuild operation reorganizes index to reclaim space and improve efficiency.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartIndexRebuild IAM action in that cluster.
+ */
+export const startIndexRebuild: API.OperationMethod<
+  StartIndexRebuildInput & RegionInput,
+  StartIndexRebuildOutput,
+  StartIndexRebuildError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(464, __c58, 0) as any as S.Schema<StartIndexRebuildInput>,
+  output: __S(465, __c58, 1) as any as S.Schema<StartIndexRebuildOutput>,
+  errors: [
+    AccessDeniedException,
+    ClientTimeoutException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InternalFailureException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MemoryLimitExceededException,
+    MethodNotAllowedException,
+    PreconditionsFailedException,
+    ReadOnlyViolationException,
+    ResourceNotFoundException,
+    ServerShutdownException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartIndexRebuild",
+  telemetry: TELEMETRY,
+  span: "StartIndexRebuild",
 }));
 
 export type StartLoaderJobError =
@@ -3190,13 +3587,13 @@ export type StartLoaderJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartLoaderJob IAM action in that cluster.
  */
 export const startLoaderJob: API.OperationMethod<
-  StartLoaderJobInput,
+  StartLoaderJobInput & RegionInput,
   StartLoaderJobOutput,
   StartLoaderJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<StartLoaderJobInput>,
-  output: __S(433, __c54, 1) as any as S.Schema<StartLoaderJobOutput>,
+  input: __S(472, __c59, 0) as any as S.Schema<StartLoaderJobInput>,
+  output: __S(473, __c59, 1) as any as S.Schema<StartLoaderJobOutput>,
   errors: [
     BadRequestException,
     BulkLoadIdNotFoundException,
@@ -3239,13 +3636,13 @@ export type StartMLDataProcessingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelDataProcessingJob IAM action in that cluster.
  */
 export const startMLDataProcessingJob: API.OperationMethod<
-  StartMLDataProcessingJobInput,
+  StartMLDataProcessingJobInput & RegionInput,
   StartMLDataProcessingJobOutput,
   StartMLDataProcessingJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<StartMLDataProcessingJobInput>,
-  output: __S(64, __c8, 0) as any as S.Schema<StartMLDataProcessingJobOutput>,
+  input: __S(480, __c60, 0) as any as S.Schema<StartMLDataProcessingJobInput>,
+  output: __S(72, __c9, 0) as any as S.Schema<StartMLDataProcessingJobOutput>,
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -3285,13 +3682,13 @@ export type StartMLModelTrainingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTrainingJob IAM action in that cluster.
  */
 export const startMLModelTrainingJob: API.OperationMethod<
-  StartMLModelTrainingJobInput,
+  StartMLModelTrainingJobInput & RegionInput,
   StartMLModelTrainingJobOutput,
   StartMLModelTrainingJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(449, __c56, 1) as any as S.Schema<StartMLModelTrainingJobInput>,
-  output: __S(64, __c8, 0) as any as S.Schema<StartMLModelTrainingJobOutput>,
+  input: __S(489, __c61, 1) as any as S.Schema<StartMLModelTrainingJobInput>,
+  output: __S(72, __c9, 0) as any as S.Schema<StartMLModelTrainingJobOutput>,
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -3331,13 +3728,13 @@ export type StartMLModelTransformJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTransformJob IAM action in that cluster.
  */
 export const startMLModelTransformJob: API.OperationMethod<
-  StartMLModelTransformJobInput,
+  StartMLModelTransformJobInput & RegionInput,
   StartMLModelTransformJobOutput,
   StartMLModelTransformJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(457, __c57, 1) as any as S.Schema<StartMLModelTransformJobInput>,
-  output: __S(64, __c8, 0) as any as S.Schema<StartMLModelTransformJobOutput>,
+  input: __S(497, __c62, 1) as any as S.Schema<StartMLModelTransformJobInput>,
+  output: __S(72, __c9, 0) as any as S.Schema<StartMLModelTransformJobOutput>,
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -3388,6 +3785,27 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ rebuildId: S.String.pipe(T.HttpLabel("rebuildId")) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/storage/indexes/rebuilds/{rebuildId}/cancel" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CancelIndexRebuildInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ status: S.String, concurrency: S.Number, writeBufferSize: S.String }),
+      ).annotate({ identifier: "CancelIndexRebuildOutput" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({ loadId: S.String.pipe(T.HttpLabel("loadId")) }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/loader/{loadId}" }),
@@ -3401,7 +3819,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CancelLoaderJobInput" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3422,7 +3840,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CancelMLDataProcessingJobInput" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3443,7 +3861,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CancelMLModelTrainingJobInput" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3464,7 +3882,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CancelMLModelTransformJobInput" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3488,7 +3906,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CancelOpenCypherQueryOutput" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3508,7 +3926,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateMLEndpointInput" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3520,7 +3938,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateMLEndpointOutput" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3541,7 +3959,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteMLEndpointInput" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3558,7 +3976,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeletePropertygraphStatisticsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3569,12 +3987,12 @@ function __c11(j: number): any {
         S.Struct({
           statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
           status: S.optional(S.String),
-          payload: S.optional(__S(88, __c11, 0)),
+          payload: S.optional(__S(96, __c12, 0)),
         }),
       ).annotate({ identifier: "DeletePropertygraphStatisticsOutput" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3591,7 +4009,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteSparqlStatisticsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3605,11 +4023,11 @@ function __c13(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({ status: S.String, payload: S.optional(__S(105, __c13, 1)) }),
+        S.Struct({ status: S.String, payload: S.optional(__S(113, __c14, 1)) }),
       ).annotate({ identifier: "ExecuteFastResetOutput" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3628,7 +4046,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ExecuteGremlinExplainQueryInput" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3636,7 +4054,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ExecuteGremlinExplainQueryOutput" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3669,7 +4087,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ExecuteGremlinProfileQueryInput" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3692,14 +4110,14 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String),
-          status: S.optional(__S(137, __c17, 1)),
+          status: S.optional(__S(145, __c18, 1)),
           result: S.optional(S.Any),
           meta: S.optional(S.Any),
         }),
       ).annotate({ identifier: "ExecuteGremlinQueryOutput" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3726,7 +4144,7 @@ function __c18(j: number): any {
       });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3742,7 +4160,7 @@ function __c19(j: number): any {
       });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3764,25 +4182,25 @@ function __c20(j: number): any {
           dbEngineVersion: S.optional(S.String),
           role: S.optional(S.String),
           dfeQueryEngine: S.optional(S.String),
-          gremlin: S.optional(__S(161, __c20, 1)),
-          sparql: S.optional(__S(161, __c20, 1)),
-          opencypher: S.optional(__S(161, __c20, 1)),
-          labMode: S.optional(__S(168, __c21, 0)),
+          gremlin: S.optional(__S(169, __c21, 1)),
+          sparql: S.optional(__S(169, __c21, 1)),
+          opencypher: S.optional(__S(169, __c21, 1)),
+          labMode: S.optional(__S(176, __c22, 0)),
           rollingBackTrxCount: S.optional(S.Number),
           rollingBackTrxEarliestStartTime: S.optional(S.String),
-          features: S.optional(__S(162, __c20, 2)),
-          settings: S.optional(__S(168, __c21, 0)),
+          features: S.optional(__S(170, __c21, 2)),
+          settings: S.optional(__S(176, __c22, 0)),
         }),
       ).annotate({ identifier: "GetEngineStatusOutput" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3799,7 +4217,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetGremlinQueryStatusInput" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3815,12 +4233,43 @@ function __c23(j: number): any {
         S.Struct({
           queryId: S.optional(S.String),
           queryString: S.optional(S.String),
-          queryEvalStats: S.optional(__S(184, __c23, 0)),
+          queryEvalStats: S.optional(__S(192, __c24, 0)),
         }),
       ).annotate({ identifier: "GetGremlinQueryStatusOutput" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ rebuildId: S.String.pipe(T.HttpLabel("rebuildId")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/storage/indexes/rebuilds/{rebuildId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetIndexRebuildStatusInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          scope: S.String,
+          concurrency: S.Number,
+          writeBufferSize: S.String,
+          startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          progressPercentage: S.Number,
+          estimatedEndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          failureReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetIndexRebuildStatusOutput" });
+  }
+}
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3840,7 +4289,7 @@ function __c24(j: number): any {
       });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3863,12 +4312,12 @@ function __c25(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           id: S.optional(S.String),
-          processingJob: S.optional(__S(208, __c26, 0)),
+          processingJob: S.optional(__S(224, __c28, 0)),
         }),
       ).annotate({ identifier: "GetMLDataProcessingJobOutput" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3883,7 +4332,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "MlResourceDefinition" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3899,13 +4348,13 @@ function __c27(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           id: S.optional(S.String),
-          endpoint: S.optional(__S(208, __c26, 0)),
-          endpointConfig: S.optional(__S(224, __c28, 0)),
+          endpoint: S.optional(__S(224, __c28, 0)),
+          endpointConfig: S.optional(__S(240, __c30, 0)),
         }),
       ).annotate({ identifier: "GetMLEndpointOutput" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3913,7 +4362,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "MlConfigDefinition" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3936,21 +4385,21 @@ function __c29(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           id: S.optional(S.String),
-          processingJob: S.optional(__S(208, __c26, 0)),
-          hpoJob: S.optional(__S(208, __c26, 0)),
-          modelTransformJob: S.optional(__S(208, __c26, 0)),
-          mlModels: S.optional(__S(240, __c30, 0)),
+          processingJob: S.optional(__S(224, __c28, 0)),
+          hpoJob: S.optional(__S(224, __c28, 0)),
+          modelTransformJob: S.optional(__S(224, __c28, 0)),
+          mlModels: S.optional(__S(256, __c32, 0)),
         }),
       ).annotate({ identifier: "GetMLModelTrainingJobOutput" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(224, __c28, 0));
+      return S.Array(__S(240, __c30, 0));
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3973,14 +4422,14 @@ function __c31(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           id: S.optional(S.String),
-          baseProcessingJob: S.optional(__S(208, __c26, 0)),
-          remoteModelTransformJob: S.optional(__S(208, __c26, 0)),
-          models: S.optional(__S(240, __c30, 0)),
+          baseProcessingJob: S.optional(__S(224, __c28, 0)),
+          remoteModelTransformJob: S.optional(__S(224, __c28, 0)),
+          models: S.optional(__S(256, __c32, 0)),
         }),
       ).annotate({ identifier: "GetMLModelTransformJobOutput" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3997,7 +4446,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetOpenCypherQueryStatusInput" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4014,7 +4463,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetPropertygraphStatisticsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4032,16 +4481,16 @@ function __c34(j: number): any {
           statisticsId: S.optional(S.String),
           date: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           note: S.optional(S.String),
-          signatureInfo: S.optional(__S(272, __c34, 0)),
+          signatureInfo: S.optional(__S(288, __c36, 0)),
         }),
       ).annotate({ identifier: "Statistics" });
     case 2:
-      return S.suspend(() => S.Struct({ status: S.String, payload: __S(273, __c34, 1) })).annotate({
+      return S.suspend(() => S.Struct({ status: S.String, payload: __S(289, __c36, 1) })).annotate({
         identifier: "GetPropertygraphStatisticsOutput",
       });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4077,27 +4526,27 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           commitTimestampInMillis: S.Number,
-          eventId: __S(168, __c21, 0),
-          data: __S(281, __c35, 1),
+          eventId: __S(176, __c22, 0),
+          data: __S(297, __c37, 1),
           op: S.String,
           isLastOp: S.optional(S.Boolean),
         }).pipe(S.encodeKeys({ commitTimestampInMillis: "commitTimestamp" })),
       ).annotate({ identifier: "PropertygraphRecord" });
     case 3:
-      return S.Array(__S(282, __c35, 2));
+      return S.Array(__S(298, __c37, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          lastEventId: __S(168, __c21, 0),
+          lastEventId: __S(176, __c22, 0),
           lastTrxTimestampInMillis: S.Number,
           format: S.String,
-          records: __S(283, __c35, 3),
+          records: __S(299, __c37, 3),
           totalRecords: S.Number,
         }).pipe(S.encodeKeys({ lastTrxTimestampInMillis: "lastTrxTimestamp" })),
       ).annotate({ identifier: "GetPropertygraphStreamOutput" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4116,18 +4565,18 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          nodeProperties: S.optional(__S(304, __c38, 0)),
-          distinctOutgoingEdgeLabels: S.optional(__S(304, __c38, 0)),
+          nodeProperties: S.optional(__S(320, __c40, 0)),
+          distinctOutgoingEdgeLabels: S.optional(__S(320, __c40, 0)),
         }),
       ).annotate({ identifier: "NodeStructure" });
     case 2:
-      return S.Array(__S(289, __c36, 1));
+      return S.Array(__S(305, __c38, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ count: S.optional(S.Number), edgeProperties: S.optional(__S(304, __c38, 0)) }),
+        S.Struct({ count: S.optional(S.Number), edgeProperties: S.optional(__S(320, __c40, 0)) }),
       ).annotate({ identifier: "EdgeStructure" });
     case 4:
-      return S.Array(__S(291, __c36, 3));
+      return S.Array(__S(307, __c38, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4135,16 +4584,16 @@ function __c36(j: number): any {
           numEdges: S.optional(S.Number),
           numNodeLabels: S.optional(S.Number),
           numEdgeLabels: S.optional(S.Number),
-          nodeLabels: S.optional(__S(304, __c38, 0)),
-          edgeLabels: S.optional(__S(304, __c38, 0)),
+          nodeLabels: S.optional(__S(320, __c40, 0)),
+          edgeLabels: S.optional(__S(320, __c40, 0)),
           numNodeProperties: S.optional(S.Number),
           numEdgeProperties: S.optional(S.Number),
-          nodeProperties: S.optional(__S(297, __c37, 1)),
-          edgeProperties: S.optional(__S(297, __c37, 1)),
+          nodeProperties: S.optional(__S(313, __c39, 1)),
+          edgeProperties: S.optional(__S(313, __c39, 1)),
           totalNodePropertyValues: S.optional(S.Number),
           totalEdgePropertyValues: S.optional(S.Number),
-          nodeStructures: S.optional(__S(290, __c36, 2)),
-          edgeStructures: S.optional(__S(292, __c36, 4)),
+          nodeStructures: S.optional(__S(306, __c38, 2)),
+          edgeStructures: S.optional(__S(308, __c38, 4)),
         }),
       ).annotate({ identifier: "PropertygraphSummary" });
     case 6:
@@ -4154,33 +4603,33 @@ function __c36(j: number): any {
           lastStatisticsComputationTime: S.optional(
             T.DateFromString.pipe(T.TimestampFormat("date-time")),
           ),
-          graphSummary: S.optional(__S(293, __c36, 5)),
+          graphSummary: S.optional(__S(309, __c38, 5)),
         }),
       ).annotate({ identifier: "PropertygraphSummaryValueMap" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
-          payload: S.optional(__S(294, __c36, 6)),
+          payload: S.optional(__S(310, __c38, 6)),
         }),
       ).annotate({ identifier: "GetPropertygraphSummaryOutput" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.Number.pipe(S.optional));
     case 1:
-      return S.Array(__S(296, __c37, 0));
+      return S.Array(__S(312, __c39, 0));
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4197,10 +4646,10 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetRDFGraphSummaryInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ count: S.optional(S.Number), predicates: S.optional(__S(304, __c38, 0)) }),
+        S.Struct({ count: S.optional(S.Number), predicates: S.optional(__S(320, __c40, 0)) }),
       ).annotate({ identifier: "SubjectStructure" });
     case 2:
-      return S.Array(__S(313, __c39, 1));
+      return S.Array(__S(329, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4208,9 +4657,9 @@ function __c39(j: number): any {
           numDistinctPredicates: S.optional(S.Number),
           numQuads: S.optional(S.Number),
           numClasses: S.optional(S.Number),
-          classes: S.optional(__S(304, __c38, 0)),
-          predicates: S.optional(__S(297, __c37, 1)),
-          subjectStructures: S.optional(__S(314, __c39, 2)),
+          classes: S.optional(__S(320, __c40, 0)),
+          predicates: S.optional(__S(313, __c39, 1)),
+          subjectStructures: S.optional(__S(330, __c41, 2)),
         }),
       ).annotate({ identifier: "RDFGraphSummary" });
     case 4:
@@ -4220,19 +4669,19 @@ function __c39(j: number): any {
           lastStatisticsComputationTime: S.optional(
             T.DateFromString.pipe(T.TimestampFormat("date-time")),
           ),
-          graphSummary: S.optional(__S(315, __c39, 3)),
+          graphSummary: S.optional(__S(331, __c41, 3)),
         }),
       ).annotate({ identifier: "RDFGraphSummaryValueMap" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
-          payload: S.optional(__S(316, __c39, 4)),
+          payload: S.optional(__S(332, __c41, 4)),
         }),
       ).annotate({ identifier: "GetRDFGraphSummaryOutput" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4242,7 +4691,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetSparqlStatisticsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4262,27 +4711,76 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           commitTimestampInMillis: S.Number,
-          eventId: __S(168, __c21, 0),
-          data: __S(329, __c41, 1),
+          eventId: __S(176, __c22, 0),
+          data: __S(345, __c43, 1),
           op: S.String,
           isLastOp: S.optional(S.Boolean),
         }).pipe(S.encodeKeys({ commitTimestampInMillis: "commitTimestamp" })),
       ).annotate({ identifier: "SparqlRecord" });
     case 3:
-      return S.Array(__S(330, __c41, 2));
+      return S.Array(__S(346, __c43, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          lastEventId: __S(168, __c21, 0),
+          lastEventId: __S(176, __c22, 0),
           lastTrxTimestampInMillis: S.Number,
           format: S.String,
-          records: __S(331, __c41, 3),
+          records: __S(347, __c43, 3),
           totalRecords: S.Number,
         }).pipe(S.encodeKeys({ lastTrxTimestampInMillis: "lastTrxTimestamp" })),
       ).annotate({ identifier: "GetSparqlStreamOutput" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "GET", uri: "/storage/info" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetStorageInfoRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ sizeInBytes: S.Number, count: S.Number })).annotate({
+        identifier: "StorageMetrics",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          SPOG: S.optional(__S(353, __c44, 1)),
+          POGS: S.optional(__S(353, __c44, 1)),
+          GPSO: S.optional(__S(353, __c44, 1)),
+          OSGP: S.optional(__S(353, __c44, 1)),
+          PZSOG: S.optional(__S(353, __c44, 1)),
+        }),
+      ).annotate({ identifier: "QuadsInfo" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ RDF: S.optional(__S(354, __c44, 2)), PG: S.optional(__S(354, __c44, 2)) }),
+      ).annotate({ identifier: "QuadsIndexesInfo" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ total: S.optional(__S(353, __c44, 1)), blobs: S.optional(__S(353, __c44, 1)) }),
+      ).annotate({ identifier: "DictionariesInfo" });
+    case 5:
+      return S.suspend(() => S.Struct({ sizeInBytes: S.Number, listSize: S.Number })).annotate({
+        identifier: "UndoLogsMetrics",
+      });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          totalStorageBytesUsed: S.optional(S.Number),
+          quads: S.optional(__S(355, __c44, 3)),
+          dictionaries: S.optional(__S(356, __c44, 4)),
+          undoLogs: S.optional(__S(357, __c44, 5)),
+          streams: S.optional(__S(353, __c44, 1)),
+          dfeStatistics: S.optional(__S(353, __c44, 1)),
+          schema: S.optional(__S(353, __c44, 1)),
+          internals: S.optional(__S(353, __c44, 1)),
+        }),
+      ).annotate({ identifier: "GetStorageOutput" });
+  }
+}
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4294,21 +4792,42 @@ function __c42(j: number): any {
       ).annotate({ identifier: "ListGremlinQueriesInput" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(185, __c23, 1));
+      return S.Array(__S(193, __c24, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           acceptedQueryCount: S.optional(S.Number),
           runningQueryCount: S.optional(S.Number),
-          queries: S.optional(__S(344, __c43, 0)),
+          queries: S.optional(__S(368, __c46, 0)),
         }),
       ).annotate({ identifier: "ListGremlinQueriesOutput" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/storage/indexes/rebuilds" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListIndexRebuildsRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ rebuildIds: __S(320, __c40, 0) })).annotate({
+        identifier: "ListIndexRebuildsOutput",
+      });
+  }
+}
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4318,16 +4837,16 @@ function __c44(j: number): any {
         }).pipe(T.all(T.Http({ method: "GET", uri: "/loader" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListLoaderJobsInput" });
     case 1:
-      return S.suspend(() => S.Struct({ loadIds: S.optional(__S(304, __c38, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ loadIds: S.optional(__S(320, __c40, 0)) })).annotate({
         identifier: "LoaderIdResult",
       });
     case 2:
-      return S.suspend(() => S.Struct({ status: S.String, payload: __S(353, __c44, 1) })).annotate({
+      return S.suspend(() => S.Struct({ status: S.String, payload: __S(385, __c48, 1) })).annotate({
         identifier: "ListLoaderJobsOutput",
       });
   }
 }
-function __c45(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4340,15 +4859,15 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ListMLDataProcessingJobsInput" });
   }
 }
-function __c46(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ ids: S.optional(__S(304, __c38, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ ids: S.optional(__S(320, __c40, 0)) })).annotate({
         identifier: "ListMLDataProcessingJobsOutput",
       });
   }
 }
-function __c47(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4361,7 +4880,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "ListMLEndpointsInput" });
   }
 }
-function __c48(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4374,7 +4893,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ListMLModelTrainingJobsInput" });
   }
 }
-function __c49(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4387,7 +4906,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "ListMLModelTransformJobsInput" });
   }
 }
-function __c50(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4399,7 +4918,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ListOpenCypherQueriesInput" });
   }
 }
-function __c51(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4416,7 +4935,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "ManagePropertygraphStatisticsInput" });
   }
 }
-function __c52(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ statisticsId: S.optional(S.String) })).annotate({
@@ -4424,11 +4943,11 @@ function __c52(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({ status: S.String, payload: S.optional(__S(416, __c52, 0)) }),
+        S.Struct({ status: S.String, payload: S.optional(__S(448, __c56, 0)) }),
       ).annotate({ identifier: "ManagePropertygraphStatisticsOutput" });
   }
 }
-function __c53(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4445,7 +4964,39 @@ function __c53(j: number): any {
       ).annotate({ identifier: "ManageSparqlStatisticsInput" });
   }
 }
-function __c54(j: number): any {
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          scope: S.optional(S.String).pipe(T.HttpQuery("scope")),
+          concurrency: S.optional(S.Number).pipe(T.HttpQuery("concurrency")),
+          writeBufferSize: S.optional(S.String).pipe(T.HttpQuery("writeBufferSize")),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/storage/indexes/rebuilds" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartIndexRebuildInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          rebuildId: S.String,
+          scope: S.String,
+          concurrency: S.Number,
+          writeBufferSize: S.String,
+        }),
+      ).annotate({ identifier: "StartIndexRebuildOutput" });
+  }
+}
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4457,10 +5008,10 @@ function __c54(j: number): any {
           mode: S.optional(S.String),
           failOnError: S.optional(S.Boolean),
           parallelism: S.optional(S.String),
-          parserConfiguration: S.optional(__S(168, __c21, 0)),
+          parserConfiguration: S.optional(__S(176, __c22, 0)),
           updateSingleCardinalityProperties: S.optional(S.Boolean),
           queueRequest: S.optional(S.Boolean),
-          dependencies: S.optional(__S(304, __c38, 0)),
+          dependencies: S.optional(__S(320, __c40, 0)),
           userProvidedEdgeIds: S.optional(S.Boolean),
           edgeOnlyLoad: S.optional(S.Boolean),
         })
@@ -4468,12 +5019,12 @@ function __c54(j: number): any {
           .pipe(T.all(T.Http({ method: "POST", uri: "/loader" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartLoaderJobInput" });
     case 1:
-      return S.suspend(() => S.Struct({ status: S.String, payload: __S(168, __c21, 0) })).annotate({
+      return S.suspend(() => S.Struct({ status: S.String, payload: __S(176, __c22, 0) })).annotate({
         identifier: "StartLoaderJobOutput",
       });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4489,8 +5040,8 @@ function __c55(j: number): any {
           processingTimeOutInSeconds: S.optional(S.Number),
           modelType: S.optional(S.String),
           configFileName: S.optional(S.String),
-          subnets: S.optional(__S(304, __c38, 0)),
-          securityGroupIds: S.optional(__S(304, __c38, 0)),
+          subnets: S.optional(__S(320, __c40, 0)),
+          securityGroupIds: S.optional(__S(320, __c40, 0)),
           volumeEncryptionKMSKey: S.optional(S.String),
           s3OutputEncryptionKMSKey: S.optional(S.String),
         }).pipe(
@@ -4506,7 +5057,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "StartMLDataProcessingJobInput" });
   }
 }
-function __c56(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4531,19 +5082,19 @@ function __c56(j: number): any {
           trainingTimeOutInSeconds: S.optional(S.Number),
           maxHPONumberOfTrainingJobs: S.optional(S.Number),
           maxHPOParallelTrainingJobs: S.optional(S.Number),
-          subnets: S.optional(__S(304, __c38, 0)),
-          securityGroupIds: S.optional(__S(304, __c38, 0)),
+          subnets: S.optional(__S(320, __c40, 0)),
+          securityGroupIds: S.optional(__S(320, __c40, 0)),
           volumeEncryptionKMSKey: S.optional(S.String),
           s3OutputEncryptionKMSKey: S.optional(S.String),
           enableManagedSpotTraining: S.optional(S.Boolean),
-          customModelTrainingParameters: S.optional(__S(448, __c56, 0)),
+          customModelTrainingParameters: S.optional(__S(488, __c61, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/ml/modeltraining" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "StartMLModelTrainingJobInput" });
   }
 }
-function __c57(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4562,11 +5113,11 @@ function __c57(j: number): any {
           modelTransformOutputS3Location: S.String,
           sagemakerIamRoleArn: S.optional(S.String),
           neptuneIamRoleArn: S.optional(S.String),
-          customModelTransformParameters: S.optional(__S(456, __c57, 0)),
+          customModelTransformParameters: S.optional(__S(496, __c62, 0)),
           baseProcessingInstanceType: S.optional(S.String),
           baseProcessingInstanceVolumeSizeInGB: S.optional(S.Number),
-          subnets: S.optional(__S(304, __c38, 0)),
-          securityGroupIds: S.optional(__S(304, __c38, 0)),
+          subnets: S.optional(__S(320, __c40, 0)),
+          securityGroupIds: S.optional(__S(320, __c40, 0)),
           volumeEncryptionKMSKey: S.optional(S.String),
           s3OutputEncryptionKMSKey: S.optional(S.String),
         }).pipe(

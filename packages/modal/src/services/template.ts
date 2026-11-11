@@ -25,13 +25,13 @@ const TELEMETRY = {
 
 export interface ListTemplateRequest {}
 export interface ListTemplateResponseTemplateListItem {
-  name?: string;
-  repo?: string;
-  ref?: string;
+  name: string;
+  repo: string;
+  ref: string;
 }
 export type ListTemplateResponseTemplateListItemList = Array<ListTemplateResponseTemplateListItem>;
 export interface ListTemplateResponse {
-  items?: ListTemplateResponseTemplateListItemList;
+  items: ListTemplateResponseTemplateListItemList;
 }
 export type ListTemplateError = ModalOpError;
 /** Templates */
@@ -62,9 +62,9 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          repo: S.optional(S.String),
-          ref: S.optional(S.String),
+          name: S.String,
+          repo: S.String,
+          ref: S.String,
         }),
       ).annotate({ identifier: "ListTemplateResponseTemplateListItem" });
     case 2:
@@ -72,7 +72,7 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(2, __c0, 2)),
+          items: __S(2, __c0, 2),
         }),
       ).annotate({ identifier: "ListTemplateResponse" });
   }

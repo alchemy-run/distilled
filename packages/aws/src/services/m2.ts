@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -183,7 +184,7 @@ export type AuthSecretsManagerArn = string;
 export interface CancelBatchJobExecutionRequest {
   applicationId: string;
   executionId: string;
-  authSecretsManagerArn?: string;
+  authSecretsManagerArn?: string | undefined;
 }
 export interface CancelBatchJobExecutionResponse {}
 export type EntityName = string;
@@ -192,8 +193,8 @@ export type EngineType = string;
 export type String2000 = string;
 export type StringFree65000 = string;
 export type Definition =
-  | { s3Location: string; content?: never }
-  | { s3Location?: never; content: string };
+  | { s3Location: string; content?: undefined }
+  | { s3Location?: undefined; content: string };
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
@@ -201,13 +202,13 @@ export type ClientToken = string;
 export type Arn = string;
 export interface CreateApplicationRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   engineType: string;
   definition: Definition;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
-  kmsKeyId?: string;
-  roleArn?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
+  kmsKeyId?: string | undefined;
+  roleArn?: string | undefined;
 }
 export type Version = number;
 export interface CreateApplicationResponse {
@@ -223,66 +224,66 @@ export interface DataSetExportItem {
 }
 export type DataSetExportList = DataSetExportItem[];
 export type DataSetExportConfig =
-  | { s3Location: string; dataSets?: never }
-  | { s3Location?: never; dataSets: DataSetExportItem[] };
+  | { s3Location: string; dataSets?: undefined }
+  | { s3Location?: undefined; dataSets: DataSetExportItem[] };
 export type KMSKeyId = string;
 export interface CreateDataSetExportTaskRequest {
   applicationId: string;
   exportConfig: DataSetExportConfig;
-  clientToken?: string;
-  kmsKeyId?: string;
+  clientToken?: string | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface CreateDataSetExportTaskResponse {
   taskId: string;
 }
 export interface PrimaryKey {
-  name?: string;
+  name?: string | undefined;
   offset: number;
   length: number;
 }
 export interface AlternateKey {
-  name?: string;
+  name?: string | undefined;
   offset: number;
   length: number;
-  allowDuplicates?: boolean;
+  allowDuplicates?: boolean | undefined;
 }
 export type AlternateKeyList = AlternateKey[];
 export interface VsamAttributes {
   format: string;
-  encoding?: string;
-  compressed?: boolean;
-  primaryKey?: PrimaryKey;
-  alternateKeys?: AlternateKey[];
+  encoding?: string | undefined;
+  compressed?: boolean | undefined;
+  primaryKey?: PrimaryKey | undefined;
+  alternateKeys?: AlternateKey[] | undefined;
 }
 export interface GdgAttributes {
-  limit?: number;
-  rollDisposition?: string;
+  limit?: number | undefined;
+  rollDisposition?: string | undefined;
 }
 export type String20 = string;
 export type String20List = string[];
 export interface PoAttributes {
   format: string;
-  encoding?: string;
+  encoding?: string | undefined;
   memberFileExtensions: string[];
 }
 export interface PsAttributes {
   format: string;
-  encoding?: string;
+  encoding?: string | undefined;
 }
 export type DatasetOrgAttributes =
-  | { vsam: VsamAttributes; gdg?: never; po?: never; ps?: never }
-  | { vsam?: never; gdg: GdgAttributes; po?: never; ps?: never }
-  | { vsam?: never; gdg?: never; po: PoAttributes; ps?: never }
-  | { vsam?: never; gdg?: never; po?: never; ps: PsAttributes };
+  | { vsam: VsamAttributes; gdg?: undefined; po?: undefined; ps?: undefined }
+  | { vsam?: undefined; gdg: GdgAttributes; po?: undefined; ps?: undefined }
+  | { vsam?: undefined; gdg?: undefined; po: PoAttributes; ps?: undefined }
+  | { vsam?: undefined; gdg?: undefined; po?: undefined; ps: PsAttributes };
 export interface RecordLength {
   min: number;
   max: number;
 }
 export interface DataSet {
-  storageType?: string;
+  storageType?: string | undefined;
   datasetName: string;
   datasetOrg: DatasetOrgAttributes;
-  relativePath?: string;
+  relativePath?: string | undefined;
   recordLength: RecordLength;
 }
 export interface DataSetImportItem {
@@ -291,12 +292,12 @@ export interface DataSetImportItem {
 }
 export type DataSetImportList = DataSetImportItem[];
 export type DataSetImportConfig =
-  | { s3Location: string; dataSets?: never }
-  | { s3Location?: never; dataSets: DataSetImportItem[] };
+  | { s3Location: string; dataSets?: undefined }
+  | { s3Location?: undefined; dataSets: DataSetImportItem[] };
 export interface CreateDataSetImportTaskRequest {
   applicationId: string;
   importConfig: DataSetImportConfig;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateDataSetImportTaskResponse {
   taskId: string;
@@ -305,7 +306,7 @@ export interface CreateDeploymentRequest {
   environmentId: string;
   applicationId: string;
   applicationVersion: number;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateDeploymentResponse {
   deploymentId: string;
@@ -322,8 +323,8 @@ export interface FsxStorageConfiguration {
   mountPoint: string;
 }
 export type StorageConfiguration =
-  | { efs: EfsStorageConfiguration; fsx?: never }
-  | { efs?: never; fsx: FsxStorageConfiguration };
+  | { efs: EfsStorageConfiguration; fsx?: undefined }
+  | { efs?: undefined; fsx: FsxStorageConfiguration };
 export type StorageConfigurationList = StorageConfiguration[];
 export type CapacityValue = number;
 export interface HighAvailabilityConfig {
@@ -333,19 +334,19 @@ export type NetworkType = string;
 export interface CreateEnvironmentRequest {
   name: string;
   instanceType: string;
-  description?: string;
+  description?: string | undefined;
   engineType: string;
-  engineVersion?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  storageConfigurations?: StorageConfiguration[];
-  publiclyAccessible?: boolean;
-  highAvailabilityConfig?: HighAvailabilityConfig;
-  tags?: { [key: string]: string | undefined };
-  preferredMaintenanceWindow?: string;
-  networkType?: string;
-  clientToken?: string;
-  kmsKeyId?: string;
+  engineVersion?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  storageConfigurations?: StorageConfiguration[] | undefined;
+  publiclyAccessible?: boolean | undefined;
+  highAvailabilityConfig?: HighAvailabilityConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  networkType?: string | undefined;
+  clientToken?: string | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface CreateEnvironmentResponse {
   environmentId: string;
@@ -371,14 +372,14 @@ export type ApplicationVersionLifecycle = string;
 export interface ApplicationVersionSummary {
   applicationVersion: number;
   status: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
   creationTime: Date;
 }
 export type DeploymentLifecycle = string;
 export interface DeployedVersionSummary {
   applicationVersion: number;
   status: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export type LogGroupIdentifier = string;
 export interface LogGroupSummary {
@@ -391,25 +392,25 @@ export type PortList = number[];
 export type String100 = string;
 export interface GetApplicationResponse {
   name: string;
-  description?: string;
+  description?: string | undefined;
   applicationId: string;
   applicationArn: string;
   status: string;
   latestVersion: ApplicationVersionSummary;
-  deployedVersion?: DeployedVersionSummary;
+  deployedVersion?: DeployedVersionSummary | undefined;
   engineType: string;
-  logGroups?: LogGroupSummary[];
+  logGroups?: LogGroupSummary[] | undefined;
   creationTime: Date;
-  lastStartTime?: Date;
-  tags?: { [key: string]: string | undefined };
-  environmentId?: string;
-  targetGroupArns?: string[];
-  listenerArns?: string[];
-  listenerPorts?: number[];
-  loadBalancerDnsName?: string;
-  statusReason?: string;
-  kmsKeyId?: string;
-  roleArn?: string;
+  lastStartTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  environmentId?: string | undefined;
+  targetGroupArns?: string[] | undefined;
+  listenerArns?: string[] | undefined;
+  listenerPorts?: number[] | undefined;
+  loadBalancerDnsName?: string | undefined;
+  statusReason?: string | undefined;
+  kmsKeyId?: string | undefined;
+  roleArn?: string | undefined;
 }
 export interface GetApplicationVersionRequest {
   applicationId: string;
@@ -418,11 +419,11 @@ export interface GetApplicationVersionRequest {
 export interface GetApplicationVersionResponse {
   name: string;
   applicationVersion: number;
-  description?: string;
+  description?: string | undefined;
   definitionContent: string;
   status: string;
   creationTime: Date;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface GetBatchJobExecutionRequest {
   applicationId: string;
@@ -432,26 +433,26 @@ export type BatchJobType = string;
 export type BatchJobExecutionStatus = string;
 export interface FileBatchJobIdentifier {
   fileName: string;
-  folderPath?: string;
+  folderPath?: string | undefined;
 }
 export interface ScriptBatchJobIdentifier {
   scriptName: string;
 }
 export type JobIdentifier =
-  | { fileName: string; scriptName?: never }
-  | { fileName?: never; scriptName: string };
+  | { fileName: string; scriptName?: undefined }
+  | { fileName?: undefined; scriptName: string };
 export interface S3BatchJobIdentifier {
   bucket: string;
-  keyPrefix?: string;
+  keyPrefix?: string | undefined;
   identifier: JobIdentifier;
 }
 export interface JobStepRestartMarker {
   fromStep: string;
-  fromProcStep?: string;
-  toStep?: string;
-  toProcStep?: string;
-  stepCheckpoint?: number;
-  skip?: boolean;
+  fromProcStep?: string | undefined;
+  toStep?: string | undefined;
+  toProcStep?: string | undefined;
+  stepCheckpoint?: number | undefined;
+  skip?: boolean | undefined;
 }
 export interface RestartBatchJobIdentifier {
   executionId: string;
@@ -460,58 +461,58 @@ export interface RestartBatchJobIdentifier {
 export type BatchJobIdentifier =
   | {
       fileBatchJobIdentifier: FileBatchJobIdentifier;
-      scriptBatchJobIdentifier?: never;
-      s3BatchJobIdentifier?: never;
-      restartBatchJobIdentifier?: never;
+      scriptBatchJobIdentifier?: undefined;
+      s3BatchJobIdentifier?: undefined;
+      restartBatchJobIdentifier?: undefined;
     }
   | {
-      fileBatchJobIdentifier?: never;
+      fileBatchJobIdentifier?: undefined;
       scriptBatchJobIdentifier: ScriptBatchJobIdentifier;
-      s3BatchJobIdentifier?: never;
-      restartBatchJobIdentifier?: never;
+      s3BatchJobIdentifier?: undefined;
+      restartBatchJobIdentifier?: undefined;
     }
   | {
-      fileBatchJobIdentifier?: never;
-      scriptBatchJobIdentifier?: never;
+      fileBatchJobIdentifier?: undefined;
+      scriptBatchJobIdentifier?: undefined;
       s3BatchJobIdentifier: S3BatchJobIdentifier;
-      restartBatchJobIdentifier?: never;
+      restartBatchJobIdentifier?: undefined;
     }
   | {
-      fileBatchJobIdentifier?: never;
-      scriptBatchJobIdentifier?: never;
-      s3BatchJobIdentifier?: never;
+      fileBatchJobIdentifier?: undefined;
+      scriptBatchJobIdentifier?: undefined;
+      s3BatchJobIdentifier?: undefined;
       restartBatchJobIdentifier: RestartBatchJobIdentifier;
     };
 export interface GetBatchJobExecutionResponse {
   executionId: string;
   applicationId: string;
-  jobId?: string;
-  jobName?: string;
-  jobUser?: string;
-  jobType?: string;
+  jobId?: string | undefined;
+  jobName?: string | undefined;
+  jobUser?: string | undefined;
+  jobType?: string | undefined;
   status: string;
   startTime: Date;
-  endTime?: Date;
-  statusReason?: string;
-  returnCode?: string;
-  batchJobIdentifier?: BatchJobIdentifier;
-  jobStepRestartMarker?: JobStepRestartMarker;
+  endTime?: Date | undefined;
+  statusReason?: string | undefined;
+  returnCode?: string | undefined;
+  batchJobIdentifier?: BatchJobIdentifier | undefined;
+  jobStepRestartMarker?: JobStepRestartMarker | undefined;
 }
 export interface GetDataSetDetailsRequest {
   applicationId: string;
   dataSetName: string;
 }
 export interface VsamDetailAttributes {
-  encoding?: string;
-  recordFormat?: string;
-  compressed?: boolean;
-  cacheAtStartup?: boolean;
-  primaryKey?: PrimaryKey;
-  alternateKeys?: AlternateKey[];
+  encoding?: string | undefined;
+  recordFormat?: string | undefined;
+  compressed?: boolean | undefined;
+  cacheAtStartup?: boolean | undefined;
+  primaryKey?: PrimaryKey | undefined;
+  alternateKeys?: AlternateKey[] | undefined;
 }
 export interface GdgDetailAttributes {
-  limit?: number;
-  rollDisposition?: string;
+  limit?: number | undefined;
+  rollDisposition?: string | undefined;
 }
 export interface PoDetailAttributes {
   format: string;
@@ -522,20 +523,20 @@ export interface PsDetailAttributes {
   encoding: string;
 }
 export type DatasetDetailOrgAttributes =
-  | { vsam: VsamDetailAttributes; gdg?: never; po?: never; ps?: never }
-  | { vsam?: never; gdg: GdgDetailAttributes; po?: never; ps?: never }
-  | { vsam?: never; gdg?: never; po: PoDetailAttributes; ps?: never }
-  | { vsam?: never; gdg?: never; po?: never; ps: PsDetailAttributes };
+  | { vsam: VsamDetailAttributes; gdg?: undefined; po?: undefined; ps?: undefined }
+  | { vsam?: undefined; gdg: GdgDetailAttributes; po?: undefined; ps?: undefined }
+  | { vsam?: undefined; gdg?: undefined; po: PoDetailAttributes; ps?: undefined }
+  | { vsam?: undefined; gdg?: undefined; po?: undefined; ps: PsDetailAttributes };
 export interface GetDataSetDetailsResponse {
   dataSetName: string;
-  dataSetOrg?: DatasetDetailOrgAttributes;
-  recordLength?: number;
-  location?: string;
-  blocksize?: number;
-  creationTime?: Date;
-  lastUpdatedTime?: Date;
-  lastReferencedTime?: Date;
-  fileSize?: number;
+  dataSetOrg?: DatasetDetailOrgAttributes | undefined;
+  recordLength?: number | undefined;
+  location?: string | undefined;
+  blocksize?: number | undefined;
+  creationTime?: Date | undefined;
+  lastUpdatedTime?: Date | undefined;
+  lastReferencedTime?: Date | undefined;
+  fileSize?: number | undefined;
 }
 export interface GetDataSetExportTaskRequest {
   applicationId: string;
@@ -552,9 +553,9 @@ export interface DataSetExportSummary {
 export interface GetDataSetExportTaskResponse {
   taskId: string;
   status: string;
-  summary?: DataSetExportSummary;
-  statusReason?: string;
-  kmsKeyArn?: string;
+  summary?: DataSetExportSummary | undefined;
+  statusReason?: string | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface GetDataSetImportTaskRequest {
   applicationId: string;
@@ -570,7 +571,7 @@ export interface DataSetImportSummary {
 export interface GetDataSetImportTaskResponse {
   taskId: string;
   status: string;
-  summary?: DataSetImportSummary;
+  summary?: DataSetImportSummary | undefined;
 }
 export interface GetDeploymentRequest {
   deploymentId: string;
@@ -583,23 +584,23 @@ export interface GetDeploymentResponse {
   applicationVersion: number;
   status: string;
   creationTime: Date;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface GetEnvironmentRequest {
   environmentId: string;
 }
 export type EnvironmentLifecycle = string;
 export interface MaintenanceSchedule {
-  startTime?: Date;
-  endTime?: Date;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export interface PendingMaintenance {
-  schedule?: MaintenanceSchedule;
-  engineVersion?: string;
+  schedule?: MaintenanceSchedule | undefined;
+  engineVersion?: string | undefined;
 }
 export interface GetEnvironmentResponse {
   name: string;
-  description?: string;
+  description?: string | undefined;
   environmentArn: string;
   environmentId: string;
   instanceType: string;
@@ -610,17 +611,17 @@ export interface GetEnvironmentResponse {
   subnetIds: string[];
   securityGroupIds: string[];
   creationTime: Date;
-  storageConfigurations?: StorageConfiguration[];
-  tags?: { [key: string]: string | undefined };
-  highAvailabilityConfig?: HighAvailabilityConfig;
-  publiclyAccessible?: boolean;
-  actualCapacity?: number;
-  loadBalancerArn?: string;
-  statusReason?: string;
-  preferredMaintenanceWindow?: string;
-  pendingMaintenance?: PendingMaintenance;
-  kmsKeyId?: string;
-  networkType?: string;
+  storageConfigurations?: StorageConfiguration[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  highAvailabilityConfig?: HighAvailabilityConfig | undefined;
+  publiclyAccessible?: boolean | undefined;
+  actualCapacity?: number | undefined;
+  loadBalancerArn?: string | undefined;
+  statusReason?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  pendingMaintenance?: PendingMaintenance | undefined;
+  kmsKeyId?: string | undefined;
+  networkType?: string | undefined;
 }
 export interface GetSignedBluinsightsUrlRequest {}
 export interface GetSignedBluinsightsUrlResponse {
@@ -630,166 +631,166 @@ export type NextToken = string;
 export type MaxResults = number;
 export type EntityNameList = string[];
 export interface ListApplicationsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  names?: string[];
-  environmentId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  names?: string[] | undefined;
+  environmentId?: string | undefined;
 }
 export type ApplicationDeploymentLifecycle = string;
 export interface ApplicationSummary {
   name: string;
-  description?: string;
+  description?: string | undefined;
   applicationId: string;
   applicationArn: string;
   applicationVersion: number;
   status: string;
   engineType: string;
   creationTime: Date;
-  environmentId?: string;
-  lastStartTime?: Date;
-  versionStatus?: string;
-  deploymentStatus?: string;
-  roleArn?: string;
+  environmentId?: string | undefined;
+  lastStartTime?: Date | undefined;
+  versionStatus?: string | undefined;
+  deploymentStatus?: string | undefined;
+  roleArn?: string | undefined;
 }
 export type ApplicationSummaryList = ApplicationSummary[];
 export interface ListApplicationsResponse {
   applications: ApplicationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListApplicationVersionsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   applicationId: string;
 }
 export type ApplicationVersionSummaryList = ApplicationVersionSummary[];
 export interface ListApplicationVersionsResponse {
   applicationVersions: ApplicationVersionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListBatchJobDefinitionsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   applicationId: string;
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export interface FileBatchJobDefinition {
   fileName: string;
-  folderPath?: string;
+  folderPath?: string | undefined;
 }
 export interface ScriptBatchJobDefinition {
   scriptName: string;
 }
 export type BatchJobDefinition =
-  | { fileBatchJobDefinition: FileBatchJobDefinition; scriptBatchJobDefinition?: never }
-  | { fileBatchJobDefinition?: never; scriptBatchJobDefinition: ScriptBatchJobDefinition };
+  | { fileBatchJobDefinition: FileBatchJobDefinition; scriptBatchJobDefinition?: undefined }
+  | { fileBatchJobDefinition?: undefined; scriptBatchJobDefinition: ScriptBatchJobDefinition };
 export type BatchJobDefinitions = BatchJobDefinition[];
 export interface ListBatchJobDefinitionsResponse {
   batchJobDefinitions: BatchJobDefinition[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type IdentifierList = string[];
 export interface ListBatchJobExecutionsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   applicationId: string;
-  executionIds?: string[];
-  jobName?: string;
-  status?: string;
-  startedAfter?: Date;
-  startedBefore?: Date;
+  executionIds?: string[] | undefined;
+  jobName?: string | undefined;
+  status?: string | undefined;
+  startedAfter?: Date | undefined;
+  startedBefore?: Date | undefined;
 }
 export interface BatchJobExecutionSummary {
   executionId: string;
   applicationId: string;
-  jobId?: string;
-  jobName?: string;
-  jobType?: string;
+  jobId?: string | undefined;
+  jobName?: string | undefined;
+  jobType?: string | undefined;
   status: string;
   startTime: Date;
-  endTime?: Date;
-  returnCode?: string;
-  batchJobIdentifier?: BatchJobIdentifier;
+  endTime?: Date | undefined;
+  returnCode?: string | undefined;
+  batchJobIdentifier?: BatchJobIdentifier | undefined;
 }
 export type BatchJobExecutionSummaryList = BatchJobExecutionSummary[];
 export interface ListBatchJobExecutionsResponse {
   batchJobExecutions: BatchJobExecutionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListBatchJobRestartPointsRequest {
   applicationId: string;
   executionId: string;
-  authSecretsManagerArn?: string;
+  authSecretsManagerArn?: string | undefined;
 }
 export interface JobStep {
-  stepNumber?: number;
-  stepName?: string;
-  procStepNumber?: number;
-  procStepName?: string;
-  stepCondCode?: string;
-  stepRestartable?: boolean;
-  stepCheckpoint?: number;
-  stepCheckpointStatus?: string;
-  stepCheckpointTime?: Date;
+  stepNumber?: number | undefined;
+  stepName?: string | undefined;
+  procStepNumber?: number | undefined;
+  procStepName?: string | undefined;
+  stepCondCode?: string | undefined;
+  stepRestartable?: boolean | undefined;
+  stepCheckpoint?: number | undefined;
+  stepCheckpointStatus?: string | undefined;
+  stepCheckpointTime?: Date | undefined;
 }
 export type BatchJobStepList = JobStep[];
 export interface ListBatchJobRestartPointsResponse {
-  batchJobSteps?: JobStep[];
+  batchJobSteps?: JobStep[] | undefined;
 }
 export interface ListDataSetExportHistoryRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   applicationId: string;
 }
 export interface DataSetExportTask {
   taskId: string;
   status: string;
   summary: DataSetExportSummary;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export type DataSetExportTaskList = DataSetExportTask[];
 export interface ListDataSetExportHistoryResponse {
   dataSetExportTasks: DataSetExportTask[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDataSetImportHistoryRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   applicationId: string;
 }
 export interface DataSetImportTask {
   taskId: string;
   status: string;
   summary: DataSetImportSummary;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export type DataSetImportTaskList = DataSetImportTask[];
 export interface ListDataSetImportHistoryResponse {
   dataSetImportTasks: DataSetImportTask[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDataSetsRequest {
   applicationId: string;
-  nextToken?: string;
-  maxResults?: number;
-  prefix?: string;
-  nameFilter?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  prefix?: string | undefined;
+  nameFilter?: string | undefined;
 }
 export interface DataSetSummary {
   dataSetName: string;
-  dataSetOrg?: string;
-  format?: string;
-  creationTime?: Date;
-  lastUpdatedTime?: Date;
-  lastReferencedTime?: Date;
+  dataSetOrg?: string | undefined;
+  format?: string | undefined;
+  creationTime?: Date | undefined;
+  lastUpdatedTime?: Date | undefined;
+  lastReferencedTime?: Date | undefined;
 }
 export type DataSetsSummaryList = DataSetSummary[];
 export interface ListDataSetsResponse {
   dataSets: DataSetSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDeploymentsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   applicationId: string;
 }
 export interface DeploymentSummary {
@@ -799,17 +800,17 @@ export interface DeploymentSummary {
   applicationVersion: number;
   status: string;
   creationTime: Date;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export type DeploymentList = DeploymentSummary[];
 export interface ListDeploymentsResponse {
   deployments: DeploymentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEngineVersionsRequest {
-  engineType?: string;
-  nextToken?: string;
-  maxResults?: number;
+  engineType?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EngineVersionsSummary {
   engineType: string;
@@ -818,13 +819,13 @@ export interface EngineVersionsSummary {
 export type EngineVersionsSummaryList = EngineVersionsSummary[];
 export interface ListEngineVersionsResponse {
   engineVersions: EngineVersionsSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  names?: string[];
-  engineType?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  names?: string[] | undefined;
+  engineType?: string | undefined;
 }
 export interface EnvironmentSummary {
   name: string;
@@ -835,12 +836,12 @@ export interface EnvironmentSummary {
   engineType: string;
   engineVersion: string;
   creationTime: Date;
-  networkType?: string;
+  networkType?: string | undefined;
 }
 export type EnvironmentSummaryList = EnvironmentSummary[];
 export interface ListEnvironmentsResponse {
   environments: EnvironmentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -858,15 +859,15 @@ export type BatchJobParametersMap = { [key: string]: string | undefined };
 export interface StartBatchJobRequest {
   applicationId: string;
   batchJobIdentifier: BatchJobIdentifier;
-  jobParams?: { [key: string]: string | undefined };
-  authSecretsManagerArn?: string;
+  jobParams?: { [key: string]: string | undefined } | undefined;
+  authSecretsManagerArn?: string | undefined;
 }
 export interface StartBatchJobResponse {
   executionId: string;
 }
 export interface StopApplicationRequest {
   applicationId: string;
-  forceStop?: boolean;
+  forceStop?: boolean | undefined;
 }
 export interface StopApplicationResponse {}
 export interface TagResourceRequest {
@@ -882,21 +883,21 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateApplicationRequest {
   applicationId: string;
-  description?: string;
+  description?: string | undefined;
   currentApplicationVersion: number;
-  definition?: Definition;
+  definition?: Definition | undefined;
 }
 export interface UpdateApplicationResponse {
   applicationVersion: number;
 }
 export interface UpdateEnvironmentRequest {
   environmentId: string;
-  desiredCapacity?: number;
-  instanceType?: string;
-  engineVersion?: string;
-  preferredMaintenanceWindow?: string;
-  applyDuringMaintenanceWindow?: boolean;
-  forceUpdate?: boolean;
+  desiredCapacity?: number | undefined;
+  instanceType?: string | undefined;
+  engineVersion?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  applyDuringMaintenanceWindow?: boolean | undefined;
+  forceUpdate?: boolean | undefined;
 }
 export interface UpdateEnvironmentResponse {
   environmentId: string;
@@ -919,7 +920,7 @@ export type CancelBatchJobExecutionError =
  * Cancels the running of a specific batch job execution.
  */
 export const cancelBatchJobExecution: API.OperationMethod<
-  CancelBatchJobExecutionRequest,
+  CancelBatchJobExecutionRequest & RegionInput,
   CancelBatchJobExecutionResponse,
   CancelBatchJobExecutionError,
   Credentials | HttpClient.HttpClient
@@ -954,7 +955,7 @@ export type CreateApplicationError =
  * environment and application definition file.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -989,7 +990,7 @@ export type CreateDataSetExportTaskError =
  * Starts a data set export task for a specific application.
  */
 export const createDataSetExportTask: API.OperationMethod<
-  CreateDataSetExportTaskRequest,
+  CreateDataSetExportTaskRequest & RegionInput,
   CreateDataSetExportTaskResponse,
   CreateDataSetExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1025,7 +1026,7 @@ export type CreateDataSetImportTaskError =
  * Starts a data set import task for a specific application.
  */
 export const createDataSetImportTask: API.OperationMethod<
-  CreateDataSetImportTaskRequest,
+  CreateDataSetImportTaskRequest & RegionInput,
   CreateDataSetImportTaskResponse,
   CreateDataSetImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1062,7 +1063,7 @@ export type CreateDeploymentError =
  * environment.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   CreateDeploymentResponse,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1097,7 +1098,7 @@ export type CreateEnvironmentError =
  * Creates a runtime environment for a given runtime engine.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentRequest,
+  CreateEnvironmentRequest & RegionInput,
   CreateEnvironmentResponse,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1130,7 +1131,7 @@ export type DeleteApplicationError =
  * Deletes a specific application. You cannot delete a running application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1166,7 +1167,7 @@ export type DeleteApplicationFromEnvironmentError =
  * application with the runtime environment so you can delete the environment smoothly.
  */
 export const deleteApplicationFromEnvironment: API.OperationMethod<
-  DeleteApplicationFromEnvironmentRequest,
+  DeleteApplicationFromEnvironmentRequest & RegionInput,
   DeleteApplicationFromEnvironmentResponse,
   DeleteApplicationFromEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1201,7 +1202,7 @@ export type DeleteEnvironmentError =
  * environment.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResponse,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1233,7 +1234,7 @@ export type GetApplicationError =
  * Describes the details of a specific application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1265,7 +1266,7 @@ export type GetApplicationVersionError =
  * Returns details about a specific version of a specific application.
  */
 export const getApplicationVersion: API.OperationMethod<
-  GetApplicationVersionRequest,
+  GetApplicationVersionRequest & RegionInput,
   GetApplicationVersionResponse,
   GetApplicationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1297,7 +1298,7 @@ export type GetBatchJobExecutionError =
  * Gets the details of a specific batch job execution for a specific application.
  */
 export const getBatchJobExecution: API.OperationMethod<
-  GetBatchJobExecutionRequest,
+  GetBatchJobExecutionRequest & RegionInput,
   GetBatchJobExecutionResponse,
   GetBatchJobExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1332,7 +1333,7 @@ export type GetDataSetDetailsError =
  * Gets the details of a specific data set.
  */
 export const getDataSetDetails: API.OperationMethod<
-  GetDataSetDetailsRequest,
+  GetDataSetDetailsRequest & RegionInput,
   GetDataSetDetailsResponse,
   GetDataSetDetailsError,
   Credentials | HttpClient.HttpClient
@@ -1367,7 +1368,7 @@ export type GetDataSetExportTaskError =
  * Gets the status of a data set import task initiated with the CreateDataSetExportTask operation.
  */
 export const getDataSetExportTask: API.OperationMethod<
-  GetDataSetExportTaskRequest,
+  GetDataSetExportTaskRequest & RegionInput,
   GetDataSetExportTaskResponse,
   GetDataSetExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1399,7 +1400,7 @@ export type GetDataSetImportTaskError =
  * Gets the status of a data set import task initiated with the CreateDataSetImportTask operation.
  */
 export const getDataSetImportTask: API.OperationMethod<
-  GetDataSetImportTaskRequest,
+  GetDataSetImportTaskRequest & RegionInput,
   GetDataSetImportTaskResponse,
   GetDataSetImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1431,7 +1432,7 @@ export type GetDeploymentError =
  * Gets details of a specific deployment with a given deployment identifier.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentRequest,
+  GetDeploymentRequest & RegionInput,
   GetDeploymentResponse,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1463,7 +1464,7 @@ export type GetEnvironmentError =
  * Describes a specific runtime environment.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentRequest,
+  GetEnvironmentRequest & RegionInput,
   GetEnvironmentResponse,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1493,7 +1494,7 @@ export type GetSignedBluinsightsUrlError =
  * Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
  */
 export const getSignedBluinsightsUrl: API.OperationMethod<
-  GetSignedBluinsightsUrlRequest,
+  GetSignedBluinsightsUrlRequest & RegionInput,
   GetSignedBluinsightsUrlResponse,
   GetSignedBluinsightsUrlError,
   Credentials | HttpClient.HttpClient
@@ -1520,7 +1521,7 @@ export type ListApplicationsError =
  * applications associated with that environment.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1558,7 +1559,7 @@ export type ListApplicationVersionsError =
  * Returns a list of the application versions for a specific application.
  */
 export const listApplicationVersions: API.PaginatedOperationMethod<
-  ListApplicationVersionsRequest,
+  ListApplicationVersionsRequest & RegionInput,
   ListApplicationVersionsResponse,
   ListApplicationVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1599,7 +1600,7 @@ export type ListBatchJobDefinitionsError =
  * a batch job.
  */
 export const listBatchJobDefinitions: API.PaginatedOperationMethod<
-  ListBatchJobDefinitionsRequest,
+  ListBatchJobDefinitionsRequest & RegionInput,
   ListBatchJobDefinitionsResponse,
   ListBatchJobDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -1639,7 +1640,7 @@ export type ListBatchJobExecutionsError =
  * application.
  */
 export const listBatchJobExecutions: API.PaginatedOperationMethod<
-  ListBatchJobExecutionsRequest,
+  ListBatchJobExecutionsRequest & RegionInput,
   ListBatchJobExecutionsResponse,
   ListBatchJobExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1679,7 +1680,7 @@ export type ListBatchJobRestartPointsError =
  * Lists all the job steps for a JCL file to restart a batch job. This is only applicable for Micro Focus engine with versions 8.0.6 and above.
  */
 export const listBatchJobRestartPoints: API.OperationMethod<
-  ListBatchJobRestartPointsRequest,
+  ListBatchJobRestartPointsRequest & RegionInput,
   ListBatchJobRestartPointsResponse,
   ListBatchJobRestartPointsError,
   Credentials | HttpClient.HttpClient
@@ -1712,7 +1713,7 @@ export type ListDataSetExportHistoryError =
  * Lists the data set exports for the specified application.
  */
 export const listDataSetExportHistory: API.PaginatedOperationMethod<
-  ListDataSetExportHistoryRequest,
+  ListDataSetExportHistoryRequest & RegionInput,
   ListDataSetExportHistoryResponse,
   ListDataSetExportHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1751,7 +1752,7 @@ export type ListDataSetImportHistoryError =
  * Lists the data set imports for the specified application.
  */
 export const listDataSetImportHistory: API.PaginatedOperationMethod<
-  ListDataSetImportHistoryRequest,
+  ListDataSetImportHistoryRequest & RegionInput,
   ListDataSetImportHistoryResponse,
   ListDataSetImportHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1795,7 +1796,7 @@ export type ListDataSetsError =
  * data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using CreateDataSetImportTask.
  */
 export const listDataSets: API.PaginatedOperationMethod<
-  ListDataSetsRequest,
+  ListDataSetsRequest & RegionInput,
   ListDataSetsResponse,
   ListDataSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1839,7 +1840,7 @@ export type ListDeploymentsError =
  * deployment is mapped to a particular application version.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsRequest,
+  ListDeploymentsRequest & RegionInput,
   ListDeploymentsResponse,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -1877,7 +1878,7 @@ export type ListEngineVersionsError =
  * Lists the available engine versions.
  */
 export const listEngineVersions: API.PaginatedOperationMethod<
-  ListEngineVersionsRequest,
+  ListEngineVersionsRequest & RegionInput,
   ListEngineVersionsResponse,
   ListEngineVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1914,7 +1915,7 @@ export type ListEnvironmentsError =
  * Lists the runtime environments.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   ListEnvironmentsResponse,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1952,7 +1953,7 @@ export type ListTagsForResourceError =
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1985,7 +1986,7 @@ export type StartApplicationError =
  * Starts an application that is currently stopped.
  */
 export const startApplication: API.OperationMethod<
-  StartApplicationRequest,
+  StartApplicationRequest & RegionInput,
   StartApplicationResponse,
   StartApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2020,7 +2021,7 @@ export type StartBatchJobError =
  * The associated application must be running in order to start the batch job.
  */
 export const startBatchJob: API.OperationMethod<
-  StartBatchJobRequest,
+  StartBatchJobRequest & RegionInput,
   StartBatchJobResponse,
   StartBatchJobError,
   Credentials | HttpClient.HttpClient
@@ -2054,7 +2055,7 @@ export type StopApplicationError =
  * Stops a running application.
  */
 export const stopApplication: API.OperationMethod<
-  StopApplicationRequest,
+  StopApplicationRequest & RegionInput,
   StopApplicationResponse,
   StopApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2088,7 +2089,7 @@ export type TagResourceError =
  * Adds one or more tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2121,7 +2122,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2154,7 +2155,7 @@ export type UpdateApplicationError =
  * Updates an application and creates a new version.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2189,7 +2190,7 @@ export type UpdateEnvironmentError =
  * Updates the configuration details for a specific runtime environment.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentRequest,
+  UpdateEnvironmentRequest & RegionInput,
   UpdateEnvironmentResponse,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient

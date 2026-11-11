@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -152,7 +153,7 @@ export type NonEmptyString = string;
 export type KMSEncryptionContextMap = { [key: string]: string | undefined };
 export type KMSKeyId = string;
 export interface MedicalScribeEncryptionSettings {
-  KmsEncryptionContext?: { [key: string]: string | undefined };
+  KmsEncryptionContext?: { [key: string]: string | undefined } | undefined;
   KmsKeyId: string;
 }
 export type MedicalScribeStreamStatus =
@@ -173,7 +174,7 @@ export type MedicalScribeNoteTemplate =
   | (string & {});
 export interface ClinicalNoteGenerationSettings {
   OutputBucketName: string;
-  NoteTemplate?: MedicalScribeNoteTemplate;
+  NoteTemplate?: MedicalScribeNoteTemplate | undefined;
 }
 export interface MedicalScribePostStreamAnalyticsSettings {
   ClinicalNoteGenerationSettings: ClinicalNoteGenerationSettings;
@@ -181,34 +182,34 @@ export interface MedicalScribePostStreamAnalyticsSettings {
 export type Uri = string;
 export type ClinicalNoteGenerationStatus = "IN_PROGRESS" | "FAILED" | "COMPLETED" | (string & {});
 export interface ClinicalNoteGenerationResult {
-  ClinicalNoteOutputLocation?: string;
-  TranscriptOutputLocation?: string;
-  Status?: ClinicalNoteGenerationStatus;
-  FailureReason?: string;
+  ClinicalNoteOutputLocation?: string | undefined;
+  TranscriptOutputLocation?: string | undefined;
+  Status?: ClinicalNoteGenerationStatus | undefined;
+  FailureReason?: string | undefined;
 }
 export interface MedicalScribePostStreamAnalyticsResult {
-  ClinicalNoteGenerationResult?: ClinicalNoteGenerationResult;
+  ClinicalNoteGenerationResult?: ClinicalNoteGenerationResult | undefined;
 }
 export interface MedicalScribeStreamDetails {
-  SessionId?: string;
-  StreamCreatedAt?: Date;
-  StreamEndedAt?: Date;
-  LanguageCode?: MedicalScribeLanguageCode;
-  MediaSampleRateHertz?: number;
-  MediaEncoding?: MedicalScribeMediaEncoding;
-  VocabularyName?: string;
-  VocabularyFilterName?: string;
-  VocabularyFilterMethod?: MedicalScribeVocabularyFilterMethod;
-  ResourceAccessRoleArn?: string;
-  ChannelDefinitions?: MedicalScribeChannelDefinition[];
-  EncryptionSettings?: MedicalScribeEncryptionSettings;
-  StreamStatus?: MedicalScribeStreamStatus;
-  PostStreamAnalyticsSettings?: MedicalScribePostStreamAnalyticsSettings;
-  PostStreamAnalyticsResult?: MedicalScribePostStreamAnalyticsResult;
-  MedicalScribeContextProvided?: boolean;
+  SessionId?: string | undefined;
+  StreamCreatedAt?: Date | undefined;
+  StreamEndedAt?: Date | undefined;
+  LanguageCode?: MedicalScribeLanguageCode | undefined;
+  MediaSampleRateHertz?: number | undefined;
+  MediaEncoding?: MedicalScribeMediaEncoding | undefined;
+  VocabularyName?: string | undefined;
+  VocabularyFilterName?: string | undefined;
+  VocabularyFilterMethod?: MedicalScribeVocabularyFilterMethod | undefined;
+  ResourceAccessRoleArn?: string | undefined;
+  ChannelDefinitions?: MedicalScribeChannelDefinition[] | undefined;
+  EncryptionSettings?: MedicalScribeEncryptionSettings | undefined;
+  StreamStatus?: MedicalScribeStreamStatus | undefined;
+  PostStreamAnalyticsSettings?: MedicalScribePostStreamAnalyticsSettings | undefined;
+  PostStreamAnalyticsResult?: MedicalScribePostStreamAnalyticsResult | undefined;
+  MedicalScribeContextProvided?: boolean | undefined;
 }
 export interface GetMedicalScribeStreamResponse {
-  MedicalScribeStreamDetails?: MedicalScribeStreamDetails;
+  MedicalScribeStreamDetails?: MedicalScribeStreamDetails | undefined;
 }
 export type CallAnalyticsLanguageCode =
   | "en-US"
@@ -232,7 +233,7 @@ export type MediaEncoding =
   | (string & {});
 export type AudioChunk = Uint8Array;
 export interface AudioEvent {
-  AudioChunk?: Uint8Array;
+  AudioChunk?: Uint8Array | undefined;
 }
 export type ChannelId = number;
 export type ParticipantRole = "AGENT" | "CUSTOMER" | (string & {});
@@ -245,16 +246,16 @@ export type ContentRedactionOutput = "redacted" | "redacted_and_unredacted" | (s
 export interface PostCallAnalyticsSettings {
   OutputLocation: string;
   DataAccessRoleArn: string;
-  ContentRedactionOutput?: ContentRedactionOutput;
-  OutputEncryptionKMSKeyId?: string;
+  ContentRedactionOutput?: ContentRedactionOutput | undefined;
+  OutputEncryptionKMSKeyId?: string | undefined;
 }
 export interface ConfigurationEvent {
-  ChannelDefinitions?: ChannelDefinition[];
-  PostCallAnalyticsSettings?: PostCallAnalyticsSettings;
+  ChannelDefinitions?: ChannelDefinition[] | undefined;
+  PostCallAnalyticsSettings?: PostCallAnalyticsSettings | undefined;
 }
 export type AudioStream =
-  | { AudioEvent: AudioEvent; ConfigurationEvent?: never }
-  | { AudioEvent?: never; ConfigurationEvent: ConfigurationEvent };
+  | { AudioEvent: AudioEvent; ConfigurationEvent?: undefined }
+  | { AudioEvent?: undefined; ConfigurationEvent: ConfigurationEvent };
 export type VocabularyFilterMethod = "remove" | "mask" | "tag" | (string & {});
 export type ModelName = string;
 export type LanguageOptions = string;
@@ -265,180 +266,178 @@ export type ContentIdentificationType = "PII" | (string & {});
 export type ContentRedactionType = "PII" | (string & {});
 export type PiiEntityTypes = string;
 export interface StartCallAnalyticsStreamTranscriptionRequest {
-  LanguageCode?: CallAnalyticsLanguageCode;
+  LanguageCode?: CallAnalyticsLanguageCode | undefined;
   MediaSampleRateHertz: number;
   MediaEncoding: MediaEncoding;
-  VocabularyName?: string;
-  SessionId?: string;
+  VocabularyName?: string | undefined;
+  SessionId?: string | undefined;
   AudioStream: stream.Stream<AudioStream, Error, never>;
-  VocabularyFilterName?: string;
-  VocabularyFilterMethod?: VocabularyFilterMethod;
-  LanguageModelName?: string;
-  IdentifyLanguage?: boolean;
-  LanguageOptions?: string;
-  PreferredLanguage?: CallAnalyticsLanguageCode;
-  VocabularyNames?: string;
-  VocabularyFilterNames?: string;
-  EnablePartialResultsStabilization?: boolean;
-  PartialResultsStability?: PartialResultsStability;
-  ContentIdentificationType?: ContentIdentificationType;
-  ContentRedactionType?: ContentRedactionType;
-  PiiEntityTypes?: string;
+  VocabularyFilterName?: string | undefined;
+  VocabularyFilterMethod?: VocabularyFilterMethod | undefined;
+  LanguageModelName?: string | undefined;
+  IdentifyLanguage?: boolean | undefined;
+  LanguageOptions?: string | undefined;
+  PreferredLanguage?: CallAnalyticsLanguageCode | undefined;
+  VocabularyNames?: string | undefined;
+  VocabularyFilterNames?: string | undefined;
+  EnablePartialResultsStabilization?: boolean | undefined;
+  PartialResultsStability?: PartialResultsStability | undefined;
+  ContentIdentificationType?: ContentIdentificationType | undefined;
+  ContentRedactionType?: ContentRedactionType | undefined;
+  PiiEntityTypes?: string | undefined;
 }
 export type RequestId = string;
 export type ItemType = "pronunciation" | "punctuation" | (string & {});
 export type Confidence = number;
 export type Stable = boolean;
 export interface CallAnalyticsItem {
-  BeginOffsetMillis?: number;
-  EndOffsetMillis?: number;
-  Type?: ItemType;
-  Content?: string;
-  Confidence?: number;
-  VocabularyFilterMatch?: boolean;
-  Stable?: boolean;
+  BeginOffsetMillis?: number | undefined;
+  EndOffsetMillis?: number | undefined;
+  Type?: ItemType | undefined;
+  Content?: string | undefined;
+  Confidence?: number | undefined;
+  VocabularyFilterMatch?: boolean | undefined;
+  Stable?: boolean | undefined;
 }
 export type CallAnalyticsItemList = CallAnalyticsItem[];
 export interface CallAnalyticsEntity {
-  BeginOffsetMillis?: number;
-  EndOffsetMillis?: number;
-  Category?: string;
-  Type?: string;
-  Content?: string;
-  Confidence?: number;
+  BeginOffsetMillis?: number | undefined;
+  EndOffsetMillis?: number | undefined;
+  Category?: string | undefined;
+  Type?: string | undefined;
+  Content?: string | undefined;
+  Confidence?: number | undefined;
 }
 export type CallAnalyticsEntityList = CallAnalyticsEntity[];
 export type Sentiment = "POSITIVE" | "NEGATIVE" | "MIXED" | "NEUTRAL" | (string & {});
 export interface CharacterOffsets {
-  Begin?: number;
-  End?: number;
+  Begin?: number | undefined;
+  End?: number | undefined;
 }
 export interface IssueDetected {
-  CharacterOffsets?: CharacterOffsets;
+  CharacterOffsets?: CharacterOffsets | undefined;
 }
 export type IssuesDetected = IssueDetected[];
 export interface CallAnalyticsLanguageWithScore {
-  LanguageCode?: CallAnalyticsLanguageCode;
-  Score?: number;
+  LanguageCode?: CallAnalyticsLanguageCode | undefined;
+  Score?: number | undefined;
 }
 export type CallAnalyticsLanguageIdentification = CallAnalyticsLanguageWithScore[];
 export interface UtteranceEvent {
-  UtteranceId?: string;
-  IsPartial?: boolean;
-  ParticipantRole?: ParticipantRole;
-  BeginOffsetMillis?: number;
-  EndOffsetMillis?: number;
-  Transcript?: string;
-  Items?: CallAnalyticsItem[];
-  Entities?: CallAnalyticsEntity[];
-  Sentiment?: Sentiment;
-  IssuesDetected?: IssueDetected[];
-  LanguageCode?: CallAnalyticsLanguageCode;
-  LanguageIdentification?: CallAnalyticsLanguageWithScore[];
+  UtteranceId?: string | undefined;
+  IsPartial?: boolean | undefined;
+  ParticipantRole?: ParticipantRole | undefined;
+  BeginOffsetMillis?: number | undefined;
+  EndOffsetMillis?: number | undefined;
+  Transcript?: string | undefined;
+  Items?: CallAnalyticsItem[] | undefined;
+  Entities?: CallAnalyticsEntity[] | undefined;
+  Sentiment?: Sentiment | undefined;
+  IssuesDetected?: IssueDetected[] | undefined;
+  LanguageCode?: CallAnalyticsLanguageCode | undefined;
+  LanguageIdentification?: CallAnalyticsLanguageWithScore[] | undefined;
 }
 export type StringList = string[];
 export interface TimestampRange {
-  BeginOffsetMillis?: number;
-  EndOffsetMillis?: number;
+  BeginOffsetMillis?: number | undefined;
+  EndOffsetMillis?: number | undefined;
 }
 export type TimestampRanges = TimestampRange[];
 export interface PointsOfInterest {
-  TimestampRanges?: TimestampRange[];
+  TimestampRanges?: TimestampRange[] | undefined;
 }
 export type MatchedCategoryDetails = { [key: string]: PointsOfInterest | undefined };
 export interface CategoryEvent {
-  MatchedCategories?: string[];
-  MatchedDetails?: { [key: string]: PointsOfInterest | undefined };
+  MatchedCategories?: string[] | undefined;
+  MatchedDetails?: { [key: string]: PointsOfInterest | undefined } | undefined;
 }
 export type CallAnalyticsTranscriptResultStream =
   | {
       UtteranceEvent: UtteranceEvent;
-      CategoryEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      CategoryEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      UtteranceEvent?: never;
+      UtteranceEvent?: undefined;
       CategoryEvent: CategoryEvent;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      UtteranceEvent?: never;
-      CategoryEvent?: never;
+      UtteranceEvent?: undefined;
+      CategoryEvent?: undefined;
       BadRequestException: BadRequestException;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      UtteranceEvent?: never;
-      CategoryEvent?: never;
-      BadRequestException?: never;
+      UtteranceEvent?: undefined;
+      CategoryEvent?: undefined;
+      BadRequestException?: undefined;
       LimitExceededException: LimitExceededException;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      UtteranceEvent?: never;
-      CategoryEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
+      UtteranceEvent?: undefined;
+      CategoryEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
       InternalFailureException: InternalFailureException;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      UtteranceEvent?: never;
-      CategoryEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
+      UtteranceEvent?: undefined;
+      CategoryEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
       ConflictException: ConflictException;
-      ServiceUnavailableException?: never;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      UtteranceEvent?: never;
-      CategoryEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
+      UtteranceEvent?: undefined;
+      CategoryEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
       ServiceUnavailableException: ServiceUnavailableException;
     };
 export interface StartCallAnalyticsStreamTranscriptionResponse {
-  RequestId?: string;
-  LanguageCode?: CallAnalyticsLanguageCode;
-  MediaSampleRateHertz?: number;
-  MediaEncoding?: MediaEncoding;
-  VocabularyName?: string;
-  SessionId?: string;
-  CallAnalyticsTranscriptResultStream?: stream.Stream<
-    CallAnalyticsTranscriptResultStream,
-    Error,
-    never
-  >;
-  VocabularyFilterName?: string;
-  VocabularyFilterMethod?: VocabularyFilterMethod;
-  LanguageModelName?: string;
-  IdentifyLanguage?: boolean;
-  LanguageOptions?: string;
-  PreferredLanguage?: CallAnalyticsLanguageCode;
-  VocabularyNames?: string;
-  VocabularyFilterNames?: string;
-  EnablePartialResultsStabilization?: boolean;
-  PartialResultsStability?: PartialResultsStability;
-  ContentIdentificationType?: ContentIdentificationType;
-  ContentRedactionType?: ContentRedactionType;
-  PiiEntityTypes?: string;
+  RequestId?: string | undefined;
+  LanguageCode?: CallAnalyticsLanguageCode | undefined;
+  MediaSampleRateHertz?: number | undefined;
+  MediaEncoding?: MediaEncoding | undefined;
+  VocabularyName?: string | undefined;
+  SessionId?: string | undefined;
+  CallAnalyticsTranscriptResultStream?:
+    | stream.Stream<CallAnalyticsTranscriptResultStream, Error, never>
+    | undefined;
+  VocabularyFilterName?: string | undefined;
+  VocabularyFilterMethod?: VocabularyFilterMethod | undefined;
+  LanguageModelName?: string | undefined;
+  IdentifyLanguage?: boolean | undefined;
+  LanguageOptions?: string | undefined;
+  PreferredLanguage?: CallAnalyticsLanguageCode | undefined;
+  VocabularyNames?: string | undefined;
+  VocabularyFilterNames?: string | undefined;
+  EnablePartialResultsStabilization?: boolean | undefined;
+  PartialResultsStability?: PartialResultsStability | undefined;
+  ContentIdentificationType?: ContentIdentificationType | undefined;
+  ContentRedactionType?: ContentRedactionType | undefined;
+  PiiEntityTypes?: string | undefined;
 }
 export interface MedicalScribeAudioEvent {
   AudioChunk: Uint8Array;
@@ -449,35 +448,39 @@ export interface MedicalScribeSessionControlEvent {
 }
 export type Pronouns = "HE_HIM" | "SHE_HER" | "THEY_THEM" | (string & {});
 export interface MedicalScribePatientContext {
-  Pronouns?: Pronouns;
+  Pronouns?: Pronouns | undefined;
 }
 export interface MedicalScribeContext {
-  PatientContext?: MedicalScribePatientContext;
+  PatientContext?: MedicalScribePatientContext | undefined;
 }
 export interface MedicalScribeConfigurationEvent {
-  VocabularyName?: string;
-  VocabularyFilterName?: string;
-  VocabularyFilterMethod?: MedicalScribeVocabularyFilterMethod;
+  VocabularyName?: string | undefined;
+  VocabularyFilterName?: string | undefined;
+  VocabularyFilterMethod?: MedicalScribeVocabularyFilterMethod | undefined;
   ResourceAccessRoleArn: string;
-  ChannelDefinitions?: MedicalScribeChannelDefinition[];
-  EncryptionSettings?: MedicalScribeEncryptionSettings;
+  ChannelDefinitions?: MedicalScribeChannelDefinition[] | undefined;
+  EncryptionSettings?: MedicalScribeEncryptionSettings | undefined;
   PostStreamAnalyticsSettings: MedicalScribePostStreamAnalyticsSettings;
-  MedicalScribeContext?: MedicalScribeContext;
+  MedicalScribeContext?: MedicalScribeContext | undefined;
 }
 export type MedicalScribeInputStream =
-  | { AudioEvent: MedicalScribeAudioEvent; SessionControlEvent?: never; ConfigurationEvent?: never }
   | {
-      AudioEvent?: never;
-      SessionControlEvent: MedicalScribeSessionControlEvent;
-      ConfigurationEvent?: never;
+      AudioEvent: MedicalScribeAudioEvent;
+      SessionControlEvent?: undefined;
+      ConfigurationEvent?: undefined;
     }
   | {
-      AudioEvent?: never;
-      SessionControlEvent?: never;
+      AudioEvent?: undefined;
+      SessionControlEvent: MedicalScribeSessionControlEvent;
+      ConfigurationEvent?: undefined;
+    }
+  | {
+      AudioEvent?: undefined;
+      SessionControlEvent?: undefined;
       ConfigurationEvent: MedicalScribeConfigurationEvent;
     };
 export interface StartMedicalScribeStreamRequest {
-  SessionId?: string;
+  SessionId?: string | undefined;
   LanguageCode: MedicalScribeLanguageCode;
   MediaSampleRateHertz: number;
   MediaEncoding: MedicalScribeMediaEncoding;
@@ -485,82 +488,82 @@ export interface StartMedicalScribeStreamRequest {
 }
 export type MedicalScribeTranscriptItemType = "pronunciation" | "punctuation" | (string & {});
 export interface MedicalScribeTranscriptItem {
-  BeginAudioTime?: number;
-  EndAudioTime?: number;
-  Type?: MedicalScribeTranscriptItemType;
-  Confidence?: number;
-  Content?: string;
-  VocabularyFilterMatch?: boolean;
+  BeginAudioTime?: number | undefined;
+  EndAudioTime?: number | undefined;
+  Type?: MedicalScribeTranscriptItemType | undefined;
+  Confidence?: number | undefined;
+  Content?: string | undefined;
+  VocabularyFilterMatch?: boolean | undefined;
 }
 export type MedicalScribeTranscriptItemList = MedicalScribeTranscriptItem[];
 export interface MedicalScribeTranscriptSegment {
-  SegmentId?: string;
-  BeginAudioTime?: number;
-  EndAudioTime?: number;
-  Content?: string;
-  Items?: MedicalScribeTranscriptItem[];
-  IsPartial?: boolean;
-  ChannelId?: string;
+  SegmentId?: string | undefined;
+  BeginAudioTime?: number | undefined;
+  EndAudioTime?: number | undefined;
+  Content?: string | undefined;
+  Items?: MedicalScribeTranscriptItem[] | undefined;
+  IsPartial?: boolean | undefined;
+  ChannelId?: string | undefined;
 }
 export interface MedicalScribeTranscriptEvent {
-  TranscriptSegment?: MedicalScribeTranscriptSegment;
+  TranscriptSegment?: MedicalScribeTranscriptSegment | undefined;
 }
 export type MedicalScribeResultStream =
   | {
       TranscriptEvent: MedicalScribeTranscriptEvent;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
+      TranscriptEvent?: undefined;
       BadRequestException: BadRequestException;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
       LimitExceededException: LimitExceededException;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
       InternalFailureException: InternalFailureException;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
       ConflictException: ConflictException;
-      ServiceUnavailableException?: never;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
       ServiceUnavailableException: ServiceUnavailableException;
     };
 export interface StartMedicalScribeStreamResponse {
-  SessionId?: string;
-  RequestId?: string;
-  LanguageCode?: MedicalScribeLanguageCode;
-  MediaSampleRateHertz?: number;
-  MediaEncoding?: MedicalScribeMediaEncoding;
-  ResultStream?: stream.Stream<MedicalScribeResultStream, Error, never>;
+  SessionId?: string | undefined;
+  RequestId?: string | undefined;
+  LanguageCode?: MedicalScribeLanguageCode | undefined;
+  MediaSampleRateHertz?: number | undefined;
+  MediaEncoding?: MedicalScribeMediaEncoding | undefined;
+  ResultStream?: stream.Stream<MedicalScribeResultStream, Error, never> | undefined;
 }
 export type LanguageCode =
   | "en-US"
@@ -678,271 +681,271 @@ export interface StartMedicalStreamTranscriptionRequest {
   LanguageCode: LanguageCode;
   MediaSampleRateHertz: number;
   MediaEncoding: MediaEncoding;
-  VocabularyName?: string;
+  VocabularyName?: string | undefined;
   Specialty: Specialty;
   Type: Type;
-  ShowSpeakerLabel?: boolean;
-  SessionId?: string;
+  ShowSpeakerLabel?: boolean | undefined;
+  SessionId?: string | undefined;
   AudioStream: stream.Stream<AudioStream, Error, never>;
-  EnableChannelIdentification?: boolean;
-  NumberOfChannels?: number;
-  ContentIdentificationType?: MedicalContentIdentificationType;
+  EnableChannelIdentification?: boolean | undefined;
+  NumberOfChannels?: number | undefined;
+  ContentIdentificationType?: MedicalContentIdentificationType | undefined;
 }
 export interface MedicalItem {
-  StartTime?: number;
-  EndTime?: number;
-  Type?: ItemType;
-  Content?: string;
-  Confidence?: number;
-  Speaker?: string;
+  StartTime?: number | undefined;
+  EndTime?: number | undefined;
+  Type?: ItemType | undefined;
+  Content?: string | undefined;
+  Confidence?: number | undefined;
+  Speaker?: string | undefined;
 }
 export type MedicalItemList = MedicalItem[];
 export interface MedicalEntity {
-  StartTime?: number;
-  EndTime?: number;
-  Category?: string;
-  Content?: string;
-  Confidence?: number;
+  StartTime?: number | undefined;
+  EndTime?: number | undefined;
+  Category?: string | undefined;
+  Content?: string | undefined;
+  Confidence?: number | undefined;
 }
 export type MedicalEntityList = MedicalEntity[];
 export interface MedicalAlternative {
-  Transcript?: string;
-  Items?: MedicalItem[];
-  Entities?: MedicalEntity[];
+  Transcript?: string | undefined;
+  Items?: MedicalItem[] | undefined;
+  Entities?: MedicalEntity[] | undefined;
 }
 export type MedicalAlternativeList = MedicalAlternative[];
 export interface MedicalResult {
-  ResultId?: string;
-  StartTime?: number;
-  EndTime?: number;
-  IsPartial?: boolean;
-  Alternatives?: MedicalAlternative[];
-  ChannelId?: string;
+  ResultId?: string | undefined;
+  StartTime?: number | undefined;
+  EndTime?: number | undefined;
+  IsPartial?: boolean | undefined;
+  Alternatives?: MedicalAlternative[] | undefined;
+  ChannelId?: string | undefined;
 }
 export type MedicalResultList = MedicalResult[];
 export interface MedicalTranscript {
-  Results?: MedicalResult[];
+  Results?: MedicalResult[] | undefined;
 }
 export interface MedicalTranscriptEvent {
-  Transcript?: MedicalTranscript;
+  Transcript?: MedicalTranscript | undefined;
 }
 export type MedicalTranscriptResultStream =
   | {
       TranscriptEvent: MedicalTranscriptEvent;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
+      TranscriptEvent?: undefined;
       BadRequestException: BadRequestException;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
       LimitExceededException: LimitExceededException;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
       InternalFailureException: InternalFailureException;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
       ConflictException: ConflictException;
-      ServiceUnavailableException?: never;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
       ServiceUnavailableException: ServiceUnavailableException;
     };
 export interface StartMedicalStreamTranscriptionResponse {
-  RequestId?: string;
-  LanguageCode?: LanguageCode;
-  MediaSampleRateHertz?: number;
-  MediaEncoding?: MediaEncoding;
-  VocabularyName?: string;
-  Specialty?: Specialty;
-  Type?: Type;
-  ShowSpeakerLabel?: boolean;
-  SessionId?: string;
-  TranscriptResultStream?: stream.Stream<MedicalTranscriptResultStream, Error, never>;
-  EnableChannelIdentification?: boolean;
-  NumberOfChannels?: number;
-  ContentIdentificationType?: MedicalContentIdentificationType;
+  RequestId?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  MediaSampleRateHertz?: number | undefined;
+  MediaEncoding?: MediaEncoding | undefined;
+  VocabularyName?: string | undefined;
+  Specialty?: Specialty | undefined;
+  Type?: Type | undefined;
+  ShowSpeakerLabel?: boolean | undefined;
+  SessionId?: string | undefined;
+  TranscriptResultStream?: stream.Stream<MedicalTranscriptResultStream, Error, never> | undefined;
+  EnableChannelIdentification?: boolean | undefined;
+  NumberOfChannels?: number | undefined;
+  ContentIdentificationType?: MedicalContentIdentificationType | undefined;
 }
 export type SessionResumeWindow = number;
 export type TranscriptFormat = "spoken" | "written" | (string & {});
 export interface StartStreamTranscriptionRequest {
-  LanguageCode?: LanguageCode;
+  LanguageCode?: LanguageCode | undefined;
   MediaSampleRateHertz: number;
   MediaEncoding: MediaEncoding;
-  VocabularyName?: string;
-  SessionId?: string;
+  VocabularyName?: string | undefined;
+  SessionId?: string | undefined;
   AudioStream: stream.Stream<AudioStream, Error, never>;
-  VocabularyFilterName?: string;
-  VocabularyFilterMethod?: VocabularyFilterMethod;
-  ShowSpeakerLabel?: boolean;
-  EnableChannelIdentification?: boolean;
-  NumberOfChannels?: number;
-  EnablePartialResultsStabilization?: boolean;
-  PartialResultsStability?: PartialResultsStability;
-  ContentIdentificationType?: ContentIdentificationType;
-  ContentRedactionType?: ContentRedactionType;
-  PiiEntityTypes?: string;
-  LanguageModelName?: string;
-  IdentifyLanguage?: boolean;
-  LanguageOptions?: string;
-  PreferredLanguage?: LanguageCode;
-  IdentifyMultipleLanguages?: boolean;
-  VocabularyNames?: string;
-  VocabularyFilterNames?: string;
-  SessionResumeWindow?: number;
-  TranscriptFormat?: TranscriptFormat;
+  VocabularyFilterName?: string | undefined;
+  VocabularyFilterMethod?: VocabularyFilterMethod | undefined;
+  ShowSpeakerLabel?: boolean | undefined;
+  EnableChannelIdentification?: boolean | undefined;
+  NumberOfChannels?: number | undefined;
+  EnablePartialResultsStabilization?: boolean | undefined;
+  PartialResultsStability?: PartialResultsStability | undefined;
+  ContentIdentificationType?: ContentIdentificationType | undefined;
+  ContentRedactionType?: ContentRedactionType | undefined;
+  PiiEntityTypes?: string | undefined;
+  LanguageModelName?: string | undefined;
+  IdentifyLanguage?: boolean | undefined;
+  LanguageOptions?: string | undefined;
+  PreferredLanguage?: LanguageCode | undefined;
+  IdentifyMultipleLanguages?: boolean | undefined;
+  VocabularyNames?: string | undefined;
+  VocabularyFilterNames?: string | undefined;
+  SessionResumeWindow?: number | undefined;
+  TranscriptFormat?: TranscriptFormat | undefined;
 }
 export interface Item {
-  StartTime?: number;
-  EndTime?: number;
-  Type?: ItemType;
-  Content?: string;
-  VocabularyFilterMatch?: boolean;
-  Speaker?: string;
-  Confidence?: number;
-  Stable?: boolean;
+  StartTime?: number | undefined;
+  EndTime?: number | undefined;
+  Type?: ItemType | undefined;
+  Content?: string | undefined;
+  VocabularyFilterMatch?: boolean | undefined;
+  Speaker?: string | undefined;
+  Confidence?: number | undefined;
+  Stable?: boolean | undefined;
 }
 export type ItemList = Item[];
 export interface Entity {
-  StartTime?: number;
-  EndTime?: number;
-  Category?: string;
-  Type?: string;
-  Content?: string;
-  Confidence?: number;
+  StartTime?: number | undefined;
+  EndTime?: number | undefined;
+  Category?: string | undefined;
+  Type?: string | undefined;
+  Content?: string | undefined;
+  Confidence?: number | undefined;
 }
 export type EntityList = Entity[];
 export interface Alternative {
-  Transcript?: string;
-  Items?: Item[];
-  Entities?: Entity[];
+  Transcript?: string | undefined;
+  Items?: Item[] | undefined;
+  Entities?: Entity[] | undefined;
 }
 export type AlternativeList = Alternative[];
 export interface LanguageWithScore {
-  LanguageCode?: LanguageCode;
-  Score?: number;
+  LanguageCode?: LanguageCode | undefined;
+  Score?: number | undefined;
 }
 export type LanguageIdentification = LanguageWithScore[];
 export interface Result {
-  ResultId?: string;
-  StartTime?: number;
-  EndTime?: number;
-  IsPartial?: boolean;
-  Alternatives?: Alternative[];
-  ChannelId?: string;
-  LanguageCode?: LanguageCode;
-  LanguageIdentification?: LanguageWithScore[];
+  ResultId?: string | undefined;
+  StartTime?: number | undefined;
+  EndTime?: number | undefined;
+  IsPartial?: boolean | undefined;
+  Alternatives?: Alternative[] | undefined;
+  ChannelId?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  LanguageIdentification?: LanguageWithScore[] | undefined;
 }
 export type ResultList = Result[];
 export interface Transcript {
-  Results?: Result[];
+  Results?: Result[] | undefined;
 }
 export interface TranscriptEvent {
-  Transcript?: Transcript;
+  Transcript?: Transcript | undefined;
 }
 export type TranscriptResultStream =
   | {
       TranscriptEvent: TranscriptEvent;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
+      TranscriptEvent?: undefined;
       BadRequestException: BadRequestException;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
       LimitExceededException: LimitExceededException;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
       InternalFailureException: InternalFailureException;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
       ConflictException: ConflictException;
-      ServiceUnavailableException?: never;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
       ServiceUnavailableException: ServiceUnavailableException;
     };
 export interface StartStreamTranscriptionResponse {
-  RequestId?: string;
-  LanguageCode?: LanguageCode;
-  MediaSampleRateHertz?: number;
-  MediaEncoding?: MediaEncoding;
-  VocabularyName?: string;
-  SessionId?: string;
-  TranscriptResultStream?: stream.Stream<TranscriptResultStream, Error, never>;
-  VocabularyFilterName?: string;
-  VocabularyFilterMethod?: VocabularyFilterMethod;
-  ShowSpeakerLabel?: boolean;
-  EnableChannelIdentification?: boolean;
-  NumberOfChannels?: number;
-  EnablePartialResultsStabilization?: boolean;
-  PartialResultsStability?: PartialResultsStability;
-  ContentIdentificationType?: ContentIdentificationType;
-  ContentRedactionType?: ContentRedactionType;
-  PiiEntityTypes?: string;
-  LanguageModelName?: string;
-  IdentifyLanguage?: boolean;
-  LanguageOptions?: string;
-  PreferredLanguage?: LanguageCode;
-  IdentifyMultipleLanguages?: boolean;
-  VocabularyNames?: string;
-  VocabularyFilterNames?: string;
-  SessionResumeWindow?: number;
-  TranscriptFormat?: TranscriptFormat;
+  RequestId?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  MediaSampleRateHertz?: number | undefined;
+  MediaEncoding?: MediaEncoding | undefined;
+  VocabularyName?: string | undefined;
+  SessionId?: string | undefined;
+  TranscriptResultStream?: stream.Stream<TranscriptResultStream, Error, never> | undefined;
+  VocabularyFilterName?: string | undefined;
+  VocabularyFilterMethod?: VocabularyFilterMethod | undefined;
+  ShowSpeakerLabel?: boolean | undefined;
+  EnableChannelIdentification?: boolean | undefined;
+  NumberOfChannels?: number | undefined;
+  EnablePartialResultsStabilization?: boolean | undefined;
+  PartialResultsStability?: PartialResultsStability | undefined;
+  ContentIdentificationType?: ContentIdentificationType | undefined;
+  ContentRedactionType?: ContentRedactionType | undefined;
+  PiiEntityTypes?: string | undefined;
+  LanguageModelName?: string | undefined;
+  IdentifyLanguage?: boolean | undefined;
+  LanguageOptions?: string | undefined;
+  PreferredLanguage?: LanguageCode | undefined;
+  IdentifyMultipleLanguages?: boolean | undefined;
+  VocabularyNames?: string | undefined;
+  VocabularyFilterNames?: string | undefined;
+  SessionResumeWindow?: number | undefined;
+  TranscriptFormat?: TranscriptFormat | undefined;
 }
 export type GetMedicalScribeStreamError =
   | BadRequestException
@@ -956,7 +959,7 @@ export type GetMedicalScribeStreamError =
  * details of post-stream analytics, including its status, check the `PostStreamAnalyticsResult` field in the response.
  */
 export const getMedicalScribeStream: API.OperationMethod<
-  GetMedicalScribeStreamRequest,
+  GetMedicalScribeStreamRequest & RegionInput,
   GetMedicalScribeStreamResponse,
   GetMedicalScribeStreamError,
   Credentials | HttpClient.HttpClient
@@ -999,7 +1002,7 @@ export type StartCallAnalyticsStreamTranscriptionError =
  * For more information on streaming with Amazon Transcribe, see Transcribing streaming audio.
  */
 export const startCallAnalyticsStreamTranscription: API.OperationMethod<
-  StartCallAnalyticsStreamTranscriptionRequest,
+  StartCallAnalyticsStreamTranscriptionRequest & RegionInput,
   StartCallAnalyticsStreamTranscriptionResponse,
   StartCallAnalyticsStreamTranscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1059,7 +1062,7 @@ export type StartMedicalScribeStreamError =
  * see Amazon Web Services HealthScribe.
  */
 export const startMedicalScribeStream: API.OperationMethod<
-  StartMedicalScribeStreamRequest,
+  StartMedicalScribeStreamRequest & RegionInput,
   StartMedicalScribeStreamResponse,
   StartMedicalScribeStreamError,
   Credentials | HttpClient.HttpClient
@@ -1105,7 +1108,7 @@ export type StartMedicalStreamTranscriptionError =
  * streaming audio.
  */
 export const startMedicalStreamTranscription: API.OperationMethod<
-  StartMedicalStreamTranscriptionRequest,
+  StartMedicalStreamTranscriptionRequest & RegionInput,
   StartMedicalStreamTranscriptionResponse,
   StartMedicalStreamTranscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1148,7 +1151,7 @@ export type StartStreamTranscriptionError =
  * For more information on streaming with Amazon Transcribe, see Transcribing streaming audio.
  */
 export const startStreamTranscription: API.OperationMethod<
-  StartStreamTranscriptionRequest,
+  StartStreamTranscriptionRequest & RegionInput,
   StartStreamTranscriptionResponse,
   StartStreamTranscriptionError,
   Credentials | HttpClient.HttpClient

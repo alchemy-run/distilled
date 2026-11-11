@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ForgejoProtocol -- the shared bearer-REST protocol instantiated for Forgejo.
  *
@@ -37,7 +38,8 @@ export type ForgejoOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Forgejo operation. */
 export type ForgejoOpContext = Credentials | HttpClient.HttpClient;

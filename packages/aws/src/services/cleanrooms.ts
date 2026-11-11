@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -175,9 +176,9 @@ export type ResourceAlias = string;
 export type TableAlias = string;
 export type QueryTables = string[];
 export interface AnalysisSchema {
-  referencedTables?: string[];
+  referencedTables?: string[] | undefined;
 }
-export type AnalysisFormat = "SQL" | "PYSPARK_1_0" | (string & {});
+export type AnalysisFormat = "SQL" | "PYSPARK_1_0" | "PYSPARK_2_0" | (string & {});
 export type AnalysisTemplateText = string | redacted.Redacted<string>;
 export interface S3Location {
   bucket: string;
@@ -190,19 +191,19 @@ export type AnalysisTemplateArtifactList = AnalysisTemplateArtifact[];
 export type RoleArn = string;
 export interface AnalysisTemplateArtifacts {
   entryPoint: AnalysisTemplateArtifact;
-  additionalArtifacts?: AnalysisTemplateArtifact[];
+  additionalArtifacts?: AnalysisTemplateArtifact[] | undefined;
   roleArn: string;
 }
 export type AnalysisSource =
-  | { text: string | redacted.Redacted<string>; artifacts?: never }
-  | { text?: never; artifacts: AnalysisTemplateArtifacts };
+  | { text: string | redacted.Redacted<string>; artifacts?: undefined }
+  | { text?: undefined; artifacts: AnalysisTemplateArtifacts };
 export interface Hash {
-  sha256?: string;
+  sha256?: string | undefined;
 }
 export type HashList = Hash[];
 export interface AnalysisTemplateArtifactMetadata {
   entryPointHash: Hash;
-  additionalArtifactHashes?: Hash[];
+  additionalArtifactHashes?: Hash[] | undefined;
 }
 export type AnalysisSourceMetadata = { artifacts: AnalysisTemplateArtifactMetadata };
 export type ParameterName = string;
@@ -240,7 +241,7 @@ export type ParameterValue = string;
 export interface AnalysisParameter {
   name: string;
   type: ParameterType;
-  defaultValue?: string;
+  defaultValue?: string | undefined;
 }
 export type AnalysisParameterList = AnalysisParameter[];
 export type AnalysisTemplateValidationType = "DIFFERENTIAL_PRIVACY" | (string & {});
@@ -256,7 +257,7 @@ export type AnalysisTemplateValidationStatusReasonList = AnalysisTemplateValidat
 export interface AnalysisTemplateValidationStatusDetail {
   type: AnalysisTemplateValidationType;
   status: AnalysisTemplateValidationStatus;
-  reasons?: AnalysisTemplateValidationStatusReason[];
+  reasons?: AnalysisTemplateValidationStatusReason[] | undefined;
 }
 export type AnalysisTemplateValidationStatusDetailList = AnalysisTemplateValidationStatusDetail[];
 export type ErrorMessageType = "DETAILED" | (string & {});
@@ -286,19 +287,19 @@ export interface CollaborationAnalysisTemplate {
   arn: string;
   collaborationId: string;
   collaborationArn: string;
-  description?: string;
+  description?: string | undefined;
   creatorAccountId: string;
   name: string;
   createTime: Date;
   updateTime: Date;
   schema: AnalysisSchema;
   format: AnalysisFormat;
-  source?: AnalysisSource;
-  sourceMetadata?: AnalysisSourceMetadata;
-  analysisParameters?: AnalysisParameter[];
-  validations?: AnalysisTemplateValidationStatusDetail[];
-  errorMessageConfiguration?: ErrorMessageConfiguration;
-  syntheticDataParameters?: SyntheticDataParameters;
+  source?: AnalysisSource | undefined;
+  sourceMetadata?: AnalysisSourceMetadata | undefined;
+  analysisParameters?: AnalysisParameter[] | undefined;
+  validations?: AnalysisTemplateValidationStatusDetail[] | undefined;
+  errorMessageConfiguration?: ErrorMessageConfiguration | undefined;
+  syntheticDataParameters?: SyntheticDataParameters | undefined;
 }
 export type CollaborationAnalysisTemplateList = CollaborationAnalysisTemplate[];
 export interface BatchGetCollaborationAnalysisTemplateError_ {
@@ -366,9 +367,9 @@ export type SchemaConfigurationList = SchemaConfiguration[];
 export type AnalysisType = "DIRECT_ANALYSIS" | "ADDITIONAL_ANALYSIS" | (string & {});
 export interface SchemaStatusDetail {
   status: SchemaStatus;
-  reasons?: SchemaStatusReason[];
-  analysisRuleType?: AnalysisRuleType;
-  configurations?: SchemaConfiguration[];
+  reasons?: SchemaStatusReason[] | undefined;
+  analysisRuleType?: AnalysisRuleType | undefined;
+  configurations?: SchemaConfiguration[] | undefined;
   analysisType: AnalysisType;
 }
 export type SchemaStatusDetailList = SchemaStatusDetail[];
@@ -381,7 +382,7 @@ export interface IdMappingTableInputSource {
 export type IdMappingTableInputSourceList = IdMappingTableInputSource[];
 export interface IdMappingTableSchemaTypeProperties {
   idMappingTableInputSource: IdMappingTableInputSource[];
-  idMappingTableId?: string;
+  idMappingTableId?: string | undefined;
 }
 export interface IntermediateTableSchemaTypeProperties {
   intermediateTableId: string;
@@ -392,25 +393,25 @@ export interface ConfiguredTableAssociationSchemaTypeProperties {
 export type SchemaTypeProperties =
   | {
       idMappingTable: IdMappingTableSchemaTypeProperties;
-      intermediateTable?: never;
-      configuredTableAssociation?: never;
+      intermediateTable?: undefined;
+      configuredTableAssociation?: undefined;
     }
   | {
-      idMappingTable?: never;
+      idMappingTable?: undefined;
       intermediateTable: IntermediateTableSchemaTypeProperties;
-      configuredTableAssociation?: never;
+      configuredTableAssociation?: undefined;
     }
   | {
-      idMappingTable?: never;
-      intermediateTable?: never;
+      idMappingTable?: undefined;
+      intermediateTable?: undefined;
       configuredTableAssociation: ConfiguredTableAssociationSchemaTypeProperties;
     };
 export interface Schema {
   columns: Column[];
   partitionKeys: Column[];
   analysisRuleTypes: AnalysisRuleType[];
-  analysisMethod?: AnalysisMethod;
-  selectedAnalysisMethods?: SelectedAnalysisMethod[];
+  analysisMethod?: AnalysisMethod | undefined;
+  selectedAnalysisMethods?: SelectedAnalysisMethod[] | undefined;
   creatorAccountId: string;
   name: string;
   collaborationId: string;
@@ -420,8 +421,8 @@ export interface Schema {
   updateTime: Date;
   type: SchemaType;
   schemaStatusDetails: SchemaStatusDetail[];
-  resourceArn?: string;
-  schemaTypeProperties?: SchemaTypeProperties;
+  resourceArn?: string | undefined;
+  schemaTypeProperties?: SchemaTypeProperties | undefined;
 }
 export type SchemaList = Schema[];
 export interface BatchGetSchemaError_ {
@@ -450,9 +451,9 @@ export type JoinOperatorsList = string[];
 export type AdditionalAnalyses = "ALLOWED" | "REQUIRED" | "NOT_ALLOWED" | (string & {});
 export interface AnalysisRuleList {
   joinColumns: string[];
-  allowedJoinOperators?: string[];
+  allowedJoinOperators?: string[] | undefined;
   listColumns: string[];
-  additionalAnalyses?: AdditionalAnalyses;
+  additionalAnalyses?: AdditionalAnalyses | undefined;
 }
 export type AnalysisRuleColumnNameList = string[];
 export type AggregateFunctionName = string;
@@ -474,12 +475,12 @@ export type AggregationConstraints = AggregationConstraint[];
 export interface AnalysisRuleAggregation {
   aggregateColumns: AggregateColumn[];
   joinColumns: string[];
-  joinRequired?: string;
-  allowedJoinOperators?: string[];
+  joinRequired?: string | undefined;
+  allowedJoinOperators?: string[] | undefined;
   dimensionColumns: string[];
   scalarFunctions: string[];
   outputConstraints: AggregationConstraint[];
-  additionalAnalyses?: AdditionalAnalyses;
+  additionalAnalyses?: AdditionalAnalyses | undefined;
 }
 export type AnalysisTemplateArnOrQueryWildcard = string;
 export type AllowedAnalysesList = string[];
@@ -502,7 +503,7 @@ export interface AggregationThreshold {
   identityColumns: string[];
   minimumIdentityCount: number;
   type: AggregationThresholdType;
-  outputColumnThresholds?: OutputColumnThreshold[];
+  outputColumnThresholds?: OutputColumnThreshold[] | undefined;
   allowedAggregateExpressionType: AllowedAggregateExpressionType;
 }
 export type AggregationThresholdList = AggregationThreshold[];
@@ -515,90 +516,117 @@ export type AdditionalAnalysesResourceArn = string;
 export type AllowedAdditionalAnalyses = string[];
 export interface AnalysisRuleCustom {
   allowedAnalyses: string[];
-  allowedAnalysisProviders?: string[];
-  additionalAnalyses?: AdditionalAnalyses;
-  disallowedOutputColumns?: string[];
-  differentialPrivacy?: DifferentialPrivacyConfiguration;
-  aggregationThresholds?: AggregationThreshold[];
-  comparisonControls?: ComparisonControls;
-  allowedResultReceivers?: string[];
-  allowedAdditionalAnalyses?: string[];
+  allowedAnalysisProviders?: string[] | undefined;
+  additionalAnalyses?: AdditionalAnalyses | undefined;
+  disallowedOutputColumns?: string[] | undefined;
+  differentialPrivacy?: DifferentialPrivacyConfiguration | undefined;
+  aggregationThresholds?: AggregationThreshold[] | undefined;
+  comparisonControls?: ComparisonControls | undefined;
+  allowedResultReceivers?: string[] | undefined;
+  allowedAdditionalAnalyses?: string[] | undefined;
 }
 export interface QueryConstraintRequireOverlap {
-  columns?: string[];
+  columns?: string[] | undefined;
 }
 export type QueryConstraint = { requireOverlap: QueryConstraintRequireOverlap };
 export type QueryConstraintList = QueryConstraint[];
 export interface AnalysisRuleIdMappingTable {
   joinColumns: string[];
   queryConstraints: QueryConstraint[];
-  dimensionColumns?: string[];
+  dimensionColumns?: string[] | undefined;
 }
 export type AnalysisRulePolicyV1 =
-  | { list: AnalysisRuleList; aggregation?: never; custom?: never; idMappingTable?: never }
-  | { list?: never; aggregation: AnalysisRuleAggregation; custom?: never; idMappingTable?: never }
-  | { list?: never; aggregation?: never; custom: AnalysisRuleCustom; idMappingTable?: never }
   | {
-      list?: never;
-      aggregation?: never;
-      custom?: never;
+      list: AnalysisRuleList;
+      aggregation?: undefined;
+      custom?: undefined;
+      idMappingTable?: undefined;
+    }
+  | {
+      list?: undefined;
+      aggregation: AnalysisRuleAggregation;
+      custom?: undefined;
+      idMappingTable?: undefined;
+    }
+  | {
+      list?: undefined;
+      aggregation?: undefined;
+      custom: AnalysisRuleCustom;
+      idMappingTable?: undefined;
+    }
+  | {
+      list?: undefined;
+      aggregation?: undefined;
+      custom?: undefined;
       idMappingTable: AnalysisRuleIdMappingTable;
     };
 export type AnalysisRulePolicy = { v1: AnalysisRulePolicyV1 };
 export interface ConfiguredTableAssociationAnalysisRuleList {
-  allowedResultReceivers?: string[];
-  allowedAdditionalAnalyses?: string[];
+  allowedResultReceivers?: string[] | undefined;
+  allowedAdditionalAnalyses?: string[] | undefined;
 }
 export interface ConfiguredTableAssociationAnalysisRuleAggregation {
-  allowedResultReceivers?: string[];
-  allowedAdditionalAnalyses?: string[];
+  allowedResultReceivers?: string[] | undefined;
+  allowedAdditionalAnalyses?: string[] | undefined;
 }
 export interface ConfiguredTableAssociationAnalysisRuleCustom {
-  allowedResultReceivers?: string[];
-  allowedAdditionalAnalyses?: string[];
+  allowedResultReceivers?: string[] | undefined;
+  allowedAdditionalAnalyses?: string[] | undefined;
 }
 export type ConfiguredTableAssociationAnalysisRulePolicyV1 =
-  | { list: ConfiguredTableAssociationAnalysisRuleList; aggregation?: never; custom?: never }
-  | { list?: never; aggregation: ConfiguredTableAssociationAnalysisRuleAggregation; custom?: never }
-  | { list?: never; aggregation?: never; custom: ConfiguredTableAssociationAnalysisRuleCustom };
+  | {
+      list: ConfiguredTableAssociationAnalysisRuleList;
+      aggregation?: undefined;
+      custom?: undefined;
+    }
+  | {
+      list?: undefined;
+      aggregation: ConfiguredTableAssociationAnalysisRuleAggregation;
+      custom?: undefined;
+    }
+  | {
+      list?: undefined;
+      aggregation?: undefined;
+      custom: ConfiguredTableAssociationAnalysisRuleCustom;
+    };
 export type ConfiguredTableAssociationAnalysisRulePolicy = {
   v1: ConfiguredTableAssociationAnalysisRulePolicyV1;
 };
 export interface ConsolidatedPolicyList {
   joinColumns: string[];
-  allowedJoinOperators?: string[];
+  allowedJoinOperators?: string[] | undefined;
   listColumns: string[];
-  additionalAnalyses?: AdditionalAnalyses;
-  allowedResultReceivers?: string[];
-  allowedAdditionalAnalyses?: string[];
+  additionalAnalyses?: AdditionalAnalyses | undefined;
+  allowedResultReceivers?: string[] | undefined;
+  allowedAdditionalAnalyses?: string[] | undefined;
 }
 export interface ConsolidatedPolicyAggregation {
   aggregateColumns: AggregateColumn[];
   joinColumns: string[];
-  joinRequired?: string;
-  allowedJoinOperators?: string[];
+  joinRequired?: string | undefined;
+  allowedJoinOperators?: string[] | undefined;
   dimensionColumns: string[];
   scalarFunctions: string[];
   outputConstraints: AggregationConstraint[];
-  additionalAnalyses?: AdditionalAnalyses;
-  allowedResultReceivers?: string[];
-  allowedAdditionalAnalyses?: string[];
+  additionalAnalyses?: AdditionalAnalyses | undefined;
+  allowedResultReceivers?: string[] | undefined;
+  allowedAdditionalAnalyses?: string[] | undefined;
 }
 export interface ConsolidatedPolicyCustom {
   allowedAnalyses: string[];
-  allowedAnalysisProviders?: string[];
-  additionalAnalyses?: AdditionalAnalyses;
-  disallowedOutputColumns?: string[];
-  differentialPrivacy?: DifferentialPrivacyConfiguration;
-  aggregationThresholds?: AggregationThreshold[];
-  comparisonControls?: ComparisonControls;
-  allowedResultReceivers?: string[];
-  allowedAdditionalAnalyses?: string[];
+  allowedAnalysisProviders?: string[] | undefined;
+  additionalAnalyses?: AdditionalAnalyses | undefined;
+  disallowedOutputColumns?: string[] | undefined;
+  differentialPrivacy?: DifferentialPrivacyConfiguration | undefined;
+  aggregationThresholds?: AggregationThreshold[] | undefined;
+  comparisonControls?: ComparisonControls | undefined;
+  allowedResultReceivers?: string[] | undefined;
+  allowedAdditionalAnalyses?: string[] | undefined;
 }
 export type ConsolidatedPolicyV1 =
-  | { list: ConsolidatedPolicyList; aggregation?: never; custom?: never }
-  | { list?: never; aggregation: ConsolidatedPolicyAggregation; custom?: never }
-  | { list?: never; aggregation?: never; custom: ConsolidatedPolicyCustom };
+  | { list: ConsolidatedPolicyList; aggregation?: undefined; custom?: undefined }
+  | { list?: undefined; aggregation: ConsolidatedPolicyAggregation; custom?: undefined }
+  | { list?: undefined; aggregation?: undefined; custom: ConsolidatedPolicyCustom };
 export type ConsolidatedPolicy = { v1: ConsolidatedPolicyV1 };
 export interface AnalysisRule {
   collaborationId: string;
@@ -607,8 +635,8 @@ export interface AnalysisRule {
   createTime: Date;
   updateTime: Date;
   policy: AnalysisRulePolicy;
-  collaborationPolicy?: ConfiguredTableAssociationAnalysisRulePolicy;
-  consolidatedPolicy?: ConsolidatedPolicy;
+  collaborationPolicy?: ConfiguredTableAssociationAnalysisRulePolicy | undefined;
+  consolidatedPolicy?: ConsolidatedPolicy | undefined;
 }
 export type SchemaAnalysisRuleList = AnalysisRule[];
 export interface BatchGetSchemaAnalysisRuleError_ {
@@ -627,16 +655,16 @@ export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateAnalysisTemplateInput {
-  description?: string;
+  description?: string | undefined;
   membershipIdentifier: string;
   name: string;
   format: AnalysisFormat;
   source: AnalysisSource;
-  tags?: { [key: string]: string | undefined };
-  analysisParameters?: AnalysisParameter[];
-  schema?: AnalysisSchema;
-  errorMessageConfiguration?: ErrorMessageConfiguration;
-  syntheticDataParameters?: SyntheticDataParameters;
+  tags?: { [key: string]: string | undefined } | undefined;
+  analysisParameters?: AnalysisParameter[] | undefined;
+  schema?: AnalysisSchema | undefined;
+  errorMessageConfiguration?: ErrorMessageConfiguration | undefined;
+  syntheticDataParameters?: SyntheticDataParameters | undefined;
 }
 export type MembershipArn = string;
 export interface AnalysisTemplate {
@@ -646,18 +674,18 @@ export interface AnalysisTemplate {
   collaborationArn: string;
   membershipId: string;
   membershipArn: string;
-  description?: string;
+  description?: string | undefined;
   name: string;
   createTime: Date;
   updateTime: Date;
   schema: AnalysisSchema;
   format: AnalysisFormat;
   source: AnalysisSource;
-  sourceMetadata?: AnalysisSourceMetadata;
-  analysisParameters?: AnalysisParameter[];
-  validations?: AnalysisTemplateValidationStatusDetail[];
-  errorMessageConfiguration?: ErrorMessageConfiguration;
-  syntheticDataParameters?: SyntheticDataParameters;
+  sourceMetadata?: AnalysisSourceMetadata | undefined;
+  analysisParameters?: AnalysisParameter[] | undefined;
+  validations?: AnalysisTemplateValidationStatusDetail[] | undefined;
+  errorMessageConfiguration?: ErrorMessageConfiguration | undefined;
+  syntheticDataParameters?: SyntheticDataParameters | undefined;
 }
 export interface CreateAnalysisTemplateOutput {
   analysisTemplate: AnalysisTemplate;
@@ -691,24 +719,24 @@ export interface SyntheticDataGenerationPaymentConfig {
   isResponsible: boolean;
 }
 export interface MLPaymentConfig {
-  modelTraining?: ModelTrainingPaymentConfig;
-  modelInference?: ModelInferencePaymentConfig;
-  syntheticDataGeneration?: SyntheticDataGenerationPaymentConfig;
+  modelTraining?: ModelTrainingPaymentConfig | undefined;
+  modelInference?: ModelInferencePaymentConfig | undefined;
+  syntheticDataGeneration?: SyntheticDataGenerationPaymentConfig | undefined;
 }
 export interface JobComputePaymentConfig {
   isResponsible: boolean;
 }
 export interface PaymentConfiguration {
   queryCompute: QueryComputePaymentConfig;
-  machineLearning?: MLPaymentConfig;
-  jobCompute?: JobComputePaymentConfig;
+  machineLearning?: MLPaymentConfig | undefined;
+  jobCompute?: JobComputePaymentConfig | undefined;
 }
 export interface MemberSpecification {
   accountId: string;
   memberAbilities: MemberAbility[];
-  mlMemberAbilities?: MLMemberAbilities;
+  mlMemberAbilities?: MLMemberAbilities | undefined;
   displayName: string;
-  paymentConfiguration?: PaymentConfiguration;
+  paymentConfiguration?: PaymentConfiguration | undefined;
 }
 export type MemberList = MemberSpecification[];
 export type CollaborationName = string;
@@ -769,40 +797,40 @@ export type AllowedResultRegions = SupportedS3Region[];
 export interface CreateCollaborationInput {
   members: MemberSpecification[];
   name: string;
-  description?: string;
+  description?: string | undefined;
   creatorMemberAbilities: MemberAbility[];
-  creatorMLMemberAbilities?: MLMemberAbilities;
+  creatorMLMemberAbilities?: MLMemberAbilities | undefined;
   creatorDisplayName: string;
-  dataEncryptionMetadata?: DataEncryptionMetadata;
+  dataEncryptionMetadata?: DataEncryptionMetadata | undefined;
   queryLogStatus: CollaborationQueryLogStatus;
-  jobLogStatus?: CollaborationJobLogStatus;
-  tags?: { [key: string]: string | undefined };
-  creatorPaymentConfiguration?: PaymentConfiguration;
-  analyticsEngine?: AnalyticsEngine;
-  autoApprovedChangeRequestTypes?: AutoApprovedChangeType[];
-  allowedResultRegions?: SupportedS3Region[];
-  isMetricsEnabled?: boolean;
+  jobLogStatus?: CollaborationJobLogStatus | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  creatorPaymentConfiguration?: PaymentConfiguration | undefined;
+  analyticsEngine?: AnalyticsEngine | undefined;
+  autoApprovedChangeRequestTypes?: AutoApprovedChangeType[] | undefined;
+  allowedResultRegions?: SupportedS3Region[] | undefined;
+  isMetricsEnabled?: boolean | undefined;
 }
 export type MemberStatus = string;
 export interface Collaboration {
   id: string;
   arn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   creatorAccountId: string;
   creatorDisplayName: string;
   createTime: Date;
   updateTime: Date;
   memberStatus: string;
-  membershipId?: string;
-  membershipArn?: string;
-  dataEncryptionMetadata?: DataEncryptionMetadata;
+  membershipId?: string | undefined;
+  membershipArn?: string | undefined;
+  dataEncryptionMetadata?: DataEncryptionMetadata | undefined;
   queryLogStatus: CollaborationQueryLogStatus;
-  jobLogStatus?: CollaborationJobLogStatus;
-  analyticsEngine?: AnalyticsEngine;
-  autoApprovedChangeTypes?: AutoApprovedChangeType[];
-  allowedResultRegions?: SupportedS3Region[];
-  isMetricsEnabled?: boolean;
+  jobLogStatus?: CollaborationJobLogStatus | undefined;
+  analyticsEngine?: AnalyticsEngine | undefined;
+  autoApprovedChangeTypes?: AutoApprovedChangeType[] | undefined;
+  allowedResultRegions?: SupportedS3Region[] | undefined;
+  isMetricsEnabled?: boolean | undefined;
 }
 export interface CreateCollaborationOutput {
   collaboration: Collaboration;
@@ -811,16 +839,16 @@ export type ChangeSpecificationType = "MEMBER" | "COLLABORATION" | (string & {})
 export interface MemberChangeSpecification {
   accountId: string;
   memberAbilities: MemberAbility[];
-  mlMemberAbilities?: MLMemberAbilities;
-  paymentConfiguration?: PaymentConfiguration;
-  displayName?: string;
+  mlMemberAbilities?: MLMemberAbilities | undefined;
+  paymentConfiguration?: PaymentConfiguration | undefined;
+  displayName?: string | undefined;
 }
 export interface CollaborationChangeSpecification {
-  autoApprovedChangeTypes?: AutoApprovedChangeType[];
+  autoApprovedChangeTypes?: AutoApprovedChangeType[] | undefined;
 }
 export type ChangeSpecification =
-  | { member: MemberChangeSpecification; collaboration?: never }
-  | { member?: never; collaboration: CollaborationChangeSpecification };
+  | { member: MemberChangeSpecification; collaboration?: undefined }
+  | { member?: undefined; collaboration: CollaborationChangeSpecification };
 export interface ChangeInput {
   specificationType: ChangeSpecificationType;
   specification: ChangeSpecification;
@@ -871,7 +899,7 @@ export interface CollaborationChangeRequest {
   status: ChangeRequestStatus;
   isAutoApproved: boolean;
   changes: Change[];
-  approvals?: { [key: string]: ApprovalStatusDetails | undefined };
+  approvals?: { [key: string]: ApprovalStatusDetails | undefined } | undefined;
 }
 export interface CreateCollaborationChangeRequestOutput {
   collaborationChangeRequest: CollaborationChangeRequest;
@@ -883,8 +911,8 @@ export interface CreateConfiguredAudienceModelAssociationInput {
   configuredAudienceModelArn: string;
   configuredAudienceModelAssociationName: string;
   manageResourcePolicies: boolean;
-  tags?: { [key: string]: string | undefined };
-  description?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  description?: string | undefined;
 }
 export type ConfiguredAudienceModelAssociationIdentifier = string;
 export type ConfiguredAudienceModelAssociationArn = string;
@@ -898,7 +926,7 @@ export interface ConfiguredAudienceModelAssociation {
   collaborationArn: string;
   name: string;
   manageResourcePolicies: boolean;
-  description?: string;
+  description?: string | undefined;
   createTime: Date;
   updateTime: Date;
 }
@@ -943,7 +971,7 @@ export type CommercialRegion =
 export type GlueTableName = string;
 export type GlueDatabaseName = string;
 export interface GlueTableReference {
-  region?: CommercialRegion;
+  region?: CommercialRegion | undefined;
   tableName: string;
   databaseName: string;
 }
@@ -972,51 +1000,83 @@ export type AthenaDatabaseName = string;
 export type AthenaTableName = string;
 export type AthenaCatalogName = string;
 export interface AthenaTableReference {
-  region?: CommercialRegion;
+  region?: CommercialRegion | undefined;
   workGroup: string;
-  outputLocation?: string;
+  outputLocation?: string | undefined;
   databaseName: string;
   tableName: string;
-  catalogName?: string;
+  catalogName?: string | undefined;
+}
+export type DatabricksObject = string;
+export type DatabricksWorkspaceUrl = string;
+export type DatabricksEndpointUrl = string;
+export interface DatabricksDeltaSharingConnection {
+  deltaShareEndpoint: string;
+  shareName: string;
+}
+export type DatabricksConnectionType = { deltaSharing: DatabricksDeltaSharingConnection };
+export interface DatabricksTableReference {
+  schemaName: string;
+  tableName: string;
+  workspaceUrl: string;
+  connectionType: DatabricksConnectionType;
 }
 export type TableReference =
-  | { glue: GlueTableReference; snowflake?: never; athena?: never }
-  | { glue?: never; snowflake: SnowflakeTableReference; athena?: never }
-  | { glue?: never; snowflake?: never; athena: AthenaTableReference };
+  | { glue: GlueTableReference; snowflake?: undefined; athena?: undefined; databricks?: undefined }
+  | {
+      glue?: undefined;
+      snowflake: SnowflakeTableReference;
+      athena?: undefined;
+      databricks?: undefined;
+    }
+  | {
+      glue?: undefined;
+      snowflake?: undefined;
+      athena: AthenaTableReference;
+      databricks?: undefined;
+    }
+  | {
+      glue?: undefined;
+      snowflake?: undefined;
+      athena?: undefined;
+      databricks: DatabricksTableReference;
+    };
 export type AllowedColumnList = string[];
 export interface CreateConfiguredTableInput {
   name: string;
-  description?: string;
+  description?: string | undefined;
   tableReference: TableReference;
   allowedColumns: string[];
   analysisMethod: AnalysisMethod;
-  selectedAnalysisMethods?: SelectedAnalysisMethod[];
-  tags?: { [key: string]: string | undefined };
+  selectedAnalysisMethods?: SelectedAnalysisMethod[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ConfiguredTableArn = string;
+export type TableReferenceType = "GLUE" | "SNOWFLAKE" | "ATHENA" | "DATABRICKS" | (string & {});
 export type ConfiguredTableAnalysisRuleType = "AGGREGATION" | "LIST" | "CUSTOM" | (string & {});
 export type ConfiguredTableAnalysisRuleTypeList = ConfiguredTableAnalysisRuleType[];
 export interface ConfiguredTable {
   id: string;
   arn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   tableReference: TableReference;
+  tableType?: TableReferenceType | undefined;
   createTime: Date;
   updateTime: Date;
   analysisRuleTypes: ConfiguredTableAnalysisRuleType[];
   analysisMethod: AnalysisMethod;
   allowedColumns: string[];
-  selectedAnalysisMethods?: SelectedAnalysisMethod[];
+  selectedAnalysisMethods?: SelectedAnalysisMethod[] | undefined;
 }
 export interface CreateConfiguredTableOutput {
   configuredTable: ConfiguredTable;
 }
 export type ConfiguredTableIdentifier = string;
 export type ConfiguredTableAnalysisRulePolicyV1 =
-  | { list: AnalysisRuleList; aggregation?: never; custom?: never }
-  | { list?: never; aggregation: AnalysisRuleAggregation; custom?: never }
-  | { list?: never; aggregation?: never; custom: AnalysisRuleCustom };
+  | { list: AnalysisRuleList; aggregation?: undefined; custom?: undefined }
+  | { list?: undefined; aggregation: AnalysisRuleAggregation; custom?: undefined }
+  | { list?: undefined; aggregation?: undefined; custom: AnalysisRuleCustom };
 export type ConfiguredTableAnalysisRulePolicy = { v1: ConfiguredTableAnalysisRulePolicyV1 };
 export interface CreateConfiguredTableAnalysisRuleInput {
   configuredTableIdentifier: string;
@@ -1036,11 +1096,11 @@ export interface CreateConfiguredTableAnalysisRuleOutput {
 }
 export interface CreateConfiguredTableAssociationInput {
   name: string;
-  description?: string;
+  description?: string | undefined;
   membershipIdentifier: string;
   configuredTableIdentifier: string;
   roleArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ConfiguredTableAssociationArn = string;
 export type ConfiguredTableAssociationAnalysisRuleType =
@@ -1061,11 +1121,11 @@ export type ResourceStatus =
   | "RETENTION_PERIOD_EXPIRED"
   | (string & {});
 export interface ChildResource {
-  resourceId?: string;
+  resourceId?: string | undefined;
   resourceType: ChildResourceType;
   resourceName: string;
   ownerAccountId: string;
-  resourceStatus?: ResourceStatus;
+  resourceStatus?: ResourceStatus | undefined;
 }
 export type ChildResourceList = ChildResource[];
 export interface ConfiguredTableAssociation {
@@ -1077,11 +1137,11 @@ export interface ConfiguredTableAssociation {
   membershipArn: string;
   roleArn: string;
   name: string;
-  description?: string;
-  analysisRuleTypes?: ConfiguredTableAssociationAnalysisRuleType[];
+  description?: string | undefined;
+  analysisRuleTypes?: ConfiguredTableAssociationAnalysisRuleType[] | undefined;
   createTime: Date;
   updateTime: Date;
-  childResources?: ChildResource[];
+  childResources?: ChildResource[] | undefined;
 }
 export interface CreateConfiguredTableAssociationOutput {
   configuredTableAssociation: ConfiguredTableAssociation;
@@ -1114,10 +1174,10 @@ export type KMSKeyArn = string;
 export interface CreateIdMappingTableInput {
   membershipIdentifier: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   inputReferenceConfig: IdMappingTableInputReferenceConfig;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export type IdMappingTableArn = string;
 export interface IdMappingTableInputReferenceProperties {
@@ -1131,13 +1191,13 @@ export interface IdMappingTable {
   membershipArn: string;
   collaborationId: string;
   collaborationArn: string;
-  description?: string;
+  description?: string | undefined;
   name: string;
   createTime: Date;
   updateTime: Date;
   inputReferenceProperties: IdMappingTableInputReferenceProperties;
-  kmsKeyArn?: string;
-  childResources?: ChildResource[];
+  kmsKeyArn?: string | undefined;
+  childResources?: ChildResource[] | undefined;
 }
 export interface CreateIdMappingTableOutput {
   idMappingTable: IdMappingTable;
@@ -1154,10 +1214,10 @@ export interface IdMappingConfig {
 export interface CreateIdNamespaceAssociationInput {
   membershipIdentifier: string;
   inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
   name: string;
-  description?: string;
-  idMappingConfig?: IdMappingConfig;
+  description?: string | undefined;
+  idMappingConfig?: IdMappingConfig | undefined;
 }
 export type IdNamespaceAssociationIdentifier = string;
 export type IdNamespaceAssociationArn = string;
@@ -1174,29 +1234,29 @@ export interface IdNamespaceAssociation {
   collaborationId: string;
   collaborationArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   createTime: Date;
   updateTime: Date;
   inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig;
   inputReferenceProperties: IdNamespaceAssociationInputReferenceProperties;
-  idMappingConfig?: IdMappingConfig;
+  idMappingConfig?: IdMappingConfig | undefined;
 }
 export interface CreateIdNamespaceAssociationOutput {
   idNamespaceAssociation: IdNamespaceAssociation;
 }
 export interface PopulationAnalysisSqlParameters {
-  queryString?: string;
-  analysisTemplateArn?: string;
+  queryString?: string | undefined;
+  analysisTemplateArn?: string | undefined;
 }
 export type PopulationAnalysisConfiguration = { sqlParameters: PopulationAnalysisSqlParameters };
 export interface CreateIntermediateTableInput {
   membershipIdentifier: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   populationAnalysisConfiguration: PopulationAnalysisConfiguration;
-  kmsKeyArn?: string;
-  retentionInDays?: number;
-  tags?: { [key: string]: string | undefined };
+  kmsKeyArn?: string | undefined;
+  retentionInDays?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type IntermediateTableArn = string;
 export type IntermediateTableStatus =
@@ -1277,19 +1337,19 @@ export interface InheritedDisallowedOutputColumns {
   columnLineage: ColumnLineageEntry[];
 }
 export interface IntermediateTableInheritedConstraints {
-  additionalAnalyses?: InheritedAdditionalAnalyses;
-  allowedAdditionalAnalyses?: InheritedAllowedAdditionalAnalyses;
-  allowedResultReceivers?: InheritedAllowedResultReceivers;
-  disallowedOutputColumns?: InheritedDisallowedOutputColumns;
+  additionalAnalyses?: InheritedAdditionalAnalyses | undefined;
+  allowedAdditionalAnalyses?: InheritedAllowedAdditionalAnalyses | undefined;
+  allowedResultReceivers?: InheritedAllowedResultReceivers | undefined;
+  disallowedOutputColumns?: InheritedDisallowedOutputColumns | undefined;
 }
 export interface IntermediateTableActiveVersion {
   versionId: string;
   analysisId: string;
   analysisType: PopulateIntermediateTableAnalysisType;
-  kmsKeyArn?: string;
-  parameters?: { [key: string]: string | undefined };
+  kmsKeyArn?: string | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
   inheritedConstraints: IntermediateTableInheritedConstraints;
-  expirationTime?: Date;
+  expirationTime?: Date | undefined;
 }
 export type IntermediateTableAnalysisRuleType = "CUSTOM" | (string & {});
 export type IntermediateTableAnalysisRuleTypeList = IntermediateTableAnalysisRuleType[];
@@ -1300,38 +1360,38 @@ export interface IntermediateTable {
   id: string;
   arn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   membershipArn: string;
   membershipId: string;
   collaborationArn: string;
   collaborationId: string;
-  childResources?: ChildResource[];
+  childResources?: ChildResource[] | undefined;
   createTime: Date;
   updateTime: Date;
   status: IntermediateTableStatus;
-  statusReason?: string;
-  kmsKeyArn?: string;
+  statusReason?: string | undefined;
+  kmsKeyArn?: string | undefined;
   populationAnalysisConfiguration: PopulationAnalysisConfiguration;
-  retentionInDays?: number;
-  tableDependencies?: IntermediateTableDependency[];
-  intermediateTableVersion?: IntermediateTableActiveVersion;
-  analysisRuleTypes?: IntermediateTableAnalysisRuleType[];
-  schema?: IntermediateTableSchema;
+  retentionInDays?: number | undefined;
+  tableDependencies?: IntermediateTableDependency[] | undefined;
+  intermediateTableVersion?: IntermediateTableActiveVersion | undefined;
+  analysisRuleTypes?: IntermediateTableAnalysisRuleType[] | undefined;
+  schema?: IntermediateTableSchema | undefined;
 }
 export interface CreateIntermediateTableOutput {
   intermediateTable: IntermediateTable;
 }
 export type IntermediateTableIdentifier = string;
 export interface IntermediateTableAnalysisRuleCustom {
-  allowedAnalyses?: string[];
-  additionalAnalyses?: AdditionalAnalyses;
-  allowedAdditionalAnalyses?: string[];
-  allowedAnalysisProviders?: string[];
-  allowedResultReceivers?: string[];
-  differentialPrivacy?: DifferentialPrivacyConfiguration;
-  disallowedOutputColumns?: string[];
-  aggregationThresholds?: AggregationThreshold[];
-  comparisonControls?: ComparisonControls;
+  allowedAnalyses?: string[] | undefined;
+  additionalAnalyses?: AdditionalAnalyses | undefined;
+  allowedAdditionalAnalyses?: string[] | undefined;
+  allowedAnalysisProviders?: string[] | undefined;
+  allowedResultReceivers?: string[] | undefined;
+  differentialPrivacy?: DifferentialPrivacyConfiguration | undefined;
+  disallowedOutputColumns?: string[] | undefined;
+  aggregationThresholds?: AggregationThreshold[] | undefined;
+  comparisonControls?: ComparisonControls | undefined;
 }
 export type IntermediateTableAnalysisRulePolicyV1 = { custom: IntermediateTableAnalysisRuleCustom };
 export type IntermediateTableAnalysisRulePolicy = { v1: IntermediateTableAnalysisRulePolicyV1 };
@@ -1359,19 +1419,20 @@ export type KeyPrefix = string;
 export interface ProtectedQueryS3OutputConfiguration {
   resultFormat: ResultFormat;
   bucket: string;
-  keyPrefix?: string;
-  singleFileOutput?: boolean;
+  keyPrefix?: string | undefined;
+  singleFileOutput?: boolean | undefined;
 }
 export type MembershipProtectedQueryOutputConfiguration = {
   s3: ProtectedQueryS3OutputConfiguration;
 };
 export interface MembershipProtectedQueryResultConfiguration {
   outputConfiguration: MembershipProtectedQueryOutputConfiguration;
-  roleArn?: string;
+  roleArn?: string | undefined;
 }
 export interface ProtectedJobS3OutputConfigurationInput {
+  resultFormat?: ResultFormat | undefined;
   bucket: string;
-  keyPrefix?: string;
+  keyPrefix?: string | undefined;
 }
 export type MembershipProtectedJobOutputConfiguration = {
   s3: ProtectedJobS3OutputConfigurationInput;
@@ -1393,27 +1454,27 @@ export interface MembershipSyntheticDataGenerationPaymentConfig {
   isResponsible: boolean;
 }
 export interface MembershipMLPaymentConfig {
-  modelTraining?: MembershipModelTrainingPaymentConfig;
-  modelInference?: MembershipModelInferencePaymentConfig;
-  syntheticDataGeneration?: MembershipSyntheticDataGenerationPaymentConfig;
+  modelTraining?: MembershipModelTrainingPaymentConfig | undefined;
+  modelInference?: MembershipModelInferencePaymentConfig | undefined;
+  syntheticDataGeneration?: MembershipSyntheticDataGenerationPaymentConfig | undefined;
 }
 export interface MembershipJobComputePaymentConfig {
   isResponsible: boolean;
 }
 export interface MembershipPaymentConfiguration {
   queryCompute: MembershipQueryComputePaymentConfig;
-  machineLearning?: MembershipMLPaymentConfig;
-  jobCompute?: MembershipJobComputePaymentConfig;
+  machineLearning?: MembershipMLPaymentConfig | undefined;
+  jobCompute?: MembershipJobComputePaymentConfig | undefined;
 }
 export interface CreateMembershipInput {
   collaborationIdentifier: string;
   queryLogStatus: MembershipQueryLogStatus;
-  jobLogStatus?: MembershipJobLogStatus;
-  tags?: { [key: string]: string | undefined };
-  defaultResultConfiguration?: MembershipProtectedQueryResultConfiguration;
-  defaultJobResultConfiguration?: MembershipProtectedJobResultConfiguration;
-  paymentConfiguration?: MembershipPaymentConfiguration;
-  isMetricsEnabled?: boolean;
+  jobLogStatus?: MembershipJobLogStatus | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  defaultResultConfiguration?: MembershipProtectedQueryResultConfiguration | undefined;
+  defaultJobResultConfiguration?: MembershipProtectedJobResultConfiguration | undefined;
+  paymentConfiguration?: MembershipPaymentConfiguration | undefined;
+  isMetricsEnabled?: boolean | undefined;
 }
 export type MembershipStatus = string;
 export interface Membership {
@@ -1428,13 +1489,13 @@ export interface Membership {
   updateTime: Date;
   status: string;
   memberAbilities: MemberAbility[];
-  mlMemberAbilities?: MLMemberAbilities;
+  mlMemberAbilities?: MLMemberAbilities | undefined;
   queryLogStatus: MembershipQueryLogStatus;
-  jobLogStatus?: MembershipJobLogStatus;
-  defaultResultConfiguration?: MembershipProtectedQueryResultConfiguration;
-  defaultJobResultConfiguration?: MembershipProtectedJobResultConfiguration;
+  jobLogStatus?: MembershipJobLogStatus | undefined;
+  defaultResultConfiguration?: MembershipProtectedQueryResultConfiguration | undefined;
+  defaultJobResultConfiguration?: MembershipProtectedJobResultConfiguration | undefined;
   paymentConfiguration: MembershipPaymentConfiguration;
-  isMetricsEnabled?: boolean;
+  isMetricsEnabled?: boolean | undefined;
 }
 export interface CreateMembershipOutput {
   membership: Membership;
@@ -1458,7 +1519,7 @@ export type AutoRefreshMode = "ENABLED" | "DISABLED" | (string & {});
 export interface BudgetParameter {
   type: AccessBudgetType;
   budget: number;
-  autoRefresh?: AutoRefreshMode;
+  autoRefresh?: AutoRefreshMode | undefined;
 }
 export type BudgetParameters = BudgetParameter[];
 export type BudgetedResourceArn = string;
@@ -1467,14 +1528,14 @@ export interface AccessBudgetsPrivacyTemplateParametersInput {
   resourceArn: string;
 }
 export type PrivacyBudgetTemplateParametersInput =
-  | { differentialPrivacy: DifferentialPrivacyTemplateParametersInput; accessBudget?: never }
-  | { differentialPrivacy?: never; accessBudget: AccessBudgetsPrivacyTemplateParametersInput };
+  | { differentialPrivacy: DifferentialPrivacyTemplateParametersInput; accessBudget?: undefined }
+  | { differentialPrivacy?: undefined; accessBudget: AccessBudgetsPrivacyTemplateParametersInput };
 export interface CreatePrivacyBudgetTemplateInput {
   membershipIdentifier: string;
-  autoRefresh?: PrivacyBudgetTemplateAutoRefresh;
+  autoRefresh?: PrivacyBudgetTemplateAutoRefresh | undefined;
   privacyBudgetType: PrivacyBudgetType;
   parameters: PrivacyBudgetTemplateParametersInput;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PrivacyBudgetTemplateIdentifier = string;
 export type PrivacyBudgetTemplateArn = string;
@@ -1487,8 +1548,8 @@ export interface AccessBudgetsPrivacyTemplateParametersOutput {
   resourceArn: string;
 }
 export type PrivacyBudgetTemplateParametersOutput =
-  | { differentialPrivacy: DifferentialPrivacyTemplateParametersOutput; accessBudget?: never }
-  | { differentialPrivacy?: never; accessBudget: AccessBudgetsPrivacyTemplateParametersOutput };
+  | { differentialPrivacy: DifferentialPrivacyTemplateParametersOutput; accessBudget?: undefined }
+  | { differentialPrivacy?: undefined; accessBudget: AccessBudgetsPrivacyTemplateParametersOutput };
 export interface PrivacyBudgetTemplate {
   id: string;
   arn: string;
@@ -1577,7 +1638,7 @@ export interface DeletePrivacyBudgetTemplateOutput {}
 export interface DisallowIntermediateTableInput {
   membershipIdentifier: string;
   intermediateTableName: string;
-  includeDescendants?: boolean;
+  includeDescendants?: boolean | undefined;
 }
 export interface DisallowIntermediateTableOutput {}
 export type AnalysisLogExportIdentifier = string;
@@ -1589,7 +1650,7 @@ export type LogExportAnalysisType = "PROTECTED_QUERY" | (string & {});
 export type AnalysisLogExportStatus = "IN_PROGRESS" | "SUCCESS" | "FAILED" | (string & {});
 export interface AnalysisLogExportS3OutputConfiguration {
   bucket: string;
-  keyPrefix?: string;
+  keyPrefix?: string | undefined;
 }
 export interface AnalysisLogExportOutputConfiguration {
   s3: AnalysisLogExportS3OutputConfiguration;
@@ -1610,7 +1671,7 @@ export interface AnalysisLogExport {
   resultConfiguration: AnalysisLogExportResultConfiguration;
   createTime: Date;
   updateTime: Date;
-  error?: AnalysisLogExportError;
+  error?: AnalysisLogExportError | undefined;
 }
 export interface GetAnalysisLogExportOutput {
   analysisLogExport: AnalysisLogExport;
@@ -1654,7 +1715,7 @@ export interface CollaborationConfiguredAudienceModelAssociation {
   collaborationArn: string;
   configuredAudienceModelArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   creatorAccountId: string;
   createTime: Date;
   updateTime: Date;
@@ -1672,13 +1733,13 @@ export interface CollaborationIdNamespaceAssociation {
   collaborationId: string;
   collaborationArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   creatorAccountId: string;
   createTime: Date;
   updateTime: Date;
   inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig;
   inputReferenceProperties: IdNamespaceAssociationInputReferenceProperties;
-  idMappingConfig?: IdMappingConfig;
+  idMappingConfig?: IdMappingConfig | undefined;
 }
 export interface GetCollaborationIdNamespaceAssociationOutput {
   collaborationIdNamespaceAssociation: CollaborationIdNamespaceAssociation;
@@ -1789,7 +1850,7 @@ export type JobParameterValue = string;
 export type JobParameterMap = { [key: string]: string | undefined };
 export interface ProtectedJobParameters {
   analysisTemplateArn: string;
-  parameters?: { [key: string]: string | undefined };
+  parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type ProtectedJobStatus =
   | "SUBMITTED"
@@ -1801,14 +1862,14 @@ export type ProtectedJobStatus =
   | (string & {});
 export interface ProtectedJobS3OutputConfigurationOutput {
   bucket: string;
-  keyPrefix?: string;
+  keyPrefix?: string | undefined;
 }
 export interface ProtectedJobMemberOutputConfigurationOutput {
   accountId: string;
 }
 export type ProtectedJobOutputConfigurationOutput =
-  | { s3: ProtectedJobS3OutputConfigurationOutput; member?: never }
-  | { s3?: never; member: ProtectedJobMemberOutputConfigurationOutput };
+  | { s3: ProtectedJobS3OutputConfigurationOutput; member?: undefined }
+  | { s3?: undefined; member: ProtectedJobMemberOutputConfigurationOutput };
 export interface ProtectedJobResultConfigurationOutput {
   outputConfiguration: ProtectedJobOutputConfigurationOutput;
 }
@@ -1816,8 +1877,8 @@ export interface BilledJobResourceUtilization {
   units: number;
 }
 export interface ProtectedJobStatistics {
-  totalDurationInMillis?: number;
-  billedResourceUtilization?: BilledJobResourceUtilization;
+  totalDurationInMillis?: number | undefined;
+  billedResourceUtilization?: BilledJobResourceUtilization | undefined;
 }
 export interface ProtectedJobS3Output {
   location: string;
@@ -1827,8 +1888,8 @@ export interface ProtectedJobSingleMemberOutput {
 }
 export type ProtectedJobMemberOutputList = ProtectedJobSingleMemberOutput[];
 export type ProtectedJobOutput =
-  | { s3: ProtectedJobS3Output; memberList?: never }
-  | { s3?: never; memberList: ProtectedJobSingleMemberOutput[] };
+  | { s3: ProtectedJobS3Output; memberList?: undefined }
+  | { s3?: undefined; memberList: ProtectedJobSingleMemberOutput[] };
 export interface ProtectedJobResult {
   output: ProtectedJobOutput;
 }
@@ -1844,7 +1905,7 @@ export type WorkerComputeConfigurationProperties = { spark: { [key: string]: str
 export interface ProtectedJobWorkerComputeConfiguration {
   type: ProtectedJobWorkerComputeType;
   number: number;
-  properties?: WorkerComputeConfigurationProperties;
+  properties?: WorkerComputeConfigurationProperties | undefined;
 }
 export type ProtectedJobComputeConfiguration = { worker: ProtectedJobWorkerComputeConfiguration };
 export interface ProtectedJob {
@@ -1852,14 +1913,14 @@ export interface ProtectedJob {
   membershipId: string;
   membershipArn: string;
   createTime: Date;
-  jobParameters?: ProtectedJobParameters;
+  jobParameters?: ProtectedJobParameters | undefined;
   status: ProtectedJobStatus;
-  resultConfiguration?: ProtectedJobResultConfigurationOutput;
-  statistics?: ProtectedJobStatistics;
-  result?: ProtectedJobResult;
-  error?: ProtectedJobError;
-  computeConfiguration?: ProtectedJobComputeConfiguration;
-  jobComputePayerAccountId?: string;
+  resultConfiguration?: ProtectedJobResultConfigurationOutput | undefined;
+  statistics?: ProtectedJobStatistics | undefined;
+  result?: ProtectedJobResult | undefined;
+  error?: ProtectedJobError | undefined;
+  computeConfiguration?: ProtectedJobComputeConfiguration | undefined;
+  jobComputePayerAccountId?: string | undefined;
 }
 export interface GetProtectedJobOutput {
   protectedJob: ProtectedJob;
@@ -1870,17 +1931,17 @@ export interface GetProtectedQueryInput {
   protectedQueryIdentifier: string;
 }
 export interface ProtectedQuerySQLParameters {
-  queryString?: string;
-  analysisTemplateArn?: string;
-  parameters?: { [key: string]: string | undefined };
+  queryString?: string | undefined;
+  analysisTemplateArn?: string | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type ProtectedQueryStatus = string;
 export interface ProtectedQueryMemberOutputConfiguration {
   accountId: string;
 }
 export type ProtectedQueryDistributeOutputConfigurationLocation =
-  | { s3: ProtectedQueryS3OutputConfiguration; member?: never }
-  | { s3?: never; member: ProtectedQueryMemberOutputConfiguration };
+  | { s3: ProtectedQueryS3OutputConfiguration; member?: undefined }
+  | { s3?: undefined; member: ProtectedQueryMemberOutputConfiguration };
 export type ProtectedQueryDistributeOutputConfigurationLocations =
   ProtectedQueryDistributeOutputConfigurationLocation[];
 export interface ProtectedQueryDistributeOutputConfiguration {
@@ -1894,26 +1955,26 @@ export interface IntermediateTableOutputConfiguration {
 export type ProtectedQueryOutputConfiguration =
   | {
       s3: ProtectedQueryS3OutputConfiguration;
-      member?: never;
-      distribute?: never;
-      intermediateTable?: never;
+      member?: undefined;
+      distribute?: undefined;
+      intermediateTable?: undefined;
     }
   | {
-      s3?: never;
+      s3?: undefined;
       member: ProtectedQueryMemberOutputConfiguration;
-      distribute?: never;
-      intermediateTable?: never;
+      distribute?: undefined;
+      intermediateTable?: undefined;
     }
   | {
-      s3?: never;
-      member?: never;
+      s3?: undefined;
+      member?: undefined;
       distribute: ProtectedQueryDistributeOutputConfiguration;
-      intermediateTable?: never;
+      intermediateTable?: undefined;
     }
   | {
-      s3?: never;
-      member?: never;
-      distribute?: never;
+      s3?: undefined;
+      member?: undefined;
+      distribute?: undefined;
       intermediateTable: IntermediateTableOutputConfiguration;
     };
 export interface ProtectedQueryResultConfiguration {
@@ -1923,8 +1984,8 @@ export interface BilledResourceUtilization {
   units: number;
 }
 export interface ProtectedQueryStatistics {
-  totalDurationInMillis?: number;
-  billedResourceUtilization?: BilledResourceUtilization;
+  totalDurationInMillis?: number | undefined;
+  billedResourceUtilization?: BilledResourceUtilization | undefined;
 }
 export interface ProtectedQueryS3Output {
   location: string;
@@ -1934,13 +1995,13 @@ export interface ProtectedQuerySingleMemberOutput {
 }
 export type ProtectedQueryMemberOutputList = ProtectedQuerySingleMemberOutput[];
 export interface ProtectedQueryDistributeOutput {
-  s3?: ProtectedQueryS3Output;
-  memberList?: ProtectedQuerySingleMemberOutput[];
+  s3?: ProtectedQueryS3Output | undefined;
+  memberList?: ProtectedQuerySingleMemberOutput[] | undefined;
 }
 export type ProtectedQueryOutput =
-  | { s3: ProtectedQueryS3Output; memberList?: never; distribute?: never }
-  | { s3?: never; memberList: ProtectedQuerySingleMemberOutput[]; distribute?: never }
-  | { s3?: never; memberList?: never; distribute: ProtectedQueryDistributeOutput };
+  | { s3: ProtectedQueryS3Output; memberList?: undefined; distribute?: undefined }
+  | { s3?: undefined; memberList: ProtectedQuerySingleMemberOutput[]; distribute?: undefined }
+  | { s3?: undefined; memberList?: undefined; distribute: ProtectedQueryDistributeOutput };
 export interface ProtectedQueryResult {
   output: ProtectedQueryOutput;
 }
@@ -1960,8 +2021,8 @@ export interface DifferentialPrivacySensitivityParameters {
   aggregationType: DifferentialPrivacyAggregationType;
   aggregationExpression: string;
   userContributionLimit: number;
-  minColumnValue?: number;
-  maxColumnValue?: number;
+  minColumnValue?: number | undefined;
+  maxColumnValue?: number | undefined;
 }
 export type DifferentialPrivacySensitivityParametersList =
   DifferentialPrivacySensitivityParameters[];
@@ -1970,9 +2031,9 @@ export interface DifferentialPrivacyParameters {
 }
 export type WorkerComputeType = "CR.1X" | "CR.4X" | "CR.8X" | (string & {});
 export interface WorkerComputeConfiguration {
-  type?: WorkerComputeType;
-  number?: number;
-  properties?: WorkerComputeConfigurationProperties;
+  type?: WorkerComputeType | undefined;
+  number?: number | undefined;
+  properties?: WorkerComputeConfigurationProperties | undefined;
 }
 export type ComputeConfiguration = { worker: WorkerComputeConfiguration };
 export interface ProtectedQuery {
@@ -1980,15 +2041,15 @@ export interface ProtectedQuery {
   membershipId: string;
   membershipArn: string;
   createTime: Date;
-  sqlParameters?: ProtectedQuerySQLParameters;
+  sqlParameters?: ProtectedQuerySQLParameters | undefined;
   status: string;
-  resultConfiguration?: ProtectedQueryResultConfiguration;
-  statistics?: ProtectedQueryStatistics;
-  result?: ProtectedQueryResult;
-  error?: ProtectedQueryError;
-  differentialPrivacy?: DifferentialPrivacyParameters;
-  computeConfiguration?: ComputeConfiguration;
-  queryComputePayerAccountId?: string;
+  resultConfiguration?: ProtectedQueryResultConfiguration | undefined;
+  statistics?: ProtectedQueryStatistics | undefined;
+  result?: ProtectedQueryResult | undefined;
+  error?: ProtectedQueryError | undefined;
+  differentialPrivacy?: DifferentialPrivacyParameters | undefined;
+  computeConfiguration?: ComputeConfiguration | undefined;
+  queryComputePayerAccountId?: string | undefined;
 }
 export interface GetProtectedQueryOutput {
   protectedQuery: ProtectedQuery;
@@ -2012,10 +2073,10 @@ export type PaginationToken = string;
 export type MaxResults = number;
 export interface ListAnalysisLogExportsInput {
   membershipIdentifier: string;
-  analysisIdentifier?: string;
-  status?: AnalysisLogExportStatus;
-  nextToken?: string;
-  maxResults?: number;
+  analysisIdentifier?: string | undefined;
+  status?: AnalysisLogExportStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AnalysisLogExportSummary {
   analysisLogExportId: string;
@@ -2026,13 +2087,13 @@ export interface AnalysisLogExportSummary {
 }
 export type AnalysisLogExportSummaryList = AnalysisLogExportSummary[];
 export interface ListAnalysisLogExportsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   analysisLogExports: AnalysisLogExportSummary[];
 }
 export interface ListAnalysisTemplatesInput {
   membershipIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AnalysisTemplateSummary {
   arn: string;
@@ -2044,18 +2105,18 @@ export interface AnalysisTemplateSummary {
   membershipId: string;
   collaborationArn: string;
   collaborationId: string;
-  description?: string;
-  isSyntheticData?: boolean;
+  description?: string | undefined;
+  isSyntheticData?: boolean | undefined;
 }
 export type AnalysisTemplateSummaryList = AnalysisTemplateSummary[];
 export interface ListAnalysisTemplatesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   analysisTemplateSummaries: AnalysisTemplateSummary[];
 }
 export interface ListCollaborationAnalysisTemplatesInput {
   collaborationIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CollaborationAnalysisTemplateSummary {
   arn: string;
@@ -2066,19 +2127,19 @@ export interface CollaborationAnalysisTemplateSummary {
   collaborationArn: string;
   collaborationId: string;
   creatorAccountId: string;
-  description?: string;
-  isSyntheticData?: boolean;
+  description?: string | undefined;
+  isSyntheticData?: boolean | undefined;
 }
 export type CollaborationAnalysisTemplateSummaryList = CollaborationAnalysisTemplateSummary[];
 export interface ListCollaborationAnalysisTemplatesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   collaborationAnalysisTemplateSummaries: CollaborationAnalysisTemplateSummary[];
 }
 export interface ListCollaborationChangeRequestsInput {
   collaborationIdentifier: string;
-  status?: ChangeRequestStatus;
-  nextToken?: string;
-  maxResults?: number;
+  status?: ChangeRequestStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CollaborationChangeRequestSummary {
   id: string;
@@ -2088,17 +2149,17 @@ export interface CollaborationChangeRequestSummary {
   status: ChangeRequestStatus;
   isAutoApproved: boolean;
   changes: Change[];
-  approvals?: { [key: string]: ApprovalStatusDetails | undefined };
+  approvals?: { [key: string]: ApprovalStatusDetails | undefined } | undefined;
 }
 export type CollaborationChangeRequestSummaryList = CollaborationChangeRequestSummary[];
 export interface ListCollaborationChangeRequestsOutput {
   collaborationChangeRequestSummaries: CollaborationChangeRequestSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListCollaborationConfiguredAudienceModelAssociationsInput {
   collaborationIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CollaborationConfiguredAudienceModelAssociationSummary {
   arn: string;
@@ -2109,18 +2170,18 @@ export interface CollaborationConfiguredAudienceModelAssociationSummary {
   collaborationArn: string;
   collaborationId: string;
   creatorAccountId: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type CollaborationConfiguredAudienceModelAssociationSummaryList =
   CollaborationConfiguredAudienceModelAssociationSummary[];
 export interface ListCollaborationConfiguredAudienceModelAssociationsOutput {
   collaborationConfiguredAudienceModelAssociationSummaries: CollaborationConfiguredAudienceModelAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListCollaborationIdNamespaceAssociationsInput {
   collaborationIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface IdNamespaceAssociationInputReferencePropertiesSummary {
   idNamespaceType: IdNamespaceType;
@@ -2135,21 +2196,21 @@ export interface CollaborationIdNamespaceAssociationSummary {
   creatorAccountId: string;
   inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig;
   name: string;
-  description?: string;
+  description?: string | undefined;
   inputReferenceProperties: IdNamespaceAssociationInputReferencePropertiesSummary;
 }
 export type CollaborationIdNamespaceAssociationSummaryList =
   CollaborationIdNamespaceAssociationSummary[];
 export interface ListCollaborationIdNamespaceAssociationsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   collaborationIdNamespaceAssociationSummaries: CollaborationIdNamespaceAssociationSummary[];
 }
 export interface ListCollaborationPrivacyBudgetsInput {
   collaborationIdentifier: string;
   privacyBudgetType: PrivacyBudgetType;
-  maxResults?: number;
-  nextToken?: string;
-  accessBudgetResourceArn?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  accessBudgetResourceArn?: string | undefined;
 }
 export interface DifferentialPrivacyPrivacyBudgetAggregation {
   type: DifferentialPrivacyAggregationType;
@@ -2165,11 +2226,11 @@ export interface DifferentialPrivacyPrivacyBudget {
 export type RemainingBudget = number;
 export interface AccessBudgetDetails {
   startTime: Date;
-  endTime?: Date;
+  endTime?: Date | undefined;
   remainingBudget: number;
   budget: number;
   budgetType: AccessBudgetType;
-  autoRefresh?: AutoRefreshMode;
+  autoRefresh?: AutoRefreshMode | undefined;
 }
 export type AccessBudgetDetailsList = AccessBudgetDetails[];
 export interface AccessBudget {
@@ -2178,8 +2239,8 @@ export interface AccessBudget {
   aggregateRemainingBudget: number;
 }
 export type PrivacyBudget =
-  | { differentialPrivacy: DifferentialPrivacyPrivacyBudget; accessBudget?: never }
-  | { differentialPrivacy?: never; accessBudget: AccessBudget };
+  | { differentialPrivacy: DifferentialPrivacyPrivacyBudget; accessBudget?: undefined }
+  | { differentialPrivacy?: undefined; accessBudget: AccessBudget };
 export interface CollaborationPrivacyBudgetSummary {
   id: string;
   privacyBudgetTemplateId: string;
@@ -2195,12 +2256,12 @@ export interface CollaborationPrivacyBudgetSummary {
 export type CollaborationPrivacyBudgetSummaryList = CollaborationPrivacyBudgetSummary[];
 export interface ListCollaborationPrivacyBudgetsOutput {
   collaborationPrivacyBudgetSummaries: CollaborationPrivacyBudgetSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListCollaborationPrivacyBudgetTemplatesInput {
   collaborationIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CollaborationPrivacyBudgetTemplateSummary {
   id: string;
@@ -2215,14 +2276,14 @@ export interface CollaborationPrivacyBudgetTemplateSummary {
 export type CollaborationPrivacyBudgetTemplateSummaryList =
   CollaborationPrivacyBudgetTemplateSummary[];
 export interface ListCollaborationPrivacyBudgetTemplatesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   collaborationPrivacyBudgetTemplateSummaries: CollaborationPrivacyBudgetTemplateSummary[];
 }
 export type FilterableMemberStatus = string;
 export interface ListCollaborationsInput {
-  nextToken?: string;
-  maxResults?: number;
-  memberStatus?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  memberStatus?: string | undefined;
 }
 export interface CollaborationSummary {
   id: string;
@@ -2233,19 +2294,19 @@ export interface CollaborationSummary {
   createTime: Date;
   updateTime: Date;
   memberStatus: string;
-  membershipId?: string;
-  membershipArn?: string;
-  analyticsEngine?: AnalyticsEngine;
+  membershipId?: string | undefined;
+  membershipArn?: string | undefined;
+  analyticsEngine?: AnalyticsEngine | undefined;
 }
 export type CollaborationSummaryList = CollaborationSummary[];
 export interface ListCollaborationsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   collaborationList: CollaborationSummary[];
 }
 export interface ListConfiguredAudienceModelAssociationsInput {
   membershipIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ConfiguredAudienceModelAssociationSummary {
   membershipId: string;
@@ -2258,18 +2319,18 @@ export interface ConfiguredAudienceModelAssociationSummary {
   arn: string;
   name: string;
   configuredAudienceModelArn: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type ConfiguredAudienceModelAssociationSummaryList =
   ConfiguredAudienceModelAssociationSummary[];
 export interface ListConfiguredAudienceModelAssociationsOutput {
   configuredAudienceModelAssociationSummaries: ConfiguredAudienceModelAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListConfiguredTableAssociationsInput {
   membershipIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ConfiguredTableAssociationSummary {
   configuredTableId: string;
@@ -2280,36 +2341,37 @@ export interface ConfiguredTableAssociationSummary {
   updateTime: Date;
   id: string;
   arn: string;
-  analysisRuleTypes?: ConfiguredTableAssociationAnalysisRuleType[];
+  analysisRuleTypes?: ConfiguredTableAssociationAnalysisRuleType[] | undefined;
 }
 export type ConfiguredTableAssociationSummaryList = ConfiguredTableAssociationSummary[];
 export interface ListConfiguredTableAssociationsOutput {
   configuredTableAssociationSummaries: ConfiguredTableAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListConfiguredTablesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ConfiguredTableSummary {
   id: string;
   arn: string;
   name: string;
+  tableType?: TableReferenceType | undefined;
   createTime: Date;
   updateTime: Date;
   analysisRuleTypes: ConfiguredTableAnalysisRuleType[];
   analysisMethod: AnalysisMethod;
-  selectedAnalysisMethods?: SelectedAnalysisMethod[];
+  selectedAnalysisMethods?: SelectedAnalysisMethod[] | undefined;
 }
 export type ConfiguredTableSummaryList = ConfiguredTableSummary[];
 export interface ListConfiguredTablesOutput {
   configuredTableSummaries: ConfiguredTableSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListIdMappingTablesInput {
   membershipIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface IdMappingTableSummary {
   collaborationArn: string;
@@ -2320,19 +2382,19 @@ export interface IdMappingTableSummary {
   updateTime: Date;
   id: string;
   arn: string;
-  description?: string;
+  description?: string | undefined;
   inputReferenceConfig: IdMappingTableInputReferenceConfig;
   name: string;
 }
 export type IdMappingTableSummaryList = IdMappingTableSummary[];
 export interface ListIdMappingTablesOutput {
   idMappingTableSummaries: IdMappingTableSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListIdNamespaceAssociationsInput {
   membershipIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface IdNamespaceAssociationSummary {
   membershipId: string;
@@ -2345,24 +2407,24 @@ export interface IdNamespaceAssociationSummary {
   arn: string;
   inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig;
   name: string;
-  description?: string;
+  description?: string | undefined;
   inputReferenceProperties: IdNamespaceAssociationInputReferencePropertiesSummary;
 }
 export type IdNamespaceAssociationSummaryList = IdNamespaceAssociationSummary[];
 export interface ListIdNamespaceAssociationsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   idNamespaceAssociationSummaries: IdNamespaceAssociationSummary[];
 }
 export interface ListIntermediateTablesInput {
   membershipIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface IntermediateTableSummary {
   id: string;
   arn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   membershipArn: string;
   membershipId: string;
   collaborationArn: string;
@@ -2370,19 +2432,19 @@ export interface IntermediateTableSummary {
   createTime: Date;
   updateTime: Date;
   status: IntermediateTableStatus;
-  retentionInDays?: number;
-  analysisRuleTypes?: IntermediateTableAnalysisRuleType[];
+  retentionInDays?: number | undefined;
+  analysisRuleTypes?: IntermediateTableAnalysisRuleType[] | undefined;
 }
 export type IntermediateTableSummaryList = IntermediateTableSummary[];
 export interface ListIntermediateTablesOutput {
   intermediateTableSummaries: IntermediateTableSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListIntermediateTableVersionsInput {
   membershipIdentifier: string;
   intermediateTableIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type IntermediateTableVersionStatus =
   | "POPULATE_STARTED"
@@ -2397,40 +2459,40 @@ export interface IntermediateTableVersionSummary {
   analysisId: string;
   status: IntermediateTableVersionStatus;
   analysisType: PopulateIntermediateTableAnalysisType;
-  kmsKeyArn?: string;
-  expirationTime?: Date;
+  kmsKeyArn?: string | undefined;
+  expirationTime?: Date | undefined;
 }
 export type IntermediateTableVersionSummaryList = IntermediateTableVersionSummary[];
 export interface ListIntermediateTableVersionsOutput {
   intermediateTableVersionSummaries: IntermediateTableVersionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListMembersInput {
   collaborationIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface MemberSummary {
   accountId: string;
   status: string;
   displayName: string;
   abilities: MemberAbility[];
-  mlAbilities?: MLMemberAbilities;
+  mlAbilities?: MLMemberAbilities | undefined;
   createTime: Date;
   updateTime: Date;
-  membershipId?: string;
-  membershipArn?: string;
+  membershipId?: string | undefined;
+  membershipArn?: string | undefined;
   paymentConfiguration: PaymentConfiguration;
 }
 export type MemberSummaryList = MemberSummary[];
 export interface ListMembersOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   memberSummaries: MemberSummary[];
 }
 export interface ListMembershipsInput {
-  nextToken?: string;
-  maxResults?: number;
-  status?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  status?: string | undefined;
 }
 export interface MembershipSummary {
   id: string;
@@ -2444,20 +2506,20 @@ export interface MembershipSummary {
   updateTime: Date;
   status: string;
   memberAbilities: MemberAbility[];
-  mlMemberAbilities?: MLMemberAbilities;
+  mlMemberAbilities?: MLMemberAbilities | undefined;
   paymentConfiguration: MembershipPaymentConfiguration;
 }
 export type MembershipSummaryList = MembershipSummary[];
 export interface ListMembershipsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   membershipSummaries: MembershipSummary[];
 }
 export interface ListPrivacyBudgetsInput {
   membershipIdentifier: string;
   privacyBudgetType: PrivacyBudgetType;
-  nextToken?: string;
-  maxResults?: number;
-  accessBudgetResourceArn?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  accessBudgetResourceArn?: string | undefined;
 }
 export interface PrivacyBudgetSummary {
   id: string;
@@ -2475,12 +2537,12 @@ export interface PrivacyBudgetSummary {
 export type PrivacyBudgetSummaryList = PrivacyBudgetSummary[];
 export interface ListPrivacyBudgetsOutput {
   privacyBudgetSummaries: PrivacyBudgetSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListPrivacyBudgetTemplatesInput {
   membershipIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PrivacyBudgetTemplateSummary {
   id: string;
@@ -2495,26 +2557,26 @@ export interface PrivacyBudgetTemplateSummary {
 }
 export type PrivacyBudgetTemplateSummaryList = PrivacyBudgetTemplateSummary[];
 export interface ListPrivacyBudgetTemplatesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   privacyBudgetTemplateSummaries: PrivacyBudgetTemplateSummary[];
 }
 export interface ListProtectedJobsInput {
   membershipIdentifier: string;
-  status?: ProtectedJobStatus;
-  nextToken?: string;
-  maxResults?: number;
+  status?: ProtectedJobStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ProtectedJobAnalysisType = "DIRECT_ANALYSIS" | (string & {});
 export type ProtectedJobReceiverAccountIds = string[];
 export interface ProtectedJobDirectAnalysisConfigurationDetails {
-  receiverAccountIds?: string[];
+  receiverAccountIds?: string[] | undefined;
 }
 export type ProtectedJobConfigurationDetails = {
   directAnalysisConfigurationDetails: ProtectedJobDirectAnalysisConfigurationDetails;
 };
 export interface ProtectedJobReceiverConfiguration {
   analysisType: ProtectedJobAnalysisType;
-  configurationDetails?: ProtectedJobConfigurationDetails;
+  configurationDetails?: ProtectedJobConfigurationDetails | undefined;
 }
 export type ProtectedJobReceiverConfigurations = ProtectedJobReceiverConfiguration[];
 export interface ProtectedJobSummary {
@@ -2524,29 +2586,29 @@ export interface ProtectedJobSummary {
   createTime: Date;
   status: ProtectedJobStatus;
   receiverConfigurations: ProtectedJobReceiverConfiguration[];
-  jobComputePayerAccountId?: string;
+  jobComputePayerAccountId?: string | undefined;
 }
 export type ProtectedJobSummaryList = ProtectedJobSummary[];
 export interface ListProtectedJobsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   protectedJobs: ProtectedJobSummary[];
 }
 export interface ListProtectedQueriesInput {
   membershipIdentifier: string;
-  status?: string;
-  nextToken?: string;
-  maxResults?: number;
+  status?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ReceiverAccountIds = string[];
 export interface DirectAnalysisConfigurationDetails {
-  receiverAccountIds?: string[];
+  receiverAccountIds?: string[] | undefined;
 }
 export type ConfigurationDetails = {
   directAnalysisConfigurationDetails: DirectAnalysisConfigurationDetails;
 };
 export interface ReceiverConfiguration {
   analysisType: AnalysisType;
-  configurationDetails?: ConfigurationDetails;
+  configurationDetails?: ConfigurationDetails | undefined;
 }
 export type ReceiverConfigurationsList = ReceiverConfiguration[];
 export interface ProtectedQuerySummary {
@@ -2556,19 +2618,19 @@ export interface ProtectedQuerySummary {
   createTime: Date;
   status: string;
   receiverConfigurations: ReceiverConfiguration[];
-  queryComputePayerAccountId?: string;
-  intermediateTableConfiguration?: IntermediateTableOutputConfiguration;
+  queryComputePayerAccountId?: string | undefined;
+  intermediateTableConfiguration?: IntermediateTableOutputConfiguration | undefined;
 }
 export type ProtectedQuerySummaryList = ProtectedQuerySummary[];
 export interface ListProtectedQueriesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   protectedQueries: ProtectedQuerySummary[];
 }
 export interface ListSchemasInput {
   collaborationIdentifier: string;
-  schemaType?: SchemaType;
-  nextToken?: string;
-  maxResults?: number;
+  schemaType?: SchemaType | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SchemaSummary {
   name: string;
@@ -2579,14 +2641,14 @@ export interface SchemaSummary {
   collaborationId: string;
   collaborationArn: string;
   analysisRuleTypes: AnalysisRuleType[];
-  analysisMethod?: AnalysisMethod;
-  resourceArn?: string;
-  selectedAnalysisMethods?: SelectedAnalysisMethod[];
+  analysisMethod?: AnalysisMethod | undefined;
+  resourceArn?: string | undefined;
+  selectedAnalysisMethods?: SelectedAnalysisMethod[] | undefined;
 }
 export type SchemaSummaryList = SchemaSummary[];
 export interface ListSchemasOutput {
   schemaSummaries: SchemaSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type CleanroomsArn = string;
 export interface ListTagsForResourceInput {
@@ -2599,7 +2661,7 @@ export type JobType = "BATCH" | "INCREMENTAL" | "DELETE_ONLY" | (string & {});
 export interface PopulateIdMappingTableInput {
   idMappingTableIdentifier: string;
   membershipIdentifier: string;
-  jobType?: JobType;
+  jobType?: JobType | undefined;
 }
 export interface PopulateIdMappingTableOutput {
   idMappingJobId: string;
@@ -2610,9 +2672,9 @@ export type IntermediateTableComputeConfiguration = {
 export interface PopulateIntermediateTableInput {
   intermediateTableIdentifier: string;
   membershipIdentifier: string;
-  parameters?: { [key: string]: string | undefined };
-  computeConfiguration?: IntermediateTableComputeConfiguration;
-  analysisPayerAccountId?: string;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  computeConfiguration?: IntermediateTableComputeConfiguration | undefined;
+  analysisPayerAccountId?: string | undefined;
 }
 export interface PopulateIntermediateTableOutput {
   analysisId: string;
@@ -2665,9 +2727,9 @@ export interface StartProtectedJobInput {
   type: ProtectedJobType;
   membershipIdentifier: string;
   jobParameters: ProtectedJobParameters;
-  resultConfiguration?: ProtectedJobResultConfigurationInput;
-  computeConfiguration?: ProtectedJobComputeConfiguration;
-  jobComputePayerAccountId?: string;
+  resultConfiguration?: ProtectedJobResultConfigurationInput | undefined;
+  computeConfiguration?: ProtectedJobComputeConfiguration | undefined;
+  jobComputePayerAccountId?: string | undefined;
 }
 export interface StartProtectedJobOutput {
   protectedJob: ProtectedJob;
@@ -2677,9 +2739,9 @@ export interface StartProtectedQueryInput {
   type: string;
   membershipIdentifier: string;
   sqlParameters: ProtectedQuerySQLParameters;
-  resultConfiguration?: ProtectedQueryResultConfiguration;
-  computeConfiguration?: ComputeConfiguration;
-  queryComputePayerAccountId?: string;
+  resultConfiguration?: ProtectedQueryResultConfiguration | undefined;
+  computeConfiguration?: ComputeConfiguration | undefined;
+  queryComputePayerAccountId?: string | undefined;
 }
 export interface StartProtectedQueryOutput {
   protectedQuery: ProtectedQuery;
@@ -2698,16 +2760,16 @@ export interface UntagResourceOutput {}
 export interface UpdateAnalysisTemplateInput {
   membershipIdentifier: string;
   analysisTemplateIdentifier: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateAnalysisTemplateOutput {
   analysisTemplate: AnalysisTemplate;
 }
 export interface UpdateCollaborationInput {
   collaborationIdentifier: string;
-  name?: string;
-  description?: string;
-  analyticsEngine?: AnalyticsEngine;
+  name?: string | undefined;
+  description?: string | undefined;
+  analyticsEngine?: AnalyticsEngine | undefined;
 }
 export interface UpdateCollaborationOutput {
   collaboration: Collaboration;
@@ -2724,20 +2786,20 @@ export interface UpdateCollaborationChangeRequestOutput {
 export interface UpdateConfiguredAudienceModelAssociationInput {
   configuredAudienceModelAssociationIdentifier: string;
   membershipIdentifier: string;
-  description?: string;
-  name?: string;
+  description?: string | undefined;
+  name?: string | undefined;
 }
 export interface UpdateConfiguredAudienceModelAssociationOutput {
   configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation;
 }
 export interface UpdateConfiguredTableInput {
   configuredTableIdentifier: string;
-  name?: string;
-  description?: string;
-  tableReference?: TableReference;
-  allowedColumns?: string[];
-  analysisMethod?: AnalysisMethod;
-  selectedAnalysisMethods?: SelectedAnalysisMethod[];
+  name?: string | undefined;
+  description?: string | undefined;
+  tableReference?: TableReference | undefined;
+  allowedColumns?: string[] | undefined;
+  analysisMethod?: AnalysisMethod | undefined;
+  selectedAnalysisMethods?: SelectedAnalysisMethod[] | undefined;
 }
 export interface UpdateConfiguredTableOutput {
   configuredTable: ConfiguredTable;
@@ -2753,8 +2815,8 @@ export interface UpdateConfiguredTableAnalysisRuleOutput {
 export interface UpdateConfiguredTableAssociationInput {
   configuredTableAssociationIdentifier: string;
   membershipIdentifier: string;
-  description?: string;
-  roleArn?: string;
+  description?: string | undefined;
+  roleArn?: string | undefined;
 }
 export interface UpdateConfiguredTableAssociationOutput {
   configuredTableAssociation: ConfiguredTableAssociation;
@@ -2771,8 +2833,8 @@ export interface UpdateConfiguredTableAssociationAnalysisRuleOutput {
 export interface UpdateIdMappingTableInput {
   idMappingTableIdentifier: string;
   membershipIdentifier: string;
-  description?: string;
-  kmsKeyArn?: string;
+  description?: string | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface UpdateIdMappingTableOutput {
   idMappingTable: IdMappingTable;
@@ -2780,9 +2842,9 @@ export interface UpdateIdMappingTableOutput {
 export interface UpdateIdNamespaceAssociationInput {
   idNamespaceAssociationIdentifier: string;
   membershipIdentifier: string;
-  name?: string;
-  description?: string;
-  idMappingConfig?: IdMappingConfig;
+  name?: string | undefined;
+  description?: string | undefined;
+  idMappingConfig?: IdMappingConfig | undefined;
 }
 export interface UpdateIdNamespaceAssociationOutput {
   idNamespaceAssociation: IdNamespaceAssociation;
@@ -2796,9 +2858,9 @@ export type IntermediateTableColumnList = IntermediateTableColumn[];
 export interface UpdateIntermediateTableInput {
   intermediateTableIdentifier: string;
   membershipIdentifier: string;
-  description?: string;
-  kmsKeyArn?: string;
-  columns?: IntermediateTableColumn[];
+  description?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  columns?: IntermediateTableColumn[] | undefined;
 }
 export interface UpdateIntermediateTableOutput {
   intermediateTable: IntermediateTable;
@@ -2813,36 +2875,36 @@ export interface UpdateIntermediateTableAnalysisRuleOutput {
   analysisRule: IntermediateTableAnalysisRule;
 }
 export interface UpdateMembershipPaymentConfiguration {
-  queryCompute?: MembershipQueryComputePaymentConfig;
-  machineLearning?: MembershipMLPaymentConfig;
-  jobCompute?: MembershipJobComputePaymentConfig;
+  queryCompute?: MembershipQueryComputePaymentConfig | undefined;
+  machineLearning?: MembershipMLPaymentConfig | undefined;
+  jobCompute?: MembershipJobComputePaymentConfig | undefined;
 }
 export interface UpdateMembershipInput {
   membershipIdentifier: string;
-  queryLogStatus?: MembershipQueryLogStatus;
-  jobLogStatus?: MembershipJobLogStatus;
-  defaultResultConfiguration?: MembershipProtectedQueryResultConfiguration;
-  defaultJobResultConfiguration?: MembershipProtectedJobResultConfiguration;
-  membershipPaymentConfiguration?: UpdateMembershipPaymentConfiguration;
+  queryLogStatus?: MembershipQueryLogStatus | undefined;
+  jobLogStatus?: MembershipJobLogStatus | undefined;
+  defaultResultConfiguration?: MembershipProtectedQueryResultConfiguration | undefined;
+  defaultJobResultConfiguration?: MembershipProtectedJobResultConfiguration | undefined;
+  membershipPaymentConfiguration?: UpdateMembershipPaymentConfiguration | undefined;
 }
 export interface UpdateMembershipOutput {
   membership: Membership;
 }
 export interface DifferentialPrivacyTemplateUpdateParameters {
-  epsilon?: number;
-  usersNoisePerQuery?: number;
+  epsilon?: number | undefined;
+  usersNoisePerQuery?: number | undefined;
 }
 export interface AccessBudgetsPrivacyTemplateUpdateParameters {
   budgetParameters: BudgetParameter[];
 }
 export type PrivacyBudgetTemplateUpdateParameters =
-  | { differentialPrivacy: DifferentialPrivacyTemplateUpdateParameters; accessBudget?: never }
-  | { differentialPrivacy?: never; accessBudget: AccessBudgetsPrivacyTemplateUpdateParameters };
+  | { differentialPrivacy: DifferentialPrivacyTemplateUpdateParameters; accessBudget?: undefined }
+  | { differentialPrivacy?: undefined; accessBudget: AccessBudgetsPrivacyTemplateUpdateParameters };
 export interface UpdatePrivacyBudgetTemplateInput {
   membershipIdentifier: string;
   privacyBudgetTemplateIdentifier: string;
   privacyBudgetType: PrivacyBudgetType;
-  parameters?: PrivacyBudgetTemplateUpdateParameters;
+  parameters?: PrivacyBudgetTemplateUpdateParameters | undefined;
 }
 export interface UpdatePrivacyBudgetTemplateOutput {
   privacyBudgetTemplate: PrivacyBudgetTemplate;
@@ -2885,7 +2947,7 @@ export type BatchGetCollaborationAnalysisTemplateError =
  * Retrieves multiple analysis templates within a collaboration by their Amazon Resource Names (ARNs).
  */
 export const batchGetCollaborationAnalysisTemplate: API.OperationMethod<
-  BatchGetCollaborationAnalysisTemplateInput,
+  BatchGetCollaborationAnalysisTemplateInput & RegionInput,
   BatchGetCollaborationAnalysisTemplateOutput,
   BatchGetCollaborationAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2917,7 +2979,7 @@ export type BatchGetSchemaError =
  * Retrieves multiple schemas by their identifiers.
  */
 export const batchGetSchema: API.OperationMethod<
-  BatchGetSchemaInput,
+  BatchGetSchemaInput & RegionInput,
   BatchGetSchemaOutput,
   BatchGetSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2949,7 +3011,7 @@ export type BatchGetSchemaAnalysisRuleError =
  * Retrieves multiple analysis rule schemas.
  */
 export const batchGetSchemaAnalysisRule: API.OperationMethod<
-  BatchGetSchemaAnalysisRuleInput,
+  BatchGetSchemaAnalysisRuleInput & RegionInput,
   BatchGetSchemaAnalysisRuleOutput,
   BatchGetSchemaAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -2983,7 +3045,7 @@ export type CreateAnalysisTemplateError =
  * Creates a new analysis template.
  */
 export const createAnalysisTemplate: API.OperationMethod<
-  CreateAnalysisTemplateInput,
+  CreateAnalysisTemplateInput & RegionInput,
   CreateAnalysisTemplateOutput,
   CreateAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3017,7 +3079,7 @@ export type CreateCollaborationError =
  * Creates a new collaboration.
  */
 export const createCollaboration: API.OperationMethod<
-  CreateCollaborationInput,
+  CreateCollaborationInput & RegionInput,
   CreateCollaborationOutput,
   CreateCollaborationError,
   Credentials | HttpClient.HttpClient
@@ -3051,7 +3113,7 @@ export type CreateCollaborationChangeRequestError =
  * Creates a new change request to modify an existing collaboration. This enables post-creation modifications to collaborations through a structured API-driven approach.
  */
 export const createCollaborationChangeRequest: API.OperationMethod<
-  CreateCollaborationChangeRequestInput,
+  CreateCollaborationChangeRequestInput & RegionInput,
   CreateCollaborationChangeRequestOutput,
   CreateCollaborationChangeRequestError,
   Credentials | HttpClient.HttpClient
@@ -3087,7 +3149,7 @@ export type CreateConfiguredAudienceModelAssociationError =
  * Provides the details necessary to create a configured audience model association.
  */
 export const createConfiguredAudienceModelAssociation: API.OperationMethod<
-  CreateConfiguredAudienceModelAssociationInput,
+  CreateConfiguredAudienceModelAssociationInput & RegionInput,
   CreateConfiguredAudienceModelAssociationOutput,
   CreateConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3123,13 +3185,13 @@ export type CreateConfiguredTableError =
  * Creates a new configured table resource.
  */
 export const createConfiguredTable: API.OperationMethod<
-  CreateConfiguredTableInput,
+  CreateConfiguredTableInput & RegionInput,
   CreateConfiguredTableOutput,
   CreateConfiguredTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<CreateConfiguredTableInput>,
-  output: __S(712, __c22, 8) as any as S.Schema<CreateConfiguredTableOutput>,
+  output: __S(715, __c22, 11) as any as S.Schema<CreateConfiguredTableOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3159,7 +3221,7 @@ export type CreateConfiguredTableAnalysisRuleError =
  * Creates a new analysis rule for a configured table. Currently, only one analysis rule can be created for a given configured table.
  */
 export const createConfiguredTableAnalysisRule: API.OperationMethod<
-  CreateConfiguredTableAnalysisRuleInput,
+  CreateConfiguredTableAnalysisRuleInput & RegionInput,
   CreateConfiguredTableAnalysisRuleOutput,
   CreateConfiguredTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3195,7 +3257,7 @@ export type CreateConfiguredTableAssociationError =
  * Creates a configured table association. A configured table association links a configured table with a collaboration.
  */
 export const createConfiguredTableAssociation: API.OperationMethod<
-  CreateConfiguredTableAssociationInput,
+  CreateConfiguredTableAssociationInput & RegionInput,
   CreateConfiguredTableAssociationOutput,
   CreateConfiguredTableAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3230,7 +3292,7 @@ export type CreateConfiguredTableAssociationAnalysisRuleError =
  * Creates a new analysis rule for an associated configured table.
  */
 export const createConfiguredTableAssociationAnalysisRule: API.OperationMethod<
-  CreateConfiguredTableAssociationAnalysisRuleInput,
+  CreateConfiguredTableAssociationAnalysisRuleInput & RegionInput,
   CreateConfiguredTableAssociationAnalysisRuleOutput,
   CreateConfiguredTableAssociationAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3265,7 +3327,7 @@ export type CreateIdMappingTableError =
  * Creates an ID mapping table.
  */
 export const createIdMappingTable: API.OperationMethod<
-  CreateIdMappingTableInput,
+  CreateIdMappingTableInput & RegionInput,
   CreateIdMappingTableOutput,
   CreateIdMappingTableError,
   Credentials | HttpClient.HttpClient
@@ -3301,7 +3363,7 @@ export type CreateIdNamespaceAssociationError =
  * Creates an ID namespace association.
  */
 export const createIdNamespaceAssociation: API.OperationMethod<
-  CreateIdNamespaceAssociationInput,
+  CreateIdNamespaceAssociationInput & RegionInput,
   CreateIdNamespaceAssociationOutput,
   CreateIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3337,7 +3399,7 @@ export type CreateIntermediateTableError =
  * Creates an intermediate table in a membership. The intermediate table is owned by the member with the CAN_QUERY ability. To populate the table with results, use `PopulateIntermediateTable`.
  */
 export const createIntermediateTable: API.OperationMethod<
-  CreateIntermediateTableInput,
+  CreateIntermediateTableInput & RegionInput,
   CreateIntermediateTableOutput,
   CreateIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -3373,7 +3435,7 @@ export type CreateIntermediateTableAnalysisRuleError =
  * Creates an analysis rule for an intermediate table. Only the CUSTOM analysis rule type is supported. Only the intermediate table owner can call this operation.
  */
 export const createIntermediateTableAnalysisRule: API.OperationMethod<
-  CreateIntermediateTableAnalysisRuleInput,
+  CreateIntermediateTableAnalysisRuleInput & RegionInput,
   CreateIntermediateTableAnalysisRuleOutput,
   CreateIntermediateTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3409,13 +3471,13 @@ export type CreateMembershipError =
  * Creates a membership for a specific collaboration identifier and joins the collaboration.
  */
 export const createMembership: API.OperationMethod<
-  CreateMembershipInput,
+  CreateMembershipInput & RegionInput,
   CreateMembershipOutput,
   CreateMembershipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<CreateMembershipInput>,
-  output: __S(1349, __c42, 5) as any as S.Schema<CreateMembershipOutput>,
+  output: __S(1318, __c41, 6) as any as S.Schema<CreateMembershipOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3445,13 +3507,13 @@ export type CreatePrivacyBudgetTemplateError =
  * Creates a privacy budget template for a specified collaboration. Each collaboration can have only one privacy budget template. If you need to change the privacy budget template, use the UpdatePrivacyBudgetTemplate operation.
  */
 export const createPrivacyBudgetTemplate: API.OperationMethod<
-  CreatePrivacyBudgetTemplateInput,
+  CreatePrivacyBudgetTemplateInput & RegionInput,
   CreatePrivacyBudgetTemplateOutput,
   CreatePrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<CreatePrivacyBudgetTemplateInput>,
-  output: __S(1505, __c47, 1) as any as S.Schema<CreatePrivacyBudgetTemplateOutput>,
+  input: __S(1376, __c43, 0) as any as S.Schema<CreatePrivacyBudgetTemplateInput>,
+  output: __S(1473, __c46, 1) as any as S.Schema<CreatePrivacyBudgetTemplateOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3479,13 +3541,13 @@ export type DeleteAnalysisTemplateError =
  * Deletes an analysis template.
  */
 export const deleteAnalysisTemplate: API.OperationMethod<
-  DeleteAnalysisTemplateInput,
+  DeleteAnalysisTemplateInput & RegionInput,
   DeleteAnalysisTemplateOutput,
   DeleteAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DeleteAnalysisTemplateInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteAnalysisTemplateOutput>,
+  input: __S(1504, __c47, 0) as any as S.Schema<DeleteAnalysisTemplateInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteAnalysisTemplateOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3510,13 +3572,13 @@ export type DeleteCollaborationError =
  * Deletes a collaboration. It can only be called by the collaboration owner.
  */
 export const deleteCollaboration: API.OperationMethod<
-  DeleteCollaborationInput,
+  DeleteCollaborationInput & RegionInput,
   DeleteCollaborationOutput,
   DeleteCollaborationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DeleteCollaborationInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteCollaborationOutput>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DeleteCollaborationInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteCollaborationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3541,13 +3603,13 @@ export type DeleteConfiguredAudienceModelAssociationError =
  * Provides the information necessary to delete a configured audience model association.
  */
 export const deleteConfiguredAudienceModelAssociation: API.OperationMethod<
-  DeleteConfiguredAudienceModelAssociationInput,
+  DeleteConfiguredAudienceModelAssociationInput & RegionInput,
   DeleteConfiguredAudienceModelAssociationOutput,
   DeleteConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<DeleteConfiguredAudienceModelAssociationInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteConfiguredAudienceModelAssociationOutput>,
+  input: __S(1600, __c50, 0) as any as S.Schema<DeleteConfiguredAudienceModelAssociationInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteConfiguredAudienceModelAssociationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3574,13 +3636,13 @@ export type DeleteConfiguredTableError =
  * Deletes a configured table.
  */
 export const deleteConfiguredTable: API.OperationMethod<
-  DeleteConfiguredTableInput,
+  DeleteConfiguredTableInput & RegionInput,
   DeleteConfiguredTableOutput,
   DeleteConfiguredTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<DeleteConfiguredTableInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteConfiguredTableOutput>,
+  input: __S(1632, __c51, 0) as any as S.Schema<DeleteConfiguredTableInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteConfiguredTableOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3608,13 +3670,13 @@ export type DeleteConfiguredTableAnalysisRuleError =
  * Deletes a configured table analysis rule.
  */
 export const deleteConfiguredTableAnalysisRule: API.OperationMethod<
-  DeleteConfiguredTableAnalysisRuleInput,
+  DeleteConfiguredTableAnalysisRuleInput & RegionInput,
   DeleteConfiguredTableAnalysisRuleOutput,
   DeleteConfiguredTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<DeleteConfiguredTableAnalysisRuleInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteConfiguredTableAnalysisRuleOutput>,
+  input: __S(1664, __c52, 0) as any as S.Schema<DeleteConfiguredTableAnalysisRuleInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteConfiguredTableAnalysisRuleOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3642,13 +3704,13 @@ export type DeleteConfiguredTableAssociationError =
  * Deletes a configured table association.
  */
 export const deleteConfiguredTableAssociation: API.OperationMethod<
-  DeleteConfiguredTableAssociationInput,
+  DeleteConfiguredTableAssociationInput & RegionInput,
   DeleteConfiguredTableAssociationOutput,
   DeleteConfiguredTableAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<DeleteConfiguredTableAssociationInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteConfiguredTableAssociationOutput>,
+  input: __S(1696, __c53, 0) as any as S.Schema<DeleteConfiguredTableAssociationInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteConfiguredTableAssociationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3676,15 +3738,15 @@ export type DeleteConfiguredTableAssociationAnalysisRuleError =
  * Deletes an analysis rule for a configured table association.
  */
 export const deleteConfiguredTableAssociationAnalysisRule: API.OperationMethod<
-  DeleteConfiguredTableAssociationAnalysisRuleInput,
+  DeleteConfiguredTableAssociationAnalysisRuleInput & RegionInput,
   DeleteConfiguredTableAssociationAnalysisRuleOutput,
   DeleteConfiguredTableAssociationAnalysisRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<DeleteConfiguredTableAssociationAnalysisRuleInput>,
+  input: __S(1728, __c54, 0) as any as S.Schema<DeleteConfiguredTableAssociationAnalysisRuleInput>,
   output: __S(
-    1568,
-    __c49,
+    1536,
+    __c48,
     0,
   ) as any as S.Schema<DeleteConfiguredTableAssociationAnalysisRuleOutput>,
   errors: [
@@ -3713,13 +3775,13 @@ export type DeleteIdMappingTableError =
  * Deletes an ID mapping table.
  */
 export const deleteIdMappingTable: API.OperationMethod<
-  DeleteIdMappingTableInput,
+  DeleteIdMappingTableInput & RegionInput,
   DeleteIdMappingTableOutput,
   DeleteIdMappingTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<DeleteIdMappingTableInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteIdMappingTableOutput>,
+  input: __S(1760, __c55, 0) as any as S.Schema<DeleteIdMappingTableInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteIdMappingTableOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3745,13 +3807,13 @@ export type DeleteIdNamespaceAssociationError =
  * Deletes an ID namespace association.
  */
 export const deleteIdNamespaceAssociation: API.OperationMethod<
-  DeleteIdNamespaceAssociationInput,
+  DeleteIdNamespaceAssociationInput & RegionInput,
   DeleteIdNamespaceAssociationOutput,
   DeleteIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<DeleteIdNamespaceAssociationInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteIdNamespaceAssociationOutput>,
+  input: __S(1792, __c56, 0) as any as S.Schema<DeleteIdNamespaceAssociationInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteIdNamespaceAssociationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3778,13 +3840,13 @@ export type DeleteIntermediateTableError =
  * Deletes an intermediate table. The delete is idempotent. Only the intermediate table owner can call this operation.
  */
 export const deleteIntermediateTable: API.OperationMethod<
-  DeleteIntermediateTableInput,
+  DeleteIntermediateTableInput & RegionInput,
   DeleteIntermediateTableOutput,
   DeleteIntermediateTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<DeleteIntermediateTableInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteIntermediateTableOutput>,
+  input: __S(1824, __c57, 0) as any as S.Schema<DeleteIntermediateTableInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteIntermediateTableOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3812,13 +3874,13 @@ export type DeleteIntermediateTableAnalysisRuleError =
  * Deletes an analysis rule from an intermediate table. After the analysis rule is deleted, the intermediate table becomes unqueryable until a new analysis rule is attached. Only the intermediate table owner can call this operation.
  */
 export const deleteIntermediateTableAnalysisRule: API.OperationMethod<
-  DeleteIntermediateTableAnalysisRuleInput,
+  DeleteIntermediateTableAnalysisRuleInput & RegionInput,
   DeleteIntermediateTableAnalysisRuleOutput,
   DeleteIntermediateTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<DeleteIntermediateTableAnalysisRuleInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteIntermediateTableAnalysisRuleOutput>,
+  input: __S(1856, __c58, 0) as any as S.Schema<DeleteIntermediateTableAnalysisRuleInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteIntermediateTableAnalysisRuleOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3846,13 +3908,13 @@ export type DeleteMemberError =
  * Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration.
  */
 export const deleteMember: API.OperationMethod<
-  DeleteMemberInput,
+  DeleteMemberInput & RegionInput,
   DeleteMemberOutput,
   DeleteMemberError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<DeleteMemberInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteMemberOutput>,
+  input: __S(1888, __c59, 0) as any as S.Schema<DeleteMemberInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteMemberOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3880,13 +3942,13 @@ export type DeleteMembershipError =
  * Deletes a specified membership. All resources under a membership must be deleted.
  */
 export const deleteMembership: API.OperationMethod<
-  DeleteMembershipInput,
+  DeleteMembershipInput & RegionInput,
   DeleteMembershipOutput,
   DeleteMembershipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<DeleteMembershipInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteMembershipOutput>,
+  input: __S(1920, __c60, 0) as any as S.Schema<DeleteMembershipInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteMembershipOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3913,13 +3975,13 @@ export type DeletePrivacyBudgetTemplateError =
  * Deletes a privacy budget template for a specified collaboration.
  */
 export const deletePrivacyBudgetTemplate: API.OperationMethod<
-  DeletePrivacyBudgetTemplateInput,
+  DeletePrivacyBudgetTemplateInput & RegionInput,
   DeletePrivacyBudgetTemplateOutput,
   DeletePrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<DeletePrivacyBudgetTemplateInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeletePrivacyBudgetTemplateOutput>,
+  input: __S(1952, __c61, 0) as any as S.Schema<DeletePrivacyBudgetTemplateInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeletePrivacyBudgetTemplateOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3946,13 +4008,13 @@ export type DisallowIntermediateTableError =
  * Marks an intermediate table as invalid when it references the caller's base table. The data provider (base table owner) calls this operation, not the intermediate table owner. By default, the operation also marks all descendant intermediate tables as invalid.
  */
 export const disallowIntermediateTable: API.OperationMethod<
-  DisallowIntermediateTableInput,
+  DisallowIntermediateTableInput & RegionInput,
   DisallowIntermediateTableOutput,
   DisallowIntermediateTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<DisallowIntermediateTableInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DisallowIntermediateTableOutput>,
+  input: __S(1984, __c62, 0) as any as S.Schema<DisallowIntermediateTableInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DisallowIntermediateTableOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3981,12 +4043,12 @@ export type GetAnalysisLogExportError =
  * Poll this operation until the `status` is `SUCCESS` or `FAILED`. An export can't be canceled after it starts.
  */
 export const getAnalysisLogExport: API.OperationMethod<
-  GetAnalysisLogExportInput,
+  GetAnalysisLogExportInput & RegionInput,
   GetAnalysisLogExportOutput,
   GetAnalysisLogExportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<GetAnalysisLogExportInput>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetAnalysisLogExportInput>,
   output: __S(2084, __c65, 4) as any as S.Schema<GetAnalysisLogExportOutput>,
   errors: [
     AccessDeniedException,
@@ -4013,7 +4075,7 @@ export type GetAnalysisTemplateError =
  * Retrieves an analysis template.
  */
 export const getAnalysisTemplate: API.OperationMethod<
-  GetAnalysisTemplateInput,
+  GetAnalysisTemplateInput & RegionInput,
   GetAnalysisTemplateOutput,
   GetAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4044,7 +4106,7 @@ export type GetCollaborationError =
  * Returns metadata about a collaboration.
  */
 export const getCollaboration: API.OperationMethod<
-  GetCollaborationInput,
+  GetCollaborationInput & RegionInput,
   GetCollaborationOutput,
   GetCollaborationError,
   Credentials | HttpClient.HttpClient
@@ -4075,7 +4137,7 @@ export type GetCollaborationAnalysisTemplateError =
  * Retrieves an analysis template within a collaboration.
  */
 export const getCollaborationAnalysisTemplate: API.OperationMethod<
-  GetCollaborationAnalysisTemplateInput,
+  GetCollaborationAnalysisTemplateInput & RegionInput,
   GetCollaborationAnalysisTemplateOutput,
   GetCollaborationAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4107,7 +4169,7 @@ export type GetCollaborationChangeRequestError =
  * Retrieves detailed information about a specific collaboration change request.
  */
 export const getCollaborationChangeRequest: API.OperationMethod<
-  GetCollaborationChangeRequestInput,
+  GetCollaborationChangeRequestInput & RegionInput,
   GetCollaborationChangeRequestOutput,
   GetCollaborationChangeRequestError,
   Credentials | HttpClient.HttpClient
@@ -4139,7 +4201,7 @@ export type GetCollaborationConfiguredAudienceModelAssociationError =
  * Retrieves a configured audience model association within a collaboration.
  */
 export const getCollaborationConfiguredAudienceModelAssociation: API.OperationMethod<
-  GetCollaborationConfiguredAudienceModelAssociationInput,
+  GetCollaborationConfiguredAudienceModelAssociationInput & RegionInput,
   GetCollaborationConfiguredAudienceModelAssociationOutput,
   GetCollaborationConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4179,7 +4241,7 @@ export type GetCollaborationIdNamespaceAssociationError =
  * Retrieves an ID namespace association from a specific collaboration.
  */
 export const getCollaborationIdNamespaceAssociation: API.OperationMethod<
-  GetCollaborationIdNamespaceAssociationInput,
+  GetCollaborationIdNamespaceAssociationInput & RegionInput,
   GetCollaborationIdNamespaceAssociationOutput,
   GetCollaborationIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4211,7 +4273,7 @@ export type GetCollaborationPrivacyBudgetTemplateError =
  * Returns details about a specified privacy budget template.
  */
 export const getCollaborationPrivacyBudgetTemplate: API.OperationMethod<
-  GetCollaborationPrivacyBudgetTemplateInput,
+  GetCollaborationPrivacyBudgetTemplateInput & RegionInput,
   GetCollaborationPrivacyBudgetTemplateOutput,
   GetCollaborationPrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4243,7 +4305,7 @@ export type GetConfiguredAudienceModelAssociationError =
  * Returns information about a configured audience model association.
  */
 export const getConfiguredAudienceModelAssociation: API.OperationMethod<
-  GetConfiguredAudienceModelAssociationInput,
+  GetConfiguredAudienceModelAssociationInput & RegionInput,
   GetConfiguredAudienceModelAssociationOutput,
   GetConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4275,13 +4337,13 @@ export type GetConfiguredTableError =
  * Retrieves a configured table.
  */
 export const getConfiguredTable: API.OperationMethod<
-  GetConfiguredTableInput,
+  GetConfiguredTableInput & RegionInput,
   GetConfiguredTableOutput,
   GetConfiguredTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<GetConfiguredTableInput>,
-  output: __S(712, __c22, 8) as any as S.Schema<GetConfiguredTableOutput>,
+  output: __S(715, __c22, 11) as any as S.Schema<GetConfiguredTableOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4307,7 +4369,7 @@ export type GetConfiguredTableAnalysisRuleError =
  * Retrieves a configured table analysis rule.
  */
 export const getConfiguredTableAnalysisRule: API.OperationMethod<
-  GetConfiguredTableAnalysisRuleInput,
+  GetConfiguredTableAnalysisRuleInput & RegionInput,
   GetConfiguredTableAnalysisRuleOutput,
   GetConfiguredTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -4339,7 +4401,7 @@ export type GetConfiguredTableAssociationError =
  * Retrieves a configured table association.
  */
 export const getConfiguredTableAssociation: API.OperationMethod<
-  GetConfiguredTableAssociationInput,
+  GetConfiguredTableAssociationInput & RegionInput,
   GetConfiguredTableAssociationOutput,
   GetConfiguredTableAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4371,7 +4433,7 @@ export type GetConfiguredTableAssociationAnalysisRuleError =
  * Retrieves the analysis rule for a configured table association.
  */
 export const getConfiguredTableAssociationAnalysisRule: API.OperationMethod<
-  GetConfiguredTableAssociationAnalysisRuleInput,
+  GetConfiguredTableAssociationAnalysisRuleInput & RegionInput,
   GetConfiguredTableAssociationAnalysisRuleOutput,
   GetConfiguredTableAssociationAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -4403,7 +4465,7 @@ export type GetIdMappingTableError =
  * Retrieves an ID mapping table.
  */
 export const getIdMappingTable: API.OperationMethod<
-  GetIdMappingTableInput,
+  GetIdMappingTableInput & RegionInput,
   GetIdMappingTableOutput,
   GetIdMappingTableError,
   Credentials | HttpClient.HttpClient
@@ -4435,7 +4497,7 @@ export type GetIdNamespaceAssociationError =
  * Retrieves an ID namespace association.
  */
 export const getIdNamespaceAssociation: API.OperationMethod<
-  GetIdNamespaceAssociationInput,
+  GetIdNamespaceAssociationInput & RegionInput,
   GetIdNamespaceAssociationOutput,
   GetIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4467,7 +4529,7 @@ export type GetIntermediateTableError =
  * Retrieves an intermediate table. Returns the full details of the intermediate table, including schema, table dependencies, inherited constraints, child resources, and status. Only the intermediate table owner can call this operation.
  */
 export const getIntermediateTable: API.OperationMethod<
-  GetIntermediateTableInput,
+  GetIntermediateTableInput & RegionInput,
   GetIntermediateTableOutput,
   GetIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -4499,7 +4561,7 @@ export type GetIntermediateTableAnalysisRuleError =
  * Retrieves the analysis rule for an intermediate table.
  */
 export const getIntermediateTableAnalysisRule: API.OperationMethod<
-  GetIntermediateTableAnalysisRuleInput,
+  GetIntermediateTableAnalysisRuleInput & RegionInput,
   GetIntermediateTableAnalysisRuleOutput,
   GetIntermediateTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -4531,13 +4593,13 @@ export type GetMembershipError =
  * Retrieves a specified membership for an identifier.
  */
 export const getMembership: API.OperationMethod<
-  GetMembershipInput,
+  GetMembershipInput & RegionInput,
   GetMembershipOutput,
   GetMembershipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<GetMembershipInput>,
-  output: __S(1349, __c42, 5) as any as S.Schema<GetMembershipOutput>,
+  output: __S(1318, __c41, 6) as any as S.Schema<GetMembershipOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4563,13 +4625,13 @@ export type GetPrivacyBudgetTemplateError =
  * Returns details for a specified privacy budget template.
  */
 export const getPrivacyBudgetTemplate: API.OperationMethod<
-  GetPrivacyBudgetTemplateInput,
+  GetPrivacyBudgetTemplateInput & RegionInput,
   GetPrivacyBudgetTemplateOutput,
   GetPrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<GetPrivacyBudgetTemplateInput>,
-  output: __S(1505, __c47, 1) as any as S.Schema<GetPrivacyBudgetTemplateOutput>,
+  output: __S(1473, __c46, 1) as any as S.Schema<GetPrivacyBudgetTemplateOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4595,7 +4657,7 @@ export type GetProtectedJobError =
  * Returns job processing metadata.
  */
 export const getProtectedJob: API.OperationMethod<
-  GetProtectedJobInput,
+  GetProtectedJobInput & RegionInput,
   GetProtectedJobOutput,
   GetProtectedJobError,
   Credentials | HttpClient.HttpClient
@@ -4627,7 +4689,7 @@ export type GetProtectedQueryError =
  * Returns query processing metadata.
  */
 export const getProtectedQuery: API.OperationMethod<
-  GetProtectedQueryInput,
+  GetProtectedQueryInput & RegionInput,
   GetProtectedQueryOutput,
   GetProtectedQueryError,
   Credentials | HttpClient.HttpClient
@@ -4659,7 +4721,7 @@ export type GetSchemaError =
  * Retrieves the schema for a relation within a collaboration.
  */
 export const getSchema: API.OperationMethod<
-  GetSchemaInput,
+  GetSchemaInput & RegionInput,
   GetSchemaOutput,
   GetSchemaError,
   Credentials | HttpClient.HttpClient
@@ -4691,7 +4753,7 @@ export type GetSchemaAnalysisRuleError =
  * Retrieves a schema analysis rule.
  */
 export const getSchemaAnalysisRule: API.OperationMethod<
-  GetSchemaAnalysisRuleInput,
+  GetSchemaAnalysisRuleInput & RegionInput,
   GetSchemaAnalysisRuleOutput,
   GetSchemaAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -4723,7 +4785,7 @@ export type ListAnalysisLogExportsError =
  * Lists analysis log exports, sorted by the most recent export. Results are paginated. Use the `nextToken` parameter to retrieve additional results.
  */
 export const listAnalysisLogExports: API.PaginatedOperationMethod<
-  ListAnalysisLogExportsInput,
+  ListAnalysisLogExportsInput & RegionInput,
   ListAnalysisLogExportsOutput,
   ListAnalysisLogExportsError,
   Credentials | HttpClient.HttpClient,
@@ -4762,7 +4824,7 @@ export type ListAnalysisTemplatesError =
  * Lists analysis templates that the caller owns.
  */
 export const listAnalysisTemplates: API.PaginatedOperationMethod<
-  ListAnalysisTemplatesInput,
+  ListAnalysisTemplatesInput & RegionInput,
   ListAnalysisTemplatesOutput,
   ListAnalysisTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4801,7 +4863,7 @@ export type ListCollaborationAnalysisTemplatesError =
  * Lists analysis templates within a collaboration.
  */
 export const listCollaborationAnalysisTemplates: API.PaginatedOperationMethod<
-  ListCollaborationAnalysisTemplatesInput,
+  ListCollaborationAnalysisTemplatesInput & RegionInput,
   ListCollaborationAnalysisTemplatesOutput,
   ListCollaborationAnalysisTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4840,7 +4902,7 @@ export type ListCollaborationChangeRequestsError =
  * Lists all change requests for a collaboration with pagination support. Returns change requests sorted by creation time.
  */
 export const listCollaborationChangeRequests: API.PaginatedOperationMethod<
-  ListCollaborationChangeRequestsInput,
+  ListCollaborationChangeRequestsInput & RegionInput,
   ListCollaborationChangeRequestsOutput,
   ListCollaborationChangeRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -4879,7 +4941,7 @@ export type ListCollaborationConfiguredAudienceModelAssociationsError =
  * Lists configured audience model associations within a collaboration.
  */
 export const listCollaborationConfiguredAudienceModelAssociations: API.PaginatedOperationMethod<
-  ListCollaborationConfiguredAudienceModelAssociationsInput,
+  ListCollaborationConfiguredAudienceModelAssociationsInput & RegionInput,
   ListCollaborationConfiguredAudienceModelAssociationsOutput,
   ListCollaborationConfiguredAudienceModelAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4926,7 +4988,7 @@ export type ListCollaborationIdNamespaceAssociationsError =
  * Returns a list of the ID namespace associations in a collaboration.
  */
 export const listCollaborationIdNamespaceAssociations: API.PaginatedOperationMethod<
-  ListCollaborationIdNamespaceAssociationsInput,
+  ListCollaborationIdNamespaceAssociationsInput & RegionInput,
   ListCollaborationIdNamespaceAssociationsOutput,
   ListCollaborationIdNamespaceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4965,7 +5027,7 @@ export type ListCollaborationPrivacyBudgetsError =
  * Returns an array that summarizes each privacy budget in a specified collaboration. The summary includes the collaboration ARN, creation time, creating account, and privacy budget details.
  */
 export const listCollaborationPrivacyBudgets: API.PaginatedOperationMethod<
-  ListCollaborationPrivacyBudgetsInput,
+  ListCollaborationPrivacyBudgetsInput & RegionInput,
   ListCollaborationPrivacyBudgetsOutput,
   ListCollaborationPrivacyBudgetsError,
   Credentials | HttpClient.HttpClient,
@@ -5004,7 +5066,7 @@ export type ListCollaborationPrivacyBudgetTemplatesError =
  * Returns an array that summarizes each privacy budget template in a specified collaboration.
  */
 export const listCollaborationPrivacyBudgetTemplates: API.PaginatedOperationMethod<
-  ListCollaborationPrivacyBudgetTemplatesInput,
+  ListCollaborationPrivacyBudgetTemplatesInput & RegionInput,
   ListCollaborationPrivacyBudgetTemplatesOutput,
   ListCollaborationPrivacyBudgetTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -5042,7 +5104,7 @@ export type ListCollaborationsError =
  * Lists collaborations the caller owns, is active in, or has been invited to.
  */
 export const listCollaborations: API.PaginatedOperationMethod<
-  ListCollaborationsInput,
+  ListCollaborationsInput & RegionInput,
   ListCollaborationsOutput,
   ListCollaborationsError,
   Credentials | HttpClient.HttpClient,
@@ -5080,7 +5142,7 @@ export type ListConfiguredAudienceModelAssociationsError =
  * Lists information about requested configured audience model associations.
  */
 export const listConfiguredAudienceModelAssociations: API.PaginatedOperationMethod<
-  ListConfiguredAudienceModelAssociationsInput,
+  ListConfiguredAudienceModelAssociationsInput & RegionInput,
   ListConfiguredAudienceModelAssociationsOutput,
   ListConfiguredAudienceModelAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -5119,7 +5181,7 @@ export type ListConfiguredTableAssociationsError =
  * Lists configured table associations for a membership.
  */
 export const listConfiguredTableAssociations: API.PaginatedOperationMethod<
-  ListConfiguredTableAssociationsInput,
+  ListConfiguredTableAssociationsInput & RegionInput,
   ListConfiguredTableAssociationsOutput,
   ListConfiguredTableAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -5157,7 +5219,7 @@ export type ListConfiguredTablesError =
  * Lists configured tables.
  */
 export const listConfiguredTables: API.PaginatedOperationMethod<
-  ListConfiguredTablesInput,
+  ListConfiguredTablesInput & RegionInput,
   ListConfiguredTablesOutput,
   ListConfiguredTablesError,
   Credentials | HttpClient.HttpClient,
@@ -5195,7 +5257,7 @@ export type ListIdMappingTablesError =
  * Returns a list of ID mapping tables.
  */
 export const listIdMappingTables: API.PaginatedOperationMethod<
-  ListIdMappingTablesInput,
+  ListIdMappingTablesInput & RegionInput,
   ListIdMappingTablesOutput,
   ListIdMappingTablesError,
   Credentials | HttpClient.HttpClient,
@@ -5234,7 +5296,7 @@ export type ListIdNamespaceAssociationsError =
  * Returns a list of ID namespace associations.
  */
 export const listIdNamespaceAssociations: API.PaginatedOperationMethod<
-  ListIdNamespaceAssociationsInput,
+  ListIdNamespaceAssociationsInput & RegionInput,
   ListIdNamespaceAssociationsOutput,
   ListIdNamespaceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -5273,7 +5335,7 @@ export type ListIntermediateTablesError =
  * Lists intermediate tables owned by the caller in a membership. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listIntermediateTables: API.PaginatedOperationMethod<
-  ListIntermediateTablesInput,
+  ListIntermediateTablesInput & RegionInput,
   ListIntermediateTablesOutput,
   ListIntermediateTablesError,
   Credentials | HttpClient.HttpClient,
@@ -5312,7 +5374,7 @@ export type ListIntermediateTableVersionsError =
  * Lists the version history of an intermediate table. Each call to `PopulateIntermediateTable` creates a new version. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listIntermediateTableVersions: API.PaginatedOperationMethod<
-  ListIntermediateTableVersionsInput,
+  ListIntermediateTableVersionsInput & RegionInput,
   ListIntermediateTableVersionsOutput,
   ListIntermediateTableVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -5351,7 +5413,7 @@ export type ListMembersError =
  * Lists all members within a collaboration.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersInput,
+  ListMembersInput & RegionInput,
   ListMembersOutput,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -5389,7 +5451,7 @@ export type ListMembershipsError =
  * Lists all memberships resources within the caller's account.
  */
 export const listMemberships: API.PaginatedOperationMethod<
-  ListMembershipsInput,
+  ListMembershipsInput & RegionInput,
   ListMembershipsOutput,
   ListMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -5427,7 +5489,7 @@ export type ListPrivacyBudgetsError =
  * Returns detailed information about the privacy budgets in a specified membership.
  */
 export const listPrivacyBudgets: API.PaginatedOperationMethod<
-  ListPrivacyBudgetsInput,
+  ListPrivacyBudgetsInput & RegionInput,
   ListPrivacyBudgetsOutput,
   ListPrivacyBudgetsError,
   Credentials | HttpClient.HttpClient,
@@ -5466,7 +5528,7 @@ export type ListPrivacyBudgetTemplatesError =
  * Returns detailed information about the privacy budget templates in a specified membership.
  */
 export const listPrivacyBudgetTemplates: API.PaginatedOperationMethod<
-  ListPrivacyBudgetTemplatesInput,
+  ListPrivacyBudgetTemplatesInput & RegionInput,
   ListPrivacyBudgetTemplatesOutput,
   ListPrivacyBudgetTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -5505,7 +5567,7 @@ export type ListProtectedJobsError =
  * Lists protected jobs, sorted by most recent job.
  */
 export const listProtectedJobs: API.PaginatedOperationMethod<
-  ListProtectedJobsInput,
+  ListProtectedJobsInput & RegionInput,
   ListProtectedJobsOutput,
   ListProtectedJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5544,7 +5606,7 @@ export type ListProtectedQueriesError =
  * Lists protected queries, sorted by the most recent query.
  */
 export const listProtectedQueries: API.PaginatedOperationMethod<
-  ListProtectedQueriesInput,
+  ListProtectedQueriesInput & RegionInput,
   ListProtectedQueriesOutput,
   ListProtectedQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -5583,7 +5645,7 @@ export type ListSchemasError =
  * Lists the schemas for relations within a collaboration.
  */
 export const listSchemas: API.PaginatedOperationMethod<
-  ListSchemasInput,
+  ListSchemasInput & RegionInput,
   ListSchemasOutput,
   ListSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -5619,7 +5681,7 @@ export type ListTagsForResourceError =
  * Lists all of the tags that have been added to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5647,7 +5709,7 @@ export type PopulateIdMappingTableError =
  * Defines the information that's necessary to populate an ID mapping table.
  */
 export const populateIdMappingTable: API.OperationMethod<
-  PopulateIdMappingTableInput,
+  PopulateIdMappingTableInput & RegionInput,
   PopulateIdMappingTableOutput,
   PopulateIdMappingTableError,
   Credentials | HttpClient.HttpClient
@@ -5683,7 +5745,7 @@ export type PopulateIntermediateTableError =
  * Runs the stored query of an intermediate table and makes the results available for querying. Each call creates a new version. Use `GetProtectedQuery` with the returned analysis ID to track progress. Only the intermediate table owner can call this operation.
  */
 export const populateIntermediateTable: API.OperationMethod<
-  PopulateIntermediateTableInput,
+  PopulateIntermediateTableInput & RegionInput,
   PopulateIntermediateTableOutput,
   PopulateIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -5717,7 +5779,7 @@ export type PreviewPrivacyImpactError =
  * An estimate of the number of aggregation functions that the member who can query can run given epsilon and noise parameters.
  */
 export const previewPrivacyImpact: API.OperationMethod<
-  PreviewPrivacyImpactInput,
+  PreviewPrivacyImpactInput & RegionInput,
   PreviewPrivacyImpactOutput,
   PreviewPrivacyImpactError,
   Credentials | HttpClient.HttpClient
@@ -5764,7 +5826,7 @@ export type StartAnalysisLogExportError =
  * For more information, see https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs.html.
  */
 export const startAnalysisLogExport: API.OperationMethod<
-  StartAnalysisLogExportInput,
+  StartAnalysisLogExportInput & RegionInput,
   StartAnalysisLogExportOutput,
   StartAnalysisLogExportError,
   Credentials | HttpClient.HttpClient
@@ -5798,7 +5860,7 @@ export type StartProtectedJobError =
  * Creates a protected job that is started by Clean Rooms.
  */
 export const startProtectedJob: API.OperationMethod<
-  StartProtectedJobInput,
+  StartProtectedJobInput & RegionInput,
   StartProtectedJobOutput,
   StartProtectedJobError,
   Credentials | HttpClient.HttpClient
@@ -5832,7 +5894,7 @@ export type StartProtectedQueryError =
  * Creates a protected query that is started by Clean Rooms.
  */
 export const startProtectedQuery: API.OperationMethod<
-  StartProtectedQueryInput,
+  StartProtectedQueryInput & RegionInput,
   StartProtectedQueryOutput,
   StartProtectedQueryError,
   Credentials | HttpClient.HttpClient
@@ -5859,13 +5921,13 @@ export type TagResourceError = ResourceNotFoundException | ValidationException |
  * Tags a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<TagResourceInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<TagResourceOutput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<TagResourceOutput>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5879,13 +5941,13 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * Removes a tag or list of tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<UntagResourceInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<UntagResourceOutput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<UntagResourceOutput>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5905,7 +5967,7 @@ export type UpdateAnalysisTemplateError =
  * Updates the analysis template metadata.
  */
 export const updateAnalysisTemplate: API.OperationMethod<
-  UpdateAnalysisTemplateInput,
+  UpdateAnalysisTemplateInput & RegionInput,
   UpdateAnalysisTemplateOutput,
   UpdateAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5936,7 +5998,7 @@ export type UpdateCollaborationError =
  * Updates collaboration metadata and can only be called by the collaboration owner.
  */
 export const updateCollaboration: API.OperationMethod<
-  UpdateCollaborationInput,
+  UpdateCollaborationInput & RegionInput,
   UpdateCollaborationOutput,
   UpdateCollaborationError,
   Credentials | HttpClient.HttpClient
@@ -5970,7 +6032,7 @@ export type UpdateCollaborationChangeRequestError =
  * For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request.
  */
 export const updateCollaborationChangeRequest: API.OperationMethod<
-  UpdateCollaborationChangeRequestInput,
+  UpdateCollaborationChangeRequestInput & RegionInput,
   UpdateCollaborationChangeRequestOutput,
   UpdateCollaborationChangeRequestError,
   Credentials | HttpClient.HttpClient
@@ -6003,7 +6065,7 @@ export type UpdateConfiguredAudienceModelAssociationError =
  * Provides the details necessary to update a configured audience model association.
  */
 export const updateConfiguredAudienceModelAssociation: API.OperationMethod<
-  UpdateConfiguredAudienceModelAssociationInput,
+  UpdateConfiguredAudienceModelAssociationInput & RegionInput,
   UpdateConfiguredAudienceModelAssociationOutput,
   UpdateConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -6037,13 +6099,13 @@ export type UpdateConfiguredTableError =
  * Updates a configured table.
  */
 export const updateConfiguredTable: API.OperationMethod<
-  UpdateConfiguredTableInput,
+  UpdateConfiguredTableInput & RegionInput,
   UpdateConfiguredTableOutput,
   UpdateConfiguredTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<UpdateConfiguredTableInput>,
-  output: __S(712, __c22, 8) as any as S.Schema<UpdateConfiguredTableOutput>,
+  output: __S(715, __c22, 11) as any as S.Schema<UpdateConfiguredTableOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6073,7 +6135,7 @@ export type UpdateConfiguredTableAnalysisRuleError =
  * Updates a configured table analysis rule.
  */
 export const updateConfiguredTableAnalysisRule: API.OperationMethod<
-  UpdateConfiguredTableAnalysisRuleInput,
+  UpdateConfiguredTableAnalysisRuleInput & RegionInput,
   UpdateConfiguredTableAnalysisRuleOutput,
   UpdateConfiguredTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -6108,7 +6170,7 @@ export type UpdateConfiguredTableAssociationError =
  * Updates a configured table association.
  */
 export const updateConfiguredTableAssociation: API.OperationMethod<
-  UpdateConfiguredTableAssociationInput,
+  UpdateConfiguredTableAssociationInput & RegionInput,
   UpdateConfiguredTableAssociationOutput,
   UpdateConfiguredTableAssociationError,
   Credentials | HttpClient.HttpClient
@@ -6142,7 +6204,7 @@ export type UpdateConfiguredTableAssociationAnalysisRuleError =
  * Updates the analysis rule for a configured table association.
  */
 export const updateConfiguredTableAssociationAnalysisRule: API.OperationMethod<
-  UpdateConfiguredTableAssociationAnalysisRuleInput,
+  UpdateConfiguredTableAssociationAnalysisRuleInput & RegionInput,
   UpdateConfiguredTableAssociationAnalysisRuleOutput,
   UpdateConfiguredTableAssociationAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -6175,7 +6237,7 @@ export type UpdateIdMappingTableError =
  * Provides the details that are necessary to update an ID mapping table.
  */
 export const updateIdMappingTable: API.OperationMethod<
-  UpdateIdMappingTableInput,
+  UpdateIdMappingTableInput & RegionInput,
   UpdateIdMappingTableOutput,
   UpdateIdMappingTableError,
   Credentials | HttpClient.HttpClient
@@ -6207,7 +6269,7 @@ export type UpdateIdNamespaceAssociationError =
  * Provides the details that are necessary to update an ID namespace association.
  */
 export const updateIdNamespaceAssociation: API.OperationMethod<
-  UpdateIdNamespaceAssociationInput,
+  UpdateIdNamespaceAssociationInput & RegionInput,
   UpdateIdNamespaceAssociationOutput,
   UpdateIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -6239,7 +6301,7 @@ export type UpdateIntermediateTableError =
  * Updates an intermediate table. You can update the description, KMS key ARN, and column types of existing columns. Only the intermediate table owner can call this operation.
  */
 export const updateIntermediateTable: API.OperationMethod<
-  UpdateIntermediateTableInput,
+  UpdateIntermediateTableInput & RegionInput,
   UpdateIntermediateTableOutput,
   UpdateIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -6272,7 +6334,7 @@ export type UpdateIntermediateTableAnalysisRuleError =
  * Updates the analysis rule policy for an intermediate table. Only the intermediate table owner can call this operation.
  */
 export const updateIntermediateTableAnalysisRule: API.OperationMethod<
-  UpdateIntermediateTableAnalysisRuleInput,
+  UpdateIntermediateTableAnalysisRuleInput & RegionInput,
   UpdateIntermediateTableAnalysisRuleOutput,
   UpdateIntermediateTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -6306,13 +6368,13 @@ export type UpdateMembershipError =
  * Updates a membership.
  */
 export const updateMembership: API.OperationMethod<
-  UpdateMembershipInput,
+  UpdateMembershipInput & RegionInput,
   UpdateMembershipOutput,
   UpdateMembershipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(289, __c9, 1) as any as S.Schema<UpdateMembershipInput>,
-  output: __S(1349, __c42, 5) as any as S.Schema<UpdateMembershipOutput>,
+  output: __S(1318, __c41, 6) as any as S.Schema<UpdateMembershipOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6340,13 +6402,13 @@ export type UpdatePrivacyBudgetTemplateError =
  * Updates the privacy budget template for the specified collaboration.
  */
 export const updatePrivacyBudgetTemplate: API.OperationMethod<
-  UpdatePrivacyBudgetTemplateInput,
+  UpdatePrivacyBudgetTemplateInput & RegionInput,
   UpdatePrivacyBudgetTemplateOutput,
   UpdatePrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(323, __c10, 3) as any as S.Schema<UpdatePrivacyBudgetTemplateInput>,
-  output: __S(1505, __c47, 1) as any as S.Schema<UpdatePrivacyBudgetTemplateOutput>,
+  output: __S(1473, __c46, 1) as any as S.Schema<UpdatePrivacyBudgetTemplateOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6374,7 +6436,7 @@ export type UpdateProtectedJobError =
  * Updates the processing of a currently running job.
  */
 export const updateProtectedJob: API.OperationMethod<
-  UpdateProtectedJobInput,
+  UpdateProtectedJobInput & RegionInput,
   UpdateProtectedJobOutput,
   UpdateProtectedJobError,
   Credentials | HttpClient.HttpClient
@@ -6408,7 +6470,7 @@ export type UpdateProtectedQueryError =
  * Updates the processing of a currently running query.
  */
 export const updateProtectedQuery: API.OperationMethod<
-  UpdateProtectedQueryInput,
+  UpdateProtectedQueryInput & RegionInput,
   UpdateProtectedQueryOutput,
   UpdateProtectedQueryError,
   Credentials | HttpClient.HttpClient
@@ -6673,8 +6735,8 @@ function __c9(j: number): any {
           membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
           queryLogStatus: S.optional(S.String),
           jobLogStatus: S.optional(S.String),
-          defaultResultConfiguration: S.optional(__S(1345, __c42, 1)),
-          defaultJobResultConfiguration: S.optional(__S(1347, __c42, 3)),
+          defaultResultConfiguration: S.optional(__S(1313, __c41, 1)),
+          defaultJobResultConfiguration: S.optional(__S(1316, __c41, 4)),
           membershipPaymentConfiguration: S.optional(__S(288, __c9, 0)),
         }).pipe(
           T.all(
@@ -6696,7 +6758,7 @@ function __c10(j: number): any {
         S.Struct({ epsilon: S.optional(S.Number), usersNoisePerQuery: S.optional(S.Number) }),
       ).annotate({ identifier: "DifferentialPrivacyTemplateUpdateParameters" });
     case 1:
-      return S.suspend(() => S.Struct({ budgetParameters: __S(1441, __c45, 1) })).annotate({
+      return S.suspend(() => S.Struct({ budgetParameters: __S(1409, __c44, 1) })).annotate({
         identifier: "AccessBudgetsPrivacyTemplateUpdateParameters",
       });
     case 2:
@@ -7031,7 +7093,7 @@ function __c21(j: number): any {
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          tableReference: __S(710, __c22, 6),
+          tableReference: __S(713, __c22, 9),
           allowedColumns: __S(3456, __c108, 0),
           analysisMethod: S.String,
           selectedAnalysisMethods: S.optional(__S(3840, __c120, 0)),
@@ -7079,19 +7141,36 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "AthenaTableReference" });
     case 6:
+      return S.suspend(() =>
+        S.Struct({ deltaShareEndpoint: S.String, shareName: S.String }),
+      ).annotate({ identifier: "DatabricksDeltaSharingConnection" });
+    case 7:
+      return S.Union([/*@__PURE__*/ S.Struct({ deltaSharing: __S(710, __c22, 6) })]);
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          schemaName: S.String,
+          tableName: S.String,
+          workspaceUrl: S.String,
+          connectionType: __S(711, __c22, 7),
+        }),
+      ).annotate({ identifier: "DatabricksTableReference" });
+    case 9:
       return S.Union([
         /*@__PURE__*/ S.Struct({ glue: __S(704, __c22, 0) }),
         /*@__PURE__*/ S.Struct({ snowflake: __S(708, __c22, 4) }),
         /*@__PURE__*/ S.Struct({ athena: __S(709, __c22, 5) }),
+        /*@__PURE__*/ S.Struct({ databricks: __S(712, __c22, 8) }),
       ]);
-    case 7:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           arn: S.String,
           name: S.String,
           description: S.optional(S.String),
-          tableReference: __S(710, __c22, 6),
+          tableReference: __S(713, __c22, 9),
+          tableType: S.optional(S.String),
           createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           analysisRuleTypes: __S(3840, __c120, 0),
@@ -7100,8 +7179,8 @@ function __c22(j: number): any {
           selectedAnalysisMethods: S.optional(__S(3840, __c120, 0)),
         }),
       ).annotate({ identifier: "ConfiguredTable" });
-    case 8:
-      return S.suspend(() => S.Struct({ configuredTable: __S(711, __c22, 7) })).annotate({
+    case 11:
+      return S.suspend(() => S.Struct({ configuredTable: __S(714, __c22, 10) })).annotate({
         identifier: "CreateConfiguredTableOutput",
       });
   }
@@ -7627,8 +7706,8 @@ function __c40(j: number): any {
           queryLogStatus: S.String,
           jobLogStatus: S.optional(S.String),
           tags: S.optional(__S(32, __c1, 0)),
-          defaultResultConfiguration: S.optional(__S(1345, __c42, 1)),
-          defaultJobResultConfiguration: S.optional(__S(1347, __c42, 3)),
+          defaultResultConfiguration: S.optional(__S(1313, __c41, 1)),
+          defaultJobResultConfiguration: S.optional(__S(1316, __c41, 4)),
           paymentConfiguration: S.optional(__S(451, __c14, 3)),
           isMetricsEnabled: S.optional(S.Boolean),
         }).pipe(
@@ -7640,26 +7719,26 @@ function __c40(j: number): any {
 function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({ bucket: S.String, keyPrefix: S.optional(S.String) }),
-      ).annotate({ identifier: "ProtectedJobS3OutputConfigurationInput" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(1376, __c43, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(1344, __c42, 0) })]);
     case 1:
       return S.suspend(() =>
-        S.Struct({ outputConfiguration: __S(1344, __c42, 0), roleArn: S.optional(S.String) }),
+        S.Struct({ outputConfiguration: __S(1312, __c41, 0), roleArn: S.optional(S.String) }),
       ).annotate({ identifier: "MembershipProtectedQueryResultConfiguration" });
     case 2:
-      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(1312, __c41, 0) })]);
-    case 3:
       return S.suspend(() =>
-        S.Struct({ outputConfiguration: __S(1346, __c42, 2), roleArn: S.String }),
-      ).annotate({ identifier: "MembershipProtectedJobResultConfiguration" });
+        S.Struct({
+          resultFormat: S.optional(S.String),
+          bucket: S.String,
+          keyPrefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProtectedJobS3OutputConfigurationInput" });
+    case 3:
+      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(1314, __c41, 2) })]);
     case 4:
+      return S.suspend(() =>
+        S.Struct({ outputConfiguration: __S(1315, __c41, 3), roleArn: S.String }),
+      ).annotate({ identifier: "MembershipProtectedJobResultConfiguration" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -7676,19 +7755,19 @@ function __c42(j: number): any {
           mlMemberAbilities: S.optional(__S(448, __c14, 0)),
           queryLogStatus: S.String,
           jobLogStatus: S.optional(S.String),
-          defaultResultConfiguration: S.optional(__S(1345, __c42, 1)),
-          defaultJobResultConfiguration: S.optional(__S(1347, __c42, 3)),
+          defaultResultConfiguration: S.optional(__S(1313, __c41, 1)),
+          defaultJobResultConfiguration: S.optional(__S(1316, __c41, 4)),
           paymentConfiguration: __S(451, __c14, 3),
           isMetricsEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Membership" });
-    case 5:
-      return S.suspend(() => S.Struct({ membership: __S(1348, __c42, 4) })).annotate({
+    case 6:
+      return S.suspend(() => S.Struct({ membership: __S(1317, __c41, 5) })).annotate({
         identifier: "CreateMembershipOutput",
       });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7701,7 +7780,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ProtectedQueryS3OutputConfiguration" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7709,7 +7788,7 @@ function __c44(j: number): any {
           membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
           autoRefresh: S.optional(S.String),
           privacyBudgetType: S.String,
-          parameters: __S(1443, __c45, 3),
+          parameters: __S(1411, __c44, 3),
           tags: S.optional(__S(32, __c1, 0)),
         }).pipe(
           T.all(
@@ -7727,26 +7806,26 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CreatePrivacyBudgetTemplateInput" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ type: S.String, budget: S.Number, autoRefresh: S.optional(S.String) }),
       ).annotate({ identifier: "BudgetParameter" });
     case 1:
-      return S.Array(__S(1440, __c45, 0));
+      return S.Array(__S(1408, __c44, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ budgetParameters: __S(1441, __c45, 1), resourceArn: S.String }),
+        S.Struct({ budgetParameters: __S(1409, __c44, 1), resourceArn: S.String }),
       ).annotate({ identifier: "AccessBudgetsPrivacyTemplateParametersInput" });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ differentialPrivacy: __S(1472, __c46, 0) }),
-        /*@__PURE__*/ S.Struct({ accessBudget: __S(1442, __c45, 2) }),
+        /*@__PURE__*/ S.Struct({ differentialPrivacy: __S(1440, __c45, 0) }),
+        /*@__PURE__*/ S.Struct({ accessBudget: __S(1410, __c44, 2) }),
       ]);
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7754,7 +7833,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DifferentialPrivacyTemplateParametersInput" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7769,16 +7848,16 @@ function __c47(j: number): any {
           updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           privacyBudgetType: S.String,
           autoRefresh: S.String,
-          parameters: __S(1443, __c45, 3),
+          parameters: __S(1411, __c44, 3),
         }),
       ).annotate({ identifier: "PrivacyBudgetTemplate" });
     case 1:
-      return S.suspend(() => S.Struct({ privacyBudgetTemplate: __S(1504, __c47, 0) })).annotate({
+      return S.suspend(() => S.Struct({ privacyBudgetTemplate: __S(1472, __c46, 0) })).annotate({
         identifier: "CreatePrivacyBudgetTemplateOutput",
       });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7801,13 +7880,13 @@ function __c48(j: number): any {
       ).annotate({ identifier: "DeleteAnalysisTemplateInput" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAnalysisTemplateOutput" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7826,7 +7905,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DeleteCollaborationInput" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7851,7 +7930,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DeleteConfiguredAudienceModelAssociationInput" });
   }
 }
-function __c52(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7870,7 +7949,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeleteConfiguredTableInput" });
   }
 }
-function __c53(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7893,7 +7972,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DeleteConfiguredTableAnalysisRuleInput" });
   }
 }
-function __c54(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7918,7 +7997,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DeleteConfiguredTableAssociationInput" });
   }
 }
-function __c55(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7944,7 +8023,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteConfiguredTableAssociationAnalysisRuleInput" });
   }
 }
-function __c56(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7967,7 +8046,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "DeleteIdMappingTableInput" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7992,7 +8071,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "DeleteIdNamespaceAssociationInput" });
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8015,7 +8094,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "DeleteIntermediateTableInput" });
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8039,7 +8118,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "DeleteIntermediateTableAnalysisRuleInput" });
   }
 }
-function __c60(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8062,7 +8141,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "DeleteMemberInput" });
   }
 }
-function __c61(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8079,7 +8158,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "DeleteMembershipInput" });
   }
 }
-function __c62(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8104,7 +8183,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DeletePrivacyBudgetTemplateInput" });
   }
 }
-function __c63(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8128,7 +8207,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DisallowIntermediateTableInput" });
   }
 }
-function __c64(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8151,10 +8230,18 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetAnalysisLogExportInput" });
   }
 }
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ bucket: S.String, keyPrefix: S.optional(S.String) }),
+      ).annotate({ identifier: "AnalysisLogExportS3OutputConfiguration" });
+  }
+}
 function __c65(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ s3: __S(1312, __c41, 0) })).annotate({
+      return S.suspend(() => S.Struct({ s3: __S(2048, __c64, 0) })).annotate({
         identifier: "AnalysisLogExportOutputConfiguration",
       });
     case 1:
@@ -8402,7 +8489,7 @@ function __c72(j: number): any {
           updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           privacyBudgetType: S.String,
           autoRefresh: S.String,
-          parameters: __S(1443, __c45, 3),
+          parameters: __S(1411, __c44, 3),
         }),
       ).annotate({ identifier: "CollaborationPrivacyBudgetTemplate" });
     case 2:
@@ -8732,7 +8819,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ProtectedJobParameters" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3: __S(1312, __c41, 0) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(2048, __c64, 0) }),
         /*@__PURE__*/ S.Struct({ member: __S(2752, __c86, 0) }),
       ]);
     case 2:
@@ -8832,7 +8919,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ProtectedQuerySQLParameters" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3: __S(1376, __c43, 0) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(1344, __c42, 0) }),
         /*@__PURE__*/ S.Struct({ member: __S(2752, __c86, 0) }),
       ]);
     case 2:
@@ -8843,7 +8930,7 @@ function __c91(j: number): any {
       });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3: __S(1376, __c43, 0) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(1344, __c42, 0) }),
         /*@__PURE__*/ S.Struct({ member: __S(2752, __c86, 0) }),
         /*@__PURE__*/ S.Struct({ distribute: __S(2915, __c91, 3) }),
         /*@__PURE__*/ S.Struct({ intermediateTable: __S(2848, __c89, 0) }),
@@ -9697,6 +9784,7 @@ function __c112(j: number): any {
           id: S.String,
           arn: S.String,
           name: S.String,
+          tableType: S.optional(S.String),
           createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           analysisRuleTypes: __S(3840, __c120, 0),
@@ -10438,7 +10526,7 @@ function __c132(j: number): any {
 function __c133(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ differentialPrivacy: __S(1472, __c46, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ differentialPrivacy: __S(1440, __c45, 0) })]);
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -10927,7 +11015,7 @@ function __c148(j: number): any {
           configuredTableIdentifier: S.String.pipe(T.HttpLabel("configuredTableIdentifier")),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          tableReference: S.optional(__S(710, __c22, 6)),
+          tableReference: S.optional(__S(713, __c22, 9)),
           allowedColumns: S.optional(__S(3456, __c108, 0)),
           analysisMethod: S.optional(S.String),
           selectedAnalysisMethods: S.optional(__S(3840, __c120, 0)),

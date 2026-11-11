@@ -74,19 +74,19 @@ export interface CreateCourseLessonRequest {
   /** The unique identifier of the chapter to create the lesson in (e.g., "chap_XXXXX"). */
   chapter_id: string;
   /** The Markdown content body of the lesson. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** The number of days after a student starts the course before this lesson becomes accessible. */
-  days_from_course_start_until_unlock?: number | null;
+  days_from_course_start_until_unlock?: number | null | undefined;
   /** The external video identifier for embedded content (e.g., a YouTube video ID or Loom share ID). */
-  embed_id?: string | null;
+  embed_id?: string | null | undefined;
   /** The type of video embed for this lesson, such as YouTube or Loom. */
-  embed_type?: EmbedTypes | (string & {}) | null;
+  embed_type?: EmbedTypes | (string & {}) | null | undefined;
   /** The content type of the lesson, such as video, text, quiz, or knowledge check. */
   lesson_type: LessonTypes | (string & {});
   /** The thumbnail image for the lesson in PNG, JPEG, or GIF format. */
-  thumbnail?: CreateCourseLessonRequestThumbnail | null;
+  thumbnail?: CreateCourseLessonRequestThumbnail | null | undefined;
   /** The display title of the lesson (e.g., "Getting Started with APIs"). */
-  title?: string | null;
+  title?: string | null | undefined;
 }
 /** Optional image attachment for the question */
 export interface CourseLessonAssessmentQuestionsItemImage {
@@ -227,12 +227,12 @@ export interface GetCourseLessonRequest {
   id: string;
 }
 export interface ListCourseLessonRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  course_id?: string;
-  chapter_id?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  course_id?: string | undefined;
+  chapter_id?: string | undefined;
 }
 /** The thumbnail image displayed on lesson cards and previews. Null if no thumbnail has been uploaded. */
 export type CourseLessonListItemThumbnail = CourseLessonThumbnail;
@@ -295,11 +295,14 @@ export type SubmitAssessmentCourseLessonRequestAnswersItemSelectedOptionIdsList 
 /** Input for a single question's answer in an assessment submission */
 export interface SubmitAssessmentCourseLessonRequestAnswersItem {
   /** The text answer provided by the user (for short answer questions) */
-  answer_text?: string | null;
+  answer_text?: string | null | undefined;
   /** The ID of the question being answered */
   question_id: string;
   /** The IDs of the selected options (for multiple choice/select questions) */
-  selected_option_ids?: SubmitAssessmentCourseLessonRequestAnswersItemSelectedOptionIdsList | null;
+  selected_option_ids?:
+    | SubmitAssessmentCourseLessonRequestAnswersItemSelectedOptionIdsList
+    | null
+    | undefined;
 }
 /** The list of answers to submit for each assessment question. */
 export type SubmitAssessmentCourseLessonRequestAnswersList =
@@ -357,9 +360,9 @@ export interface SubmitAssessmentCourseLessonResponse {
 /** The passing criteria for quiz or knowledge check lessons, such as minimum grade or correct answers. */
 export interface UpdateCourseLessonRequestAssessmentCompletionRequirement {
   /** The minimum grade percentage required to pass (0-100). Cannot be set together with minimum_questions_correct. */
-  minimum_grade_percent?: number | null;
+  minimum_grade_percent?: number | null | undefined;
   /** The minimum number of questions that must be answered correctly. Cannot be set together with minimum_grade_percent. */
-  minimum_questions_correct?: number | null;
+  minimum_questions_correct?: number | null | undefined;
 }
 /** Optional image attachment for the question */
 export type UpdateCourseLessonRequestAssessmentQuestionsItemImage =
@@ -367,7 +370,7 @@ export type UpdateCourseLessonRequestAssessmentQuestionsItemImage =
 /** Input for creating or updating an assessment question option */
 export interface UpdateCourseLessonRequestAssessmentQuestionsItemOptionsItem {
   /** The ID of an existing option. If provided, the option will be updated. If not provided, a new option will be created. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether this option is a correct answer */
   is_correct: boolean;
   /** The text of the answer option */
@@ -381,11 +384,11 @@ export interface UpdateCourseLessonRequestAssessmentQuestionsItem {
   /** The correct answer for the question. Used for short answer questions */
   correct_answer: string;
   /** The ID of an existing question. If provided, the question will be updated. If not provided, a new question will be created. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Optional image attachment for the question */
-  image?: CreateCourseLessonRequestThumbnail | null;
+  image?: CreateCourseLessonRequestThumbnail | null | undefined;
   /** The answer options for multiple choice/select questions */
-  options?: UpdateCourseLessonRequestAssessmentQuestionsItemOptionsList | null;
+  options?: UpdateCourseLessonRequestAssessmentQuestionsItemOptionsList | null | undefined;
   /** The text of the question */
   question_text: string;
   /** The type of the question */
@@ -406,33 +409,36 @@ export interface UpdateCourseLessonRequest {
   /** The unique identifier of the lesson to update (e.g., "les_XXXXX"). */
   id: string;
   /** The passing criteria for quiz or knowledge check lessons, such as minimum grade or correct answers. */
-  assessment_completion_requirement?: UpdateCourseLessonRequestAssessmentCompletionRequirement | null;
+  assessment_completion_requirement?:
+    | UpdateCourseLessonRequestAssessmentCompletionRequirement
+    | null
+    | undefined;
   /** The full list of assessment questions for quiz or knowledge check lessons. Replaces all existing questions. */
-  assessment_questions?: UpdateCourseLessonRequestAssessmentQuestionsList | null;
+  assessment_questions?: UpdateCourseLessonRequestAssessmentQuestionsList | null | undefined;
   /** File attachments for the lesson such as PDFs or documents. Replaces all existing attachments. */
-  attachments?: UpdateCourseLessonRequestAttachmentsList | null;
+  attachments?: UpdateCourseLessonRequestAttachmentsList | null | undefined;
   /** The Markdown content body of the lesson. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** The number of days after a student starts the course before this lesson becomes accessible. */
-  days_from_course_start_until_unlock?: number | null;
+  days_from_course_start_until_unlock?: number | null | undefined;
   /** The external video identifier for embedded content (e.g., a YouTube video ID or Loom share ID). */
-  embed_id?: string | null;
+  embed_id?: string | null | undefined;
   /** The type of video embed for this lesson, such as YouTube or Loom. */
-  embed_type?: EmbedTypes | (string & {}) | null;
+  embed_type?: EmbedTypes | (string & {}) | null | undefined;
   /** The content type of the lesson, such as video, text, quiz, or knowledge check. */
-  lesson_type?: LessonTypes | (string & {}) | null;
+  lesson_type?: LessonTypes | (string & {}) | null | undefined;
   /** The primary PDF document attached to this lesson for student reference. */
-  main_pdf?: CreateCourseLessonRequestThumbnail | null;
+  main_pdf?: CreateCourseLessonRequestThumbnail | null | undefined;
   /** The maximum number of attempts a student is allowed for assessment lessons. */
-  max_attempts?: number | null;
+  max_attempts?: number | null | undefined;
   /** The identifier of a Mux video asset to attach to this lesson (e.g., "mux_XXXXX"). */
-  mux_asset_id?: string | null;
+  mux_asset_id?: string | null | undefined;
   /** The thumbnail image for the lesson in PNG, JPEG, or GIF format. */
-  thumbnail?: CreateCourseLessonRequestThumbnail | null;
+  thumbnail?: CreateCourseLessonRequestThumbnail | null | undefined;
   /** The display title of the lesson (e.g., "Getting Started with APIs"). */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Controls whether this lesson is visible to students or hidden as a draft. */
-  visibility?: LessonVisibilities | (string & {}) | null;
+  visibility?: LessonVisibilities | (string & {}) | null | undefined;
 }
 export type CreateCourseLessonError =
   | BadRequest

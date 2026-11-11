@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -97,7 +98,7 @@ const TELEMETRY = {
 export type AccessTokenName = string;
 export interface CreateAccessTokenRequest {
   name: string;
-  expiresTime?: Date;
+  expiresTime?: Date | undefined;
 }
 export type AccessTokenSecret = string | redacted.Redacted<string>;
 export type AccessTokenId = string;
@@ -112,13 +113,13 @@ export type SourceRepositoryNameString = string;
 export type SourceRepositoryBranchString = string;
 export interface RepositoryInput {
   repositoryName: string;
-  branchName?: string;
+  branchName?: string | undefined;
 }
 export type RepositoriesInput = RepositoryInput[];
 export type ClientToken = string;
 export interface IdeConfiguration {
-  runtime?: string;
-  name?: string;
+  runtime?: string | undefined;
+  name?: string | undefined;
 }
 export type IdeConfigurationList = IdeConfiguration[];
 export type InstanceType = string;
@@ -129,61 +130,61 @@ export interface PersistentStorageConfiguration {
 export interface CreateDevEnvironmentRequest {
   spaceName: string;
   projectName: string;
-  repositories?: RepositoryInput[];
-  clientToken?: string;
-  alias?: string;
-  ides?: IdeConfiguration[];
+  repositories?: RepositoryInput[] | undefined;
+  clientToken?: string | undefined;
+  alias?: string | undefined;
+  ides?: IdeConfiguration[] | undefined;
   instanceType: string;
-  inactivityTimeoutMinutes?: number;
+  inactivityTimeoutMinutes?: number | undefined;
   persistentStorage: PersistentStorageConfiguration;
-  vpcConnectionName?: string;
+  vpcConnectionName?: string | undefined;
 }
 export type Uuid = string;
 export interface CreateDevEnvironmentResponse {
   spaceName: string;
   projectName: string;
   id: string;
-  vpcConnectionName?: string;
+  vpcConnectionName?: string | undefined;
 }
 export type ProjectDisplayName = string;
 export type ProjectDescription = string;
 export interface CreateProjectRequest {
   spaceName: string;
   displayName: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateProjectResponse {
-  spaceName?: string;
+  spaceName?: string | undefined;
   name: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export type SourceRepositoryDescriptionString = string;
 export interface CreateSourceRepositoryRequest {
   spaceName: string;
   projectName: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateSourceRepositoryResponse {
   spaceName: string;
   projectName: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateSourceRepositoryBranchRequest {
   spaceName: string;
   projectName: string;
   sourceRepositoryName: string;
   name: string;
-  headCommitId?: string;
+  headCommitId?: string | undefined;
 }
 export type SourceRepositoryBranchRefString = string;
 export interface CreateSourceRepositoryBranchResponse {
-  ref?: string;
-  name?: string;
-  lastUpdatedTime?: Date;
-  headCommitId?: string;
+  ref?: string | undefined;
+  name?: string | undefined;
+  lastUpdatedTime?: Date | undefined;
+  headCommitId?: string | undefined;
 }
 export interface DeleteAccessTokenRequest {
   id: string;
@@ -206,7 +207,7 @@ export interface DeleteProjectRequest {
 export interface DeleteProjectResponse {
   spaceName: string;
   name: string;
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface DeleteSourceRepositoryRequest {
   spaceName: string;
@@ -223,7 +224,7 @@ export interface DeleteSpaceRequest {
 }
 export interface DeleteSpaceResponse {
   name: string;
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetDevEnvironmentRequest {
   spaceName: string;
@@ -234,12 +235,12 @@ export type DevEnvironmentStatus = string;
 export type StatusReason = string;
 export interface DevEnvironmentRepositorySummary {
   repositoryName: string;
-  branchName?: string;
+  branchName?: string | undefined;
 }
 export type DevEnvironmentRepositorySummaries = DevEnvironmentRepositorySummary[];
 export interface Ide {
-  runtime?: string;
-  name?: string;
+  runtime?: string | undefined;
+  name?: string | undefined;
 }
 export type Ides = Ide[];
 export interface PersistentStorage {
@@ -252,24 +253,24 @@ export interface GetDevEnvironmentResponse {
   lastUpdatedTime: Date;
   creatorId: string;
   status: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
   repositories: DevEnvironmentRepositorySummary[];
-  alias?: string;
-  ides?: Ide[];
+  alias?: string | undefined;
+  ides?: Ide[] | undefined;
   instanceType: string;
   inactivityTimeoutMinutes: number;
   persistentStorage: PersistentStorage;
-  vpcConnectionName?: string;
+  vpcConnectionName?: string | undefined;
 }
 export interface GetProjectRequest {
   spaceName: string;
   name: string;
 }
 export interface GetProjectResponse {
-  spaceName?: string;
+  spaceName?: string | undefined;
   name: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export interface GetSourceRepositoryRequest {
   spaceName: string;
@@ -280,7 +281,7 @@ export interface GetSourceRepositoryResponse {
   spaceName: string;
   projectName: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   lastUpdatedTime: Date;
   createdTime: Date;
 }
@@ -299,32 +300,32 @@ export type RegionString = string;
 export interface GetSpaceResponse {
   name: string;
   regionName: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export interface GetSubscriptionRequest {
   spaceName: string;
 }
 export interface GetSubscriptionResponse {
-  subscriptionType?: string;
-  awsAccountName?: string;
-  pendingSubscriptionType?: string;
-  pendingSubscriptionStartTime?: Date;
+  subscriptionType?: string | undefined;
+  awsAccountName?: string | undefined;
+  pendingSubscriptionType?: string | undefined;
+  pendingSubscriptionStartTime?: Date | undefined;
 }
 export interface GetUserDetailsRequest {
-  id?: string;
-  userName?: string;
+  id?: string | undefined;
+  userName?: string | undefined;
 }
 export interface EmailAddress {
-  email?: string;
-  verified?: boolean;
+  email?: string | undefined;
+  verified?: boolean | undefined;
 }
 export interface GetUserDetailsResponse {
-  userId?: string;
-  userName?: string;
-  displayName?: string;
-  primaryEmail?: EmailAddress;
-  version?: string;
+  userId?: string | undefined;
+  userName?: string | undefined;
+  displayName?: string | undefined;
+  primaryEmail?: EmailAddress | undefined;
+  version?: string | undefined;
 }
 export interface GetWorkflowRequest {
   spaceName: string;
@@ -341,8 +342,8 @@ export interface GetWorkflowResponse {
   projectName: string;
   id: string;
   name: string;
-  sourceRepositoryName?: string;
-  sourceBranchName?: string;
+  sourceRepositoryName?: string | undefined;
+  sourceBranchName?: string | undefined;
   definition: WorkflowDefinition;
   createdTime: Date;
   lastUpdatedTime: Date;
@@ -363,66 +364,66 @@ export interface GetWorkflowRunResponse {
   id: string;
   workflowId: string;
   status: string;
-  statusReasons?: WorkflowRunStatusReason[];
+  statusReasons?: WorkflowRunStatusReason[] | undefined;
   startTime: Date;
-  endTime?: Date;
+  endTime?: Date | undefined;
   lastUpdatedTime: Date;
 }
 export interface ListAccessTokensRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AccessTokenSummary {
   id: string;
   name: string;
-  expiresTime?: Date;
+  expiresTime?: Date | undefined;
 }
 export type AccessTokenSummaries = AccessTokenSummary[];
 export interface ListAccessTokensResponse {
   items: AccessTokenSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type StringList = string[];
 export interface Filter {
   key: string;
   values: string[];
-  comparisonOperator?: string;
+  comparisonOperator?: string | undefined;
 }
 export type Filters = Filter[];
 export interface ListDevEnvironmentsRequest {
   spaceName: string;
-  projectName?: string;
-  filters?: Filter[];
-  nextToken?: string;
-  maxResults?: number;
+  projectName?: string | undefined;
+  filters?: Filter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DevEnvironmentSummary {
-  spaceName?: string;
-  projectName?: string;
+  spaceName?: string | undefined;
+  projectName?: string | undefined;
   id: string;
   lastUpdatedTime: Date;
   creatorId: string;
   status: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
   repositories: DevEnvironmentRepositorySummary[];
-  alias?: string;
-  ides?: Ide[];
+  alias?: string | undefined;
+  ides?: Ide[] | undefined;
   instanceType: string;
   inactivityTimeoutMinutes: number;
   persistentStorage: PersistentStorage;
-  vpcConnectionName?: string;
+  vpcConnectionName?: string | undefined;
 }
 export type DevEnvironmentSummaryList = DevEnvironmentSummary[];
 export interface ListDevEnvironmentsResponse {
   items: DevEnvironmentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDevEnvironmentSessionsRequest {
   spaceName: string;
   projectName: string;
   devEnvironmentId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DevEnvironmentSessionSummary {
   spaceName: string;
@@ -434,31 +435,31 @@ export interface DevEnvironmentSessionSummary {
 export type DevEnvironmentSessionsSummaryList = DevEnvironmentSessionSummary[];
 export interface ListDevEnvironmentSessionsResponse {
   items: DevEnvironmentSessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEventLogsRequest {
   spaceName: string;
   startTime: Date;
   endTime: Date;
-  eventName?: string;
-  nextToken?: string;
-  maxResults?: number;
+  eventName?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type OperationType = string;
 export type UserType = string;
 export interface UserIdentity {
   userType: string;
   principalId: string;
-  userName?: string;
-  awsAccountId?: string;
+  userName?: string | undefined;
+  awsAccountId?: string | undefined;
 }
 export interface ProjectInformation {
-  name?: string;
-  projectId?: string;
+  name?: string | undefined;
+  projectId?: string | undefined;
 }
 export interface EventPayload {
-  contentType?: string;
-  data?: string;
+  contentType?: string | undefined;
+  data?: string | undefined;
 }
 export interface EventLogEntry {
   id: string;
@@ -469,17 +470,17 @@ export interface EventLogEntry {
   eventTime: Date;
   operationType: string;
   userIdentity: UserIdentity;
-  projectInformation?: ProjectInformation;
-  requestId?: string;
-  requestPayload?: EventPayload;
-  responsePayload?: EventPayload;
-  errorCode?: string;
-  sourceIpAddress?: string;
-  userAgent?: string;
+  projectInformation?: ProjectInformation | undefined;
+  requestId?: string | undefined;
+  requestPayload?: EventPayload | undefined;
+  responsePayload?: EventPayload | undefined;
+  errorCode?: string | undefined;
+  sourceIpAddress?: string | undefined;
+  userAgent?: string | undefined;
 }
 export type EventLogEntries = EventLogEntry[];
 export interface ListEventLogsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   items: EventLogEntry[];
 }
 export type FilterKey = string;
@@ -487,109 +488,109 @@ export type ComparisonOperator = string;
 export interface ProjectListFilter {
   key: string;
   values: string[];
-  comparisonOperator?: string;
+  comparisonOperator?: string | undefined;
 }
 export type ProjectListFilters = ProjectListFilter[];
 export interface ListProjectsRequest {
   spaceName: string;
-  nextToken?: string;
-  maxResults?: number;
-  filters?: ProjectListFilter[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filters?: ProjectListFilter[] | undefined;
 }
 export interface ProjectSummary {
   name: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export type ProjectSummaries = ProjectSummary[];
 export interface ListProjectsResponse {
-  nextToken?: string;
-  items?: ProjectSummary[];
+  nextToken?: string | undefined;
+  items?: ProjectSummary[] | undefined;
 }
 export interface ListSourceRepositoriesRequest {
   spaceName: string;
   projectName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SourceRepositoryIdString = string;
 export interface ListSourceRepositoriesItem {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   lastUpdatedTime: Date;
   createdTime: Date;
 }
 export type ListSourceRepositoriesItems = ListSourceRepositoriesItem[];
 export interface ListSourceRepositoriesResponse {
-  items?: ListSourceRepositoriesItem[];
-  nextToken?: string;
+  items?: ListSourceRepositoriesItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSourceRepositoryBranchesRequest {
   spaceName: string;
   projectName: string;
   sourceRepositoryName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListSourceRepositoryBranchesItem {
-  ref?: string;
-  name?: string;
-  lastUpdatedTime?: Date;
-  headCommitId?: string;
+  ref?: string | undefined;
+  name?: string | undefined;
+  lastUpdatedTime?: Date | undefined;
+  headCommitId?: string | undefined;
 }
 export type ListSourceRepositoryBranchesItems = ListSourceRepositoryBranchesItem[];
 export interface ListSourceRepositoryBranchesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   items: ListSourceRepositoryBranchesItem[];
 }
 export interface ListSpacesRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface SpaceSummary {
   name: string;
   regionName: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export type SpaceSummaries = SpaceSummary[];
 export interface ListSpacesResponse {
-  nextToken?: string;
-  items?: SpaceSummary[];
+  nextToken?: string | undefined;
+  items?: SpaceSummary[] | undefined;
 }
 export interface WorkflowRunSortCriteria {}
 export type WorkflowRunSortCriteriaList = WorkflowRunSortCriteria[];
 export interface ListWorkflowRunsRequest {
   spaceName: string;
-  workflowId?: string;
+  workflowId?: string | undefined;
   projectName: string;
-  nextToken?: string;
-  maxResults?: number;
-  sortBy?: WorkflowRunSortCriteria[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  sortBy?: WorkflowRunSortCriteria[] | undefined;
 }
 export interface WorkflowRunSummary {
   id: string;
   workflowId: string;
   workflowName: string;
   status: string;
-  statusReasons?: WorkflowRunStatusReason[];
+  statusReasons?: WorkflowRunStatusReason[] | undefined;
   startTime: Date;
-  endTime?: Date;
+  endTime?: Date | undefined;
   lastUpdatedTime: Date;
 }
 export type WorkflowRunSummaries = WorkflowRunSummary[];
 export interface ListWorkflowRunsResponse {
-  nextToken?: string;
-  items?: WorkflowRunSummary[];
+  nextToken?: string | undefined;
+  items?: WorkflowRunSummary[] | undefined;
 }
 export interface WorkflowSortCriteria {}
 export type WorkflowSortCriteriaList = WorkflowSortCriteria[];
 export interface ListWorkflowsRequest {
   spaceName: string;
   projectName: string;
-  nextToken?: string;
-  maxResults?: number;
-  sortBy?: WorkflowSortCriteria[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  sortBy?: WorkflowSortCriteria[] | undefined;
 }
 export interface WorkflowDefinitionSummary {
   path: string;
@@ -607,16 +608,16 @@ export interface WorkflowSummary {
 }
 export type WorkflowSummaries = WorkflowSummary[];
 export interface ListWorkflowsResponse {
-  nextToken?: string;
-  items?: WorkflowSummary[];
+  nextToken?: string | undefined;
+  items?: WorkflowSummary[] | undefined;
 }
 export interface StartDevEnvironmentRequest {
   spaceName: string;
   projectName: string;
   id: string;
-  ides?: IdeConfiguration[];
-  instanceType?: string;
-  inactivityTimeoutMinutes?: number;
+  ides?: IdeConfiguration[] | undefined;
+  instanceType?: string | undefined;
+  inactivityTimeoutMinutes?: number | undefined;
 }
 export interface StartDevEnvironmentResponse {
   spaceName: string;
@@ -628,11 +629,11 @@ export type DevEnvironmentSessionType = string;
 export type ExecuteCommandSessionConfigurationArguments = string[];
 export interface ExecuteCommandSessionConfiguration {
   command: string;
-  arguments?: string[];
+  arguments?: string[] | undefined;
 }
 export interface DevEnvironmentSessionConfiguration {
   sessionType: string;
-  executeCommandSessionConfiguration?: ExecuteCommandSessionConfiguration;
+  executeCommandSessionConfiguration?: ExecuteCommandSessionConfiguration | undefined;
 }
 export interface StartDevEnvironmentSessionRequest {
   spaceName: string;
@@ -647,7 +648,7 @@ export interface DevEnvironmentAccessDetails {
 }
 export interface StartDevEnvironmentSessionResponse {
   accessDetails: DevEnvironmentAccessDetails;
-  sessionId?: string;
+  sessionId?: string | undefined;
   spaceName: string;
   projectName: string;
   id: string;
@@ -656,7 +657,7 @@ export interface StartWorkflowRunRequest {
   spaceName: string;
   projectName: string;
   workflowId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StartWorkflowRunResponse {
   spaceName: string;
@@ -691,46 +692,46 @@ export interface UpdateDevEnvironmentRequest {
   spaceName: string;
   projectName: string;
   id: string;
-  alias?: string;
-  ides?: IdeConfiguration[];
-  instanceType?: string;
-  inactivityTimeoutMinutes?: number;
-  clientToken?: string;
+  alias?: string | undefined;
+  ides?: IdeConfiguration[] | undefined;
+  instanceType?: string | undefined;
+  inactivityTimeoutMinutes?: number | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateDevEnvironmentResponse {
   id: string;
   spaceName: string;
   projectName: string;
-  alias?: string;
-  ides?: IdeConfiguration[];
-  instanceType?: string;
-  inactivityTimeoutMinutes?: number;
-  clientToken?: string;
+  alias?: string | undefined;
+  ides?: IdeConfiguration[] | undefined;
+  instanceType?: string | undefined;
+  inactivityTimeoutMinutes?: number | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateProjectRequest {
   spaceName: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateProjectResponse {
-  spaceName?: string;
-  name?: string;
-  displayName?: string;
-  description?: string;
+  spaceName?: string | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export type SpaceDescription = string;
 export interface UpdateSpaceRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateSpaceResponse {
-  name?: string;
-  displayName?: string;
-  description?: string;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export interface VerifySessionRequest {}
 export interface VerifySessionResponse {
-  identity?: string;
+  identity?: string | undefined;
 }
 export type CreateAccessTokenError = CommonErrors;
 /**
@@ -741,7 +742,7 @@ export type CreateAccessTokenError = CommonErrors;
  * Managing personal access tokens in Amazon CodeCatalyst.
  */
 export const createAccessToken: API.OperationMethod<
-  CreateAccessTokenRequest,
+  CreateAccessTokenRequest & RegionInput,
   CreateAccessTokenResponse,
   CreateAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -765,7 +766,7 @@ export type CreateDevEnvironmentError = CommonErrors;
  * defaults apply to a Dev Environment created programmatically.
  */
 export const createDevEnvironment: API.OperationMethod<
-  CreateDevEnvironmentRequest,
+  CreateDevEnvironmentRequest & RegionInput,
   CreateDevEnvironmentResponse,
   CreateDevEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -785,7 +786,7 @@ export type CreateProjectError = CommonErrors;
  * Creates a project in a specified space.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectRequest,
+  CreateProjectRequest & RegionInput,
   CreateProjectResponse,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -806,7 +807,7 @@ export type CreateSourceRepositoryError = CommonErrors;
  * created with an initial empty commit with a default branch named `main`.
  */
 export const createSourceRepository: API.OperationMethod<
-  CreateSourceRepositoryRequest,
+  CreateSourceRepositoryRequest & RegionInput,
   CreateSourceRepositoryResponse,
   CreateSourceRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -828,7 +829,7 @@ export type CreateSourceRepositoryBranchError = CommonErrors;
  * This API only creates a branch in a source repository hosted in Amazon CodeCatalyst. You cannot use this API to create a branch in a linked repository.
  */
 export const createSourceRepositoryBranch: API.OperationMethod<
-  CreateSourceRepositoryBranchRequest,
+  CreateSourceRepositoryBranchRequest & RegionInput,
   CreateSourceRepositoryBranchResponse,
   CreateSourceRepositoryBranchError,
   Credentials | HttpClient.HttpClient
@@ -848,7 +849,7 @@ export type DeleteAccessTokenError = CommonErrors;
  * Deletes a specified personal access token (PAT). A personal access token can only be deleted by the user who created it.
  */
 export const deleteAccessToken: API.OperationMethod<
-  DeleteAccessTokenRequest,
+  DeleteAccessTokenRequest & RegionInput,
   DeleteAccessTokenResponse,
   DeleteAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -868,7 +869,7 @@ export type DeleteDevEnvironmentError = CommonErrors;
  * Deletes a Dev Environment.
  */
 export const deleteDevEnvironment: API.OperationMethod<
-  DeleteDevEnvironmentRequest,
+  DeleteDevEnvironmentRequest & RegionInput,
   DeleteDevEnvironmentResponse,
   DeleteDevEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -888,7 +889,7 @@ export type DeleteProjectError = CommonErrors;
  * Deletes a project in a space.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectRequest,
+  DeleteProjectRequest & RegionInput,
   DeleteProjectResponse,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -908,7 +909,7 @@ export type DeleteSourceRepositoryError = CommonErrors;
  * Deletes a source repository in Amazon CodeCatalyst. You cannot use this API to delete a linked repository. It can only be used to delete a Amazon CodeCatalyst source repository.
  */
 export const deleteSourceRepository: API.OperationMethod<
-  DeleteSourceRepositoryRequest,
+  DeleteSourceRepositoryRequest & RegionInput,
   DeleteSourceRepositoryResponse,
   DeleteSourceRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -930,7 +931,7 @@ export type DeleteSpaceError = CommonErrors;
  * Deleting a space cannot be undone. Additionally, since space names must be unique across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
  */
 export const deleteSpace: API.OperationMethod<
-  DeleteSpaceRequest,
+  DeleteSpaceRequest & RegionInput,
   DeleteSpaceResponse,
   DeleteSpaceError,
   Credentials | HttpClient.HttpClient
@@ -950,7 +951,7 @@ export type GetDevEnvironmentError = CommonErrors;
  * Returns information about a Dev Environment for a source repository in a project. Dev Environments are specific to the user who creates them.
  */
 export const getDevEnvironment: API.OperationMethod<
-  GetDevEnvironmentRequest,
+  GetDevEnvironmentRequest & RegionInput,
   GetDevEnvironmentResponse,
   GetDevEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -970,7 +971,7 @@ export type GetProjectError = CommonErrors;
  * Returns information about a project.
  */
 export const getProject: API.OperationMethod<
-  GetProjectRequest,
+  GetProjectRequest & RegionInput,
   GetProjectResponse,
   GetProjectError,
   Credentials | HttpClient.HttpClient
@@ -990,7 +991,7 @@ export type GetSourceRepositoryError = CommonErrors;
  * Returns information about a source repository.
  */
 export const getSourceRepository: API.OperationMethod<
-  GetSourceRepositoryRequest,
+  GetSourceRepositoryRequest & RegionInput,
   GetSourceRepositoryResponse,
   GetSourceRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1011,7 +1012,7 @@ export type GetSourceRepositoryCloneUrlsError = CommonErrors;
  * repository.
  */
 export const getSourceRepositoryCloneUrls: API.OperationMethod<
-  GetSourceRepositoryCloneUrlsRequest,
+  GetSourceRepositoryCloneUrlsRequest & RegionInput,
   GetSourceRepositoryCloneUrlsResponse,
   GetSourceRepositoryCloneUrlsError,
   Credentials | HttpClient.HttpClient
@@ -1031,7 +1032,7 @@ export type GetSpaceError = CommonErrors;
  * Returns information about an space.
  */
 export const getSpace: API.OperationMethod<
-  GetSpaceRequest,
+  GetSpaceRequest & RegionInput,
   GetSpaceResponse,
   GetSpaceError,
   Credentials | HttpClient.HttpClient
@@ -1052,7 +1053,7 @@ export type GetSubscriptionError = CommonErrors;
  * and the billing plan for the space.
  */
 export const getSubscription: API.OperationMethod<
-  GetSubscriptionRequest,
+  GetSubscriptionRequest & RegionInput,
   GetSubscriptionResponse,
   GetSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1072,7 +1073,7 @@ export type GetUserDetailsError = CommonErrors;
  * Returns information about a user.
  */
 export const getUserDetails: API.OperationMethod<
-  GetUserDetailsRequest,
+  GetUserDetailsRequest & RegionInput,
   GetUserDetailsResponse,
   GetUserDetailsError,
   Credentials | HttpClient.HttpClient
@@ -1092,7 +1093,7 @@ export type GetWorkflowError = CommonErrors;
  * Returns information about a workflow.
  */
 export const getWorkflow: API.OperationMethod<
-  GetWorkflowRequest,
+  GetWorkflowRequest & RegionInput,
   GetWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1112,7 +1113,7 @@ export type GetWorkflowRunError = CommonErrors;
  * Returns information about a specified run of a workflow.
  */
 export const getWorkflowRun: API.OperationMethod<
-  GetWorkflowRunRequest,
+  GetWorkflowRunRequest & RegionInput,
   GetWorkflowRunResponse,
   GetWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -1132,7 +1133,7 @@ export type ListAccessTokensError = CommonErrors;
  * Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your Amazon Web Services Builder ID.
  */
 export const listAccessTokens: API.PaginatedOperationMethod<
-  ListAccessTokensRequest,
+  ListAccessTokensRequest & RegionInput,
   ListAccessTokensResponse,
   ListAccessTokensError,
   Credentials | HttpClient.HttpClient,
@@ -1159,7 +1160,7 @@ export type ListDevEnvironmentsError = CommonErrors;
  * Retrieves a list of Dev Environments in a project.
  */
 export const listDevEnvironments: API.PaginatedOperationMethod<
-  ListDevEnvironmentsRequest,
+  ListDevEnvironmentsRequest & RegionInput,
   ListDevEnvironmentsResponse,
   ListDevEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1186,7 +1187,7 @@ export type ListDevEnvironmentSessionsError = CommonErrors;
  * Retrieves a list of active sessions for a Dev Environment in a project.
  */
 export const listDevEnvironmentSessions: API.PaginatedOperationMethod<
-  ListDevEnvironmentSessionsRequest,
+  ListDevEnvironmentSessionsRequest & RegionInput,
   ListDevEnvironmentSessionsResponse,
   ListDevEnvironmentSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -1221,7 +1222,7 @@ export type ListEventLogsError = CommonErrors;
  * CloudTrail trails.
  */
 export const listEventLogs: API.PaginatedOperationMethod<
-  ListEventLogsRequest,
+  ListEventLogsRequest & RegionInput,
   ListEventLogsResponse,
   ListEventLogsError,
   Credentials | HttpClient.HttpClient,
@@ -1248,7 +1249,7 @@ export type ListProjectsError = CommonErrors;
  * Retrieves a list of projects.
  */
 export const listProjects: API.PaginatedOperationMethod<
-  ListProjectsRequest,
+  ListProjectsRequest & RegionInput,
   ListProjectsResponse,
   ListProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -1275,7 +1276,7 @@ export type ListSourceRepositoriesError = CommonErrors;
  * Retrieves a list of source repositories in a project.
  */
 export const listSourceRepositories: API.PaginatedOperationMethod<
-  ListSourceRepositoriesRequest,
+  ListSourceRepositoriesRequest & RegionInput,
   ListSourceRepositoriesResponse,
   ListSourceRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -1302,7 +1303,7 @@ export type ListSourceRepositoryBranchesError = CommonErrors;
  * Retrieves a list of branches in a specified source repository.
  */
 export const listSourceRepositoryBranches: API.PaginatedOperationMethod<
-  ListSourceRepositoryBranchesRequest,
+  ListSourceRepositoryBranchesRequest & RegionInput,
   ListSourceRepositoryBranchesResponse,
   ListSourceRepositoryBranchesError,
   Credentials | HttpClient.HttpClient,
@@ -1329,7 +1330,7 @@ export type ListSpacesError = CommonErrors;
  * Retrieves a list of spaces.
  */
 export const listSpaces: API.PaginatedOperationMethod<
-  ListSpacesRequest,
+  ListSpacesRequest & RegionInput,
   ListSpacesResponse,
   ListSpacesError,
   Credentials | HttpClient.HttpClient,
@@ -1351,7 +1352,7 @@ export type ListWorkflowRunsError = CommonErrors;
  * Retrieves a list of workflow runs of a specified workflow.
  */
 export const listWorkflowRuns: API.PaginatedOperationMethod<
-  ListWorkflowRunsRequest,
+  ListWorkflowRunsRequest & RegionInput,
   ListWorkflowRunsResponse,
   ListWorkflowRunsError,
   Credentials | HttpClient.HttpClient,
@@ -1378,7 +1379,7 @@ export type ListWorkflowsError = CommonErrors;
  * Retrieves a list of workflows in a specified project.
  */
 export const listWorkflows: API.PaginatedOperationMethod<
-  ListWorkflowsRequest,
+  ListWorkflowsRequest & RegionInput,
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -1405,7 +1406,7 @@ export type StartDevEnvironmentError = CommonErrors;
  * Starts a specified Dev Environment and puts it into an active state.
  */
 export const startDevEnvironment: API.OperationMethod<
-  StartDevEnvironmentRequest,
+  StartDevEnvironmentRequest & RegionInput,
   StartDevEnvironmentResponse,
   StartDevEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1425,7 +1426,7 @@ export type StartDevEnvironmentSessionError = CommonErrors;
  * Starts a session for a specified Dev Environment.
  */
 export const startDevEnvironmentSession: API.OperationMethod<
-  StartDevEnvironmentSessionRequest,
+  StartDevEnvironmentSessionRequest & RegionInput,
   StartDevEnvironmentSessionResponse,
   StartDevEnvironmentSessionError,
   Credentials | HttpClient.HttpClient
@@ -1445,7 +1446,7 @@ export type StartWorkflowRunError = CommonErrors;
  * Begins a run of a specified workflow.
  */
 export const startWorkflowRun: API.OperationMethod<
-  StartWorkflowRunRequest,
+  StartWorkflowRunRequest & RegionInput,
   StartWorkflowRunResponse,
   StartWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -1465,7 +1466,7 @@ export type StopDevEnvironmentError = CommonErrors;
  * Pauses a specified Dev Environment and places it in a non-running state. Stopped Dev Environments do not consume compute minutes.
  */
 export const stopDevEnvironment: API.OperationMethod<
-  StopDevEnvironmentRequest,
+  StopDevEnvironmentRequest & RegionInput,
   StopDevEnvironmentResponse,
   StopDevEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1485,7 +1486,7 @@ export type StopDevEnvironmentSessionError = CommonErrors;
  * Stops a session for a specified Dev Environment.
  */
 export const stopDevEnvironmentSession: API.OperationMethod<
-  StopDevEnvironmentSessionRequest,
+  StopDevEnvironmentSessionRequest & RegionInput,
   StopDevEnvironmentSessionResponse,
   StopDevEnvironmentSessionError,
   Credentials | HttpClient.HttpClient
@@ -1505,7 +1506,7 @@ export type UpdateDevEnvironmentError = CommonErrors;
  * Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart.
  */
 export const updateDevEnvironment: API.OperationMethod<
-  UpdateDevEnvironmentRequest,
+  UpdateDevEnvironmentRequest & RegionInput,
   UpdateDevEnvironmentResponse,
   UpdateDevEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1525,7 +1526,7 @@ export type UpdateProjectError = CommonErrors;
  * Changes one or more values for a project.
  */
 export const updateProject: API.OperationMethod<
-  UpdateProjectRequest,
+  UpdateProjectRequest & RegionInput,
   UpdateProjectResponse,
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
@@ -1545,7 +1546,7 @@ export type UpdateSpaceError = CommonErrors;
  * Changes one or more values for a space.
  */
 export const updateSpace: API.OperationMethod<
-  UpdateSpaceRequest,
+  UpdateSpaceRequest & RegionInput,
   UpdateSpaceResponse,
   UpdateSpaceError,
   Credentials | HttpClient.HttpClient
@@ -1565,7 +1566,7 @@ export type VerifySessionError = CommonErrors;
  * Verifies whether the calling user has a valid Amazon CodeCatalyst login and session. If successful, this returns the ID of the user in Amazon CodeCatalyst.
  */
 export const verifySession: API.OperationMethod<
-  VerifySessionRequest,
+  VerifySessionRequest & RegionInput,
   VerifySessionResponse,
   VerifySessionError,
   Credentials | HttpClient.HttpClient

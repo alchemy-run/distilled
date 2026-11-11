@@ -1,3 +1,4 @@
+import { inspect } from "node:util";
 import * as CoreErrors from "@distilled.cloud/core/errors";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
@@ -11,6 +12,7 @@ import { StackitParseError, UnknownStackitError } from "../src/errors.ts";
 import { applyRegion } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
 import { listServers } from "../src/services/iaas.ts";
+import { getAccessToken } from "../src/services/logs.ts";
 import {
   BadRequest,
   Conflict,
@@ -75,6 +77,8 @@ const runFlip = <A, E>(
   );
 
 const projectId = "11111111-2222-3333-4444-555555555555";
+
+const SECRET = "sentinel-secret-7f3a";
 
 describe("applyRegion", () => {
   test("inserts the region into a version-less product host", () => {
@@ -300,5 +304,25 @@ describe("success decoding", () => {
       ),
     );
     expect(error).toBeInstanceOf(StackitParseError);
+  });
+
+  const accessToken = getAccessToken({ projectId, regionId: "eu01", instanceId: "i", tId: "t" });
+
+  test("a body cut off mid-secret fails in both modes without exposing it", async () => {
+    for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
+      const { layer } = fakeStackit(200, `{"accessToken":"${SECRET}`);
+      const error = await runFlip(accessToken.pipe(Effect.provide(mode)), layer);
+      expect(error).toBeInstanceOf(StackitParseError);
+      expect(error).toMatchObject({ body: "[REDACTED]" });
+      expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+    }
+  });
+
+  test("a strict mismatch with a sensitive output fails without exposing the body", async () => {
+    const { layer } = fakeStackit(200, JSON.stringify({ accessToken: SECRET }));
+    const error = await runFlip(accessToken.pipe(Effect.provide(ResponseValidation.strict)), layer);
+    expect(error).toBeInstanceOf(StackitParseError);
+    expect(error).toMatchObject({ body: "[REDACTED]" });
+    expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
   });
 });

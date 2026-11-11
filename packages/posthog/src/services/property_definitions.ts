@@ -73,36 +73,36 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** * `DateTime` - DateTime * `String` - String * `Numeric` - Numeric * `Boolean` - Boolean * `Duration` - Duration */
 export type PropertyTypeEnum = "DateTime" | "String" | "Numeric" | "Boolean" | "Duration";
 export type EnterprisePropertyDefinitionPropertyType = PropertyTypeEnum | BlankEnum;
 /** Serializer mixin that handles tags for objects. */
 export interface EnterprisePropertyDefinition {
-  id?: string;
-  name?: string;
-  description?: string | null;
-  tags?: EnterprisePropertyDefinitionTagsList;
-  is_numerical?: boolean;
-  updated_at?: string;
-  updated_by?: UserBasic | null;
-  is_seen_on_filtered_events?: boolean | null;
-  property_type?: EnterprisePropertyDefinitionPropertyType | null;
-  verified?: boolean;
-  verified_at?: string | null;
-  verified_by?: UserBasic | null;
-  hidden?: boolean | null;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  tags?: EnterprisePropertyDefinitionTagsList | undefined;
+  is_numerical?: boolean | undefined;
+  updated_at?: string | undefined;
+  updated_by?: UserBasic | null | undefined;
+  is_seen_on_filtered_events?: boolean | null | undefined;
+  property_type?: EnterprisePropertyDefinitionPropertyType | null | undefined;
+  verified?: boolean | undefined;
+  verified_at?: string | null | undefined;
+  verified_by?: UserBasic | null | undefined;
+  hidden?: boolean | null | undefined;
   /** Provenance for a person property populated from a data warehouse source (source/table/column/last synced), or null. Read-only. */
-  warehouse_origin?: unknown;
+  warehouse_origin?: unknown | undefined;
 }
 export interface GetPropertyDefinitionsSeenTogetherRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -114,43 +114,43 @@ export interface ListPropertyDefinitionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** If sent, response value will have `is_seen_on_filtered_events` populated. JSON-encoded */
-  event_names?: string;
+  event_names?: string | undefined;
   /** Whether to exclude core properties */
-  exclude_core_properties?: boolean;
+  exclude_core_properties?: boolean | undefined;
   /** Whether to exclude properties marked as hidden */
-  exclude_hidden?: boolean;
+  exclude_hidden?: boolean | undefined;
   /** Whether to exclude properties that the current user does not have read access to via field-level access control */
-  exclude_restricted?: boolean;
+  exclude_restricted?: boolean | undefined;
   /** JSON-encoded list of excluded properties */
-  excluded_properties?: string;
+  excluded_properties?: string | undefined;
   /** Whether to return only properties for events in `event_names`. Note: this event scoping does not apply to feature flag properties ($feature/*), which are global and not tracked per-event; to retrieve feature flags use is_feature_flag=true instead. */
-  filter_by_event_names?: boolean;
+  filter_by_event_names?: boolean | undefined;
   /** What group type is the property for. Only should be set if `type=group` */
-  group_type_index?: number;
+  group_type_index?: number | undefined;
   /** Whether to return only (or excluding) feature flag properties ($feature/*). Flags are global, not per-event, so they can't be scoped by event_names/filter_by_event_names -- pass is_feature_flag=true to list them all. */
-  is_feature_flag?: boolean;
+  is_feature_flag?: boolean | undefined;
   /** Whether to return only (or excluding) numerical property definitions */
-  is_numerical?: boolean;
+  is_numerical?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Comma-separated list of properties to filter */
-  properties?: string;
+  properties?: string | undefined;
   /** Searches properties by name */
-  search?: string;
+  search?: string | undefined;
   /** What property definitions to return * `event` - event * `person` - person * `group` - group * `session` - session */
-  type?: ListPropertyDefinitionsRequestType | (string & {});
+  type?: ListPropertyDefinitionsRequestType | (string & {}) | undefined;
   /** Filter by verified status. True returns only verified, false returns only unverified. */
-  verified?: boolean;
+  verified?: boolean | undefined;
 }
 export type PaginatedEnterprisePropertyDefinitionListResultsList =
   Array<EnterprisePropertyDefinition>;
 export interface PaginatedEnterprisePropertyDefinitionList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedEnterprisePropertyDefinitionListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedEnterprisePropertyDefinitionListResultsList | undefined;
 }
 /** List of object IDs to update tags on. */
 export type PropertyDefinitionsBulkUpdateTagsCreateRequestIdsList = Array<number>;
@@ -162,26 +162,26 @@ export interface PropertyDefinitionsBulkUpdateTagsCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** List of object IDs to update tags on. */
-  ids?: PropertyDefinitionsBulkUpdateTagsCreateRequestIdsList;
+  ids?: PropertyDefinitionsBulkUpdateTagsCreateRequestIdsList | undefined;
   /** 'add' merges with existing tags, 'remove' deletes specific tags, 'set' replaces all tags. * `add` - add * `remove` - remove * `set` - set */
-  action?: BulkUpdateTagsActionEnum | (string & {});
+  action?: BulkUpdateTagsActionEnum | (string & {}) | undefined;
   /** Tag names to add, remove, or set (up to 100 per request, 255 characters each). */
-  tags?: PropertyDefinitionsBulkUpdateTagsCreateRequestTagsList;
+  tags?: PropertyDefinitionsBulkUpdateTagsCreateRequestTagsList | undefined;
 }
 export type BulkUpdateTagsItemTagsList = Array<string>;
 export interface BulkUpdateTagsItem {
-  id?: number;
-  tags?: BulkUpdateTagsItemTagsList;
+  id?: number | undefined;
+  tags?: BulkUpdateTagsItemTagsList | undefined;
 }
 export type BulkUpdateTagsResponseUpdatedList = Array<BulkUpdateTagsItem>;
 export interface BulkUpdateTagsError {
-  id?: number;
-  reason?: string;
+  id?: number | undefined;
+  reason?: string | undefined;
 }
 export type BulkUpdateTagsResponseSkippedList = Array<BulkUpdateTagsError>;
 export interface BulkUpdateTagsResponse {
-  updated?: BulkUpdateTagsResponseUpdatedList;
-  skipped?: BulkUpdateTagsResponseSkippedList;
+  updated?: BulkUpdateTagsResponseUpdatedList | undefined;
+  skipped?: BulkUpdateTagsResponseSkippedList | undefined;
 }
 export interface PropertyDefinitionsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -197,11 +197,11 @@ export interface UpdatePropertyDefinitionRequest {
   project_id: string;
   /** A UUID string identifying this property definition. */
   id: string;
-  description?: string | null;
-  tags?: UpdatePropertyDefinitionRequestTagsList;
-  property_type?: UpdatePropertyDefinitionRequestPropertyType | null;
-  verified?: boolean;
-  hidden?: boolean | null;
+  description?: string | null | undefined;
+  tags?: UpdatePropertyDefinitionRequestTagsList | undefined;
+  property_type?: UpdatePropertyDefinitionRequestPropertyType | null | undefined;
+  verified?: boolean | undefined;
+  hidden?: boolean | null | undefined;
 }
 export type UpdatePropertyDefinitionsPartialRequestTagsList = Array<unknown>;
 export type UpdatePropertyDefinitionsPartialRequestPropertyType = PropertyTypeEnum | BlankEnum;
@@ -210,11 +210,11 @@ export interface UpdatePropertyDefinitionsPartialRequest {
   project_id: string;
   /** A UUID string identifying this property definition. */
   id: string;
-  description?: string | null;
-  tags?: UpdatePropertyDefinitionsPartialRequestTagsList;
-  property_type?: UpdatePropertyDefinitionsPartialRequestPropertyType | null;
-  verified?: boolean;
-  hidden?: boolean | null;
+  description?: string | null | undefined;
+  tags?: UpdatePropertyDefinitionsPartialRequestTagsList | undefined;
+  property_type?: UpdatePropertyDefinitionsPartialRequestPropertyType | null | undefined;
+  verified?: boolean | undefined;
+  hidden?: boolean | null | undefined;
 }
 export type GetPropertyDefinitionError = Forbidden | NotFound | PosthogOpError;
 export const getPropertyDefinition: API.OperationMethod<

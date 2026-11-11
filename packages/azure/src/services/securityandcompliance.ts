@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Securityandcompliance",
   service: "Securityandcompliance",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -169,15 +170,15 @@ export type OperationResultsDescriptionStatus =
 /** The properties indicating the operation result of an operation on a service. */
 export interface OperationResultsDescription {
   /** The ID of the operation returned. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the operation result. */
-  name?: string;
+  name?: string | undefined;
   /** The status of the operation being performed. */
-  status?: OperationResultsDescriptionStatus;
+  status?: OperationResultsDescriptionStatus | undefined;
   /** The time that the operation was started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Additional properties of the operation result. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface GetPrivateEndpointConnectionsAdtAPIRequest {
   /** The subscription identifier. */
@@ -204,33 +205,35 @@ export type GetPrivateEndpointConnectionsAdtAPIResponseSystemDataLastModifiedByT
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateEndpointConnectionsAdtAPIResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateEndpointConnectionsAdtAPIResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateEndpointConnectionsAdtAPIResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateEndpointConnectionsAdtAPIResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateEndpointConnectionsAdtAPIResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The Private Endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for Private Endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -241,23 +244,23 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionProperties {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface GetPrivateEndpointConnectionsAdtAPIResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateEndpointConnectionsAdtAPIResponseSystemData;
+  systemData?: GetPrivateEndpointConnectionsAdtAPIResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionsCompRequest {
   /** The subscription identifier. */
@@ -284,29 +287,31 @@ export type GetPrivateEndpointConnectionsCompResponseSystemDataLastModifiedByTyp
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateEndpointConnectionsCompResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateEndpointConnectionsCompResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateEndpointConnectionsCompResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateEndpointConnectionsCompResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateEndpointConnectionsCompResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionsCompResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateEndpointConnectionsCompResponseSystemData;
+  systemData?: GetPrivateEndpointConnectionsCompResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionsForEDMRequest {
   /** The subscription identifier. */
@@ -333,29 +338,31 @@ export type GetPrivateEndpointConnectionsForEDMResponseSystemDataLastModifiedByT
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateEndpointConnectionsForEDMResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateEndpointConnectionsForEDMResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateEndpointConnectionsForEDMResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateEndpointConnectionsForEDMResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateEndpointConnectionsForEDMResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionsForEDMResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateEndpointConnectionsForEDMResponseSystemData;
+  systemData?: GetPrivateEndpointConnectionsForEDMResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionsForMIPPolicySyncRequest {
   /** The subscription identifier. */
@@ -382,29 +389,33 @@ export type GetPrivateEndpointConnectionsForMIPPolicySyncResponseSystemDataLastM
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateEndpointConnectionsForMIPPolicySyncResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateEndpointConnectionsForMIPPolicySyncResponseSystemDataCreatedByType;
+  createdByType?:
+    | GetPrivateEndpointConnectionsForMIPPolicySyncResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateEndpointConnectionsForMIPPolicySyncResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateEndpointConnectionsForMIPPolicySyncResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionsForMIPPolicySyncResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateEndpointConnectionsForMIPPolicySyncResponseSystemData;
+  systemData?: GetPrivateEndpointConnectionsForMIPPolicySyncResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionsForSCCPowershellRequest {
   /** The subscription identifier. */
@@ -431,29 +442,33 @@ export type GetPrivateEndpointConnectionsForSCCPowershellResponseSystemDataLastM
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateEndpointConnectionsForSCCPowershellResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateEndpointConnectionsForSCCPowershellResponseSystemDataCreatedByType;
+  createdByType?:
+    | GetPrivateEndpointConnectionsForSCCPowershellResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateEndpointConnectionsForSCCPowershellResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateEndpointConnectionsForSCCPowershellResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionsForSCCPowershellResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateEndpointConnectionsForSCCPowershellResponseSystemData;
+  systemData?: GetPrivateEndpointConnectionsForSCCPowershellResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionsSecRequest {
   /** The subscription identifier. */
@@ -480,29 +495,31 @@ export type GetPrivateEndpointConnectionsSecResponseSystemDataLastModifiedByType
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateEndpointConnectionsSecResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateEndpointConnectionsSecResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateEndpointConnectionsSecResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateEndpointConnectionsSecResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateEndpointConnectionsSecResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionsSecResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateEndpointConnectionsSecResponseSystemData;
+  systemData?: GetPrivateEndpointConnectionsSecResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The subscription identifier. */
@@ -529,17 +546,17 @@ export type GetPrivateLinkResourceResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateLinkResourceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateLinkResourceResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateLinkResourceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateLinkResourceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetPrivateLinkResourceResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The private link resource required member names. */
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -548,23 +565,23 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateLinkResourceResponseSystemData;
+  systemData?: GetPrivateLinkResourceResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetPrivateLinkResourcesAdtAPIRequest {
   /** The subscription identifier. */
@@ -591,29 +608,31 @@ export type GetPrivateLinkResourcesAdtAPIResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateLinkResourcesAdtAPIResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateLinkResourcesAdtAPIResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateLinkResourcesAdtAPIResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateLinkResourcesAdtAPIResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateLinkResourcesAdtAPIResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPrivateLinkResourcesAdtAPIResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateLinkResourcesAdtAPIResponseSystemData;
+  systemData?: GetPrivateLinkResourcesAdtAPIResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetPrivateLinkResourcesCompRequest {
   /** The subscription identifier. */
@@ -640,29 +659,29 @@ export type GetPrivateLinkResourcesCompResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateLinkResourcesCompResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateLinkResourcesCompResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateLinkResourcesCompResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateLinkResourcesCompResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetPrivateLinkResourcesCompResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPrivateLinkResourcesCompResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateLinkResourcesCompResponseSystemData;
+  systemData?: GetPrivateLinkResourcesCompResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetPrivateLinkResourcesForMIPPolicySyncRequest {
   /** The subscription identifier. */
@@ -689,29 +708,33 @@ export type GetPrivateLinkResourcesForMIPPolicySyncResponseSystemDataLastModifie
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateLinkResourcesForMIPPolicySyncResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateLinkResourcesForMIPPolicySyncResponseSystemDataCreatedByType;
+  createdByType?:
+    | GetPrivateLinkResourcesForMIPPolicySyncResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateLinkResourcesForMIPPolicySyncResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateLinkResourcesForMIPPolicySyncResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPrivateLinkResourcesForMIPPolicySyncResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateLinkResourcesForMIPPolicySyncResponseSystemData;
+  systemData?: GetPrivateLinkResourcesForMIPPolicySyncResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetPrivateLinkResourcesForSCCPowershellRequest {
   /** The subscription identifier. */
@@ -738,29 +761,33 @@ export type GetPrivateLinkResourcesForSCCPowershellResponseSystemDataLastModifie
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateLinkResourcesForSCCPowershellResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateLinkResourcesForSCCPowershellResponseSystemDataCreatedByType;
+  createdByType?:
+    | GetPrivateLinkResourcesForSCCPowershellResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateLinkResourcesForSCCPowershellResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateLinkResourcesForSCCPowershellResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPrivateLinkResourcesForSCCPowershellResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateLinkResourcesForSCCPowershellResponseSystemData;
+  systemData?: GetPrivateLinkResourcesForSCCPowershellResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetPrivateLinkResourcesSecRequest {
   /** The subscription identifier. */
@@ -787,29 +814,29 @@ export type GetPrivateLinkResourcesSecResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateLinkResourcesSecResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateLinkResourcesSecResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateLinkResourcesSecResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateLinkResourcesSecResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetPrivateLinkResourcesSecResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPrivateLinkResourcesSecResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateLinkResourcesSecResponseSystemData;
+  systemData?: GetPrivateLinkResourcesSecResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetPrivateLinkServicesForEDMUploadRequest {
   /** The subscription identifier. */
@@ -834,17 +861,19 @@ export type GetPrivateLinkServicesForEDMUploadResponseSystemDataLastModifiedByTy
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateLinkServicesForEDMUploadResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateLinkServicesForEDMUploadResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateLinkServicesForEDMUploadResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateLinkServicesForEDMUploadResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateLinkServicesForEDMUploadResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type GetPrivateLinkServicesForEDMUploadResponseKind = "fhir" | "fhir-Stu3" | "fhir-R4";
@@ -857,11 +886,11 @@ export type GetPrivateLinkServicesForEDMUploadResponseIdentityType = "SystemAssi
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface GetPrivateLinkServicesForEDMUploadResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: GetPrivateLinkServicesForEDMUploadResponseIdentityType;
+  type?: GetPrivateLinkServicesForEDMUploadResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type GetPrivateLinkServicesForEDMUploadResponsePropertiesProvisioningState =
@@ -884,18 +913,18 @@ export type ServiceAccessPoliciesInfo = Array<ServiceAccessPolicyEntry>;
 /** The settings for the Cosmos DB database backing the service. */
 export interface ServiceCosmosDbConfigurationInfo {
   /** The provisioned throughput for the backing database. */
-  offerThroughput?: number;
+  offerThroughput?: number | undefined;
   /** The URI of the customer-managed key for the backing database. */
-  keyVaultKeyUri?: string;
+  keyVaultKeyUri?: string | undefined;
 }
 /** Authentication configuration information */
 export interface ServiceAuthenticationConfigurationInfo {
   /** The authority url for the service */
-  authority?: string;
+  authority?: string | undefined;
   /** The audience url for the service */
-  audience?: string;
+  audience?: string | undefined;
   /** If the SMART on FHIR proxy is enabled */
-  smartProxyEnabled?: boolean;
+  smartProxyEnabled?: boolean | undefined;
 }
 /** The origins to be allowed via CORS. */
 export type ServiceCorsConfigurationInfoOriginsList = Array<string>;
@@ -906,20 +935,20 @@ export type ServiceCorsConfigurationInfoMethodsList = Array<string>;
 /** The settings for the CORS configuration of the service instance. */
 export interface ServiceCorsConfigurationInfo {
   /** The origins to be allowed via CORS. */
-  origins?: ServiceCorsConfigurationInfoOriginsList;
+  origins?: ServiceCorsConfigurationInfoOriginsList | undefined;
   /** The headers to be allowed via CORS. */
-  headers?: ServiceCorsConfigurationInfoHeadersList;
+  headers?: ServiceCorsConfigurationInfoHeadersList | undefined;
   /** The methods to be allowed via CORS. */
-  methods?: ServiceCorsConfigurationInfoMethodsList;
+  methods?: ServiceCorsConfigurationInfoMethodsList | undefined;
   /** The max age to be allowed via CORS. */
-  maxAge?: number;
+  maxAge?: number | undefined;
   /** If credentials are allowed via CORS. */
-  allowCredentials?: boolean;
+  allowCredentials?: boolean | undefined;
 }
 /** Export operation configuration information */
 export interface ServiceExportConfigurationInfo {
   /** The name of the default export storage account. */
-  storageAccountName?: string;
+  storageAccountName?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateEndpointConnectionSystemDataCreatedByType =
@@ -936,30 +965,30 @@ export type PrivateEndpointConnectionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateEndpointConnectionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateEndpointConnectionSystemDataCreatedByType;
+  createdByType?: PrivateEndpointConnectionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateEndpointConnectionSystemDataLastModifiedByType;
+  lastModifiedByType?: PrivateEndpointConnectionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateEndpointConnectionSystemData;
+  systemData?: PrivateEndpointConnectionSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The list of private endpoint connections that are set up for this resource. */
 export type GetPrivateLinkServicesForEDMUploadResponsePropertiesPrivateEndpointConnectionsList =
@@ -971,43 +1000,49 @@ export type GetPrivateLinkServicesForEDMUploadResponsePropertiesPublicNetworkAcc
 /** The properties of a service instance. */
 export interface GetPrivateLinkServicesForEDMUploadResponseProperties {
   /** The provisioning state. */
-  provisioningState?: GetPrivateLinkServicesForEDMUploadResponsePropertiesProvisioningState;
+  provisioningState?:
+    | GetPrivateLinkServicesForEDMUploadResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: GetPrivateLinkServicesForEDMUploadResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | GetPrivateLinkServicesForEDMUploadResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: GetPrivateLinkServicesForEDMUploadResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | GetPrivateLinkServicesForEDMUploadResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface GetPrivateLinkServicesForEDMUploadResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateLinkServicesForEDMUploadResponseSystemData;
+  systemData?: GetPrivateLinkServicesForEDMUploadResponseSystemData | undefined;
   /** The kind of the service. */
   kind: GetPrivateLinkServicesForEDMUploadResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: GetPrivateLinkServicesForEDMUploadResponseTagsMap;
+  tags?: GetPrivateLinkServicesForEDMUploadResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: GetPrivateLinkServicesForEDMUploadResponseIdentity;
+  identity?: GetPrivateLinkServicesForEDMUploadResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: GetPrivateLinkServicesForEDMUploadResponseProperties;
+  properties?: GetPrivateLinkServicesForEDMUploadResponseProperties | undefined;
 }
 export interface GetPrivateLinkServicesForM365ComplianceCenterRequest {
   /** The subscription identifier. */
@@ -1032,17 +1067,21 @@ export type GetPrivateLinkServicesForM365ComplianceCenterResponseSystemDataLastM
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateLinkServicesForM365ComplianceCenterResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateLinkServicesForM365ComplianceCenterResponseSystemDataCreatedByType;
+  createdByType?:
+    | GetPrivateLinkServicesForM365ComplianceCenterResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateLinkServicesForM365ComplianceCenterResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateLinkServicesForM365ComplianceCenterResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type GetPrivateLinkServicesForM365ComplianceCenterResponseKind =
@@ -1060,11 +1099,11 @@ export type GetPrivateLinkServicesForM365ComplianceCenterResponseIdentityType =
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface GetPrivateLinkServicesForM365ComplianceCenterResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: GetPrivateLinkServicesForM365ComplianceCenterResponseIdentityType;
+  type?: GetPrivateLinkServicesForM365ComplianceCenterResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type GetPrivateLinkServicesForM365ComplianceCenterResponsePropertiesProvisioningState =
@@ -1087,43 +1126,49 @@ export type GetPrivateLinkServicesForM365ComplianceCenterResponsePropertiesPubli
 /** The properties of a service instance. */
 export interface GetPrivateLinkServicesForM365ComplianceCenterResponseProperties {
   /** The provisioning state. */
-  provisioningState?: GetPrivateLinkServicesForM365ComplianceCenterResponsePropertiesProvisioningState;
+  provisioningState?:
+    | GetPrivateLinkServicesForM365ComplianceCenterResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: GetPrivateLinkServicesForM365ComplianceCenterResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | GetPrivateLinkServicesForM365ComplianceCenterResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: GetPrivateLinkServicesForM365ComplianceCenterResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | GetPrivateLinkServicesForM365ComplianceCenterResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface GetPrivateLinkServicesForM365ComplianceCenterResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateLinkServicesForM365ComplianceCenterResponseSystemData;
+  systemData?: GetPrivateLinkServicesForM365ComplianceCenterResponseSystemData | undefined;
   /** The kind of the service. */
   kind: GetPrivateLinkServicesForM365ComplianceCenterResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: GetPrivateLinkServicesForM365ComplianceCenterResponseTagsMap;
+  tags?: GetPrivateLinkServicesForM365ComplianceCenterResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: GetPrivateLinkServicesForM365ComplianceCenterResponseIdentity;
+  identity?: GetPrivateLinkServicesForM365ComplianceCenterResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: GetPrivateLinkServicesForM365ComplianceCenterResponseProperties;
+  properties?: GetPrivateLinkServicesForM365ComplianceCenterResponseProperties | undefined;
 }
 export interface GetPrivateLinkServicesForM365SecurityCenterRequest {
   /** The subscription identifier. */
@@ -1148,17 +1193,21 @@ export type GetPrivateLinkServicesForM365SecurityCenterResponseSystemDataLastMod
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateLinkServicesForM365SecurityCenterResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateLinkServicesForM365SecurityCenterResponseSystemDataCreatedByType;
+  createdByType?:
+    | GetPrivateLinkServicesForM365SecurityCenterResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateLinkServicesForM365SecurityCenterResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateLinkServicesForM365SecurityCenterResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type GetPrivateLinkServicesForM365SecurityCenterResponseKind =
@@ -1176,11 +1225,11 @@ export type GetPrivateLinkServicesForM365SecurityCenterResponseIdentityType =
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface GetPrivateLinkServicesForM365SecurityCenterResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: GetPrivateLinkServicesForM365SecurityCenterResponseIdentityType;
+  type?: GetPrivateLinkServicesForM365SecurityCenterResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type GetPrivateLinkServicesForM365SecurityCenterResponsePropertiesProvisioningState =
@@ -1203,43 +1252,49 @@ export type GetPrivateLinkServicesForM365SecurityCenterResponsePropertiesPublicN
 /** The properties of a service instance. */
 export interface GetPrivateLinkServicesForM365SecurityCenterResponseProperties {
   /** The provisioning state. */
-  provisioningState?: GetPrivateLinkServicesForM365SecurityCenterResponsePropertiesProvisioningState;
+  provisioningState?:
+    | GetPrivateLinkServicesForM365SecurityCenterResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: GetPrivateLinkServicesForM365SecurityCenterResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | GetPrivateLinkServicesForM365SecurityCenterResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: GetPrivateLinkServicesForM365SecurityCenterResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | GetPrivateLinkServicesForM365SecurityCenterResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface GetPrivateLinkServicesForM365SecurityCenterResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateLinkServicesForM365SecurityCenterResponseSystemData;
+  systemData?: GetPrivateLinkServicesForM365SecurityCenterResponseSystemData | undefined;
   /** The kind of the service. */
   kind: GetPrivateLinkServicesForM365SecurityCenterResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: GetPrivateLinkServicesForM365SecurityCenterResponseTagsMap;
+  tags?: GetPrivateLinkServicesForM365SecurityCenterResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: GetPrivateLinkServicesForM365SecurityCenterResponseIdentity;
+  identity?: GetPrivateLinkServicesForM365SecurityCenterResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: GetPrivateLinkServicesForM365SecurityCenterResponseProperties;
+  properties?: GetPrivateLinkServicesForM365SecurityCenterResponseProperties | undefined;
 }
 export interface GetPrivateLinkServicesForMIPPolicySyncRequest {
   /** The subscription identifier. */
@@ -1264,17 +1319,19 @@ export type GetPrivateLinkServicesForMIPPolicySyncResponseSystemDataLastModified
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateLinkServicesForMIPPolicySyncResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateLinkServicesForMIPPolicySyncResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateLinkServicesForMIPPolicySyncResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateLinkServicesForMIPPolicySyncResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateLinkServicesForMIPPolicySyncResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type GetPrivateLinkServicesForMIPPolicySyncResponseKind = "fhir" | "fhir-Stu3" | "fhir-R4";
@@ -1287,11 +1344,11 @@ export type GetPrivateLinkServicesForMIPPolicySyncResponseIdentityType = "System
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface GetPrivateLinkServicesForMIPPolicySyncResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: GetPrivateLinkServicesForMIPPolicySyncResponseIdentityType;
+  type?: GetPrivateLinkServicesForMIPPolicySyncResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type GetPrivateLinkServicesForMIPPolicySyncResponsePropertiesProvisioningState =
@@ -1314,43 +1371,49 @@ export type GetPrivateLinkServicesForMIPPolicySyncResponsePropertiesPublicNetwor
 /** The properties of a service instance. */
 export interface GetPrivateLinkServicesForMIPPolicySyncResponseProperties {
   /** The provisioning state. */
-  provisioningState?: GetPrivateLinkServicesForMIPPolicySyncResponsePropertiesProvisioningState;
+  provisioningState?:
+    | GetPrivateLinkServicesForMIPPolicySyncResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: GetPrivateLinkServicesForMIPPolicySyncResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | GetPrivateLinkServicesForMIPPolicySyncResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: GetPrivateLinkServicesForMIPPolicySyncResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | GetPrivateLinkServicesForMIPPolicySyncResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface GetPrivateLinkServicesForMIPPolicySyncResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateLinkServicesForMIPPolicySyncResponseSystemData;
+  systemData?: GetPrivateLinkServicesForMIPPolicySyncResponseSystemData | undefined;
   /** The kind of the service. */
   kind: GetPrivateLinkServicesForMIPPolicySyncResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: GetPrivateLinkServicesForMIPPolicySyncResponseTagsMap;
+  tags?: GetPrivateLinkServicesForMIPPolicySyncResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: GetPrivateLinkServicesForMIPPolicySyncResponseIdentity;
+  identity?: GetPrivateLinkServicesForMIPPolicySyncResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: GetPrivateLinkServicesForMIPPolicySyncResponseProperties;
+  properties?: GetPrivateLinkServicesForMIPPolicySyncResponseProperties | undefined;
 }
 export interface GetPrivateLinkServicesForO365ManagementActivityAPIRequest {
   /** The subscription identifier. */
@@ -1375,17 +1438,21 @@ export type GetPrivateLinkServicesForO365ManagementActivityAPIResponseSystemData
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateLinkServicesForO365ManagementActivityAPIResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateLinkServicesForO365ManagementActivityAPIResponseSystemDataCreatedByType;
+  createdByType?:
+    | GetPrivateLinkServicesForO365ManagementActivityAPIResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateLinkServicesForO365ManagementActivityAPIResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateLinkServicesForO365ManagementActivityAPIResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type GetPrivateLinkServicesForO365ManagementActivityAPIResponseKind =
@@ -1403,11 +1470,11 @@ export type GetPrivateLinkServicesForO365ManagementActivityAPIResponseIdentityTy
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface GetPrivateLinkServicesForO365ManagementActivityAPIResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: GetPrivateLinkServicesForO365ManagementActivityAPIResponseIdentityType;
+  type?: GetPrivateLinkServicesForO365ManagementActivityAPIResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type GetPrivateLinkServicesForO365ManagementActivityAPIResponsePropertiesProvisioningState =
@@ -1430,43 +1497,49 @@ export type GetPrivateLinkServicesForO365ManagementActivityAPIResponseProperties
 /** The properties of a service instance. */
 export interface GetPrivateLinkServicesForO365ManagementActivityAPIResponseProperties {
   /** The provisioning state. */
-  provisioningState?: GetPrivateLinkServicesForO365ManagementActivityAPIResponsePropertiesProvisioningState;
+  provisioningState?:
+    | GetPrivateLinkServicesForO365ManagementActivityAPIResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: GetPrivateLinkServicesForO365ManagementActivityAPIResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | GetPrivateLinkServicesForO365ManagementActivityAPIResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: GetPrivateLinkServicesForO365ManagementActivityAPIResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | GetPrivateLinkServicesForO365ManagementActivityAPIResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface GetPrivateLinkServicesForO365ManagementActivityAPIResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateLinkServicesForO365ManagementActivityAPIResponseSystemData;
+  systemData?: GetPrivateLinkServicesForO365ManagementActivityAPIResponseSystemData | undefined;
   /** The kind of the service. */
   kind: GetPrivateLinkServicesForO365ManagementActivityAPIResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: GetPrivateLinkServicesForO365ManagementActivityAPIResponseTagsMap;
+  tags?: GetPrivateLinkServicesForO365ManagementActivityAPIResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: GetPrivateLinkServicesForO365ManagementActivityAPIResponseIdentity;
+  identity?: GetPrivateLinkServicesForO365ManagementActivityAPIResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: GetPrivateLinkServicesForO365ManagementActivityAPIResponseProperties;
+  properties?: GetPrivateLinkServicesForO365ManagementActivityAPIResponseProperties | undefined;
 }
 export interface GetPrivateLinkServicesForSCCPowershellRequest {
   /** The subscription identifier. */
@@ -1491,17 +1564,19 @@ export type GetPrivateLinkServicesForSCCPowershellResponseSystemDataLastModified
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateLinkServicesForSCCPowershellResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateLinkServicesForSCCPowershellResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateLinkServicesForSCCPowershellResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateLinkServicesForSCCPowershellResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPrivateLinkServicesForSCCPowershellResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type GetPrivateLinkServicesForSCCPowershellResponseKind = "fhir" | "fhir-Stu3" | "fhir-R4";
@@ -1514,11 +1589,11 @@ export type GetPrivateLinkServicesForSCCPowershellResponseIdentityType = "System
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface GetPrivateLinkServicesForSCCPowershellResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: GetPrivateLinkServicesForSCCPowershellResponseIdentityType;
+  type?: GetPrivateLinkServicesForSCCPowershellResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type GetPrivateLinkServicesForSCCPowershellResponsePropertiesProvisioningState =
@@ -1541,75 +1616,81 @@ export type GetPrivateLinkServicesForSCCPowershellResponsePropertiesPublicNetwor
 /** The properties of a service instance. */
 export interface GetPrivateLinkServicesForSCCPowershellResponseProperties {
   /** The provisioning state. */
-  provisioningState?: GetPrivateLinkServicesForSCCPowershellResponsePropertiesProvisioningState;
+  provisioningState?:
+    | GetPrivateLinkServicesForSCCPowershellResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: GetPrivateLinkServicesForSCCPowershellResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | GetPrivateLinkServicesForSCCPowershellResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: GetPrivateLinkServicesForSCCPowershellResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | GetPrivateLinkServicesForSCCPowershellResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface GetPrivateLinkServicesForSCCPowershellResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateLinkServicesForSCCPowershellResponseSystemData;
+  systemData?: GetPrivateLinkServicesForSCCPowershellResponseSystemData | undefined;
   /** The kind of the service. */
   kind: GetPrivateLinkServicesForSCCPowershellResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: GetPrivateLinkServicesForSCCPowershellResponseTagsMap;
+  tags?: GetPrivateLinkServicesForSCCPowershellResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: GetPrivateLinkServicesForSCCPowershellResponseIdentity;
+  identity?: GetPrivateLinkServicesForSCCPowershellResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: GetPrivateLinkServicesForSCCPowershellResponseProperties;
+  properties?: GetPrivateLinkServicesForSCCPowershellResponseProperties | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.SecurityAndCompliance */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource Type: Services */
-  resource?: string;
+  resource?: string | undefined;
   /** Name of the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Friendly description for the operation, */
-  description?: string;
+  description?: string | undefined;
 }
 /** Service REST API operation. */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{read | write | action | delete} */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Default value is 'user,system'. */
-  origin?: string;
+  origin?: string | undefined;
   /** The information displayed about the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** A list of service operations supported by the Microsoft.SecurityAndCompliance resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** A list of service operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** The link used to get the next page of service description objects. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** A list of service operations supported by the Microsoft.SecurityAndCompliance resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
 }
 export interface ListPrivateEndpointConnectionsAdtAPIByServiceRequest {
   /** The subscription identifier. */
@@ -1624,9 +1705,9 @@ export type ListPrivateEndpointConnectionsAdtAPIByServiceResponseValueList =
   Array<PrivateEndpointConnection>;
 export interface ListPrivateEndpointConnectionsAdtAPIByServiceResponse {
   /** Array of private endpoint connections */
-  value?: ListPrivateEndpointConnectionsAdtAPIByServiceResponseValueList;
+  value?: ListPrivateEndpointConnectionsAdtAPIByServiceResponseValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsCompByServiceRequest {
   /** The subscription identifier. */
@@ -1641,9 +1722,9 @@ export type ListPrivateEndpointConnectionsCompByServiceResponseValueList =
   Array<PrivateEndpointConnection>;
 export interface ListPrivateEndpointConnectionsCompByServiceResponse {
   /** Array of private endpoint connections */
-  value?: ListPrivateEndpointConnectionsCompByServiceResponseValueList;
+  value?: ListPrivateEndpointConnectionsCompByServiceResponseValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsForEDMByServiceRequest {
   /** The subscription identifier. */
@@ -1658,9 +1739,9 @@ export type ListPrivateEndpointConnectionsForEDMByServiceResponseValueList =
   Array<PrivateEndpointConnection>;
 export interface ListPrivateEndpointConnectionsForEDMByServiceResponse {
   /** Array of private endpoint connections */
-  value?: ListPrivateEndpointConnectionsForEDMByServiceResponseValueList;
+  value?: ListPrivateEndpointConnectionsForEDMByServiceResponseValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsForMIPPolicySyncByServiceRequest {
   /** The subscription identifier. */
@@ -1675,9 +1756,9 @@ export type ListPrivateEndpointConnectionsForMIPPolicySyncByServiceResponseValue
   Array<PrivateEndpointConnection>;
 export interface ListPrivateEndpointConnectionsForMIPPolicySyncByServiceResponse {
   /** Array of private endpoint connections */
-  value?: ListPrivateEndpointConnectionsForMIPPolicySyncByServiceResponseValueList;
+  value?: ListPrivateEndpointConnectionsForMIPPolicySyncByServiceResponseValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsForSCCPowershellByServiceRequest {
   /** The subscription identifier. */
@@ -1692,9 +1773,9 @@ export type ListPrivateEndpointConnectionsForSCCPowershellByServiceResponseValue
   Array<PrivateEndpointConnection>;
 export interface ListPrivateEndpointConnectionsForSCCPowershellByServiceResponse {
   /** Array of private endpoint connections */
-  value?: ListPrivateEndpointConnectionsForSCCPowershellByServiceResponseValueList;
+  value?: ListPrivateEndpointConnectionsForSCCPowershellByServiceResponseValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsSecByServiceRequest {
   /** The subscription identifier. */
@@ -1709,9 +1790,9 @@ export type ListPrivateEndpointConnectionsSecByServiceResponseValueList =
   Array<PrivateEndpointConnection>;
 export interface ListPrivateEndpointConnectionsSecByServiceResponse {
   /** Array of private endpoint connections */
-  value?: ListPrivateEndpointConnectionsSecByServiceResponseValueList;
+  value?: ListPrivateEndpointConnectionsSecByServiceResponseValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByServiceRequest {
   /** The subscription identifier. */
@@ -1736,38 +1817,38 @@ export type PrivateLinkResourceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkResourceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkResourceSystemDataCreatedByType;
+  createdByType?: PrivateLinkResourceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkResourceSystemDataLastModifiedByType;
+  lastModifiedByType?: PrivateLinkResourceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkResourceSystemData;
+  systemData?: PrivateLinkResourceSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type ListPrivateLinkResourceByServiceResponseValueList = Array<PrivateLinkResource>;
 export interface ListPrivateLinkResourceByServiceResponse {
   /** Array of private link resources */
-  value?: ListPrivateLinkResourceByServiceResponseValueList;
+  value?: ListPrivateLinkResourceByServiceResponseValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesAdtAPIByServiceRequest {
   /** The subscription identifier. */
@@ -1781,9 +1862,9 @@ export interface ListPrivateLinkResourcesAdtAPIByServiceRequest {
 export type ListPrivateLinkResourcesAdtAPIByServiceResponseValueList = Array<PrivateLinkResource>;
 export interface ListPrivateLinkResourcesAdtAPIByServiceResponse {
   /** Array of private link resources */
-  value?: ListPrivateLinkResourcesAdtAPIByServiceResponseValueList;
+  value?: ListPrivateLinkResourcesAdtAPIByServiceResponseValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesCompByServiceRequest {
   /** The subscription identifier. */
@@ -1797,9 +1878,9 @@ export interface ListPrivateLinkResourcesCompByServiceRequest {
 export type ListPrivateLinkResourcesCompByServiceResponseValueList = Array<PrivateLinkResource>;
 export interface ListPrivateLinkResourcesCompByServiceResponse {
   /** Array of private link resources */
-  value?: ListPrivateLinkResourcesCompByServiceResponseValueList;
+  value?: ListPrivateLinkResourcesCompByServiceResponseValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesForMIPPolicySyncByServiceRequest {
   /** The subscription identifier. */
@@ -1814,9 +1895,9 @@ export type ListPrivateLinkResourcesForMIPPolicySyncByServiceResponseValueList =
   Array<PrivateLinkResource>;
 export interface ListPrivateLinkResourcesForMIPPolicySyncByServiceResponse {
   /** Array of private link resources */
-  value?: ListPrivateLinkResourcesForMIPPolicySyncByServiceResponseValueList;
+  value?: ListPrivateLinkResourcesForMIPPolicySyncByServiceResponseValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesForSCCPowershellByServiceRequest {
   /** The subscription identifier. */
@@ -1831,9 +1912,9 @@ export type ListPrivateLinkResourcesForSCCPowershellByServiceResponseValueList =
   Array<PrivateLinkResource>;
 export interface ListPrivateLinkResourcesForSCCPowershellByServiceResponse {
   /** Array of private link resources */
-  value?: ListPrivateLinkResourcesForSCCPowershellByServiceResponseValueList;
+  value?: ListPrivateLinkResourcesForSCCPowershellByServiceResponseValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesSecByServiceRequest {
   /** The subscription identifier. */
@@ -1847,9 +1928,9 @@ export interface ListPrivateLinkResourcesSecByServiceRequest {
 export type ListPrivateLinkResourcesSecByServiceResponseValueList = Array<PrivateLinkResource>;
 export interface ListPrivateLinkResourcesSecByServiceResponse {
   /** Array of private link resources */
-  value?: ListPrivateLinkResourcesSecByServiceResponseValueList;
+  value?: ListPrivateLinkResourcesSecByServiceResponseValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkServicesForEDMUploadRequest {
   /** The subscription identifier. */
@@ -1870,17 +1951,19 @@ export type PrivateLinkServicesForEDMUploadDescriptionSystemDataLastModifiedByTy
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkServicesForEDMUploadDescriptionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkServicesForEDMUploadDescriptionSystemDataCreatedByType;
+  createdByType?: PrivateLinkServicesForEDMUploadDescriptionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkServicesForEDMUploadDescriptionSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateLinkServicesForEDMUploadDescriptionSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForEDMUploadDescriptionKind = "fhir" | "fhir-Stu3" | "fhir-R4";
@@ -1893,11 +1976,11 @@ export type PrivateLinkServicesForEDMUploadDescriptionIdentityType = "SystemAssi
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForEDMUploadDescriptionIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForEDMUploadDescriptionIdentityType;
+  type?: PrivateLinkServicesForEDMUploadDescriptionIdentityType | undefined;
 }
 /** The provisioning state. */
 export type PrivateLinkServicesForEDMUploadDescriptionPropertiesProvisioningState =
@@ -1920,44 +2003,50 @@ export type PrivateLinkServicesForEDMUploadDescriptionPropertiesPublicNetworkAcc
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForEDMUploadDescriptionProperties {
   /** The provisioning state. */
-  provisioningState?: PrivateLinkServicesForEDMUploadDescriptionPropertiesProvisioningState;
+  provisioningState?:
+    | PrivateLinkServicesForEDMUploadDescriptionPropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForEDMUploadDescriptionPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForEDMUploadDescriptionPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: PrivateLinkServicesForEDMUploadDescriptionPropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | PrivateLinkServicesForEDMUploadDescriptionPropertiesPublicNetworkAccess
+    | undefined;
 }
 /** The description of the service. */
 export interface PrivateLinkServicesForEDMUploadDescription {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkServicesForEDMUploadDescriptionSystemData;
+  systemData?: PrivateLinkServicesForEDMUploadDescriptionSystemData | undefined;
   /** The kind of the service. */
   kind: PrivateLinkServicesForEDMUploadDescriptionKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForEDMUploadDescriptionTagsMap;
+  tags?: PrivateLinkServicesForEDMUploadDescriptionTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForEDMUploadDescriptionIdentity;
+  identity?: PrivateLinkServicesForEDMUploadDescriptionIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForEDMUploadDescriptionProperties;
+  properties?: PrivateLinkServicesForEDMUploadDescriptionProperties | undefined;
 }
 /** A list of service description objects. */
 export type PrivateLinkServicesForEDMUploadDescriptionListResultValueList =
@@ -1965,9 +2054,9 @@ export type PrivateLinkServicesForEDMUploadDescriptionListResultValueList =
 /** A list of service description objects with a next link. */
 export interface PrivateLinkServicesForEDMUploadDescriptionListResult {
   /** The link used to get the next page of service description objects. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** A list of service description objects. */
-  value?: PrivateLinkServicesForEDMUploadDescriptionListResultValueList;
+  value?: PrivateLinkServicesForEDMUploadDescriptionListResultValueList | undefined;
 }
 export interface ListPrivateLinkServicesForEDMUploadByResourceGroupRequest {
   /** The subscription identifier. */
@@ -1994,17 +2083,21 @@ export type PrivateLinkServicesForM365ComplianceCenterDescriptionSystemDataLastM
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkServicesForM365ComplianceCenterDescriptionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkServicesForM365ComplianceCenterDescriptionSystemDataCreatedByType;
+  createdByType?:
+    | PrivateLinkServicesForM365ComplianceCenterDescriptionSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkServicesForM365ComplianceCenterDescriptionSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateLinkServicesForM365ComplianceCenterDescriptionSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForM365ComplianceCenterDescriptionKind =
@@ -2022,11 +2115,11 @@ export type PrivateLinkServicesForM365ComplianceCenterDescriptionIdentityType =
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForM365ComplianceCenterDescriptionIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForM365ComplianceCenterDescriptionIdentityType;
+  type?: PrivateLinkServicesForM365ComplianceCenterDescriptionIdentityType | undefined;
 }
 /** The provisioning state. */
 export type PrivateLinkServicesForM365ComplianceCenterDescriptionPropertiesProvisioningState =
@@ -2049,44 +2142,50 @@ export type PrivateLinkServicesForM365ComplianceCenterDescriptionPropertiesPubli
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForM365ComplianceCenterDescriptionProperties {
   /** The provisioning state. */
-  provisioningState?: PrivateLinkServicesForM365ComplianceCenterDescriptionPropertiesProvisioningState;
+  provisioningState?:
+    | PrivateLinkServicesForM365ComplianceCenterDescriptionPropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForM365ComplianceCenterDescriptionPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForM365ComplianceCenterDescriptionPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: PrivateLinkServicesForM365ComplianceCenterDescriptionPropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | PrivateLinkServicesForM365ComplianceCenterDescriptionPropertiesPublicNetworkAccess
+    | undefined;
 }
 /** The description of the service. */
 export interface PrivateLinkServicesForM365ComplianceCenterDescription {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkServicesForM365ComplianceCenterDescriptionSystemData;
+  systemData?: PrivateLinkServicesForM365ComplianceCenterDescriptionSystemData | undefined;
   /** The kind of the service. */
   kind: PrivateLinkServicesForM365ComplianceCenterDescriptionKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForM365ComplianceCenterDescriptionTagsMap;
+  tags?: PrivateLinkServicesForM365ComplianceCenterDescriptionTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForM365ComplianceCenterDescriptionIdentity;
+  identity?: PrivateLinkServicesForM365ComplianceCenterDescriptionIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForM365ComplianceCenterDescriptionProperties;
+  properties?: PrivateLinkServicesForM365ComplianceCenterDescriptionProperties | undefined;
 }
 /** A list of service description objects. */
 export type PrivateLinkServicesForM365ComplianceCenterDescriptionListResultValueList =
@@ -2094,9 +2193,9 @@ export type PrivateLinkServicesForM365ComplianceCenterDescriptionListResultValue
 /** A list of service description objects with a next link. */
 export interface PrivateLinkServicesForM365ComplianceCenterDescriptionListResult {
   /** The link used to get the next page of service description objects. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** A list of service description objects. */
-  value?: PrivateLinkServicesForM365ComplianceCenterDescriptionListResultValueList;
+  value?: PrivateLinkServicesForM365ComplianceCenterDescriptionListResultValueList | undefined;
 }
 export interface ListPrivateLinkServicesForM365ComplianceCenterByResourceGroupRequest {
   /** The subscription identifier. */
@@ -2123,17 +2222,21 @@ export type PrivateLinkServicesForM365SecurityCenterDescriptionSystemDataLastMod
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkServicesForM365SecurityCenterDescriptionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkServicesForM365SecurityCenterDescriptionSystemDataCreatedByType;
+  createdByType?:
+    | PrivateLinkServicesForM365SecurityCenterDescriptionSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkServicesForM365SecurityCenterDescriptionSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateLinkServicesForM365SecurityCenterDescriptionSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForM365SecurityCenterDescriptionKind =
@@ -2151,11 +2254,11 @@ export type PrivateLinkServicesForM365SecurityCenterDescriptionIdentityType =
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForM365SecurityCenterDescriptionIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForM365SecurityCenterDescriptionIdentityType;
+  type?: PrivateLinkServicesForM365SecurityCenterDescriptionIdentityType | undefined;
 }
 /** The provisioning state. */
 export type PrivateLinkServicesForM365SecurityCenterDescriptionPropertiesProvisioningState =
@@ -2178,44 +2281,50 @@ export type PrivateLinkServicesForM365SecurityCenterDescriptionPropertiesPublicN
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForM365SecurityCenterDescriptionProperties {
   /** The provisioning state. */
-  provisioningState?: PrivateLinkServicesForM365SecurityCenterDescriptionPropertiesProvisioningState;
+  provisioningState?:
+    | PrivateLinkServicesForM365SecurityCenterDescriptionPropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForM365SecurityCenterDescriptionPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForM365SecurityCenterDescriptionPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: PrivateLinkServicesForM365SecurityCenterDescriptionPropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | PrivateLinkServicesForM365SecurityCenterDescriptionPropertiesPublicNetworkAccess
+    | undefined;
 }
 /** The description of the service. */
 export interface PrivateLinkServicesForM365SecurityCenterDescription {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkServicesForM365SecurityCenterDescriptionSystemData;
+  systemData?: PrivateLinkServicesForM365SecurityCenterDescriptionSystemData | undefined;
   /** The kind of the service. */
   kind: PrivateLinkServicesForM365SecurityCenterDescriptionKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForM365SecurityCenterDescriptionTagsMap;
+  tags?: PrivateLinkServicesForM365SecurityCenterDescriptionTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForM365SecurityCenterDescriptionIdentity;
+  identity?: PrivateLinkServicesForM365SecurityCenterDescriptionIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForM365SecurityCenterDescriptionProperties;
+  properties?: PrivateLinkServicesForM365SecurityCenterDescriptionProperties | undefined;
 }
 /** A list of service description objects. */
 export type PrivateLinkServicesForM365SecurityCenterDescriptionListResultValueList =
@@ -2223,9 +2332,9 @@ export type PrivateLinkServicesForM365SecurityCenterDescriptionListResultValueLi
 /** A list of service description objects with a next link. */
 export interface PrivateLinkServicesForM365SecurityCenterDescriptionListResult {
   /** The link used to get the next page of service description objects. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** A list of service description objects. */
-  value?: PrivateLinkServicesForM365SecurityCenterDescriptionListResultValueList;
+  value?: PrivateLinkServicesForM365SecurityCenterDescriptionListResultValueList | undefined;
 }
 export interface ListPrivateLinkServicesForM365SecurityCenterByResourceGroupRequest {
   /** The subscription identifier. */
@@ -2252,17 +2361,19 @@ export type PrivateLinkServicesForMIPPolicySyncDescriptionSystemDataLastModified
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkServicesForMIPPolicySyncDescriptionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkServicesForMIPPolicySyncDescriptionSystemDataCreatedByType;
+  createdByType?: PrivateLinkServicesForMIPPolicySyncDescriptionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkServicesForMIPPolicySyncDescriptionSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateLinkServicesForMIPPolicySyncDescriptionSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForMIPPolicySyncDescriptionKind = "fhir" | "fhir-Stu3" | "fhir-R4";
@@ -2275,11 +2386,11 @@ export type PrivateLinkServicesForMIPPolicySyncDescriptionIdentityType = "System
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForMIPPolicySyncDescriptionIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForMIPPolicySyncDescriptionIdentityType;
+  type?: PrivateLinkServicesForMIPPolicySyncDescriptionIdentityType | undefined;
 }
 /** The provisioning state. */
 export type PrivateLinkServicesForMIPPolicySyncDescriptionPropertiesProvisioningState =
@@ -2302,44 +2413,50 @@ export type PrivateLinkServicesForMIPPolicySyncDescriptionPropertiesPublicNetwor
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForMIPPolicySyncDescriptionProperties {
   /** The provisioning state. */
-  provisioningState?: PrivateLinkServicesForMIPPolicySyncDescriptionPropertiesProvisioningState;
+  provisioningState?:
+    | PrivateLinkServicesForMIPPolicySyncDescriptionPropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForMIPPolicySyncDescriptionPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForMIPPolicySyncDescriptionPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: PrivateLinkServicesForMIPPolicySyncDescriptionPropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | PrivateLinkServicesForMIPPolicySyncDescriptionPropertiesPublicNetworkAccess
+    | undefined;
 }
 /** The description of the service. */
 export interface PrivateLinkServicesForMIPPolicySyncDescription {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkServicesForMIPPolicySyncDescriptionSystemData;
+  systemData?: PrivateLinkServicesForMIPPolicySyncDescriptionSystemData | undefined;
   /** The kind of the service. */
   kind: PrivateLinkServicesForMIPPolicySyncDescriptionKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForMIPPolicySyncDescriptionTagsMap;
+  tags?: PrivateLinkServicesForMIPPolicySyncDescriptionTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForMIPPolicySyncDescriptionIdentity;
+  identity?: PrivateLinkServicesForMIPPolicySyncDescriptionIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForMIPPolicySyncDescriptionProperties;
+  properties?: PrivateLinkServicesForMIPPolicySyncDescriptionProperties | undefined;
 }
 /** A list of service description objects. */
 export type PrivateLinkServicesForMIPPolicySyncDescriptionListResultValueList =
@@ -2347,9 +2464,9 @@ export type PrivateLinkServicesForMIPPolicySyncDescriptionListResultValueList =
 /** A list of service description objects with a next link. */
 export interface PrivateLinkServicesForMIPPolicySyncDescriptionListResult {
   /** The link used to get the next page of service description objects. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** A list of service description objects. */
-  value?: PrivateLinkServicesForMIPPolicySyncDescriptionListResultValueList;
+  value?: PrivateLinkServicesForMIPPolicySyncDescriptionListResultValueList | undefined;
 }
 export interface ListPrivateLinkServicesForMIPPolicySyncByResourceGroupRequest {
   /** The subscription identifier. */
@@ -2376,17 +2493,21 @@ export type PrivateLinkServicesForO365ManagementActivityAPIDescriptionSystemData
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkServicesForO365ManagementActivityAPIDescriptionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionSystemDataCreatedByType;
+  createdByType?:
+    | PrivateLinkServicesForO365ManagementActivityAPIDescriptionSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateLinkServicesForO365ManagementActivityAPIDescriptionSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForO365ManagementActivityAPIDescriptionKind =
@@ -2404,11 +2525,11 @@ export type PrivateLinkServicesForO365ManagementActivityAPIDescriptionIdentityTy
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForO365ManagementActivityAPIDescriptionIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionIdentityType;
+  type?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionIdentityType | undefined;
 }
 /** The provisioning state. */
 export type PrivateLinkServicesForO365ManagementActivityAPIDescriptionPropertiesProvisioningState =
@@ -2431,44 +2552,50 @@ export type PrivateLinkServicesForO365ManagementActivityAPIDescriptionProperties
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForO365ManagementActivityAPIDescriptionProperties {
   /** The provisioning state. */
-  provisioningState?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionPropertiesProvisioningState;
+  provisioningState?:
+    | PrivateLinkServicesForO365ManagementActivityAPIDescriptionPropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForO365ManagementActivityAPIDescriptionPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionPropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | PrivateLinkServicesForO365ManagementActivityAPIDescriptionPropertiesPublicNetworkAccess
+    | undefined;
 }
 /** The description of the service. */
 export interface PrivateLinkServicesForO365ManagementActivityAPIDescription {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionSystemData;
+  systemData?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionSystemData | undefined;
   /** The kind of the service. */
   kind: PrivateLinkServicesForO365ManagementActivityAPIDescriptionKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionTagsMap;
+  tags?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionIdentity;
+  identity?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionProperties;
+  properties?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionProperties | undefined;
 }
 /** A list of service description objects. */
 export type PrivateLinkServicesForO365ManagementActivityAPIDescriptionListResultValueList =
@@ -2476,9 +2603,9 @@ export type PrivateLinkServicesForO365ManagementActivityAPIDescriptionListResult
 /** A list of service description objects with a next link. */
 export interface PrivateLinkServicesForO365ManagementActivityAPIDescriptionListResult {
   /** The link used to get the next page of service description objects. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** A list of service description objects. */
-  value?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionListResultValueList;
+  value?: PrivateLinkServicesForO365ManagementActivityAPIDescriptionListResultValueList | undefined;
 }
 export interface ListPrivateLinkServicesForO365ManagementActivityAPIByResourceGroupRequest {
   /** The subscription identifier. */
@@ -2505,17 +2632,19 @@ export type PrivateLinkServicesForSCCPowershellDescriptionSystemDataLastModified
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkServicesForSCCPowershellDescriptionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkServicesForSCCPowershellDescriptionSystemDataCreatedByType;
+  createdByType?: PrivateLinkServicesForSCCPowershellDescriptionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkServicesForSCCPowershellDescriptionSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateLinkServicesForSCCPowershellDescriptionSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForSCCPowershellDescriptionKind = "fhir" | "fhir-Stu3" | "fhir-R4";
@@ -2528,11 +2657,11 @@ export type PrivateLinkServicesForSCCPowershellDescriptionIdentityType = "System
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForSCCPowershellDescriptionIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForSCCPowershellDescriptionIdentityType;
+  type?: PrivateLinkServicesForSCCPowershellDescriptionIdentityType | undefined;
 }
 /** The provisioning state. */
 export type PrivateLinkServicesForSCCPowershellDescriptionPropertiesProvisioningState =
@@ -2555,44 +2684,50 @@ export type PrivateLinkServicesForSCCPowershellDescriptionPropertiesPublicNetwor
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForSCCPowershellDescriptionProperties {
   /** The provisioning state. */
-  provisioningState?: PrivateLinkServicesForSCCPowershellDescriptionPropertiesProvisioningState;
+  provisioningState?:
+    | PrivateLinkServicesForSCCPowershellDescriptionPropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForSCCPowershellDescriptionPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForSCCPowershellDescriptionPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: PrivateLinkServicesForSCCPowershellDescriptionPropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | PrivateLinkServicesForSCCPowershellDescriptionPropertiesPublicNetworkAccess
+    | undefined;
 }
 /** The description of the service. */
 export interface PrivateLinkServicesForSCCPowershellDescription {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkServicesForSCCPowershellDescriptionSystemData;
+  systemData?: PrivateLinkServicesForSCCPowershellDescriptionSystemData | undefined;
   /** The kind of the service. */
   kind: PrivateLinkServicesForSCCPowershellDescriptionKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForSCCPowershellDescriptionTagsMap;
+  tags?: PrivateLinkServicesForSCCPowershellDescriptionTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForSCCPowershellDescriptionIdentity;
+  identity?: PrivateLinkServicesForSCCPowershellDescriptionIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForSCCPowershellDescriptionProperties;
+  properties?: PrivateLinkServicesForSCCPowershellDescriptionProperties | undefined;
 }
 /** A list of service description objects. */
 export type PrivateLinkServicesForSCCPowershellDescriptionListResultValueList =
@@ -2600,9 +2735,9 @@ export type PrivateLinkServicesForSCCPowershellDescriptionListResultValueList =
 /** A list of service description objects with a next link. */
 export interface PrivateLinkServicesForSCCPowershellDescriptionListResult {
   /** The link used to get the next page of service description objects. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** A list of service description objects. */
-  value?: PrivateLinkServicesForSCCPowershellDescriptionListResultValueList;
+  value?: PrivateLinkServicesForSCCPowershellDescriptionListResultValueList | undefined;
 }
 export interface ListPrivateLinkServicesForSCCPowershellByResourceGroupRequest {
   /** The subscription identifier. */
@@ -2615,7 +2750,7 @@ export interface PrivateEndpointInput {}
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -2629,7 +2764,7 @@ export interface PrivateEndpointConnectionsAdtAPICreateOrUpdateRequest {
   /** The name of the private endpoint connection associated with the Azure resource */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateEndpointConnectionsAdtAPICreateOrUpdateResponseSystemDataCreatedByType =
@@ -2646,29 +2781,33 @@ export type PrivateEndpointConnectionsAdtAPICreateOrUpdateResponseSystemDataLast
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateEndpointConnectionsAdtAPICreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateEndpointConnectionsAdtAPICreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PrivateEndpointConnectionsAdtAPICreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateEndpointConnectionsAdtAPICreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateEndpointConnectionsAdtAPICreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface PrivateEndpointConnectionsAdtAPICreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateEndpointConnectionsAdtAPICreateOrUpdateResponseSystemData;
+  systemData?: PrivateEndpointConnectionsAdtAPICreateOrUpdateResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface PrivateEndpointConnectionsCompCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -2680,7 +2819,7 @@ export interface PrivateEndpointConnectionsCompCreateOrUpdateRequest {
   /** The name of the private endpoint connection associated with the Azure resource */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateEndpointConnectionsCompCreateOrUpdateResponseSystemDataCreatedByType =
@@ -2697,29 +2836,33 @@ export type PrivateEndpointConnectionsCompCreateOrUpdateResponseSystemDataLastMo
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateEndpointConnectionsCompCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateEndpointConnectionsCompCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PrivateEndpointConnectionsCompCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateEndpointConnectionsCompCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateEndpointConnectionsCompCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface PrivateEndpointConnectionsCompCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateEndpointConnectionsCompCreateOrUpdateResponseSystemData;
+  systemData?: PrivateEndpointConnectionsCompCreateOrUpdateResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface PrivateEndpointConnectionsForEDMCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -2731,7 +2874,7 @@ export interface PrivateEndpointConnectionsForEDMCreateOrUpdateRequest {
   /** The name of the private endpoint connection associated with the Azure resource */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateEndpointConnectionsForEDMCreateOrUpdateResponseSystemDataCreatedByType =
@@ -2748,29 +2891,33 @@ export type PrivateEndpointConnectionsForEDMCreateOrUpdateResponseSystemDataLast
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateEndpointConnectionsForEDMCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateEndpointConnectionsForEDMCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PrivateEndpointConnectionsForEDMCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateEndpointConnectionsForEDMCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateEndpointConnectionsForEDMCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface PrivateEndpointConnectionsForEDMCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateEndpointConnectionsForEDMCreateOrUpdateResponseSystemData;
+  systemData?: PrivateEndpointConnectionsForEDMCreateOrUpdateResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -2782,7 +2929,7 @@ export interface PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdateRequest
   /** The name of the private endpoint connection associated with the Azure resource */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdateResponseSystemDataCreatedByType =
@@ -2799,29 +2946,35 @@ export type PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdateResponseSyst
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdateResponseSystemData;
+  systemData?:
+    | PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdateResponseSystemData
+    | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface PrivateEndpointConnectionsForSCCPowershellCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -2833,7 +2986,7 @@ export interface PrivateEndpointConnectionsForSCCPowershellCreateOrUpdateRequest
   /** The name of the private endpoint connection associated with the Azure resource */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateEndpointConnectionsForSCCPowershellCreateOrUpdateResponseSystemDataCreatedByType =
@@ -2850,29 +3003,35 @@ export type PrivateEndpointConnectionsForSCCPowershellCreateOrUpdateResponseSyst
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateEndpointConnectionsForSCCPowershellCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateEndpointConnectionsForSCCPowershellCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PrivateEndpointConnectionsForSCCPowershellCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateEndpointConnectionsForSCCPowershellCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateEndpointConnectionsForSCCPowershellCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface PrivateEndpointConnectionsForSCCPowershellCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateEndpointConnectionsForSCCPowershellCreateOrUpdateResponseSystemData;
+  systemData?:
+    | PrivateEndpointConnectionsForSCCPowershellCreateOrUpdateResponseSystemData
+    | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface PrivateEndpointConnectionsSecCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -2884,7 +3043,7 @@ export interface PrivateEndpointConnectionsSecCreateOrUpdateRequest {
   /** The name of the private endpoint connection associated with the Azure resource */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateEndpointConnectionsSecCreateOrUpdateResponseSystemDataCreatedByType =
@@ -2901,29 +3060,33 @@ export type PrivateEndpointConnectionsSecCreateOrUpdateResponseSystemDataLastMod
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateEndpointConnectionsSecCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateEndpointConnectionsSecCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PrivateEndpointConnectionsSecCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateEndpointConnectionsSecCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateEndpointConnectionsSecCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface PrivateEndpointConnectionsSecCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateEndpointConnectionsSecCreateOrUpdateResponseSystemData;
+  systemData?: PrivateEndpointConnectionsSecCreateOrUpdateResponseSystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForEDMUploadCreateOrUpdateRequestKind =
@@ -2941,12 +3104,15 @@ export type PrivateLinkServicesForEDMUploadCreateOrUpdateRequestIdentityType =
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForEDMUploadCreateOrUpdateRequestIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForEDMUploadCreateOrUpdateRequestIdentityType | (string & {});
+  type?:
+    | PrivateLinkServicesForEDMUploadCreateOrUpdateRequestIdentityType
+    | (string & {})
+    | undefined;
 }
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnectionInput {
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The list of private endpoint connections that are set up for this resource. */
 export type PrivateLinkServicesForEDMUploadCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList =
@@ -2958,21 +3124,24 @@ export type PrivateLinkServicesForEDMUploadCreateOrUpdateRequestPropertiesPublic
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForEDMUploadCreateOrUpdateRequestProperties {
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForEDMUploadCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForEDMUploadCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
   publicNetworkAccess?:
     | PrivateLinkServicesForEDMUploadCreateOrUpdateRequestPropertiesPublicNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface PrivateLinkServicesForEDMUploadCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -2986,13 +3155,13 @@ export interface PrivateLinkServicesForEDMUploadCreateOrUpdateRequest {
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForEDMUploadCreateOrUpdateRequestTagsMap;
+  tags?: PrivateLinkServicesForEDMUploadCreateOrUpdateRequestTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForEDMUploadCreateOrUpdateRequestIdentity;
+  identity?: PrivateLinkServicesForEDMUploadCreateOrUpdateRequestIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForEDMUploadCreateOrUpdateRequestProperties;
+  properties?: PrivateLinkServicesForEDMUploadCreateOrUpdateRequestProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateLinkServicesForEDMUploadCreateOrUpdateResponseSystemDataCreatedByType =
@@ -3009,17 +3178,21 @@ export type PrivateLinkServicesForEDMUploadCreateOrUpdateResponseSystemDataLastM
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkServicesForEDMUploadCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PrivateLinkServicesForEDMUploadCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateLinkServicesForEDMUploadCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForEDMUploadCreateOrUpdateResponseKind =
@@ -3037,11 +3210,11 @@ export type PrivateLinkServicesForEDMUploadCreateOrUpdateResponseIdentityType =
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForEDMUploadCreateOrUpdateResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponseIdentityType;
+  type?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type PrivateLinkServicesForEDMUploadCreateOrUpdateResponsePropertiesProvisioningState =
@@ -3064,43 +3237,49 @@ export type PrivateLinkServicesForEDMUploadCreateOrUpdateResponsePropertiesPubli
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForEDMUploadCreateOrUpdateResponseProperties {
   /** The provisioning state. */
-  provisioningState?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponsePropertiesProvisioningState;
+  provisioningState?:
+    | PrivateLinkServicesForEDMUploadCreateOrUpdateResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForEDMUploadCreateOrUpdateResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | PrivateLinkServicesForEDMUploadCreateOrUpdateResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface PrivateLinkServicesForEDMUploadCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponseSystemData;
+  systemData?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponseSystemData | undefined;
   /** The kind of the service. */
   kind: PrivateLinkServicesForEDMUploadCreateOrUpdateResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponseTagsMap;
+  tags?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponseIdentity;
+  identity?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponseProperties;
+  properties?: PrivateLinkServicesForEDMUploadCreateOrUpdateResponseProperties | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequestKind =
@@ -3120,7 +3299,8 @@ export interface PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequest
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type?:
     | PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequestIdentityType
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** The list of private endpoint connections that are set up for this resource. */
 export type PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList =
@@ -3132,21 +3312,24 @@ export type PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequestPrope
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequestProperties {
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
   publicNetworkAccess?:
     | PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequestPropertiesPublicNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -3160,13 +3343,15 @@ export interface PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequest
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequestTagsMap;
+  tags?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequestTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequestIdentity;
+  identity?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequestIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequestProperties;
+  properties?:
+    | PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateRequestProperties
+    | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseSystemDataCreatedByType =
@@ -3183,17 +3368,21 @@ export type PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseSyst
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseKind =
@@ -3211,11 +3400,11 @@ export type PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseIden
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseIdentityType;
+  type?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponsePropertiesProvisioningState =
@@ -3238,43 +3427,53 @@ export type PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseProp
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseProperties {
   /** The provisioning state. */
-  provisioningState?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponsePropertiesProvisioningState;
+  provisioningState?:
+    | PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseSystemData;
+  systemData?:
+    | PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseSystemData
+    | undefined;
   /** The kind of the service. */
   kind: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseTagsMap;
+  tags?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseIdentity;
+  identity?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseProperties;
+  properties?:
+    | PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateResponseProperties
+    | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestKind =
@@ -3292,7 +3491,10 @@ export type PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestIdentit
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestIdentityType | (string & {});
+  type?:
+    | PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestIdentityType
+    | (string & {})
+    | undefined;
 }
 /** The list of private endpoint connections that are set up for this resource. */
 export type PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList =
@@ -3304,21 +3506,24 @@ export type PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestPropert
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestProperties {
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
   publicNetworkAccess?:
     | PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestPropertiesPublicNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -3332,13 +3537,13 @@ export interface PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequest {
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestTagsMap;
+  tags?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestIdentity;
+  identity?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestProperties;
+  properties?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateRequestProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseSystemDataCreatedByType =
@@ -3355,17 +3560,21 @@ export type PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseSystem
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseKind =
@@ -3383,11 +3592,11 @@ export type PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseIdenti
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseIdentityType;
+  type?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponsePropertiesProvisioningState =
@@ -3410,43 +3619,49 @@ export type PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseProper
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseProperties {
   /** The provisioning state. */
-  provisioningState?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponsePropertiesProvisioningState;
+  provisioningState?:
+    | PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseSystemData;
+  systemData?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseSystemData | undefined;
   /** The kind of the service. */
   kind: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseTagsMap;
+  tags?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseIdentity;
+  identity?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseProperties;
+  properties?: PrivateLinkServicesForM365SecurityCenterCreateOrUpdateResponseProperties | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestKind =
@@ -3464,7 +3679,10 @@ export type PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestIdentityType
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestIdentityType | (string & {});
+  type?:
+    | PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestIdentityType
+    | (string & {})
+    | undefined;
 }
 /** The list of private endpoint connections that are set up for this resource. */
 export type PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList =
@@ -3476,21 +3694,24 @@ export type PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestPropertiesPu
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestProperties {
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
   publicNetworkAccess?:
     | PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestPropertiesPublicNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -3504,13 +3725,13 @@ export interface PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequest {
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestTagsMap;
+  tags?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestIdentity;
+  identity?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestProperties;
+  properties?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateRequestProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseSystemDataCreatedByType =
@@ -3527,17 +3748,21 @@ export type PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseSystemDataL
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseKind =
@@ -3555,11 +3780,11 @@ export type PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseIdentityTyp
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseIdentityType;
+  type?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponsePropertiesProvisioningState =
@@ -3582,43 +3807,49 @@ export type PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponsePropertiesP
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseProperties {
   /** The provisioning state. */
-  provisioningState?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponsePropertiesProvisioningState;
+  provisioningState?:
+    | PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseSystemData;
+  systemData?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseSystemData | undefined;
   /** The kind of the service. */
   kind: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseTagsMap;
+  tags?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseIdentity;
+  identity?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseProperties;
+  properties?: PrivateLinkServicesForMIPPolicySyncCreateOrUpdateResponseProperties | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequestKind =
@@ -3638,7 +3869,8 @@ export interface PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRe
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type?:
     | PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequestIdentityType
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** The list of private endpoint connections that are set up for this resource. */
 export type PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList =
@@ -3650,21 +3882,24 @@ export type PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequest
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequestProperties {
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
   publicNetworkAccess?:
     | PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequestPropertiesPublicNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -3678,13 +3913,17 @@ export interface PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRe
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequestTagsMap;
+  tags?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequestTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequestIdentity;
+  identity?:
+    | PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequestIdentity
+    | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequestProperties;
+  properties?:
+    | PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRequestProperties
+    | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseSystemDataCreatedByType =
@@ -3701,17 +3940,21 @@ export type PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRespons
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseKind =
@@ -3729,11 +3972,13 @@ export type PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRespons
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseIdentityType;
+  type?:
+    | PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseIdentityType
+    | undefined;
 }
 /** The provisioning state. */
 export type PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponsePropertiesProvisioningState =
@@ -3756,43 +4001,55 @@ export type PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateRespons
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseProperties {
   /** The provisioning state. */
-  provisioningState?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponsePropertiesProvisioningState;
+  provisioningState?:
+    | PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseSystemData;
+  systemData?:
+    | PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseSystemData
+    | undefined;
   /** The kind of the service. */
   kind: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseTagsMap;
+  tags?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseIdentity;
+  identity?:
+    | PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseIdentity
+    | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseProperties;
+  properties?:
+    | PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateResponseProperties
+    | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestKind =
@@ -3810,7 +4067,10 @@ export type PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestIdentityType
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestIdentityType | (string & {});
+  type?:
+    | PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestIdentityType
+    | (string & {})
+    | undefined;
 }
 /** The list of private endpoint connections that are set up for this resource. */
 export type PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList =
@@ -3822,21 +4082,24 @@ export type PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestPropertiesPu
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestProperties {
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
   publicNetworkAccess?:
     | PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestPropertiesPublicNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface PrivateLinkServicesForSCCPowershellCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -3850,13 +4113,13 @@ export interface PrivateLinkServicesForSCCPowershellCreateOrUpdateRequest {
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestTagsMap;
+  tags?: PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestIdentity;
+  identity?: PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestProperties;
+  properties?: PrivateLinkServicesForSCCPowershellCreateOrUpdateRequestProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseSystemDataCreatedByType =
@@ -3873,17 +4136,21 @@ export type PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseSystemDataL
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseKind =
@@ -3901,11 +4168,11 @@ export type PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseIdentityTyp
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseIdentityType;
+  type?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type PrivateLinkServicesForSCCPowershellCreateOrUpdateResponsePropertiesProvisioningState =
@@ -3928,43 +4195,49 @@ export type PrivateLinkServicesForSCCPowershellCreateOrUpdateResponsePropertiesP
 /** The properties of a service instance. */
 export interface PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseProperties {
   /** The provisioning state. */
-  provisioningState?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponsePropertiesProvisioningState;
+  provisioningState?:
+    | PrivateLinkServicesForSCCPowershellCreateOrUpdateResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | PrivateLinkServicesForSCCPowershellCreateOrUpdateResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | PrivateLinkServicesForSCCPowershellCreateOrUpdateResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface PrivateLinkServicesForSCCPowershellCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseSystemData;
+  systemData?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseSystemData | undefined;
   /** The kind of the service. */
   kind: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseTagsMap;
+  tags?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseIdentity;
+  identity?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseProperties;
+  properties?: PrivateLinkServicesForSCCPowershellCreateOrUpdateResponseProperties | undefined;
 }
 /** Instance tags */
 export type UpdatePrivateLinkServicesForEDMUploadRequestTagsMap = {
@@ -3975,7 +4248,10 @@ export type ServicesPropertiesUpdateParametersPublicNetworkAccess = "Enabled" | 
 /** The properties for updating a service instance. */
 export interface ServicesPropertiesUpdateParameters {
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: ServicesPropertiesUpdateParametersPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | ServicesPropertiesUpdateParametersPublicNetworkAccess
+    | (string & {})
+    | undefined;
 }
 export interface UpdatePrivateLinkServicesForEDMUploadRequest {
   /** The subscription identifier. */
@@ -3985,9 +4261,9 @@ export interface UpdatePrivateLinkServicesForEDMUploadRequest {
   /** The name of the service instance. */
   resourceName: string;
   /** Instance tags */
-  tags?: UpdatePrivateLinkServicesForEDMUploadRequestTagsMap;
+  tags?: UpdatePrivateLinkServicesForEDMUploadRequestTagsMap | undefined;
   /** The properties for updating a service instance. */
-  properties?: ServicesPropertiesUpdateParameters;
+  properties?: ServicesPropertiesUpdateParameters | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdatePrivateLinkServicesForEDMUploadResponseSystemDataCreatedByType =
@@ -4004,17 +4280,19 @@ export type UpdatePrivateLinkServicesForEDMUploadResponseSystemDataLastModifiedB
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdatePrivateLinkServicesForEDMUploadResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdatePrivateLinkServicesForEDMUploadResponseSystemDataCreatedByType;
+  createdByType?: UpdatePrivateLinkServicesForEDMUploadResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdatePrivateLinkServicesForEDMUploadResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdatePrivateLinkServicesForEDMUploadResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type UpdatePrivateLinkServicesForEDMUploadResponseKind = "fhir" | "fhir-Stu3" | "fhir-R4";
@@ -4027,11 +4305,11 @@ export type UpdatePrivateLinkServicesForEDMUploadResponseIdentityType = "SystemA
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface UpdatePrivateLinkServicesForEDMUploadResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: UpdatePrivateLinkServicesForEDMUploadResponseIdentityType;
+  type?: UpdatePrivateLinkServicesForEDMUploadResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type UpdatePrivateLinkServicesForEDMUploadResponsePropertiesProvisioningState =
@@ -4054,43 +4332,49 @@ export type UpdatePrivateLinkServicesForEDMUploadResponsePropertiesPublicNetwork
 /** The properties of a service instance. */
 export interface UpdatePrivateLinkServicesForEDMUploadResponseProperties {
   /** The provisioning state. */
-  provisioningState?: UpdatePrivateLinkServicesForEDMUploadResponsePropertiesProvisioningState;
+  provisioningState?:
+    | UpdatePrivateLinkServicesForEDMUploadResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: UpdatePrivateLinkServicesForEDMUploadResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | UpdatePrivateLinkServicesForEDMUploadResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: UpdatePrivateLinkServicesForEDMUploadResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | UpdatePrivateLinkServicesForEDMUploadResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface UpdatePrivateLinkServicesForEDMUploadResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdatePrivateLinkServicesForEDMUploadResponseSystemData;
+  systemData?: UpdatePrivateLinkServicesForEDMUploadResponseSystemData | undefined;
   /** The kind of the service. */
   kind: UpdatePrivateLinkServicesForEDMUploadResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: UpdatePrivateLinkServicesForEDMUploadResponseTagsMap;
+  tags?: UpdatePrivateLinkServicesForEDMUploadResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: UpdatePrivateLinkServicesForEDMUploadResponseIdentity;
+  identity?: UpdatePrivateLinkServicesForEDMUploadResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: UpdatePrivateLinkServicesForEDMUploadResponseProperties;
+  properties?: UpdatePrivateLinkServicesForEDMUploadResponseProperties | undefined;
 }
 /** Instance tags */
 export type UpdatePrivateLinkServicesForM365ComplianceCenterRequestTagsMap = {
@@ -4104,9 +4388,9 @@ export interface UpdatePrivateLinkServicesForM365ComplianceCenterRequest {
   /** The name of the service instance. */
   resourceName: string;
   /** Instance tags */
-  tags?: UpdatePrivateLinkServicesForM365ComplianceCenterRequestTagsMap;
+  tags?: UpdatePrivateLinkServicesForM365ComplianceCenterRequestTagsMap | undefined;
   /** The properties for updating a service instance. */
-  properties?: ServicesPropertiesUpdateParameters;
+  properties?: ServicesPropertiesUpdateParameters | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdatePrivateLinkServicesForM365ComplianceCenterResponseSystemDataCreatedByType =
@@ -4123,17 +4407,21 @@ export type UpdatePrivateLinkServicesForM365ComplianceCenterResponseSystemDataLa
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdatePrivateLinkServicesForM365ComplianceCenterResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdatePrivateLinkServicesForM365ComplianceCenterResponseSystemDataCreatedByType;
+  createdByType?:
+    | UpdatePrivateLinkServicesForM365ComplianceCenterResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdatePrivateLinkServicesForM365ComplianceCenterResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdatePrivateLinkServicesForM365ComplianceCenterResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type UpdatePrivateLinkServicesForM365ComplianceCenterResponseKind =
@@ -4151,11 +4439,11 @@ export type UpdatePrivateLinkServicesForM365ComplianceCenterResponseIdentityType
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface UpdatePrivateLinkServicesForM365ComplianceCenterResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: UpdatePrivateLinkServicesForM365ComplianceCenterResponseIdentityType;
+  type?: UpdatePrivateLinkServicesForM365ComplianceCenterResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type UpdatePrivateLinkServicesForM365ComplianceCenterResponsePropertiesProvisioningState =
@@ -4178,43 +4466,49 @@ export type UpdatePrivateLinkServicesForM365ComplianceCenterResponsePropertiesPu
 /** The properties of a service instance. */
 export interface UpdatePrivateLinkServicesForM365ComplianceCenterResponseProperties {
   /** The provisioning state. */
-  provisioningState?: UpdatePrivateLinkServicesForM365ComplianceCenterResponsePropertiesProvisioningState;
+  provisioningState?:
+    | UpdatePrivateLinkServicesForM365ComplianceCenterResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: UpdatePrivateLinkServicesForM365ComplianceCenterResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | UpdatePrivateLinkServicesForM365ComplianceCenterResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: UpdatePrivateLinkServicesForM365ComplianceCenterResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | UpdatePrivateLinkServicesForM365ComplianceCenterResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface UpdatePrivateLinkServicesForM365ComplianceCenterResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdatePrivateLinkServicesForM365ComplianceCenterResponseSystemData;
+  systemData?: UpdatePrivateLinkServicesForM365ComplianceCenterResponseSystemData | undefined;
   /** The kind of the service. */
   kind: UpdatePrivateLinkServicesForM365ComplianceCenterResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: UpdatePrivateLinkServicesForM365ComplianceCenterResponseTagsMap;
+  tags?: UpdatePrivateLinkServicesForM365ComplianceCenterResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: UpdatePrivateLinkServicesForM365ComplianceCenterResponseIdentity;
+  identity?: UpdatePrivateLinkServicesForM365ComplianceCenterResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: UpdatePrivateLinkServicesForM365ComplianceCenterResponseProperties;
+  properties?: UpdatePrivateLinkServicesForM365ComplianceCenterResponseProperties | undefined;
 }
 /** Instance tags */
 export type UpdatePrivateLinkServicesForM365SecurityCenterRequestTagsMap = {
@@ -4228,9 +4522,9 @@ export interface UpdatePrivateLinkServicesForM365SecurityCenterRequest {
   /** The name of the service instance. */
   resourceName: string;
   /** Instance tags */
-  tags?: UpdatePrivateLinkServicesForM365SecurityCenterRequestTagsMap;
+  tags?: UpdatePrivateLinkServicesForM365SecurityCenterRequestTagsMap | undefined;
   /** The properties for updating a service instance. */
-  properties?: ServicesPropertiesUpdateParameters;
+  properties?: ServicesPropertiesUpdateParameters | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdatePrivateLinkServicesForM365SecurityCenterResponseSystemDataCreatedByType =
@@ -4247,17 +4541,21 @@ export type UpdatePrivateLinkServicesForM365SecurityCenterResponseSystemDataLast
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdatePrivateLinkServicesForM365SecurityCenterResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdatePrivateLinkServicesForM365SecurityCenterResponseSystemDataCreatedByType;
+  createdByType?:
+    | UpdatePrivateLinkServicesForM365SecurityCenterResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdatePrivateLinkServicesForM365SecurityCenterResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdatePrivateLinkServicesForM365SecurityCenterResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type UpdatePrivateLinkServicesForM365SecurityCenterResponseKind =
@@ -4275,11 +4573,11 @@ export type UpdatePrivateLinkServicesForM365SecurityCenterResponseIdentityType =
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface UpdatePrivateLinkServicesForM365SecurityCenterResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: UpdatePrivateLinkServicesForM365SecurityCenterResponseIdentityType;
+  type?: UpdatePrivateLinkServicesForM365SecurityCenterResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type UpdatePrivateLinkServicesForM365SecurityCenterResponsePropertiesProvisioningState =
@@ -4302,43 +4600,49 @@ export type UpdatePrivateLinkServicesForM365SecurityCenterResponsePropertiesPubl
 /** The properties of a service instance. */
 export interface UpdatePrivateLinkServicesForM365SecurityCenterResponseProperties {
   /** The provisioning state. */
-  provisioningState?: UpdatePrivateLinkServicesForM365SecurityCenterResponsePropertiesProvisioningState;
+  provisioningState?:
+    | UpdatePrivateLinkServicesForM365SecurityCenterResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: UpdatePrivateLinkServicesForM365SecurityCenterResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | UpdatePrivateLinkServicesForM365SecurityCenterResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: UpdatePrivateLinkServicesForM365SecurityCenterResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | UpdatePrivateLinkServicesForM365SecurityCenterResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface UpdatePrivateLinkServicesForM365SecurityCenterResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdatePrivateLinkServicesForM365SecurityCenterResponseSystemData;
+  systemData?: UpdatePrivateLinkServicesForM365SecurityCenterResponseSystemData | undefined;
   /** The kind of the service. */
   kind: UpdatePrivateLinkServicesForM365SecurityCenterResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: UpdatePrivateLinkServicesForM365SecurityCenterResponseTagsMap;
+  tags?: UpdatePrivateLinkServicesForM365SecurityCenterResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: UpdatePrivateLinkServicesForM365SecurityCenterResponseIdentity;
+  identity?: UpdatePrivateLinkServicesForM365SecurityCenterResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: UpdatePrivateLinkServicesForM365SecurityCenterResponseProperties;
+  properties?: UpdatePrivateLinkServicesForM365SecurityCenterResponseProperties | undefined;
 }
 /** Instance tags */
 export type UpdatePrivateLinkServicesForMIPPolicySyncRequestTagsMap = {
@@ -4352,9 +4656,9 @@ export interface UpdatePrivateLinkServicesForMIPPolicySyncRequest {
   /** The name of the service instance. */
   resourceName: string;
   /** Instance tags */
-  tags?: UpdatePrivateLinkServicesForMIPPolicySyncRequestTagsMap;
+  tags?: UpdatePrivateLinkServicesForMIPPolicySyncRequestTagsMap | undefined;
   /** The properties for updating a service instance. */
-  properties?: ServicesPropertiesUpdateParameters;
+  properties?: ServicesPropertiesUpdateParameters | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdatePrivateLinkServicesForMIPPolicySyncResponseSystemDataCreatedByType =
@@ -4371,17 +4675,21 @@ export type UpdatePrivateLinkServicesForMIPPolicySyncResponseSystemDataLastModif
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdatePrivateLinkServicesForMIPPolicySyncResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdatePrivateLinkServicesForMIPPolicySyncResponseSystemDataCreatedByType;
+  createdByType?:
+    | UpdatePrivateLinkServicesForMIPPolicySyncResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdatePrivateLinkServicesForMIPPolicySyncResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdatePrivateLinkServicesForMIPPolicySyncResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type UpdatePrivateLinkServicesForMIPPolicySyncResponseKind =
@@ -4399,11 +4707,11 @@ export type UpdatePrivateLinkServicesForMIPPolicySyncResponseIdentityType =
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface UpdatePrivateLinkServicesForMIPPolicySyncResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: UpdatePrivateLinkServicesForMIPPolicySyncResponseIdentityType;
+  type?: UpdatePrivateLinkServicesForMIPPolicySyncResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type UpdatePrivateLinkServicesForMIPPolicySyncResponsePropertiesProvisioningState =
@@ -4426,43 +4734,49 @@ export type UpdatePrivateLinkServicesForMIPPolicySyncResponsePropertiesPublicNet
 /** The properties of a service instance. */
 export interface UpdatePrivateLinkServicesForMIPPolicySyncResponseProperties {
   /** The provisioning state. */
-  provisioningState?: UpdatePrivateLinkServicesForMIPPolicySyncResponsePropertiesProvisioningState;
+  provisioningState?:
+    | UpdatePrivateLinkServicesForMIPPolicySyncResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: UpdatePrivateLinkServicesForMIPPolicySyncResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | UpdatePrivateLinkServicesForMIPPolicySyncResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: UpdatePrivateLinkServicesForMIPPolicySyncResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | UpdatePrivateLinkServicesForMIPPolicySyncResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface UpdatePrivateLinkServicesForMIPPolicySyncResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdatePrivateLinkServicesForMIPPolicySyncResponseSystemData;
+  systemData?: UpdatePrivateLinkServicesForMIPPolicySyncResponseSystemData | undefined;
   /** The kind of the service. */
   kind: UpdatePrivateLinkServicesForMIPPolicySyncResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: UpdatePrivateLinkServicesForMIPPolicySyncResponseTagsMap;
+  tags?: UpdatePrivateLinkServicesForMIPPolicySyncResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: UpdatePrivateLinkServicesForMIPPolicySyncResponseIdentity;
+  identity?: UpdatePrivateLinkServicesForMIPPolicySyncResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: UpdatePrivateLinkServicesForMIPPolicySyncResponseProperties;
+  properties?: UpdatePrivateLinkServicesForMIPPolicySyncResponseProperties | undefined;
 }
 /** Instance tags */
 export type UpdatePrivateLinkServicesForO365ManagementActivityAPIRequestTagsMap = {
@@ -4476,9 +4790,9 @@ export interface UpdatePrivateLinkServicesForO365ManagementActivityAPIRequest {
   /** The name of the service instance. */
   resourceName: string;
   /** Instance tags */
-  tags?: UpdatePrivateLinkServicesForO365ManagementActivityAPIRequestTagsMap;
+  tags?: UpdatePrivateLinkServicesForO365ManagementActivityAPIRequestTagsMap | undefined;
   /** The properties for updating a service instance. */
-  properties?: ServicesPropertiesUpdateParameters;
+  properties?: ServicesPropertiesUpdateParameters | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseSystemDataCreatedByType =
@@ -4495,17 +4809,21 @@ export type UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseSystemD
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseSystemDataCreatedByType;
+  createdByType?:
+    | UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseKind =
@@ -4523,11 +4841,11 @@ export type UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseIdentit
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseIdentityType;
+  type?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type UpdatePrivateLinkServicesForO365ManagementActivityAPIResponsePropertiesProvisioningState =
@@ -4550,43 +4868,49 @@ export type UpdatePrivateLinkServicesForO365ManagementActivityAPIResponsePropert
 /** The properties of a service instance. */
 export interface UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseProperties {
   /** The provisioning state. */
-  provisioningState?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponsePropertiesProvisioningState;
+  provisioningState?:
+    | UpdatePrivateLinkServicesForO365ManagementActivityAPIResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | UpdatePrivateLinkServicesForO365ManagementActivityAPIResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | UpdatePrivateLinkServicesForO365ManagementActivityAPIResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface UpdatePrivateLinkServicesForO365ManagementActivityAPIResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseSystemData;
+  systemData?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseSystemData | undefined;
   /** The kind of the service. */
   kind: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseTagsMap;
+  tags?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseIdentity;
+  identity?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseProperties;
+  properties?: UpdatePrivateLinkServicesForO365ManagementActivityAPIResponseProperties | undefined;
 }
 /** Instance tags */
 export type UpdatePrivateLinkServicesForSCCPowershellRequestTagsMap = {
@@ -4600,9 +4924,9 @@ export interface UpdatePrivateLinkServicesForSCCPowershellRequest {
   /** The name of the service instance. */
   resourceName: string;
   /** Instance tags */
-  tags?: UpdatePrivateLinkServicesForSCCPowershellRequestTagsMap;
+  tags?: UpdatePrivateLinkServicesForSCCPowershellRequestTagsMap | undefined;
   /** The properties for updating a service instance. */
-  properties?: ServicesPropertiesUpdateParameters;
+  properties?: ServicesPropertiesUpdateParameters | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdatePrivateLinkServicesForSCCPowershellResponseSystemDataCreatedByType =
@@ -4619,17 +4943,21 @@ export type UpdatePrivateLinkServicesForSCCPowershellResponseSystemDataLastModif
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdatePrivateLinkServicesForSCCPowershellResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdatePrivateLinkServicesForSCCPowershellResponseSystemDataCreatedByType;
+  createdByType?:
+    | UpdatePrivateLinkServicesForSCCPowershellResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdatePrivateLinkServicesForSCCPowershellResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdatePrivateLinkServicesForSCCPowershellResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The kind of the service. */
 export type UpdatePrivateLinkServicesForSCCPowershellResponseKind =
@@ -4647,11 +4975,11 @@ export type UpdatePrivateLinkServicesForSCCPowershellResponseIdentityType =
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface UpdatePrivateLinkServicesForSCCPowershellResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: UpdatePrivateLinkServicesForSCCPowershellResponseIdentityType;
+  type?: UpdatePrivateLinkServicesForSCCPowershellResponseIdentityType | undefined;
 }
 /** The provisioning state. */
 export type UpdatePrivateLinkServicesForSCCPowershellResponsePropertiesProvisioningState =
@@ -4674,43 +5002,49 @@ export type UpdatePrivateLinkServicesForSCCPowershellResponsePropertiesPublicNet
 /** The properties of a service instance. */
 export interface UpdatePrivateLinkServicesForSCCPowershellResponseProperties {
   /** The provisioning state. */
-  provisioningState?: UpdatePrivateLinkServicesForSCCPowershellResponsePropertiesProvisioningState;
+  provisioningState?:
+    | UpdatePrivateLinkServicesForSCCPowershellResponsePropertiesProvisioningState
+    | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: ServiceExportConfigurationInfo;
+  exportConfiguration?: ServiceExportConfigurationInfo | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: UpdatePrivateLinkServicesForSCCPowershellResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | UpdatePrivateLinkServicesForSCCPowershellResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: UpdatePrivateLinkServicesForSCCPowershellResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?:
+    | UpdatePrivateLinkServicesForSCCPowershellResponsePropertiesPublicNetworkAccess
+    | undefined;
 }
 export interface UpdatePrivateLinkServicesForSCCPowershellResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdatePrivateLinkServicesForSCCPowershellResponseSystemData;
+  systemData?: UpdatePrivateLinkServicesForSCCPowershellResponseSystemData | undefined;
   /** The kind of the service. */
   kind: UpdatePrivateLinkServicesForSCCPowershellResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: UpdatePrivateLinkServicesForSCCPowershellResponseTagsMap;
+  tags?: UpdatePrivateLinkServicesForSCCPowershellResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: UpdatePrivateLinkServicesForSCCPowershellResponseIdentity;
+  identity?: UpdatePrivateLinkServicesForSCCPowershellResponseIdentity | undefined;
   /** The properties of a service instance. */
-  properties?: UpdatePrivateLinkServicesForSCCPowershellResponseProperties;
+  properties?: UpdatePrivateLinkServicesForSCCPowershellResponseProperties | undefined;
 }
 export type DeletePrivateEndpointConnectionsAdtAPIError = AzureOpError;
 /** Deletes a private endpoint connection. */

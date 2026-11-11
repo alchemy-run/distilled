@@ -76,7 +76,7 @@ export interface GetOriginPostQuantumEncryptionResponse {
   /** Value of the Origin Post Quantum Encryption Setting. */
   value: GetResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type UpdateRequestValue = "preferred" | "supported" | "off";
 export interface PutOriginPostQuantumEncryptionRequest {
@@ -96,7 +96,7 @@ export interface PutOriginPostQuantumEncryptionResponse {
   /** Value of the Origin Post Quantum Encryption Setting. */
   value: UpdateResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type GetOriginPostQuantumEncryptionError =
   | InvalidZoneIdentifier

@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Storagemover",
   service: "Storagemover",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -38,7 +39,7 @@ export interface Time {
   /** The hour element of the time. Allowed values range from 0 (start of the selected day) to 24 (end of the selected day). Hour value 24 cannot be combined with any other minute value but 0. */
   hour: number;
   /** The minute element of the time. Allowed values are 0 and 30. If not specified, its value defaults to 0. */
-  minute?: TimeMinute | (number & {});
+  minute?: TimeMinute | (number & {}) | undefined;
 }
 /** The day of week. */
 export type DayOfWeek =
@@ -67,17 +68,17 @@ export type UploadLimitScheduleWeeklyRecurrencesList = Array<UploadLimitWeeklyRe
 /** The WAN-link upload limit schedule. Overlapping recurrences are not allowed. */
 export interface UploadLimitSchedule {
   /** The set of weekly repeating recurrences of the WAN-link upload limit schedule. */
-  weeklyRecurrences?: UploadLimitScheduleWeeklyRecurrencesList;
+  weeklyRecurrences?: UploadLimitScheduleWeeklyRecurrencesList | undefined;
 }
 export interface AgentPropertiesInput {
   /** A description for the Agent. */
-  description?: string;
+  description?: string | undefined;
   /** The fully qualified resource ID of the Hybrid Compute resource for the Agent. */
   arcResourceId: string;
   /** The VM UUID of the Hybrid Compute resource for the Agent. */
   arcVmUuid: string;
   /** The WAN-link upload limit schedule that applies to any Job Run the agent executes. Data plane operations (migrating files) are affected. Control plane operations ensure seamless migration functionality and are not limited by this schedule. The schedule is interpreted with the agent's local time. */
-  uploadLimitSchedule?: UploadLimitSchedule;
+  uploadLimitSchedule?: UploadLimitSchedule | undefined;
 }
 export interface AgentsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -97,17 +98,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The Agent status. */
 export type AgentStatus =
@@ -119,50 +120,50 @@ export type AgentStatus =
   | "Unregistering";
 export interface AgentPropertiesErrorDetails {
   /** Error code reported by Agent */
-  code?: string;
+  code?: string | undefined;
   /** Expanded description of reported error code */
-  message?: string;
+  message?: string | undefined;
 }
 /** The provisioning state of a resource. */
 export type ProvisioningState = "Succeeded" | "Canceled" | "Failed" | "Deleting";
 export interface AgentProperties {
   /** A description for the Agent. */
-  description?: string;
+  description?: string | undefined;
   /** The Agent version. */
-  agentVersion?: string;
+  agentVersion?: string | undefined;
   /** The fully qualified resource ID of the Hybrid Compute resource for the Agent. */
   arcResourceId: string;
   /** The VM UUID of the Hybrid Compute resource for the Agent. */
   arcVmUuid: string;
   /** The Agent status. */
-  agentStatus?: AgentStatus;
+  agentStatus?: AgentStatus | undefined;
   /** The last updated time of the Agent status. */
-  lastStatusUpdate?: string;
+  lastStatusUpdate?: string | undefined;
   /** Local IP address reported by the Agent. */
-  localIPAddress?: string;
+  localIPAddress?: string | undefined;
   /** Available memory reported by the Agent, in MB. */
-  memoryInMB?: number;
+  memoryInMB?: number | undefined;
   /** Available compute cores reported by the Agent. */
-  numberOfCores?: number;
+  numberOfCores?: number | undefined;
   /** Uptime of the Agent in seconds. */
-  uptimeInSeconds?: number;
+  uptimeInSeconds?: number | undefined;
   /** The agent's local time zone represented in Windows format. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** The WAN-link upload limit schedule that applies to any Job Run the agent executes. Data plane operations (migrating files) are affected. Control plane operations ensure seamless migration functionality and are not limited by this schedule. The schedule is interpreted with the agent's local time. */
-  uploadLimitSchedule?: UploadLimitSchedule;
-  errorDetails?: AgentPropertiesErrorDetails;
+  uploadLimitSchedule?: UploadLimitSchedule | undefined;
+  errorDetails?: AgentPropertiesErrorDetails | undefined;
   /** The provisioning state of this resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface AgentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: AgentProperties;
 }
 /** List of job definitions associated with this connection. */
@@ -170,11 +171,11 @@ export type ConnectionPropertiesInputJobListList = Array<string>;
 /** Properties of the Connection resource. */
 export interface ConnectionPropertiesInput {
   /** A description for the Connection. */
-  description?: string;
+  description?: string | undefined;
   /** The PrivateLinkServiceId for the connection. */
   privateLinkServiceId: string;
   /** List of job definitions associated with this connection. */
-  jobList?: ConnectionPropertiesInputJobListList;
+  jobList?: ConnectionPropertiesInputJobListList | undefined;
 }
 export interface ConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -195,29 +196,29 @@ export type ConnectionPropertiesJobListList = Array<string>;
 /** Properties of the Connection resource. */
 export interface ConnectionProperties {
   /** A description for the Connection. */
-  description?: string;
+  description?: string | undefined;
   /** The connection status. */
-  connectionStatus?: ConnectionStatus;
+  connectionStatus?: ConnectionStatus | undefined;
   /** The PrivateLinkServiceId for the connection. */
   privateLinkServiceId: string;
   /** The PrivateEndpointName associated with the connection. */
-  privateEndpointName?: string;
+  privateEndpointName?: string | undefined;
   /** The privateEndpoint resource Id */
-  privateEndpointResourceId?: string;
+  privateEndpointResourceId?: string | undefined;
   /** List of job definitions associated with this connection. */
-  jobList?: ConnectionPropertiesJobListList;
+  jobList?: ConnectionPropertiesJobListList | undefined;
   /** The provisioning state of this resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface ConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Connection properties. */
   properties: ConnectionProperties;
 }
@@ -233,9 +234,9 @@ export interface DeleteAgentRequest {
 }
 export interface DeleteAgentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteConnectionRequest {
   /** The ID of the target subscription. */
@@ -249,9 +250,9 @@ export interface DeleteConnectionRequest {
 }
 export interface DeleteConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteEndpointRequest {
   /** The ID of the target subscription. */
@@ -265,9 +266,9 @@ export interface DeleteEndpointRequest {
 }
 export interface DeleteEndpointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteJobDefinitionRequest {
   /** The ID of the target subscription. */
@@ -283,9 +284,9 @@ export interface DeleteJobDefinitionRequest {
 }
 export interface DeleteJobDefinitionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteProjectRequest {
   /** The ID of the target subscription. */
@@ -299,9 +300,9 @@ export interface DeleteProjectRequest {
 }
 export interface DeleteProjectResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteStorageMoverRequest {
   /** The ID of the target subscription. */
@@ -313,9 +314,9 @@ export interface DeleteStorageMoverRequest {
 }
 export interface DeleteStorageMoverResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The Endpoint resource type. */
 export type EndpointType =
@@ -333,39 +334,39 @@ export interface EndpointBasePropertiesInput {
   /** The Endpoint resource type. */
   endpointType: EndpointType | (string & {});
   /** A description for the Endpoint. */
-  description?: string;
+  description?: string | undefined;
   /** The Endpoint resource kind source or target. */
-  endpointKind?: EndpointKind | (string & {});
+  endpointKind?: EndpointKind | (string & {}) | undefined;
   /** ARM ID of the storage account (AzureStorageBlobContainer, AzureStorageSmbFileShare, AzureStorageNfsFileShare). */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
   /** Blob container name (AzureStorageBlobContainer). */
-  blobContainerName?: string;
+  blobContainerName?: string | undefined;
   /** File share name (AzureStorageSmbFileShare, AzureStorageNfsFileShare). */
-  fileShareName?: string;
+  fileShareName?: string | undefined;
   /** Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare). */
-  enableCrossTenantTransfer?: boolean;
+  enableCrossTenantTransfer?: boolean | undefined;
   /** Storage account ARM IDs allowed for cross-tenant transfers (string array). */
-  allowedStorageAccounts?: unknown;
+  allowedStorageAccounts?: unknown | undefined;
   /** Host name or IP address of the server (NfsMount, SmbMount). */
-  host?: string;
+  host?: string | undefined;
   /** NFS protocol version: NFSauto, NFSv3 or NFSv4 (NfsMount). */
-  nfsVersion?: string;
+  nfsVersion?: string | undefined;
   /** Directory exported from the NFS server (NfsMount). */
-  export?: string;
+  export?: string | undefined;
   /** SMB share name (SmbMount). */
-  shareName?: string;
+  shareName?: string | undefined;
   /** Source type, e.g. NfsMount, FSX-EFS, SmbMount, FSX-SMB (NfsMount, SmbMount, S3WithHMAC). */
-  sourceType?: string;
+  sourceType?: string | undefined;
   /** Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC). */
-  credentials?: unknown;
+  credentials?: unknown | undefined;
   /** ARM ID of the multi-cloud connector (AzureMultiCloudConnector). */
-  multiCloudConnectorId?: string;
+  multiCloudConnectorId?: string | undefined;
   /** ARM ID of the AWS S3 bucket (AzureMultiCloudConnector). */
-  awsS3BucketId?: string;
+  awsS3BucketId?: string | undefined;
   /** Source URI (S3WithHMAC). */
-  sourceUri?: string;
+  sourceUri?: string | undefined;
   /** Description of an `Other` source type (S3WithHMAC). */
-  otherSourceTypeDescription?: string;
+  otherSourceTypeDescription?: string | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -380,7 +381,7 @@ export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityI
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface EndpointsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput | null;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | null | undefined;
 }
 export interface EndpointsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -394,80 +395,80 @@ export interface EndpointsCreateOrUpdateRequest {
   /** The resource specific properties for the Storage Mover resource. */
   properties: EndpointBasePropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: EndpointsCreateOrUpdateRequestIdentity;
+  identity?: EndpointsCreateOrUpdateRequestIdentity | undefined;
 }
 /** The resource specific properties for the Storage Mover resource. */
 export interface EndpointBaseProperties {
   /** The Endpoint resource type. */
   endpointType: EndpointType;
   /** A description for the Endpoint. */
-  description?: string;
+  description?: string | undefined;
   /** The Endpoint resource kind source or target. */
-  endpointKind?: EndpointKind;
+  endpointKind?: EndpointKind | undefined;
   /** The provisioning state of this resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** ARM ID of the storage account (AzureStorageBlobContainer, AzureStorageSmbFileShare, AzureStorageNfsFileShare). */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
   /** Blob container name (AzureStorageBlobContainer). */
-  blobContainerName?: string;
+  blobContainerName?: string | undefined;
   /** File share name (AzureStorageSmbFileShare, AzureStorageNfsFileShare). */
-  fileShareName?: string;
+  fileShareName?: string | undefined;
   /** Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare). */
-  enableCrossTenantTransfer?: boolean;
+  enableCrossTenantTransfer?: boolean | undefined;
   /** Storage account ARM IDs allowed for cross-tenant transfers (string array). */
-  allowedStorageAccounts?: unknown;
+  allowedStorageAccounts?: unknown | undefined;
   /** Host name or IP address of the server (NfsMount, SmbMount). */
-  host?: string;
+  host?: string | undefined;
   /** NFS protocol version: NFSauto, NFSv3 or NFSv4 (NfsMount). */
-  nfsVersion?: string;
+  nfsVersion?: string | undefined;
   /** Directory exported from the NFS server (NfsMount). */
-  export?: string;
+  export?: string | undefined;
   /** SMB share name (SmbMount). */
-  shareName?: string;
+  shareName?: string | undefined;
   /** Source type, e.g. NfsMount, FSX-EFS, SmbMount, FSX-SMB (NfsMount, SmbMount, S3WithHMAC). */
-  sourceType?: string;
+  sourceType?: string | undefined;
   /** Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC). */
-  credentials?: unknown;
+  credentials?: unknown | undefined;
   /** ARM ID of the multi-cloud connector (AzureMultiCloudConnector). */
-  multiCloudConnectorId?: string;
+  multiCloudConnectorId?: string | undefined;
   /** ARM ID of the AWS S3 bucket (AzureMultiCloudConnector). */
-  awsS3BucketId?: string;
+  awsS3BucketId?: string | undefined;
   /** Source URI (S3WithHMAC). */
-  sourceUri?: string;
+  sourceUri?: string | undefined;
   /** Description of an `Other` source type (S3WithHMAC). */
-  otherSourceTypeDescription?: string;
+  otherSourceTypeDescription?: string | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface EndpointsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities | null;
+  userAssignedIdentities?: UserAssignedIdentities | null | undefined;
 }
 export interface EndpointsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource specific properties for the Storage Mover resource. */
   properties: EndpointBaseProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: EndpointsCreateOrUpdateResponseIdentity;
+  identity?: EndpointsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetAgentRequest {
   /** The ID of the target subscription. */
@@ -481,13 +482,13 @@ export interface GetAgentRequest {
 }
 export interface GetAgentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: AgentProperties;
 }
 export interface GetConnectionRequest {
@@ -502,13 +503,13 @@ export interface GetConnectionRequest {
 }
 export interface GetConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Connection properties. */
   properties: ConnectionProperties;
 }
@@ -526,17 +527,17 @@ export interface GetEndpointRequest {
 export type GetEndpointResponseIdentity = EndpointsCreateOrUpdateResponseIdentity;
 export interface GetEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource specific properties for the Storage Mover resource. */
   properties: EndpointBaseProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: EndpointsCreateOrUpdateResponseIdentity;
+  identity?: EndpointsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetJobDefinitionRequest {
   /** The ID of the target subscription. */
@@ -571,32 +572,32 @@ export type JobRunStatus =
 /** The properties of the cloud source endpoint to migrate. */
 export interface SourceEndpointProperties {
   /** The name of the cloud source endpoint to migrate. */
-  name?: string;
+  name?: string | undefined;
   /** The fully qualified ARM resource ID of the cloud source endpoint to migrate. */
-  sourceEndpointResourceId?: string;
+  sourceEndpointResourceId?: string | undefined;
   /** The fully qualified ARM resource ID of the AWS S3 bucket to migrate. */
-  awsS3BucketId?: string;
+  awsS3BucketId?: string | undefined;
 }
 /** The source endpoint resource for source and target mapping. */
 export interface SourceEndpoint {
   /** The properties of the cloud source endpoint to migrate. */
-  properties?: SourceEndpointProperties;
+  properties?: SourceEndpointProperties | undefined;
 }
 /** The properties of the cloud target endpoint to migrate. */
 export interface TargetEndpointProperties {
   /** The name of the cloud target endpoint to migrate. */
-  name?: string;
+  name?: string | undefined;
   /** The fully qualified ARM resource ID of the cloud target endpoint to migrate. */
-  targetEndpointResourceId?: string;
+  targetEndpointResourceId?: string | undefined;
   /** The fully qualified ARM resource ID of the Azure Storage account. */
-  azureStorageAccountResourceId?: string;
+  azureStorageAccountResourceId?: string | undefined;
   /** The name of the Azure Storage blob container. */
-  azureStorageBlobContainerName?: string;
+  azureStorageBlobContainerName?: string | undefined;
 }
 /** The target endpoint resource for source and target mapping. */
 export interface TargetEndpoint {
   /** The properties of the cloud target endpoint to migrate. */
-  properties?: TargetEndpointProperties;
+  properties?: TargetEndpointProperties | undefined;
 }
 /** The properties of cloud endpoints to migrate. */
 export interface SourceTargetMap {
@@ -606,7 +607,7 @@ export interface SourceTargetMap {
 export type JobDefinitionPropertiesSourceTargetMapValueList = Array<SourceTargetMap>;
 /** The list of cloud endpoints to migrate. */
 export interface JobDefinitionPropertiesSourceTargetMap {
-  value?: JobDefinitionPropertiesSourceTargetMapValueList;
+  value?: JobDefinitionPropertiesSourceTargetMapValueList | undefined;
 }
 /** List of connections associated to this job */
 export type JobDefinitionPropertiesConnectionsList = Array<string>;
@@ -617,9 +618,9 @@ export type SchedulerTimeMinute = 0 | 30;
 /** The time of day. */
 export interface SchedulerTime {
   /** The hour element of the time. Allowed values range from 0 (start of the selected day) to 24 (end of the selected day). Hour value 24 cannot be combined with any other minute value but 0. */
-  hour?: number;
+  hour?: number | undefined;
   /** The minute element of the time. Allowed values are 0 and 30. If not specified, its value defaults to 0. */
-  minute?: SchedulerTimeMinute | (number & {});
+  minute?: SchedulerTimeMinute | (number & {}) | undefined;
 }
 /** Days of the week for weekly schedules */
 export type ScheduleInfoDaysOfWeekList = Array<string>;
@@ -628,23 +629,23 @@ export type ScheduleInfoDaysOfMonthList = Array<number>;
 /** Schedule information for the Job Definition. */
 export interface ScheduleInfo {
   /** Type of schedule -- Monthly, Weekly, or Daily */
-  frequency?: Frequency | (string & {});
+  frequency?: Frequency | (string & {}) | undefined;
   /** Whether the schedule is currently active */
-  isActive?: boolean;
+  isActive?: boolean | undefined;
   /** Time of day to execute (hours and minutes) */
-  executionTime?: SchedulerTime;
+  executionTime?: SchedulerTime | undefined;
   /** Specific one-time execution date and time */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Days of the week for weekly schedules */
-  daysOfWeek?: ScheduleInfoDaysOfWeekList;
+  daysOfWeek?: ScheduleInfoDaysOfWeekList | undefined;
   /** Days of the month for monthly schedules */
-  daysOfMonth?: ScheduleInfoDaysOfMonthList;
+  daysOfMonth?: ScheduleInfoDaysOfMonthList | undefined;
   /** Optional CRON expression for advanced scheduling */
-  cronExpression?: string;
+  cronExpression?: string | undefined;
   /** End time of the schedule (in UTC) */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Repeat interval used for sub-daily schedules. */
-  repeatInterval?: string;
+  repeatInterval?: string | undefined;
 }
 /** The checksum validation mode for the job definition. */
 export type JobDefinitionPropertiesDataIntegrityValidation =
@@ -654,65 +655,65 @@ export type JobDefinitionPropertiesDataIntegrityValidation =
 /** Job definition properties. */
 export interface JobDefinitionProperties {
   /** A description for the Job Definition. OnPremToCloud is for migrating data from on-premises to cloud. CloudToCloud is for migrating data between cloud to cloud. */
-  description?: string;
+  description?: string | undefined;
   /** The type of the Job. */
-  jobType?: JobDefinitionPropertiesJobType;
+  jobType?: JobDefinitionPropertiesJobType | undefined;
   /** Strategy to use for copy. */
   copyMode: CopyMode;
   /** The name of the source Endpoint. */
   sourceName: string;
   /** Fully qualified resource ID of the source Endpoint. */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** The subpath to use when reading from the source Endpoint. */
-  sourceSubpath?: string;
+  sourceSubpath?: string | undefined;
   /** The name of the target Endpoint. */
   targetName: string;
   /** Fully qualified resource ID of the target Endpoint. */
-  targetResourceId?: string;
+  targetResourceId?: string | undefined;
   /** The subpath to use when writing to the target Endpoint. */
-  targetSubpath?: string;
+  targetSubpath?: string | undefined;
   /** The name of the Job Run in a non-terminal state, if exists. */
-  latestJobRunName?: string;
+  latestJobRunName?: string | undefined;
   /** The fully qualified resource ID of the Job Run in a non-terminal state, if exists. */
-  latestJobRunResourceId?: string;
+  latestJobRunResourceId?: string | undefined;
   /** The current status of the Job Run in a non-terminal state, if exists. */
-  latestJobRunStatus?: JobRunStatus;
+  latestJobRunStatus?: JobRunStatus | undefined;
   /** Name of the Agent to assign for new Job Runs of this Job Definition. */
-  agentName?: string;
+  agentName?: string | undefined;
   /** Fully qualified resource id of the Agent to assign for new Job Runs of this Job Definition. */
-  agentResourceId?: string;
+  agentResourceId?: string | undefined;
   /** The list of cloud endpoints to migrate. */
-  sourceTargetMap?: JobDefinitionPropertiesSourceTargetMap;
+  sourceTargetMap?: JobDefinitionPropertiesSourceTargetMap | undefined;
   /** The provisioning state of this resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of connections associated to this job */
-  connections?: JobDefinitionPropertiesConnectionsList;
+  connections?: JobDefinitionPropertiesConnectionsList | undefined;
   /** Schedule information for the Job Definition. */
-  schedule?: ScheduleInfo;
+  schedule?: ScheduleInfo | undefined;
   /** The checksum validation mode for the job definition. */
-  dataIntegrityValidation?: JobDefinitionPropertiesDataIntegrityValidation;
+  dataIntegrityValidation?: JobDefinitionPropertiesDataIntegrityValidation | undefined;
   /** Boolean to preserve permissions or not. */
-  preservePermissions?: boolean;
+  preservePermissions?: boolean | undefined;
   /** Indicates that this Job Definition is a cross-tenant job where the counterpart endpoint resides in a different Azure AD tenant. When true, `crossTenantEndpointTenantId` and `crossTenantEndpointResourceId` must be provided. Defaults to false. Cannot be modified after the Job Definition is created. */
-  isCrossTenantJob?: boolean;
+  isCrossTenantJob?: boolean | undefined;
   /** The Azure AD tenant ID of the cross-tenant source endpoint. Required when `isCrossTenantJob` is true. Cannot be modified after the Job Definition is created. */
-  crossTenantEndpointTenantId?: string;
+  crossTenantEndpointTenantId?: string | undefined;
   /** Full ARM resource ID of the cross-tenant (foreign) endpoint. On the source-tenant copy this is the TARGET endpoint; on the target-tenant copy this is the SOURCE endpoint. */
-  crossTenantEndpointResourceId?: string;
+  crossTenantEndpointResourceId?: string | undefined;
   /** The synchronization mode for the Job Definition. */
-  syncMode?: string;
+  syncMode?: string | undefined;
   /** The last time the mover was synchronized. */
-  moverSyncedUntil?: string;
+  moverSyncedUntil?: string | undefined;
 }
 export interface GetJobDefinitionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Job definition properties. */
   properties: JobDefinitionProperties;
 }
@@ -737,99 +738,99 @@ export type JobRunPropertiesTriggerType = "Manual" | "Scheduled";
 /** Error type */
 export interface JobRunError {
   /** Error code of the given entry. */
-  code?: string;
+  code?: string | undefined;
   /** Error message of the given entry. */
-  message?: string;
+  message?: string | undefined;
   /** Target of the given error entry. */
-  target?: string;
+  target?: string | undefined;
 }
 /** Warning type */
 export interface JobRunWarning {
   /** Error code of the given entry. */
-  code?: string;
+  code?: string | undefined;
   /** Warning message of the given entry. */
-  message?: string;
+  message?: string | undefined;
   /** Target of the given error entry. */
-  target?: string;
+  target?: string | undefined;
 }
 /** Warning details. */
 export type JobRunPropertiesWarningsList = Array<JobRunWarning>;
 /** Job run properties. */
 export interface JobRunProperties {
   /** The state of the job execution. */
-  status?: JobRunStatus;
+  status?: JobRunStatus | undefined;
   /** The status of Agent's scanning of source. */
-  scanStatus?: JobRunScanStatus;
+  scanStatus?: JobRunScanStatus | undefined;
   /** Name of the Agent assigned to this run. */
-  agentName?: string;
+  agentName?: string | undefined;
   /** Fully qualified resource id of the Agent assigned to this run. */
-  agentResourceId?: string;
+  agentResourceId?: string | undefined;
   /** Start time of the run. Null if no Agent reported that the job has started. */
-  executionStartTime?: string;
+  executionStartTime?: string | undefined;
   /** End time of the run. Null if Agent has not reported that the job has ended. */
-  executionEndTime?: string;
+  executionEndTime?: string | undefined;
   /** Trigger type for the job run. Default is manual. */
-  triggerType?: JobRunPropertiesTriggerType;
+  triggerType?: JobRunPropertiesTriggerType | undefined;
   /** Scheduled execution time. Null if Trigger type is manual. */
-  scheduledExecutionTime?: string;
+  scheduledExecutionTime?: string | undefined;
   /** The last updated time of the Job Run. */
-  lastStatusUpdate?: string;
+  lastStatusUpdate?: string | undefined;
   /** Number of items scanned so far in source. */
-  itemsScanned?: number;
+  itemsScanned?: number | undefined;
   /** Number of items that will not be transferred, as they are excluded by user configuration. */
-  itemsExcluded?: number;
+  itemsExcluded?: number | undefined;
   /** Number of items that will not be transferred, as they are unsupported on target. */
-  itemsUnsupported?: number;
+  itemsUnsupported?: number | undefined;
   /** Number of items that will not be transferred, as they are already found on target (e.g. mirror mode). */
-  itemsNoTransferNeeded?: number;
+  itemsNoTransferNeeded?: number | undefined;
   /** Number of items that were attempted to transfer and failed. */
-  itemsFailed?: number;
+  itemsFailed?: number | undefined;
   /** Number of items successfully transferred to target. */
-  itemsTransferred?: number;
+  itemsTransferred?: number | undefined;
   /** Bytes of data scanned so far in source. */
-  bytesScanned?: number;
+  bytesScanned?: number | undefined;
   /** Bytes of data that will not be transferred, as they are excluded by user configuration. */
-  bytesExcluded?: number;
+  bytesExcluded?: number | undefined;
   /** Bytes of data that will not be transferred, as they are unsupported on target. */
-  bytesUnsupported?: number;
+  bytesUnsupported?: number | undefined;
   /** Bytes of data that will not be transferred, as they are already found on target (e.g. mirror mode). */
-  bytesNoTransferNeeded?: number;
+  bytesNoTransferNeeded?: number | undefined;
   /** Bytes of data that were attempted to transfer and failed. */
-  bytesFailed?: number;
+  bytesFailed?: number | undefined;
   /** Bytes of data successfully transferred to target. */
-  bytesTransferred?: number;
+  bytesTransferred?: number | undefined;
   /** Name of source Endpoint resource. This resource may no longer exist. */
-  sourceName?: string;
+  sourceName?: string | undefined;
   /** Fully qualified resource id of source Endpoint. This id may no longer exist. */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** Copy of source Endpoint resource's properties at time of Job Run creation. */
-  sourceProperties?: unknown;
+  sourceProperties?: unknown | undefined;
   /** Name of target Endpoint resource. This resource may no longer exist. */
-  targetName?: string;
+  targetName?: string | undefined;
   /** Fully qualified resource id of of Endpoint. This id may no longer exist. */
-  targetResourceId?: string;
+  targetResourceId?: string | undefined;
   /** Copy of Endpoint resource's properties at time of Job Run creation. */
-  targetProperties?: unknown;
+  targetProperties?: unknown | undefined;
   /** Copy of parent Job Definition's properties at time of Job Run creation. */
-  jobDefinitionProperties?: unknown;
+  jobDefinitionProperties?: unknown | undefined;
   /** Error details. */
-  error?: JobRunError;
+  error?: JobRunError | undefined;
   /** Warning details. */
-  warnings?: JobRunPropertiesWarningsList;
+  warnings?: JobRunPropertiesWarningsList | undefined;
   /** The provisioning state of this resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetJobRunResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Job run properties. */
-  properties?: JobRunProperties;
+  properties?: JobRunProperties | undefined;
 }
 export interface GetProjectRequest {
   /** The ID of the target subscription. */
@@ -844,21 +845,21 @@ export interface GetProjectRequest {
 /** Project properties. */
 export interface ProjectProperties {
   /** A description for the Project. */
-  description?: string;
+  description?: string | undefined;
   /** The provisioning state of this resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetProjectResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Project properties. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
 }
 export interface GetStorageMoverRequest {
   /** The ID of the target subscription. */
@@ -873,25 +874,25 @@ export type GetStorageMoverResponseTagsMap = { [key: string]: string | undefined
 /** The resource specific properties for the Storage Mover resource. */
 export interface StorageMoverProperties {
   /** A description for the Storage Mover. */
-  description?: string;
+  description?: string | undefined;
   /** The provisioning state of this resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetStorageMoverResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetStorageMoverResponseTagsMap;
+  tags?: GetStorageMoverResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource specific properties for the Storage Mover resource. */
-  properties?: StorageMoverProperties;
+  properties?: StorageMoverProperties | undefined;
 }
 /** The type of the Job. */
 export type JobDefinitionPropertiesInputJobType =
@@ -910,41 +911,44 @@ export type JobDefinitionPropertiesInputDataIntegrityValidation =
 /** Job definition properties. */
 export interface JobDefinitionPropertiesInput {
   /** A description for the Job Definition. OnPremToCloud is for migrating data from on-premises to cloud. CloudToCloud is for migrating data between cloud to cloud. */
-  description?: string;
+  description?: string | undefined;
   /** The type of the Job. */
-  jobType?: JobDefinitionPropertiesInputJobType | (string & {});
+  jobType?: JobDefinitionPropertiesInputJobType | (string & {}) | undefined;
   /** Strategy to use for copy. */
   copyMode: CopyMode | (string & {});
   /** The name of the source Endpoint. */
   sourceName: string;
   /** The subpath to use when reading from the source Endpoint. */
-  sourceSubpath?: string;
+  sourceSubpath?: string | undefined;
   /** The name of the target Endpoint. */
   targetName: string;
   /** The subpath to use when writing to the target Endpoint. */
-  targetSubpath?: string;
+  targetSubpath?: string | undefined;
   /** Name of the Agent to assign for new Job Runs of this Job Definition. */
-  agentName?: string;
+  agentName?: string | undefined;
   /** The list of cloud endpoints to migrate. */
-  sourceTargetMap?: UserAssignedIdentityInput;
+  sourceTargetMap?: UserAssignedIdentityInput | undefined;
   /** List of connections associated to this job */
-  connections?: JobDefinitionPropertiesInputConnectionsList;
+  connections?: JobDefinitionPropertiesInputConnectionsList | undefined;
   /** Schedule information for the Job Definition. */
-  schedule?: ScheduleInfo;
+  schedule?: ScheduleInfo | undefined;
   /** The checksum validation mode for the job definition. */
-  dataIntegrityValidation?: JobDefinitionPropertiesInputDataIntegrityValidation | (string & {});
+  dataIntegrityValidation?:
+    | JobDefinitionPropertiesInputDataIntegrityValidation
+    | (string & {})
+    | undefined;
   /** Boolean to preserve permissions or not. */
-  preservePermissions?: boolean;
+  preservePermissions?: boolean | undefined;
   /** Indicates that this Job Definition is a cross-tenant job where the counterpart endpoint resides in a different Azure AD tenant. When true, `crossTenantEndpointTenantId` and `crossTenantEndpointResourceId` must be provided. Defaults to false. Cannot be modified after the Job Definition is created. */
-  isCrossTenantJob?: boolean;
+  isCrossTenantJob?: boolean | undefined;
   /** The Azure AD tenant ID of the cross-tenant source endpoint. Required when `isCrossTenantJob` is true. Cannot be modified after the Job Definition is created. */
-  crossTenantEndpointTenantId?: string;
+  crossTenantEndpointTenantId?: string | undefined;
   /** Full ARM resource ID of the cross-tenant (foreign) endpoint. On the source-tenant copy this is the TARGET endpoint; on the target-tenant copy this is the SOURCE endpoint. */
-  crossTenantEndpointResourceId?: string;
+  crossTenantEndpointResourceId?: string | undefined;
   /** The synchronization mode for the Job Definition. */
-  syncMode?: string;
+  syncMode?: string | undefined;
   /** The last time the mover was synchronized. */
-  moverSyncedUntil?: string;
+  moverSyncedUntil?: string | undefined;
 }
 export interface JobDefinitionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -962,13 +966,13 @@ export interface JobDefinitionsCreateOrUpdateRequest {
 }
 export interface JobDefinitionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Job definition properties. */
   properties: JobDefinitionProperties;
 }
@@ -987,7 +991,7 @@ export interface JobDefinitionsReconcileJobRequest {
 /** Response that identifies a Job Run. */
 export interface JobRunResourceId {
   /** Fully qualified resource id of the Job Run. */
-  jobRunResourceId?: string;
+  jobRunResourceId?: string | undefined;
 }
 export interface ListAgentsRequest {
   /** The ID of the target subscription. */
@@ -1000,13 +1004,13 @@ export interface ListAgentsRequest {
 /** The Agent resource. */
 export interface Agent {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: AgentProperties;
 }
 /** The Agent items on this page */
@@ -1016,7 +1020,7 @@ export interface AgentList {
   /** The Agent items on this page */
   value: AgentListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConnectionsRequest {
   /** The ID of the target subscription. */
@@ -1029,13 +1033,13 @@ export interface ListConnectionsRequest {
 /** The Connection resource. */
 export interface Connection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Connection properties. */
   properties: ConnectionProperties;
 }
@@ -1046,7 +1050,7 @@ export interface ConnectionList {
   /** The Connection items on this page */
   value: ConnectionListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEndpointsRequest {
   /** The ID of the target subscription. */
@@ -1061,17 +1065,17 @@ export type EndpointIdentity = EndpointsCreateOrUpdateResponseIdentity;
 /** The Endpoint resource, which contains information about file sources and targets. */
 export interface Endpoint {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource specific properties for the Storage Mover resource. */
   properties: EndpointBaseProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: EndpointsCreateOrUpdateResponseIdentity;
+  identity?: EndpointsCreateOrUpdateResponseIdentity | undefined;
 }
 /** The Endpoint items on this page */
 export type EndpointListValueList = Array<Endpoint>;
@@ -1080,7 +1084,7 @@ export interface EndpointList {
   /** The Endpoint items on this page */
   value: EndpointListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJobDefinitionsRequest {
   /** The ID of the target subscription. */
@@ -1095,13 +1099,13 @@ export interface ListJobDefinitionsRequest {
 /** The Job Definition resource. */
 export interface JobDefinition {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Job definition properties. */
   properties: JobDefinitionProperties;
 }
@@ -1112,7 +1116,7 @@ export interface JobDefinitionList {
   /** The JobDefinition items on this page */
   value: JobDefinitionListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJobRunsRequest {
   /** The ID of the target subscription. */
@@ -1129,15 +1133,15 @@ export interface ListJobRunsRequest {
 /** The Job Run resource. */
 export interface JobRun {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Job run properties. */
-  properties?: JobRunProperties;
+  properties?: JobRunProperties | undefined;
 }
 /** The JobRun items on this page */
 export type JobRunListValueList = Array<JobRun>;
@@ -1146,19 +1150,19 @@ export interface JobRunList {
   /** The JobRun items on this page */
   value: JobRunListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1167,23 +1171,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProjectsRequest {
   /** The ID of the target subscription. */
@@ -1196,15 +1200,15 @@ export interface ListProjectsRequest {
 /** The Project resource. */
 export interface Project {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Project properties. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
 }
 /** The Project items on this page */
 export type ProjectListValueList = Array<Project>;
@@ -1213,7 +1217,7 @@ export interface ProjectList {
   /** The Project items on this page */
   value: ProjectListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageMoverBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1224,19 +1228,19 @@ export type StorageMoverTagsMap = { [key: string]: string | undefined };
 /** The Storage Mover resource, which is a container for a group of Agents, Projects, and Endpoints. */
 export interface StorageMover {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StorageMoverTagsMap;
+  tags?: StorageMoverTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource specific properties for the Storage Mover resource. */
-  properties?: StorageMoverProperties;
+  properties?: StorageMoverProperties | undefined;
 }
 /** The StorageMover items on this page */
 export type StorageMoverListValueList = Array<StorageMover>;
@@ -1245,7 +1249,7 @@ export interface StorageMoverList {
   /** The StorageMover items on this page */
   value: StorageMoverListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageMoversRequest {
   /** The ID of the target subscription. */
@@ -1256,7 +1260,7 @@ export interface ListStorageMoversRequest {
 /** Project properties. */
 export interface ProjectPropertiesInput {
   /** A description for the Project. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface ProjectsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1268,19 +1272,19 @@ export interface ProjectsCreateOrUpdateRequest {
   /** The name of the Project resource. */
   projectName: string;
   /** Project properties. */
-  properties?: ProjectPropertiesInput;
+  properties?: ProjectPropertiesInput | undefined;
 }
 export interface ProjectsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Project properties. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
 }
 export interface StartJobDefinitionJobRequest {
   /** The ID of the target subscription. */
@@ -1311,7 +1315,7 @@ export type StorageMoversCreateOrUpdateRequestTagsMap = { [key: string]: string 
 /** The resource specific properties for the Storage Mover resource. */
 export interface StorageMoverPropertiesInput {
   /** A description for the Storage Mover. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface StorageMoversCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1321,35 +1325,35 @@ export interface StorageMoversCreateOrUpdateRequest {
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
   /** Resource tags. */
-  tags?: StorageMoversCreateOrUpdateRequestTagsMap;
+  tags?: StorageMoversCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource specific properties for the Storage Mover resource. */
-  properties?: StorageMoverPropertiesInput;
+  properties?: StorageMoverPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type StorageMoversCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface StorageMoversCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StorageMoversCreateOrUpdateResponseTagsMap;
+  tags?: StorageMoversCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource specific properties for the Storage Mover resource. */
-  properties?: StorageMoverProperties;
+  properties?: StorageMoverProperties | undefined;
 }
 export interface AgentUpdateProperties {
   /** A description for the Agent. */
-  description?: string;
+  description?: string | undefined;
   /** The WAN-link upload limit schedule that applies to any Job Run the agent executes. Data plane operations (migrating files) are affected. Control plane operations ensure seamless migration functionality and are not limited by this schedule. The schedule is interpreted with the agent's local time. */
-  uploadLimitSchedule?: UploadLimitSchedule;
+  uploadLimitSchedule?: UploadLimitSchedule | undefined;
 }
 export interface UpdateAgentRequest {
   /** The ID of the target subscription. */
@@ -1360,17 +1364,17 @@ export interface UpdateAgentRequest {
   storageMoverName: string;
   /** The name of the Agent resource. */
   agentName: string;
-  properties?: AgentUpdateProperties;
+  properties?: AgentUpdateProperties | undefined;
 }
 export interface UpdateAgentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: AgentProperties;
 }
 /** The Endpoint resource, which contains information about file sources and targets. */
@@ -1378,13 +1382,13 @@ export interface EndpointBaseUpdateProperties {
   /** The Endpoint resource type. */
   endpointType: EndpointType | (string & {});
   /** A description for the Endpoint. */
-  description?: string;
+  description?: string | undefined;
   /** Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC). */
-  credentials?: unknown;
+  credentials?: unknown | undefined;
   /** Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare). */
-  enableCrossTenantTransfer?: boolean;
+  enableCrossTenantTransfer?: boolean | undefined;
   /** Storage account ARM IDs allowed for cross-tenant transfers (string array). */
-  allowedStorageAccounts?: unknown;
+  allowedStorageAccounts?: unknown | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateEndpointRequestIdentity = EndpointsCreateOrUpdateRequestIdentity;
@@ -1398,25 +1402,25 @@ export interface UpdateEndpointRequest {
   /** The name of the Endpoint resource. */
   endpointName: string;
   /** The Endpoint resource, which contains information about file sources and targets. */
-  properties?: EndpointBaseUpdateProperties;
+  properties?: EndpointBaseUpdateProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: EndpointsCreateOrUpdateRequestIdentity;
+  identity?: EndpointsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateEndpointResponseIdentity = EndpointsCreateOrUpdateResponseIdentity;
 export interface UpdateEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource specific properties for the Storage Mover resource. */
   properties: EndpointBaseProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: EndpointsCreateOrUpdateResponseIdentity;
+  identity?: EndpointsCreateOrUpdateResponseIdentity | undefined;
 }
 /** List of connections associated to this job */
 export type JobDefinitionUpdatePropertiesConnectionsList = Array<string>;
@@ -1425,21 +1429,21 @@ export type DataIntegrityValidation = "SaveVerifyFileMD5" | "SaveFileMD5" | "Non
 /** Job definition properties. */
 export interface JobDefinitionUpdateProperties {
   /** A description for the Job Definition. */
-  description?: string;
+  description?: string | undefined;
   /** Strategy to use for copy. */
-  copyMode?: CopyMode | (string & {});
+  copyMode?: CopyMode | (string & {}) | undefined;
   /** Name of the Agent to assign for new Job Runs of this Job Definition. */
-  agentName?: string;
+  agentName?: string | undefined;
   /** List of connections associated to this job */
-  connections?: JobDefinitionUpdatePropertiesConnectionsList;
+  connections?: JobDefinitionUpdatePropertiesConnectionsList | undefined;
   /** Data Integrity Validation mode. */
-  dataIntegrityValidation?: DataIntegrityValidation | (string & {});
+  dataIntegrityValidation?: DataIntegrityValidation | (string & {}) | undefined;
   /** Schedule information for the Job Definition. */
-  schedule?: ScheduleInfo;
+  schedule?: ScheduleInfo | undefined;
   /** The synchronization mode for the Job Definition. */
-  syncMode?: string;
+  syncMode?: string | undefined;
   /** The last time the mover was synchronized. */
-  moverSyncedUntil?: string;
+  moverSyncedUntil?: string | undefined;
 }
 export interface UpdateJobDefinitionRequest {
   /** The ID of the target subscription. */
@@ -1453,17 +1457,17 @@ export interface UpdateJobDefinitionRequest {
   /** The name of the Job Definition resource. */
   jobDefinitionName: string;
   /** Job definition properties. */
-  properties?: JobDefinitionUpdateProperties;
+  properties?: JobDefinitionUpdateProperties | undefined;
 }
 export interface UpdateJobDefinitionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Job definition properties. */
   properties: JobDefinitionProperties;
 }
@@ -1479,19 +1483,19 @@ export interface UpdateProjectRequest {
   /** The name of the Project resource. */
   projectName: string;
   /** Project properties. */
-  properties?: ProjectPropertiesInput;
+  properties?: ProjectPropertiesInput | undefined;
 }
 export interface UpdateProjectResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Project properties. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
 }
 /** The resource specific properties for the Storage Mover resource. */
 export type StorageMoverUpdateProperties = StorageMoverPropertiesInput;
@@ -1505,27 +1509,27 @@ export interface UpdateStorageMoverRequest {
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
   /** The resource specific properties for the Storage Mover resource. */
-  properties?: StorageMoverPropertiesInput;
+  properties?: StorageMoverPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateStorageMoverRequestTagsMap;
+  tags?: UpdateStorageMoverRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateStorageMoverResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateStorageMoverResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateStorageMoverResponseTagsMap;
+  tags?: UpdateStorageMoverResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource specific properties for the Storage Mover resource. */
-  properties?: StorageMoverProperties;
+  properties?: StorageMoverProperties | undefined;
 }
 export type AgentsCreateOrUpdateError = AzureOpError;
 /** Creates or updates an Agent resource, which references a hybrid compute machine that can run jobs. */

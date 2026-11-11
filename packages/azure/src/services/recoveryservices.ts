@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Recoveryservices",
   service: "Recoveryservices",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -39,24 +40,24 @@ export interface CheckRecoveryServiceNameAvailabilityRequest {
   /** The name of Azure region. */
   location: string;
   /** Describes the Resource type: Microsoft.RecoveryServices/Vaults */
-  type?: string;
+  type?: string | undefined;
   /** Resource name for which availability needs to be checked */
-  name?: string;
+  name?: string | undefined;
 }
 /** Response for check name availability API. Resource provider will set availability as true | false. */
 export interface CheckNameAvailabilityResult {
-  nameAvailable?: boolean;
-  reason?: string;
-  message?: string;
+  nameAvailable?: boolean | undefined;
+  reason?: string | undefined;
+  message?: string | undefined;
 }
 /** Specifies the authentication type. */
 export type AuthType = "Invalid" | "ACS" | "AAD" | "AccessControlService" | "AzureActiveDirectory";
 /** Raw certificate data. */
 export interface RawCertificateData {
   /** Specifies the authentication type. */
-  authType?: AuthType | (string & {});
+  authType?: AuthType | (string & {}) | undefined;
   /** The base64 encoded certificate raw data string */
-  certificate?: string;
+  certificate?: string | undefined;
 }
 export interface CreateVaultCertificateRequest {
   /** The ID of the target subscription. */
@@ -68,39 +69,39 @@ export interface CreateVaultCertificateRequest {
   /** Certificate friendly name. */
   certificateName: string;
   /** Raw certificate data. */
-  properties?: RawCertificateData;
+  properties?: RawCertificateData | undefined;
 }
 /** Certificate details representing the Vault credentials. */
 export interface ResourceCertificateDetails {
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   authType: string;
   /** The base64 encoded certificate raw data string. */
-  certificate?: string;
+  certificate?: string | undefined;
   /** Certificate friendly name. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Certificate issuer. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** Resource ID of the vault. */
-  resourceId?: number;
+  resourceId?: number | undefined;
   /** Certificate Subject Name. */
-  subject?: string;
+  subject?: string | undefined;
   /** Certificate thumbprint. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Certificate Validity start Date time. */
-  validFrom?: string;
+  validFrom?: string | undefined;
   /** Certificate Validity End Date time. */
-  validTo?: string;
+  validTo?: string | undefined;
 }
 /** Certificate corresponding to a vault that can be used by clients to register themselves with the vault. */
 export interface VaultCertificateResponse {
   /** Resource name associated with the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/... */
-  type?: string;
+  type?: string | undefined;
   /** Resource Id represents the complete path to the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Certificate details representing the Vault credentials. */
-  properties?: ResourceCertificateDetails;
+  properties?: ResourceCertificateDetails | undefined;
 }
 export interface DeleteRegisteredIdentityRequest {
   /** The ID of the target subscription. */
@@ -123,9 +124,9 @@ export interface DeleteVaultRequest {
 }
 export interface DeleteVaultResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetDeletedVaultRequest {
   /** The ID of the target subscription. */
@@ -142,38 +143,38 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Properties of the DeletedVault. */
 export interface DeletedVaultProperties {
   /** ARM Id of the Vault which was deleted. */
-  vaultId?: string;
+  vaultId?: string | undefined;
   /** Time in UTC at which the Vault was deleted. */
-  vaultDeletionTime?: string;
+  vaultDeletionTime?: string | undefined;
   /** Time in UTC at which the DeletedVault will be purged. */
-  purgeAt?: string;
+  purgeAt?: string | undefined;
 }
 export interface GetDeletedVaultResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeletedVaultProperties;
+  properties?: DeletedVaultProperties | undefined;
 }
 export interface GetDeletedVaultOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -187,9 +188,9 @@ export interface GetDeletedVaultOperationStatusRequest {
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfoItem {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorAdditionalInfoList = Array<ErrorAdditionalInfoItem>;
@@ -198,30 +199,30 @@ export type ErrorDetailsList = Array<Error>;
 /** The resource management error response. */
 export interface Error {
   /** The error additional info. */
-  additionalInfo?: ErrorAdditionalInfoList;
+  additionalInfo?: ErrorAdditionalInfoList | undefined;
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailsList;
+  details?: ErrorDetailsList | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
 }
 /** Operation Resource */
 export interface OperationResource {
   /** End time of the operation */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Required if status == failed or status == canceled. This is the OData v4 error format, used by the RPC and will go into the v2.2 Azure REST API guidelines. */
-  error?: Error;
+  error?: Error | undefined;
   /** It should match what is used to GET the operation result */
-  id?: string;
+  id?: string | undefined;
   /** It must match the last segment of the "id" field, and will typically be a GUID / system generated value */
-  name?: string;
+  name?: string | undefined;
   /** The status of the operation. (InProgress/Success/Failed/Cancelled) */
-  status?: string;
+  status?: string | undefined;
   /** Start time of the operation */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export interface GetOperationResultRequest {
   /** The ID of the target subscription. */
@@ -242,41 +243,41 @@ export type TriggerType = "UserTriggered" | "ForcedUpgrade";
 /** Details for upgrading vault. */
 export interface UpgradeDetails {
   /** ID of the vault upgrade operation. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** UTC time at which the upgrade operation has started. */
-  startTimeUtc?: string;
+  startTimeUtc?: string | undefined;
   /** UTC time at which the upgrade operation status was last updated. */
-  lastUpdatedTimeUtc?: string;
+  lastUpdatedTimeUtc?: string | undefined;
   /** UTC time at which the upgrade operation has ended. */
-  endTimeUtc?: string;
+  endTimeUtc?: string | undefined;
   /** Status of the vault upgrade operation. */
-  status?: VaultUpgradeState;
+  status?: VaultUpgradeState | undefined;
   /** Message to the user containing information about the upgrade operation. */
-  message?: string;
+  message?: string | undefined;
   /** The way the vault upgrade was triggered. */
-  triggerType?: TriggerType;
+  triggerType?: TriggerType | undefined;
   /** Resource ID of the upgraded vault. */
-  upgradedResourceId?: string;
+  upgradedResourceId?: string | undefined;
   /** Resource ID of the vault before the upgrade. */
-  previousResourceId?: string;
+  previousResourceId?: string | undefined;
 }
 /** Gets or sets provisioning state of the private endpoint connection. */
 export type ProvisioningState = "Succeeded" | "Deleting" | "Failed" | "Pending";
 /** The Private Endpoint network resource that is linked to the Private Endpoint connection. */
 export interface PrivateEndpoint {
   /** Gets or sets id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Gets or sets the status. */
 export type PrivateEndpointConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 /** Gets or sets private link service connection state. */
 export interface PrivateLinkServiceConnectionState {
   /** Gets or sets the status. */
-  status?: PrivateEndpointConnectionStatus;
+  status?: PrivateEndpointConnectionStatus | undefined;
   /** Gets or sets description. */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets actions required. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Subresource type for vault AzureBackup, AzureBackup_secondary or AzureSiteRecovery */
 export type VaultSubResourceType = "AzureBackup" | "AzureBackup_secondary" | "AzureSiteRecovery";
@@ -285,26 +286,26 @@ export type PrivateEndpointConnectionGroupIdsList = Array<VaultSubResourceType>;
 /** Private Endpoint Connection Response Properties. */
 export interface PrivateEndpointConnection {
   /** Gets or sets provisioning state of the private endpoint connection. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The Private Endpoint network resource that is linked to the Private Endpoint connection. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** Gets or sets private link service connection state. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
   /** Group Ids for the Private Endpoint */
-  groupIds?: PrivateEndpointConnectionGroupIdsList;
+  groupIds?: PrivateEndpointConnectionGroupIdsList | undefined;
 }
 /** Information to be stored in Vault properties as an element of privateEndpointConnections List. */
 export interface PrivateEndpointConnectionVaultProperties {
   /** Format of id subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.[Service]/{resource}/{resourceName}/privateEndpointConnections/{connectionName}. */
-  id?: string;
+  id?: string | undefined;
   /** Private Endpoint Connection Response Properties. */
-  properties?: PrivateEndpointConnection;
+  properties?: PrivateEndpointConnection | undefined;
   /** The name of the private Endpoint Connection */
-  name?: string;
+  name?: string | undefined;
   /** The type, which will be of the format, Microsoft.RecoveryServices/vaults/privateEndpointConnections */
-  type?: string;
+  type?: string | undefined;
   /** The location of the private Endpoint connection */
-  location?: string;
+  location?: string | undefined;
 }
 /** List of private endpoint connection. */
 export type VaultPropertiesPrivateEndpointConnectionsList =
@@ -314,38 +315,38 @@ export type VaultPrivateEndpointState = "None" | "Enabled";
 /** The properties of the Key Vault which hosts CMK */
 export interface CmkKeyVaultProperties {
   /** The key uri of the Customer Managed Key */
-  keyUri?: string;
+  keyUri?: string | undefined;
 }
 /** The details of the identity used for CMK */
 export interface CmkKekIdentity {
   /** Indicate that system assigned identity should be used. Mutually exclusive with 'userAssignedIdentity' field */
-  useSystemAssignedIdentity?: boolean;
+  useSystemAssignedIdentity?: boolean | undefined;
   /** The user assigned identity to be used to grant permissions in case the type of identity used is UserAssigned */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** Enabling/Disabling the Double Encryption state */
 export type InfrastructureEncryptionState = "Enabled" | "Disabled";
 /** Customer Managed Key details of the resource. */
 export interface VaultPropertiesEncryption {
   /** The properties of the Key Vault which hosts CMK */
-  keyVaultProperties?: CmkKeyVaultProperties;
+  keyVaultProperties?: CmkKeyVaultProperties | undefined;
   /** The details of the identity used for CMK */
-  kekIdentity?: CmkKekIdentity;
+  kekIdentity?: CmkKekIdentity | undefined;
   /** Enabling/Disabling the Double Encryption state */
-  infrastructureEncryption?: InfrastructureEncryptionState | (string & {});
+  infrastructureEncryption?: InfrastructureEncryptionState | (string & {}) | undefined;
 }
 /** The details of the latest move operation performed on the Azure Resource */
 export interface VaultPropertiesMoveDetails {
   /** OperationId of the Resource Move Operation */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Start Time of the Resource Move Operation */
-  startTimeUtc?: string;
+  startTimeUtc?: string | undefined;
   /** End Time of the Resource Move Operation */
-  completionTimeUtc?: string;
+  completionTimeUtc?: string | undefined;
   /** Source Resource of the Resource Move Operation */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** Target Resource of the Resource Move Operation */
-  targetResourceId?: string;
+  targetResourceId?: string | undefined;
 }
 /** The State of the Resource after the move operation */
 export type ResourceMoveState =
@@ -366,37 +367,37 @@ export type PublicNetworkAccess = "Enabled" | "Disabled";
 export type AlertsState = "Enabled" | "Disabled";
 /** Settings for Azure Monitor based alerts */
 export interface AzureMonitorAlertSettings {
-  alertsForAllJobFailures?: AlertsState | (string & {});
-  alertsForAllReplicationIssues?: AlertsState | (string & {});
-  alertsForAllFailoverIssues?: AlertsState | (string & {});
+  alertsForAllJobFailures?: AlertsState | (string & {}) | undefined;
+  alertsForAllReplicationIssues?: AlertsState | (string & {}) | undefined;
+  alertsForAllFailoverIssues?: AlertsState | (string & {}) | undefined;
 }
 /** Settings for classic alerts */
 export interface ClassicAlertSettings {
-  alertsForCriticalOperations?: AlertsState | (string & {});
-  emailNotificationsForSiteRecovery?: AlertsState | (string & {});
+  alertsForCriticalOperations?: AlertsState | (string & {}) | undefined;
+  emailNotificationsForSiteRecovery?: AlertsState | (string & {}) | undefined;
 }
 /** Monitoring Settings of the vault */
 export interface MonitoringSettings {
   /** Settings for Azure Monitor based alerts */
-  azureMonitorAlertSettings?: AzureMonitorAlertSettings;
+  azureMonitorAlertSettings?: AzureMonitorAlertSettings | undefined;
   /** Settings for classic alerts */
-  classicAlertSettings?: ClassicAlertSettings;
+  classicAlertSettings?: ClassicAlertSettings | undefined;
 }
 export type GranularityLevel = "VaultLevel" | "ProtectedItemLevel" | "ProtectedItemWithParentTag";
 /** Cost Management Settings of the vault */
 export interface CostManagementSettings {
   /** Settings for granularity level */
-  granularityLevel?: GranularityLevel | (string & {});
+  granularityLevel?: GranularityLevel | (string & {}) | undefined;
 }
 export type CrossSubscriptionRestoreState = "Enabled" | "Disabled" | "PermanentlyDisabled";
 /** Settings for Cross Subscription Restore Settings */
 export interface CrossSubscriptionRestoreSettings {
-  crossSubscriptionRestoreState?: CrossSubscriptionRestoreState | (string & {});
+  crossSubscriptionRestoreState?: CrossSubscriptionRestoreState | (string & {}) | undefined;
 }
 /** Restore Settings of the vault */
 export interface RestoreSettings {
   /** Settings for CrossSubscriptionRestore */
-  crossSubscriptionRestoreSettings?: CrossSubscriptionRestoreSettings;
+  crossSubscriptionRestoreSettings?: CrossSubscriptionRestoreSettings | undefined;
 }
 /** The storage redundancy setting of a vault */
 export type StandardTierStorageRedundancy =
@@ -409,9 +410,9 @@ export type CrossRegionRestore = "Enabled" | "Disabled";
 /** The redundancy Settings of a Vault */
 export interface VaultPropertiesRedundancySettings {
   /** The storage redundancy setting of a vault */
-  standardTierStorageRedundancy?: StandardTierStorageRedundancy | (string & {});
+  standardTierStorageRedundancy?: StandardTierStorageRedundancy | (string & {}) | undefined;
   /** Flag to show if Cross Region Restore is enabled on the Vault or not */
-  crossRegionRestore?: CrossRegionRestore | (string & {});
+  crossRegionRestore?: CrossRegionRestore | (string & {}) | undefined;
 }
 export type ImmutabilityState = "Disabled" | "Unlocked" | "Locked";
 /** Immutability config type. */
@@ -419,24 +420,24 @@ export type ImmutabilityType = "AsPerPolicy" | "TimeBased";
 /** Immutability configuration of vault. */
 export interface ImmutabilityConfiguration {
   /** Immutability type. 'AsPerPolicy' inherits duration from backup policy; 'TimeBased' requires explicit durationInDays. */
-  type?: ImmutabilityType | (string & {});
+  type?: ImmutabilityType | (string & {}) | undefined;
   /** Duration in days. Required when type is TimeBased, omitted when AsPerPolicy. */
-  durationInDays?: number;
+  durationInDays?: number | undefined;
 }
 /** Immutability Settings of vault */
 export interface ImmutabilitySettings {
-  state?: ImmutabilityState | (string & {});
+  state?: ImmutabilityState | (string & {}) | undefined;
   /** Immutability configuration of the vault -- selects whether immutability is inherited from the backup policy (AsPerPolicy) or fixed for a specific duration (TimeBased). */
-  configuration?: ImmutabilityConfiguration;
+  configuration?: ImmutabilityConfiguration | undefined;
 }
 export type SoftDeleteState = "Invalid" | "Enabled" | "Disabled" | "AlwaysON";
 export type EnhancedSecurityState = "Invalid" | "Enabled" | "Disabled" | "AlwaysON";
 /** Soft delete Settings of vault */
 export interface SoftDeleteSettings {
-  softDeleteState?: SoftDeleteState | (string & {});
+  softDeleteState?: SoftDeleteState | (string & {}) | undefined;
   /** Soft delete retention period in days */
-  softDeleteRetentionPeriodInDays?: number;
-  enhancedSecurityState?: EnhancedSecurityState | (string & {});
+  softDeleteRetentionPeriodInDays?: number | undefined;
+  enhancedSecurityState?: EnhancedSecurityState | (string & {}) | undefined;
 }
 /** MUA Settings of vault */
 export type MultiUserAuthorization = "Invalid" | "Enabled" | "Disabled";
@@ -446,26 +447,26 @@ export type IdentityType = "SystemAssigned" | "UserAssigned";
 /** Identity details to be used for an operation */
 export interface AssociatedIdentity {
   /** Identity type that should be used for an operation. */
-  operationIdentityType?: IdentityType | (string & {});
+  operationIdentityType?: IdentityType | (string & {}) | undefined;
   /** User assigned identity to be used for an operation if operationIdentityType is UserAssigned. */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** Source scan configuration of vault */
 export interface SourceScanConfiguration {
-  state?: State | (string & {});
+  state?: State | (string & {}) | undefined;
   /** Identity details to be used for an operation */
-  sourceScanIdentity?: AssociatedIdentity;
+  sourceScanIdentity?: AssociatedIdentity | undefined;
 }
 /** Security Settings of the vault */
 export interface SecuritySettings {
   /** Immutability Settings of a vault */
-  immutabilitySettings?: ImmutabilitySettings;
+  immutabilitySettings?: ImmutabilitySettings | undefined;
   /** Soft delete Settings of a vault */
-  softDeleteSettings?: SoftDeleteSettings;
+  softDeleteSettings?: SoftDeleteSettings | undefined;
   /** MUA Settings of a vault */
-  multiUserAuthorization?: MultiUserAuthorization | (string & {});
+  multiUserAuthorization?: MultiUserAuthorization | (string & {}) | undefined;
   /** Source scan configuration of vault */
-  sourceScanConfiguration?: SourceScanConfiguration;
+  sourceScanConfiguration?: SourceScanConfiguration | undefined;
 }
 /** Secure Score of Recovery Services Vault */
 export type SecureScoreLevel = "None" | "Minimum" | "Adequate" | "Maximum";
@@ -476,48 +477,48 @@ export type VaultPropertiesResourceGuardOperationRequestsList = Array<string>;
 /** Region of choice settings at vault level. This setting allows customers to configure backups for datasources from different region. */
 export interface RegionOfChoiceSettings {
   /** The status of region of choice settings - Enabled or Disabled. */
-  status?: State | (string & {});
+  status?: State | (string & {}) | undefined;
 }
 /** Properties of the vault. */
 export interface VaultProperties {
   /** Provisioning State. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Details for upgrading vault. */
-  upgradeDetails?: UpgradeDetails;
+  upgradeDetails?: UpgradeDetails | undefined;
   /** List of private endpoint connection. */
-  privateEndpointConnections?: VaultPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: VaultPropertiesPrivateEndpointConnectionsList | undefined;
   /** Private endpoint state for backup. */
-  privateEndpointStateForBackup?: VaultPrivateEndpointState;
+  privateEndpointStateForBackup?: VaultPrivateEndpointState | undefined;
   /** Private endpoint state for site recovery. */
-  privateEndpointStateForSiteRecovery?: VaultPrivateEndpointState;
+  privateEndpointStateForSiteRecovery?: VaultPrivateEndpointState | undefined;
   /** Customer Managed Key details of the resource. */
-  encryption?: VaultPropertiesEncryption;
+  encryption?: VaultPropertiesEncryption | undefined;
   /** The details of the latest move operation performed on the Azure Resource */
-  moveDetails?: VaultPropertiesMoveDetails;
+  moveDetails?: VaultPropertiesMoveDetails | undefined;
   /** The State of the Resource after the move operation */
-  moveState?: ResourceMoveState;
+  moveState?: ResourceMoveState | undefined;
   /** Backup storage version */
-  backupStorageVersion?: BackupStorageVersion;
+  backupStorageVersion?: BackupStorageVersion | undefined;
   /** property to enable or disable resource provider inbound network traffic from public clients */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** Monitoring Settings of the vault */
-  monitoringSettings?: MonitoringSettings;
+  monitoringSettings?: MonitoringSettings | undefined;
   /** Cost Management Settings of the vault */
-  costManagementSettings?: CostManagementSettings;
+  costManagementSettings?: CostManagementSettings | undefined;
   /** Restore Settings of the vault */
-  restoreSettings?: RestoreSettings;
+  restoreSettings?: RestoreSettings | undefined;
   /** The redundancy Settings of a Vault */
-  redundancySettings?: VaultPropertiesRedundancySettings;
+  redundancySettings?: VaultPropertiesRedundancySettings | undefined;
   /** Security Settings of the vault */
-  securitySettings?: SecuritySettings;
+  securitySettings?: SecuritySettings | undefined;
   /** Secure Score of Recovery Services Vault */
-  secureScore?: SecureScoreLevel;
+  secureScore?: SecureScoreLevel | undefined;
   /** Security levels of Recovery Services Vault for business continuity and disaster recovery */
-  bcdrSecurityLevel?: BCDRSecurityLevel;
+  bcdrSecurityLevel?: BCDRSecurityLevel | undefined;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: VaultPropertiesResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?: VaultPropertiesResourceGuardOperationRequestsList | undefined;
   /** Region of choice settings for this vault. */
-  regionOfChoiceSettings?: RegionOfChoiceSettings;
+  regionOfChoiceSettings?: RegionOfChoiceSettings | undefined;
 }
 /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identities. */
 export type ResourceIdentityType =
@@ -528,22 +529,22 @@ export type ResourceIdentityType =
 /** A resource identity that is managed by the user of the service. */
 export interface UserIdentity {
   /** The principal ID of the user-assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the user-assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user-assigned identities associated with the resource. The user-assigned identity dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type IdentityDataUserAssignedIdentitiesMap = { [key: string]: UserIdentity | undefined };
 /** Identity for the resource. */
 export interface IdentityData {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identities. */
   type: ResourceIdentityType;
   /** The list of user-assigned identities associated with the resource. The user-assigned identity dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityDataUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityDataUserAssignedIdentitiesMap | undefined;
 }
 /** Name of SKU is RS0 (Recovery Services 0th version) and the tier is standard tier. They do not have affect on backend storage redundancy or any other vault settings. To manage storage redundancy, use the backupstorageconfig */
 export type SkuName = "Standard" | "RS0";
@@ -552,35 +553,35 @@ export interface Sku {
   /** Name of SKU is RS0 (Recovery Services 0th version) and the tier is standard tier. They do not have affect on backend storage redundancy or any other vault settings. To manage storage redundancy, use the backupstorageconfig */
   name: SkuName | (string & {});
   /** The Sku tier. */
-  tier?: string;
+  tier?: string | undefined;
   /** The sku family */
-  family?: string;
+  family?: string | undefined;
   /** The sku size */
-  size?: string;
+  size?: string | undefined;
   /** The sku capacity */
-  capacity?: string;
+  capacity?: string | undefined;
 }
 export interface GetOperationResultResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetOperationResultResponseTagsMap;
+  tags?: GetOperationResultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the vault. */
-  properties?: VaultProperties;
+  properties?: VaultProperties | undefined;
   /** Identity for the resource. */
-  identity?: IdentityData;
+  identity?: IdentityData | undefined;
   /** Identifies the unique system identifier for each Azure resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -607,23 +608,23 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of the private link resource. */
 export interface PrivateLinkResourceProperties {
   /** e.g. f9ad6492-33d4-4690-9999-6bfd52a0d081 (Backup) or f9ad6492-33d4-4690-9999-6bfd52a0d082 (SiteRecovery) */
-  groupId?: string;
+  groupId?: string | undefined;
   /** [backup-ecs1, backup-prot1, backup-prot1b, backup-prot1c, backup-id1] */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetVaultRequest {
   /** The ID of the target subscription. */
@@ -637,25 +638,25 @@ export interface GetVaultRequest {
 export type GetVaultResponseTagsMap = { [key: string]: string | undefined };
 export interface GetVaultResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVaultResponseTagsMap;
+  tags?: GetVaultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the vault. */
-  properties?: VaultProperties;
+  properties?: VaultProperties | undefined;
   /** Identity for the resource. */
-  identity?: IdentityData;
+  identity?: IdentityData | undefined;
   /** Identifies the unique system identifier for each Azure resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetVaultExtendedInfoRequest {
   /** The ID of the target subscription. */
@@ -668,27 +669,27 @@ export interface GetVaultExtendedInfoRequest {
 /** Vault extended information. */
 export interface VaultExtendedInfo {
   /** Integrity key. */
-  integrityKey?: string;
+  integrityKey?: string | undefined;
   /** Encryption key. */
-  encryptionKey?: string;
+  encryptionKey?: string | undefined;
   /** Encryption key thumbprint. */
-  encryptionKeyThumbprint?: string;
+  encryptionKeyThumbprint?: string | undefined;
   /** Algorithm for Vault ExtendedInfo */
-  algorithm?: string;
+  algorithm?: string | undefined;
 }
 export interface GetVaultExtendedInfoResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Vault extended information. */
-  properties?: VaultExtendedInfo;
+  properties?: VaultExtendedInfo | undefined;
   /** etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface ListDeletedVaultBySubscriptionIdRequest {
   /** The ID of the target subscription. */
@@ -699,15 +700,15 @@ export interface ListDeletedVaultBySubscriptionIdRequest {
 /** DeletedVault information as returned by the resource provider. */
 export interface DeletedVault {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeletedVaultProperties;
+  properties?: DeletedVaultProperties | undefined;
 }
 /** The DeletedVault items on this page */
 export type DeletedVaultListValueList = Array<DeletedVault>;
@@ -716,28 +717,28 @@ export interface DeletedVaultList {
   /** The DeletedVault items on this page */
   value: DeletedVaultListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information of an operation. */
 export interface ClientDiscoveryDisplay {
   /** Name of the provider for display purposes */
-  provider?: string;
+  provider?: string | undefined;
   /** ResourceType for which this Operation can be performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operations Name itself. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation having details of what operation is about. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Class to represent shoebox log specification in json client discovery. */
 export interface ClientDiscoveryForLogSpecification {
   /** Name of the log. */
-  name?: string;
+  name?: string | undefined;
   /** Localized display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Blobs created in customer storage account per hour */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** List of log specifications of this operation. */
 export type ClientDiscoveryForServiceSpecificationLogSpecificationsList =
@@ -745,23 +746,23 @@ export type ClientDiscoveryForServiceSpecificationLogSpecificationsList =
 /** Class to represent shoebox service specification in json client discovery. */
 export interface ClientDiscoveryForServiceSpecification {
   /** List of log specifications of this operation. */
-  logSpecifications?: ClientDiscoveryForServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ClientDiscoveryForServiceSpecificationLogSpecificationsList | undefined;
 }
 /** Class to represent shoebox properties in json client discovery. */
 export interface ClientDiscoveryForProperties {
   /** Operation properties. */
-  serviceSpecification?: ClientDiscoveryForServiceSpecification;
+  serviceSpecification?: ClientDiscoveryForServiceSpecification | undefined;
 }
 /** Available operation details. */
 export interface ClientDiscoveryValueForSingleApi {
   /** Name of the Operation. */
-  name?: string;
+  name?: string | undefined;
   /** Contains the localized display information for this particular operation */
-  display?: ClientDiscoveryDisplay;
+  display?: ClientDiscoveryDisplay | undefined;
   /** The intended executor of the operation;governs the display of the operation in the RBAC UX and the audit logs UX */
-  origin?: string;
+  origin?: string | undefined;
   /** ShoeBox properties for the given operation. */
-  properties?: ClientDiscoveryForProperties;
+  properties?: ClientDiscoveryForProperties | undefined;
 }
 /** The ClientDiscoveryValueForSingleApi items on this page */
 export type ClientDiscoveryResponseValueList = Array<ClientDiscoveryValueForSingleApi>;
@@ -770,7 +771,7 @@ export interface ClientDiscoveryResponse {
   /** The ClientDiscoveryValueForSingleApi items on this page */
   value: ClientDiscoveryResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesRequest {
   /** The ID of the target subscription. */
@@ -783,15 +784,15 @@ export interface ListPrivateLinkResourcesRequest {
 /** Information of the private link resource. */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourcesValueList = Array<PrivateLinkResource>;
@@ -800,7 +801,7 @@ export interface PrivateLinkResources {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResourcesValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReplicationUsagesRequest {
   /** The ID of the target subscription. */
@@ -813,49 +814,49 @@ export interface ListReplicationUsagesRequest {
 /** Summary of the replication monitoring data for this vault. */
 export interface MonitoringSummary {
   /** Count of unhealthy VMs. */
-  unHealthyVmCount?: number;
+  unHealthyVmCount?: number | undefined;
   /** Count of unhealthy replication providers. */
-  unHealthyProviderCount?: number;
+  unHealthyProviderCount?: number | undefined;
   /** Count of all critical warnings. */
-  eventsCount?: number;
+  eventsCount?: number | undefined;
   /** Count of all deprecated recovery service providers. */
-  deprecatedProviderCount?: number;
+  deprecatedProviderCount?: number | undefined;
   /** Count of all the supported recovery service providers. */
-  supportedProviderCount?: number;
+  supportedProviderCount?: number | undefined;
   /** Count of all the unsupported recovery service providers. */
-  unsupportedProviderCount?: number;
+  unsupportedProviderCount?: number | undefined;
 }
 /** Summary of the replication job data for this vault. */
 export interface JobsSummary {
   /** Count of failed jobs. */
-  failedJobs?: number;
+  failedJobs?: number | undefined;
   /** Count of suspended jobs. */
-  suspendedJobs?: number;
+  suspendedJobs?: number | undefined;
   /** Count of in-progress jobs. */
-  inProgressJobs?: number;
+  inProgressJobs?: number | undefined;
 }
 /** Replication usages of a vault. */
 export interface ReplicationUsage {
   /** Summary of the replication monitoring data for this vault. */
-  monitoringSummary?: MonitoringSummary;
+  monitoringSummary?: MonitoringSummary | undefined;
   /** Summary of the replication jobs data for this vault. */
-  jobsSummary?: JobsSummary;
+  jobsSummary?: JobsSummary | undefined;
   /** Number of replication protected items for this vault. */
-  protectedItemCount?: number;
+  protectedItemCount?: number | undefined;
   /** Number of replication recovery plans for this vault. */
-  recoveryPlanCount?: number;
+  recoveryPlanCount?: number | undefined;
   /** Number of servers registered to this vault. */
-  registeredServersCount?: number;
+  registeredServersCount?: number | undefined;
   /** The authentication type of recovery service providers in the vault. */
-  recoveryServicesProviderAuthType?: number;
+  recoveryServicesProviderAuthType?: number | undefined;
 }
 /** The list of replication usages for the given vault. */
 export type ReplicationUsageListValueList = Array<ReplicationUsage>;
 /** Replication usages for vault. */
 export interface ReplicationUsageList {
   /** The list of replication usages for the given vault. */
-  value?: ReplicationUsageListValueList;
-  nextLink?: string;
+  value?: ReplicationUsageListValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListUsageByVaultsRequest {
   /** The ID of the target subscription. */
@@ -876,32 +877,32 @@ export type UsagesUnit =
 /** The name of usage. */
 export interface NameInfo {
   /** Value of usage. */
-  value?: string;
+  value?: string | undefined;
   /** Localized value of usage. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Usages of a vault. */
 export interface VaultUsage {
   /** Unit of the usage. */
-  unit?: UsagesUnit;
+  unit?: UsagesUnit | undefined;
   /** Quota period of usage. */
-  quotaPeriod?: string;
+  quotaPeriod?: string | undefined;
   /** Next reset time of usage. */
-  nextResetTime?: string;
+  nextResetTime?: string | undefined;
   /** Current value of usage. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** Limit of usage. */
-  limit?: number;
+  limit?: number | undefined;
   /** Name of usage. */
-  name?: NameInfo;
+  name?: NameInfo | undefined;
 }
 /** The list of usages for the given vault. */
 export type VaultUsageListValueList = Array<VaultUsage>;
 /** Usage for vault. */
 export interface VaultUsageList {
   /** The list of usages for the given vault. */
-  value?: VaultUsageListValueList;
-  nextLink?: string;
+  value?: VaultUsageListValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListVaultByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -914,25 +915,25 @@ export type VaultTagsMap = { [key: string]: string | undefined };
 /** Resource information, as returned by the resource provider. */
 export interface Vault {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VaultTagsMap;
+  tags?: VaultTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the vault. */
-  properties?: VaultProperties;
+  properties?: VaultProperties | undefined;
   /** Identity for the resource. */
-  identity?: IdentityData;
+  identity?: IdentityData | undefined;
   /** Identifies the unique system identifier for each Azure resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The Vault items on this page */
 export type VaultListValueList = Array<Vault>;
@@ -941,7 +942,7 @@ export interface VaultList {
   /** The Vault items on this page */
   value: VaultListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVaultBySubscriptionIdRequest {
   /** The ID of the target subscription. */
@@ -950,12 +951,12 @@ export interface ListVaultBySubscriptionIdRequest {
 /** DNSZone information */
 export interface DNSZone {
   /** Subresource type for vault AzureBackup, AzureBackup_secondary or AzureSiteRecovery */
-  subResource?: VaultSubResourceType | (string & {});
+  subResource?: VaultSubResourceType | (string & {}) | undefined;
 }
 export type CapabilitiesPropertiesDnsZonesList = Array<DNSZone>;
 /** Capabilities information */
 export interface CapabilitiesProperties {
-  dnsZones?: CapabilitiesPropertiesDnsZonesList;
+  dnsZones?: CapabilitiesPropertiesDnsZonesList | undefined;
 }
 export interface RecoveryServicesCapabilitiesRequest {
   /** The ID of the target subscription. */
@@ -965,27 +966,27 @@ export interface RecoveryServicesCapabilitiesRequest {
   /** Describes the Resource type: Microsoft.RecoveryServices/Vaults */
   type: string;
   /** Capabilities information */
-  properties?: CapabilitiesProperties;
+  properties?: CapabilitiesProperties | undefined;
 }
 /** The private link resource Private link DNS zone names. */
 export type DNSZoneResponseRequiredZoneNamesList = Array<string>;
 /** DNSZone information for Microsoft.RecoveryServices */
 export interface DNSZoneResponse {
   /** Subresource type for vault AzureBackup, AzureBackup_secondary or AzureSiteRecovery */
-  subResource?: VaultSubResourceType;
+  subResource?: VaultSubResourceType | undefined;
   /** The private link resource Private link DNS zone names. */
-  requiredZoneNames?: DNSZoneResponseRequiredZoneNamesList;
+  requiredZoneNames?: DNSZoneResponseRequiredZoneNamesList | undefined;
 }
 export type CapabilitiesResponsePropertiesDnsZonesList = Array<DNSZoneResponse>;
 /** Capabilities properties in response */
 export interface CapabilitiesResponseProperties {
-  dnsZones?: CapabilitiesResponsePropertiesDnsZonesList;
+  dnsZones?: CapabilitiesResponsePropertiesDnsZonesList | undefined;
 }
 export interface RecoveryServicesCapabilitiesResponse {
   /** Describes the Resource type: Microsoft.RecoveryServices/Vaults */
   type: string;
   /** Capabilities properties in response */
-  properties?: CapabilitiesResponseProperties;
+  properties?: CapabilitiesResponseProperties | undefined;
 }
 /** Input definition for DeletedVault undelete properties. */
 export interface DeletedVaultUndeleteInputProperties {
@@ -1004,19 +1005,19 @@ export interface UndeleteDeletedVaultRequest {
 }
 export interface UndeleteDeletedVaultResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeletedVaultProperties;
+  properties?: DeletedVaultProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateVaultRequestTagsMap = { [key: string]: string | undefined };
@@ -1029,27 +1030,29 @@ export type VaultPropertiesInputResourceGuardOperationRequestsList = Array<strin
 /** Properties of the vault. */
 export interface VaultPropertiesInput {
   /** Details for upgrading vault. */
-  upgradeDetails?: UpgradeDetailsInput;
+  upgradeDetails?: UpgradeDetailsInput | undefined;
   /** Customer Managed Key details of the resource. */
-  encryption?: VaultPropertiesEncryption;
+  encryption?: VaultPropertiesEncryption | undefined;
   /** The details of the latest move operation performed on the Azure Resource */
-  moveDetails?: UpgradeDetailsInput;
+  moveDetails?: UpgradeDetailsInput | undefined;
   /** property to enable or disable resource provider inbound network traffic from public clients */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Monitoring Settings of the vault */
-  monitoringSettings?: MonitoringSettings;
+  monitoringSettings?: MonitoringSettings | undefined;
   /** Cost Management Settings of the vault */
-  costManagementSettings?: CostManagementSettings;
+  costManagementSettings?: CostManagementSettings | undefined;
   /** Restore Settings of the vault */
-  restoreSettings?: RestoreSettings;
+  restoreSettings?: RestoreSettings | undefined;
   /** The redundancy Settings of a Vault */
-  redundancySettings?: VaultPropertiesRedundancySettings;
+  redundancySettings?: VaultPropertiesRedundancySettings | undefined;
   /** Security Settings of the vault */
-  securitySettings?: SecuritySettings;
+  securitySettings?: SecuritySettings | undefined;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: VaultPropertiesInputResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?:
+    | VaultPropertiesInputResourceGuardOperationRequestsList
+    | undefined;
   /** Region of choice settings for this vault. */
-  regionOfChoiceSettings?: RegionOfChoiceSettings;
+  regionOfChoiceSettings?: RegionOfChoiceSettings | undefined;
 }
 /** A resource identity that is managed by the user of the service. */
 export type UserIdentityInput = UpgradeDetailsInput;
@@ -1062,7 +1065,7 @@ export interface IdentityDataInput {
   /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identities. */
   type: ResourceIdentityType | (string & {});
   /** The list of user-assigned identities associated with the resource. The user-assigned identity dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityDataInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityDataInputUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateVaultRequest {
   /** The ID of the target subscription. */
@@ -1072,45 +1075,45 @@ export interface UpdateVaultRequest {
   /** The name of the Vault */
   vaultName: string;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateVaultRequestTagsMap;
+  tags?: UpdateVaultRequestTagsMap | undefined;
   /** Optional ETag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Properties of the vault. */
-  properties?: VaultPropertiesInput;
+  properties?: VaultPropertiesInput | undefined;
   /** Identifies the unique system identifier for each Azure resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Identity for the resource. */
-  identity?: IdentityDataInput;
+  identity?: IdentityDataInput | undefined;
 }
 /** Resource tags. */
 export type UpdateVaultResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateVaultResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVaultResponseTagsMap;
+  tags?: UpdateVaultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the vault. */
-  properties?: VaultProperties;
+  properties?: VaultProperties | undefined;
   /** Identity for the resource. */
-  identity?: IdentityData;
+  identity?: IdentityData | undefined;
   /** Identifies the unique system identifier for each Azure resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateVaultExtendedInfoRequest {
   /** The ID of the target subscription. */
@@ -1120,23 +1123,23 @@ export interface UpdateVaultExtendedInfoRequest {
   /** The name of the recovery services vault. */
   vaultName: string;
   /** Vault extended information. */
-  properties?: VaultExtendedInfo;
+  properties?: VaultExtendedInfo | undefined;
   /** etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface UpdateVaultExtendedInfoResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Vault extended information. */
-  properties?: VaultExtendedInfo;
+  properties?: VaultExtendedInfo | undefined;
   /** etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface VaultExtendedInfoCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1146,23 +1149,23 @@ export interface VaultExtendedInfoCreateOrUpdateRequest {
   /** The name of the recovery services vault. */
   vaultName: string;
   /** Vault extended information. */
-  properties?: VaultExtendedInfo;
+  properties?: VaultExtendedInfo | undefined;
   /** etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface VaultExtendedInfoCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Vault extended information. */
-  properties?: VaultExtendedInfo;
+  properties?: VaultExtendedInfo | undefined;
   /** etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type VaultsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1174,45 +1177,45 @@ export interface VaultsCreateOrUpdateRequest {
   /** The name of the Vault */
   vaultName: string;
   /** Resource tags. */
-  tags?: VaultsCreateOrUpdateRequestTagsMap;
+  tags?: VaultsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the vault. */
-  properties?: VaultPropertiesInput;
+  properties?: VaultPropertiesInput | undefined;
   /** Identity for the resource. */
-  identity?: IdentityDataInput;
+  identity?: IdentityDataInput | undefined;
   /** Identifies the unique system identifier for each Azure resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type VaultsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface VaultsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VaultsCreateOrUpdateResponseTagsMap;
+  tags?: VaultsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the vault. */
-  properties?: VaultProperties;
+  properties?: VaultProperties | undefined;
   /** Identity for the resource. */
-  identity?: IdentityData;
+  identity?: IdentityData | undefined;
   /** Identifies the unique system identifier for each Azure resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CheckRecoveryServiceNameAvailabilityError = AzureOpError;
 /** API to check for resource name availability. A name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago API to check for resource name availability. A name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago */
@@ -1638,7 +1641,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/locations/{location}/checkNameAvailability",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CheckRecoveryServiceNameAvailabilityRequest" });
@@ -1674,7 +1677,7 @@ function __c1(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/certificates/{certificateName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateVaultCertificateRequest" });
@@ -1716,7 +1719,7 @@ function __c2(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetVaultExtendedInfoRequest" });
@@ -1758,7 +1761,7 @@ function __c4(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/deletedVaults",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListDeletedVaultBySubscriptionIdRequest" });
@@ -1782,7 +1785,7 @@ function __c5(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.RecoveryServices/operations",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1850,7 +1853,7 @@ function __c6(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateLinkResources",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });
@@ -1878,7 +1881,7 @@ function __c7(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/replicationUsages",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationUsagesRequest" });
@@ -1936,7 +1939,7 @@ function __c8(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/usages",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListUsageByVaultsRequest" });
@@ -1981,7 +1984,7 @@ function __c9(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListVaultByResourceGroupRequest" });
@@ -2011,7 +2014,7 @@ function __c11(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/vaults",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListVaultBySubscriptionIdRequest" });
@@ -2045,7 +2048,7 @@ function __c12(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/capabilities",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "RecoveryServicesCapabilitiesRequest" });
@@ -2093,7 +2096,7 @@ function __c13(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/deletedVaults/{deletedVaultName}/undelete",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UndeleteDeletedVaultRequest" });
@@ -2125,7 +2128,7 @@ function __c14(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/registeredIdentities/{identityName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRegisteredIdentityRequest" });
@@ -2158,7 +2161,7 @@ function __c16(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateVaultRequest" });
@@ -2225,7 +2228,7 @@ function __c18(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateVaultExtendedInfoRequest" });
@@ -2246,7 +2249,7 @@ function __c19(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "VaultExtendedInfoCreateOrUpdateRequest" });
@@ -2271,7 +2274,7 @@ function __c20(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "VaultsCreateOrUpdateRequest" });
@@ -2290,7 +2293,7 @@ function __c21(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteVaultRequest" });
@@ -2316,7 +2319,7 @@ function __c22(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/deletedVaults/{deletedVaultName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetDeletedVaultRequest" });
@@ -2377,7 +2380,7 @@ function __c26(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/deletedVaults/{deletedVaultName}/operations/{operationId}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetDeletedVaultOperationStatusRequest" });
@@ -2433,7 +2436,7 @@ function __c28(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/operationResults/{operationId}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetOperationResultRequest" });
@@ -2716,7 +2719,7 @@ function __c32(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/operationStatus/{operationId}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetOperationStatusRequest" });
@@ -2736,7 +2739,7 @@ function __c33(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateLinkResources/{privateLinkResourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateLinkResourceRequest" });
@@ -2777,7 +2780,7 @@ function __c35(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetVaultRequest" });

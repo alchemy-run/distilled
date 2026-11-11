@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Botservice",
   service: "Botservice",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -58,57 +59,57 @@ export interface BotPropertiesInput {
   /** The Name of the bot */
   displayName: string;
   /** The description of the bot */
-  description?: string;
+  description?: string | undefined;
   /** The Icon Url of the bot */
-  iconUrl?: string;
+  iconUrl?: string | undefined;
   /** The bot's endpoint */
   endpoint: string | null;
   /** Contains resource all settings defined as key/value pairs. */
-  allSettings?: BotPropertiesInputAllSettingsMap;
+  allSettings?: BotPropertiesInputAllSettingsMap | undefined;
   /** Contains resource parameters defined as key/value pairs. */
-  parameters?: BotPropertiesInputParametersMap;
+  parameters?: BotPropertiesInputParametersMap | undefined;
   /** The bot's manifest url */
-  manifestUrl?: string;
+  manifestUrl?: string | undefined;
   /** Microsoft App Type for the bot */
-  msaAppType?: BotPropertiesInputMsaAppType | (string & {});
+  msaAppType?: BotPropertiesInputMsaAppType | (string & {}) | undefined;
   /** Microsoft App Id for the bot */
   msaAppId: string;
   /** Microsoft App Tenant Id for the bot */
-  msaAppTenantId?: string;
+  msaAppTenantId?: string | undefined;
   /** Microsoft App Managed Identity Resource Id for the bot */
-  msaAppMSIResourceId?: string;
+  msaAppMSIResourceId?: string | undefined;
   /** The Application Insights key */
-  developerAppInsightKey?: string;
+  developerAppInsightKey?: string | undefined;
   /** The Application Insights Api Key */
-  developerAppInsightsApiKey?: string;
+  developerAppInsightsApiKey?: string | undefined;
   /** The Application Insights App Id */
-  developerAppInsightsApplicationId?: string;
+  developerAppInsightsApplicationId?: string | undefined;
   /** Collection of LUIS App Ids */
-  luisAppIds?: BotPropertiesInputLuisAppIdsList;
+  luisAppIds?: BotPropertiesInputLuisAppIdsList | undefined;
   /** The LUIS Key */
-  luisKey?: string;
+  luisKey?: string | undefined;
   /** Whether Cmek is enabled */
-  isCmekEnabled?: boolean;
+  isCmekEnabled?: boolean | undefined;
   /** The CMK Url */
-  cmekKeyVaultUrl?: string;
+  cmekKeyVaultUrl?: string | undefined;
   /** The Tenant Id for the bot */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Whether the bot is in an isolated network */
-  publicNetworkAccess?: BotPropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: BotPropertiesInputPublicNetworkAccess | (string & {}) | undefined;
   /** Whether the bot is streaming supported */
-  isStreamingSupported?: boolean;
+  isStreamingSupported?: boolean | undefined;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** The channel schema transformation version for the bot */
-  schemaTransformationVersion?: string | null;
+  schemaTransformationVersion?: string | null | undefined;
   /** The storage resourceId for the bot */
-  storageResourceId?: string;
+  storageResourceId?: string | undefined;
   /** The hint to browser (e.g. protocol handler) on how to open the bot for authoring */
-  openWithHint?: string;
+  openWithHint?: string | undefined;
   /** The hint (e.g. keyVault secret resourceId) on how to fetch the app secret */
-  appPasswordHint?: string | Redacted.Redacted<string>;
+  appPasswordHint?: string | Redacted.Redacted<string> | undefined;
   /** Publishing credentials of the resource */
-  publishingCredentials?: string;
+  publishingCredentials?: string | undefined;
 }
 export interface CreateBotRequest {
   /** Azure Subscription ID. */
@@ -118,17 +119,17 @@ export interface CreateBotRequest {
   /** The name of the Bot resource. */
   resourceName: string;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: CreateBotRequestTagsMap;
+  tags?: CreateBotRequestTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: SkuInput;
+  sku?: SkuInput | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | (string & {}) | null;
+  kind?: Kind | (string & {}) | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The set of properties specific to bot resource */
-  properties?: BotPropertiesInput;
+  properties?: BotPropertiesInput | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type CreateBotResponseTagsMap = { [key: string]: string | undefined };
@@ -139,7 +140,7 @@ export interface Sku {
   /** The sku name */
   name: SkuName;
   /** Gets the sku tier. This is based on the SKU name. */
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
 }
 /** Entity zones */
 export type CreateBotResponseZonesList = Array<string>;
@@ -160,18 +161,18 @@ export type BotPropertiesPublicNetworkAccess = "Enabled" | "Disabled";
 /** The Private Endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for Private Endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -184,24 +185,24 @@ export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionProperties {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
   /** Group ids */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
 }
 /** The Private Endpoint Connection resource. */
 export interface BotPropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of Private Endpoint Connections configured for the bot */
 export type BotPropertiesPrivateEndpointConnectionsList =
@@ -211,127 +212,127 @@ export interface BotProperties {
   /** The Name of the bot */
   displayName: string;
   /** The description of the bot */
-  description?: string;
+  description?: string | undefined;
   /** The Icon Url of the bot */
-  iconUrl?: string;
+  iconUrl?: string | undefined;
   /** The bot's endpoint */
   endpoint: string | null;
   /** The bot's endpoint version */
-  endpointVersion?: string;
+  endpointVersion?: string | undefined;
   /** Contains resource all settings defined as key/value pairs. */
-  allSettings?: BotPropertiesAllSettingsMap;
+  allSettings?: BotPropertiesAllSettingsMap | undefined;
   /** Contains resource parameters defined as key/value pairs. */
-  parameters?: BotPropertiesParametersMap;
+  parameters?: BotPropertiesParametersMap | undefined;
   /** The bot's manifest url */
-  manifestUrl?: string;
+  manifestUrl?: string | undefined;
   /** Microsoft App Type for the bot */
-  msaAppType?: BotPropertiesMsaAppType;
+  msaAppType?: BotPropertiesMsaAppType | undefined;
   /** Microsoft App Id for the bot */
   msaAppId: string;
   /** Microsoft App Tenant Id for the bot */
-  msaAppTenantId?: string;
+  msaAppTenantId?: string | undefined;
   /** Microsoft App Managed Identity Resource Id for the bot */
-  msaAppMSIResourceId?: string;
+  msaAppMSIResourceId?: string | undefined;
   /** Collection of channels for which the bot is configured */
-  configuredChannels?: BotPropertiesConfiguredChannelsList;
+  configuredChannels?: BotPropertiesConfiguredChannelsList | undefined;
   /** Collection of channels for which the bot is enabled */
-  enabledChannels?: BotPropertiesEnabledChannelsList;
+  enabledChannels?: BotPropertiesEnabledChannelsList | undefined;
   /** The Application Insights key */
-  developerAppInsightKey?: string;
+  developerAppInsightKey?: string | undefined;
   /** The Application Insights Api Key */
-  developerAppInsightsApiKey?: string;
+  developerAppInsightsApiKey?: string | undefined;
   /** The Application Insights App Id */
-  developerAppInsightsApplicationId?: string;
+  developerAppInsightsApplicationId?: string | undefined;
   /** Collection of LUIS App Ids */
-  luisAppIds?: BotPropertiesLuisAppIdsList;
+  luisAppIds?: BotPropertiesLuisAppIdsList | undefined;
   /** The LUIS Key */
-  luisKey?: string;
+  luisKey?: string | undefined;
   /** Whether Cmek is enabled */
-  isCmekEnabled?: boolean;
+  isCmekEnabled?: boolean | undefined;
   /** The CMK Url */
-  cmekKeyVaultUrl?: string;
+  cmekKeyVaultUrl?: string | undefined;
   /** The CMK encryption status */
-  cmekEncryptionStatus?: string;
+  cmekEncryptionStatus?: string | undefined;
   /** The Tenant Id for the bot */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Whether the bot is in an isolated network */
-  publicNetworkAccess?: BotPropertiesPublicNetworkAccess;
+  publicNetworkAccess?: BotPropertiesPublicNetworkAccess | undefined;
   /** Whether the bot is streaming supported */
-  isStreamingSupported?: boolean;
+  isStreamingSupported?: boolean | undefined;
   /** Whether the bot is developerAppInsightsApiKey set */
-  isDeveloperAppInsightsApiKeySet?: boolean;
+  isDeveloperAppInsightsApiKeySet?: boolean | undefined;
   /** Token used to migrate non Azure bot to azure subscription */
-  migrationToken?: string;
+  migrationToken?: string | undefined;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** The channel schema transformation version for the bot */
-  schemaTransformationVersion?: string | null;
+  schemaTransformationVersion?: string | null | undefined;
   /** The storage resourceId for the bot */
-  storageResourceId?: string;
+  storageResourceId?: string | undefined;
   /** List of Private Endpoint Connections configured for the bot */
-  privateEndpointConnections?: BotPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: BotPropertiesPrivateEndpointConnectionsList | undefined;
   /** The hint to browser (e.g. protocol handler) on how to open the bot for authoring */
-  openWithHint?: string;
+  openWithHint?: string | undefined;
   /** The hint (e.g. keyVault secret resourceId) on how to fetch the app secret */
-  appPasswordHint?: string | Redacted.Redacted<string>;
+  appPasswordHint?: string | Redacted.Redacted<string> | undefined;
   /** Provisioning state of the resource */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Publishing credentials of the resource */
-  publishingCredentials?: string;
+  publishingCredentials?: string | undefined;
 }
 export interface CreateBotResponse {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: CreateBotResponseTagsMap;
+  tags?: CreateBotResponseTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: CreateBotResponseZonesList;
+  zones?: CreateBotResponseZonesList | undefined;
   /** The set of properties specific to bot resource */
-  properties?: BotProperties;
+  properties?: BotProperties | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type CreateBotConnectionRequestTagsMap = { [key: string]: string | undefined };
 /** Extra Parameter in a Connection Setting Properties to indicate service provider specific properties */
 export interface ConnectionSettingParameter {
   /** Key for the Connection Setting Parameter. */
-  key?: string;
+  key?: string | undefined;
   /** Value associated with the Connection Setting Parameter. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 /** Service Provider Parameters associated with the Connection Setting */
 export type ConnectionSettingPropertiesInputParametersList = Array<ConnectionSettingParameter>;
 /** Properties for a Connection Setting Item */
 export interface ConnectionSettingPropertiesInput {
   /** Id of the Connection Setting. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the Connection Setting. */
-  name?: string;
+  name?: string | undefined;
   /** Client Id associated with the Connection Setting. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Client Secret associated with the Connection Setting */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Scopes associated with the Connection Setting */
-  scopes?: string;
+  scopes?: string | undefined;
   /** Service Provider Id associated with the Connection Setting */
-  serviceProviderId?: string;
+  serviceProviderId?: string | undefined;
   /** Service Provider Display Name associated with the Connection Setting */
-  serviceProviderDisplayName?: string;
+  serviceProviderDisplayName?: string | undefined;
   /** Service Provider Parameters associated with the Connection Setting */
-  parameters?: ConnectionSettingPropertiesInputParametersList;
+  parameters?: ConnectionSettingPropertiesInputParametersList | undefined;
   /** Provisioning state of the resource */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface CreateBotConnectionRequest {
   /** Azure Subscription ID. */
@@ -343,17 +344,17 @@ export interface CreateBotConnectionRequest {
   /** The name of the Bot Service Connection Setting resource. */
   connectionName: string;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: CreateBotConnectionRequestTagsMap;
+  tags?: CreateBotConnectionRequestTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: SkuInput;
+  sku?: SkuInput | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | (string & {}) | null;
+  kind?: Kind | (string & {}) | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: ConnectionSettingPropertiesInput;
+  properties?: ConnectionSettingPropertiesInput | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type CreateBotConnectionResponseTagsMap = { [key: string]: string | undefined };
@@ -364,47 +365,47 @@ export type ConnectionSettingPropertiesParametersList = Array<ConnectionSettingP
 /** Properties for a Connection Setting Item */
 export interface ConnectionSettingProperties {
   /** Id of the Connection Setting. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the Connection Setting. */
-  name?: string;
+  name?: string | undefined;
   /** Client Id associated with the Connection Setting. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Setting Id set by the service for the Connection Setting. */
-  settingId?: string;
+  settingId?: string | undefined;
   /** Client Secret associated with the Connection Setting */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Scopes associated with the Connection Setting */
-  scopes?: string;
+  scopes?: string | undefined;
   /** Service Provider Id associated with the Connection Setting */
-  serviceProviderId?: string;
+  serviceProviderId?: string | undefined;
   /** Service Provider Display Name associated with the Connection Setting */
-  serviceProviderDisplayName?: string;
+  serviceProviderDisplayName?: string | undefined;
   /** Service Provider Parameters associated with the Connection Setting */
-  parameters?: ConnectionSettingPropertiesParametersList;
+  parameters?: ConnectionSettingPropertiesParametersList | undefined;
   /** Provisioning state of the resource */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface CreateBotConnectionResponse {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: CreateBotConnectionResponseTagsMap;
+  tags?: CreateBotConnectionResponseTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: CreateBotConnectionResponseZonesList;
+  zones?: CreateBotConnectionResponseZonesList | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: ConnectionSettingProperties;
+  properties?: ConnectionSettingProperties | undefined;
 }
 export type CreateChannelRequestChannelName =
   | "AlexaChannel"
@@ -433,11 +434,11 @@ export interface ChannelInput {
   /** The channel name */
   channelName: string;
   /** Entity Tag of the resource */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Channel-specific properties (polymorphic on `channelName`), e.g. `{ sites: [...] }` for DirectLineChannel/WebChatChannel. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface CreateChannelRequest {
   /** Azure Subscription ID. */
@@ -449,17 +450,17 @@ export interface CreateChannelRequest {
   /** The name of the Channel resource. */
   channelName: CreateChannelRequestChannelName | (string & {});
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: CreateChannelRequestTagsMap;
+  tags?: CreateChannelRequestTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: SkuInput;
+  sku?: SkuInput | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | (string & {}) | null;
+  kind?: Kind | (string & {}) | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: ChannelInput;
+  properties?: ChannelInput | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type CreateChannelResponseTagsMap = { [key: string]: string | undefined };
@@ -470,35 +471,35 @@ export interface Channel {
   /** The channel name */
   channelName: string;
   /** Entity Tag of the resource */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** Provisioning state of the resource */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Channel-specific properties (polymorphic on `channelName`), e.g. `{ sites: [...] }` for DirectLineChannel/WebChatChannel. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface CreateChannelResponse {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: CreateChannelResponseTagsMap;
+  tags?: CreateChannelResponseTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: CreateChannelResponseZonesList;
+  zones?: CreateChannelResponseZonesList | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: Channel;
+  properties?: Channel | undefined;
 }
 /** The Private Endpoint resource. */
 export interface PrivateEndpointInput {}
@@ -507,11 +508,11 @@ export type PrivateEndpointConnectionPropertiesInputGroupIdsList = Array<string>
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** Group ids */
-  groupIds?: PrivateEndpointConnectionPropertiesInputGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesInputGroupIdsList | undefined;
 }
 export interface CreatePrivateEndpointConnectionRequest {
   /** Azure Subscription ID. */
@@ -523,17 +524,17 @@ export interface CreatePrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection associated with the Azure resource */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface CreatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface DeleteBotRequest {
   /** Azure Subscription ID. */
@@ -588,16 +589,16 @@ export interface EmailCreateSignInUrlRequest {
 /** The set of properties specific to sign in url */
 export interface CreateEmailSignInUrlResponseProperties {
   /** Sign in url. */
-  url?: string;
+  url?: string | undefined;
 }
 /** The ARM create email sign in url operation response. */
 export interface CreateEmailSignInUrlResponse {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The set of properties specific to sign in url */
-  properties?: CreateEmailSignInUrlResponseProperties;
+  properties?: CreateEmailSignInUrlResponseProperties | undefined;
 }
 export interface GetBotRequest {
   /** Azure Subscription ID. */
@@ -613,40 +614,40 @@ export type GetBotResponseTagsMap = { [key: string]: string | undefined };
 export type GetBotResponseZonesList = Array<string>;
 export interface GetBotResponse {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: GetBotResponseTagsMap;
+  tags?: GetBotResponseTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: GetBotResponseZonesList;
+  zones?: GetBotResponseZonesList | undefined;
   /** The set of properties specific to bot resource */
-  properties?: BotProperties;
+  properties?: BotProperties | undefined;
 }
 export interface GetBotCheckNameAvailabilityRequest {
   /** the name of the bot for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** the type of the bot for which availability needs to be checked */
-  type?: string;
+  type?: string | undefined;
 }
 /** The response body returned for a request to Bot Service Management to check availability of a bot name. */
 export interface CheckNameAvailabilityResponseBody {
   /** indicates if the bot name is valid. */
-  valid?: boolean;
+  valid?: boolean | undefined;
   /** additional message from the bot management api showing why a bot name is not available */
-  message?: string;
+  message?: string | undefined;
   /** response code from ABS */
-  absCode?: string;
+  absCode?: string | undefined;
 }
 export interface GetBotConnectionRequest {
   /** Azure Subscription ID. */
@@ -664,25 +665,25 @@ export type GetBotConnectionResponseTagsMap = { [key: string]: string | undefine
 export type GetBotConnectionResponseZonesList = Array<string>;
 export interface GetBotConnectionResponse {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: GetBotConnectionResponseTagsMap;
+  tags?: GetBotConnectionResponseTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: GetBotConnectionResponseZonesList;
+  zones?: GetBotConnectionResponseZonesList | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: ConnectionSettingProperties;
+  properties?: ConnectionSettingProperties | undefined;
 }
 export interface GetChannelRequest {
   /** Azure Subscription ID. */
@@ -700,25 +701,25 @@ export type GetChannelResponseTagsMap = { [key: string]: string | undefined };
 export type GetChannelResponseZonesList = Array<string>;
 export interface GetChannelResponse {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: GetChannelResponseTagsMap;
+  tags?: GetChannelResponseTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: GetChannelResponseZonesList;
+  zones?: GetChannelResponseZonesList | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: Channel;
+  properties?: Channel | undefined;
 }
 export interface GetHostSettingsRequest {
   /** Azure Subscription ID. */
@@ -727,21 +728,21 @@ export interface GetHostSettingsRequest {
 /** The response body returned for a request to Bot Service Management to check per subscription hostSettings */
 export interface HostSettingsResponse {
   /** For in-conversation bot user authentication */
-  OAuthUrl?: string;
+  OAuthUrl?: string | undefined;
   /** For verifying incoming tokens from the channels */
-  ToBotFromChannelOpenIdMetadataUrl?: string;
+  ToBotFromChannelOpenIdMetadataUrl?: string | undefined;
   /** For verifying incoming tokens from the channels */
-  ToBotFromChannelTokenIssuer?: string;
+  ToBotFromChannelTokenIssuer?: string | undefined;
   /** For verifying incoming tokens from bot emulator */
-  ToBotFromEmulatorOpenIdMetadataUrl?: string;
+  ToBotFromEmulatorOpenIdMetadataUrl?: string | undefined;
   /** For getting access token to channels from bot host */
-  ToChannelFromBotLoginUrl?: string;
+  ToChannelFromBotLoginUrl?: string | undefined;
   /** For getting access token to channels from bot host */
-  ToChannelFromBotOAuthScope?: string;
+  ToChannelFromBotOAuthScope?: string | undefined;
   /** Per cloud OAuth setting on whether authority is validated */
-  ValidateAuthority?: boolean;
+  ValidateAuthority?: boolean | undefined;
   /** Same as toBotFromChannelOpenIdMetadataUrl, used by SDK < v4.12 */
-  BotOpenIdMetadata?: string;
+  BotOpenIdMetadata?: string | undefined;
 }
 export interface GetOperationResultRequest {
   /** Azure Subscription ID. */
@@ -759,13 +760,13 @@ export type OperationResultsDescriptionStatus =
 /** The properties indicating the operation result of an operation on a service. */
 export interface OperationResultsDescription {
   /** The ID of the operation returned. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the operation result. */
-  name?: string;
+  name?: string | undefined;
   /** The status of the operation being performed. */
-  status?: OperationResultsDescriptionStatus;
+  status?: OperationResultsDescriptionStatus | undefined;
   /** The time that the operation was started. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** Azure Subscription ID. */
@@ -779,32 +780,32 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetQnAMakerEndpointKeyRequest {
   /** Azure Subscription ID. */
   subscriptionId: string;
   /** the host name of the QnA Maker endpoint */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Subscription key which provides access to this API. */
-  authkey?: string;
+  authkey?: string | undefined;
 }
 /** Schema for EndpointKeys generate/refresh operations. */
 export interface QnAMakerEndpointKeysResponse {
   /** Primary Access Key. */
-  primaryEndpointKey?: string;
+  primaryEndpointKey?: string | undefined;
   /** Secondary Access Key. */
-  secondaryEndpointKey?: string;
+  secondaryEndpointKey?: string | undefined;
   /** Current version of runtime. */
-  installedVersion?: string;
+  installedVersion?: string | undefined;
   /** Latest version of runtime. */
-  lastStableVersion?: string;
+  lastStableVersion?: string | undefined;
 }
 export interface ListBotByResourceGroupRequest {
   /** Azure Subscription ID. */
@@ -819,34 +820,34 @@ export type BotZonesList = Array<string>;
 /** Bot resource definition */
 export interface Bot {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: BotTagsMap;
+  tags?: BotTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: BotZonesList;
+  zones?: BotZonesList | undefined;
   /** The set of properties specific to bot resource */
-  properties?: BotProperties;
+  properties?: BotProperties | undefined;
 }
 /** Gets the list of bot service results and their properties. */
 export type BotResponseListValueList = Array<Bot>;
 /** The list of bot service operation response. */
 export interface BotResponseList {
   /** The link used to get the next page of bot service resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of bot service results and their properties. */
-  value?: BotResponseListValueList;
+  value?: BotResponseListValueList | undefined;
 }
 export interface ListBotConnectionByBotServiceRequest {
   /** Azure Subscription ID. */
@@ -863,34 +864,34 @@ export type ConnectionSettingZonesList = Array<string>;
 /** Bot channel resource definition */
 export interface ConnectionSetting {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: ConnectionSettingTagsMap;
+  tags?: ConnectionSettingTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: ConnectionSettingZonesList;
+  zones?: ConnectionSettingZonesList | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: ConnectionSettingProperties;
+  properties?: ConnectionSettingProperties | undefined;
 }
 /** Gets the list of bot service connection settings and their properties. */
 export type ConnectionSettingResponseListValueList = Array<ConnectionSetting>;
 /** The list of bot service connection settings response. */
 export interface ConnectionSettingResponseList {
   /** The link used to get the next page of bot service connection setting resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of bot service connection settings and their properties. */
-  value?: ConnectionSettingResponseListValueList;
+  value?: ConnectionSettingResponseListValueList | undefined;
 }
 export interface ListBotConnectionServiceProvidersRequest {
   /** Azure Subscription ID. */
@@ -899,60 +900,60 @@ export interface ListBotConnectionServiceProvidersRequest {
 /** the constraints of the bot meta data. */
 export interface ServiceProviderParameterMetadataConstraints {
   /** Whether required the constraints of the bot meta data. */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 /** Meta data for the Service Provider */
 export interface ServiceProviderParameterMetadata {
   /** the constraints of the bot meta data. */
-  constraints?: ServiceProviderParameterMetadataConstraints;
+  constraints?: ServiceProviderParameterMetadataConstraints | undefined;
 }
 /** Extra Parameters specific to each Service Provider */
 export interface ServiceProviderParameter {
   /** Name of the Service Provider */
-  name?: string;
+  name?: string | undefined;
   /** Type of the Service Provider */
-  type?: string;
+  type?: string | undefined;
   /** Display Name of the Service Provider */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of the Service Provider */
-  description?: string;
+  description?: string | undefined;
   /** Help Url for the Service Provider */
-  helpUrl?: string;
+  helpUrl?: string | undefined;
   /** Default Name for the Service Provider */
-  default?: string;
+  default?: string | undefined;
   /** Meta data for the Service Provider */
-  metadata?: ServiceProviderParameterMetadata;
+  metadata?: ServiceProviderParameterMetadata | undefined;
 }
 /** The list of parameters for the Service Provider */
 export type ServiceProviderPropertiesParametersList = Array<ServiceProviderParameter>;
 /** The Object used to describe a Service Provider supported by Bot Service */
 export interface ServiceProviderProperties {
   /** Id for Service Provider */
-  id?: string;
+  id?: string | undefined;
   /** Display Name of the Service Provider */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Name of the Service Provider */
-  serviceProviderName?: string;
+  serviceProviderName?: string | undefined;
   /** URL of Dev Portal */
-  devPortalUrl?: string;
+  devPortalUrl?: string | undefined;
   /** The URL of icon */
-  iconUrl?: string;
+  iconUrl?: string | undefined;
   /** The list of parameters for the Service Provider */
-  parameters?: ServiceProviderPropertiesParametersList;
+  parameters?: ServiceProviderPropertiesParametersList | undefined;
 }
 /** Service Provider Definition */
 export interface ServiceProvider {
   /** The Properties of a Service Provider Object */
-  properties?: ServiceProviderProperties;
+  properties?: ServiceProviderProperties | undefined;
 }
 /** Gets the list of bot service providers and their properties. */
 export type ServiceProviderResponseListValueList = Array<ServiceProvider>;
 /** The list of bot service providers response. */
 export interface ServiceProviderResponseList {
   /** The link used to get the next page of bot service providers. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of bot service providers and their properties. */
-  value?: ServiceProviderResponseListValueList;
+  value?: ServiceProviderResponseListValueList | undefined;
 }
 export interface ListBotConnectionWithSecretsRequest {
   /** Azure Subscription ID. */
@@ -970,25 +971,25 @@ export type ListBotConnectionWithSecretsResponseTagsMap = { [key: string]: strin
 export type ListBotConnectionWithSecretsResponseZonesList = Array<string>;
 export interface ListBotConnectionWithSecretsResponse {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: ListBotConnectionWithSecretsResponseTagsMap;
+  tags?: ListBotConnectionWithSecretsResponseTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: ListBotConnectionWithSecretsResponseZonesList;
+  zones?: ListBotConnectionWithSecretsResponseZonesList | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: ConnectionSettingProperties;
+  properties?: ConnectionSettingProperties | undefined;
 }
 export interface ListBotsRequest {
   /** Azure Subscription ID. */
@@ -1009,34 +1010,34 @@ export type BotChannelZonesList = Array<string>;
 /** Bot channel resource definition */
 export interface BotChannel {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: BotChannelTagsMap;
+  tags?: BotChannelTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: BotChannelZonesList;
+  zones?: BotChannelZonesList | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: Channel;
+  properties?: Channel | undefined;
 }
 /** Gets the list of bot service channel results and their properties. */
 export type ChannelResponseListValueList = Array<BotChannel>;
 /** The list of bot service channel operation response. */
 export interface ChannelResponseList {
   /** The link used to get the next page of bot service channel resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of bot service channel results and their properties. */
-  value?: ChannelResponseListValueList;
+  value?: ChannelResponseListValueList | undefined;
 }
 export type ListChannelWithKeysRequestChannelName =
   | "AlexaChannel"
@@ -1077,132 +1078,132 @@ export type SiteTrustedOriginsList = Array<string>;
 /** A site for the channel */
 export interface Site {
   /** Tenant Id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Site Id */
-  siteId?: string;
+  siteId?: string | undefined;
   /** Site name */
   siteName: string;
   /** Primary key. Value only returned through POST to the action Channel List API, otherwise empty. */
-  key?: string;
+  key?: string | undefined;
   /** Secondary key. Value only returned through POST to the action Channel List API, otherwise empty. */
-  key2?: string;
+  key2?: string | undefined;
   /** Whether this site is enabled for DirectLine channel */
   isEnabled: boolean;
   /** Whether this site is token enabled for channel */
-  isTokenEnabled?: boolean;
+  isTokenEnabled?: boolean | undefined;
   /** Whether this site is EndpointParameters enabled for channel */
-  isEndpointParametersEnabled?: boolean;
+  isEndpointParametersEnabled?: boolean | undefined;
   /** Whether this site is disabled detailed logging for */
-  isDetailedLoggingEnabled?: boolean;
+  isDetailedLoggingEnabled?: boolean | undefined;
   /** Whether this site is enabled for block user upload. */
-  isBlockUserUploadEnabled?: boolean | null;
+  isBlockUserUploadEnabled?: boolean | null | undefined;
   /** Whether this no-storage site is disabled detailed logging for */
-  isNoStorageEnabled?: boolean;
+  isNoStorageEnabled?: boolean | undefined;
   /** Entity Tag */
-  eTag?: string;
+  eTag?: string | undefined;
   /** DirectLine application id */
-  appId?: string;
+  appId?: string | undefined;
   /** Whether this site is enabled for Bot Framework V1 protocol. */
-  isV1Enabled?: boolean;
+  isV1Enabled?: boolean | undefined;
   /** Whether this site is enabled for Bot Framework V3 protocol. */
-  isV3Enabled?: boolean;
+  isV3Enabled?: boolean | undefined;
   /** Whether this site is enabled for authentication with Bot Framework. */
-  isSecureSiteEnabled?: boolean;
+  isSecureSiteEnabled?: boolean | undefined;
   /** List of Trusted Origin URLs for this site. This field is applicable only if isSecureSiteEnabled is True. */
-  trustedOrigins?: SiteTrustedOriginsList;
+  trustedOrigins?: SiteTrustedOriginsList | undefined;
   /** Whether this site is enabled for Webchat Speech */
-  isWebChatSpeechEnabled?: boolean;
+  isWebChatSpeechEnabled?: boolean | undefined;
   /** Whether this site is enabled for preview versions of Webchat */
-  isWebchatPreviewEnabled?: boolean;
+  isWebchatPreviewEnabled?: boolean | undefined;
 }
 /** The list of sites */
 export type ChannelSettingsSitesList = Array<Site>;
 /** Channel settings definition */
 export interface ChannelSettings {
   /** The extensionKey1 */
-  extensionKey1?: string;
+  extensionKey1?: string | undefined;
   /** The extensionKey2 */
-  extensionKey2?: string;
+  extensionKey2?: string | undefined;
   /** The list of sites */
-  sites?: ChannelSettingsSitesList;
+  sites?: ChannelSettingsSitesList | undefined;
   /** The channel id */
-  channelId?: string;
+  channelId?: string | undefined;
   /** The channel display name */
-  channelDisplayName?: string;
+  channelDisplayName?: string | undefined;
   /** The bot id */
-  botId?: string;
+  botId?: string | undefined;
   /** The bot icon url */
-  botIconUrl?: string;
+  botIconUrl?: string | undefined;
   /** Whether this channel is enabled for the bot */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** Whether customer needs to agree to new terms. */
-  requireTermsAgreement?: boolean;
+  requireTermsAgreement?: boolean | undefined;
 }
 export interface ListChannelWithKeysResponse {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: ListChannelWithKeysResponseTagsMap;
+  tags?: ListChannelWithKeysResponseTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: ListChannelWithKeysResponseZonesList;
+  zones?: ListChannelWithKeysResponseZonesList | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: Channel;
+  properties?: Channel | undefined;
   /** The set of properties specific to bot channel resource */
-  resource?: Channel;
+  resource?: Channel | undefined;
   /** Channel settings */
-  setting?: ChannelSettings;
+  setting?: ChannelSettings | undefined;
   /** Provisioning state of the resource */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Entity tag of the resource */
-  entityTag?: string;
+  entityTag?: string | undefined;
   /** Changed time of the resource */
-  changedTime?: string;
+  changedTime?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The operation supported by Bot Service Management. */
 export interface OperationDisplayInfo {
   /** The description of the operation. */
-  description?: string;
+  description?: string | undefined;
   /** The action that users can perform, based on their permission level. */
-  operation?: string;
+  operation?: string | undefined;
   /** Service provider: Microsoft Bot Service. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** The operations supported by Bot Service Management. */
 export interface OperationEntity {
   /** Operation name: {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** The operation supported by Bot Service Management. */
-  display?: OperationDisplayInfo;
+  display?: OperationDisplayInfo | undefined;
   /** The origin of the operation. */
-  origin?: string;
+  origin?: string | undefined;
   /** Additional properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** The list of operations. */
 export type OperationEntityListResultValueList = Array<OperationEntity>;
 /** The list of bot service operation response. */
 export interface OperationEntityListResult {
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of operations. */
-  value?: OperationEntityListResultValueList;
+  value?: OperationEntityListResultValueList | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** Azure Subscription ID. */
@@ -1219,7 +1220,7 @@ export type ListPrivateEndpointConnectionsResponseValueList =
   Array<BotPropertiesPrivateEndpointConnectionsItem>;
 export interface ListPrivateEndpointConnectionsResponse {
   /** Array of private endpoint connections */
-  value?: ListPrivateEndpointConnectionsResponseValueList;
+  value?: ListPrivateEndpointConnectionsResponseValueList | undefined;
 }
 export interface ListPrivateLinkResourceByBotResourceRequest {
   /** Azure Subscription ID. */
@@ -1236,28 +1237,28 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type ListPrivateLinkResourceByBotResourceResponseValueList = Array<PrivateLinkResource>;
 export interface ListPrivateLinkResourceByBotResourceResponse {
   /** Array of private link resources */
-  value?: ListPrivateLinkResourceByBotResourceResponseValueList;
+  value?: ListPrivateLinkResourceByBotResourceResponseValueList | undefined;
 }
 export type RegenerateDirectLineKeysRequestChannelName = "WebChatChannel" | "DirectLineChannel";
 /** Determines which key is to be regenerated */
@@ -1282,25 +1283,25 @@ export type RegenerateDirectLineKeysResponseTagsMap = { [key: string]: string | 
 export type RegenerateDirectLineKeysResponseZonesList = Array<string>;
 export interface RegenerateDirectLineKeysResponse {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: RegenerateDirectLineKeysResponseTagsMap;
+  tags?: RegenerateDirectLineKeysResponseTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: RegenerateDirectLineKeysResponseZonesList;
+  zones?: RegenerateDirectLineKeysResponseZonesList | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: Channel;
+  properties?: Channel | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type UpdateBotRequestTagsMap = { [key: string]: string | undefined };
@@ -1312,17 +1313,17 @@ export interface UpdateBotRequest {
   /** The name of the Bot resource. */
   resourceName: string;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: UpdateBotRequestTagsMap;
+  tags?: UpdateBotRequestTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: SkuInput;
+  sku?: SkuInput | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | (string & {}) | null;
+  kind?: Kind | (string & {}) | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The set of properties specific to bot resource */
-  properties?: BotPropertiesInput;
+  properties?: BotPropertiesInput | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type UpdateBotResponseTagsMap = { [key: string]: string | undefined };
@@ -1330,25 +1331,25 @@ export type UpdateBotResponseTagsMap = { [key: string]: string | undefined };
 export type UpdateBotResponseZonesList = Array<string>;
 export interface UpdateBotResponse {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: UpdateBotResponseTagsMap;
+  tags?: UpdateBotResponseTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: UpdateBotResponseZonesList;
+  zones?: UpdateBotResponseZonesList | undefined;
   /** The set of properties specific to bot resource */
-  properties?: BotProperties;
+  properties?: BotProperties | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type UpdateBotConnectionRequestTagsMap = { [key: string]: string | undefined };
@@ -1362,17 +1363,17 @@ export interface UpdateBotConnectionRequest {
   /** The name of the Bot Service Connection Setting resource. */
   connectionName: string;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: UpdateBotConnectionRequestTagsMap;
+  tags?: UpdateBotConnectionRequestTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: SkuInput;
+  sku?: SkuInput | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | (string & {}) | null;
+  kind?: Kind | (string & {}) | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: ConnectionSettingPropertiesInput;
+  properties?: ConnectionSettingPropertiesInput | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type UpdateBotConnectionResponseTagsMap = { [key: string]: string | undefined };
@@ -1380,25 +1381,25 @@ export type UpdateBotConnectionResponseTagsMap = { [key: string]: string | undef
 export type UpdateBotConnectionResponseZonesList = Array<string>;
 export interface UpdateBotConnectionResponse {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: UpdateBotConnectionResponseTagsMap;
+  tags?: UpdateBotConnectionResponseTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: UpdateBotConnectionResponseZonesList;
+  zones?: UpdateBotConnectionResponseZonesList | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: ConnectionSettingProperties;
+  properties?: ConnectionSettingProperties | undefined;
 }
 export type UpdateChannelRequestChannelName =
   | "AlexaChannel"
@@ -1432,17 +1433,17 @@ export interface UpdateChannelRequest {
   /** The name of the Channel resource. */
   channelName: UpdateChannelRequestChannelName | (string & {});
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: UpdateChannelRequestTagsMap;
+  tags?: UpdateChannelRequestTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: SkuInput;
+  sku?: SkuInput | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | (string & {}) | null;
+  kind?: Kind | (string & {}) | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: ChannelInput;
+  properties?: ChannelInput | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type UpdateChannelResponseTagsMap = { [key: string]: string | undefined };
@@ -1450,25 +1451,25 @@ export type UpdateChannelResponseTagsMap = { [key: string]: string | undefined }
 export type UpdateChannelResponseZonesList = Array<string>;
 export interface UpdateChannelResponse {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: UpdateChannelResponseTagsMap;
+  tags?: UpdateChannelResponseTagsMap | undefined;
   /** Gets or sets the SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Required. Gets or sets the Kind of the resource. */
-  kind?: Kind | null;
+  kind?: Kind | null | undefined;
   /** Entity Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Entity zones */
-  zones?: UpdateChannelResponseZonesList;
+  zones?: UpdateChannelResponseZonesList | undefined;
   /** The set of properties specific to bot channel resource */
-  properties?: Channel;
+  properties?: Channel | undefined;
 }
 export type CreateBotError = AzureOpError;
 /** Creates a Bot Service. Bot Service is a resource group wide resource type. */

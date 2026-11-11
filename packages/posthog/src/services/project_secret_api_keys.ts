@@ -56,9 +56,9 @@ export type CreateProjectSecretApiKeyRequestScopesList = Array<string>;
 export interface CreateProjectSecretApiKeyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  label?: string;
+  label?: string | undefined;
   /** Project-wide API scopes granted to this key. Project secret API keys do not honor object-level access controls, so a scope can access resources of that type even when per-resource RBAC would hide them from an individual user. */
-  scopes?: CreateProjectSecretApiKeyRequestScopesList;
+  scopes?: CreateProjectSecretApiKeyRequestScopesList | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -75,29 +75,31 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** Project-wide API scopes granted to this key. Project secret API keys do not honor object-level access controls, so a scope can access resources of that type even when per-resource RBAC would hide them from an individual user. */
 export type ProjectSecretAPIKeyScopesList = Array<string>;
 export interface ProjectSecretAPIKey {
-  id?: string;
-  label?: string;
-  value?: string;
-  mask_value?: string | null;
-  created_at?: string;
-  created_by?: UserBasic;
-  last_used_at?: string | null;
-  last_rolled_at?: string | null;
+  id?: string | undefined;
+  label?: string | undefined;
+  value?: string | undefined;
+  mask_value?: string | null | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | undefined;
+  last_used_at?: string | null | undefined;
+  last_rolled_at?: string | null | undefined;
   /** Project-wide API scopes granted to this key. Project secret API keys do not honor object-level access controls, so a scope can access resources of that type even when per-resource RBAC would hide them from an individual user. */
-  scopes?: ProjectSecretAPIKeyScopesList;
+  scopes?: ProjectSecretAPIKeyScopesList | undefined;
+  /** Value the AI gateway stamps as $ai_credential on generations made with this key, so gateway spend can be grouped by key. Derived from the key's hash, so it changes when the key is rolled. */
+  ai_credential: string | null;
 }
 export interface CreateProjectSecretApiKeysRollRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -115,16 +117,16 @@ export interface ListProjectSecretApiKeysRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedProjectSecretAPIKeyListResultsList = Array<ProjectSecretAPIKey>;
 export interface PaginatedProjectSecretAPIKeyList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedProjectSecretAPIKeyListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedProjectSecretAPIKeyListResultsList | undefined;
 }
 export interface ProjectSecretApiKeysDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -140,9 +142,9 @@ export interface UpdateProjectSecretApiKeyRequest {
   project_id: string;
   /** A unique value identifying this project secret api key. */
   id: string;
-  label?: string;
+  label?: string | undefined;
   /** Project-wide API scopes granted to this key. Project secret API keys do not honor object-level access controls, so a scope can access resources of that type even when per-resource RBAC would hide them from an individual user. */
-  scopes?: UpdateProjectSecretApiKeyRequestScopesList;
+  scopes?: UpdateProjectSecretApiKeyRequestScopesList | undefined;
 }
 /** Project-wide API scopes granted to this key. Project secret API keys do not honor object-level access controls, so a scope can access resources of that type even when per-resource RBAC would hide them from an individual user. */
 export type UpdateProjectSecretApiKeysPartialRequestScopesList = Array<string>;
@@ -151,9 +153,9 @@ export interface UpdateProjectSecretApiKeysPartialRequest {
   project_id: string;
   /** A unique value identifying this project secret api key. */
   id: string;
-  label?: string;
+  label?: string | undefined;
   /** Project-wide API scopes granted to this key. Project secret API keys do not honor object-level access controls, so a scope can access resources of that type even when per-resource RBAC would hide them from an individual user. */
-  scopes?: UpdateProjectSecretApiKeysPartialRequestScopesList;
+  scopes?: UpdateProjectSecretApiKeysPartialRequestScopesList | undefined;
 }
 export type CreateProjectSecretApiKeyError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createProjectSecretApiKey: API.OperationMethod<
@@ -323,6 +325,7 @@ function __c1(j: number): any {
           last_used_at: S.optional(S.NullOr(S.String)),
           last_rolled_at: S.optional(S.NullOr(S.String)),
           scopes: S.optional(__S(4, __c1, 0)),
+          ai_credential: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ProjectSecretAPIKey" });
   }

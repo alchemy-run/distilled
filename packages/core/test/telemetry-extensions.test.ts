@@ -60,11 +60,19 @@ const getThing = API.make(() => ({
     copy: { "cloud.region": "faas.invoked_region" },
     input: {
       region: [{ name: "cloud.region" }],
-      config: [{ name: "test.max_tokens", field: "limits.maxTokens" }],
+      config: [
+        { name: "test.max_tokens", field: "limits.maxTokens" },
+        { name: "test.stop", field: "limits.stop" },
+        { name: "test.empty", field: "limits.none" },
+      ],
     },
     output: {
       Arn: [{ name: "test.arn", transform: "arn" }],
-      Usage: [{ name: "test.input_tokens", field: "inputTokens" }],
+      Usage: [
+        { name: "test.input_tokens", field: "inputTokens" },
+        { name: "test.cache_read", field: "cacheRead", transform: "nonZero" },
+        { name: "test.cache_write", field: "cacheWrite", transform: "nonZero" },
+      ],
       Capacity: [{ name: "test.capacity", transform: "jsonList" }],
     },
   },
@@ -128,8 +136,16 @@ const run = async (
 describe("operation span extensions", () => {
   test("output rules, field paths, transforms, copy, null-dropped service attributes", async () => {
     const { spans } = await run(
-      { id: "t1", region: "eu-west-1", config: { limits: { maxTokens: 512 } } },
-      { Arn: "arn:aws:test:::t1", Usage: { inputTokens: 7 }, Capacity: { TableName: "users" } },
+      {
+        id: "t1",
+        region: "eu-west-1",
+        config: { limits: { maxTokens: 512, stop: ["END"], none: [] } },
+      },
+      {
+        Arn: "arn:aws:test:::t1",
+        Usage: { inputTokens: 7, cacheRead: 0, cacheWrite: 3 },
+        Capacity: { TableName: "users" },
+      },
     );
     const attributes = Object.fromEntries(spans[0]!.attributes);
     expect(attributes).toMatchObject({
@@ -139,9 +155,13 @@ describe("operation span extensions", () => {
       "test.max_tokens": 512,
       "test.arn": "arn:aws:test:::t1",
       "test.input_tokens": 7,
+      "test.stop": ["END"],
+      "test.cache_write": 3,
       "test.capacity": ['{"TableName":"users"}'],
     });
     expect(attributes).not.toHaveProperty("test.shared");
+    expect(attributes).not.toHaveProperty("test.empty");
+    expect(attributes).not.toHaveProperty("test.cache_read");
   });
 
   test("arn records nothing for a value that is not an ARN", async () => {

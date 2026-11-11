@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Datacatalog",
   service: "Datacatalog",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -38,9 +39,9 @@ export type ADCCatalogPropertiesSku = "Free" | "Standard";
 /** User principals. */
 export interface Principals {
   /** UPN of the user. */
-  upn?: string;
+  upn?: string | undefined;
   /** Object Id for the user */
-  objectId?: string;
+  objectId?: string | undefined;
 }
 /** Azure data catalog admin list. */
 export type ADCCatalogPropertiesAdminsList = Array<Principals>;
@@ -49,17 +50,17 @@ export type ADCCatalogPropertiesUsersList = Array<Principals>;
 /** Properties of the data catalog. */
 export interface ADCCatalogProperties {
   /** Azure data catalog SKU. */
-  sku?: ADCCatalogPropertiesSku | (string & {});
+  sku?: ADCCatalogPropertiesSku | (string & {}) | undefined;
   /** Azure data catalog units. */
-  units?: number;
+  units?: number | undefined;
   /** Azure data catalog admin list. */
-  admins?: ADCCatalogPropertiesAdminsList;
+  admins?: ADCCatalogPropertiesAdminsList | undefined;
   /** Azure data catalog user list. */
-  users?: ADCCatalogPropertiesUsersList;
+  users?: ADCCatalogPropertiesUsersList | undefined;
   /** Azure data catalog provision status. */
-  successfullyProvisioned?: boolean;
+  successfullyProvisioned?: boolean | undefined;
   /** Automatic unit adjustment enabled or not. */
-  enableAutomaticUnitAdjustment?: boolean;
+  enableAutomaticUnitAdjustment?: boolean | undefined;
 }
 export interface ADCCatalogsCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -69,31 +70,31 @@ export interface ADCCatalogsCreateOrUpdateRequest {
   /** The name of the data catalog in the specified subscription and resource group. */
   catalogName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ADCCatalogsCreateOrUpdateRequestTagsMap;
+  tags?: ADCCatalogsCreateOrUpdateRequestTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Azure Data Catalog properties. */
-  properties?: ADCCatalogProperties;
+  properties?: ADCCatalogProperties | undefined;
 }
 /** Resource tags */
 export type ADCCatalogsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ADCCatalogsCreateOrUpdateResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ADCCatalogsCreateOrUpdateResponseTagsMap;
+  tags?: ADCCatalogsCreateOrUpdateResponseTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Azure Data Catalog properties. */
-  properties?: ADCCatalogProperties;
+  properties?: ADCCatalogProperties | undefined;
 }
 export interface ADCCatalogsListtByResourceGroupRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -106,26 +107,26 @@ export type ADCCatalogTagsMap = { [key: string]: string | undefined };
 /** Azure Data Catalog. */
 export interface ADCCatalog {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ADCCatalogTagsMap;
+  tags?: ADCCatalogTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Azure Data Catalog properties. */
-  properties?: ADCCatalogProperties;
+  properties?: ADCCatalogProperties | undefined;
 }
 /** the list of Azure Data Catalogs. */
 export type ADCCatalogsListResultValueList = Array<ADCCatalog>;
 /** The response from the List Azure Data Catalog operation. */
 export interface ADCCatalogsListResult {
   /** the list of Azure Data Catalogs. */
-  value?: ADCCatalogsListResultValueList;
+  value?: ADCCatalogsListResultValueList | undefined;
 }
 export interface DeleteADCCatalogRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -148,45 +149,45 @@ export interface GetADCCatalogRequest {
 export type GetADCCatalogResponseTagsMap = { [key: string]: string | undefined };
 export interface GetADCCatalogResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: GetADCCatalogResponseTagsMap;
+  tags?: GetADCCatalogResponseTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Azure Data Catalog properties. */
-  properties?: ADCCatalogProperties;
+  properties?: ADCCatalogProperties | undefined;
 }
 export interface ListADCOperationsRequest {}
 /** The operation supported by Azure Data Catalog Service. */
 export interface OperationDisplayInfo {
   /** The description of the operation. */
-  description?: string;
+  description?: string | undefined;
   /** The action that users can perform, based on their permission level. */
-  operation?: string;
+  operation?: string | undefined;
   /** Service provider: Azure Data Catalog Service. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** The operation supported by Azure Data Catalog Service. */
 export interface OperationEntity {
   /** Operation name: {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** The operation supported by Azure Data Catalog Service. */
-  display?: OperationDisplayInfo;
+  display?: OperationDisplayInfo | undefined;
 }
 /** The list of operations. */
 export type OperationEntityListResultValueList = Array<OperationEntity>;
 /** The list of Azure data catalog service operation response. */
 export interface OperationEntityListResult {
   /** The list of operations. */
-  value?: OperationEntityListResultValueList;
+  value?: OperationEntityListResultValueList | undefined;
 }
 /** Resource tags */
 export type UpdateADCCatalogRequestTagsMap = { [key: string]: string | undefined };
@@ -198,31 +199,31 @@ export interface UpdateADCCatalogRequest {
   /** The name of the data catalog in the specified subscription and resource group. */
   catalogName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateADCCatalogRequestTagsMap;
+  tags?: UpdateADCCatalogRequestTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Azure Data Catalog properties. */
-  properties?: ADCCatalogProperties;
+  properties?: ADCCatalogProperties | undefined;
 }
 /** Resource tags */
 export type UpdateADCCatalogResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateADCCatalogResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateADCCatalogResponseTagsMap;
+  tags?: UpdateADCCatalogResponseTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Azure Data Catalog properties. */
-  properties?: ADCCatalogProperties;
+  properties?: ADCCatalogProperties | undefined;
 }
 export type ADCCatalogsCreateOrUpdateError = AzureOpError;
 /** Create or Update Azure Data Catalog service (PUT Resource) The Create Azure Data Catalog service operation creates a new data catalog service with the specified parameters. If the specific service already exists, then any patchable properties will be updated and any immutable properties will remain unchanged. */

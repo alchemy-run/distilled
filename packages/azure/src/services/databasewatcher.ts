@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Databasewatcher",
   service: "Databasewatcher",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -57,7 +58,7 @@ export interface AlertRuleResourcesCreateOrUpdateRequest {
   /** The alert rule proxy resource name. */
   alertRuleResourceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: AlertRuleResourcePropertiesInput;
+  properties?: AlertRuleResourcePropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -66,17 +67,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The provisioning state of a resource type. */
 export type AzureResourceManagerResourceProvisioningState = "Succeeded" | "Failed" | "Canceled";
@@ -89,7 +90,7 @@ export interface AlertRuleResourceProperties {
   /** The creation time of the alert rule resource. */
   creationTime: string;
   /** The provisioning state of the alert rule resource. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** The template ID associated with alert rule resource. */
   alertRuleTemplateId: string;
   /** The alert rule template version. */
@@ -97,15 +98,15 @@ export interface AlertRuleResourceProperties {
 }
 export interface AlertRuleResourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AlertRuleResourceProperties;
+  properties?: AlertRuleResourceProperties | undefined;
 }
 /** The generic properties of a Shared Private Link resource. */
 export interface SharedPrivateLinkResourcePropertiesInput {
@@ -116,7 +117,7 @@ export interface SharedPrivateLinkResourcePropertiesInput {
   /** The request message for requesting approval of the shared private link resource. */
   requestMessage: string;
   /** The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is 'adx-cluster-21187695.eastus.kusto.windows.net', then the value is 'eastus'; if the host name is 'sql-mi-23961134.767d5869f605.database.windows.net', then the value is '767d5869f605'. */
-  dnsZone?: string;
+  dnsZone?: string | undefined;
 }
 export interface CreateSharedPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -128,7 +129,7 @@ export interface CreateSharedPrivateLinkResourceRequest {
   /** The Shared Private Link resource name. */
   sharedPrivateLinkResourceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SharedPrivateLinkResourcePropertiesInput;
+  properties?: SharedPrivateLinkResourcePropertiesInput | undefined;
 }
 /** Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected. */
 export type SharedPrivateLinkResourceStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
@@ -141,25 +142,25 @@ export interface SharedPrivateLinkResourceProperties {
   /** The request message for requesting approval of the shared private link resource. */
   requestMessage: string;
   /** The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is 'adx-cluster-21187695.eastus.kusto.windows.net', then the value is 'eastus'; if the host name is 'sql-mi-23961134.767d5869f605.database.windows.net', then the value is '767d5869f605'. */
-  dnsZone?: string;
+  dnsZone?: string | undefined;
   /** Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected. */
-  status?: SharedPrivateLinkResourceStatus;
+  status?: SharedPrivateLinkResourceStatus | undefined;
   /** The provisioning state of the resource. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface CreateSharedPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SharedPrivateLinkResourceProperties;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAlertRuleResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -184,9 +185,9 @@ export interface DeleteSharedPrivateLinkResourceRequest {
 }
 export interface DeleteSharedPrivateLinkResourceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteTargetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -209,9 +210,9 @@ export interface DeleteWatcherRequest {
 }
 export interface DeleteWatcherResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAlertRuleResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -225,15 +226,15 @@ export interface GetAlertRuleResourceRequest {
 }
 export interface GetAlertRuleResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AlertRuleResourceProperties;
+  properties?: AlertRuleResourceProperties | undefined;
 }
 export interface GetHealthValidationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -260,15 +261,15 @@ export interface ValidationIssue {
   /** The error message of the issue. */
   errorMessage: string;
   /** The additional details for the issue. */
-  additionalDetails?: string;
+  additionalDetails?: string | undefined;
   /** The recommendation for resolving the issue. */
   recommendationMessage: string;
   /** The URL related to resolving the issue. */
-  recommendationUrl?: string;
+  recommendationUrl?: string | undefined;
   /** The resource ID of the Azure resource related to the issue. */
-  relatedResourceId?: string;
+  relatedResourceId?: string | undefined;
   /** The type of the Azure resource related to the issue. */
-  relatedResourceType?: string;
+  relatedResourceType?: string | undefined;
 }
 /** The list of issues found by health validation. */
 export type HealthValidationPropertiesIssuesList = Array<ValidationIssue>;
@@ -283,19 +284,19 @@ export interface HealthValidationProperties {
   /** The list of issues found by health validation. */
   issues: HealthValidationPropertiesIssuesList;
   /** The provisioning state of the health validation resource. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface GetHealthValidationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HealthValidationProperties;
+  properties?: HealthValidationProperties | undefined;
 }
 export interface GetSharedPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -309,15 +310,15 @@ export interface GetSharedPrivateLinkResourceRequest {
 }
 export interface GetSharedPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SharedPrivateLinkResourceProperties;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 export interface GetTargetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -334,11 +335,11 @@ export type TargetAuthenticationType = "Aad" | "Sql";
 /** The vault specific details required if using SQL authentication to connect to a target. */
 export interface VaultSecret {
   /** The Azure resource ID of the Key Vault instance storing database authentication secrets. */
-  akvResourceId?: string;
+  akvResourceId?: string | undefined;
   /** The path to the Key Vault secret storing the login name (aka user name, aka account name) for authentication to a target. */
-  akvTargetUser?: string;
+  akvTargetUser?: string | undefined;
   /** The path to the Key Vault secret storing the password for authentication to a target. */
-  akvTargetPassword?: string | Redacted.Redacted<string>;
+  akvTargetPassword?: string | Redacted.Redacted<string> | undefined;
 }
 /** The generic properties of a target. */
 export interface TargetProperties {
@@ -347,35 +348,35 @@ export interface TargetProperties {
   /** The type of authentication to use when connecting to a target. */
   targetAuthenticationType: TargetAuthenticationType;
   /** To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored. */
-  targetVault?: VaultSecret;
+  targetVault?: VaultSecret | undefined;
   /** The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified separately. */
   connectionServerName: string;
   /** The provisioning state of the resource. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** The Azure resource ID of an Azure SQL DB database target (targetType SqlDb). */
-  sqlDbResourceId?: string;
+  sqlDbResourceId?: string | undefined;
   /** The Azure resource ID of an Azure SQL DB elastic pool target (targetType SqlEp). */
-  sqlEpResourceId?: string;
+  sqlEpResourceId?: string | undefined;
   /** The Azure resource ID of the anchor database used to connect to an elastic pool (targetType SqlEp). */
-  anchorDatabaseResourceId?: string;
+  anchorDatabaseResourceId?: string | undefined;
   /** The Azure resource ID of an Azure SQL Managed Instance target (targetType SqlMi). */
-  sqlMiResourceId?: string;
+  sqlMiResourceId?: string | undefined;
   /** The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target (targetType SqlMi). */
-  connectionTcpPort?: number;
+  connectionTcpPort?: number | undefined;
   /** Set to true to monitor a high availability replica of the specified target, if any (targetType SqlDb / SqlMi). */
-  readIntent?: boolean;
+  readIntent?: boolean | undefined;
 }
 export interface GetTargetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: TargetProperties;
+  properties?: TargetProperties | undefined;
 }
 export interface GetWatcherRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -392,9 +393,9 @@ export type KustoOfferingType = "adx" | "free" | "fabric";
 /** The properties of a data store. */
 export interface Datastore {
   /** The Azure resource ID of an Azure Data Explorer cluster. */
-  adxClusterResourceId?: string;
+  adxClusterResourceId?: string | undefined;
   /** The Kusto cluster display name. */
-  kustoClusterDisplayName?: string;
+  kustoClusterDisplayName?: string | undefined;
   /** The Kusto cluster URI. */
   kustoClusterUri: string;
   /** The Kusto data ingestion URI. */
@@ -413,13 +414,13 @@ export type DatabaseWatcherProvisioningState = "Succeeded" | "Failed" | "Cancele
 /** The RP specific properties of the resource. */
 export interface WatcherProperties {
   /** The data store for collected monitoring data. */
-  datastore?: Datastore;
+  datastore?: Datastore | undefined;
   /** The monitoring collection status of the watcher. */
-  status?: WatcherStatus;
+  status?: WatcherStatus | undefined;
   /** The provisioning state of the resource watcher. */
-  provisioningState?: DatabaseWatcherProvisioningState;
+  provisioningState?: DatabaseWatcherProvisioningState | undefined;
   /** The resource ID of a user-assigned managed identity that will be assigned to a new alert rule. */
-  defaultAlertRuleIdentityResourceId?: string;
+  defaultAlertRuleIdentityResourceId?: string | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -430,38 +431,38 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetWatcherResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface GetWatcherResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetWatcherResponseTagsMap;
+  tags?: GetWatcherResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WatcherProperties;
+  properties?: WatcherProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetWatcherResponseIdentity;
+  identity?: GetWatcherResponseIdentity | undefined;
 }
 export interface ListAlertRuleResourceByParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -474,15 +475,15 @@ export interface ListAlertRuleResourceByParentRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface AlertRuleResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AlertRuleResourceProperties;
+  properties?: AlertRuleResourceProperties | undefined;
 }
 /** The AlertRuleResource items on this page */
 export type AlertRuleResourceListResultValueList = Array<AlertRuleResource>;
@@ -491,7 +492,7 @@ export interface AlertRuleResourceListResult {
   /** The AlertRuleResource items on this page */
   value: AlertRuleResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHealthValidationByParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -504,15 +505,15 @@ export interface ListHealthValidationByParentRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface HealthValidation {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HealthValidationProperties;
+  properties?: HealthValidationProperties | undefined;
 }
 /** The HealthValidation items on this page */
 export type HealthValidationListResultValueList = Array<HealthValidation>;
@@ -521,19 +522,19 @@ export interface HealthValidationListResult {
   /** The HealthValidation items on this page */
   value: HealthValidationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -542,23 +543,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSharedPrivateLinkResourceByWatcherRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -571,15 +572,15 @@ export interface ListSharedPrivateLinkResourceByWatcherRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface SharedPrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SharedPrivateLinkResourceProperties;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 /** The SharedPrivateLinkResource items on this page */
 export type SharedPrivateLinkResourceListResultValueList = Array<SharedPrivateLinkResource>;
@@ -588,7 +589,7 @@ export interface SharedPrivateLinkResourceListResult {
   /** The SharedPrivateLinkResource items on this page */
   value: SharedPrivateLinkResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTargetByWatcherRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -601,15 +602,15 @@ export interface ListTargetByWatcherRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface Target {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: TargetProperties;
+  properties?: TargetProperties | undefined;
 }
 /** The Target items on this page */
 export type TargetListResultValueList = Array<Target>;
@@ -618,7 +619,7 @@ export interface TargetListResult {
   /** The Target items on this page */
   value: TargetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWatcherByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -633,21 +634,21 @@ export type WatcherIdentity = GetWatcherResponseIdentity;
 /** The DatabaseWatcherProviderHub resource. */
 export interface Watcher {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WatcherTagsMap;
+  tags?: WatcherTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WatcherProperties;
+  properties?: WatcherProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetWatcherResponseIdentity;
+  identity?: GetWatcherResponseIdentity | undefined;
 }
 /** The Watcher items on this page */
 export type WatcherListResultValueList = Array<Watcher>;
@@ -656,7 +657,7 @@ export interface WatcherListResult {
   /** The Watcher items on this page */
   value: WatcherListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWatcherBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -674,19 +675,19 @@ export interface StartHealthValidationValidationRequest {
 }
 export interface StartHealthValidationValidationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HealthValidationProperties;
+  properties?: HealthValidationProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartWatcherRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -702,27 +703,27 @@ export type StartWatcherResponseTagsMap = { [key: string]: string | undefined };
 export type StartWatcherResponseIdentity = GetWatcherResponseIdentity;
 export interface StartWatcherResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StartWatcherResponseTagsMap;
+  tags?: StartWatcherResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WatcherProperties;
+  properties?: WatcherProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetWatcherResponseIdentity;
+  identity?: GetWatcherResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopWatcherRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -738,27 +739,27 @@ export type StopWatcherResponseTagsMap = { [key: string]: string | undefined };
 export type StopWatcherResponseIdentity = GetWatcherResponseIdentity;
 export interface StopWatcherResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StopWatcherResponseTagsMap;
+  tags?: StopWatcherResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WatcherProperties;
+  properties?: WatcherProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetWatcherResponseIdentity;
+  identity?: GetWatcherResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The generic properties of a target. */
 export interface TargetPropertiesInput {
@@ -767,21 +768,21 @@ export interface TargetPropertiesInput {
   /** The type of authentication to use when connecting to a target. */
   targetAuthenticationType: TargetAuthenticationType | (string & {});
   /** To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored. */
-  targetVault?: VaultSecret;
+  targetVault?: VaultSecret | undefined;
   /** The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified separately. */
   connectionServerName: string;
   /** The Azure resource ID of an Azure SQL DB database target (targetType SqlDb). */
-  sqlDbResourceId?: string;
+  sqlDbResourceId?: string | undefined;
   /** The Azure resource ID of an Azure SQL DB elastic pool target (targetType SqlEp). */
-  sqlEpResourceId?: string;
+  sqlEpResourceId?: string | undefined;
   /** The Azure resource ID of the anchor database used to connect to an elastic pool (targetType SqlEp). */
-  anchorDatabaseResourceId?: string;
+  anchorDatabaseResourceId?: string | undefined;
   /** The Azure resource ID of an Azure SQL Managed Instance target (targetType SqlMi). */
-  sqlMiResourceId?: string;
+  sqlMiResourceId?: string | undefined;
   /** The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target (targetType SqlMi). */
-  connectionTcpPort?: number;
+  connectionTcpPort?: number | undefined;
   /** Set to true to monitor a high availability replica of the specified target, if any (targetType SqlDb / SqlMi). */
-  readIntent?: boolean;
+  readIntent?: boolean | undefined;
 }
 export interface TargetsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -793,19 +794,19 @@ export interface TargetsCreateOrUpdateRequest {
   /** The target resource name. */
   targetName: string;
   /** The resource-specific properties for this resource. */
-  properties?: TargetPropertiesInput;
+  properties?: TargetPropertiesInput | undefined;
 }
 export interface TargetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: TargetProperties;
+  properties?: TargetProperties | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -814,33 +815,33 @@ export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityI
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateWatcherRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateWatcherRequestTagsMap = { [key: string]: string | undefined };
 /** The properties of a data store. */
 export interface DatastoreUpdate {
   /** The Azure resource ID of an Azure Data Explorer cluster. */
-  adxClusterResourceId?: string;
+  adxClusterResourceId?: string | undefined;
   /** The Kusto cluster display name. */
-  kustoClusterDisplayName?: string;
+  kustoClusterDisplayName?: string | undefined;
   /** The Kusto cluster URI. */
-  kustoClusterUri?: string;
+  kustoClusterUri?: string | undefined;
   /** The Kusto data ingestion URI. */
-  kustoDataIngestionUri?: string;
+  kustoDataIngestionUri?: string | undefined;
   /** The name of a Kusto database. */
-  kustoDatabaseName?: string;
+  kustoDatabaseName?: string | undefined;
   /** The Kusto management URL. */
-  kustoManagementUrl?: string;
+  kustoManagementUrl?: string | undefined;
   /** The type of a Kusto offering. */
-  kustoOfferingType?: KustoOfferingType | (string & {});
+  kustoOfferingType?: KustoOfferingType | (string & {}) | undefined;
 }
 /** The updatable properties of the Watcher. */
 export interface WatcherUpdateProperties {
   /** The data store for collected monitoring data. */
-  datastore?: DatastoreUpdate;
+  datastore?: DatastoreUpdate | undefined;
   /** The resource ID of a user-assigned managed identity that will be assigned to a new alert rule. */
-  defaultAlertRuleIdentityResourceId?: string;
+  defaultAlertRuleIdentityResourceId?: string | undefined;
 }
 export interface UpdateWatcherRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -850,11 +851,11 @@ export interface UpdateWatcherRequest {
   /** The database watcher name. */
   watcherName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateWatcherRequestIdentity;
+  identity?: UpdateWatcherRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdateWatcherRequestTagsMap;
+  tags?: UpdateWatcherRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: WatcherUpdateProperties;
+  properties?: WatcherUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateWatcherResponseTagsMap = { [key: string]: string | undefined };
@@ -862,34 +863,34 @@ export type UpdateWatcherResponseTagsMap = { [key: string]: string | undefined }
 export type UpdateWatcherResponseIdentity = GetWatcherResponseIdentity;
 export interface UpdateWatcherResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateWatcherResponseTagsMap;
+  tags?: UpdateWatcherResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WatcherProperties;
+  properties?: WatcherProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetWatcherResponseIdentity;
+  identity?: GetWatcherResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type WatchersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** The RP specific properties of the resource. */
 export interface WatcherPropertiesInput {
   /** The data store for collected monitoring data. */
-  datastore?: Datastore;
+  datastore?: Datastore | undefined;
   /** The resource ID of a user-assigned managed identity that will be assigned to a new alert rule. */
-  defaultAlertRuleIdentityResourceId?: string;
+  defaultAlertRuleIdentityResourceId?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type WatchersCreateOrUpdateRequestIdentity = UpdateWatcherRequestIdentity;
@@ -901,13 +902,13 @@ export interface WatchersCreateOrUpdateRequest {
   /** The database watcher name. */
   watcherName: string;
   /** Resource tags. */
-  tags?: WatchersCreateOrUpdateRequestTagsMap;
+  tags?: WatchersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WatcherPropertiesInput;
+  properties?: WatcherPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateWatcherRequestIdentity;
+  identity?: UpdateWatcherRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type WatchersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -915,23 +916,23 @@ export type WatchersCreateOrUpdateResponseTagsMap = { [key: string]: string | un
 export type WatchersCreateOrUpdateResponseIdentity = GetWatcherResponseIdentity;
 export interface WatchersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WatchersCreateOrUpdateResponseTagsMap;
+  tags?: WatchersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WatcherProperties;
+  properties?: WatcherProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetWatcherResponseIdentity;
+  identity?: GetWatcherResponseIdentity | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AlertRuleResourcesCreateOrUpdateError = AzureOpError;
 /** Create a AlertRuleResource */

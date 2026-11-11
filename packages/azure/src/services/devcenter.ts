@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Devcenter",
   service: "Devcenter",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -51,9 +52,15 @@ export interface AttachedNetworkConnectionPropertiesInput {
   /** The resource ID of the NetworkConnection you want to attach. */
   networkConnectionId: string;
   /** Health check status values */
-  healthCheckStatus?: AttachedNetworkConnectionPropertiesInputHealthCheckStatus | (string & {});
+  healthCheckStatus?:
+    | AttachedNetworkConnectionPropertiesInputHealthCheckStatus
+    | (string & {})
+    | undefined;
   /** Active Directory join type */
-  domainJoinType?: AttachedNetworkConnectionPropertiesInputDomainJoinType | (string & {});
+  domainJoinType?:
+    | AttachedNetworkConnectionPropertiesInputDomainJoinType
+    | (string & {})
+    | undefined;
 }
 export interface AttachedNetworksCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -65,7 +72,7 @@ export interface AttachedNetworksCreateOrUpdateRequest {
   /** The name of the attached NetworkConnection. */
   attachedNetworkConnectionName: string;
   /** Attached NetworkConnection properties. */
-  properties?: AttachedNetworkConnectionPropertiesInput;
+  properties?: AttachedNetworkConnectionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -74,17 +81,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Provisioning state of the resource. */
 export type AttachedNetworkConnectionPropertiesProvisioningState =
@@ -121,27 +128,27 @@ export type AttachedNetworkConnectionPropertiesDomainJoinType =
 /** Properties of an attached NetworkConnection. */
 export interface AttachedNetworkConnectionProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: AttachedNetworkConnectionPropertiesProvisioningState;
+  provisioningState?: AttachedNetworkConnectionPropertiesProvisioningState | undefined;
   /** The resource ID of the NetworkConnection you want to attach. */
   networkConnectionId: string;
   /** The geo-location where the NetworkConnection resource specified in 'networkConnectionResourceId' property lives. */
-  networkConnectionLocation?: string;
+  networkConnectionLocation?: string | undefined;
   /** Health check status values */
-  healthCheckStatus?: AttachedNetworkConnectionPropertiesHealthCheckStatus;
+  healthCheckStatus?: AttachedNetworkConnectionPropertiesHealthCheckStatus | undefined;
   /** Active Directory join type */
-  domainJoinType?: AttachedNetworkConnectionPropertiesDomainJoinType;
+  domainJoinType?: AttachedNetworkConnectionPropertiesDomainJoinType | undefined;
 }
 export interface AttachedNetworksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Attached NetworkConnection properties. */
-  properties?: AttachedNetworkConnectionProperties;
+  properties?: AttachedNetworkConnectionProperties | undefined;
 }
 export interface CancelProjectCatalogImageDefinitionBuildRequest {
   /** The ID of the target subscription. */
@@ -158,19 +165,19 @@ export interface CancelProjectCatalogImageDefinitionBuildRequest {
   buildName: string;
 }
 export interface CancelProjectCatalogImageDefinitionBuildResponse {
-  azureAsyncOperation?: string;
-  location?: string;
+  azureAsyncOperation?: string | undefined;
+  location?: string | undefined;
 }
 /** Properties for a Git repository catalog. */
 export interface GitCatalog {
   /** Git URI. */
-  uri?: string;
+  uri?: string | undefined;
   /** Git branch. */
-  branch?: string;
+  branch?: string | undefined;
   /** A reference to the Key Vault secret containing a security token to authenticate to a Git repository. */
-  secretIdentifier?: string;
+  secretIdentifier?: string | undefined;
   /** The folder where the catalog items can be found inside the repository. */
-  path?: string;
+  path?: string | undefined;
 }
 /** Indicates the type of sync that is configured for the catalog. */
 export type CatalogPropertiesInputSyncType = "Manual" | "Scheduled";
@@ -179,13 +186,13 @@ export type CatalogPropertiesInputTagsMap = { [key: string]: string | undefined 
 /** Properties of a catalog. */
 export interface CatalogPropertiesInput {
   /** Properties for a GitHub catalog type. */
-  gitHub?: GitCatalog;
+  gitHub?: GitCatalog | undefined;
   /** Properties for an Azure DevOps catalog type. */
-  adoGit?: GitCatalog;
+  adoGit?: GitCatalog | undefined;
   /** Indicates the type of sync that is configured for the catalog. */
-  syncType?: CatalogPropertiesInputSyncType | (string & {});
+  syncType?: CatalogPropertiesInputSyncType | (string & {}) | undefined;
   /** Resource tags. */
-  tags?: CatalogPropertiesInputTagsMap;
+  tags?: CatalogPropertiesInputTagsMap | undefined;
 }
 export interface CatalogsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -197,7 +204,7 @@ export interface CatalogsCreateOrUpdateRequest {
   /** The name of the Catalog. */
   catalogName: string;
   /** Catalog properties. */
-  properties?: CatalogPropertiesInput;
+  properties?: CatalogPropertiesInput | undefined;
 }
 /** Indicates the type of sync that is configured for the catalog. */
 export type CatalogPropertiesSyncType = "Manual" | "Scheduled";
@@ -230,56 +237,56 @@ export type SyncStatsSyncedCatalogItemTypesList = Array<CatalogItemType>;
 /** Stats of the synchronization. */
 export interface SyncStats {
   /** Count of catalog items added during synchronization. */
-  added?: number;
+  added?: number | undefined;
   /** Count of catalog items updated during synchronization. */
-  updated?: number;
+  updated?: number | undefined;
   /** Count of catalog items that were unchanged during synchronization. */
-  unchanged?: number;
+  unchanged?: number | undefined;
   /** Count of catalog items removed during synchronization. */
-  removed?: number;
+  removed?: number | undefined;
   /** Count of catalog items that had validation errors during synchronization. */
-  validationErrors?: number;
+  validationErrors?: number | undefined;
   /** Count of synchronization errors that occured during synchronization. */
-  synchronizationErrors?: number;
+  synchronizationErrors?: number | undefined;
   /** Indicates catalog item types that were synced. */
-  syncedCatalogItemTypes?: SyncStatsSyncedCatalogItemTypesList;
+  syncedCatalogItemTypes?: SyncStatsSyncedCatalogItemTypesList | undefined;
 }
 /** The connection state of the catalog. */
 export type CatalogPropertiesConnectionState = "Connected" | "Disconnected";
 /** Properties of a catalog. */
 export interface CatalogProperties {
   /** Properties for a GitHub catalog type. */
-  gitHub?: GitCatalog;
+  gitHub?: GitCatalog | undefined;
   /** Properties for an Azure DevOps catalog type. */
-  adoGit?: GitCatalog;
+  adoGit?: GitCatalog | undefined;
   /** Indicates the type of sync that is configured for the catalog. */
-  syncType?: CatalogPropertiesSyncType;
+  syncType?: CatalogPropertiesSyncType | undefined;
   /** Resource tags. */
-  tags?: CatalogPropertiesTagsMap;
+  tags?: CatalogPropertiesTagsMap | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: CatalogPropertiesProvisioningState;
+  provisioningState?: CatalogPropertiesProvisioningState | undefined;
   /** The synchronization state of the catalog. */
-  syncState?: CatalogPropertiesSyncState;
+  syncState?: CatalogPropertiesSyncState | undefined;
   /** Stats of the latest synchronization. */
-  lastSyncStats?: SyncStats;
+  lastSyncStats?: SyncStats | undefined;
   /** The connection state of the catalog. */
-  connectionState?: CatalogPropertiesConnectionState;
+  connectionState?: CatalogPropertiesConnectionState | undefined;
   /** When the catalog was last connected. */
-  lastConnectionTime?: string;
+  lastConnectionTime?: string | undefined;
   /** When the catalog was last synced. */
-  lastSyncTime?: string;
+  lastSyncTime?: string | undefined;
 }
 export interface CatalogsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Catalog properties. */
-  properties?: CatalogProperties;
+  properties?: CatalogProperties | undefined;
 }
 export interface ConnectCatalogRequest {
   /** The ID of the target subscription. */
@@ -292,7 +299,7 @@ export interface ConnectCatalogRequest {
   catalogName: string;
 }
 export interface ConnectCatalogResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface ConnectProjectCatalogRequest {
   /** The ID of the target subscription. */
@@ -305,7 +312,7 @@ export interface ConnectProjectCatalogRequest {
   catalogName: string;
 }
 export interface ConnectProjectCatalogResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteAttachedNetworkRequest {
   /** The ID of the target subscription. */
@@ -318,7 +325,7 @@ export interface DeleteAttachedNetworkRequest {
   attachedNetworkConnectionName: string;
 }
 export interface DeleteAttachedNetworkResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteCatalogRequest {
   /** The ID of the target subscription. */
@@ -331,7 +338,7 @@ export interface DeleteCatalogRequest {
   catalogName: string;
 }
 export interface DeleteCatalogResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDevBoxDefinitionRequest {
   /** The ID of the target subscription. */
@@ -344,7 +351,7 @@ export interface DeleteDevBoxDefinitionRequest {
   devBoxDefinitionName: string;
 }
 export interface DeleteDevBoxDefinitionResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDevCenterRequest {
   /** The ID of the target subscription. */
@@ -355,7 +362,7 @@ export interface DeleteDevCenterRequest {
   devCenterName: string;
 }
 export interface DeleteDevCenterResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteEnvironmentTypeRequest {
   /** The ID of the target subscription. */
@@ -379,7 +386,7 @@ export interface DeleteGalleryRequest {
   galleryName: string;
 }
 export interface DeleteGalleryResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteNetworkConnectionRequest {
   /** The ID of the target subscription. */
@@ -390,7 +397,7 @@ export interface DeleteNetworkConnectionRequest {
   networkConnectionName: string;
 }
 export interface DeleteNetworkConnectionResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeletePoolRequest {
   /** The ID of the target subscription. */
@@ -403,7 +410,7 @@ export interface DeletePoolRequest {
   poolName: string;
 }
 export interface DeletePoolResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteProjectRequest {
   /** The ID of the target subscription. */
@@ -414,7 +421,7 @@ export interface DeleteProjectRequest {
   projectName: string;
 }
 export interface DeleteProjectResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteProjectCatalogRequest {
   /** The ID of the target subscription. */
@@ -427,7 +434,7 @@ export interface DeleteProjectCatalogRequest {
   catalogName: string;
 }
 export interface DeleteProjectCatalogResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteProjectEnvironmentTypeRequest {
   /** The ID of the target subscription. */
@@ -451,7 +458,7 @@ export interface DeleteProjectPolicyRequest {
   projectPolicyName: string;
 }
 export interface DeleteProjectPolicyResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteScheduleRequest {
   /** The ID of the target subscription. */
@@ -465,17 +472,17 @@ export interface DeleteScheduleRequest {
   /** The name of the schedule that uniquely identifies it. */
   scheduleName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface DeleteScheduleResponse {
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type DevBoxDefinitionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Image reference information */
 export interface DevBoxDefinitionPropertiesInputImageReference {
   /** Image ID, or Image version ID. When Image ID is provided, its latest version will be used. */
-  id?: string;
+  id?: string | undefined;
 }
 /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
@@ -483,13 +490,13 @@ export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 export interface DevBoxDefinitionPropertiesInputSku {
   /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Indicates whether hibernate is enabled/disabled. */
 export type HibernateSupport = "Disabled" | "Enabled";
@@ -503,9 +510,9 @@ export type DevBoxDefinitionPropertiesInputImageValidationStatus =
 /** Image validation error details */
 export interface DevBoxDefinitionPropertiesInputImageValidationErrorDetails {
   /** An identifier for the error. */
-  code?: string;
+  code?: string | undefined;
   /** A message describing the error. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Catalog resource validation status */
 export type DevBoxDefinitionPropertiesInputValidationStatus =
@@ -523,17 +530,22 @@ export interface DevBoxDefinitionPropertiesInput {
   /** The resource model definition representing SKU */
   sku: DevBoxDefinitionPropertiesInputSku;
   /** The storage type used for the Operating System disk of Dev Boxes created using this definition. */
-  osStorageType?: string;
+  osStorageType?: string | undefined;
   /** Indicates whether Dev Boxes created with this definition are capable of hibernation. Not all images are capable of supporting hibernation. To find out more see https://aka.ms/devbox/hibernate */
-  hibernateSupport?: HibernateSupport | (string & {});
+  hibernateSupport?: HibernateSupport | (string & {}) | undefined;
   /** Image validation status */
-  imageValidationStatus?: DevBoxDefinitionPropertiesInputImageValidationStatus | (string & {});
+  imageValidationStatus?:
+    | DevBoxDefinitionPropertiesInputImageValidationStatus
+    | (string & {})
+    | undefined;
   /** Image validation error details */
-  imageValidationErrorDetails?: DevBoxDefinitionPropertiesInputImageValidationErrorDetails;
+  imageValidationErrorDetails?:
+    | DevBoxDefinitionPropertiesInputImageValidationErrorDetails
+    | undefined;
   /** Catalog resource validation status */
-  validationStatus?: DevBoxDefinitionPropertiesInputValidationStatus | (string & {});
+  validationStatus?: DevBoxDefinitionPropertiesInputValidationStatus | (string & {}) | undefined;
   /** Image reference information */
-  activeImageReference?: DevBoxDefinitionPropertiesInputImageReference;
+  activeImageReference?: DevBoxDefinitionPropertiesInputImageReference | undefined;
 }
 export interface DevBoxDefinitionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -545,32 +557,32 @@ export interface DevBoxDefinitionsCreateOrUpdateRequest {
   /** The name of the Dev Box definition. */
   devBoxDefinitionName: string;
   /** Resource tags. */
-  tags?: DevBoxDefinitionsCreateOrUpdateRequestTagsMap;
+  tags?: DevBoxDefinitionsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Dev Box definition properties */
-  properties?: DevBoxDefinitionPropertiesInput;
+  properties?: DevBoxDefinitionPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type DevBoxDefinitionsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** Image reference information */
 export interface DevBoxDefinitionPropertiesImageReference {
   /** Image ID, or Image version ID. When Image ID is provided, its latest version will be used. */
-  id?: string;
+  id?: string | undefined;
   /** The actual version of the image after use. When id references a gallery image latest version, this will indicate the actual version in use. */
-  exactVersion?: string;
+  exactVersion?: string | undefined;
 }
 /** The resource model definition representing SKU */
 export interface DevBoxDefinitionPropertiesSku {
   /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Provisioning state of the resource. */
 export type DevBoxDefinitionPropertiesProvisioningState =
@@ -616,35 +628,37 @@ export interface DevBoxDefinitionProperties {
   /** The resource model definition representing SKU */
   sku: DevBoxDefinitionPropertiesSku;
   /** The storage type used for the Operating System disk of Dev Boxes created using this definition. */
-  osStorageType?: string;
+  osStorageType?: string | undefined;
   /** Indicates whether Dev Boxes created with this definition are capable of hibernation. Not all images are capable of supporting hibernation. To find out more see https://aka.ms/devbox/hibernate */
-  hibernateSupport?: HibernateSupport;
+  hibernateSupport?: HibernateSupport | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: DevBoxDefinitionPropertiesProvisioningState;
+  provisioningState?: DevBoxDefinitionPropertiesProvisioningState | undefined;
   /** Image validation status */
-  imageValidationStatus?: DevBoxDefinitionPropertiesImageValidationStatus;
+  imageValidationStatus?: DevBoxDefinitionPropertiesImageValidationStatus | undefined;
   /** Image validation error details */
-  imageValidationErrorDetails?: DevBoxDefinitionPropertiesInputImageValidationErrorDetails;
+  imageValidationErrorDetails?:
+    | DevBoxDefinitionPropertiesInputImageValidationErrorDetails
+    | undefined;
   /** Catalog resource validation status */
-  validationStatus?: DevBoxDefinitionPropertiesValidationStatus;
+  validationStatus?: DevBoxDefinitionPropertiesValidationStatus | undefined;
   /** Image reference information */
-  activeImageReference?: DevBoxDefinitionPropertiesImageReference;
+  activeImageReference?: DevBoxDefinitionPropertiesImageReference | undefined;
 }
 export interface DevBoxDefinitionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DevBoxDefinitionsCreateOrUpdateResponseTagsMap;
+  tags?: DevBoxDefinitionsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Dev Box definition properties */
-  properties?: DevBoxDefinitionProperties;
+  properties?: DevBoxDefinitionProperties | undefined;
 }
 /** Resource tags. */
 export type DevCentersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -658,55 +672,64 @@ export interface EncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity 
   /** Values can be systemAssignedIdentity or userAssignedIdentity */
   identityType?:
     | EncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentityIdentityType
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** user assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and delegatedResourceIdentity. */
-  userAssignedIdentityResourceId?: string;
+  userAssignedIdentityResourceId?: string | undefined;
   /** delegated identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and userAssignedIdentity - internal use only. */
-  delegatedIdentityClientId?: string;
+  delegatedIdentityClientId?: string | undefined;
 }
 /** All Customer-managed key encryption properties for the resource. */
 export interface EncryptionCustomerManagedKeyEncryption {
   /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  keyEncryptionKeyIdentity?: EncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity;
+  keyEncryptionKeyIdentity?:
+    | EncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity
+    | undefined;
   /** key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
-  keyEncryptionKeyUrl?: string;
+  keyEncryptionKeyUrl?: string | undefined;
 }
 export interface Encryption {
   /** All Customer-managed key encryption properties for the resource. */
-  customerManagedKeyEncryption?: EncryptionCustomerManagedKeyEncryption;
+  customerManagedKeyEncryption?: EncryptionCustomerManagedKeyEncryption | undefined;
 }
 /** Catalog item sync types enable or disable status. Indicates whether project catalogs are allowed to sync catalog items under projects associated to this dev center. */
 export type CatalogItemSyncEnableStatus = "Enabled" | "Disabled";
 /** Project catalog settings for project catalogs under a project associated to this dev center. */
 export interface DevCenterProjectCatalogSettings {
   /** Whether project catalogs associated with projects in this dev center can be configured to sync catalog items. */
-  catalogItemSyncEnableStatus?: CatalogItemSyncEnableStatus | (string & {});
+  catalogItemSyncEnableStatus?: CatalogItemSyncEnableStatus | (string & {}) | undefined;
 }
 /** Indicates whether pools in this Dev Center can use Microsoft Hosted Networks. Defaults to Enabled if not set. */
 export type MicrosoftHostedNetworkEnableStatus = "Enabled" | "Disabled";
 /** Network settings for the Dev Center. */
 export interface DevCenterNetworkSettings {
-  microsoftHostedNetworkEnableStatus?: MicrosoftHostedNetworkEnableStatus | (string & {});
+  microsoftHostedNetworkEnableStatus?:
+    | MicrosoftHostedNetworkEnableStatus
+    | (string & {})
+    | undefined;
 }
 /** Setting to be used when determining whether to install the Azure Monitor Agent service on Dev Boxes that belong to this dev center. */
 export type InstallAzureMonitorAgentEnableStatus = "Enabled" | "Disabled";
 /** Provisioning settings that apply to all Dev Boxes created in this dev center */
 export interface DevBoxProvisioningSettings {
   /** Whether project catalogs associated with projects in this dev center can be configured to sync catalog items. */
-  installAzureMonitorAgentEnableStatus?: InstallAzureMonitorAgentEnableStatus | (string & {});
+  installAzureMonitorAgentEnableStatus?:
+    | InstallAzureMonitorAgentEnableStatus
+    | (string & {})
+    | undefined;
 }
 /** Properties of the devcenter. */
 export interface DevCenterPropertiesInput {
   /** Encryption settings to be used for server-side encryption for proprietary content (such as catalogs, logs, customizations). */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** The display name of the devcenter. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Dev Center settings to be used when associating a project with a catalog. */
-  projectCatalogSettings?: DevCenterProjectCatalogSettings;
+  projectCatalogSettings?: DevCenterProjectCatalogSettings | undefined;
   /** Network settings that will be enforced on network resources associated with the Dev Center. */
-  networkSettings?: DevCenterNetworkSettings;
+  networkSettings?: DevCenterNetworkSettings | undefined;
   /** Settings to be used in the provisioning of all Dev Boxes that belong to this dev center. */
-  devBoxProvisioningSettings?: DevBoxProvisioningSettings;
+  devBoxProvisioningSettings?: DevBoxProvisioningSettings | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -721,7 +744,7 @@ export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityI
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface DevCentersCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface DevCentersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -731,13 +754,13 @@ export interface DevCentersCreateOrUpdateRequest {
   /** The name of the devcenter. */
   devCenterName: string;
   /** Resource tags. */
-  tags?: DevCentersCreateOrUpdateRequestTagsMap;
+  tags?: DevCentersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** DevCenter properties */
-  properties?: DevCenterPropertiesInput;
+  properties?: DevCenterPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateRequestIdentity;
+  identity?: DevCentersCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type DevCentersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -762,60 +785,60 @@ export type DevCenterPropertiesProvisioningState =
 /** Properties of the devcenter. */
 export interface DevCenterProperties {
   /** Encryption settings to be used for server-side encryption for proprietary content (such as catalogs, logs, customizations). */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** The display name of the devcenter. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Dev Center settings to be used when associating a project with a catalog. */
-  projectCatalogSettings?: DevCenterProjectCatalogSettings;
+  projectCatalogSettings?: DevCenterProjectCatalogSettings | undefined;
   /** Network settings that will be enforced on network resources associated with the Dev Center. */
-  networkSettings?: DevCenterNetworkSettings;
+  networkSettings?: DevCenterNetworkSettings | undefined;
   /** Settings to be used in the provisioning of all Dev Boxes that belong to this dev center. */
-  devBoxProvisioningSettings?: DevBoxProvisioningSettings;
+  devBoxProvisioningSettings?: DevBoxProvisioningSettings | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: DevCenterPropertiesProvisioningState;
+  provisioningState?: DevCenterPropertiesProvisioningState | undefined;
   /** The URI of the Dev Center. */
-  devCenterUri?: string;
+  devCenterUri?: string | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface DevCentersCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface DevCentersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DevCentersCreateOrUpdateResponseTagsMap;
+  tags?: DevCentersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** DevCenter properties */
-  properties?: DevCenterProperties;
+  properties?: DevCenterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateResponseIdentity;
+  identity?: DevCentersCreateOrUpdateResponseIdentity | undefined;
 }
 /** Properties of an environment type. */
 export interface EnvironmentTypePropertiesInput {
   /** The display name of the environment type. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Resource tags. */
 export type EnvironmentTypesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -829,9 +852,9 @@ export interface EnvironmentTypesCreateOrUpdateRequest {
   /** The name of the environment type. */
   environmentTypeName: string;
   /** Properties of an environment type. */
-  properties?: EnvironmentTypePropertiesInput;
+  properties?: EnvironmentTypePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: EnvironmentTypesCreateOrUpdateRequestTagsMap;
+  tags?: EnvironmentTypesCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Provisioning state of the resource. */
 export type EnvironmentTypePropertiesProvisioningState =
@@ -854,63 +877,63 @@ export type EnvironmentTypePropertiesProvisioningState =
 /** Properties of an environment type. */
 export interface EnvironmentTypeProperties {
   /** The display name of the environment type. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: EnvironmentTypePropertiesProvisioningState;
+  provisioningState?: EnvironmentTypePropertiesProvisioningState | undefined;
 }
 /** Resource tags. */
 export type EnvironmentTypesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface EnvironmentTypesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an environment type. */
-  properties?: EnvironmentTypeProperties;
+  properties?: EnvironmentTypeProperties | undefined;
   /** Resource tags. */
-  tags?: EnvironmentTypesCreateOrUpdateResponseTagsMap;
+  tags?: EnvironmentTypesCreateOrUpdateResponseTagsMap | undefined;
 }
 export interface ExecuteCheckNameAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type ExecuteCheckNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface ExecuteCheckNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: ExecuteCheckNameAvailabilityResponseReason;
+  reason?: ExecuteCheckNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface ExecuteCheckScopedNameAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource id to scope the name check. */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type ExecuteCheckScopedNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface ExecuteCheckScopedNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: ExecuteCheckScopedNameAvailabilityResponseReason;
+  reason?: ExecuteCheckScopedNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Properties of a gallery. */
 export interface GalleryPropertiesInput {
@@ -927,7 +950,7 @@ export interface GalleriesCreateOrUpdateRequest {
   /** The name of the gallery. */
   galleryName: string;
   /** Gallery properties. */
-  properties?: GalleryPropertiesInput;
+  properties?: GalleryPropertiesInput | undefined;
 }
 /** Provisioning state of the resource. */
 export type GalleryPropertiesProvisioningState =
@@ -950,21 +973,21 @@ export type GalleryPropertiesProvisioningState =
 /** Properties of a gallery. */
 export interface GalleryProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: GalleryPropertiesProvisioningState;
+  provisioningState?: GalleryPropertiesProvisioningState | undefined;
   /** The resource ID of the backing Azure Compute Gallery. */
   galleryResourceId: string;
 }
 export interface GalleriesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gallery properties. */
-  properties?: GalleryProperties;
+  properties?: GalleryProperties | undefined;
 }
 export interface GetAttachedNetworkByDevCenterRequest {
   /** The ID of the target subscription. */
@@ -978,15 +1001,15 @@ export interface GetAttachedNetworkByDevCenterRequest {
 }
 export interface GetAttachedNetworkByDevCenterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Attached NetworkConnection properties. */
-  properties?: AttachedNetworkConnectionProperties;
+  properties?: AttachedNetworkConnectionProperties | undefined;
 }
 export interface GetAttachedNetworkByProjectRequest {
   /** The ID of the target subscription. */
@@ -1000,15 +1023,15 @@ export interface GetAttachedNetworkByProjectRequest {
 }
 export interface GetAttachedNetworkByProjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Attached NetworkConnection properties. */
-  properties?: AttachedNetworkConnectionProperties;
+  properties?: AttachedNetworkConnectionProperties | undefined;
 }
 export interface GetCatalogRequest {
   /** The ID of the target subscription. */
@@ -1022,15 +1045,15 @@ export interface GetCatalogRequest {
 }
 export interface GetCatalogResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Catalog properties. */
-  properties?: CatalogProperties;
+  properties?: CatalogProperties | undefined;
 }
 export interface GetCatalogSyncErrorDetailsRequest {
   /** The ID of the target subscription. */
@@ -1048,9 +1071,9 @@ export type SyncErrorDetailsOperationError =
 /** An individual conflict error. */
 export interface CatalogConflictError {
   /** The path of the file that has a conflicting name. */
-  path?: string;
+  path?: string | undefined;
   /** Name of the conflicting catalog item. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Catalog items that have conflicting names. */
 export type SyncErrorDetailsConflictsList = Array<CatalogConflictError>;
@@ -1063,20 +1086,20 @@ export type CatalogSyncErrorErrorDetailsList =
 /** An individual synchronization error. */
 export interface CatalogSyncError {
   /** The path of the file the error is associated with. */
-  path?: string;
+  path?: string | undefined;
   /** Errors associated with the file. */
-  errorDetails?: CatalogSyncErrorErrorDetailsList;
+  errorDetails?: CatalogSyncErrorErrorDetailsList | undefined;
 }
 /** Errors that occured during synchronization. */
 export type SyncErrorDetailsErrorsList = Array<CatalogSyncError>;
 /** Synchronization error details. */
 export interface SyncErrorDetails {
   /** Catalog error details */
-  operationError?: DevBoxDefinitionPropertiesInputImageValidationErrorDetails;
+  operationError?: DevBoxDefinitionPropertiesInputImageValidationErrorDetails | undefined;
   /** Catalog items that have conflicting names. */
-  conflicts?: SyncErrorDetailsConflictsList;
+  conflicts?: SyncErrorDetailsConflictsList | undefined;
   /** Errors that occured during synchronization. */
-  errors?: SyncErrorDetailsErrorsList;
+  errors?: SyncErrorDetailsErrorsList | undefined;
 }
 export interface GetCustomizationTaskRequest {
   /** The ID of the target subscription. */
@@ -1095,11 +1118,11 @@ export type CustomizationTaskInputType = "string" | "number" | "boolean";
 /** Input for a Task. */
 export interface CustomizationTaskInput {
   /** Description of the input. */
-  description?: string;
+  description?: string | undefined;
   /** Type of the input. */
-  type?: CustomizationTaskInputType;
+  type?: CustomizationTaskInputType | undefined;
   /** Whether or not the input is required. */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 /** Inputs to the task. */
 export type CustomizationTaskPropertiesInputsMap = {
@@ -1114,23 +1137,23 @@ export type CustomizationTaskPropertiesValidationStatus =
 /** Properties of a Task. */
 export interface CustomizationTaskProperties {
   /** Inputs to the task. */
-  inputs?: CustomizationTaskPropertiesInputsMap;
+  inputs?: CustomizationTaskPropertiesInputsMap | undefined;
   /** The default timeout for the task. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Catalog resource validation status */
-  validationStatus?: CustomizationTaskPropertiesValidationStatus;
+  validationStatus?: CustomizationTaskPropertiesValidationStatus | undefined;
 }
 export interface GetCustomizationTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Task properties */
-  properties?: CustomizationTaskProperties;
+  properties?: CustomizationTaskProperties | undefined;
 }
 export interface GetCustomizationTaskErrorDetailsRequest {
   /** The ID of the target subscription. */
@@ -1151,7 +1174,7 @@ export type GetCustomizationTaskErrorDetailsResponseErrorsList =
   Array<DevBoxDefinitionPropertiesInputImageValidationErrorDetails>;
 export interface GetCustomizationTaskErrorDetailsResponse {
   /** Errors associated with resources synchronized from the catalog. */
-  errors?: GetCustomizationTaskErrorDetailsResponseErrorsList;
+  errors?: GetCustomizationTaskErrorDetailsResponseErrorsList | undefined;
 }
 export interface GetDevBoxDefinitionRequest {
   /** The ID of the target subscription. */
@@ -1167,19 +1190,19 @@ export interface GetDevBoxDefinitionRequest {
 export type GetDevBoxDefinitionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDevBoxDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDevBoxDefinitionResponseTagsMap;
+  tags?: GetDevBoxDefinitionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Dev Box definition properties */
-  properties?: DevBoxDefinitionProperties;
+  properties?: DevBoxDefinitionProperties | undefined;
 }
 export interface GetDevBoxDefinitionByProjectRequest {
   /** The ID of the target subscription. */
@@ -1195,19 +1218,19 @@ export interface GetDevBoxDefinitionByProjectRequest {
 export type GetDevBoxDefinitionByProjectResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDevBoxDefinitionByProjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDevBoxDefinitionByProjectResponseTagsMap;
+  tags?: GetDevBoxDefinitionByProjectResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Dev Box definition properties */
-  properties?: DevBoxDefinitionProperties;
+  properties?: DevBoxDefinitionProperties | undefined;
 }
 export interface GetDevCenterRequest {
   /** The ID of the target subscription. */
@@ -1223,21 +1246,21 @@ export type GetDevCenterResponseTagsMap = { [key: string]: string | undefined };
 export type GetDevCenterResponseIdentity = DevCentersCreateOrUpdateResponseIdentity;
 export interface GetDevCenterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDevCenterResponseTagsMap;
+  tags?: GetDevCenterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** DevCenter properties */
-  properties?: DevCenterProperties;
+  properties?: DevCenterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateResponseIdentity;
+  identity?: DevCentersCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetEnvironmentDefinitionRequest {
   /** The ID of the target subscription. */
@@ -1256,17 +1279,17 @@ export type ParameterType = "array" | "boolean" | "integer" | "number" | "object
 /** Properties of an Environment Definition parameter */
 export interface EnvironmentDefinitionParameter {
   /** Unique ID of the parameter */
-  id?: string;
+  id?: string | undefined;
   /** Display name of the parameter */
-  name?: string;
+  name?: string | undefined;
   /** Description of the parameter */
-  description?: string;
+  description?: string | undefined;
   /** A string of one of the basic JSON types (number, integer, array, object, boolean, string) */
-  type?: ParameterType;
+  type?: ParameterType | undefined;
   /** Whether or not this parameter is read-only. If true, default should have a value. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Whether or not this parameter is required */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 /** Input parameters passed to an environment. */
 export type EnvironmentDefinitionPropertiesParametersList = Array<EnvironmentDefinitionParameter>;
@@ -1279,25 +1302,25 @@ export type EnvironmentDefinitionPropertiesValidationStatus =
 /** Properties of an environment definition. */
 export interface EnvironmentDefinitionProperties {
   /** A short description of the environment definition. */
-  description?: string;
+  description?: string | undefined;
   /** Input parameters passed to an environment. */
-  parameters?: EnvironmentDefinitionPropertiesParametersList;
+  parameters?: EnvironmentDefinitionPropertiesParametersList | undefined;
   /** Path to the Environment Definition entrypoint file. */
-  templatePath?: string;
+  templatePath?: string | undefined;
   /** Catalog resource validation status */
-  validationStatus?: EnvironmentDefinitionPropertiesValidationStatus;
+  validationStatus?: EnvironmentDefinitionPropertiesValidationStatus | undefined;
 }
 export interface GetEnvironmentDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Environment definition properties. */
-  properties?: EnvironmentDefinitionProperties;
+  properties?: EnvironmentDefinitionProperties | undefined;
 }
 export interface GetEnvironmentDefinitionByProjectCatalogRequest {
   /** The ID of the target subscription. */
@@ -1313,15 +1336,15 @@ export interface GetEnvironmentDefinitionByProjectCatalogRequest {
 }
 export interface GetEnvironmentDefinitionByProjectCatalogResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Environment definition properties. */
-  properties?: EnvironmentDefinitionProperties;
+  properties?: EnvironmentDefinitionProperties | undefined;
 }
 export interface GetEnvironmentDefinitionErrorDetailsRequest {
   /** The ID of the target subscription. */
@@ -1340,7 +1363,7 @@ export type GetEnvironmentDefinitionErrorDetailsResponseErrorsList =
   Array<DevBoxDefinitionPropertiesInputImageValidationErrorDetails>;
 export interface GetEnvironmentDefinitionErrorDetailsResponse {
   /** Errors associated with resources synchronized from the catalog. */
-  errors?: GetEnvironmentDefinitionErrorDetailsResponseErrorsList;
+  errors?: GetEnvironmentDefinitionErrorDetailsResponseErrorsList | undefined;
 }
 export interface GetEnvironmentTypeRequest {
   /** The ID of the target subscription. */
@@ -1356,17 +1379,17 @@ export interface GetEnvironmentTypeRequest {
 export type GetEnvironmentTypeResponseTagsMap = { [key: string]: string | undefined };
 export interface GetEnvironmentTypeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an environment type. */
-  properties?: EnvironmentTypeProperties;
+  properties?: EnvironmentTypeProperties | undefined;
   /** Resource tags. */
-  tags?: GetEnvironmentTypeResponseTagsMap;
+  tags?: GetEnvironmentTypeResponseTagsMap | undefined;
 }
 export interface GetGalleryRequest {
   /** The ID of the target subscription. */
@@ -1380,15 +1403,15 @@ export interface GetGalleryRequest {
 }
 export interface GetGalleryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gallery properties. */
-  properties?: GalleryProperties;
+  properties?: GalleryProperties | undefined;
 }
 export interface GetImageRequest {
   /** The ID of the target subscription. */
@@ -1405,16 +1428,16 @@ export interface GetImageRequest {
 /** Properties for a range of values. */
 export interface ResourceRange {
   /** Minimum value. */
-  min?: number;
+  min?: number | undefined;
   /** Maximum value. */
-  max?: number;
+  max?: number | undefined;
 }
 /** Properties for a recommended machine configuration. */
 export interface RecommendedMachineConfiguration {
   /** Recommended memory range. */
-  memory?: ResourceRange;
+  memory?: ResourceRange | undefined;
   /** Recommended vCPU range. */
-  vCPUs?: ResourceRange;
+  vCPUs?: ResourceRange | undefined;
 }
 /** Provisioning state of the resource. */
 export type ImagePropertiesProvisioningState =
@@ -1437,31 +1460,31 @@ export type ImagePropertiesProvisioningState =
 /** Properties of an image. */
 export interface ImageProperties {
   /** The description of the image. */
-  description?: string;
+  description?: string | undefined;
   /** The publisher of the image. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** The name of the image offer. */
-  offer?: string;
+  offer?: string | undefined;
   /** The SKU name for the image. */
-  sku?: string;
+  sku?: string | undefined;
   /** The recommended machine configuration to use with the image. */
-  recommendedMachineConfiguration?: RecommendedMachineConfiguration;
+  recommendedMachineConfiguration?: RecommendedMachineConfiguration | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ImagePropertiesProvisioningState;
+  provisioningState?: ImagePropertiesProvisioningState | undefined;
   /** Indicates whether this image has hibernate enabled. Not all images are capable of supporting hibernation. To find out more see https://aka.ms/devbox/hibernate */
-  hibernateSupport?: HibernateSupport;
+  hibernateSupport?: HibernateSupport | undefined;
 }
 export interface GetImageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Image properties. */
-  properties?: ImageProperties;
+  properties?: ImageProperties | undefined;
 }
 export interface GetImageByProjectRequest {
   /** The ID of the target subscription. */
@@ -1475,15 +1498,15 @@ export interface GetImageByProjectRequest {
 }
 export interface GetImageByProjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Image properties. */
-  properties?: ImageProperties;
+  properties?: ImageProperties | undefined;
 }
 export interface GetImageVersionRequest {
   /** The ID of the target subscription. */
@@ -1520,27 +1543,27 @@ export type ImageVersionPropertiesProvisioningState =
 /** Properties of an image version. */
 export interface ImageVersionProperties {
   /** The semantic version string. */
-  name?: string;
+  name?: string | undefined;
   /** The datetime that the backing image version was published. */
-  publishedDate?: string;
+  publishedDate?: string | undefined;
   /** If the version should be excluded from being treated as the latest version. */
-  excludeFromLatest?: boolean;
+  excludeFromLatest?: boolean | undefined;
   /** The size of the OS disk image, in GB. */
-  osDiskImageSizeInGb?: number;
+  osDiskImageSizeInGb?: number | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ImageVersionPropertiesProvisioningState;
+  provisioningState?: ImageVersionPropertiesProvisioningState | undefined;
 }
 export interface GetImageVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Image version properties. */
-  properties?: ImageVersionProperties;
+  properties?: ImageVersionProperties | undefined;
 }
 export interface GetImageVersionByProjectRequest {
   /** The ID of the target subscription. */
@@ -1556,15 +1579,15 @@ export interface GetImageVersionByProjectRequest {
 }
 export interface GetImageVersionByProjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Image version properties. */
-  properties?: ImageVersionProperties;
+  properties?: ImageVersionProperties | undefined;
 }
 export interface GetNetworkConnectionRequest {
   /** The ID of the target subscription. */
@@ -1610,37 +1633,37 @@ export interface NetworkProperties {
   /** The subnet to attach Virtual Machines to */
   subnetId: string;
   /** Active Directory domain name */
-  domainName?: string;
+  domainName?: string | undefined;
   /** Active Directory domain Organization Unit (OU) */
-  organizationUnit?: string;
+  organizationUnit?: string | undefined;
   /** The username of an Active Directory account (user or service account) that has permissions to create computer objects in Active Directory. Required format: admin@contoso.com. */
-  domainUsername?: string;
+  domainUsername?: string | undefined;
   /** The password for the account used to join domain */
-  domainPassword?: string | Redacted.Redacted<string>;
+  domainPassword?: string | Redacted.Redacted<string> | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: NetworkPropertiesProvisioningState;
+  provisioningState?: NetworkPropertiesProvisioningState | undefined;
   /** Health check status values */
-  healthCheckStatus?: NetworkPropertiesHealthCheckStatus;
+  healthCheckStatus?: NetworkPropertiesHealthCheckStatus | undefined;
   /** The name for resource group where NICs will be placed. */
-  networkingResourceGroupName?: string;
+  networkingResourceGroupName?: string | undefined;
   /** Active Directory join type */
   domainJoinType: NetworkPropertiesDomainJoinType;
 }
 export interface GetNetworkConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkConnectionResponseTagsMap;
+  tags?: GetNetworkConnectionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a Network Connection */
-  properties?: NetworkProperties;
+  properties?: NetworkProperties | undefined;
 }
 export interface GetNetworkConnectionHealthDetailsRequest {
   /** The ID of the target subscription. */
@@ -1662,42 +1685,42 @@ export type HealthCheckStatus =
 /** An individual health check item */
 export interface HealthCheck {
   /** Health check status values */
-  status?: HealthCheckStatus;
+  status?: HealthCheckStatus | undefined;
   /** The display name of this health check item. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Start time of health check item. */
-  startDateTime?: string;
+  startDateTime?: string | undefined;
   /** End time of the health check item. */
-  endDateTime?: string;
+  endDateTime?: string | undefined;
   /** The type of error that occurred during this health check. */
-  errorType?: string;
+  errorType?: string | undefined;
   /** The recommended action to fix the corresponding error. */
-  recommendedAction?: string;
+  recommendedAction?: string | undefined;
   /** Additional details about the health check or the recommended action. */
-  additionalDetails?: string;
+  additionalDetails?: string | undefined;
 }
 /** Details for each health check item. */
 export type HealthCheckStatusDetailsPropertiesHealthChecksList = Array<HealthCheck>;
 /** Health Check properties. */
 export interface HealthCheckStatusDetailsProperties {
   /** Start time of last execution of the health checks. */
-  startDateTime?: string;
+  startDateTime?: string | undefined;
   /** End time of last execution of the health checks. */
-  endDateTime?: string;
+  endDateTime?: string | undefined;
   /** Details for each health check item. */
-  healthChecks?: HealthCheckStatusDetailsPropertiesHealthChecksList;
+  healthChecks?: HealthCheckStatusDetailsPropertiesHealthChecksList | undefined;
 }
 export interface GetNetworkConnectionHealthDetailsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Health check status details properties. */
-  properties?: HealthCheckStatusDetailsProperties;
+  properties?: HealthCheckStatusDetailsProperties | undefined;
 }
 export interface GetOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -1714,70 +1737,70 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList;
+  operations?: OperationStatusResultOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type GetOperationStatusResponseOperationsList = Array<OperationStatusResult>;
 export interface GetOperationStatusResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: GetOperationStatusResponseOperationsList;
+  operations?: GetOperationStatusResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Custom operation properties, populated only for a successful operation. */
-  properties?: unknown;
-  location?: string;
+  properties?: unknown | undefined;
+  location?: string | undefined;
 }
 export interface GetPoolRequest {
   /** The ID of the target subscription. */
@@ -1802,11 +1825,11 @@ export type PoolDevBoxDefinitionActiveImageReference = DevBoxDefinitionPropertie
 /** Represents a definition for a Developer Machine. */
 export interface PoolDevBoxDefinition {
   /** Image reference information */
-  imageReference?: DevBoxDefinitionPropertiesImageReference;
+  imageReference?: DevBoxDefinitionPropertiesImageReference | undefined;
   /** The resource model definition representing SKU */
-  sku?: DevBoxDefinitionPropertiesSku;
+  sku?: DevBoxDefinitionPropertiesSku | undefined;
   /** Image reference information */
-  activeImageReference?: DevBoxDefinitionPropertiesImageReference;
+  activeImageReference?: DevBoxDefinitionPropertiesImageReference | undefined;
 }
 /** License Types */
 export type LicenseType = "Windows_Client";
@@ -1817,18 +1840,18 @@ export type StopOnDisconnectEnableStatus = "Enabled" | "Disabled";
 /** Stop on disconnect configuration settings for Dev Boxes created in this pool. */
 export interface StopOnDisconnectConfiguration {
   /** Whether the feature to stop the Dev Box on disconnect once the grace period has lapsed is enabled. */
-  status?: StopOnDisconnectEnableStatus | (string & {});
+  status?: StopOnDisconnectEnableStatus | (string & {}) | undefined;
   /** The specified time in minutes to wait before stopping a Dev Box once disconnect is detected. */
-  gracePeriodMinutes?: number;
+  gracePeriodMinutes?: number | undefined;
 }
 /** Stop on no connect enable or disable status. */
 export type StopOnNoConnectEnableStatus = "Enabled" | "Disabled";
 /** Stop on no connect configuration settings for Dev Boxes created in this pool. */
 export interface StopOnNoConnectConfiguration {
   /** Enables the feature to stop a started Dev Box when it has not been connected to, once the grace period has lapsed. */
-  status?: StopOnNoConnectEnableStatus | (string & {});
+  status?: StopOnNoConnectEnableStatus | (string & {}) | undefined;
   /** The specified time in minutes to wait before stopping a Dev Box if no connection is made. */
-  gracePeriodMinutes?: number;
+  gracePeriodMinutes?: number | undefined;
 }
 /** SingleSignOn (SSO) enable or disable status. Indicates whether Dev Boxes in the Pool will have SSO enabled or disabled. */
 export type SingleSignOnStatus = "Disabled" | "Enabled";
@@ -1841,9 +1864,9 @@ export type HealthStatus = "Unknown" | "Pending" | "Healthy" | "Warning" | "Unhe
 /** Pool health status detail. */
 export interface HealthStatusDetail {
   /** An identifier for the issue. */
-  code?: string;
+  code?: string | undefined;
   /** A message describing the issue, intended to be suitable for display in a user interface */
-  message?: string;
+  message?: string | undefined;
 }
 /** Details on the Pool health status to help diagnose issues. This is only populated when the pool status indicates the pool is in a non-healthy state */
 export type PoolPropertiesHealthStatusDetailsList = Array<HealthStatusDetail>;
@@ -1868,11 +1891,11 @@ export type PoolPropertiesProvisioningState =
 /** Properties of a Pool */
 export interface PoolProperties {
   /** Indicates if the pool is created from an existing Dev Box Definition or if one is provided directly. */
-  devBoxDefinitionType?: PoolDevBoxDefinitionType;
+  devBoxDefinitionType?: PoolDevBoxDefinitionType | undefined;
   /** Name of a Dev Box definition in parent Project of this Pool. Will be ignored if devBoxDefinitionType is Value. */
   devBoxDefinitionName: string;
   /** A definition of the machines that are created from this Pool. Will be ignored if devBoxDefinitionType is Reference or not provided. */
-  devBoxDefinition?: PoolDevBoxDefinition;
+  devBoxDefinition?: PoolDevBoxDefinition | undefined;
   /** Name of a Network Connection in parent Project of this Pool */
   networkConnectionName: string;
   /** Specifies the license type indicating the caller has already acquired licenses for the Dev Boxes that will be created. */
@@ -1880,41 +1903,41 @@ export interface PoolProperties {
   /** Indicates whether owners of Dev Boxes in this pool are added as local administrators on the Dev Box. */
   localAdministrator: LocalAdminStatus;
   /** Stop on disconnect configuration settings for Dev Boxes created in this pool. */
-  stopOnDisconnect?: StopOnDisconnectConfiguration;
+  stopOnDisconnect?: StopOnDisconnectConfiguration | undefined;
   /** Stop on no connect configuration settings for Dev Boxes created in this pool. */
-  stopOnNoConnect?: StopOnNoConnectConfiguration;
+  stopOnNoConnect?: StopOnNoConnectConfiguration | undefined;
   /** Indicates whether Dev Boxes in this pool are created with single sign on enabled. The also requires that single sign on be enabled on the tenant. */
-  singleSignOnStatus?: SingleSignOnStatus;
+  singleSignOnStatus?: SingleSignOnStatus | undefined;
   /** The display name of the pool. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Indicates whether the pool uses a Virtual Network managed by Microsoft or a customer provided network. */
-  virtualNetworkType?: VirtualNetworkType;
+  virtualNetworkType?: VirtualNetworkType | undefined;
   /** The regions of the managed virtual network (required when managedNetworkType is Managed). */
-  managedVirtualNetworkRegions?: PoolPropertiesManagedVirtualNetworkRegionsList;
+  managedVirtualNetworkRegions?: PoolPropertiesManagedVirtualNetworkRegionsList | undefined;
   /** Overall health status of the Pool. Indicates whether or not the Pool is available to create Dev Boxes. */
-  healthStatus?: HealthStatus;
+  healthStatus?: HealthStatus | undefined;
   /** Details on the Pool health status to help diagnose issues. This is only populated when the pool status indicates the pool is in a non-healthy state */
-  healthStatusDetails?: PoolPropertiesHealthStatusDetailsList;
+  healthStatusDetails?: PoolPropertiesHealthStatusDetailsList | undefined;
   /** Indicates the number of provisioned Dev Boxes in this pool. */
-  devBoxCount?: number;
+  devBoxCount?: number | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: PoolPropertiesProvisioningState;
+  provisioningState?: PoolPropertiesProvisioningState | undefined;
 }
 export interface GetPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPoolResponseTagsMap;
+  tags?: GetPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Pool properties */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
 }
 export interface GetProjectRequest {
   /** The ID of the target subscription. */
@@ -1931,7 +1954,7 @@ export type ProjectCatalogSettingsCatalogItemSyncTypesList = Array<CatalogItemTy
 /** Settings to be used when associating a project with a catalog. */
 export interface ProjectCatalogSettings {
   /** Indicates catalog item types that can be synced. */
-  catalogItemSyncTypes?: ProjectCatalogSettingsCatalogItemSyncTypesList;
+  catalogItemSyncTypes?: ProjectCatalogSettingsCatalogItemSyncTypesList | undefined;
 }
 /** Provisioning state of the resource. */
 export type ProjectPropertiesProvisioningState =
@@ -1954,39 +1977,39 @@ export type ProjectPropertiesProvisioningState =
 /** Properties of a project. */
 export interface ProjectProperties {
   /** Resource Id of an associated DevCenter */
-  devCenterId?: string;
+  devCenterId?: string | undefined;
   /** Description of the project. */
-  description?: string;
+  description?: string | undefined;
   /** When specified, limits the maximum number of Dev Boxes a single user can create across all pools in the project. This will have no effect on existing Dev Boxes when reduced. */
-  maxDevBoxesPerUser?: number;
+  maxDevBoxesPerUser?: number | undefined;
   /** The display name of the project. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Settings to be used when associating a project with a catalog. */
-  catalogSettings?: ProjectCatalogSettings;
+  catalogSettings?: ProjectCatalogSettings | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProjectPropertiesProvisioningState;
+  provisioningState?: ProjectPropertiesProvisioningState | undefined;
   /** The URI of the Dev Center resource this project is associated with. */
-  devCenterUri?: string;
+  devCenterUri?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetProjectResponseIdentity = DevCentersCreateOrUpdateResponseIdentity;
 export interface GetProjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetProjectResponseTagsMap;
+  tags?: GetProjectResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a project. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateResponseIdentity;
+  identity?: DevCentersCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetProjectAllowedEnvironmentTypeRequest {
   /** The ID of the target subscription. */
@@ -2019,21 +2042,21 @@ export type AllowedEnvironmentTypePropertiesProvisioningState =
 /** Properties of an allowed environment type. */
 export interface AllowedEnvironmentTypeProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: AllowedEnvironmentTypePropertiesProvisioningState;
+  provisioningState?: AllowedEnvironmentTypePropertiesProvisioningState | undefined;
   /** The display name of the allowed environment type. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetProjectAllowedEnvironmentTypeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an allowed environment type. */
-  properties?: AllowedEnvironmentTypeProperties;
+  properties?: AllowedEnvironmentTypeProperties | undefined;
 }
 export interface GetProjectCatalogRequest {
   /** The ID of the target subscription. */
@@ -2047,15 +2070,15 @@ export interface GetProjectCatalogRequest {
 }
 export interface GetProjectCatalogResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Catalog properties. */
-  properties?: CatalogProperties;
+  properties?: CatalogProperties | undefined;
 }
 export interface GetProjectCatalogEnvironmentDefinitionErrorDetailsRequest {
   /** The ID of the target subscription. */
@@ -2074,7 +2097,7 @@ export type GetProjectCatalogEnvironmentDefinitionErrorDetailsResponseErrorsList
   Array<DevBoxDefinitionPropertiesInputImageValidationErrorDetails>;
 export interface GetProjectCatalogEnvironmentDefinitionErrorDetailsResponse {
   /** Errors associated with resources synchronized from the catalog. */
-  errors?: GetProjectCatalogEnvironmentDefinitionErrorDetailsResponseErrorsList;
+  errors?: GetProjectCatalogEnvironmentDefinitionErrorDetailsResponseErrorsList | undefined;
 }
 export interface GetProjectCatalogImageDefinitionBuildRequest {
   /** The ID of the target subscription. */
@@ -2105,27 +2128,27 @@ export type ImageCreationErrorDetails = DevBoxDefinitionPropertiesInputImageVali
 /** Properties of an Image Definition Build. */
 export interface ImageDefinitionBuildProperties {
   /** Image reference information */
-  imageReference?: DevBoxDefinitionPropertiesImageReference;
+  imageReference?: DevBoxDefinitionPropertiesImageReference | undefined;
   /** The status of the build. */
-  status?: ImageDefinitionBuildStatus;
+  status?: ImageDefinitionBuildStatus | undefined;
   /** Start time of the task group. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of the task group. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Details for image creation error. Populated when the image creation is not successful. */
-  errorDetails?: DevBoxDefinitionPropertiesInputImageValidationErrorDetails;
+  errorDetails?: DevBoxDefinitionPropertiesInputImageValidationErrorDetails | undefined;
 }
 export interface GetProjectCatalogImageDefinitionBuildResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Image Definition Build properties */
-  properties?: ImageDefinitionBuildProperties;
+  properties?: ImageDefinitionBuildProperties | undefined;
 }
 export interface GetProjectCatalogImageDefinitionBuildBuildDetailsRequest {
   /** The ID of the target subscription. */
@@ -2153,61 +2176,61 @@ export type ImageDefinitionBuildTaskParametersList = Array<ImageDefinitionBuildT
 /** A task executed during the image definition build. */
 export interface ImageDefinitionBuildTask {
   /** The name of the task. */
-  name?: string;
+  name?: string | undefined;
   /** Parameters for the task. */
-  parameters?: ImageDefinitionBuildTaskParametersList;
+  parameters?: ImageDefinitionBuildTaskParametersList | undefined;
   /** Display name to help differentiate multiple instances of the same task. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** ID of the task instance. */
-  id?: string;
+  id?: string | undefined;
   /** Start time of the task. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of the task. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The status of the task. */
-  status?: ImageDefinitionBuildStatus;
+  status?: ImageDefinitionBuildStatus | undefined;
   /** The URI for retrieving logs for the task execution. */
-  logUri?: string;
+  logUri?: string | undefined;
 }
 /** The list of tasks executed during the task group. */
 export type ImageDefinitionBuildTaskGroupTasksList = Array<ImageDefinitionBuildTask>;
 /** A task group executed during the image definition build. */
 export interface ImageDefinitionBuildTaskGroup {
   /** The name of the task group. */
-  name?: string;
+  name?: string | undefined;
   /** The status of the task group. */
-  status?: ImageDefinitionBuildStatus;
+  status?: ImageDefinitionBuildStatus | undefined;
   /** Start time of the task group. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of the task group. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The list of tasks executed during the task group. */
-  tasks?: ImageDefinitionBuildTaskGroupTasksList;
+  tasks?: ImageDefinitionBuildTaskGroupTasksList | undefined;
 }
 /** The list of task groups executed during the image definition build. */
 export type GetProjectCatalogImageDefinitionBuildBuildDetailsResponseTaskGroupsList =
   Array<ImageDefinitionBuildTaskGroup>;
 export interface GetProjectCatalogImageDefinitionBuildBuildDetailsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Image reference information */
-  imageReference?: DevBoxDefinitionPropertiesImageReference;
+  imageReference?: DevBoxDefinitionPropertiesImageReference | undefined;
   /** The status of the build. */
-  status?: ImageDefinitionBuildStatus;
+  status?: ImageDefinitionBuildStatus | undefined;
   /** Start time of the task group. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of the task group. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Details for image creation error. Populated when the image creation is not successful. */
-  errorDetails?: DevBoxDefinitionPropertiesInputImageValidationErrorDetails;
+  errorDetails?: DevBoxDefinitionPropertiesInputImageValidationErrorDetails | undefined;
   /** The list of task groups executed during the image definition build. */
-  taskGroups?: GetProjectCatalogImageDefinitionBuildBuildDetailsResponseTaskGroupsList;
+  taskGroups?: GetProjectCatalogImageDefinitionBuildBuildDetailsResponseTaskGroupsList | undefined;
 }
 export interface GetProjectCatalogImageDefinitionByProjectCatalogRequest {
   /** The ID of the target subscription. */
@@ -2226,13 +2249,13 @@ export type ImageDefinitionPropertiesImageReference = DevBoxDefinitionProperties
 /** Details about the latest build. */
 export interface LatestImageBuild {
   /** Identifier of a build. */
-  name?: string;
+  name?: string | undefined;
   /** Start time of the task group. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of the task group. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The state of an Image Definition Build. */
-  status?: ImageDefinitionBuildStatus;
+  status?: ImageDefinitionBuildStatus | undefined;
 }
 /** Image validation status */
 export type ImageDefinitionPropertiesImageValidationStatus =
@@ -2258,33 +2281,35 @@ export type AutoImageBuildStatus = "Disabled" | "Enabled";
 /** Properties of an Image Definition. */
 export interface ImageDefinitionProperties {
   /** Image reference information */
-  imageReference?: DevBoxDefinitionPropertiesImageReference;
+  imageReference?: DevBoxDefinitionPropertiesImageReference | undefined;
   /** The URL to the repository file containing the image definition. */
-  fileUrl?: string;
+  fileUrl?: string | undefined;
   /** Details about the latest build. */
-  latestBuild?: LatestImageBuild;
+  latestBuild?: LatestImageBuild | undefined;
   /** Image validation status */
-  imageValidationStatus?: ImageDefinitionPropertiesImageValidationStatus;
+  imageValidationStatus?: ImageDefinitionPropertiesImageValidationStatus | undefined;
   /** Image validation error details */
-  imageValidationErrorDetails?: DevBoxDefinitionPropertiesInputImageValidationErrorDetails;
+  imageValidationErrorDetails?:
+    | DevBoxDefinitionPropertiesInputImageValidationErrorDetails
+    | undefined;
   /** Catalog resource validation status */
-  validationStatus?: ImageDefinitionPropertiesValidationStatus;
+  validationStatus?: ImageDefinitionPropertiesValidationStatus | undefined;
   /** Image reference information */
-  activeImageReference?: DevBoxDefinitionPropertiesImageReference;
+  activeImageReference?: DevBoxDefinitionPropertiesImageReference | undefined;
   /** Indicates if automatic image builds will be triggered for image definition updates */
-  autoImageBuild?: AutoImageBuildStatus;
+  autoImageBuild?: AutoImageBuildStatus | undefined;
 }
 export interface GetProjectCatalogImageDefinitionByProjectCatalogResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Image Definition properties */
-  properties?: ImageDefinitionProperties;
+  properties?: ImageDefinitionProperties | undefined;
 }
 export interface GetProjectCatalogImageDefinitionErrorDetailsRequest {
   /** The ID of the target subscription. */
@@ -2303,7 +2328,7 @@ export type GetProjectCatalogImageDefinitionErrorDetailsResponseErrorsList =
   Array<DevBoxDefinitionPropertiesInputImageValidationErrorDetails>;
 export interface GetProjectCatalogImageDefinitionErrorDetailsResponse {
   /** Errors associated with resources synchronized from the catalog. */
-  errors?: GetProjectCatalogImageDefinitionErrorDetailsResponseErrorsList;
+  errors?: GetProjectCatalogImageDefinitionErrorDetailsResponseErrorsList | undefined;
 }
 export interface GetProjectCatalogSyncErrorDetailsRequest {
   /** The ID of the target subscription. */
@@ -2330,9 +2355,9 @@ export type EnvironmentTypeEnableStatus = "Enabled" | "Disabled";
 /** A role that can be assigned to a user. */
 export interface EnvironmentRole {
   /** The common name of the Role Assignment. This is a descriptive name such as 'AcrPush'. */
-  roleName?: string;
+  roleName?: string | undefined;
   /** This is a description of the Role Assignment. */
-  description?: string;
+  description?: string | undefined;
 }
 /** A map of roles to assign to the environment creator. */
 export type ProjectEnvironmentTypePropertiesCreatorRoleAssignmentRolesMap = {
@@ -2341,14 +2366,14 @@ export type ProjectEnvironmentTypePropertiesCreatorRoleAssignmentRolesMap = {
 /** The role definition assigned to the environment creator on backing resources. */
 export interface ProjectEnvironmentTypePropertiesCreatorRoleAssignment {
   /** A map of roles to assign to the environment creator. */
-  roles?: ProjectEnvironmentTypePropertiesCreatorRoleAssignmentRolesMap;
+  roles?: ProjectEnvironmentTypePropertiesCreatorRoleAssignmentRolesMap | undefined;
 }
 /** A map of roles to assign to the parent user. */
 export type UserRoleAssignmentRolesMap = { [key: string]: EnvironmentRole | undefined };
 /** Mapping of user object ID to role assignments. */
 export interface UserRoleAssignment {
   /** A map of roles to assign to the parent user. */
-  roles?: UserRoleAssignmentRolesMap;
+  roles?: UserRoleAssignmentRolesMap | undefined;
 }
 /** Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs. */
 export type ProjectEnvironmentTypePropertiesUserRoleAssignmentsMap = {
@@ -2375,19 +2400,19 @@ export type ProjectEnvironmentTypePropertiesProvisioningState =
 /** Properties of a project environment type. */
 export interface ProjectEnvironmentTypeProperties {
   /** Id of a subscription that the environment type will be mapped to. The environment's resources will be deployed into this subscription. */
-  deploymentTargetId?: string;
+  deploymentTargetId?: string | undefined;
   /** The display name of the project environment type. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Defines whether this Environment Type can be used in this Project. */
-  status?: EnvironmentTypeEnableStatus;
+  status?: EnvironmentTypeEnableStatus | undefined;
   /** The role definition assigned to the environment creator on backing resources. */
-  creatorRoleAssignment?: ProjectEnvironmentTypePropertiesCreatorRoleAssignment;
+  creatorRoleAssignment?: ProjectEnvironmentTypePropertiesCreatorRoleAssignment | undefined;
   /** Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs. */
-  userRoleAssignments?: ProjectEnvironmentTypePropertiesUserRoleAssignmentsMap;
+  userRoleAssignments?: ProjectEnvironmentTypePropertiesUserRoleAssignmentsMap | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProjectEnvironmentTypePropertiesProvisioningState;
+  provisioningState?: ProjectEnvironmentTypePropertiesProvisioningState | undefined;
   /** The number of environments of this type. */
-  environmentCount?: number;
+  environmentCount?: number | undefined;
 }
 /** Resource tags. */
 export type GetProjectEnvironmentTypeResponseTagsMap = { [key: string]: string | undefined };
@@ -2395,21 +2420,21 @@ export type GetProjectEnvironmentTypeResponseTagsMap = { [key: string]: string |
 export type GetProjectEnvironmentTypeResponseIdentity = DevCentersCreateOrUpdateResponseIdentity;
 export interface GetProjectEnvironmentTypeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an environment type. */
-  properties?: ProjectEnvironmentTypeProperties;
+  properties?: ProjectEnvironmentTypeProperties | undefined;
   /** Resource tags. */
-  tags?: GetProjectEnvironmentTypeResponseTagsMap;
+  tags?: GetProjectEnvironmentTypeResponseTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateResponseIdentity;
+  identity?: DevCentersCreateOrUpdateResponseIdentity | undefined;
   /** The geo-location for the environment type */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetProjectInheritedSettingsRequest {
   /** The ID of the target subscription. */
@@ -2421,14 +2446,14 @@ export interface GetProjectInheritedSettingsRequest {
 }
 /** Network settings for the project. */
 export interface ProjectNetworkSettings {
-  microsoftHostedNetworkEnableStatus?: MicrosoftHostedNetworkEnableStatus;
+  microsoftHostedNetworkEnableStatus?: MicrosoftHostedNetworkEnableStatus | undefined;
 }
 /** Applicable inherited settings for a project. */
 export interface InheritedSettingsForProject {
   /** Dev Center settings to be used when associating a project with a catalog. */
-  projectCatalogSettings?: DevCenterProjectCatalogSettings;
+  projectCatalogSettings?: DevCenterProjectCatalogSettings | undefined;
   /** Network settings that will be enforced on this project. */
-  networkSettings?: ProjectNetworkSettings;
+  networkSettings?: ProjectNetworkSettings | undefined;
 }
 export interface GetProjectPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2447,13 +2472,13 @@ export type DevCenterResourceType = "Images" | "AttachedNetworks" | "Skus";
 /** A resource policy. */
 export interface ResourcePolicy {
   /** Resources that are included and shared as a part of a project policy. */
-  resources?: string;
+  resources?: string | undefined;
   /** Optional. When specified, this expression is used to filter the resources. */
-  filter?: string;
+  filter?: string | undefined;
   /** Policy action to be taken on the resources. This is optional, and defaults to allow */
-  action?: PolicyAction | (string & {});
+  action?: PolicyAction | (string & {}) | undefined;
   /** Optional. The resource type being restricted or allowed by a project policy. Used with a given action to restrict or allow access to a resource type. */
-  resourceType?: DevCenterResourceType | (string & {});
+  resourceType?: DevCenterResourceType | (string & {}) | undefined;
 }
 /** Resource policies that are a part of this project policy. */
 export type ProjectPolicyPropertiesResourcePoliciesList = Array<ResourcePolicy>;
@@ -2480,23 +2505,23 @@ export type ProjectPolicyPropertiesProvisioningState =
 /** Properties of an project policy. */
 export interface ProjectPolicyProperties {
   /** Resource policies that are a part of this project policy. */
-  resourcePolicies?: ProjectPolicyPropertiesResourcePoliciesList;
+  resourcePolicies?: ProjectPolicyPropertiesResourcePoliciesList | undefined;
   /** Resources that have access to the shared resources that are a part of this project policy. */
-  scopes?: ProjectPolicyPropertiesScopesList;
+  scopes?: ProjectPolicyPropertiesScopesList | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProjectPolicyPropertiesProvisioningState;
+  provisioningState?: ProjectPolicyPropertiesProvisioningState | undefined;
 }
 export interface GetProjectPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an project policy. */
-  properties?: ProjectPolicyProperties;
+  properties?: ProjectPolicyProperties | undefined;
 }
 export interface GetScheduleRequest {
   /** The ID of the target subscription. */
@@ -2510,7 +2535,7 @@ export interface GetScheduleRequest {
   /** The name of the schedule that uniquely identifies it. */
   scheduleName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type Tags = { [key: string]: string | undefined };
@@ -2541,9 +2566,9 @@ export type SchedulePropertiesProvisioningState =
 /** The Schedule properties defining when and what to execute. */
 export interface ScheduleProperties {
   /** Resource tags. */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Supported type this scheduled task represents. */
   type: ScheduledType;
   /** The frequency of this scheduled task. */
@@ -2553,21 +2578,21 @@ export interface ScheduleProperties {
   /** The IANA timezone id at which the schedule should execute. */
   timeZone: string;
   /** Indicates whether or not this scheduled task is enabled. */
-  state?: ScheduleEnableStatus;
+  state?: ScheduleEnableStatus | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: SchedulePropertiesProvisioningState;
+  provisioningState?: SchedulePropertiesProvisioningState | undefined;
 }
 export interface GetScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a Schedule resource */
-  properties?: ScheduleProperties;
+  properties?: ScheduleProperties | undefined;
 }
 export interface ListAttachedNetworkByDevCenterRequest {
   /** The ID of the target subscription. */
@@ -2577,29 +2602,29 @@ export interface ListAttachedNetworkByDevCenterRequest {
   /** The name of the devcenter. */
   devCenterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Represents an attached NetworkConnection. */
 export interface AttachedNetworkConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Attached NetworkConnection properties. */
-  properties?: AttachedNetworkConnectionProperties;
+  properties?: AttachedNetworkConnectionProperties | undefined;
 }
 /** Current page of results. */
 export type AttachedNetworkListResultValueList = Array<AttachedNetworkConnection>;
 /** Results of the Attached Networks list operation. */
 export interface AttachedNetworkListResult {
   /** Current page of results. */
-  value?: AttachedNetworkListResultValueList;
+  value?: AttachedNetworkListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAttachedNetworkByProjectRequest {
   /** The ID of the target subscription. */
@@ -2609,7 +2634,7 @@ export interface ListAttachedNetworkByProjectRequest {
   /** The name of the project. */
   projectName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListCatalogByDevCenterRequest {
   /** The ID of the target subscription. */
@@ -2619,29 +2644,29 @@ export interface ListCatalogByDevCenterRequest {
   /** The name of the devcenter. */
   devCenterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Represents a catalog. */
 export interface Catalog {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Catalog properties. */
-  properties?: CatalogProperties;
+  properties?: CatalogProperties | undefined;
 }
 /** Current page of results. */
 export type CatalogListResultValueList = Array<Catalog>;
 /** Results of the catalog list operation. */
 export interface CatalogListResult {
   /** Current page of results. */
-  value?: CatalogListResultValueList;
+  value?: CatalogListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCustomizationTaskByCatalogRequest {
   /** The ID of the target subscription. */
@@ -2653,29 +2678,29 @@ export interface ListCustomizationTaskByCatalogRequest {
   /** The name of the Catalog. */
   catalogName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Represents a Task to be used in customizing a Dev Box. */
 export interface CustomizationTask {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Task properties */
-  properties?: CustomizationTaskProperties;
+  properties?: CustomizationTaskProperties | undefined;
 }
 /** Current page of results. */
 export type CustomizationTaskListResultValueList = Array<CustomizationTask>;
 /** Results of the Task list operation. */
 export interface CustomizationTaskListResult {
   /** Current page of results. */
-  value?: CustomizationTaskListResultValueList;
+  value?: CustomizationTaskListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDevBoxDefinitionByDevCenterRequest {
   /** The ID of the target subscription. */
@@ -2685,35 +2710,35 @@ export interface ListDevBoxDefinitionByDevCenterRequest {
   /** The name of the devcenter. */
   devCenterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type DevBoxDefinitionTagsMap = { [key: string]: string | undefined };
 /** Represents a definition for a Developer Machine. */
 export interface DevBoxDefinition {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DevBoxDefinitionTagsMap;
+  tags?: DevBoxDefinitionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Dev Box definition properties */
-  properties?: DevBoxDefinitionProperties;
+  properties?: DevBoxDefinitionProperties | undefined;
 }
 /** Current page of results. */
 export type DevBoxDefinitionListResultValueList = Array<DevBoxDefinition>;
 /** Results of the Dev Box definition list operation. */
 export interface DevBoxDefinitionListResult {
   /** Current page of results. */
-  value?: DevBoxDefinitionListResultValueList;
+  value?: DevBoxDefinitionListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDevBoxDefinitionByProjectRequest {
   /** The ID of the target subscription. */
@@ -2723,7 +2748,7 @@ export interface ListDevBoxDefinitionByProjectRequest {
   /** The name of the project. */
   projectName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListDevCenterByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -2731,7 +2756,7 @@ export interface ListDevCenterByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type DevCenterTagsMap = { [key: string]: string | undefined };
@@ -2740,36 +2765,36 @@ export type DevCenterIdentity = DevCentersCreateOrUpdateResponseIdentity;
 /** Represents a devcenter resource. */
 export interface DevCenter {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DevCenterTagsMap;
+  tags?: DevCenterTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** DevCenter properties */
-  properties?: DevCenterProperties;
+  properties?: DevCenterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateResponseIdentity;
+  identity?: DevCentersCreateOrUpdateResponseIdentity | undefined;
 }
 /** Current page of results. */
 export type DevCenterListResultValueList = Array<DevCenter>;
 /** Result of the list devcenters operation */
 export interface DevCenterListResult {
   /** Current page of results. */
-  value?: DevCenterListResultValueList;
+  value?: DevCenterListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDevCenterBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListEnvironmentDefinitionByCatalogRequest {
   /** The ID of the target subscription. */
@@ -2781,29 +2806,29 @@ export interface ListEnvironmentDefinitionByCatalogRequest {
   /** The name of the Catalog. */
   catalogName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Represents an environment definition catalog item. */
 export interface EnvironmentDefinition {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Environment definition properties. */
-  properties?: EnvironmentDefinitionProperties;
+  properties?: EnvironmentDefinitionProperties | undefined;
 }
 /** Current page of results. */
 export type EnvironmentDefinitionListResultValueList = Array<EnvironmentDefinition>;
 /** Results of the environment definition list operation. */
 export interface EnvironmentDefinitionListResult {
   /** Current page of results. */
-  value?: EnvironmentDefinitionListResultValueList;
+  value?: EnvironmentDefinitionListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEnvironmentDefinitionByProjectCatalogRequest {
   /** The ID of the target subscription. */
@@ -2823,33 +2848,33 @@ export interface ListEnvironmentTypeByDevCenterRequest {
   /** The name of the devcenter. */
   devCenterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type EnvironmentTypeTagsMap = { [key: string]: string | undefined };
 /** Represents an environment type. */
 export interface EnvironmentType {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an environment type. */
-  properties?: EnvironmentTypeProperties;
+  properties?: EnvironmentTypeProperties | undefined;
   /** Resource tags. */
-  tags?: EnvironmentTypeTagsMap;
+  tags?: EnvironmentTypeTagsMap | undefined;
 }
 /** Current page of results. */
 export type EnvironmentTypeListResultValueList = Array<EnvironmentType>;
 /** Result of the environment type list operation. */
 export interface EnvironmentTypeListResult {
   /** Current page of results. */
-  value?: EnvironmentTypeListResultValueList;
+  value?: EnvironmentTypeListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGalleryByDevCenterRequest {
   /** The ID of the target subscription. */
@@ -2859,29 +2884,29 @@ export interface ListGalleryByDevCenterRequest {
   /** The name of the devcenter. */
   devCenterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Represents a gallery. */
 export interface Gallery {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gallery properties. */
-  properties?: GalleryProperties;
+  properties?: GalleryProperties | undefined;
 }
 /** Current page of results. */
 export type GalleryListResultValueList = Array<Gallery>;
 /** Results of the gallery list operation. */
 export interface GalleryListResult {
   /** Current page of results. */
-  value?: GalleryListResultValueList;
+  value?: GalleryListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListImageByDevCenterRequest {
   /** The ID of the target subscription. */
@@ -2891,29 +2916,29 @@ export interface ListImageByDevCenterRequest {
   /** The name of the devcenter. */
   devCenterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Represents an image. */
 export interface Image {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Image properties. */
-  properties?: ImageProperties;
+  properties?: ImageProperties | undefined;
 }
 /** Current page of results. */
 export type ImageListResultValueList = Array<Image>;
 /** Results of the image list operation. */
 export interface ImageListResult {
   /** Current page of results. */
-  value?: ImageListResultValueList;
+  value?: ImageListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListImageByGalleryRequest {
   /** The ID of the target subscription. */
@@ -2925,7 +2950,7 @@ export interface ListImageByGalleryRequest {
   /** The name of the gallery. */
   galleryName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListImageByProjectRequest {
   /** The ID of the target subscription. */
@@ -2950,24 +2975,24 @@ export interface ListImageVersionByImageRequest {
 /** Represents an image version. */
 export interface ImageVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Image version properties. */
-  properties?: ImageVersionProperties;
+  properties?: ImageVersionProperties | undefined;
 }
 /** Current page of results. */
 export type ImageVersionListResultValueList = Array<ImageVersion>;
 /** Results of the image version list operation. */
 export interface ImageVersionListResult {
   /** Current page of results. */
-  value?: ImageVersionListResultValueList;
+  value?: ImageVersionListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListImageVersionByProjectRequest {
   /** The ID of the target subscription. */
@@ -2985,41 +3010,41 @@ export interface ListNetworkConnectionByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type NetworkConnectionTagsMap = { [key: string]: string | undefined };
 /** Network related settings */
 export interface NetworkConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkConnectionTagsMap;
+  tags?: NetworkConnectionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a Network Connection */
-  properties?: NetworkProperties;
+  properties?: NetworkProperties | undefined;
 }
 /** Current page of results. */
 export type NetworkConnectionListResultValueList = Array<NetworkConnection>;
 /** Result of the network connection list operation. */
 export interface NetworkConnectionListResult {
   /** Current page of results. */
-  value?: NetworkConnectionListResultValueList;
+  value?: NetworkConnectionListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkConnectionBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListNetworkConnectionHealthDetailsRequest {
   /** The ID of the target subscription. */
@@ -3029,29 +3054,29 @@ export interface ListNetworkConnectionHealthDetailsRequest {
   /** Name of the Network Connection that can be applied to a Pool. */
   networkConnectionName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Health Check details. */
 export interface HealthCheckStatusDetails {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Health check status details properties. */
-  properties?: HealthCheckStatusDetailsProperties;
+  properties?: HealthCheckStatusDetailsProperties | undefined;
 }
 /** Current page of results. */
 export type HealthCheckStatusDetailsListResultValueList = Array<HealthCheckStatusDetails>;
 /** Result of the network health check list operation. */
 export interface HealthCheckStatusDetailsListResult {
   /** Current page of results. */
-  value?: HealthCheckStatusDetailsListResultValueList;
+  value?: HealthCheckStatusDetailsListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkConnectionOutboundNetworkDependenciesEndpointsRequest {
   /** The ID of the target subscription. */
@@ -3061,53 +3086,53 @@ export interface ListNetworkConnectionOutboundNetworkDependenciesEndpointsReques
   /** Name of the Network Connection that can be applied to a Pool. */
   networkConnectionName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Details about the connection between the Batch service and the endpoint. */
 export interface EndpointDetail {
   /** The port an endpoint is connected to. */
-  port?: number;
+  port?: number | undefined;
 }
 /** The list of connection details for this endpoint. */
 export type EndpointDependencyEndpointDetailsList = Array<EndpointDetail>;
 /** A domain name and connection details used to access a dependency. */
 export interface EndpointDependency {
   /** The domain name of the dependency. Domain names may be fully qualified or may contain a * wildcard. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** Human-readable supplemental information about the dependency and when it is applicable. */
-  description?: string;
+  description?: string | undefined;
   /** The list of connection details for this endpoint. */
-  endpointDetails?: EndpointDependencyEndpointDetailsList;
+  endpointDetails?: EndpointDependencyEndpointDetailsList | undefined;
 }
 /** The endpoints for this service for which the agent requires outbound access. */
 export type OutboundEnvironmentEndpointEndpointsList = Array<EndpointDependency>;
 /** A collection of related endpoints from the same service for which the agent requires outbound access. */
 export interface OutboundEnvironmentEndpoint {
   /** The type of service that the agent connects to. */
-  category?: string;
+  category?: string | undefined;
   /** The endpoints for this service for which the agent requires outbound access. */
-  endpoints?: OutboundEnvironmentEndpointEndpointsList;
+  endpoints?: OutboundEnvironmentEndpointEndpointsList | undefined;
 }
 /** The collection of outbound network dependency endpoints returned by the listing operation. */
 export type OutboundEnvironmentEndpointCollectionValueList = Array<OutboundEnvironmentEndpoint>;
 /** Values returned by the List operation. */
 export interface OutboundEnvironmentEndpointCollection {
   /** The collection of outbound network dependency endpoints returned by the listing operation. */
-  value?: OutboundEnvironmentEndpointCollectionValueList;
+  value?: OutboundEnvironmentEndpointCollectionValueList | undefined;
   /** The continuation token. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -3116,23 +3141,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPoolByProjectRequest {
   /** The ID of the target subscription. */
@@ -3142,35 +3167,35 @@ export interface ListPoolByProjectRequest {
   /** The name of the project. */
   projectName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type PoolTagsMap = { [key: string]: string | undefined };
 /** A pool of Virtual Machines. */
 export interface Pool {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PoolTagsMap;
+  tags?: PoolTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Pool properties */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
 }
 /** Current page of results. */
 export type PoolListResultValueList = Array<Pool>;
 /** Results of the machine pool list operation. */
 export interface PoolListResult {
   /** Current page of results. */
-  value?: PoolListResultValueList;
+  value?: PoolListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProjectAllowedEnvironmentTypesRequest {
   /** The ID of the target subscription. */
@@ -3180,29 +3205,29 @@ export interface ListProjectAllowedEnvironmentTypesRequest {
   /** The name of the project. */
   projectName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Represents an allowed environment type. */
 export interface AllowedEnvironmentType {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an allowed environment type. */
-  properties?: AllowedEnvironmentTypeProperties;
+  properties?: AllowedEnvironmentTypeProperties | undefined;
 }
 /** Current page of results. */
 export type AllowedEnvironmentTypeListResultValueList = Array<AllowedEnvironmentType>;
 /** Result of the allowed environment type list operation. */
 export interface AllowedEnvironmentTypeListResult {
   /** Current page of results. */
-  value?: AllowedEnvironmentTypeListResultValueList;
+  value?: AllowedEnvironmentTypeListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProjectByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -3210,7 +3235,7 @@ export interface ListProjectByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type ProjectTagsMap = { [key: string]: string | undefined };
@@ -3219,36 +3244,36 @@ export type ProjectIdentity = DevCentersCreateOrUpdateResponseIdentity;
 /** Represents a project resource. */
 export interface Project {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ProjectTagsMap;
+  tags?: ProjectTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a project. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateResponseIdentity;
+  identity?: DevCentersCreateOrUpdateResponseIdentity | undefined;
 }
 /** Current page of results. */
 export type ProjectListResultValueList = Array<Project>;
 /** Results of the project list operation. */
 export interface ProjectListResult {
   /** Current page of results. */
-  value?: ProjectListResultValueList;
+  value?: ProjectListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProjectBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListProjectCatalogImageDefinitionBuildByImageDefinitionRequest {
   /** The ID of the target subscription. */
@@ -3265,24 +3290,24 @@ export interface ListProjectCatalogImageDefinitionBuildByImageDefinitionRequest 
 /** Represents a specific build of an Image Definition. */
 export interface ImageDefinitionBuild {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Image Definition Build properties */
-  properties?: ImageDefinitionBuildProperties;
+  properties?: ImageDefinitionBuildProperties | undefined;
 }
 /** Current page of results. */
 export type ImageDefinitionBuildListResultValueList = Array<ImageDefinitionBuild>;
 /** Results of the Image Definition Build list operation. */
 export interface ImageDefinitionBuildListResult {
   /** Current page of results. */
-  value?: ImageDefinitionBuildListResultValueList;
+  value?: ImageDefinitionBuildListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProjectCatalogImageDefinitionByProjectCatalogRequest {
   /** The ID of the target subscription. */
@@ -3294,29 +3319,29 @@ export interface ListProjectCatalogImageDefinitionByProjectCatalogRequest {
   /** The name of the Catalog. */
   catalogName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Represents a definition for an Image. */
 export interface ImageDefinition {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Image Definition properties */
-  properties?: ImageDefinitionProperties;
+  properties?: ImageDefinitionProperties | undefined;
 }
 /** Current page of results. */
 export type ImageDefinitionListResultValueList = Array<ImageDefinition>;
 /** Results of the Image Definition list operation. */
 export interface ImageDefinitionListResult {
   /** Current page of results. */
-  value?: ImageDefinitionListResultValueList;
+  value?: ImageDefinitionListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProjectCatalogsRequest {
   /** The ID of the target subscription. */
@@ -3326,7 +3351,7 @@ export interface ListProjectCatalogsRequest {
   /** The name of the project. */
   projectName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListProjectEnvironmentTypesRequest {
   /** The ID of the target subscription. */
@@ -3336,7 +3361,7 @@ export interface ListProjectEnvironmentTypesRequest {
   /** The name of the project. */
   projectName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type ProjectEnvironmentTypeTagsMap = { [key: string]: string | undefined };
@@ -3345,30 +3370,30 @@ export type ProjectEnvironmentTypeIdentity = DevCentersCreateOrUpdateResponseIde
 /** Represents an environment type. */
 export interface ProjectEnvironmentType {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an environment type. */
-  properties?: ProjectEnvironmentTypeProperties;
+  properties?: ProjectEnvironmentTypeProperties | undefined;
   /** Resource tags. */
-  tags?: ProjectEnvironmentTypeTagsMap;
+  tags?: ProjectEnvironmentTypeTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateResponseIdentity;
+  identity?: DevCentersCreateOrUpdateResponseIdentity | undefined;
   /** The geo-location for the environment type */
-  location?: string;
+  location?: string | undefined;
 }
 /** Current page of results. */
 export type ProjectEnvironmentTypeListResultValueList = Array<ProjectEnvironmentType>;
 /** Result of the project environment type list operation. */
 export interface ProjectEnvironmentTypeListResult {
   /** Current page of results. */
-  value?: ProjectEnvironmentTypeListResultValueList;
+  value?: ProjectEnvironmentTypeListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProjectPolicyByDevCenterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3378,29 +3403,29 @@ export interface ListProjectPolicyByDevCenterRequest {
   /** The name of the devcenter. */
   devCenterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Represents an project policy resource. */
 export interface ProjectPolicy {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an project policy. */
-  properties?: ProjectPolicyProperties;
+  properties?: ProjectPolicyProperties | undefined;
 }
 /** Current page of results. */
 export type ProjectPolicyListResultValueList = Array<ProjectPolicy>;
 /** Results of the project policy list operation. */
 export interface ProjectPolicyListResult {
   /** Current page of results. */
-  value?: ProjectPolicyListResultValueList;
+  value?: ProjectPolicyListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListScheduleByPoolRequest {
   /** The ID of the target subscription. */
@@ -3412,29 +3437,29 @@ export interface ListScheduleByPoolRequest {
   /** Name of the pool. */
   poolName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Represents a Schedule to execute a task. */
 export interface Schedule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a Schedule resource */
-  properties?: ScheduleProperties;
+  properties?: ScheduleProperties | undefined;
 }
 /** Current page of results. */
 export type ScheduleListResultValueList = Array<Schedule>;
 /** Result of the schedule list operation. */
 export interface ScheduleListResult {
   /** Current page of results. */
-  value?: ScheduleListResultValueList;
+  value?: ScheduleListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSkusByProjectRequest {
   /** The ID of the target subscription. */
@@ -3449,9 +3474,9 @@ export type ListSkusByProjectResponseValueItemLocationsList = Array<string>;
 /** A name/value pair to describe a capability. */
 export interface Capability {
   /** Name of the capability. */
-  name?: string;
+  name?: string | undefined;
   /** Value of the capability. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Collection of name/value pairs to describe the SKU capabilities. */
 export type ListSkusByProjectResponseValueItemCapabilitiesList = Array<Capability>;
@@ -3459,33 +3484,33 @@ export type ListSkusByProjectResponseValueItemCapabilitiesList = Array<Capabilit
 export interface ListSkusByProjectResponseValueItem {
   /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
   /** The name of the resource type */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** SKU supported locations. */
-  locations?: ListSkusByProjectResponseValueItemLocationsList;
+  locations?: ListSkusByProjectResponseValueItemLocationsList | undefined;
   /** Collection of name/value pairs to describe the SKU capabilities. */
-  capabilities?: ListSkusByProjectResponseValueItemCapabilitiesList;
+  capabilities?: ListSkusByProjectResponseValueItemCapabilitiesList | undefined;
 }
 /** Current page of results. */
 export type ListSkusByProjectResponseValueList = Array<ListSkusByProjectResponseValueItem>;
 export interface ListSkusByProjectResponse {
   /** Current page of results. */
-  value?: ListSkusByProjectResponseValueList;
+  value?: ListSkusByProjectResponseValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSkusBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** SKU supported locations. */
 export type SkuListResultValueItemLocationsList = Array<string>;
@@ -3495,28 +3520,28 @@ export type SkuListResultValueItemCapabilitiesList = Array<Capability>;
 export interface SkuListResultValueItem {
   /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
   /** The name of the resource type */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** SKU supported locations. */
-  locations?: SkuListResultValueItemLocationsList;
+  locations?: SkuListResultValueItemLocationsList | undefined;
   /** Collection of name/value pairs to describe the SKU capabilities. */
-  capabilities?: SkuListResultValueItemCapabilitiesList;
+  capabilities?: SkuListResultValueItemCapabilitiesList | undefined;
 }
 /** Current page of results. */
 export type SkuListResultValueList = Array<SkuListResultValueItem>;
 /** Results of the Microsoft.DevCenter SKU list operation. */
 export interface SkuListResult {
   /** Current page of results. */
-  value?: SkuListResultValueList;
+  value?: SkuListResultValueList | undefined;
   /** URL to get the next set of results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsageByLocationRequest {
   /** The ID of the target subscription. */
@@ -3529,31 +3554,31 @@ export type UsageUnit = "Count";
 /** The Usage Names. */
 export interface UsageName {
   /** The localized name of the resource. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
   /** The name of the resource. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The core usage details. */
 export interface Usage {
   /** The current usage. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The limit integer. */
-  limit?: number;
+  limit?: number | undefined;
   /** The unit details. */
-  unit?: UsageUnit;
+  unit?: UsageUnit | undefined;
   /** The name. */
-  name?: UsageName;
+  name?: UsageName | undefined;
   /** The fully qualified arm resource id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The array page of Usages. */
 export type ListUsagesResultValueList = Array<Usage>;
 /** List of Core Usages. */
 export interface ListUsagesResult {
   /** The array page of Usages. */
-  value?: ListUsagesResultValueList;
+  value?: ListUsagesResultValueList | undefined;
   /** The link to get the next page of Usage result. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetworkConnectionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -3573,17 +3598,17 @@ export interface NetworkPropertiesInput {
   /** The subnet to attach Virtual Machines to */
   subnetId: string;
   /** Active Directory domain name */
-  domainName?: string;
+  domainName?: string | undefined;
   /** Active Directory domain Organization Unit (OU) */
-  organizationUnit?: string;
+  organizationUnit?: string | undefined;
   /** The username of an Active Directory account (user or service account) that has permissions to create computer objects in Active Directory. Required format: admin@contoso.com. */
-  domainUsername?: string;
+  domainUsername?: string | undefined;
   /** The password for the account used to join domain */
-  domainPassword?: string | Redacted.Redacted<string>;
+  domainPassword?: string | Redacted.Redacted<string> | undefined;
   /** Health check status values */
-  healthCheckStatus?: NetworkPropertiesInputHealthCheckStatus | (string & {});
+  healthCheckStatus?: NetworkPropertiesInputHealthCheckStatus | (string & {}) | undefined;
   /** The name for resource group where NICs will be placed. */
-  networkingResourceGroupName?: string;
+  networkingResourceGroupName?: string | undefined;
   /** Active Directory join type */
   domainJoinType: NetworkPropertiesInputDomainJoinType | (string & {});
 }
@@ -3595,29 +3620,29 @@ export interface NetworkConnectionsCreateOrUpdateRequest {
   /** Name of the Network Connection that can be applied to a Pool. */
   networkConnectionName: string;
   /** Resource tags. */
-  tags?: NetworkConnectionsCreateOrUpdateRequestTagsMap;
+  tags?: NetworkConnectionsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a Network Connection */
-  properties?: NetworkPropertiesInput;
+  properties?: NetworkPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type NetworkConnectionsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface NetworkConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkConnectionsCreateOrUpdateResponseTagsMap;
+  tags?: NetworkConnectionsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a Network Connection */
-  properties?: NetworkProperties;
+  properties?: NetworkProperties | undefined;
 }
 /** Indicates the type of sync that is configured for the catalog. */
 export type CatalogUpdatePropertiesSyncType = "Manual" | "Scheduled";
@@ -3626,13 +3651,13 @@ export type CatalogUpdatePropertiesTagsMap = { [key: string]: string | undefined
 /** Properties of a catalog. These properties can be updated after the resource has been created. */
 export interface CatalogUpdateProperties {
   /** Properties for a GitHub catalog type. */
-  gitHub?: GitCatalog;
+  gitHub?: GitCatalog | undefined;
   /** Properties for an Azure DevOps catalog type. */
-  adoGit?: GitCatalog;
+  adoGit?: GitCatalog | undefined;
   /** Indicates the type of sync that is configured for the catalog. */
-  syncType?: CatalogUpdatePropertiesSyncType | (string & {});
+  syncType?: CatalogUpdatePropertiesSyncType | (string & {}) | undefined;
   /** Resource tags. */
-  tags?: CatalogUpdatePropertiesTagsMap;
+  tags?: CatalogUpdatePropertiesTagsMap | undefined;
 }
 export interface PatchProjectCatalogRequest {
   /** The ID of the target subscription. */
@@ -3644,20 +3669,20 @@ export interface PatchProjectCatalogRequest {
   /** The name of the Catalog. */
   catalogName: string;
   /** Catalog properties for update. */
-  properties?: CatalogUpdateProperties;
+  properties?: CatalogUpdateProperties | undefined;
 }
 export interface PatchProjectCatalogResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Catalog properties. */
-  properties?: CatalogProperties;
-  location?: string;
+  properties?: CatalogProperties | undefined;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type PoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -3671,22 +3696,22 @@ export type PoolDevBoxDefinitionInputActiveImageReference =
 /** Represents a definition for a Developer Machine. */
 export interface PoolDevBoxDefinitionInput {
   /** Image reference information */
-  imageReference?: DevBoxDefinitionPropertiesInputImageReference;
+  imageReference?: DevBoxDefinitionPropertiesInputImageReference | undefined;
   /** The resource model definition representing SKU */
-  sku?: DevBoxDefinitionPropertiesInputSku;
+  sku?: DevBoxDefinitionPropertiesInputSku | undefined;
   /** Image reference information */
-  activeImageReference?: DevBoxDefinitionPropertiesInputImageReference;
+  activeImageReference?: DevBoxDefinitionPropertiesInputImageReference | undefined;
 }
 /** The regions of the managed virtual network (required when managedNetworkType is Managed). */
 export type PoolPropertiesInputManagedVirtualNetworkRegionsList = Array<string>;
 /** Properties of a Pool */
 export interface PoolPropertiesInput {
   /** Indicates if the pool is created from an existing Dev Box Definition or if one is provided directly. */
-  devBoxDefinitionType?: PoolDevBoxDefinitionType | (string & {});
+  devBoxDefinitionType?: PoolDevBoxDefinitionType | (string & {}) | undefined;
   /** Name of a Dev Box definition in parent Project of this Pool. Will be ignored if devBoxDefinitionType is Value. */
   devBoxDefinitionName: string;
   /** A definition of the machines that are created from this Pool. Will be ignored if devBoxDefinitionType is Reference or not provided. */
-  devBoxDefinition?: PoolDevBoxDefinitionInput;
+  devBoxDefinition?: PoolDevBoxDefinitionInput | undefined;
   /** Name of a Network Connection in parent Project of this Pool */
   networkConnectionName: string;
   /** Specifies the license type indicating the caller has already acquired licenses for the Dev Boxes that will be created. */
@@ -3694,17 +3719,17 @@ export interface PoolPropertiesInput {
   /** Indicates whether owners of Dev Boxes in this pool are added as local administrators on the Dev Box. */
   localAdministrator: LocalAdminStatus | (string & {});
   /** Stop on disconnect configuration settings for Dev Boxes created in this pool. */
-  stopOnDisconnect?: StopOnDisconnectConfiguration;
+  stopOnDisconnect?: StopOnDisconnectConfiguration | undefined;
   /** Stop on no connect configuration settings for Dev Boxes created in this pool. */
-  stopOnNoConnect?: StopOnNoConnectConfiguration;
+  stopOnNoConnect?: StopOnNoConnectConfiguration | undefined;
   /** Indicates whether Dev Boxes in this pool are created with single sign on enabled. The also requires that single sign on be enabled on the tenant. */
-  singleSignOnStatus?: SingleSignOnStatus | (string & {});
+  singleSignOnStatus?: SingleSignOnStatus | (string & {}) | undefined;
   /** The display name of the pool. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Indicates whether the pool uses a Virtual Network managed by Microsoft or a customer provided network. */
-  virtualNetworkType?: VirtualNetworkType | (string & {});
+  virtualNetworkType?: VirtualNetworkType | (string & {}) | undefined;
   /** The regions of the managed virtual network (required when managedNetworkType is Managed). */
-  managedVirtualNetworkRegions?: PoolPropertiesInputManagedVirtualNetworkRegionsList;
+  managedVirtualNetworkRegions?: PoolPropertiesInputManagedVirtualNetworkRegionsList | undefined;
 }
 export interface PoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -3716,29 +3741,29 @@ export interface PoolsCreateOrUpdateRequest {
   /** Name of the pool. */
   poolName: string;
   /** Resource tags. */
-  tags?: PoolsCreateOrUpdateRequestTagsMap;
+  tags?: PoolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Pool properties */
-  properties?: PoolPropertiesInput;
+  properties?: PoolPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type PoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface PoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PoolsCreateOrUpdateResponseTagsMap;
+  tags?: PoolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Pool properties */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
 }
 export interface ProjectCatalogImageDefinitionsBuildImageRequest {
   /** The ID of the target subscription. */
@@ -3753,8 +3778,8 @@ export interface ProjectCatalogImageDefinitionsBuildImageRequest {
   imageDefinitionName: string;
 }
 export interface ProjectCatalogImageDefinitionsBuildImageResponse {
-  azureAsyncOperation?: string;
-  location?: string;
+  azureAsyncOperation?: string | undefined;
+  location?: string | undefined;
 }
 export interface ProjectCatalogsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -3766,19 +3791,19 @@ export interface ProjectCatalogsCreateOrUpdateRequest {
   /** The name of the Catalog. */
   catalogName: string;
   /** Catalog properties. */
-  properties?: CatalogPropertiesInput;
+  properties?: CatalogPropertiesInput | undefined;
 }
 export interface ProjectCatalogsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Catalog properties. */
-  properties?: CatalogProperties;
+  properties?: CatalogProperties | undefined;
 }
 /** A role that can be assigned to a user. */
 export type EnvironmentRoleInput = UserAssignedIdentityInput;
@@ -3789,7 +3814,7 @@ export type ProjectEnvironmentTypePropertiesInputCreatorRoleAssignmentRolesMap =
 /** The role definition assigned to the environment creator on backing resources. */
 export interface ProjectEnvironmentTypePropertiesInputCreatorRoleAssignment {
   /** A map of roles to assign to the environment creator. */
-  roles?: ProjectEnvironmentTypePropertiesInputCreatorRoleAssignmentRolesMap;
+  roles?: ProjectEnvironmentTypePropertiesInputCreatorRoleAssignmentRolesMap | undefined;
 }
 /** A map of roles to assign to the parent user. */
 export type UserRoleAssignmentInputRolesMap = {
@@ -3798,7 +3823,7 @@ export type UserRoleAssignmentInputRolesMap = {
 /** Mapping of user object ID to role assignments. */
 export interface UserRoleAssignmentInput {
   /** A map of roles to assign to the parent user. */
-  roles?: UserRoleAssignmentInputRolesMap;
+  roles?: UserRoleAssignmentInputRolesMap | undefined;
 }
 /** Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs. */
 export type ProjectEnvironmentTypePropertiesInputUserRoleAssignmentsMap = {
@@ -3807,15 +3832,15 @@ export type ProjectEnvironmentTypePropertiesInputUserRoleAssignmentsMap = {
 /** Properties of a project environment type. */
 export interface ProjectEnvironmentTypePropertiesInput {
   /** Id of a subscription that the environment type will be mapped to. The environment's resources will be deployed into this subscription. */
-  deploymentTargetId?: string;
+  deploymentTargetId?: string | undefined;
   /** The display name of the project environment type. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Defines whether this Environment Type can be used in this Project. */
-  status?: EnvironmentTypeEnableStatus | (string & {});
+  status?: EnvironmentTypeEnableStatus | (string & {}) | undefined;
   /** The role definition assigned to the environment creator on backing resources. */
-  creatorRoleAssignment?: ProjectEnvironmentTypePropertiesInputCreatorRoleAssignment;
+  creatorRoleAssignment?: ProjectEnvironmentTypePropertiesInputCreatorRoleAssignment | undefined;
   /** Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs. */
-  userRoleAssignments?: ProjectEnvironmentTypePropertiesInputUserRoleAssignmentsMap;
+  userRoleAssignments?: ProjectEnvironmentTypePropertiesInputUserRoleAssignmentsMap | undefined;
 }
 /** Resource tags. */
 export type ProjectEnvironmentTypesCreateOrUpdateRequestTagsMap = {
@@ -3834,13 +3859,13 @@ export interface ProjectEnvironmentTypesCreateOrUpdateRequest {
   /** The name of the environment type. */
   environmentTypeName: string;
   /** Properties of an environment type. */
-  properties?: ProjectEnvironmentTypePropertiesInput;
+  properties?: ProjectEnvironmentTypePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: ProjectEnvironmentTypesCreateOrUpdateRequestTagsMap;
+  tags?: ProjectEnvironmentTypesCreateOrUpdateRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateRequestIdentity;
+  identity?: DevCentersCreateOrUpdateRequestIdentity | undefined;
   /** The geo-location for the environment type */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type ProjectEnvironmentTypesCreateOrUpdateResponseTagsMap = {
@@ -3851,21 +3876,21 @@ export type ProjectEnvironmentTypesCreateOrUpdateResponseIdentity =
   DevCentersCreateOrUpdateResponseIdentity;
 export interface ProjectEnvironmentTypesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an environment type. */
-  properties?: ProjectEnvironmentTypeProperties;
+  properties?: ProjectEnvironmentTypeProperties | undefined;
   /** Resource tags. */
-  tags?: ProjectEnvironmentTypesCreateOrUpdateResponseTagsMap;
+  tags?: ProjectEnvironmentTypesCreateOrUpdateResponseTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateResponseIdentity;
+  identity?: DevCentersCreateOrUpdateResponseIdentity | undefined;
   /** The geo-location for the environment type */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource policies that are a part of this project policy. */
 export type ProjectPolicyPropertiesInputResourcePoliciesList = Array<ResourcePolicy>;
@@ -3874,9 +3899,9 @@ export type ProjectPolicyPropertiesInputScopesList = Array<string>;
 /** Properties of an project policy. */
 export interface ProjectPolicyPropertiesInput {
   /** Resource policies that are a part of this project policy. */
-  resourcePolicies?: ProjectPolicyPropertiesInputResourcePoliciesList;
+  resourcePolicies?: ProjectPolicyPropertiesInputResourcePoliciesList | undefined;
   /** Resources that have access to the shared resources that are a part of this project policy. */
-  scopes?: ProjectPolicyPropertiesInputScopesList;
+  scopes?: ProjectPolicyPropertiesInputScopesList | undefined;
 }
 export interface ProjectPoliciesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3888,34 +3913,34 @@ export interface ProjectPoliciesCreateOrUpdateRequest {
   /** The name of the project policy. */
   projectPolicyName: string;
   /** Properties of an project policy. */
-  properties?: ProjectPolicyPropertiesInput;
+  properties?: ProjectPolicyPropertiesInput | undefined;
 }
 export interface ProjectPoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an project policy. */
-  properties?: ProjectPolicyProperties;
+  properties?: ProjectPolicyProperties | undefined;
 }
 /** Resource tags. */
 export type ProjectsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Properties of a project. */
 export interface ProjectPropertiesInput {
   /** Resource Id of an associated DevCenter */
-  devCenterId?: string;
+  devCenterId?: string | undefined;
   /** Description of the project. */
-  description?: string;
+  description?: string | undefined;
   /** When specified, limits the maximum number of Dev Boxes a single user can create across all pools in the project. This will have no effect on existing Dev Boxes when reduced. */
-  maxDevBoxesPerUser?: number;
+  maxDevBoxesPerUser?: number | undefined;
   /** The display name of the project. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Settings to be used when associating a project with a catalog. */
-  catalogSettings?: ProjectCatalogSettings;
+  catalogSettings?: ProjectCatalogSettings | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type ProjectsCreateOrUpdateRequestIdentity = DevCentersCreateOrUpdateRequestIdentity;
@@ -3927,13 +3952,13 @@ export interface ProjectsCreateOrUpdateRequest {
   /** The name of the project. */
   projectName: string;
   /** Resource tags. */
-  tags?: ProjectsCreateOrUpdateRequestTagsMap;
+  tags?: ProjectsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a project. */
-  properties?: ProjectPropertiesInput;
+  properties?: ProjectPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateRequestIdentity;
+  identity?: DevCentersCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type ProjectsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -3941,21 +3966,21 @@ export type ProjectsCreateOrUpdateResponseTagsMap = { [key: string]: string | un
 export type ProjectsCreateOrUpdateResponseIdentity = DevCentersCreateOrUpdateResponseIdentity;
 export interface ProjectsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ProjectsCreateOrUpdateResponseTagsMap;
+  tags?: ProjectsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a project. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateResponseIdentity;
+  identity?: DevCentersCreateOrUpdateResponseIdentity | undefined;
 }
 export interface RunNetworkConnectionHealthChecksRequest {
   /** The ID of the target subscription. */
@@ -3966,7 +3991,7 @@ export interface RunNetworkConnectionHealthChecksRequest {
   networkConnectionName: string;
 }
 export interface RunNetworkConnectionHealthChecksResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface RunPoolHealthChecksRequest {
   /** The ID of the target subscription. */
@@ -3979,14 +4004,14 @@ export interface RunPoolHealthChecksRequest {
   poolName: string;
 }
 export interface RunPoolHealthChecksResponse {
-  location?: string;
+  location?: string | undefined;
 }
 /** The Schedule properties defining when and what to execute. */
 export interface SchedulePropertiesInput {
   /** Resource tags. */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Supported type this scheduled task represents. */
   type: ScheduledType | (string & {});
   /** The frequency of this scheduled task. */
@@ -3996,7 +4021,7 @@ export interface SchedulePropertiesInput {
   /** The IANA timezone id at which the schedule should execute. */
   timeZone: string;
   /** Indicates whether or not this scheduled task is enabled. */
-  state?: ScheduleEnableStatus | (string & {});
+  state?: ScheduleEnableStatus | (string & {}) | undefined;
 }
 export interface SchedulesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -4010,21 +4035,21 @@ export interface SchedulesCreateOrUpdateRequest {
   /** The name of the schedule that uniquely identifies it. */
   scheduleName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** Properties of a Schedule resource */
-  properties?: SchedulePropertiesInput;
+  properties?: SchedulePropertiesInput | undefined;
 }
 export interface SchedulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a Schedule resource */
-  properties?: ScheduleProperties;
+  properties?: ScheduleProperties | undefined;
 }
 export interface SyncCatalogRequest {
   /** The ID of the target subscription. */
@@ -4037,7 +4062,7 @@ export interface SyncCatalogRequest {
   catalogName: string;
 }
 export interface SyncCatalogResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface SyncProjectCatalogRequest {
   /** The ID of the target subscription. */
@@ -4050,7 +4075,7 @@ export interface SyncProjectCatalogRequest {
   catalogName: string;
 }
 export interface SyncProjectCatalogResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface UpdateCatalogRequest {
   /** The ID of the target subscription. */
@@ -4062,20 +4087,20 @@ export interface UpdateCatalogRequest {
   /** The name of the Catalog. */
   catalogName: string;
   /** Catalog properties for update. */
-  properties?: CatalogUpdateProperties;
+  properties?: CatalogUpdateProperties | undefined;
 }
 export interface UpdateCatalogResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Catalog properties. */
-  properties?: CatalogProperties;
-  location?: string;
+  properties?: CatalogProperties | undefined;
+  location?: string | undefined;
 }
 /** Image reference information */
 export type DevBoxDefinitionUpdatePropertiesInputImageReference =
@@ -4085,13 +4110,13 @@ export type DevBoxDefinitionUpdatePropertiesInputSku = DevBoxDefinitionPropertie
 /** Properties of a Dev Box definition. These properties can be updated after the resource has been created. */
 export interface DevBoxDefinitionUpdatePropertiesInput {
   /** Image reference information */
-  imageReference?: DevBoxDefinitionPropertiesInputImageReference;
+  imageReference?: DevBoxDefinitionPropertiesInputImageReference | undefined;
   /** The resource model definition representing SKU */
-  sku?: DevBoxDefinitionPropertiesInputSku;
+  sku?: DevBoxDefinitionPropertiesInputSku | undefined;
   /** The storage type used for the Operating System disk of Dev Boxes created using this definition. */
-  osStorageType?: string;
+  osStorageType?: string | undefined;
   /** Indicates whether Dev Boxes created with this definition are capable of hibernation. Not all images are capable of supporting hibernation. To find out more see https://aka.ms/devbox/hibernate */
-  hibernateSupport?: HibernateSupport | (string & {});
+  hibernateSupport?: HibernateSupport | (string & {}) | undefined;
 }
 export interface UpdateDevBoxDefinitionRequest {
   /** The ID of the target subscription. */
@@ -4103,30 +4128,30 @@ export interface UpdateDevBoxDefinitionRequest {
   /** The name of the Dev Box definition. */
   devBoxDefinitionName: string;
   /** Resource tags. */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Properties of a Dev Box definition to be updated. */
-  properties?: DevBoxDefinitionUpdatePropertiesInput;
+  properties?: DevBoxDefinitionUpdatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateDevBoxDefinitionResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDevBoxDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDevBoxDefinitionResponseTagsMap;
+  tags?: UpdateDevBoxDefinitionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Dev Box definition properties */
-  properties?: DevBoxDefinitionProperties;
-  locationHeader?: string;
+  properties?: DevBoxDefinitionProperties | undefined;
+  locationHeader?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateDevCenterRequestIdentity = DevCentersCreateOrUpdateRequestIdentity;
@@ -4140,13 +4165,13 @@ export interface UpdateDevCenterRequest {
   /** The name of the devcenter. */
   devCenterName: string;
   /** Resource tags. */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateRequestIdentity;
+  identity?: DevCentersCreateOrUpdateRequestIdentity | undefined;
   /** Properties of a Dev Center to be updated. */
-  properties?: DevCenterPropertiesInput;
+  properties?: DevCenterPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateDevCenterResponseTagsMap = { [key: string]: string | undefined };
@@ -4154,22 +4179,22 @@ export type UpdateDevCenterResponseTagsMap = { [key: string]: string | undefined
 export type UpdateDevCenterResponseIdentity = DevCentersCreateOrUpdateResponseIdentity;
 export interface UpdateDevCenterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDevCenterResponseTagsMap;
+  tags?: UpdateDevCenterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** DevCenter properties */
-  properties?: DevCenterProperties;
+  properties?: DevCenterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateResponseIdentity;
-  locationHeader?: string;
+  identity?: DevCentersCreateOrUpdateResponseIdentity | undefined;
+  locationHeader?: string | undefined;
 }
 /** Properties of an environment type. These properties can be updated after the resource has been created. */
 export type EnvironmentTypeUpdateProperties = EnvironmentTypePropertiesInput;
@@ -4185,38 +4210,38 @@ export interface UpdateEnvironmentTypeRequest {
   /** The name of the environment type. */
   environmentTypeName: string;
   /** Properties of an environment type to be updated. */
-  properties?: EnvironmentTypePropertiesInput;
+  properties?: EnvironmentTypePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateEnvironmentTypeRequestTagsMap;
+  tags?: UpdateEnvironmentTypeRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateEnvironmentTypeResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateEnvironmentTypeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an environment type. */
-  properties?: EnvironmentTypeProperties;
+  properties?: EnvironmentTypeProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateEnvironmentTypeResponseTagsMap;
+  tags?: UpdateEnvironmentTypeResponseTagsMap | undefined;
 }
 /** Properties of network connection. These properties can be updated after the resource has been created. */
 export interface NetworkConnectionUpdateProperties {
   /** The subnet to attach Virtual Machines to */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** Active Directory domain name */
-  domainName?: string;
+  domainName?: string | undefined;
   /** Active Directory domain Organization Unit (OU) */
-  organizationUnit?: string;
+  organizationUnit?: string | undefined;
   /** The username of an Active Directory account (user or service account) that has permissions to create computer objects in Active Directory. Required format: admin@contoso.com. */
-  domainUsername?: string;
+  domainUsername?: string | undefined;
   /** The password for the account used to join domain */
-  domainPassword?: string | Redacted.Redacted<string>;
+  domainPassword?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpdateNetworkConnectionRequest {
   /** The ID of the target subscription. */
@@ -4226,59 +4251,61 @@ export interface UpdateNetworkConnectionRequest {
   /** Name of the Network Connection that can be applied to a Pool. */
   networkConnectionName: string;
   /** Resource tags. */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Properties of a network connection resource to be updated. */
-  properties?: NetworkConnectionUpdateProperties;
+  properties?: NetworkConnectionUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkConnectionResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNetworkConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkConnectionResponseTagsMap;
+  tags?: UpdateNetworkConnectionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a Network Connection */
-  properties?: NetworkProperties;
-  locationHeader?: string;
+  properties?: NetworkProperties | undefined;
+  locationHeader?: string | undefined;
 }
 /** The regions of the managed virtual network (required when managedNetworkType is Managed). */
 export type PoolUpdatePropertiesInputManagedVirtualNetworkRegionsList = Array<string>;
 /** Properties of a Pool. These properties can be updated after the resource has been created. */
 export interface PoolUpdatePropertiesInput {
   /** Indicates if the pool is created from an existing Dev Box Definition or if one is provided directly. */
-  devBoxDefinitionType?: PoolDevBoxDefinitionType | (string & {});
+  devBoxDefinitionType?: PoolDevBoxDefinitionType | (string & {}) | undefined;
   /** Name of a Dev Box definition in parent Project of this Pool. Will be ignored if devBoxDefinitionType is Value. */
-  devBoxDefinitionName?: string;
+  devBoxDefinitionName?: string | undefined;
   /** A definition of the machines that are created from this Pool. Will be ignored if devBoxDefinitionType is Reference or not provided. */
-  devBoxDefinition?: PoolDevBoxDefinitionInput;
+  devBoxDefinition?: PoolDevBoxDefinitionInput | undefined;
   /** Name of a Network Connection in parent Project of this Pool */
-  networkConnectionName?: string;
+  networkConnectionName?: string | undefined;
   /** Specifies the license type indicating the caller has already acquired licenses for the Dev Boxes that will be created. */
-  licenseType?: LicenseType | (string & {});
+  licenseType?: LicenseType | (string & {}) | undefined;
   /** Indicates whether owners of Dev Boxes in this pool are added as local administrators on the Dev Box. */
-  localAdministrator?: LocalAdminStatus | (string & {});
+  localAdministrator?: LocalAdminStatus | (string & {}) | undefined;
   /** Stop on disconnect configuration settings for Dev Boxes created in this pool. */
-  stopOnDisconnect?: StopOnDisconnectConfiguration;
+  stopOnDisconnect?: StopOnDisconnectConfiguration | undefined;
   /** Stop on no connect configuration settings for Dev Boxes created in this pool. */
-  stopOnNoConnect?: StopOnNoConnectConfiguration;
+  stopOnNoConnect?: StopOnNoConnectConfiguration | undefined;
   /** Indicates whether Dev Boxes in this pool are created with single sign on enabled. The also requires that single sign on be enabled on the tenant. */
-  singleSignOnStatus?: SingleSignOnStatus | (string & {});
+  singleSignOnStatus?: SingleSignOnStatus | (string & {}) | undefined;
   /** The display name of the pool. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Indicates whether the pool uses a Virtual Network managed by Microsoft or a customer provided network. */
-  virtualNetworkType?: VirtualNetworkType | (string & {});
+  virtualNetworkType?: VirtualNetworkType | (string & {}) | undefined;
   /** The regions of the managed virtual network (required when managedNetworkType is Managed). */
-  managedVirtualNetworkRegions?: PoolUpdatePropertiesInputManagedVirtualNetworkRegionsList;
+  managedVirtualNetworkRegions?:
+    | PoolUpdatePropertiesInputManagedVirtualNetworkRegionsList
+    | undefined;
 }
 export interface UpdatePoolRequest {
   /** The ID of the target subscription. */
@@ -4290,30 +4317,30 @@ export interface UpdatePoolRequest {
   /** Name of the pool. */
   poolName: string;
   /** Resource tags. */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Properties of a pool to be updated. */
-  properties?: PoolUpdatePropertiesInput;
+  properties?: PoolUpdatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdatePoolResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePoolResponseTagsMap;
+  tags?: UpdatePoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Pool properties */
-  properties?: PoolProperties;
-  locationHeader?: string;
+  properties?: PoolProperties | undefined;
+  locationHeader?: string | undefined;
 }
 /** Properties of a project. These properties can be updated after the resource has been created. */
 export type ProjectUpdateProperties = ProjectPropertiesInput;
@@ -4327,13 +4354,13 @@ export interface UpdateProjectRequest {
   /** The name of the project. */
   projectName: string;
   /** Resource tags. */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Properties of a project to be updated. */
-  properties?: ProjectPropertiesInput;
+  properties?: ProjectPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateRequestIdentity;
+  identity?: DevCentersCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateProjectResponseTagsMap = { [key: string]: string | undefined };
@@ -4341,22 +4368,22 @@ export type UpdateProjectResponseTagsMap = { [key: string]: string | undefined }
 export type UpdateProjectResponseIdentity = DevCentersCreateOrUpdateResponseIdentity;
 export interface UpdateProjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateProjectResponseTagsMap;
+  tags?: UpdateProjectResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a project. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateResponseIdentity;
-  locationHeader?: string;
+  identity?: DevCentersCreateOrUpdateResponseIdentity | undefined;
+  locationHeader?: string | undefined;
 }
 /** A map of roles to assign to the environment creator. */
 export type ProjectEnvironmentTypeUpdatePropertiesInputCreatorRoleAssignmentRolesMap = {
@@ -4365,7 +4392,7 @@ export type ProjectEnvironmentTypeUpdatePropertiesInputCreatorRoleAssignmentRole
 /** The role definition assigned to the environment creator on backing resources. */
 export interface ProjectEnvironmentTypeUpdatePropertiesInputCreatorRoleAssignment {
   /** A map of roles to assign to the environment creator. */
-  roles?: ProjectEnvironmentTypeUpdatePropertiesInputCreatorRoleAssignmentRolesMap;
+  roles?: ProjectEnvironmentTypeUpdatePropertiesInputCreatorRoleAssignmentRolesMap | undefined;
 }
 /** Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs. */
 export type ProjectEnvironmentTypeUpdatePropertiesInputUserRoleAssignmentsMap = {
@@ -4374,15 +4401,19 @@ export type ProjectEnvironmentTypeUpdatePropertiesInputUserRoleAssignmentsMap = 
 /** Properties of a project environment type. These properties can be updated after the resource has been created. */
 export interface ProjectEnvironmentTypeUpdatePropertiesInput {
   /** Id of a subscription that the environment type will be mapped to. The environment's resources will be deployed into this subscription. */
-  deploymentTargetId?: string;
+  deploymentTargetId?: string | undefined;
   /** The display name of the project environment type. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Defines whether this Environment Type can be used in this Project. */
-  status?: EnvironmentTypeEnableStatus | (string & {});
+  status?: EnvironmentTypeEnableStatus | (string & {}) | undefined;
   /** The role definition assigned to the environment creator on backing resources. */
-  creatorRoleAssignment?: ProjectEnvironmentTypeUpdatePropertiesInputCreatorRoleAssignment;
+  creatorRoleAssignment?:
+    | ProjectEnvironmentTypeUpdatePropertiesInputCreatorRoleAssignment
+    | undefined;
   /** Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs. */
-  userRoleAssignments?: ProjectEnvironmentTypeUpdatePropertiesInputUserRoleAssignmentsMap;
+  userRoleAssignments?:
+    | ProjectEnvironmentTypeUpdatePropertiesInputUserRoleAssignmentsMap
+    | undefined;
 }
 /** Resource tags. */
 export type UpdateProjectEnvironmentTypeRequestTagsMap = { [key: string]: string | undefined };
@@ -4398,11 +4429,11 @@ export interface UpdateProjectEnvironmentTypeRequest {
   /** The name of the environment type. */
   environmentTypeName: string;
   /** Properties to configure an environment type. */
-  properties?: ProjectEnvironmentTypeUpdatePropertiesInput;
+  properties?: ProjectEnvironmentTypeUpdatePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateProjectEnvironmentTypeRequestTagsMap;
+  tags?: UpdateProjectEnvironmentTypeRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateRequestIdentity;
+  identity?: DevCentersCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateProjectEnvironmentTypeResponseTagsMap = { [key: string]: string | undefined };
@@ -4410,21 +4441,21 @@ export type UpdateProjectEnvironmentTypeResponseTagsMap = { [key: string]: strin
 export type UpdateProjectEnvironmentTypeResponseIdentity = DevCentersCreateOrUpdateResponseIdentity;
 export interface UpdateProjectEnvironmentTypeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an environment type. */
-  properties?: ProjectEnvironmentTypeProperties;
+  properties?: ProjectEnvironmentTypeProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateProjectEnvironmentTypeResponseTagsMap;
+  tags?: UpdateProjectEnvironmentTypeResponseTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DevCentersCreateOrUpdateResponseIdentity;
+  identity?: DevCentersCreateOrUpdateResponseIdentity | undefined;
   /** The geo-location for the environment type */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource policies that are a part of this project policy. */
 export type ProjectPolicyUpdatePropertiesResourcePoliciesList = Array<ResourcePolicy>;
@@ -4433,9 +4464,9 @@ export type ProjectPolicyUpdatePropertiesScopesList = Array<string>;
 /** Properties of an project policy. These properties can be updated after the resource has been created. */
 export interface ProjectPolicyUpdateProperties {
   /** Resource policies that are a part of this project policy. */
-  resourcePolicies?: ProjectPolicyUpdatePropertiesResourcePoliciesList;
+  resourcePolicies?: ProjectPolicyUpdatePropertiesResourcePoliciesList | undefined;
   /** Resources that have access to the shared resources that are a part of this project policy. */
-  scopes?: ProjectPolicyUpdatePropertiesScopesList;
+  scopes?: ProjectPolicyUpdatePropertiesScopesList | undefined;
 }
 export interface UpdateProjectPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4447,37 +4478,37 @@ export interface UpdateProjectPolicyRequest {
   /** The name of the project policy. */
   projectPolicyName: string;
   /** Properties of an project policy to be updated. */
-  properties?: ProjectPolicyUpdateProperties;
+  properties?: ProjectPolicyUpdateProperties | undefined;
 }
 export interface UpdateProjectPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an project policy. */
-  properties?: ProjectPolicyProperties;
-  location?: string;
+  properties?: ProjectPolicyProperties | undefined;
+  location?: string | undefined;
 }
 /** Updatable properties of a Schedule. */
 export interface ScheduleUpdateProperties {
   /** Resource tags. */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Supported type this scheduled task represents. */
-  type?: ScheduledType | (string & {});
+  type?: ScheduledType | (string & {}) | undefined;
   /** The frequency of this scheduled task. */
-  frequency?: ScheduledFrequency | (string & {});
+  frequency?: ScheduledFrequency | (string & {}) | undefined;
   /** The target time to trigger the action. The format is HH:MM. */
-  time?: string;
+  time?: string | undefined;
   /** The IANA timezone id at which the schedule should execute. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Indicates whether or not this scheduled task is enabled. */
-  state?: ScheduleEnableStatus | (string & {});
+  state?: ScheduleEnableStatus | (string & {}) | undefined;
 }
 export interface UpdateScheduleRequest {
   /** The ID of the target subscription. */
@@ -4491,22 +4522,22 @@ export interface UpdateScheduleRequest {
   /** The name of the schedule that uniquely identifies it. */
   scheduleName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** Properties of a schedule resource to be updated. */
-  properties?: ScheduleUpdateProperties;
+  properties?: ScheduleUpdateProperties | undefined;
 }
 export interface UpdateScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a Schedule resource */
-  properties?: ScheduleProperties;
-  location?: string;
+  properties?: ScheduleProperties | undefined;
+  location?: string | undefined;
 }
 export type AttachedNetworksCreateOrUpdateError = AzureOpError;
 /** Creates or updates an attached NetworkConnection. */

@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Operationalinsights",
   service: "Operationalinsights",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -38,13 +39,13 @@ export type BillingType = "Cluster" | "Workspaces";
 /** The key vault properties. */
 export interface KeyVaultProperties {
   /** The Key Vault uri which holds they key associated with the Log Analytics cluster. */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
   /** The name of the key associated with the Log Analytics cluster. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** The version of the key associated with the Log Analytics cluster. */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
   /** Selected key minimum required size. */
-  keyRsaSize?: number;
+  keyRsaSize?: number | undefined;
 }
 /** The list of Log Analytics workspaces associated with the cluster. */
 export interface AssociatedWorkspaceInput {}
@@ -55,28 +56,28 @@ export type CapacityReservationPropertiesInput = AssociatedWorkspaceInput;
 /** Cluster replication properties. */
 export interface ClusterReplicationPropertiesInput {
   /** The secondary location of the replication. If replication is being enabled, enabled must be provided. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies whether the replication is enabled or not. When true the cluster is replicate to the specified location. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Should enable AvailabilityZones for the given replicated cluster */
-  isAvailabilityZonesEnabled?: boolean;
+  isAvailabilityZonesEnabled?: boolean | undefined;
 }
 /** Cluster properties. */
 export interface ClusterPropertiesInput {
   /** Configures whether cluster will use double encryption. This Property can not be modified after cluster creation. Default value is 'true' */
-  isDoubleEncryptionEnabled?: boolean;
+  isDoubleEncryptionEnabled?: boolean | undefined;
   /** Sets whether the cluster will support availability zones. This can be set as true only in regions where Azure Data Explorer support Availability Zones. This Property can not be modified after cluster creation. Default value is 'true' if region supports Availability Zones. */
-  isAvailabilityZonesEnabled?: boolean;
+  isAvailabilityZonesEnabled?: boolean | undefined;
   /** The cluster's billing type. */
-  billingType?: BillingType | (string & {});
+  billingType?: BillingType | (string & {}) | undefined;
   /** The associated key properties. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** The list of Log Analytics workspaces associated with the cluster */
-  associatedWorkspaces?: ClusterPropertiesInputAssociatedWorkspacesList;
+  associatedWorkspaces?: ClusterPropertiesInputAssociatedWorkspacesList | undefined;
   /** Additional properties for capacity reservation */
-  capacityReservationProperties?: AssociatedWorkspaceInput;
+  capacityReservationProperties?: AssociatedWorkspaceInput | undefined;
   /** Cluster's replication properties. */
-  replication?: ClusterReplicationPropertiesInput;
+  replication?: ClusterReplicationPropertiesInput | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -93,16 +94,16 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ClustersCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 /** The SKU (tier) of a cluster. */
 export type ClusterSkuNameEnum = "CapacityReservation";
 /** The cluster sku definition. */
 export interface ClusterSku {
   /** The capacity reservation level in Gigabytes for this cluster. */
-  capacity?: number | null;
+  capacity?: number | null | undefined;
   /** The SKU (tier) of a cluster. */
-  name?: ClusterSkuNameEnum | (string & {});
+  name?: ClusterSkuNameEnum | (string & {}) | undefined;
 }
 export interface ClustersCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -112,15 +113,15 @@ export interface ClustersCreateOrUpdateRequest {
   /** Name of the Log Analytics Cluster. */
   clusterName: string;
   /** Resource tags. */
-  tags?: ClustersCreateOrUpdateRequestTagsMap;
+  tags?: ClustersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Log Analytics cluster properties. */
-  properties?: ClusterPropertiesInput;
+  properties?: ClusterPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ClustersCreateOrUpdateRequestIdentity;
+  identity?: ClustersCreateOrUpdateRequestIdentity | undefined;
   /** The sku properties. */
-  sku?: ClusterSku;
+  sku?: ClusterSku | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -129,17 +130,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type ClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -155,22 +156,22 @@ export type ClusterEntityStatus =
 /** The list of Log Analytics workspaces associated with the cluster. */
 export interface AssociatedWorkspace {
   /** Associated workspace immutable id. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
   /** Associated workspace resource name. */
-  workspaceName?: string;
+  workspaceName?: string | undefined;
   /** Associated workspace arm resource id, in the form of: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The time of workspace association. */
-  associateDate?: string;
+  associateDate?: string | undefined;
 }
 /** The list of Log Analytics workspaces associated with the cluster */
 export type ClusterPropertiesAssociatedWorkspacesList = Array<AssociatedWorkspace>;
 /** The Capacity Reservation properties. */
 export interface CapacityReservationProperties {
   /** The last time Sku was updated. */
-  lastSkuUpdate?: string;
+  lastSkuUpdate?: string | undefined;
   /** Minimum CapacityReservation value in Gigabytes. */
-  minCapacity?: number;
+  minCapacity?: number | undefined;
 }
 /** The provisioning state of the cluster replication. */
 export type ClusterReplicationState =
@@ -186,86 +187,86 @@ export type ClusterReplicationState =
 /** Cluster replication properties. */
 export interface ClusterReplicationProperties {
   /** The secondary location of the replication. If replication is being enabled, enabled must be provided. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies whether the replication is enabled or not. When true the cluster is replicate to the specified location. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Should enable AvailabilityZones for the given replicated cluster */
-  isAvailabilityZonesEnabled?: boolean;
+  isAvailabilityZonesEnabled?: boolean | undefined;
   /** The provisioning state of the cluster replication. */
-  provisioningState?: ClusterReplicationState;
+  provisioningState?: ClusterReplicationState | undefined;
   /** The cluster's replication creation time */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The last time the cluster's replication was updated. */
-  lastModifiedDate?: string;
+  lastModifiedDate?: string | undefined;
 }
 /** Cluster properties. */
 export interface ClusterProperties {
   /** The ID associated with the cluster. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** The provisioning state of the cluster. */
-  provisioningState?: ClusterEntityStatus;
+  provisioningState?: ClusterEntityStatus | undefined;
   /** Configures whether cluster will use double encryption. This Property can not be modified after cluster creation. Default value is 'true' */
-  isDoubleEncryptionEnabled?: boolean;
+  isDoubleEncryptionEnabled?: boolean | undefined;
   /** Sets whether the cluster will support availability zones. This can be set as true only in regions where Azure Data Explorer support Availability Zones. This Property can not be modified after cluster creation. Default value is 'true' if region supports Availability Zones. */
-  isAvailabilityZonesEnabled?: boolean;
+  isAvailabilityZonesEnabled?: boolean | undefined;
   /** The cluster's billing type. */
-  billingType?: BillingType;
+  billingType?: BillingType | undefined;
   /** The associated key properties. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** The last time the cluster was updated. */
-  lastModifiedDate?: string;
+  lastModifiedDate?: string | undefined;
   /** The cluster creation time */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The list of Log Analytics workspaces associated with the cluster */
-  associatedWorkspaces?: ClusterPropertiesAssociatedWorkspacesList;
+  associatedWorkspaces?: ClusterPropertiesAssociatedWorkspacesList | undefined;
   /** Additional properties for capacity reservation */
-  capacityReservationProperties?: CapacityReservationProperties;
+  capacityReservationProperties?: CapacityReservationProperties | undefined;
   /** Cluster's replication properties. */
-  replication?: ClusterReplicationProperties;
+  replication?: ClusterReplicationProperties | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ClustersCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface ClustersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ClustersCreateOrUpdateResponseTagsMap;
+  tags?: ClustersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Log Analytics cluster properties. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ClustersCreateOrUpdateResponseIdentity;
+  identity?: ClustersCreateOrUpdateResponseIdentity | undefined;
   /** The sku properties. */
-  sku?: ClusterSku;
+  sku?: ClusterSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** An array of tables to export, for example: ["Heartbeat, SecurityEvent"]. */
 export type DataExportPropertiesTableNamesList = Array<string>;
@@ -274,31 +275,31 @@ export type Type = "StorageAccount" | "EventHub";
 /** Destination meta data. */
 export interface DestinationMetaData {
   /** Optional. Allows to define an Event Hub name. Not applicable when destination is Storage Account. */
-  eventHubName?: string;
+  eventHubName?: string | undefined;
 }
 /** Destination properties. */
 export interface Destination {
   /** The destination resource ID. This can be copied from the Properties entry of the destination resource in Azure. */
   resourceId: string;
   /** The type of the destination resource */
-  type?: Type | (string & {});
+  type?: Type | (string & {}) | undefined;
   /** destination meta data. */
-  metaData?: DestinationMetaData;
+  metaData?: DestinationMetaData | undefined;
 }
 /** Data Export properties. */
 export interface DataExportProperties {
   /** The data export rule ID. */
-  dataExportId?: string;
+  dataExportId?: string | undefined;
   /** An array of tables to export, for example: ["Heartbeat, SecurityEvent"]. */
   tableNames: DataExportPropertiesTableNamesList;
   /** destination properties. */
-  destination?: Destination;
+  destination?: Destination | undefined;
   /** Active when enabled. */
-  enable?: boolean;
+  enable?: boolean | undefined;
   /** The latest data export rule modification time. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** Date and time when the export was last modified. */
-  lastModifiedDate?: string;
+  lastModifiedDate?: string | undefined;
 }
 export interface DataExportsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -310,19 +311,19 @@ export interface DataExportsCreateOrUpdateRequest {
   /** The data export rule name. */
   dataExportName: string;
   /** data export properties. */
-  properties?: DataExportProperties;
+  properties?: DataExportProperties | undefined;
 }
 export interface DataExportsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** data export properties. */
-  properties?: DataExportProperties;
+  properties?: DataExportProperties | undefined;
 }
 /** The kind of the DataSource. */
 export type DataSourceKind =
@@ -373,31 +374,31 @@ export interface DataSourcesCreateOrUpdateRequest {
   /** The data source properties in raw json format, each kind of data source have it's own schema. */
   properties: unknown;
   /** The ETag of the data source. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind of the DataSource. */
   kind: DataSourceKind | (string & {});
   /** Resource tags. */
-  tags?: DataSourcesCreateOrUpdateRequestTagsMap;
+  tags?: DataSourcesCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type DataSourcesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface DataSourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The data source properties in raw json format, each kind of data source have it's own schema. */
   properties: unknown;
   /** The ETag of the data source. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind of the DataSource. */
   kind: DataSourceKind;
   /** Resource tags. */
-  tags?: DataSourcesCreateOrUpdateResponseTagsMap;
+  tags?: DataSourcesCreateOrUpdateResponseTagsMap | undefined;
 }
 export interface DeleteClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -409,9 +410,9 @@ export interface DeleteClusterRequest {
 }
 export interface DeleteClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDataExportRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -465,31 +466,31 @@ export type LinkedServiceEntityStatus =
 /** Linked service properties. */
 export interface LinkedServiceProperties {
   /** The resource id of the resource that will be linked to the workspace. This should be used for linking resources which require read access */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The resource id of the resource that will be linked to the workspace. This should be used for linking resources which require write access */
-  writeAccessResourceId?: string;
+  writeAccessResourceId?: string | undefined;
   /** The provisioning state of the linked service. */
-  provisioningState?: LinkedServiceEntityStatus | (string & {});
+  provisioningState?: LinkedServiceEntityStatus | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type DeleteLinkedServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface DeleteLinkedServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the linked service. */
   properties: LinkedServiceProperties;
   /** Resource tags. */
-  tags?: DeleteLinkedServiceResponseTagsMap;
+  tags?: DeleteLinkedServiceResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeleteLinkedStorageAccountRequestDataSourceType =
   | "CustomLogs"
@@ -562,11 +563,11 @@ export interface DeleteSummaryLogRequest {
 }
 export interface DeleteSummaryLogResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteTableRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -580,11 +581,11 @@ export interface DeleteTableRequest {
 }
 export interface DeleteTableResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -594,13 +595,13 @@ export interface DeleteWorkspaceRequest {
   /** The name of the workspace. */
   workspaceName: string;
   /** Deletes the workspace without the recovery option. A workspace that was deleted with this flag cannot be recovered. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteWorkspaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DisableIntelligencePackRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -638,23 +639,23 @@ export type GetClusterResponseTagsMap = { [key: string]: string | undefined };
 export type GetClusterResponseIdentity = ClustersCreateOrUpdateResponseIdentity;
 export interface GetClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetClusterResponseTagsMap;
+  tags?: GetClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Log Analytics cluster properties. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ClustersCreateOrUpdateResponseIdentity;
+  identity?: ClustersCreateOrUpdateResponseIdentity | undefined;
   /** The sku properties. */
-  sku?: ClusterSku;
+  sku?: ClusterSku | undefined;
 }
 export interface GetDataExportRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -668,15 +669,15 @@ export interface GetDataExportRequest {
 }
 export interface GetDataExportResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** data export properties. */
-  properties?: DataExportProperties;
+  properties?: DataExportProperties | undefined;
 }
 export interface GetDataSourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -692,21 +693,21 @@ export interface GetDataSourceRequest {
 export type GetDataSourceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDataSourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The data source properties in raw json format, each kind of data source have it's own schema. */
   properties: unknown;
   /** The ETag of the data source. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind of the DataSource. */
   kind: DataSourceKind;
   /** Resource tags. */
-  tags?: GetDataSourceResponseTagsMap;
+  tags?: GetDataSourceResponseTagsMap | undefined;
 }
 export interface GetLinkedServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -722,17 +723,17 @@ export interface GetLinkedServiceRequest {
 export type GetLinkedServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetLinkedServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the linked service. */
   properties: LinkedServiceProperties;
   /** Resource tags. */
-  tags?: GetLinkedServiceResponseTagsMap;
+  tags?: GetLinkedServiceResponseTagsMap | undefined;
 }
 export type GetLinkedStorageAccountRequestDataSourceType =
   | "CustomLogs"
@@ -757,19 +758,19 @@ export type LinkedStorageAccountsPropertiesStorageAccountIdsList = Array<string>
 /** Linked storage accounts properties. */
 export interface LinkedStorageAccountsProperties {
   /** Linked storage accounts type. */
-  dataSourceType?: DataSourceType | (string & {});
+  dataSourceType?: DataSourceType | (string & {}) | undefined;
   /** Linked storage accounts resources ids. */
-  storageAccountIds?: LinkedStorageAccountsPropertiesStorageAccountIdsList;
+  storageAccountIds?: LinkedStorageAccountsPropertiesStorageAccountIdsList | undefined;
 }
 export interface GetLinkedStorageAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Linked storage accounts properties. */
   properties: LinkedStorageAccountsProperties;
 }
@@ -786,44 +787,44 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface OperationStatusError {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The status of operation. */
 export interface OperationStatus {
   /** The operation Id. */
-  id?: string;
+  id?: string | undefined;
   /** The operation name. */
-  name?: string;
+  name?: string | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The status of the operation. */
-  status?: string;
+  status?: string | undefined;
   /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-  error?: OperationStatusError;
+  error?: OperationStatusError | undefined;
 }
 export interface GetQueryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -844,11 +845,11 @@ export type LogAnalyticsQueryPackQueryPropertiesRelatedSolutionsList = Array<str
 /** The related metadata items for the function. */
 export interface LogAnalyticsQueryPackQueryPropertiesRelated {
   /** The related categories for the function. */
-  categories?: LogAnalyticsQueryPackQueryPropertiesRelatedCategoriesList;
+  categories?: LogAnalyticsQueryPackQueryPropertiesRelatedCategoriesList | undefined;
   /** The related resource types for the function. */
-  resourceTypes?: LogAnalyticsQueryPackQueryPropertiesRelatedResourceTypesList;
+  resourceTypes?: LogAnalyticsQueryPackQueryPropertiesRelatedResourceTypesList | undefined;
   /** The related Log Analytics solutions for the function. */
-  solutions?: LogAnalyticsQueryPackQueryPropertiesRelatedSolutionsList;
+  solutions?: LogAnalyticsQueryPackQueryPropertiesRelatedSolutionsList | undefined;
 }
 export type LogAnalyticsQueryPackQueryPropertiesTagsValueList = Array<string>;
 /** Tags associated with the query. */
@@ -858,37 +859,37 @@ export type LogAnalyticsQueryPackQueryPropertiesTagsMap = {
 /** Properties that define an Log Analytics QueryPack-Query resource. */
 export interface LogAnalyticsQueryPackQueryProperties {
   /** The unique ID of your application. This field cannot be changed. */
-  id?: string;
+  id?: string | undefined;
   /** Unique display name for your query within the Query Pack. */
   displayName: string;
   /** Creation Date for the Log Analytics Query, in ISO 8601 format. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
   /** Last modified date of the Log Analytics Query, in ISO 8601 format. */
-  timeModified?: string;
+  timeModified?: string | undefined;
   /** Object Id of user creating the query. */
-  author?: string;
+  author?: string | undefined;
   /** Description of the query. */
-  description?: string;
+  description?: string | undefined;
   /** Body of the query. */
   body: string;
   /** The related metadata items for the function. */
-  related?: LogAnalyticsQueryPackQueryPropertiesRelated;
+  related?: LogAnalyticsQueryPackQueryPropertiesRelated | undefined;
   /** Tags associated with the query. */
-  tags?: LogAnalyticsQueryPackQueryPropertiesTagsMap;
+  tags?: LogAnalyticsQueryPackQueryPropertiesTagsMap | undefined;
   /** Additional properties that can be set for the query. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface GetQueryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties that define an Log Analytics QueryPack-Query resource. */
-  properties?: LogAnalyticsQueryPackQueryProperties;
+  properties?: LogAnalyticsQueryPackQueryProperties | undefined;
 }
 export interface GetQueryPackRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -903,25 +904,25 @@ export type GetQueryPackResponseTagsMap = { [key: string]: string | undefined };
 /** Properties that define a Log Analytics QueryPack resource. */
 export interface LogAnalyticsQueryPackProperties {
   /** The unique ID of your application. This field cannot be changed. */
-  queryPackId?: string;
+  queryPackId?: string | undefined;
   /** Creation Date for the Log Analytics QueryPack, in ISO 8601 format. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
   /** Last modified date of the Log Analytics QueryPack, in ISO 8601 format. */
-  timeModified?: string;
+  timeModified?: string | undefined;
   /** Current state of this QueryPack: whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying, Canceled, and Failed. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface GetQueryPackResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetQueryPackResponseTagsMap;
+  tags?: GetQueryPackResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties that define a Log Analytics QueryPack resource. */
@@ -955,27 +956,27 @@ export interface SavedSearchProperties {
   /** The query expression for the saved search. */
   query: string;
   /** The function alias if query serves as a function. */
-  functionAlias?: string;
+  functionAlias?: string | undefined;
   /** The optional function parameters if query serves as a function. Value should be in the following format: 'param-name1:type1 = default_value1, param-name2:type2 = default_value2'. For more examples and proper syntax please refer to https://docs.microsoft.com/en-us/azure/kusto/query/functions/user-defined-functions. */
-  functionParameters?: string;
+  functionParameters?: string | undefined;
   /** The version number of the query language. The current version is 2 and is the default. */
-  version?: number;
+  version?: number | undefined;
   /** The tags attached to the saved search. */
-  tags?: SavedSearchPropertiesTagsList;
+  tags?: SavedSearchPropertiesTagsList | undefined;
 }
 export interface GetSavedSearchResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the saved search. */
   properties: SavedSearchProperties;
   /** The ETag of the saved search. To override an existing saved search, use "*" or specify the current Etag */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -988,7 +989,7 @@ export interface GetSchemaRequest {
 /** The core summary of a search. */
 export interface CoreSummary {
   /** The status of a core summary. */
-  status?: string;
+  status?: string | undefined;
   /** The number of documents of a core summary. */
   numberOfDocuments: number;
 }
@@ -999,66 +1000,66 @@ export type SearchSortEnum = "asc" | "desc";
 /** The sort parameters for search. */
 export interface SearchSort {
   /** The name of the field the search query is sorted on. */
-  name?: string;
+  name?: string | undefined;
   /** The sort order of the search. */
-  order?: SearchSortEnum;
+  order?: SearchSortEnum | undefined;
 }
 /** How the results are sorted. */
 export type SearchMetadataSortList = Array<SearchSort>;
 /** Schema metadata for search. */
 export interface SearchMetadataSchema {
   /** The name of the metadata schema. */
-  name?: string;
+  name?: string | undefined;
   /** The version of the metadata schema. */
-  version?: number;
+  version?: number | undefined;
 }
 /** Metadata for search results. */
 export interface SearchMetadata {
   /** The request id of the search. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** The search result type. */
-  resultType?: string;
+  resultType?: string | undefined;
   /** The total number of search results. */
-  total?: number;
+  total?: number | undefined;
   /** The number of top search results. */
-  top?: number;
+  top?: number | undefined;
   /** The id of the search results request. */
-  id?: string;
+  id?: string | undefined;
   /** The core summaries. */
-  coreSummaries?: SearchMetadataCoreSummariesList;
+  coreSummaries?: SearchMetadataCoreSummariesList | undefined;
   /** The status of the search results. */
-  status?: string;
+  status?: string | undefined;
   /** The start time for the search. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The time of last update. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The ETag of the search results. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** How the results are sorted. */
-  sort?: SearchMetadataSortList;
+  sort?: SearchMetadataSortList | undefined;
   /** The request time. */
-  requestTime?: number;
+  requestTime?: number | undefined;
   /** The aggregated value field. */
-  aggregatedValueField?: string;
+  aggregatedValueField?: string | undefined;
   /** The aggregated grouping fields. */
-  aggregatedGroupingFields?: string;
+  aggregatedGroupingFields?: string | undefined;
   /** The sum of all aggregates returned in the result set. */
-  sum?: number;
+  sum?: number | undefined;
   /** The max of all aggregates returned in the result set. */
-  max?: number;
+  max?: number | undefined;
   /** The schema. */
-  schema?: SearchMetadataSchema;
+  schema?: SearchMetadataSchema | undefined;
 }
 /** The array of workflows containing the field. */
 export type SearchSchemaValueOwnerTypeList = Array<string>;
 /** Value object for schema results. */
 export interface SearchSchemaValue {
   /** The name of the schema. */
-  name?: string;
+  name?: string | undefined;
   /** The display name of the schema. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The type. */
-  type?: string;
+  type?: string | undefined;
   /** The boolean that indicates the field is searchable as free text. */
   indexed: boolean;
   /** The boolean that indicates whether or not the field is stored. */
@@ -1066,16 +1067,16 @@ export interface SearchSchemaValue {
   /** The boolean that indicates whether or not the field is a facet. */
   facet: boolean;
   /** The array of workflows containing the field. */
-  ownerType?: SearchSchemaValueOwnerTypeList;
+  ownerType?: SearchSchemaValueOwnerTypeList | undefined;
 }
 /** The array of result values. */
 export type SearchGetSchemaResponseValueList = Array<SearchSchemaValue>;
 /** The get schema operation response. */
 export interface SearchGetSchemaResponse {
   /** The metadata from search results. */
-  metadata?: SearchMetadata;
+  metadata?: SearchMetadata | undefined;
   /** The array of result values. */
-  value?: SearchGetSchemaResponseValueList;
+  value?: SearchGetSchemaResponseValueList | undefined;
 }
 export interface GetSharedKeySharedKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1088,9 +1089,9 @@ export interface GetSharedKeySharedKeysRequest {
 /** The shared keys for a workspace. */
 export interface SharedKeys {
   /** The primary shared key of a workspace. */
-  primarySharedKey?: string;
+  primarySharedKey?: string | undefined;
   /** The secondary shared key of a workspace. */
-  secondarySharedKey?: string;
+  secondarySharedKey?: string | undefined;
 }
 export interface GetStorageInsightConfigRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1120,36 +1121,36 @@ export interface StorageInsightStatus {
   /** The state of the storage insight connection to the workspace */
   state: StorageInsightState | (string & {});
   /** Description of the state of the storage insight. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Storage insight properties. */
 export interface StorageInsightProperties {
   /** The names of the blob containers that the workspace should read */
-  containers?: StorageInsightPropertiesContainersList;
+  containers?: StorageInsightPropertiesContainersList | undefined;
   /** The names of the Azure tables that the workspace should read */
-  tables?: StorageInsightPropertiesTablesList;
+  tables?: StorageInsightPropertiesTablesList | undefined;
   /** The storage account connection details */
   storageAccount: StorageAccount;
   /** The status of the storage insight */
-  status?: StorageInsightStatus;
+  status?: StorageInsightStatus | undefined;
 }
 /** Resource tags. */
 export type GetStorageInsightConfigResponseTagsMap = { [key: string]: string | undefined };
 export interface GetStorageInsightConfigResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Storage insight properties. */
-  properties?: StorageInsightProperties;
+  properties?: StorageInsightProperties | undefined;
   /** The ETag of the storage insight. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Resource tags. */
-  tags?: GetStorageInsightConfigResponseTagsMap;
+  tags?: GetStorageInsightConfigResponseTagsMap | undefined;
 }
 export interface GetSummaryLogRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1172,43 +1173,43 @@ export type TimeSelectorEnum = "TimeGenerated";
 /** Rule definition parameters. */
 export interface RuleDefinition {
   /** Summary rule query. */
-  query?: string;
+  query?: string | undefined;
   /** Scheduled window in minutes. Allowed values: 20, 30, 60, 120, 180, 360, 720, 1440. */
-  binSize?: number;
+  binSize?: number | undefined;
   /** The minimum delay in seconds before bin processing. */
-  binDelay?: number;
+  binDelay?: number | undefined;
   /** The start time (UTC) when Summary rule execution starts. */
-  binStartTime?: string;
+  binStartTime?: string | undefined;
   /** The time cursor used in Summary rules bins processing, e.g. TimeGenerated. */
-  timeSelector?: TimeSelectorEnum | (string & {});
+  timeSelector?: TimeSelectorEnum | (string & {}) | undefined;
   /** The destination table used for the Summary rule results. */
-  destinationTable?: string;
+  destinationTable?: string | undefined;
 }
 /** Summary rule properties. */
 export interface SummaryLogsProperties {
   /** SummaryRules rule type: User. */
-  ruleType?: RuleTypeEnum;
+  ruleType?: RuleTypeEnum | undefined;
   /** The display name of the Summary rule. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the Summary rule. */
-  description?: string;
+  description?: string | undefined;
   /** Indicates if Summary rule is active. If not, Summary rule execution stops. */
-  isActive?: boolean;
+  isActive?: boolean | undefined;
   /** Indicates the reason for rule deactivation. */
-  statusCode?: StatusCodeEnum;
+  statusCode?: StatusCodeEnum | undefined;
   /** Summary rule is in provisioning state. If set to 'updating' or 'deleting', indicates a resource lock due to an ongoing operation, preventing any update to the Summary rule until the operation is complete. */
-  provisioningState?: ProvisioningStateEnum;
+  provisioningState?: ProvisioningStateEnum | undefined;
   /** Rule definition parameters. */
-  ruleDefinition?: RuleDefinition;
+  ruleDefinition?: RuleDefinition | undefined;
 }
 /** Type of managed service identity. */
 export type SummaryLogsIdentityType = "None" | "UserAssigned";
 /** User assigned identity properties. */
 export interface SummaryLogsUserIdentityProperties {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type SummaryLogsIdentityUserAssignedIdentitiesMap = {
@@ -1217,27 +1218,27 @@ export type SummaryLogsIdentityUserAssignedIdentitiesMap = {
 /** Identity for the summary logs resource. */
 export interface SummaryLogsIdentity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of managed service identity. */
   type: SummaryLogsIdentityType;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: SummaryLogsIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: SummaryLogsIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetSummaryLogResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Summary rule properties. */
-  properties?: SummaryLogsProperties;
+  properties?: SummaryLogsProperties | undefined;
   /** The managed identity of the summary logs resource. Only user-assigned identity is supported. */
-  identity?: SummaryLogsIdentity;
+  identity?: SummaryLogsIdentity | undefined;
 }
 export interface GetTableRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1252,39 +1253,39 @@ export interface GetTableRequest {
 /** Parameters of the search job that initiated this table. */
 export interface SearchResults {
   /** Search job query. */
-  query?: string;
+  query?: string | undefined;
   /** Search job Description. */
-  description?: string;
+  description?: string | undefined;
   /** Limit the search job to return up to specified number of rows. */
-  limit?: number;
+  limit?: number | undefined;
   /** The timestamp to start the search from (UTC) */
-  startSearchTime?: string;
+  startSearchTime?: string | undefined;
   /** The timestamp to end the search by (UTC) */
-  endSearchTime?: string;
+  endSearchTime?: string | undefined;
   /** The table used in the search job. */
-  sourceTable?: string;
+  sourceTable?: string | undefined;
   /** Search results table async operation id. */
-  azureAsyncOperationId?: string;
+  azureAsyncOperationId?: string | undefined;
 }
 /** Restore parameters. */
 export interface RestoredLogs {
   /** The timestamp to start the restore from (UTC). */
-  startRestoreTime?: string;
+  startRestoreTime?: string | undefined;
   /** The timestamp to end the restore by (UTC). */
-  endRestoreTime?: string;
+  endRestoreTime?: string | undefined;
   /** The table to restore data from. */
-  sourceTable?: string;
+  sourceTable?: string | undefined;
   /** Search results table async operation id. */
-  azureAsyncOperationId?: string;
+  azureAsyncOperationId?: string | undefined;
 }
 /** Search job execution statistics. */
 export interface ResultStatistics {
   /** Search job completion percentage. */
-  progress?: number;
+  progress?: number | undefined;
   /** The number of rows that were returned by the search job. */
-  ingestedRecords?: number;
+  ingestedRecords?: number | undefined;
   /** Search job: Amount of scanned data. */
-  scannedGb?: number;
+  scannedGb?: number | undefined;
 }
 /** Instruct the system how to handle and charge the logs ingested to this table. */
 export type TablePlanEnum = "Basic" | "Analytics" | "Auxiliary";
@@ -1305,19 +1306,19 @@ export type ColumnDataTypeHintEnum = "uri" | "guid" | "armPath" | "ip" | "vector
 /** Table column. */
 export interface Column {
   /** Column name. */
-  name?: string;
+  name?: string | undefined;
   /** Column data type. */
-  type?: ColumnTypeEnum;
+  type?: ColumnTypeEnum | undefined;
   /** Column data type logical hint. */
-  dataTypeHint?: ColumnDataTypeHintEnum;
+  dataTypeHint?: ColumnDataTypeHintEnum | undefined;
   /** Column display name. Can be set at creation time; after creation, updates must either match column name or set to null/empty. If not provided, defaults to column name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Column description. */
-  description?: string;
+  description?: string | undefined;
   /** Is displayed by default. */
-  isDefaultDisplay?: boolean;
+  isDefaultDisplay?: boolean | undefined;
   /** Is column hidden. */
-  isHidden?: boolean;
+  isHidden?: boolean | undefined;
 }
 /** A list of table custom columns. */
 export type SchemaColumnsList = Array<Column>;
@@ -1338,27 +1339,27 @@ export type SchemaSolutionsList = Array<string>;
 /** Table's schema. */
 export interface Schema {
   /** Table name. */
-  name?: string;
+  name?: string | undefined;
   /** Table display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Table description. */
-  description?: string;
+  description?: string | undefined;
   /** A list of table custom columns. */
-  columns?: SchemaColumnsList;
+  columns?: SchemaColumnsList | undefined;
   /** A list of table standard columns. */
-  standardColumns?: SchemaStandardColumnsList;
+  standardColumns?: SchemaStandardColumnsList | undefined;
   /** Table category. */
-  categories?: SchemaCategoriesList;
+  categories?: SchemaCategoriesList | undefined;
   /** Table labels. */
-  labels?: SchemaLabelsList;
+  labels?: SchemaLabelsList | undefined;
   /** Table's creator. */
-  source?: SourceEnum;
+  source?: SourceEnum | undefined;
   /** Table's creator. */
-  tableType?: TableTypeEnum;
+  tableType?: TableTypeEnum | undefined;
   /** The subtype describes what APIs can be used to interact with the table, and what features are available against it. */
-  tableSubType?: TableSubTypeEnum;
+  tableSubType?: TableSubTypeEnum | undefined;
   /** List of solutions the table is affiliated with */
-  solutions?: SchemaSolutionsList;
+  solutions?: SchemaSolutionsList | undefined;
 }
 /** Table's current provisioning state. If set to 'updating', indicates a resource lock due to ongoing operation, forbidding any update to the table until the ongoing operation is concluded. */
 export type OperationalInsightsTableProvisioningState =
@@ -1369,43 +1370,43 @@ export type OperationalInsightsTableProvisioningState =
 /** Table properties. */
 export interface TableProperties {
   /** In Analytics table: the tables analytics retention in days, between 4 and 730. Setting this property to -1 will default to the workspace retention. In Basic and Auxiliary table: read only property. */
-  retentionInDays?: number;
+  retentionInDays?: number | undefined;
   /** The table total retention in days, between 4 and 4383. Setting this property to -1 will default to retentionInDays. */
-  totalRetentionInDays?: number;
+  totalRetentionInDays?: number | undefined;
   /** The tables long-term retention in days. Calculated as (totalRetentionInDays-retentionInDays). */
-  archiveRetentionInDays?: number;
+  archiveRetentionInDays?: number | undefined;
   /** Parameters of the search job that initiated this table. */
-  searchResults?: SearchResults;
+  searchResults?: SearchResults | undefined;
   /** Parameters of the restore operation that initiated this table. */
-  restoredLogs?: RestoredLogs;
+  restoredLogs?: RestoredLogs | undefined;
   /** Search job execution statistics. */
-  resultStatistics?: ResultStatistics;
+  resultStatistics?: ResultStatistics | undefined;
   /** Instruct the system how to handle and charge the logs ingested to this table. */
-  plan?: TablePlanEnum;
+  plan?: TablePlanEnum | undefined;
   /** The protection level of the table. Determines the default data access isolation behavior. */
-  protectionLevel?: TableProtectionLevelEnum;
+  protectionLevel?: TableProtectionLevelEnum | undefined;
   /** The timestamp that table plan was last modified (UTC). */
-  lastPlanModifiedDate?: string;
+  lastPlanModifiedDate?: string | undefined;
   /** Table schema. */
-  schema?: Schema;
+  schema?: Schema | undefined;
   /** Table's current provisioning state. If set to 'updating', indicates a resource lock due to ongoing operation, forbidding any update to the table until the ongoing operation is concluded. */
-  provisioningState?: OperationalInsightsTableProvisioningState;
+  provisioningState?: OperationalInsightsTableProvisioningState | undefined;
   /** True - Value originates from workspace retention in days, False - Customer specific. */
-  retentionInDaysAsDefault?: boolean;
+  retentionInDaysAsDefault?: boolean | undefined;
   /** True - Value originates from retention in days, False - Customer specific. */
-  totalRetentionInDaysAsDefault?: boolean;
+  totalRetentionInDaysAsDefault?: boolean | undefined;
 }
 export interface GetTableResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Table's properties. */
-  properties?: TableProperties;
+  properties?: TableProperties | undefined;
 }
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1441,9 +1442,9 @@ export interface WorkspaceSku {
   /** The name of the SKU. */
   name: WorkspaceSkuNameEnum;
   /** The capacity reservation level in GB for this workspace, when CapacityReservation sku is selected. */
-  capacityReservationLevel?: number | null;
+  capacityReservationLevel?: number | null | undefined;
   /** The last time when the sku was updated. */
-  lastSkuUpdate?: string;
+  lastSkuUpdate?: string | undefined;
 }
 /** The status of data ingestion for this workspace. */
 export type DataIngestionStatus =
@@ -1456,11 +1457,11 @@ export type DataIngestionStatus =
 /** The daily volume cap for ingestion. */
 export interface WorkspaceCapping {
   /** The workspace daily quota for ingestion. */
-  dailyQuotaGb?: number;
+  dailyQuotaGb?: number | undefined;
   /** The time when the quota will be rest. */
-  quotaNextResetTime?: string;
+  quotaNextResetTime?: string | undefined;
   /** The status of data ingestion for this workspace. */
-  dataIngestionStatus?: DataIngestionStatus;
+  dataIngestionStatus?: DataIngestionStatus | undefined;
 }
 /** The network access type for accessing Log Analytics ingestion. */
 export type WorkspacePropertiesPublicNetworkAccessForIngestion =
@@ -1475,9 +1476,9 @@ export type WorkspacePropertiesPublicNetworkAccessForQuery =
 /** The private link scope resource reference. */
 export interface PrivateLinkScopedResource {
   /** The full resource Id of the private link scope resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The private link scope unique Identifier. */
-  scopeId?: string;
+  scopeId?: string | undefined;
 }
 /** List of linked private link scope resources. */
 export type WorkspacePropertiesPrivateLinkScopedResourcesList = Array<PrivateLinkScopedResource>;
@@ -1486,21 +1487,21 @@ export type WorkspaceFeaturesAssociationsList = Array<string>;
 /** Workspace features. */
 export interface WorkspaceFeatures {
   /** Flag that indicate if data should be exported. */
-  enableDataExport?: boolean | null;
+  enableDataExport?: boolean | null | undefined;
   /** Flag that describes if we want to remove the data after 30 days. */
-  immediatePurgeDataOn30Days?: boolean | null;
+  immediatePurgeDataOn30Days?: boolean | null | undefined;
   /** Flag that indicate which permission to use - resource or workspace or both. */
-  enableLogAccessUsingOnlyResourcePermissions?: boolean | null;
+  enableLogAccessUsingOnlyResourcePermissions?: boolean | null | undefined;
   /** Dedicated LA cluster resourceId that is linked to the workspaces. */
-  clusterResourceId?: string | null;
+  clusterResourceId?: string | null | undefined;
   /** Disable Non-AAD based Auth. */
-  disableLocalAuth?: boolean | null;
+  disableLocalAuth?: boolean | null | undefined;
   /** An indication if the specify workspace is limited to sentinel's unified billing model only. */
-  unifiedSentinelBillingOnly?: boolean | null;
+  unifiedSentinelBillingOnly?: boolean | null | undefined;
   /** List of associations for the workspace. Indicates if the workspace is associated with any of the following experiences: MDC, Sentinel, SentinelGraph, etc. */
-  associations?: WorkspaceFeaturesAssociationsList;
+  associations?: WorkspaceFeaturesAssociationsList | undefined;
   /** Enable Data authorization mode for the workspace. */
-  dataAuthorizationMode?: boolean | null;
+  dataAuthorizationMode?: boolean | null | undefined;
   [key: string]: unknown;
 }
 /** The provisioning state of the replication. */
@@ -1517,15 +1518,15 @@ export type WorkspaceReplicationState =
 /** Workspace replication properties. */
 export interface WorkspaceReplicationProperties {
   /** The location of the replication. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies whether the replication is enabled or not. When true, workspace configuration and data is replicated to the specified location. If replication is been enabled, location must be provided. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The provisioning state of the replication. */
-  provisioningState?: WorkspaceReplicationState;
+  provisioningState?: WorkspaceReplicationState | undefined;
   /** The last time when the replication was enabled. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The last time when the replication was updated. */
-  lastModifiedDate?: string;
+  lastModifiedDate?: string | undefined;
 }
 /** The failover state of the replication. */
 export type WorkspaceFailoverState =
@@ -1537,42 +1538,42 @@ export type WorkspaceFailoverState =
 /** The failover state of the replication. */
 export interface WorkspaceFailoverProperties {
   /** The failover state of the replication. */
-  state?: WorkspaceFailoverState;
+  state?: WorkspaceFailoverState | undefined;
   /** The last time when the failover state was updated. */
-  lastModifiedDate?: string;
+  lastModifiedDate?: string | undefined;
 }
 /** Workspace properties. */
 export interface WorkspaceProperties {
   /** The provisioning state of the workspace. */
-  provisioningState?: WorkspaceEntityStatus;
+  provisioningState?: WorkspaceEntityStatus | undefined;
   /** This is a read-only property. Represents the ID associated with the workspace. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** The SKU of the workspace. */
-  sku?: WorkspaceSku;
+  sku?: WorkspaceSku | undefined;
   /** The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. */
-  retentionInDays?: number | null;
+  retentionInDays?: number | null | undefined;
   /** The daily volume cap for ingestion. */
-  workspaceCapping?: WorkspaceCapping;
+  workspaceCapping?: WorkspaceCapping | undefined;
   /** Workspace creation date. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** Workspace modification date. */
-  modifiedDate?: string;
+  modifiedDate?: string | undefined;
   /** The network access type for accessing Log Analytics ingestion. */
-  publicNetworkAccessForIngestion?: WorkspacePropertiesPublicNetworkAccessForIngestion;
+  publicNetworkAccessForIngestion?: WorkspacePropertiesPublicNetworkAccessForIngestion | undefined;
   /** The network access type for accessing Log Analytics query. */
-  publicNetworkAccessForQuery?: WorkspacePropertiesPublicNetworkAccessForQuery;
+  publicNetworkAccessForQuery?: WorkspacePropertiesPublicNetworkAccessForQuery | undefined;
   /** Indicates whether customer managed storage is mandatory for query management. */
-  forceCmkForQuery?: boolean;
+  forceCmkForQuery?: boolean | undefined;
   /** List of linked private link scope resources. */
-  privateLinkScopedResources?: WorkspacePropertiesPrivateLinkScopedResourcesList;
+  privateLinkScopedResources?: WorkspacePropertiesPrivateLinkScopedResourcesList | undefined;
   /** Workspace features. */
-  features?: WorkspaceFeatures;
+  features?: WorkspaceFeatures | undefined;
   /** The resource ID of the default Data Collection Rule to use for this workspace. Expected format is - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dcrName}. */
-  defaultDataCollectionRuleResourceId?: string;
+  defaultDataCollectionRuleResourceId?: string | undefined;
   /** workspace replication properties. */
-  replication?: WorkspaceReplicationProperties;
+  replication?: WorkspaceReplicationProperties | undefined;
   /** workspace failover properties. */
-  failover?: WorkspaceFailoverProperties;
+  failover?: WorkspaceFailoverProperties | undefined;
 }
 /** Type of managed service identity. */
 export type IdentityType = "SystemAssigned" | "UserAssigned" | "None";
@@ -1585,33 +1586,33 @@ export type IdentityUserAssignedIdentitiesMap = {
 /** Identity for the resource. */
 export interface Identity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of managed service identity. */
   type: IdentityType;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetWorkspaceResponseTagsMap;
+  tags?: GetWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Workspace properties. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The etag of the workspace. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetWorkspaceNSPRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1649,18 +1650,18 @@ export type AccessRulePropertiesAddressPrefixesList = Array<string>;
 /** Subscription identifiers */
 export interface AccessRulePropertiesSubscriptionsItem {
   /** The fully qualified Azure resource ID of the subscription e.g. ('/subscriptions/00000000-0000-0000-0000-000000000000') */
-  id?: string;
+  id?: string | undefined;
 }
 /** Subscriptions for inbound rules */
 export type AccessRulePropertiesSubscriptionsList = Array<AccessRulePropertiesSubscriptionsItem>;
 /** Information about a network security perimeter (NSP) */
 export interface NetworkSecurityPerimeter {
   /** Fully qualified Azure resource ID of the NSP resource */
-  id?: string;
+  id?: string | undefined;
   /** Universal unique ID (UUID) of the network security perimeter */
-  perimeterGuid?: string;
+  perimeterGuid?: string | undefined;
   /** Location of the network security perimeter */
-  location?: string;
+  location?: string | undefined;
 }
 /** Network security perimeters for inbound rules */
 export type AccessRulePropertiesNetworkSecurityPerimetersList = Array<NetworkSecurityPerimeter>;
@@ -1672,46 +1673,46 @@ export type AccessRulePropertiesEmailAddressesList = Array<string>;
 export type AccessRulePropertiesPhoneNumbersList = Array<string>;
 /** Properties of Access Rule */
 export interface AccessRuleProperties {
-  direction?: AccessRuleDirection;
+  direction?: AccessRuleDirection | undefined;
   /** Address prefixes in the CIDR format for inbound rules */
-  addressPrefixes?: AccessRulePropertiesAddressPrefixesList;
+  addressPrefixes?: AccessRulePropertiesAddressPrefixesList | undefined;
   /** Subscriptions for inbound rules */
-  subscriptions?: AccessRulePropertiesSubscriptionsList;
+  subscriptions?: AccessRulePropertiesSubscriptionsList | undefined;
   /** Network security perimeters for inbound rules */
-  networkSecurityPerimeters?: AccessRulePropertiesNetworkSecurityPerimetersList;
+  networkSecurityPerimeters?: AccessRulePropertiesNetworkSecurityPerimetersList | undefined;
   /** Fully qualified domain names (FQDN) for outbound rules */
-  fullyQualifiedDomainNames?: AccessRulePropertiesFullyQualifiedDomainNamesList;
+  fullyQualifiedDomainNames?: AccessRulePropertiesFullyQualifiedDomainNamesList | undefined;
   /** Email addresses for outbound rules */
-  emailAddresses?: AccessRulePropertiesEmailAddressesList;
+  emailAddresses?: AccessRulePropertiesEmailAddressesList | undefined;
   /** Phone numbers for outbound rules */
-  phoneNumbers?: AccessRulePropertiesPhoneNumbersList;
+  phoneNumbers?: AccessRulePropertiesPhoneNumbersList | undefined;
 }
 /** Access rule in a network security perimeter configuration profile */
 export interface AccessRule {
   /** Name of the access rule */
-  name?: string;
-  properties?: AccessRuleProperties;
+  name?: string | undefined;
+  properties?: AccessRuleProperties | undefined;
 }
 /** Access rules that can be added to the network security profile (NSP) to remediate the issue. */
 export type ProvisioningIssuePropertiesSuggestedAccessRulesList = Array<AccessRule>;
 /** Details of a provisioning issue for a network security perimeter (NSP) configuration. Resource providers should generate separate provisioning issue elements for each separate issue detected, and include a meaningful and distinctive description, as well as any appropriate suggestedResourceIds and suggestedAccessRules */
 export interface ProvisioningIssueProperties {
   /** Type of issue */
-  issueType?: ProvisioningIssuePropertiesIssueType;
+  issueType?: ProvisioningIssuePropertiesIssueType | undefined;
   /** Severity of the issue. */
-  severity?: ProvisioningIssuePropertiesSeverity;
+  severity?: ProvisioningIssuePropertiesSeverity | undefined;
   /** Description of the issue */
-  description?: string;
+  description?: string | undefined;
   /** Fully qualified resource IDs of suggested resources that can be associated to the network security perimeter (NSP) to remediate the issue. */
-  suggestedResourceIds?: ProvisioningIssuePropertiesSuggestedResourceIdsList;
+  suggestedResourceIds?: ProvisioningIssuePropertiesSuggestedResourceIdsList | undefined;
   /** Access rules that can be added to the network security profile (NSP) to remediate the issue. */
-  suggestedAccessRules?: ProvisioningIssuePropertiesSuggestedAccessRulesList;
+  suggestedAccessRules?: ProvisioningIssuePropertiesSuggestedAccessRulesList | undefined;
 }
 /** Describes a provisioning issue for a network security perimeter configuration */
 export interface ProvisioningIssue {
   /** Name of the issue */
-  name?: string;
-  properties?: ProvisioningIssueProperties;
+  name?: string | undefined;
+  properties?: ProvisioningIssueProperties | undefined;
 }
 /** List of provisioning issues, if any */
 export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList =
@@ -1721,8 +1722,8 @@ export type ResourceAssociationAccessMode = "Enforced" | "Learning" | "Audit";
 /** Information about resource association */
 export interface ResourceAssociation {
   /** Name of the resource association */
-  name?: string;
-  accessMode?: ResourceAssociationAccessMode;
+  name?: string | undefined;
+  accessMode?: ResourceAssociationAccessMode | undefined;
 }
 /** List of Access Rules */
 export type NetworkSecurityProfileAccessRulesList = Array<AccessRule>;
@@ -1731,35 +1732,37 @@ export type NetworkSecurityProfileEnabledLogCategoriesList = Array<string>;
 /** Network security perimeter configuration profile */
 export interface NetworkSecurityProfile {
   /** Name of the profile */
-  name?: string;
+  name?: string | undefined;
   /** Current access rules version */
-  accessRulesVersion?: number;
+  accessRulesVersion?: number | undefined;
   /** List of Access Rules */
-  accessRules?: NetworkSecurityProfileAccessRulesList;
+  accessRules?: NetworkSecurityProfileAccessRulesList | undefined;
   /** Current diagnostic settings version */
-  diagnosticSettingsVersion?: number;
+  diagnosticSettingsVersion?: number | undefined;
   /** List of log categories that are enabled */
-  enabledLogCategories?: NetworkSecurityProfileEnabledLogCategoriesList;
+  enabledLogCategories?: NetworkSecurityProfileEnabledLogCategoriesList | undefined;
 }
 /** Network security configuration properties. */
 export interface NetworkSecurityPerimeterConfigurationProperties {
-  provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+  provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState | undefined;
   /** List of provisioning issues, if any */
-  provisioningIssues?: NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList;
-  networkSecurityPerimeter?: NetworkSecurityPerimeter;
-  resourceAssociation?: ResourceAssociation;
-  profile?: NetworkSecurityProfile;
+  provisioningIssues?:
+    | NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList
+    | undefined;
+  networkSecurityPerimeter?: NetworkSecurityPerimeter | undefined;
+  resourceAssociation?: ResourceAssociation | undefined;
+  profile?: NetworkSecurityProfile | undefined;
 }
 export interface GetWorkspaceNSPResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  systemData?: SystemData | undefined;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
 }
 /** Resource tags. */
 export type LinkedServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1775,27 +1778,27 @@ export interface LinkedServicesCreateOrUpdateRequest {
   /** The properties of the linked service. */
   properties: LinkedServiceProperties;
   /** Resource tags. */
-  tags?: LinkedServicesCreateOrUpdateRequestTagsMap;
+  tags?: LinkedServicesCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type LinkedServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface LinkedServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the linked service. */
   properties: LinkedServiceProperties;
   /** Resource tags. */
-  tags?: LinkedServicesCreateOrUpdateResponseTagsMap;
+  tags?: LinkedServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type LinkedStorageAccountsCreateOrUpdateRequestDataSourceType =
   | "CustomLogs"
@@ -1817,13 +1820,13 @@ export interface LinkedStorageAccountsCreateOrUpdateRequest {
 }
 export interface LinkedStorageAccountsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Linked storage accounts properties. */
   properties: LinkedStorageAccountsProperties;
 }
@@ -1847,19 +1850,19 @@ export type SkuNameEnum =
 /** Service Tier details. */
 export interface AvailableServiceTier {
   /** The name of the Service Tier. */
-  serviceTier?: SkuNameEnum;
+  serviceTier?: SkuNameEnum | undefined;
   /** True if the Service Tier is enabled for the workspace. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The minimum retention for the Service Tier, in days. */
-  minimumRetention?: number;
+  minimumRetention?: number | undefined;
   /** The maximum retention for the Service Tier, in days. */
-  maximumRetention?: number;
+  maximumRetention?: number | undefined;
   /** The default retention for the Service Tier, in days. */
-  defaultRetention?: number;
+  defaultRetention?: number | undefined;
   /** The capacity reservation level in GB per day. Returned for the Capacity Reservation Service Tier. */
-  capacityReservationLevel?: number;
+  capacityReservationLevel?: number | undefined;
   /** Time when the sku was last updated for the workspace. Returned for the Capacity Reservation Service Tier. */
-  lastSkuUpdate?: string;
+  lastSkuUpdate?: string | undefined;
 }
 export type ListAvailableServiceTierByWorkspaceResponseBodyList = Array<AvailableServiceTier>;
 export type ListAvailableServiceTierByWorkspaceResponse =
@@ -1877,23 +1880,23 @@ export type ClusterIdentity = ClustersCreateOrUpdateResponseIdentity;
 /** The top level Log Analytics cluster resource container. */
 export interface Cluster {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ClusterTagsMap;
+  tags?: ClusterTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Log Analytics cluster properties. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ClustersCreateOrUpdateResponseIdentity;
+  identity?: ClustersCreateOrUpdateResponseIdentity | undefined;
   /** The sku properties. */
-  sku?: ClusterSku;
+  sku?: ClusterSku | undefined;
 }
 /** The Cluster items on this page */
 export type ClusterListResultValueList = Array<Cluster>;
@@ -1902,7 +1905,7 @@ export interface ClusterListResult {
   /** The Cluster items on this page */
   value: ClusterListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClustersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1919,24 +1922,24 @@ export interface ListDataExportByWorkspaceRequest {
 /** The top level data export resource container. */
 export interface DataExport {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** data export properties. */
-  properties?: DataExportProperties;
+  properties?: DataExportProperties | undefined;
 }
 /** List of data export instances within a workspace.. */
 export type DataExportListResultValueList = Array<DataExport>;
 /** Result of the request to list data exports. */
 export interface DataExportListResult {
   /** List of data export instances within a workspace.. */
-  value?: DataExportListResultValueList;
+  value?: DataExportListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDataSourceByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1948,28 +1951,28 @@ export interface ListDataSourceByWorkspaceRequest {
   /** The filter to apply on the operation. */
   _filter: string;
   /** Starting point of the collection of data source instances. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** Resource tags. */
 export type DataSourceTagsMap = { [key: string]: string | undefined };
 /** Datasources under OMS Workspace. */
 export interface DataSource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The data source properties in raw json format, each kind of data source have it's own schema. */
   properties: unknown;
   /** The ETag of the data source. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind of the DataSource. */
   kind: DataSourceKind;
   /** Resource tags. */
-  tags?: DataSourceTagsMap;
+  tags?: DataSourceTagsMap | undefined;
 }
 /** The DataSource items on this page */
 export type DataSourceListResultValueList = Array<DataSource>;
@@ -1978,7 +1981,7 @@ export interface DataSourceListResult {
   /** The DataSource items on this page */
   value: DataSourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeletedWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1991,32 +1994,32 @@ export type WorkspaceTagsMap = { [key: string]: string | undefined };
 /** The top level Workspace resource container. */
 export interface Workspace {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WorkspaceTagsMap;
+  tags?: WorkspaceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Workspace properties. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The etag of the workspace. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** A list of workspaces. */
 export type WorkspaceListResultValueList = Array<Workspace>;
 /** The list workspaces operation response. */
 export interface WorkspaceListResult {
   /** A list of workspaces. */
-  value?: WorkspaceListResultValueList;
+  value?: WorkspaceListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeletedWorkspacesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2033,11 +2036,11 @@ export interface ListIntelligencePacksRequest {
 /** Intelligence Pack containing a string name and boolean indicating if it's enabled. */
 export interface IntelligencePack {
   /** The name of the intelligence pack. */
-  name?: string;
+  name?: string | undefined;
   /** The enabled boolean for the intelligence pack. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The display name of the intelligence pack. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type ListIntelligencePacksResponseBodyList = Array<IntelligencePack>;
 export type ListIntelligencePacksResponse = ListIntelligencePacksResponseBodyList;
@@ -2054,26 +2057,26 @@ export type LinkedServiceTagsMap = { [key: string]: string | undefined };
 /** The top level Linked service resource container. */
 export interface LinkedService {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the linked service. */
   properties: LinkedServiceProperties;
   /** Resource tags. */
-  tags?: LinkedServiceTagsMap;
+  tags?: LinkedServiceTagsMap | undefined;
 }
 /** The list of linked service instances */
 export type LinkedServiceListResultValueList = Array<LinkedService>;
 /** The list linked service operation response. */
 export interface LinkedServiceListResult {
   /** The list of linked service instances */
-  value?: LinkedServiceListResultValueList;
+  value?: LinkedServiceListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLinkedStorageAccountByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2086,13 +2089,13 @@ export interface ListLinkedStorageAccountByWorkspaceRequest {
 /** Linked storage accounts top level resource container. */
 export interface LinkedStorageAccountsResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Linked storage accounts properties. */
   properties: LinkedStorageAccountsProperties;
 }
@@ -2101,9 +2104,9 @@ export type LinkedStorageAccountsListResultValueList = Array<LinkedStorageAccoun
 /** The list linked storage accounts service operation response. */
 export interface LinkedStorageAccountsListResult {
   /** A list of linked storage accounts instances. */
-  value?: LinkedStorageAccountsListResultValueList;
+  value?: LinkedStorageAccountsListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagementGroupsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2116,54 +2119,54 @@ export interface ListManagementGroupsRequest {
 /** Management group properties. */
 export interface ManagementGroupProperties {
   /** The number of servers connected to the management group. */
-  serverCount?: number;
+  serverCount?: number | undefined;
   /** Gets or sets a value indicating whether the management group is a gateway. */
-  isGateway?: boolean;
+  isGateway?: boolean | undefined;
   /** The name of the management group. */
-  name?: string;
+  name?: string | undefined;
   /** The unique ID of the management group. */
-  id?: string;
+  id?: string | undefined;
   /** The datetime that the management group was created. */
-  created?: string;
+  created?: string | undefined;
   /** The last datetime that the management group received data. */
-  dataReceived?: string;
+  dataReceived?: string | undefined;
   /** The version of System Center that is managing the management group. */
-  version?: string;
+  version?: string | undefined;
   /** The SKU of System Center that is managing the management group. */
-  sku?: string;
+  sku?: string | undefined;
 }
 /** A management group that is connected to a workspace */
 export interface ManagementGroup {
   /** The properties of the management group. */
-  properties?: ManagementGroupProperties;
+  properties?: ManagementGroupProperties | undefined;
 }
 /** Gets or sets a list of management groups attached to the workspace. */
 export type WorkspaceListManagementGroupsResultValueList = Array<ManagementGroup>;
 /** The list workspace management groups operation response. */
 export interface WorkspaceListManagementGroupsResult {
   /** Gets or sets a list of management groups attached to the workspace. */
-  value?: WorkspaceListManagementGroupsResultValueList;
+  value?: WorkspaceListManagementGroupsResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft OperationsManagement. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Type of operation: get, read, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Supported operation of OperationalInsights resource provider. */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Display metadata associated with the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** The Operation items on this page */
 export type OperationListResultValueList = Array<Operation>;
@@ -2172,7 +2175,7 @@ export interface OperationListResult {
   /** The Operation items on this page */
   value: OperationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListQueriesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2182,24 +2185,24 @@ export interface ListQueriesRequest {
   /** The name of the Log Analytics QueryPack resource. */
   queryPackName: string;
   /** Maximum items returned in page. */
-  _top?: number;
+  _top?: number | undefined;
   /** Flag indicating whether or not to return the body of each applicable query. If false, only return the query information. */
-  includeBody?: boolean;
+  includeBody?: boolean | undefined;
   /** Base64 encoded token used to fetch the next page of items. Default is null. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** A Log Analytics QueryPack-Query definition. */
 export interface LogAnalyticsQueryPackQuery {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties that define an Log Analytics QueryPack-Query resource. */
-  properties?: LogAnalyticsQueryPackQueryProperties;
+  properties?: LogAnalyticsQueryPackQueryProperties | undefined;
 }
 /** The LogAnalyticsQueryPackQuery items on this page */
 export type LogAnalyticsQueryPackQueryListResultValueList = Array<LogAnalyticsQueryPackQuery>;
@@ -2208,7 +2211,7 @@ export interface LogAnalyticsQueryPackQueryListResult {
   /** The LogAnalyticsQueryPackQuery items on this page */
   value: LogAnalyticsQueryPackQueryListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListQueryPackByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2221,15 +2224,15 @@ export type LogAnalyticsQueryPackTagsMap = { [key: string]: string | undefined }
 /** An Log Analytics QueryPack definition. */
 export interface LogAnalyticsQueryPack {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: LogAnalyticsQueryPackTagsMap;
+  tags?: LogAnalyticsQueryPackTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties that define a Log Analytics QueryPack resource. */
@@ -2242,7 +2245,7 @@ export interface LogAnalyticsQueryPackListResult {
   /** The LogAnalyticsQueryPack items on this page */
   value: LogAnalyticsQueryPackListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListQueryPacksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2259,24 +2262,24 @@ export interface ListSavedSearchByWorkspaceRequest {
 /** Value object for saved search results. */
 export interface SavedSearch {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the saved search. */
   properties: SavedSearchProperties;
   /** The ETag of the saved search. To override an existing saved search, use "*" or specify the current Etag */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The array of result values. */
 export type SavedSearchesListResultValueList = Array<SavedSearch>;
 /** The saved search list operation response. */
 export interface SavedSearchesListResult {
   /** The array of result values. */
-  value?: SavedSearchesListResultValueList;
+  value?: SavedSearchesListResultValueList | undefined;
 }
 export interface ListStorageInsightConfigByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2291,28 +2294,28 @@ export type StorageInsightTagsMap = { [key: string]: string | undefined };
 /** The top level storage insight resource container. */
 export interface StorageInsight {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Storage insight properties. */
-  properties?: StorageInsightProperties;
+  properties?: StorageInsightProperties | undefined;
   /** The ETag of the storage insight. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Resource tags. */
-  tags?: StorageInsightTagsMap;
+  tags?: StorageInsightTagsMap | undefined;
 }
 /** A list of storage insight items. */
 export type StorageInsightListResultValueList = Array<StorageInsight>;
 /** The list storage insights operation response. */
 export interface StorageInsightListResult {
   /** A list of storage insight items. */
-  value?: StorageInsightListResultValueList;
+  value?: StorageInsightListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  _odata_nextLink?: string;
+  _odata_nextLink?: string | undefined;
 }
 export interface ListSummaryLogByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2325,17 +2328,17 @@ export interface ListSummaryLogByWorkspaceRequest {
 /** Workspace data summary rules definition. */
 export interface SummaryLogs {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Summary rule properties. */
-  properties?: SummaryLogsProperties;
+  properties?: SummaryLogsProperties | undefined;
   /** The managed identity of the summary logs resource. Only user-assigned identity is supported. */
-  identity?: SummaryLogsIdentity;
+  identity?: SummaryLogsIdentity | undefined;
 }
 /** The SummaryLogs items on this page */
 export type SummaryLogsListResultValueList = Array<SummaryLogs>;
@@ -2344,7 +2347,7 @@ export interface SummaryLogsListResult {
   /** The SummaryLogs items on this page */
   value: SummaryLogsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTableByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2357,24 +2360,24 @@ export interface ListTableByWorkspaceRequest {
 /** Workspace data table definition. */
 export interface Table {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Table's properties. */
-  properties?: TableProperties;
+  properties?: TableProperties | undefined;
 }
 /** A list of data tables. */
 export type TablesListResultValueList = Array<Table>;
 /** The list tables operation response. */
 export interface TablesListResult {
   /** A list of data tables. */
-  value?: TablesListResultValueList;
+  value?: TablesListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2387,33 +2390,33 @@ export interface ListUsagesRequest {
 /** The name of a metric. */
 export interface MetricName {
   /** The system name of the metric. */
-  value?: string;
+  value?: string | undefined;
   /** The localized name of the metric. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** A metric describing the usage of a resource. */
 export interface UsageMetric {
   /** The name of the metric. */
-  name?: MetricName;
+  name?: MetricName | undefined;
   /** The units used for the metric. */
-  unit?: string;
+  unit?: string | undefined;
   /** The current value of the metric. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The quota limit for the metric. */
-  limit?: number;
+  limit?: number | undefined;
   /** The time that the metric's value will reset. */
-  nextResetTime?: string;
+  nextResetTime?: string | undefined;
   /** The quota period that determines the length of time between value resets. */
-  quotaPeriod?: string;
+  quotaPeriod?: string | undefined;
 }
 /** Gets or sets a list of usage metrics for a workspace. */
 export type WorkspaceListUsagesResultValueList = Array<UsageMetric>;
 /** The list workspace usages operation response. */
 export interface WorkspaceListUsagesResult {
   /** Gets or sets a list of usage metrics for a workspace. */
-  value?: WorkspaceListUsagesResultValueList;
+  value?: WorkspaceListUsagesResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2432,22 +2435,22 @@ export interface ListWorkspaceNSPRequest {
 /** Network security perimeter (NSP) configuration resource */
 export interface NetworkSecurityPerimeterConfiguration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  systemData?: SystemData | undefined;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
 }
 /** Array of network security perimeter results. */
 export type ListWorkspaceNSPResponseValueList = Array<NetworkSecurityPerimeterConfiguration>;
 export interface ListWorkspaceNSPResponse {
   /** Array of network security perimeter results. */
-  value?: ListWorkspaceNSPResponseValueList;
+  value?: ListWorkspaceNSPResponseValueList | undefined;
   /** The link used to get the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspacesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2467,13 +2470,13 @@ export interface MigrateTableResponse {}
 /** User-defined filters to return data which will be purged from the table. */
 export interface WorkspacePurgeBodyFilters {
   /** The column of the table over which the given query should run */
-  column?: string;
+  column?: string | undefined;
   /** A query operator to evaluate over the provided column and value(s). Supported operators are ==, =~, in, in~, >, >=, <, <=, between, and have the same behavior as they would in a KQL query. */
-  operator?: string;
+  operator?: string | undefined;
   /** the value for the operator to function over. This can be a number (e.g., > 100), a string (timestamp >= '2017-09-01') or array of values. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** When filtering over custom dimensions, this key will be used as the name of the custom dimension. */
-  key?: string;
+  key?: string | undefined;
 }
 /** The set of columns and filters (queries) to run over them to purge the resulting data. */
 export type PurgeWorkspacePurgeRequestFiltersList = Array<WorkspacePurgeBodyFilters>;
@@ -2511,11 +2514,11 @@ export interface PurgeWorkspacePurgeLakeDataRequest {
 }
 export interface PurgeWorkspacePurgeLakeDataResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type LogAnalyticsQueryPackQueryPropertiesInputTagsValueList = Array<string>;
 /** Tags associated with the query. */
@@ -2527,15 +2530,15 @@ export interface LogAnalyticsQueryPackQueryPropertiesInput {
   /** Unique display name for your query within the Query Pack. */
   displayName: string;
   /** Description of the query. */
-  description?: string;
+  description?: string | undefined;
   /** Body of the query. */
   body: string;
   /** The related metadata items for the function. */
-  related?: LogAnalyticsQueryPackQueryPropertiesRelated;
+  related?: LogAnalyticsQueryPackQueryPropertiesRelated | undefined;
   /** Tags associated with the query. */
-  tags?: LogAnalyticsQueryPackQueryPropertiesInputTagsMap;
+  tags?: LogAnalyticsQueryPackQueryPropertiesInputTagsMap | undefined;
   /** Additional properties that can be set for the query. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface PutQueryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2547,19 +2550,19 @@ export interface PutQueryRequest {
   /** The id of a specific query defined in the Log Analytics QueryPack */
   id: string;
   /** Properties that define an Log Analytics QueryPack-Query resource. */
-  properties?: LogAnalyticsQueryPackQueryPropertiesInput;
+  properties?: LogAnalyticsQueryPackQueryPropertiesInput | undefined;
 }
 export interface PutQueryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties that define an Log Analytics QueryPack-Query resource. */
-  properties?: LogAnalyticsQueryPackQueryProperties;
+  properties?: LogAnalyticsQueryPackQueryProperties | undefined;
 }
 /** Resource tags. */
 export type QueryPacksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2573,7 +2576,7 @@ export interface QueryPacksCreateOrUpdateRequest {
   /** The name of the Log Analytics QueryPack resource. */
   queryPackName: string;
   /** Resource tags. */
-  tags?: QueryPacksCreateOrUpdateRequestTagsMap;
+  tags?: QueryPacksCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties that define a Log Analytics QueryPack resource. */
@@ -2583,15 +2586,15 @@ export interface QueryPacksCreateOrUpdateRequest {
 export type QueryPacksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface QueryPacksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: QueryPacksCreateOrUpdateResponseTagsMap;
+  tags?: QueryPacksCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties that define a Log Analytics QueryPack resource. */
@@ -2607,7 +2610,7 @@ export interface QueryPacksCreateOrUpdateWithoutNameRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Resource tags. */
-  tags?: QueryPacksCreateOrUpdateWithoutNameRequestTagsMap;
+  tags?: QueryPacksCreateOrUpdateWithoutNameRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties that define a Log Analytics QueryPack resource. */
@@ -2619,15 +2622,15 @@ export type QueryPacksCreateOrUpdateWithoutNameResponseTagsMap = {
 };
 export interface QueryPacksCreateOrUpdateWithoutNameResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: QueryPacksCreateOrUpdateWithoutNameResponseTagsMap;
+  tags?: QueryPacksCreateOrUpdateWithoutNameResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties that define a Log Analytics QueryPack resource. */
@@ -2656,15 +2659,15 @@ export interface RetrySummaryLogBinRequest {
   /** The name of the summary logs. Must not contain '/'. */
   summaryLogsName: string;
   /** Retry bin properties. */
-  properties?: SummaryLogsRetryBinProperties;
+  properties?: SummaryLogsRetryBinProperties | undefined;
 }
 export interface RetrySummaryLogBinResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SavedSearchesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2678,21 +2681,21 @@ export interface SavedSearchesCreateOrUpdateRequest {
   /** The properties of the saved search. */
   properties: SavedSearchProperties;
   /** The ETag of the saved search. To override an existing saved search, use "*" or specify the current Etag */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface SavedSearchesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the saved search. */
   properties: SavedSearchProperties;
   /** The ETag of the saved search. To override an existing saved search, use "*" or specify the current Etag */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The related categories for the function. */
 export type LogAnalyticsQueryPackQuerySearchPropertiesRelatedCategoriesList = Array<string>;
@@ -2703,11 +2706,11 @@ export type LogAnalyticsQueryPackQuerySearchPropertiesRelatedSolutionsList = Arr
 /** The related metadata items for the function. */
 export interface LogAnalyticsQueryPackQuerySearchPropertiesRelated {
   /** The related categories for the function. */
-  categories?: LogAnalyticsQueryPackQuerySearchPropertiesRelatedCategoriesList;
+  categories?: LogAnalyticsQueryPackQuerySearchPropertiesRelatedCategoriesList | undefined;
   /** The related resource types for the function. */
-  resourceTypes?: LogAnalyticsQueryPackQuerySearchPropertiesRelatedResourceTypesList;
+  resourceTypes?: LogAnalyticsQueryPackQuerySearchPropertiesRelatedResourceTypesList | undefined;
   /** The related Log Analytics solutions for the function. */
-  solutions?: LogAnalyticsQueryPackQuerySearchPropertiesRelatedSolutionsList;
+  solutions?: LogAnalyticsQueryPackQuerySearchPropertiesRelatedSolutionsList | undefined;
 }
 export type SearchQueryRequestTagsValueList = Array<string>;
 /** Tags associated with the query. */
@@ -2722,15 +2725,15 @@ export interface SearchQueryRequest {
   /** The name of the Log Analytics QueryPack resource. */
   queryPackName: string;
   /** Maximum items returned in page. */
-  _top?: number;
+  _top?: number | undefined;
   /** Flag indicating whether or not to return the body of each applicable query. If false, only return the query information. */
-  includeBody?: boolean;
+  includeBody?: boolean | undefined;
   /** Base64 encoded token used to fetch the next page of items. Default is null. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** The related metadata items for the function. */
-  related?: LogAnalyticsQueryPackQuerySearchPropertiesRelated;
+  related?: LogAnalyticsQueryPackQuerySearchPropertiesRelated | undefined;
   /** Tags associated with the query. */
-  tags?: SearchQueryRequestTagsMap;
+  tags?: SearchQueryRequestTagsMap | undefined;
 }
 export interface StartSummaryLogRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2744,11 +2747,11 @@ export interface StartSummaryLogRequest {
 }
 export interface StartSummaryLogResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopSummaryLogRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2775,11 +2778,11 @@ export interface StorageInsightConfigsCreateOrUpdateRequest {
   /** Name of the storageInsightsConfigs resource */
   storageInsightName: string;
   /** Storage insight properties. */
-  properties?: StorageInsightProperties;
+  properties?: StorageInsightProperties | undefined;
   /** The ETag of the storage insight. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Resource tags. */
-  tags?: StorageInsightConfigsCreateOrUpdateRequestTagsMap;
+  tags?: StorageInsightConfigsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type StorageInsightConfigsCreateOrUpdateResponseTagsMap = {
@@ -2787,30 +2790,30 @@ export type StorageInsightConfigsCreateOrUpdateResponseTagsMap = {
 };
 export interface StorageInsightConfigsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Storage insight properties. */
-  properties?: StorageInsightProperties;
+  properties?: StorageInsightProperties | undefined;
   /** The ETag of the storage insight. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Resource tags. */
-  tags?: StorageInsightConfigsCreateOrUpdateResponseTagsMap;
+  tags?: StorageInsightConfigsCreateOrUpdateResponseTagsMap | undefined;
 }
 /** Summary rule properties. */
 export interface SummaryLogsPropertiesInput {
   /** SummaryRules rule type: User. */
-  ruleType?: RuleTypeEnum | (string & {});
+  ruleType?: RuleTypeEnum | (string & {}) | undefined;
   /** The display name of the Summary rule. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the Summary rule. */
-  description?: string;
+  description?: string | undefined;
   /** Rule definition parameters. */
-  ruleDefinition?: RuleDefinition;
+  ruleDefinition?: RuleDefinition | undefined;
 }
 /** User assigned identity properties. */
 export type SummaryLogsUserIdentityPropertiesInput = AssociatedWorkspaceInput;
@@ -2823,7 +2826,7 @@ export interface SummaryLogsIdentityInput {
   /** Type of managed service identity. */
   type: SummaryLogsIdentityType | (string & {});
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: SummaryLogsIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: SummaryLogsIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface SummaryLogsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2835,29 +2838,29 @@ export interface SummaryLogsCreateOrUpdateRequest {
   /** The name of the summary logs. Must not contain '/'. */
   summaryLogsName: string;
   /** Summary rule properties. */
-  properties?: SummaryLogsPropertiesInput;
+  properties?: SummaryLogsPropertiesInput | undefined;
   /** The managed identity of the summary logs resource. Only user-assigned identity is supported. */
-  identity?: SummaryLogsIdentityInput;
+  identity?: SummaryLogsIdentityInput | undefined;
 }
 export interface SummaryLogsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Summary rule properties. */
-  properties?: SummaryLogsProperties;
+  properties?: SummaryLogsProperties | undefined;
   /** The managed identity of the summary logs resource. Only user-assigned identity is supported. */
-  identity?: SummaryLogsIdentity;
+  identity?: SummaryLogsIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface TablesCancelSearchRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2873,67 +2876,67 @@ export interface TablesCancelSearchResponse {}
 /** Parameters of the search job that initiated this table. */
 export interface SearchResultsInput {
   /** Search job query. */
-  query?: string;
+  query?: string | undefined;
   /** Search job Description. */
-  description?: string;
+  description?: string | undefined;
   /** Limit the search job to return up to specified number of rows. */
-  limit?: number;
+  limit?: number | undefined;
   /** The timestamp to start the search from (UTC) */
-  startSearchTime?: string;
+  startSearchTime?: string | undefined;
   /** The timestamp to end the search by (UTC) */
-  endSearchTime?: string;
+  endSearchTime?: string | undefined;
 }
 /** Restore parameters. */
 export interface RestoredLogsInput {
   /** The timestamp to start the restore from (UTC). */
-  startRestoreTime?: string;
+  startRestoreTime?: string | undefined;
   /** The timestamp to end the restore by (UTC). */
-  endRestoreTime?: string;
+  endRestoreTime?: string | undefined;
   /** The table to restore data from. */
-  sourceTable?: string;
+  sourceTable?: string | undefined;
 }
 /** Table column. */
 export interface ColumnInput {
   /** Column name. */
-  name?: string;
+  name?: string | undefined;
   /** Column data type. */
-  type?: ColumnTypeEnum | (string & {});
+  type?: ColumnTypeEnum | (string & {}) | undefined;
   /** Column data type logical hint. */
-  dataTypeHint?: ColumnDataTypeHintEnum | (string & {});
+  dataTypeHint?: ColumnDataTypeHintEnum | (string & {}) | undefined;
   /** Column display name. Can be set at creation time; after creation, updates must either match column name or set to null/empty. If not provided, defaults to column name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Column description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** A list of table custom columns. */
 export type SchemaInputColumnsList = Array<ColumnInput>;
 /** Table's schema. */
 export interface SchemaInput {
   /** Table name. */
-  name?: string;
+  name?: string | undefined;
   /** Table display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Table description. */
-  description?: string;
+  description?: string | undefined;
   /** A list of table custom columns. */
-  columns?: SchemaInputColumnsList;
+  columns?: SchemaInputColumnsList | undefined;
 }
 /** Table properties. */
 export interface TablePropertiesInput {
   /** In Analytics table: the tables analytics retention in days, between 4 and 730. Setting this property to -1 will default to the workspace retention. In Basic and Auxiliary table: read only property. */
-  retentionInDays?: number;
+  retentionInDays?: number | undefined;
   /** The table total retention in days, between 4 and 4383. Setting this property to -1 will default to retentionInDays. */
-  totalRetentionInDays?: number;
+  totalRetentionInDays?: number | undefined;
   /** Parameters of the search job that initiated this table. */
-  searchResults?: SearchResultsInput;
+  searchResults?: SearchResultsInput | undefined;
   /** Parameters of the restore operation that initiated this table. */
-  restoredLogs?: RestoredLogsInput;
+  restoredLogs?: RestoredLogsInput | undefined;
   /** Instruct the system how to handle and charge the logs ingested to this table. */
-  plan?: TablePlanEnum | (string & {});
+  plan?: TablePlanEnum | (string & {}) | undefined;
   /** The protection level of the table. Determines the default data access isolation behavior. */
-  protectionLevel?: TableProtectionLevelEnum | (string & {});
+  protectionLevel?: TableProtectionLevelEnum | (string & {}) | undefined;
   /** Table schema. */
-  schema?: SchemaInput;
+  schema?: SchemaInput | undefined;
 }
 export interface TablesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2945,30 +2948,30 @@ export interface TablesCreateOrUpdateRequest {
   /** The name of the table. */
   tableName: string;
   /** Table's properties. */
-  properties?: TablePropertiesInput;
+  properties?: TablePropertiesInput | undefined;
 }
 export interface TablesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Table's properties. */
-  properties?: TableProperties;
+  properties?: TableProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Log Analytics cluster patch properties. */
 export interface ClusterPatchProperties {
   /** The associated key properties. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** The cluster's billing type. */
-  billingType?: BillingType | (string & {});
+  billingType?: BillingType | (string & {}) | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateClusterRequestIdentity = ClustersCreateOrUpdateRequestIdentity;
@@ -2982,13 +2985,13 @@ export interface UpdateClusterRequest {
   /** Name of the Log Analytics Cluster. */
   clusterName: string;
   /** Log Analytics cluster properties. */
-  properties?: ClusterPatchProperties;
+  properties?: ClusterPatchProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ClustersCreateOrUpdateRequestIdentity;
+  identity?: ClustersCreateOrUpdateRequestIdentity | undefined;
   /** The sku properties. */
-  sku?: ClusterSku;
+  sku?: ClusterSku | undefined;
   /** Resource tags. */
-  tags?: UpdateClusterRequestTagsMap;
+  tags?: UpdateClusterRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -2996,29 +2999,29 @@ export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined }
 export type UpdateClusterResponseIdentity = ClustersCreateOrUpdateResponseIdentity;
 export interface UpdateClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateClusterResponseTagsMap;
+  tags?: UpdateClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Log Analytics cluster properties. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ClustersCreateOrUpdateResponseIdentity;
+  identity?: ClustersCreateOrUpdateResponseIdentity | undefined;
   /** The sku properties. */
-  sku?: ClusterSku;
+  sku?: ClusterSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateQueryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3030,19 +3033,19 @@ export interface UpdateQueryRequest {
   /** The id of a specific query defined in the Log Analytics QueryPack */
   id: string;
   /** Properties that define an Log Analytics QueryPack-Query resource. */
-  properties?: LogAnalyticsQueryPackQueryPropertiesInput;
+  properties?: LogAnalyticsQueryPackQueryPropertiesInput | undefined;
 }
 export interface UpdateQueryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties that define an Log Analytics QueryPack-Query resource. */
-  properties?: LogAnalyticsQueryPackQueryProperties;
+  properties?: LogAnalyticsQueryPackQueryProperties | undefined;
 }
 /** Resource tags */
 export type UpdateQueryPackTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -3054,21 +3057,21 @@ export interface UpdateQueryPackTagsRequest {
   /** The name of the Log Analytics QueryPack resource. */
   queryPackName: string;
   /** Resource tags */
-  tags?: UpdateQueryPackTagsRequestTagsMap;
+  tags?: UpdateQueryPackTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateQueryPackTagsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateQueryPackTagsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateQueryPackTagsResponseTagsMap;
+  tags?: UpdateQueryPackTagsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties that define a Log Analytics QueryPack resource. */
@@ -3084,35 +3087,35 @@ export interface UpdateTableRequest {
   /** The name of the table. */
   tableName: string;
   /** Table's properties. */
-  properties?: TablePropertiesInput;
+  properties?: TablePropertiesInput | undefined;
 }
 export interface UpdateTableResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Table's properties. */
-  properties?: TableProperties;
+  properties?: TableProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The SKU (tier) of a workspace. */
 export interface WorkspaceSkuInput {
   /** The name of the SKU. */
   name: WorkspaceSkuNameEnum | (string & {});
   /** The capacity reservation level in GB for this workspace, when CapacityReservation sku is selected. */
-  capacityReservationLevel?: number | null;
+  capacityReservationLevel?: number | null | undefined;
 }
 /** The daily volume cap for ingestion. */
 export interface WorkspaceCappingInput {
   /** The workspace daily quota for ingestion. */
-  dailyQuotaGb?: number;
+  dailyQuotaGb?: number | undefined;
 }
 /** The network access type for accessing Log Analytics ingestion. */
 export type WorkspacePropertiesInputPublicNetworkAccessForIngestion =
@@ -3127,52 +3130,56 @@ export type WorkspacePropertiesInputPublicNetworkAccessForQuery =
 /** Workspace features. */
 export interface WorkspaceFeaturesInput {
   /** Flag that indicate if data should be exported. */
-  enableDataExport?: boolean | null;
+  enableDataExport?: boolean | null | undefined;
   /** Flag that describes if we want to remove the data after 30 days. */
-  immediatePurgeDataOn30Days?: boolean | null;
+  immediatePurgeDataOn30Days?: boolean | null | undefined;
   /** Flag that indicate which permission to use - resource or workspace or both. */
-  enableLogAccessUsingOnlyResourcePermissions?: boolean | null;
+  enableLogAccessUsingOnlyResourcePermissions?: boolean | null | undefined;
   /** Dedicated LA cluster resourceId that is linked to the workspaces. */
-  clusterResourceId?: string | null;
+  clusterResourceId?: string | null | undefined;
   /** Disable Non-AAD based Auth. */
-  disableLocalAuth?: boolean | null;
+  disableLocalAuth?: boolean | null | undefined;
   /** Enable Data authorization mode for the workspace. */
-  dataAuthorizationMode?: boolean | null;
+  dataAuthorizationMode?: boolean | null | undefined;
   [key: string]: unknown;
 }
 /** Workspace replication properties. */
 export interface WorkspaceReplicationPropertiesInput {
   /** The location of the replication. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies whether the replication is enabled or not. When true, workspace configuration and data is replicated to the specified location. If replication is been enabled, location must be provided. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The failover state of the replication. */
 export type WorkspaceFailoverPropertiesInput = AssociatedWorkspaceInput;
 /** Workspace properties. */
 export interface WorkspacePropertiesInput {
   /** The SKU of the workspace. */
-  sku?: WorkspaceSkuInput;
+  sku?: WorkspaceSkuInput | undefined;
   /** The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. */
-  retentionInDays?: number | null;
+  retentionInDays?: number | null | undefined;
   /** The daily volume cap for ingestion. */
-  workspaceCapping?: WorkspaceCappingInput;
+  workspaceCapping?: WorkspaceCappingInput | undefined;
   /** The network access type for accessing Log Analytics ingestion. */
   publicNetworkAccessForIngestion?:
     | WorkspacePropertiesInputPublicNetworkAccessForIngestion
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The network access type for accessing Log Analytics query. */
-  publicNetworkAccessForQuery?: WorkspacePropertiesInputPublicNetworkAccessForQuery | (string & {});
+  publicNetworkAccessForQuery?:
+    | WorkspacePropertiesInputPublicNetworkAccessForQuery
+    | (string & {})
+    | undefined;
   /** Indicates whether customer managed storage is mandatory for query management. */
-  forceCmkForQuery?: boolean;
+  forceCmkForQuery?: boolean | undefined;
   /** Workspace features. */
-  features?: WorkspaceFeaturesInput;
+  features?: WorkspaceFeaturesInput | undefined;
   /** The resource ID of the default Data Collection Rule to use for this workspace. Expected format is - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dcrName}. */
-  defaultDataCollectionRuleResourceId?: string;
+  defaultDataCollectionRuleResourceId?: string | undefined;
   /** workspace replication properties. */
-  replication?: WorkspaceReplicationPropertiesInput;
+  replication?: WorkspaceReplicationPropertiesInput | undefined;
   /** workspace failover properties. */
-  failover?: AssociatedWorkspaceInput;
+  failover?: AssociatedWorkspaceInput | undefined;
 }
 /** User assigned identity properties. */
 export type UserIdentityPropertiesInput = AssociatedWorkspaceInput;
@@ -3185,7 +3192,7 @@ export interface IdentityInput {
   /** Type of managed service identity. */
   type: IdentityType | (string & {});
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** Resource tags. Optional. */
 export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
@@ -3197,33 +3204,33 @@ export interface UpdateWorkspaceRequest {
   /** The name of the workspace. */
   workspaceName: string;
   /** Workspace properties. */
-  properties?: WorkspacePropertiesInput;
+  properties?: WorkspacePropertiesInput | undefined;
   /** The identity of the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** Resource tags. Optional. */
-  tags?: UpdateWorkspaceRequestTagsMap;
+  tags?: UpdateWorkspaceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateWorkspaceResponseTagsMap;
+  tags?: UpdateWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Workspace properties. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The etag of the workspace. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface WorkspacePurgeGetPurgeStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3252,41 +3259,41 @@ export interface WorkspacesCreateOrUpdateRequest {
   /** The name of the workspace. */
   workspaceName: string;
   /** Resource tags. */
-  tags?: WorkspacesCreateOrUpdateRequestTagsMap;
+  tags?: WorkspacesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Workspace properties. */
-  properties?: WorkspacePropertiesInput;
+  properties?: WorkspacePropertiesInput | undefined;
   /** The identity of the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** The etag of the workspace. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface WorkspacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WorkspacesCreateOrUpdateResponseTagsMap;
+  tags?: WorkspacesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Workspace properties. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The etag of the workspace. */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface WorkspacesFailbackRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3298,11 +3305,11 @@ export interface WorkspacesFailbackRequest {
 }
 export interface WorkspacesFailbackResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface WorkspacesFailoverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3316,11 +3323,11 @@ export interface WorkspacesFailoverRequest {
 }
 export interface WorkspacesFailoverResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface WorkspacesReconcileNSPRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3334,9 +3341,9 @@ export interface WorkspacesReconcileNSPRequest {
 }
 export interface WorkspacesReconcileNSPResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type ClustersCreateOrUpdateError = AzureOpError;
 /** Create or update a Log Analytics cluster. */

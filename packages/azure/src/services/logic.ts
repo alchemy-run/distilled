@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Logic",
   service: "Logic",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -195,7 +196,7 @@ export interface GenerateWorkflowUpgradedDefinitionRequest {
   /** The workflow name. */
   workflowName: string;
   /** The target schema version. */
-  targetSchemaVersion?: string;
+  targetSchemaVersion?: string | undefined;
 }
 export type GenerateWorkflowUpgradedDefinitionResponse = unknown;
 export interface GetIntegrationAccountRequest {
@@ -211,11 +212,11 @@ export type GetIntegrationAccountResponseTagsMap = { [key: string]: string | und
 /** The resource reference. */
 export interface ResourceReference {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The workflow state. */
 export type WorkflowState =
@@ -228,9 +229,9 @@ export type WorkflowState =
 /** The integration account properties. */
 export interface IntegrationAccountProperties {
   /** The integration service environment. */
-  integrationServiceEnvironment?: ResourceReference;
+  integrationServiceEnvironment?: ResourceReference | undefined;
   /** The workflow state. */
-  state?: WorkflowState;
+  state?: WorkflowState | undefined;
 }
 /** The integration account sku name. */
 export type IntegrationAccountSkuName = "NotSpecified" | "Free" | "Basic" | "Standard";
@@ -241,19 +242,19 @@ export interface IntegrationAccountSku {
 }
 export interface GetIntegrationAccountResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetIntegrationAccountResponseTagsMap;
+  tags?: GetIntegrationAccountResponseTagsMap | undefined;
   /** The integration account properties. */
-  properties?: IntegrationAccountProperties;
+  properties?: IntegrationAccountProperties | undefined;
   /** The sku. */
-  sku?: IntegrationAccountSku;
+  sku?: IntegrationAccountSku | undefined;
 }
 export interface GetIntegrationAccountAgreementRequest {
   /** The subscription id. */
@@ -316,13 +317,13 @@ export interface AS2MdnSettings {
   /** The value indicating whether to send the asynchronous MDN. */
   sendMDNAsynchronously: boolean;
   /** The receipt delivery URL. */
-  receiptDeliveryUrl?: string;
+  receiptDeliveryUrl?: string | undefined;
   /** The disposition notification to header value. */
-  dispositionNotificationTo?: string;
+  dispositionNotificationTo?: string | undefined;
   /** The value indicating whether to sign the outbound MDN if optional. */
   signOutboundMDNIfOptional: boolean;
   /** The MDN text. */
-  mdnText?: string;
+  mdnText?: string | undefined;
   /** The value indicating whether to send inbound MDN to message box. */
   sendInboundMDNToMessageBox: boolean;
   /** The signing or hashing algorithm. */
@@ -333,9 +334,9 @@ export interface AS2SecuritySettings {
   /** The value indicating whether to send or request a MDN. */
   overrideGroupSigningCertificate: boolean;
   /** The name of the signing certificate. */
-  signingCertificateName?: string;
+  signingCertificateName?: string | undefined;
   /** The name of the encryption certificate. */
-  encryptionCertificateName?: string;
+  encryptionCertificateName?: string | undefined;
   /** The value indicating whether to enable NRR for inbound encoded messages. */
   enableNRRForInboundEncodedMessages: boolean;
   /** The value indicating whether to enable NRR for inbound decoded messages. */
@@ -349,7 +350,7 @@ export interface AS2SecuritySettings {
   /** The value indicating whether to enable NRR for inbound MDN. */
   enableNRRForInboundMDN: boolean;
   /** The Sha2 algorithm format. Valid values are Sha2, ShaHashSize, ShaHyphenHashSize, Sha2UnderscoreHashSize. */
-  sha2AlgorithmFormat?: string;
+  sha2AlgorithmFormat?: string | undefined;
 }
 /** The encryption algorithm. */
 export type EncryptionAlgorithm =
@@ -389,7 +390,7 @@ export interface AS2ValidationSettings {
   /** The encryption algorithm. */
   encryptionAlgorithm: EncryptionAlgorithm | (string & {});
   /** The signing algorithm. */
-  signingAlgorithm?: SigningAlgorithm | (string & {});
+  signingAlgorithm?: SigningAlgorithm | (string & {}) | undefined;
 }
 /** The AS2 agreement envelope settings. */
 export interface AS2EnvelopeSettings {
@@ -517,7 +518,7 @@ export interface X12EnvelopeSettings {
   /** The value indicating whether to enable default group headers. */
   enableDefaultGroupHeaders: boolean;
   /** The functional group id. */
-  functionalGroupId?: string;
+  functionalGroupId?: string | undefined;
   /** The group control number lower bound. */
   groupControlNumberLowerBound: number;
   /** The group control number upper bound. */
@@ -535,9 +536,9 @@ export interface X12EnvelopeSettings {
   /** The value indicating whether to rollover transaction set control number. */
   rolloverTransactionSetControlNumber: boolean;
   /** The transaction set control number prefix. */
-  transactionSetControlNumberPrefix?: string;
+  transactionSetControlNumberPrefix?: string | undefined;
   /** The transaction set control number suffix. */
-  transactionSetControlNumberSuffix?: string;
+  transactionSetControlNumberSuffix?: string | undefined;
   /** The value indicating whether to overwrite existing transaction set control number. */
   overwriteExistingTransactionSetControlNumber: boolean;
   /** The group header date format. */
@@ -556,13 +557,13 @@ export interface X12AcknowledgementSettings {
   /** The value indicating whether functional acknowledgement is needed. */
   needFunctionalAcknowledgement: boolean;
   /** The functional acknowledgement version. */
-  functionalAcknowledgementVersion?: string;
+  functionalAcknowledgementVersion?: string | undefined;
   /** The value indicating whether to batch functional acknowledgements. */
   batchFunctionalAcknowledgements: boolean;
   /** The value indicating whether implementation acknowledgement is needed. */
   needImplementationAcknowledgement: boolean;
   /** The implementation acknowledgement version. */
-  implementationAcknowledgementVersion?: string;
+  implementationAcknowledgementVersion?: string | undefined;
   /** The value indicating whether to batch implementation acknowledgements. */
   batchImplementationAcknowledgements: boolean;
   /** The value indicating whether a loop is needed for valid messages. */
@@ -570,9 +571,9 @@ export interface X12AcknowledgementSettings {
   /** The value indicating whether to send synchronous acknowledgement. */
   sendSynchronousAcknowledgement: boolean;
   /** The acknowledgement control number prefix. */
-  acknowledgementControlNumberPrefix?: string;
+  acknowledgementControlNumberPrefix?: string | undefined;
   /** The acknowledgement control number suffix. */
-  acknowledgementControlNumberSuffix?: string;
+  acknowledgementControlNumberSuffix?: string | undefined;
   /** The acknowledgement control number lower bound. */
   acknowledgementControlNumberLowerBound: number;
   /** The acknowledgement control number upper bound. */
@@ -592,11 +593,11 @@ export interface X12SecuritySettings {
   /** The authorization qualifier. */
   authorizationQualifier: string;
   /** The authorization value. */
-  authorizationValue?: string;
+  authorizationValue?: string | undefined;
   /** The security qualifier. */
   securityQualifier: string;
   /** The password value. */
-  passwordValue?: string | Redacted.Redacted<string>;
+  passwordValue?: string | Redacted.Redacted<string> | undefined;
 }
 /** The X12 processing settings. */
 export interface X12ProcessingSettings {
@@ -630,7 +631,7 @@ export interface X12EnvelopeOverride {
   /** The receiver application id. */
   receiverApplicationId: string;
   /** The functional identifier code. */
-  functionalIdentifierCode?: string;
+  functionalIdentifierCode?: string | undefined;
   /** The date format. */
   dateFormat: X12DateFormat | (string & {});
   /** The time format. */
@@ -669,7 +670,7 @@ export interface X12SchemaReference {
   /** The message id. */
   messageId: string;
   /** The sender application id. */
-  senderApplicationId?: string;
+  senderApplicationId?: string | undefined;
   /** The schema version. */
   schemaVersion: string;
   /** The schema name. */
@@ -680,9 +681,9 @@ export type X12ProtocolSettingsSchemaReferencesList = Array<X12SchemaReference>;
 /** The X12 delimiter override settings. */
 export interface X12DelimiterOverrides {
   /** The protocol version. */
-  protocolVersion?: string;
+  protocolVersion?: string | undefined;
   /** The message id. */
-  messageId?: string;
+  messageId?: string | undefined;
   /** The data element separator. */
   dataElementSeparator: number;
   /** The component separator. */
@@ -696,7 +697,7 @@ export interface X12DelimiterOverrides {
   /** The value indicating whether to replace separators in payload. */
   replaceSeparatorsInPayload: boolean;
   /** The target namespace on which this delimiter settings has to be applied. */
-  targetNamespace?: string;
+  targetNamespace?: string | undefined;
 }
 /** The X12 delimiter override settings. */
 export type X12ProtocolSettingsX12DelimiterOverridesList = Array<X12DelimiterOverrides>;
@@ -717,15 +718,15 @@ export interface X12ProtocolSettings {
   /** The X12 processing settings. */
   processingSettings: X12ProcessingSettings;
   /** The X12 envelope override settings. */
-  envelopeOverrides?: X12ProtocolSettingsEnvelopeOverridesList;
+  envelopeOverrides?: X12ProtocolSettingsEnvelopeOverridesList | undefined;
   /** The X12 validation override settings. */
-  validationOverrides?: X12ProtocolSettingsValidationOverridesList;
+  validationOverrides?: X12ProtocolSettingsValidationOverridesList | undefined;
   /** The X12 message filter list. */
-  messageFilterList?: X12ProtocolSettingsMessageFilterListList;
+  messageFilterList?: X12ProtocolSettingsMessageFilterListList | undefined;
   /** The X12 schema references. */
   schemaReferences: X12ProtocolSettingsSchemaReferencesList;
   /** The X12 delimiter override settings. */
-  x12DelimiterOverrides?: X12ProtocolSettingsX12DelimiterOverridesList;
+  x12DelimiterOverrides?: X12ProtocolSettingsX12DelimiterOverridesList | undefined;
 }
 /** The X12 one-way agreement. */
 export interface X12OneWayAgreement {
@@ -767,9 +768,9 @@ export type EdifactDecimalIndicator = "NotSpecified" | "Comma" | "Decimal";
 /** The Edifact agreement framing settings. */
 export interface EdifactFramingSettings {
   /** The service code list directory version. */
-  serviceCodeListDirectoryVersion?: string;
+  serviceCodeListDirectoryVersion?: string | undefined;
   /** The character encoding. */
-  characterEncoding?: string;
+  characterEncoding?: string | undefined;
   /** The protocol version. */
   protocolVersion: number;
   /** The data element separator. */
@@ -792,9 +793,9 @@ export interface EdifactFramingSettings {
 /** The Edifact agreement envelope settings. */
 export interface EdifactEnvelopeSettings {
   /** The group association assigned code. */
-  groupAssociationAssignedCode?: string;
+  groupAssociationAssignedCode?: string | undefined;
   /** The communication agreement id. */
-  communicationAgreementId?: string;
+  communicationAgreementId?: string | undefined;
   /** The value indicating whether to apply delimiter string advice. */
   applyDelimiterStringAdvice: boolean;
   /** The value indicating whether to create grouping segments. */
@@ -802,13 +803,13 @@ export interface EdifactEnvelopeSettings {
   /** The value indicating whether to enable default group headers. */
   enableDefaultGroupHeaders: boolean;
   /** The recipient reference password value. */
-  recipientReferencePasswordValue?: string | Redacted.Redacted<string>;
+  recipientReferencePasswordValue?: string | Redacted.Redacted<string> | undefined;
   /** The recipient reference password qualifier. */
-  recipientReferencePasswordQualifier?: string | Redacted.Redacted<string>;
+  recipientReferencePasswordQualifier?: string | Redacted.Redacted<string> | undefined;
   /** The application reference id. */
-  applicationReferenceId?: string;
+  applicationReferenceId?: string | undefined;
   /** The processing priority code. */
-  processingPriorityCode?: string;
+  processingPriorityCode?: string | undefined;
   /** The interchange control number lower bound. */
   interchangeControlNumberLowerBound: number;
   /** The interchange control number upper bound. */
@@ -816,21 +817,21 @@ export interface EdifactEnvelopeSettings {
   /** The value indicating whether to rollover interchange control number. */
   rolloverInterchangeControlNumber: boolean;
   /** The interchange control number prefix. */
-  interchangeControlNumberPrefix?: string;
+  interchangeControlNumberPrefix?: string | undefined;
   /** The interchange control number suffix. */
-  interchangeControlNumberSuffix?: string;
+  interchangeControlNumberSuffix?: string | undefined;
   /** The sender reverse routing address. */
-  senderReverseRoutingAddress?: string;
+  senderReverseRoutingAddress?: string | undefined;
   /** The receiver reverse routing address. */
-  receiverReverseRoutingAddress?: string;
+  receiverReverseRoutingAddress?: string | undefined;
   /** The functional group id. */
-  functionalGroupId?: string;
+  functionalGroupId?: string | undefined;
   /** The group controlling agency code. */
-  groupControllingAgencyCode?: string;
+  groupControllingAgencyCode?: string | undefined;
   /** The group message version. */
-  groupMessageVersion?: string;
+  groupMessageVersion?: string | undefined;
   /** The group message release. */
-  groupMessageRelease?: string;
+  groupMessageRelease?: string | undefined;
   /** The group control number lower bound. */
   groupControlNumberLowerBound: number;
   /** The group control number upper bound. */
@@ -838,25 +839,25 @@ export interface EdifactEnvelopeSettings {
   /** The value indicating whether to rollover group control number. */
   rolloverGroupControlNumber: boolean;
   /** The group control number prefix. */
-  groupControlNumberPrefix?: string;
+  groupControlNumberPrefix?: string | undefined;
   /** The group control number suffix. */
-  groupControlNumberSuffix?: string;
+  groupControlNumberSuffix?: string | undefined;
   /** The group application receiver qualifier. */
-  groupApplicationReceiverQualifier?: string;
+  groupApplicationReceiverQualifier?: string | undefined;
   /** The group application receiver id. */
-  groupApplicationReceiverId?: string;
+  groupApplicationReceiverId?: string | undefined;
   /** The group application sender qualifier. */
-  groupApplicationSenderQualifier?: string;
+  groupApplicationSenderQualifier?: string | undefined;
   /** The group application sender id. */
-  groupApplicationSenderId?: string;
+  groupApplicationSenderId?: string | undefined;
   /** The group application password. */
-  groupApplicationPassword?: string | Redacted.Redacted<string>;
+  groupApplicationPassword?: string | Redacted.Redacted<string> | undefined;
   /** The value indicating whether to overwrite existing transaction set control number. */
   overwriteExistingTransactionSetControlNumber: boolean;
   /** The transaction set control number prefix. */
-  transactionSetControlNumberPrefix?: string;
+  transactionSetControlNumberPrefix?: string | undefined;
   /** The transaction set control number suffix. */
-  transactionSetControlNumberSuffix?: string;
+  transactionSetControlNumberSuffix?: string | undefined;
   /** The transaction set control number lower bound. */
   transactionSetControlNumberLowerBound: number;
   /** The transaction set control number upper bound. */
@@ -866,13 +867,13 @@ export interface EdifactEnvelopeSettings {
   /** The value indicating whether the message is a test interchange. */
   isTestInterchange: boolean;
   /** The sender internal identification. */
-  senderInternalIdentification?: string;
+  senderInternalIdentification?: string | undefined;
   /** The sender internal sub identification. */
-  senderInternalSubIdentification?: string;
+  senderInternalSubIdentification?: string | undefined;
   /** The receiver internal identification. */
-  receiverInternalIdentification?: string;
+  receiverInternalIdentification?: string | undefined;
   /** The receiver internal sub identification. */
-  receiverInternalSubIdentification?: string;
+  receiverInternalSubIdentification?: string | undefined;
 }
 /** The Edifact agreement acknowledgement settings. */
 export interface EdifactAcknowledgementSettings {
@@ -889,9 +890,9 @@ export interface EdifactAcknowledgementSettings {
   /** The value indicating whether to send synchronous acknowledgement. */
   sendSynchronousAcknowledgement: boolean;
   /** The acknowledgement control number prefix. */
-  acknowledgementControlNumberPrefix?: string;
+  acknowledgementControlNumberPrefix?: string | undefined;
   /** The acknowledgement control number suffix. */
-  acknowledgementControlNumberSuffix?: string;
+  acknowledgementControlNumberSuffix?: string | undefined;
   /** The acknowledgement control number lower bound. */
   acknowledgementControlNumberLowerBound: number;
   /** The acknowledgement control number upper bound. */
@@ -917,35 +918,35 @@ export interface EdifactProcessingSettings {
 /** The Edifact envelope override settings. */
 export interface EdifactEnvelopeOverride {
   /** The message id on which this envelope settings has to be applied. */
-  messageId?: string;
+  messageId?: string | undefined;
   /** The message version on which this envelope settings has to be applied. */
-  messageVersion?: string;
+  messageVersion?: string | undefined;
   /** The message release version on which this envelope settings has to be applied. */
-  messageRelease?: string;
+  messageRelease?: string | undefined;
   /** The message association assigned code. */
-  messageAssociationAssignedCode?: string;
+  messageAssociationAssignedCode?: string | undefined;
   /** The target namespace on which this envelope settings has to be applied. */
-  targetNamespace?: string;
+  targetNamespace?: string | undefined;
   /** The functional group id. */
-  functionalGroupId?: string;
+  functionalGroupId?: string | undefined;
   /** The sender application qualifier. */
-  senderApplicationQualifier?: string;
+  senderApplicationQualifier?: string | undefined;
   /** The sender application id. */
-  senderApplicationId?: string;
+  senderApplicationId?: string | undefined;
   /** The receiver application qualifier. */
-  receiverApplicationQualifier?: string;
+  receiverApplicationQualifier?: string | undefined;
   /** The receiver application id. */
-  receiverApplicationId?: string;
+  receiverApplicationId?: string | undefined;
   /** The controlling agency code. */
-  controllingAgencyCode?: string;
+  controllingAgencyCode?: string | undefined;
   /** The group header message version. */
-  groupHeaderMessageVersion?: string;
+  groupHeaderMessageVersion?: string | undefined;
   /** The group header message release. */
-  groupHeaderMessageRelease?: string;
+  groupHeaderMessageRelease?: string | undefined;
   /** The association assigned code. */
-  associationAssignedCode?: string;
+  associationAssignedCode?: string | undefined;
   /** The application password. */
-  applicationPassword?: string | Redacted.Redacted<string>;
+  applicationPassword?: string | Redacted.Redacted<string> | undefined;
 }
 /** The EDIFACT envelope override settings. */
 export type EdifactProtocolSettingsEnvelopeOverridesList = Array<EdifactEnvelopeOverride>;
@@ -965,11 +966,11 @@ export interface EdifactSchemaReference {
   /** The message release version. */
   messageRelease: string;
   /** The sender application id. */
-  senderApplicationId?: string;
+  senderApplicationId?: string | undefined;
   /** The sender application qualifier. */
-  senderApplicationQualifier?: string;
+  senderApplicationQualifier?: string | undefined;
   /** The association assigned code. */
-  associationAssignedCode?: string;
+  associationAssignedCode?: string | undefined;
   /** The schema name. */
   schemaName: string;
 }
@@ -997,11 +998,11 @@ export type EdifactProtocolSettingsValidationOverridesList = Array<EdifactValida
 /** The Edifact delimiter override settings. */
 export interface EdifactDelimiterOverride {
   /** The message id. */
-  messageId?: string;
+  messageId?: string | undefined;
   /** The message version. */
-  messageVersion?: string;
+  messageVersion?: string | undefined;
   /** The message release. */
-  messageRelease?: string;
+  messageRelease?: string | undefined;
   /** The data element separator. */
   dataElementSeparator: number;
   /** The component separator. */
@@ -1017,9 +1018,9 @@ export interface EdifactDelimiterOverride {
   /** The release indicator. */
   releaseIndicator: number;
   /** The message association assigned code. */
-  messageAssociationAssignedCode?: string;
+  messageAssociationAssignedCode?: string | undefined;
   /** The target namespace on which this delimiter settings has to be applied. */
-  targetNamespace?: string;
+  targetNamespace?: string | undefined;
 }
 /** The EDIFACT delimiter override settings. */
 export type EdifactProtocolSettingsEdifactDelimiterOverridesList = Array<EdifactDelimiterOverride>;
@@ -1038,15 +1039,15 @@ export interface EdifactProtocolSettings {
   /** The EDIFACT processing Settings. */
   processingSettings: EdifactProcessingSettings;
   /** The EDIFACT envelope override settings. */
-  envelopeOverrides?: EdifactProtocolSettingsEnvelopeOverridesList;
+  envelopeOverrides?: EdifactProtocolSettingsEnvelopeOverridesList | undefined;
   /** The EDIFACT message filter list. */
-  messageFilterList?: EdifactProtocolSettingsMessageFilterListList;
+  messageFilterList?: EdifactProtocolSettingsMessageFilterListList | undefined;
   /** The EDIFACT schema references. */
   schemaReferences: EdifactProtocolSettingsSchemaReferencesList;
   /** The EDIFACT validation override settings. */
-  validationOverrides?: EdifactProtocolSettingsValidationOverridesList;
+  validationOverrides?: EdifactProtocolSettingsValidationOverridesList | undefined;
   /** The EDIFACT delimiter override settings. */
-  edifactDelimiterOverrides?: EdifactProtocolSettingsEdifactDelimiterOverridesList;
+  edifactDelimiterOverrides?: EdifactProtocolSettingsEdifactDelimiterOverridesList | undefined;
 }
 /** The Edifact one way agreement. */
 export interface EdifactOneWayAgreement {
@@ -1067,20 +1068,20 @@ export interface EdifactAgreementContent {
 /** The integration account agreement content. */
 export interface AgreementContent {
   /** The AS2 agreement content. */
-  aS2?: AS2AgreementContent;
+  aS2?: AS2AgreementContent | undefined;
   /** The X12 agreement content. */
-  x12?: X12AgreementContent;
+  x12?: X12AgreementContent | undefined;
   /** The EDIFACT agreement content. */
-  edifact?: EdifactAgreementContent;
+  edifact?: EdifactAgreementContent | undefined;
 }
 /** The integration account agreement properties. */
 export interface IntegrationAccountAgreementProperties {
   /** The created time. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** The changed time. */
-  changedTime?: string;
+  changedTime?: string | undefined;
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The agreement type. */
   agreementType: AgreementType;
   /** The integration account partner that is set as host partner for this agreement. */
@@ -1096,15 +1097,15 @@ export interface IntegrationAccountAgreementProperties {
 }
 export interface GetIntegrationAccountAgreementResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetIntegrationAccountAgreementResponseTagsMap;
+  tags?: GetIntegrationAccountAgreementResponseTagsMap | undefined;
   /** The integration account agreement properties. */
   properties: IntegrationAccountAgreementProperties;
 }
@@ -1123,55 +1124,55 @@ export type GetIntegrationAccountAssemblyResponseTagsMap = { [key: string]: stri
 /** The content hash. */
 export interface ContentHash {
   /** The algorithm of the content hash. */
-  algorithm?: string;
+  algorithm?: string | undefined;
   /** The value of the content hash. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The content link. */
 export interface ContentLink {
   /** The content link URI. */
-  uri?: string;
+  uri?: string | undefined;
   /** The content version. */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
   /** The content size. */
-  contentSize?: number;
+  contentSize?: number | undefined;
   /** The content hash. */
-  contentHash?: ContentHash;
+  contentHash?: ContentHash | undefined;
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** The assembly properties definition. */
 export interface AssemblyProperties {
   /** The artifact creation time. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** The artifact changed time. */
-  changedTime?: string;
-  metadata?: unknown;
-  content?: unknown;
+  changedTime?: string | undefined;
+  metadata?: unknown | undefined;
+  content?: unknown | undefined;
   /** The content type. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The content link. */
-  contentLink?: ContentLink;
+  contentLink?: ContentLink | undefined;
   /** The assembly name. */
   assemblyName: string;
   /** The assembly version. */
-  assemblyVersion?: string;
+  assemblyVersion?: string | undefined;
   /** The assembly culture. */
-  assemblyCulture?: string;
+  assemblyCulture?: string | undefined;
   /** The assembly public key token. */
-  assemblyPublicKeyToken?: string;
+  assemblyPublicKeyToken?: string | undefined;
 }
 export interface GetIntegrationAccountAssemblyResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetIntegrationAccountAssemblyResponseTagsMap;
+  tags?: GetIntegrationAccountAssemblyResponseTagsMap | undefined;
   /** The assembly properties. */
   properties: AssemblyProperties;
 }
@@ -1227,56 +1228,56 @@ export type DayOfWeek =
 /** The recurrence schedule occurrence. */
 export interface RecurrenceScheduleOccurrence {
   /** The day of the week. */
-  day?: DayOfWeek | (string & {});
+  day?: DayOfWeek | (string & {}) | undefined;
   /** The occurrence. */
-  occurrence?: number;
+  occurrence?: number | undefined;
 }
 /** The monthly occurrences. */
 export type RecurrenceScheduleMonthlyOccurrencesList = Array<RecurrenceScheduleOccurrence>;
 /** The recurrence schedule. */
 export interface RecurrenceSchedule {
   /** The minutes. */
-  minutes?: RecurrenceScheduleMinutesList;
+  minutes?: RecurrenceScheduleMinutesList | undefined;
   /** The hours. */
-  hours?: RecurrenceScheduleHoursList;
+  hours?: RecurrenceScheduleHoursList | undefined;
   /** The days of the week. */
-  weekDays?: RecurrenceScheduleWeekDaysList;
+  weekDays?: RecurrenceScheduleWeekDaysList | undefined;
   /** The month days. */
-  monthDays?: RecurrenceScheduleMonthDaysList;
+  monthDays?: RecurrenceScheduleMonthDaysList | undefined;
   /** The monthly occurrences. */
-  monthlyOccurrences?: RecurrenceScheduleMonthlyOccurrencesList;
+  monthlyOccurrences?: RecurrenceScheduleMonthlyOccurrencesList | undefined;
 }
 /** The workflow trigger recurrence. */
 export interface WorkflowTriggerRecurrence {
   /** The frequency. */
-  frequency?: RecurrenceFrequency | (string & {});
+  frequency?: RecurrenceFrequency | (string & {}) | undefined;
   /** The interval. */
-  interval?: number;
+  interval?: number | undefined;
   /** The start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The time zone. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** The recurrence schedule. */
-  schedule?: RecurrenceSchedule;
+  schedule?: RecurrenceSchedule | undefined;
 }
 /** The batch release criteria. */
 export interface BatchReleaseCriteria {
   /** The message count. */
-  messageCount?: number;
+  messageCount?: number | undefined;
   /** The batch size in bytes. */
-  batchSize?: number;
+  batchSize?: number | undefined;
   /** The recurrence. */
-  recurrence?: WorkflowTriggerRecurrence;
+  recurrence?: WorkflowTriggerRecurrence | undefined;
 }
 /** The batch configuration properties definition. */
 export interface BatchConfigurationProperties {
   /** The artifact creation time. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** The artifact changed time. */
-  changedTime?: string;
-  metadata?: unknown;
+  changedTime?: string | undefined;
+  metadata?: unknown | undefined;
   /** The name of the batch group. */
   batchGroupName: string;
   /** The batch release criteria. */
@@ -1284,15 +1285,15 @@ export interface BatchConfigurationProperties {
 }
 export interface GetIntegrationAccountBatchConfigurationResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetIntegrationAccountBatchConfigurationResponseTagsMap;
+  tags?: GetIntegrationAccountBatchConfigurationResponseTagsMap | undefined;
   /** The batch configuration properties. */
   properties: BatchConfigurationProperties;
 }
@@ -1311,11 +1312,11 @@ export type GetIntegrationAccountCertificateResponseTagsMap = { [key: string]: s
 /** The key vault reference. */
 export interface KeyVaultKeyReferenceKeyVault {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reference to the key vault key. */
 export interface KeyVaultKeyReference {
@@ -1324,32 +1325,32 @@ export interface KeyVaultKeyReference {
   /** The private key name in key vault. */
   keyName: string;
   /** The private key version in key vault. */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
 }
 /** The integration account certificate properties. */
 export interface IntegrationAccountCertificateProperties {
   /** The created time. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** The changed time. */
-  changedTime?: string;
+  changedTime?: string | undefined;
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The key details in the key vault. */
-  key?: KeyVaultKeyReference;
+  key?: KeyVaultKeyReference | undefined;
   /** The public certificate. */
-  publicCertificate?: string;
+  publicCertificate?: string | undefined;
 }
 export interface GetIntegrationAccountCertificateResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetIntegrationAccountCertificateResponseTagsMap;
+  tags?: GetIntegrationAccountCertificateResponseTagsMap | undefined;
   /** The integration account certificate properties. */
   properties: IntegrationAccountCertificateProperties;
 }
@@ -1370,38 +1371,38 @@ export type MapType = "NotSpecified" | "Xslt" | "Xslt20" | "Xslt30" | "Liquid";
 /** The parameters schema of integration account map. */
 export interface IntegrationAccountMapPropertiesParametersSchema {
   /** The reference name. */
-  ref?: string;
+  ref?: string | undefined;
 }
 /** The integration account map. */
 export interface IntegrationAccountMapProperties {
   /** The map type. */
   mapType: MapType;
   /** The parameters schema of integration account map. */
-  parametersSchema?: IntegrationAccountMapPropertiesParametersSchema;
+  parametersSchema?: IntegrationAccountMapPropertiesParametersSchema | undefined;
   /** The created time. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** The changed time. */
-  changedTime?: string;
+  changedTime?: string | undefined;
   /** The content. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** The content type. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The content link. */
-  contentLink?: ContentLink;
+  contentLink?: ContentLink | undefined;
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface GetIntegrationAccountMapResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetIntegrationAccountMapResponseTagsMap;
+  tags?: GetIntegrationAccountMapResponseTagsMap | undefined;
   /** The integration account map properties. */
   properties: IntegrationAccountMapProperties;
 }
@@ -1424,37 +1425,37 @@ export type B2BPartnerContentBusinessIdentitiesList = Array<BusinessIdentity>;
 /** The B2B partner content. */
 export interface B2BPartnerContent {
   /** The list of partner business identities. */
-  businessIdentities?: B2BPartnerContentBusinessIdentitiesList;
+  businessIdentities?: B2BPartnerContentBusinessIdentitiesList | undefined;
 }
 /** The integration account partner content. */
 export interface PartnerContent {
   /** The B2B partner content. */
-  b2b?: B2BPartnerContent;
+  b2b?: B2BPartnerContent | undefined;
 }
 /** The integration account partner properties. */
 export interface IntegrationAccountPartnerProperties {
   /** The partner type. */
   partnerType: PartnerType;
   /** The created time. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** The changed time. */
-  changedTime?: string;
+  changedTime?: string | undefined;
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The partner content. */
   content: PartnerContent;
 }
 export interface GetIntegrationAccountPartnerResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetIntegrationAccountPartnerResponseTagsMap;
+  tags?: GetIntegrationAccountPartnerResponseTagsMap | undefined;
   /** The integration account partner properties. */
   properties: IntegrationAccountPartnerProperties;
 }
@@ -1477,35 +1478,35 @@ export interface IntegrationAccountSchemaProperties {
   /** The schema type. */
   schemaType: SchemaType;
   /** The target namespace of the schema. */
-  targetNamespace?: string;
+  targetNamespace?: string | undefined;
   /** The document name. */
-  documentName?: string;
+  documentName?: string | undefined;
   /** The file name. */
-  fileName?: string;
+  fileName?: string | undefined;
   /** The created time. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** The changed time. */
-  changedTime?: string;
+  changedTime?: string | undefined;
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The content. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** The content type. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The content link. */
-  contentLink?: ContentLink;
+  contentLink?: ContentLink | undefined;
 }
 export interface GetIntegrationAccountSchemaResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetIntegrationAccountSchemaResponseTagsMap;
+  tags?: GetIntegrationAccountSchemaResponseTagsMap | undefined;
   /** The integration account schema properties. */
   properties: IntegrationAccountSchemaProperties;
 }
@@ -1524,23 +1525,23 @@ export type GetIntegrationAccountSessionResponseTagsMap = { [key: string]: strin
 /** The integration account session properties. */
 export interface IntegrationAccountSessionProperties {
   /** The created time. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** The changed time. */
-  changedTime?: string;
+  changedTime?: string | undefined;
   /** The session content. */
-  content?: unknown;
+  content?: unknown | undefined;
 }
 export interface GetIntegrationAccountSessionResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetIntegrationAccountSessionResponseTagsMap;
+  tags?: GetIntegrationAccountSessionResponseTagsMap | undefined;
   /** The integration account session properties. */
   properties: IntegrationAccountSessionProperties;
 }
@@ -1581,7 +1582,7 @@ export type WorkflowProvisioningState =
 /** The ip address. */
 export interface IpAddress {
   /** The address. */
-  address?: string;
+  address?: string | undefined;
 }
 /** The outgoing ip address. */
 export type FlowEndpointsOutgoingIpAddressesList = Array<IpAddress>;
@@ -1590,16 +1591,16 @@ export type FlowEndpointsAccessEndpointIpAddressesList = Array<IpAddress>;
 /** The flow endpoints configuration. */
 export interface FlowEndpoints {
   /** The outgoing ip address. */
-  outgoingIpAddresses?: FlowEndpointsOutgoingIpAddressesList;
+  outgoingIpAddresses?: FlowEndpointsOutgoingIpAddressesList | undefined;
   /** The access endpoint ip address. */
-  accessEndpointIpAddresses?: FlowEndpointsAccessEndpointIpAddressesList;
+  accessEndpointIpAddresses?: FlowEndpointsAccessEndpointIpAddressesList | undefined;
 }
 /** The endpoints configuration. */
 export interface FlowEndpointsConfiguration {
   /** The workflow endpoints. */
-  workflow?: FlowEndpoints;
+  workflow?: FlowEndpoints | undefined;
   /** The connector endpoints. */
-  connector?: FlowEndpoints;
+  connector?: FlowEndpoints | undefined;
 }
 /** The integration service environment access endpoint type. */
 export type IntegrationServiceEnvironmentAccessEndpointType =
@@ -1609,65 +1610,65 @@ export type IntegrationServiceEnvironmentAccessEndpointType =
 /** The integration service environment access endpoint. */
 export interface IntegrationServiceEnvironmentAccessEndpoint {
   /** The access endpoint type. */
-  type?: IntegrationServiceEnvironmentAccessEndpointType | (string & {});
+  type?: IntegrationServiceEnvironmentAccessEndpointType | (string & {}) | undefined;
 }
 /** The subnets. */
 export type NetworkConfigurationSubnetsList = Array<ResourceReference>;
 /** The network configuration. */
 export interface NetworkConfiguration {
   /** Gets the virtual network address space. */
-  virtualNetworkAddressSpace?: string;
+  virtualNetworkAddressSpace?: string | undefined;
   /** The access endpoint. */
-  accessEndpoint?: IntegrationServiceEnvironmentAccessEndpoint;
+  accessEndpoint?: IntegrationServiceEnvironmentAccessEndpoint | undefined;
   /** The subnets. */
-  subnets?: NetworkConfigurationSubnetsList;
+  subnets?: NetworkConfigurationSubnetsList | undefined;
 }
 /** The encryption key details for the integration service environment. */
 export interface IntegrationServiceEnvironmenEncryptionKeyReference {
   /** The key vault reference. */
-  keyVault?: ResourceReference;
+  keyVault?: ResourceReference | undefined;
   /** Gets the key name in the Key Vault. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** Gets the version of the key specified in the keyName property. */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
 }
 /** The encryption configuration for the integration service environment. */
 export interface IntegrationServiceEnvironmenEncryptionConfiguration {
   /** The encryption key reference. */
-  encryptionKeyReference?: IntegrationServiceEnvironmenEncryptionKeyReference;
+  encryptionKeyReference?: IntegrationServiceEnvironmenEncryptionKeyReference | undefined;
 }
 /** The integration service environment properties. */
 export interface IntegrationServiceEnvironmentProperties {
   /** The provisioning state. */
-  provisioningState?: WorkflowProvisioningState;
+  provisioningState?: WorkflowProvisioningState | undefined;
   /** The integration service environment state. */
-  state?: WorkflowState;
+  state?: WorkflowState | undefined;
   /** Gets the tracking id. */
-  integrationServiceEnvironmentId?: string;
+  integrationServiceEnvironmentId?: string | undefined;
   /** The endpoints configuration. */
-  endpointsConfiguration?: FlowEndpointsConfiguration;
+  endpointsConfiguration?: FlowEndpointsConfiguration | undefined;
   /** The network configuration. */
-  networkConfiguration?: NetworkConfiguration;
+  networkConfiguration?: NetworkConfiguration | undefined;
   /** The encryption configuration. */
-  encryptionConfiguration?: IntegrationServiceEnvironmenEncryptionConfiguration;
+  encryptionConfiguration?: IntegrationServiceEnvironmenEncryptionConfiguration | undefined;
 }
 /** The integration service environment sku name. */
 export type IntegrationServiceEnvironmentSkuName = "NotSpecified" | "Premium" | "Developer";
 /** The integration service environment sku. */
 export interface IntegrationServiceEnvironmentSku {
   /** The sku name. */
-  name?: IntegrationServiceEnvironmentSkuName | (string & {});
+  name?: IntegrationServiceEnvironmentSkuName | (string & {}) | undefined;
   /** The sku capacity. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Type of managed service identity. The type 'SystemAssigned' includes an implicitly created identity. The type 'None' will remove any identities from the resource. */
 export type ManagedServiceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 /** User Assigned identity properties. */
 export interface UserAssignedIdentity {
   /** Principal Id of user assigned identity */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Client Id of user assigned identity */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName} */
 export type ManagedServiceIdentityUserAssignedIdentitiesMap = {
@@ -1678,28 +1679,28 @@ export interface ManagedServiceIdentity {
   /** Type of managed service identity. The type 'SystemAssigned' includes an implicitly created identity. The type 'None' will remove any identities from the resource. */
   type: ManagedServiceIdentityType;
   /** Tenant of managed service identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Principal Id of managed service identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName} */
-  userAssignedIdentities?: ManagedServiceIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedServiceIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetIntegrationServiceEnvironmentResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetIntegrationServiceEnvironmentResponseTagsMap;
+  tags?: GetIntegrationServiceEnvironmentResponseTagsMap | undefined;
   /** The integration service environment properties. */
-  properties?: IntegrationServiceEnvironmentProperties;
+  properties?: IntegrationServiceEnvironmentProperties | undefined;
   /** The sku. */
-  sku?: IntegrationServiceEnvironmentSku;
-  identity?: ManagedServiceIdentity;
+  sku?: IntegrationServiceEnvironmentSku | undefined;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetIntegrationServiceEnvironmentManagedApisRequest {
   /** The subscription id. */
@@ -1727,9 +1728,9 @@ export type WsdlServiceEndpointQualifiedNamesList = Array<string>;
 /** The WSDL service. */
 export interface WsdlService {
   /** The qualified name. */
-  qualifiedName?: string;
+  qualifiedName?: string | undefined;
   /** The list of endpoints' qualified names. */
-  EndpointQualifiedNames?: WsdlServiceEndpointQualifiedNamesList;
+  EndpointQualifiedNames?: WsdlServiceEndpointQualifiedNamesList | undefined;
 }
 /** The WSDL import method. */
 export type WsdlImportMethod = "NotSpecified" | "SoapToRest" | "SoapPassThrough";
@@ -1738,45 +1739,45 @@ export type ApiDeploymentParameterVisibility = "NotSpecified" | "Default" | "Int
 /** The API deployment parameter metadata. */
 export interface ApiDeploymentParameterMetadata {
   /** The type. */
-  type?: string;
+  type?: string | undefined;
   /** Indicates whether its required. */
-  isRequired?: boolean;
+  isRequired?: boolean | undefined;
   /** The display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description. */
-  description?: string;
+  description?: string | undefined;
   /** The visibility. */
-  visibility?: ApiDeploymentParameterVisibility;
+  visibility?: ApiDeploymentParameterVisibility | undefined;
 }
 /** The API deployment parameters metadata. */
 export interface ApiDeploymentParameterMetadataSet {
   /** The package content link parameter. */
-  packageContentLink?: ApiDeploymentParameterMetadata;
+  packageContentLink?: ApiDeploymentParameterMetadata | undefined;
   /** The package content link parameter. */
-  redisCacheConnectionString?: ApiDeploymentParameterMetadata;
+  redisCacheConnectionString?: ApiDeploymentParameterMetadata | undefined;
 }
 /** The api resource metadata. */
 export interface ApiResourceMetadata {
   /** The source. */
-  source?: string;
+  source?: string | undefined;
   /** The brand color. */
-  brandColor?: string;
+  brandColor?: string | undefined;
   /** The hide key. */
-  hideKey?: string;
+  hideKey?: string | undefined;
   /** The tags. */
-  tags?: ApiResourceMetadataTagsMap;
+  tags?: ApiResourceMetadataTagsMap | undefined;
   /** The api type. */
-  ApiType?: ApiType;
+  ApiType?: ApiType | undefined;
   /** The WSDL service. */
-  wsdlService?: WsdlService;
+  wsdlService?: WsdlService | undefined;
   /** The WSDL import method. */
-  wsdlImportMethod?: WsdlImportMethod;
+  wsdlImportMethod?: WsdlImportMethod | undefined;
   /** The connection type. */
-  connectionType?: string;
+  connectionType?: string | undefined;
   /** The provisioning state. */
-  provisioningState?: WorkflowProvisioningState;
+  provisioningState?: WorkflowProvisioningState | undefined;
   /** The connector deployment parameters metadata. */
-  deploymentParameters?: ApiDeploymentParameterMetadataSet;
+  deploymentParameters?: ApiDeploymentParameterMetadataSet | undefined;
 }
 /** The runtime urls. */
 export type IntegrationServiceEnvironmentManagedApiPropertiesRuntimeUrlsList = Array<string>;
@@ -1785,88 +1786,90 @@ export type ApiTier = "NotSpecified" | "Enterprise" | "Standard" | "Premium";
 /** The API general information. */
 export interface ApiResourceGeneralInformation {
   /** The icon url. */
-  iconUrl?: string;
+  iconUrl?: string | undefined;
   /** The display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description. */
-  description?: string;
+  description?: string | undefined;
   /** The terms of use url. */
-  termsOfUseUrl?: string;
+  termsOfUseUrl?: string | undefined;
   /** The release tag. */
-  releaseTag?: string;
+  releaseTag?: string | undefined;
   /** The tier. */
-  tier?: ApiTier;
+  tier?: ApiTier | undefined;
 }
 /** The capabilities. */
 export type IntegrationServiceEnvironmentManagedApiPropertiesCapabilitiesList = Array<string>;
 /** The API backend service. */
 export interface ApiResourceBackendService {
   /** The service URL. */
-  serviceUrl?: string;
+  serviceUrl?: string | undefined;
 }
 /** The API resource policies. */
 export interface ApiResourcePolicies {
   /** The API level only policies XML as embedded content. */
-  content?: string;
+  content?: string | undefined;
   /** The content link to the policies. */
-  contentLink?: string;
+  contentLink?: string | undefined;
 }
 /** The Api resource definition. */
 export interface ApiResourceDefinitions {
   /** The original swagger url. */
-  originalSwaggerUrl?: string;
+  originalSwaggerUrl?: string | undefined;
   /** The modified swagger url. */
-  modifiedSwaggerUrl?: string;
+  modifiedSwaggerUrl?: string | undefined;
 }
 /** The integration service environment managed api deployment parameters. */
 export interface IntegrationServiceEnvironmentManagedApiDeploymentParameters {
   /** The integration service environment managed api content link for deployment. */
-  contentLinkDefinition?: ContentLink;
+  contentLinkDefinition?: ContentLink | undefined;
 }
 /** The integration service environment managed api properties. */
 export interface IntegrationServiceEnvironmentManagedApiProperties {
   /** The name */
-  name?: string;
+  name?: string | undefined;
   /** The connection parameters. */
-  connectionParameters?: IntegrationServiceEnvironmentManagedApiPropertiesConnectionParametersMap;
+  connectionParameters?:
+    | IntegrationServiceEnvironmentManagedApiPropertiesConnectionParametersMap
+    | undefined;
   /** The metadata. */
-  metadata?: ApiResourceMetadata;
+  metadata?: ApiResourceMetadata | undefined;
   /** The runtime urls. */
-  runtimeUrls?: IntegrationServiceEnvironmentManagedApiPropertiesRuntimeUrlsList;
+  runtimeUrls?: IntegrationServiceEnvironmentManagedApiPropertiesRuntimeUrlsList | undefined;
   /** The api general information. */
-  generalInformation?: ApiResourceGeneralInformation;
+  generalInformation?: ApiResourceGeneralInformation | undefined;
   /** The capabilities. */
-  capabilities?: IntegrationServiceEnvironmentManagedApiPropertiesCapabilitiesList;
+  capabilities?: IntegrationServiceEnvironmentManagedApiPropertiesCapabilitiesList | undefined;
   /** The backend service. */
-  backendService?: ApiResourceBackendService;
+  backendService?: ApiResourceBackendService | undefined;
   /** The policies for the API. */
-  policies?: ApiResourcePolicies;
+  policies?: ApiResourcePolicies | undefined;
   /** The API definition. */
-  apiDefinitionUrl?: string;
+  apiDefinitionUrl?: string | undefined;
   /** The api definitions. */
-  apiDefinitions?: ApiResourceDefinitions;
+  apiDefinitions?: ApiResourceDefinitions | undefined;
   /** The integration service environment reference. */
-  integrationServiceEnvironment?: ResourceReference;
+  integrationServiceEnvironment?: ResourceReference | undefined;
   /** The provisioning state. */
-  provisioningState?: WorkflowProvisioningState;
+  provisioningState?: WorkflowProvisioningState | undefined;
   /** The category. */
-  category?: ApiTier;
+  category?: ApiTier | undefined;
   /** The integration service environment managed api deployment parameters. */
-  deploymentParameters?: IntegrationServiceEnvironmentManagedApiDeploymentParameters;
+  deploymentParameters?: IntegrationServiceEnvironmentManagedApiDeploymentParameters | undefined;
 }
 export interface GetIntegrationServiceEnvironmentManagedApisResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetIntegrationServiceEnvironmentManagedApisResponseTagsMap;
+  tags?: GetIntegrationServiceEnvironmentManagedApisResponseTagsMap | undefined;
   /** The integration service environment managed api properties. */
-  properties?: IntegrationServiceEnvironmentManagedApiProperties;
+  properties?: IntegrationServiceEnvironmentManagedApiProperties | undefined;
 }
 export interface GetIntegrationServiceEnvironmentNetworkHealthRequest {
   /** The subscription id. */
@@ -1901,11 +1904,11 @@ export type IntegrationServiceEnvironmentNetworkEndpointPortsList = Array<string
 /** The network endpoint. */
 export interface IntegrationServiceEnvironmentNetworkEndpoint {
   /** The accessibility state. */
-  accessibility?: IntegrationServiceEnvironmentNetworkEndPointAccessibilityState;
+  accessibility?: IntegrationServiceEnvironmentNetworkEndPointAccessibilityState | undefined;
   /** The domain name. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** The ports. */
-  ports?: IntegrationServiceEnvironmentNetworkEndpointPortsList;
+  ports?: IntegrationServiceEnvironmentNetworkEndpointPortsList | undefined;
 }
 /** The endpoints. */
 export type IntegrationServiceEnvironmentNetworkDependencyEndpointsList =
@@ -1913,11 +1916,11 @@ export type IntegrationServiceEnvironmentNetworkDependencyEndpointsList =
 /** The azure async operation resource. */
 export interface IntegrationServiceEnvironmentNetworkDependency {
   /** The network dependency category type. */
-  category?: IntegrationServiceEnvironmentNetworkDependencyCategoryType;
+  category?: IntegrationServiceEnvironmentNetworkDependencyCategoryType | undefined;
   /** The display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The endpoints. */
-  endpoints?: IntegrationServiceEnvironmentNetworkDependencyEndpointsList;
+  endpoints?: IntegrationServiceEnvironmentNetworkDependencyEndpointsList | undefined;
 }
 /** The outbound network dependencies. */
 export type IntegrationServiceEnvironmentSubnetNetworkHealthOutboundNetworkDependenciesList =
@@ -1937,9 +1940,9 @@ export interface ExtendedErrorInfo {
   /** The error message. */
   message: string;
   /** The error message details. */
-  details?: ExtendedErrorInfoDetailsList;
+  details?: ExtendedErrorInfoDetailsList | undefined;
   /** The inner error. */
-  innerError?: unknown;
+  innerError?: unknown | undefined;
 }
 /** The integration service environment network dependency health state. */
 export type IntegrationServiceEnvironmentNetworkDependencyHealthState =
@@ -1950,16 +1953,18 @@ export type IntegrationServiceEnvironmentNetworkDependencyHealthState =
 /** The integration service environment subnet network health. */
 export interface IntegrationServiceEnvironmentNetworkDependencyHealth {
   /** The error if any occurred during the operation. */
-  error?: ExtendedErrorInfo;
+  error?: ExtendedErrorInfo | undefined;
   /** The network dependency health state. */
-  state?: IntegrationServiceEnvironmentNetworkDependencyHealthState;
+  state?: IntegrationServiceEnvironmentNetworkDependencyHealthState | undefined;
 }
 /** The integration service environment subnet network health. */
 export interface IntegrationServiceEnvironmentSubnetNetworkHealth {
   /** The outbound network dependencies. */
-  outboundNetworkDependencies?: IntegrationServiceEnvironmentSubnetNetworkHealthOutboundNetworkDependenciesList;
+  outboundNetworkDependencies?:
+    | IntegrationServiceEnvironmentSubnetNetworkHealthOutboundNetworkDependenciesList
+    | undefined;
   /** The integration service environment network health. */
-  outboundNetworkHealth?: IntegrationServiceEnvironmentNetworkDependencyHealth;
+  outboundNetworkHealth?: IntegrationServiceEnvironmentNetworkDependencyHealth | undefined;
   /** The integration service environment network health state. */
   networkDependencyHealthState: IntegrationServiceEnvironmentNetworkEndPointAccessibilityState;
 }
@@ -1982,7 +1987,7 @@ export type GetWorkflowResponseTagsMap = { [key: string]: string | undefined };
 /** The ip address range. */
 export interface IpAddressRange {
   /** The IP address range. */
-  addressRange?: string;
+  addressRange?: string | undefined;
 }
 /** The allowed caller IP address ranges. */
 export type FlowAccessControlConfigurationPolicyAllowedCallerIpAddressesList =
@@ -1992,18 +1997,18 @@ export type OpenAuthenticationProviderType = "AAD";
 /** Open authentication policy claim. */
 export interface OpenAuthenticationPolicyClaim {
   /** The name of the claim. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the claim. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The access policy claims. */
 export type OpenAuthenticationAccessPolicyClaimsList = Array<OpenAuthenticationPolicyClaim>;
 /** Open authentication access policy defined by user. */
 export interface OpenAuthenticationAccessPolicy {
   /** Type of provider for OAuth. */
-  type?: OpenAuthenticationProviderType | (string & {});
+  type?: OpenAuthenticationProviderType | (string & {}) | undefined;
   /** The access policy claims. */
-  claims?: OpenAuthenticationAccessPolicyClaimsList;
+  claims?: OpenAuthenticationAccessPolicyClaimsList | undefined;
 }
 /** Open authentication policies. */
 export type OpenAuthenticationAccessPoliciesPoliciesMap = {
@@ -2012,25 +2017,27 @@ export type OpenAuthenticationAccessPoliciesPoliciesMap = {
 /** AuthenticationPolicy of type Open. */
 export interface OpenAuthenticationAccessPolicies {
   /** Open authentication policies. */
-  policies?: OpenAuthenticationAccessPoliciesPoliciesMap;
+  policies?: OpenAuthenticationAccessPoliciesPoliciesMap | undefined;
 }
 /** The access control configuration policy. */
 export interface FlowAccessControlConfigurationPolicy {
   /** The allowed caller IP address ranges. */
-  allowedCallerIpAddresses?: FlowAccessControlConfigurationPolicyAllowedCallerIpAddressesList;
+  allowedCallerIpAddresses?:
+    | FlowAccessControlConfigurationPolicyAllowedCallerIpAddressesList
+    | undefined;
   /** The authentication policies for workflow. */
-  openAuthenticationPolicies?: OpenAuthenticationAccessPolicies;
+  openAuthenticationPolicies?: OpenAuthenticationAccessPolicies | undefined;
 }
 /** The access control configuration. */
 export interface FlowAccessControlConfiguration {
   /** The access control configuration for invoking workflow triggers. */
-  triggers?: FlowAccessControlConfigurationPolicy;
+  triggers?: FlowAccessControlConfigurationPolicy | undefined;
   /** The access control configuration for accessing workflow run contents. */
-  contents?: FlowAccessControlConfigurationPolicy;
+  contents?: FlowAccessControlConfigurationPolicy | undefined;
   /** The access control configuration for workflow actions. */
-  actions?: FlowAccessControlConfigurationPolicy;
+  actions?: FlowAccessControlConfigurationPolicy | undefined;
   /** The access control configuration for workflow management. */
-  workflowManagement?: FlowAccessControlConfigurationPolicy;
+  workflowManagement?: FlowAccessControlConfigurationPolicy | undefined;
 }
 /** The sku name. */
 export type SkuName = "NotSpecified" | "Free" | "Shared" | "Basic" | "Standard" | "Premium";
@@ -2039,7 +2046,7 @@ export interface Sku {
   /** The name. */
   name: SkuName;
   /** The reference to plan. */
-  plan?: ResourceReference;
+  plan?: ResourceReference | undefined;
 }
 /** The parameter type. */
 export type ParameterType =
@@ -2055,59 +2062,59 @@ export type ParameterType =
 /** The workflow parameters. */
 export interface WorkflowParameter {
   /** The type. */
-  type?: ParameterType | (string & {});
+  type?: ParameterType | (string & {}) | undefined;
   /** The value. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The parameters. */
 export type WorkflowPropertiesParametersMap = { [key: string]: WorkflowParameter | undefined };
 /** The workflow properties. */
 export interface WorkflowProperties {
   /** Gets the provisioning state. */
-  provisioningState?: WorkflowProvisioningState;
+  provisioningState?: WorkflowProvisioningState | undefined;
   /** Gets the created time. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** Gets the changed time. */
-  changedTime?: string;
+  changedTime?: string | undefined;
   /** The state. */
-  state?: WorkflowState;
+  state?: WorkflowState | undefined;
   /** Gets the version. */
-  version?: string;
+  version?: string | undefined;
   /** Gets the access endpoint. */
-  accessEndpoint?: string;
+  accessEndpoint?: string | undefined;
   /** The endpoints configuration. */
-  endpointsConfiguration?: FlowEndpointsConfiguration;
+  endpointsConfiguration?: FlowEndpointsConfiguration | undefined;
   /** The access control configuration. */
-  accessControl?: FlowAccessControlConfiguration;
+  accessControl?: FlowAccessControlConfiguration | undefined;
   /** The sku. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The integration account. */
-  integrationAccount?: ResourceReference;
+  integrationAccount?: ResourceReference | undefined;
   /** The integration service environment. */
-  integrationServiceEnvironment?: ResourceReference;
+  integrationServiceEnvironment?: ResourceReference | undefined;
   /** The definition. */
-  definition?: unknown;
+  definition?: unknown | undefined;
   /** The parameters. */
-  parameters?: WorkflowPropertiesParametersMap;
+  parameters?: WorkflowPropertiesParametersMap | undefined;
 }
 export interface GetWorkflowResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetWorkflowResponseTagsMap;
+  tags?: GetWorkflowResponseTagsMap | undefined;
   /** The workflow properties. */
-  properties?: WorkflowProperties;
-  identity?: ManagedServiceIdentity;
+  properties?: WorkflowProperties | undefined;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface GetWorkflowRunRequest {
   /** The subscription id. */
@@ -2137,51 +2144,51 @@ export type WorkflowStatus =
 /** The correlation property. */
 export interface Correlation {
   /** The client tracking id. */
-  clientTrackingId?: string;
+  clientTrackingId?: string | undefined;
 }
 /** The workflow run trigger. */
 export interface WorkflowRunTrigger {
   /** Gets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the inputs. */
-  inputs?: unknown;
+  inputs?: unknown | undefined;
   /** Gets the link to inputs. */
-  inputsLink?: ContentLink;
+  inputsLink?: ContentLink | undefined;
   /** Gets the outputs. */
-  outputs?: unknown;
+  outputs?: unknown | undefined;
   /** Gets the link to outputs. */
-  outputsLink?: ContentLink;
+  outputsLink?: ContentLink | undefined;
   /** Gets the scheduled time. */
-  scheduledTime?: string;
+  scheduledTime?: string | undefined;
   /** Gets the start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets the end time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Gets the tracking id. */
-  trackingId?: string;
+  trackingId?: string | undefined;
   /** The run correlation. */
-  correlation?: Correlation;
+  correlation?: Correlation | undefined;
   /** Gets the code. */
-  code?: string;
+  code?: string | undefined;
   /** Gets the status. */
-  status?: WorkflowStatus;
+  status?: WorkflowStatus | undefined;
   /** Gets the error. */
-  error?: unknown;
+  error?: unknown | undefined;
   /** Gets the tracked properties. */
-  trackedProperties?: unknown;
+  trackedProperties?: unknown | undefined;
 }
 /** The workflow output parameter. */
 export interface WorkflowOutputParameter {
   /** The type. */
-  type?: ParameterType;
+  type?: ParameterType | undefined;
   /** The value. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The description. */
-  description?: string;
+  description?: string | undefined;
   /** Gets the error. */
-  error?: unknown;
+  error?: unknown | undefined;
 }
 /** Gets the outputs. */
 export type WorkflowRunPropertiesOutputsMap = {
@@ -2190,39 +2197,39 @@ export type WorkflowRunPropertiesOutputsMap = {
 /** The workflow run properties. */
 export interface WorkflowRunProperties {
   /** Gets the wait end time. */
-  waitEndTime?: string;
+  waitEndTime?: string | undefined;
   /** Gets the start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets the end time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Gets the status. */
-  status?: WorkflowStatus;
+  status?: WorkflowStatus | undefined;
   /** Gets the code. */
-  code?: string;
+  code?: string | undefined;
   /** Gets the error. */
-  error?: unknown;
+  error?: unknown | undefined;
   /** Gets the correlation id. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** The run correlation. */
-  correlation?: Correlation;
+  correlation?: Correlation | undefined;
   /** Gets the reference to workflow version. */
-  workflow?: ResourceReference;
+  workflow?: ResourceReference | undefined;
   /** Gets the fired trigger. */
-  trigger?: WorkflowRunTrigger;
+  trigger?: WorkflowRunTrigger | undefined;
   /** Gets the outputs. */
-  outputs?: WorkflowRunPropertiesOutputsMap;
+  outputs?: WorkflowRunPropertiesOutputsMap | undefined;
   /** Gets the response of the flow run. */
-  response?: WorkflowRunTrigger;
+  response?: WorkflowRunTrigger | undefined;
 }
 export interface GetWorkflowRunResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The workflow run properties. */
-  properties?: WorkflowRunProperties;
+  properties?: WorkflowRunProperties | undefined;
   /** Gets the workflow run name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the workflow run type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetWorkflowRunActionRequest {
   /** The subscription id. */
@@ -2241,75 +2248,75 @@ export type RunActionCorrelationClientKeywordsList = Array<string>;
 /** The workflow run action correlation properties. */
 export interface RunActionCorrelation {
   /** The client tracking identifier. */
-  clientTrackingId?: string;
+  clientTrackingId?: string | undefined;
   /** The client keywords. */
-  clientKeywords?: RunActionCorrelationClientKeywordsList;
+  clientKeywords?: RunActionCorrelationClientKeywordsList | undefined;
   /** The action tracking identifier. */
-  actionTrackingId?: string;
+  actionTrackingId?: string | undefined;
 }
 /** Error properties indicate why the Logic service was not able to process the incoming request. The reason is provided in the error message. */
 export interface ErrorProperties {
   /** Error code. */
-  code?: string;
+  code?: string | undefined;
   /** Error message indicating why the operation failed. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Error response indicates Logic service is not able to process the incoming request. The error property contains the error details. */
 export interface ErrorResponse {
   /** The error properties. */
-  error?: ErrorProperties;
+  error?: ErrorProperties | undefined;
 }
 /** The retry history. */
 export interface RetryHistory {
   /** Gets the start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets the end time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Gets the status code. */
-  code?: string;
+  code?: string | undefined;
   /** Gets the client request Id. */
-  clientRequestId?: string;
+  clientRequestId?: string | undefined;
   /** Gets the service request Id. */
-  serviceRequestId?: string;
+  serviceRequestId?: string | undefined;
   /** Gets the error response. */
-  error?: ErrorResponse;
+  error?: ErrorResponse | undefined;
 }
 /** Gets the retry histories. */
 export type WorkflowRunActionPropertiesRetryHistoryList = Array<RetryHistory>;
 /** The workflow run action properties. */
 export interface WorkflowRunActionProperties {
   /** Gets the start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets the end time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Gets the status. */
-  status?: WorkflowStatus;
+  status?: WorkflowStatus | undefined;
   /** Gets the code. */
-  code?: string;
+  code?: string | undefined;
   /** Gets the error. */
-  error?: unknown;
+  error?: unknown | undefined;
   /** Gets the tracking id. */
-  trackingId?: string;
+  trackingId?: string | undefined;
   /** The correlation properties. */
-  correlation?: RunActionCorrelation;
+  correlation?: RunActionCorrelation | undefined;
   /** Gets the link to inputs. */
-  inputsLink?: ContentLink;
+  inputsLink?: ContentLink | undefined;
   /** Gets the link to outputs. */
-  outputsLink?: ContentLink;
+  outputsLink?: ContentLink | undefined;
   /** Gets the tracked properties. */
-  trackedProperties?: unknown;
+  trackedProperties?: unknown | undefined;
   /** Gets the retry histories. */
-  retryHistory?: WorkflowRunActionPropertiesRetryHistoryList;
+  retryHistory?: WorkflowRunActionPropertiesRetryHistoryList | undefined;
 }
 export interface GetWorkflowRunActionResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The workflow run action properties. */
-  properties?: WorkflowRunActionProperties;
+  properties?: WorkflowRunActionProperties | undefined;
   /** Gets the workflow run action name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the workflow run action type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetWorkflowRunActionRepetitionRequest {
   /** The subscription id. */
@@ -2332,7 +2339,7 @@ export type WorkflowRunActionRepetitionPropertiesRetryHistoryList = Array<RetryH
 /** The workflow run action repetition index. */
 export interface RepetitionIndex {
   /** The scope. */
-  scopeName?: string;
+  scopeName?: string | undefined;
   /** The index. */
   itemIndex: number;
 }
@@ -2341,45 +2348,45 @@ export type WorkflowRunActionRepetitionPropertiesRepetitionIndexesList = Array<R
 /** The workflow run action repetition properties definition. */
 export interface WorkflowRunActionRepetitionProperties {
   /** The start time of the workflow scope repetition. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the workflow scope repetition. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The correlation properties. */
-  correlation?: RunActionCorrelation;
+  correlation?: RunActionCorrelation | undefined;
   /** The status of the workflow scope repetition. */
-  status?: WorkflowStatus;
+  status?: WorkflowStatus | undefined;
   /** The workflow scope repetition code. */
-  code?: string;
-  error?: unknown;
+  code?: string | undefined;
+  error?: unknown | undefined;
   /** Gets the tracking id. */
-  trackingId?: string;
+  trackingId?: string | undefined;
   /** Gets the inputs. */
-  inputs?: unknown;
+  inputs?: unknown | undefined;
   /** Gets the link to inputs. */
-  inputsLink?: ContentLink;
+  inputsLink?: ContentLink | undefined;
   /** Gets the outputs. */
-  outputs?: unknown;
+  outputs?: unknown | undefined;
   /** Gets the link to outputs. */
-  outputsLink?: ContentLink;
+  outputsLink?: ContentLink | undefined;
   /** Gets the tracked properties. */
-  trackedProperties?: unknown;
+  trackedProperties?: unknown | undefined;
   /** Gets the retry histories. */
-  retryHistory?: WorkflowRunActionRepetitionPropertiesRetryHistoryList;
-  iterationCount?: number;
+  retryHistory?: WorkflowRunActionRepetitionPropertiesRetryHistoryList | undefined;
+  iterationCount?: number | undefined;
   /** The repetition indexes. */
-  repetitionIndexes?: WorkflowRunActionRepetitionPropertiesRepetitionIndexesList;
+  repetitionIndexes?: WorkflowRunActionRepetitionPropertiesRepetitionIndexesList | undefined;
 }
 export interface GetWorkflowRunActionRepetitionResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetWorkflowRunActionRepetitionResponseTagsMap;
+  tags?: GetWorkflowRunActionRepetitionResponseTagsMap | undefined;
   /** The workflow run action repetition properties definition. */
   properties: WorkflowRunActionRepetitionProperties;
 }
@@ -2406,45 +2413,45 @@ export type GetWorkflowRunActionRepetitionsRequestHistoryResponseTagsMap = {
 /** A request. */
 export interface Request {
   /** A list of all the headers attached to the request. */
-  headers?: unknown;
+  headers?: unknown | undefined;
   /** The destination for the request. */
-  uri?: string;
+  uri?: string | undefined;
   /** The HTTP method used for the request. */
-  method?: string;
+  method?: string | undefined;
 }
 /** A response. */
 export interface Response {
   /** A list of all the headers attached to the response. */
-  headers?: unknown;
+  headers?: unknown | undefined;
   /** The status code of the response. */
-  statusCode?: number;
+  statusCode?: number | undefined;
   /** Details on the location of the body content. */
-  bodyLink?: ContentLink;
+  bodyLink?: ContentLink | undefined;
 }
 /** The request history. */
 export interface RequestHistoryProperties {
   /** The time the request started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The time the request ended. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The request. */
-  request?: Request;
+  request?: Request | undefined;
   /** The response. */
-  response?: Response;
+  response?: Response | undefined;
 }
 export interface GetWorkflowRunActionRepetitionsRequestHistoryResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetWorkflowRunActionRepetitionsRequestHistoryResponseTagsMap;
+  tags?: GetWorkflowRunActionRepetitionsRequestHistoryResponseTagsMap | undefined;
   /** The request history properties. */
-  properties?: RequestHistoryProperties;
+  properties?: RequestHistoryProperties | undefined;
 }
 export interface GetWorkflowRunActionRequestHistoryRequest {
   /** The subscription id. */
@@ -2466,17 +2473,17 @@ export type GetWorkflowRunActionRequestHistoryResponseTagsMap = {
 };
 export interface GetWorkflowRunActionRequestHistoryResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetWorkflowRunActionRequestHistoryResponseTagsMap;
+  tags?: GetWorkflowRunActionRequestHistoryResponseTagsMap | undefined;
   /** The request history properties. */
-  properties?: RequestHistoryProperties;
+  properties?: RequestHistoryProperties | undefined;
 }
 export interface GetWorkflowRunActionScopeRepetitionRequest {
   /** The subscription id. */
@@ -2498,15 +2505,15 @@ export type GetWorkflowRunActionScopeRepetitionResponseTagsMap = {
 };
 export interface GetWorkflowRunActionScopeRepetitionResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetWorkflowRunActionScopeRepetitionResponseTagsMap;
+  tags?: GetWorkflowRunActionScopeRepetitionResponseTagsMap | undefined;
   /** The workflow run action repetition properties definition. */
   properties: WorkflowRunActionRepetitionProperties;
 }
@@ -2524,13 +2531,13 @@ export interface GetWorkflowRunOperationRequest {
 }
 export interface GetWorkflowRunOperationResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The workflow run properties. */
-  properties?: WorkflowRunProperties;
+  properties?: WorkflowRunProperties | undefined;
   /** Gets the workflow run name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the workflow run type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetWorkflowTriggerRequest {
   /** The subscription id. */
@@ -2565,33 +2572,33 @@ export type WorkflowTriggerProvisioningState =
 /** The workflow trigger properties. */
 export interface WorkflowTriggerProperties {
   /** Gets the provisioning state. */
-  provisioningState?: WorkflowTriggerProvisioningState;
+  provisioningState?: WorkflowTriggerProvisioningState | undefined;
   /** Gets the created time. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** Gets the changed time. */
-  changedTime?: string;
+  changedTime?: string | undefined;
   /** Gets the state. */
-  state?: WorkflowState;
+  state?: WorkflowState | undefined;
   /** Gets the status. */
-  status?: WorkflowStatus;
+  status?: WorkflowStatus | undefined;
   /** Gets the last execution time. */
-  lastExecutionTime?: string;
+  lastExecutionTime?: string | undefined;
   /** Gets the next execution time. */
-  nextExecutionTime?: string;
+  nextExecutionTime?: string | undefined;
   /** Gets the workflow trigger recurrence. */
-  recurrence?: WorkflowTriggerRecurrence;
+  recurrence?: WorkflowTriggerRecurrence | undefined;
   /** Gets the reference to workflow. */
-  workflow?: ResourceReference;
+  workflow?: ResourceReference | undefined;
 }
 export interface GetWorkflowTriggerResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The workflow trigger properties. */
-  properties?: WorkflowTriggerProperties;
+  properties?: WorkflowTriggerProperties | undefined;
   /** Gets the workflow trigger name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the workflow trigger type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetWorkflowTriggerHistoryRequest {
   /** The subscription id. */
@@ -2608,39 +2615,39 @@ export interface GetWorkflowTriggerHistoryRequest {
 /** The workflow trigger history properties. */
 export interface WorkflowTriggerHistoryProperties {
   /** Gets the start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets the end time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The scheduled time. */
-  scheduledTime?: string;
+  scheduledTime?: string | undefined;
   /** Gets the status. */
-  status?: WorkflowStatus;
+  status?: WorkflowStatus | undefined;
   /** Gets the code. */
-  code?: string;
+  code?: string | undefined;
   /** Gets the error. */
-  error?: unknown;
+  error?: unknown | undefined;
   /** Gets the tracking id. */
-  trackingId?: string;
+  trackingId?: string | undefined;
   /** The run correlation. */
-  correlation?: Correlation;
+  correlation?: Correlation | undefined;
   /** Gets the link to input parameters. */
-  inputsLink?: ContentLink;
+  inputsLink?: ContentLink | undefined;
   /** Gets the link to output parameters. */
-  outputsLink?: ContentLink;
+  outputsLink?: ContentLink | undefined;
   /** The value indicating whether trigger was fired. */
-  fired?: boolean;
+  fired?: boolean | undefined;
   /** Gets the reference to workflow run. */
-  run?: ResourceReference;
+  run?: ResourceReference | undefined;
 }
 export interface GetWorkflowTriggerHistoryResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the workflow trigger history properties. */
-  properties?: WorkflowTriggerHistoryProperties;
+  properties?: WorkflowTriggerHistoryProperties | undefined;
   /** Gets the workflow trigger history name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the workflow trigger history type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetWorkflowTriggerSchemaJsonRequest {
   /** The subscription id. */
@@ -2655,9 +2662,9 @@ export interface GetWorkflowTriggerSchemaJsonRequest {
 /** The JSON schema. */
 export interface JsonSchema {
   /** The JSON title. */
-  title?: string;
+  title?: string | undefined;
   /** The JSON content. */
-  content?: string;
+  content?: string | undefined;
 }
 export interface GetWorkflowVersionRequest {
   /** The subscription id. */
@@ -2678,43 +2685,43 @@ export type WorkflowVersionPropertiesParametersMap = {
 /** The workflow version properties. */
 export interface WorkflowVersionProperties {
   /** The provisioning state. */
-  provisioningState?: WorkflowProvisioningState;
+  provisioningState?: WorkflowProvisioningState | undefined;
   /** Gets the created time. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** Gets the changed time. */
-  changedTime?: string;
+  changedTime?: string | undefined;
   /** The state. */
-  state?: WorkflowState;
+  state?: WorkflowState | undefined;
   /** Gets the version. */
-  version?: string;
+  version?: string | undefined;
   /** Gets the access endpoint. */
-  accessEndpoint?: string;
+  accessEndpoint?: string | undefined;
   /** The endpoints configuration. */
-  endpointsConfiguration?: FlowEndpointsConfiguration;
+  endpointsConfiguration?: FlowEndpointsConfiguration | undefined;
   /** The access control configuration. */
-  accessControl?: FlowAccessControlConfiguration;
+  accessControl?: FlowAccessControlConfiguration | undefined;
   /** The sku. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The integration account. */
-  integrationAccount?: ResourceReference;
+  integrationAccount?: ResourceReference | undefined;
   /** The definition. */
-  definition?: unknown;
+  definition?: unknown | undefined;
   /** The parameters. */
-  parameters?: WorkflowVersionPropertiesParametersMap;
+  parameters?: WorkflowVersionPropertiesParametersMap | undefined;
 }
 export interface GetWorkflowVersionResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetWorkflowVersionResponseTagsMap;
+  tags?: GetWorkflowVersionResponseTagsMap | undefined;
   /** The workflow version properties. */
-  properties?: WorkflowVersionProperties;
+  properties?: WorkflowVersionProperties | undefined;
 }
 /** The resource tags. */
 export type IntegrationAccountAgreementsCreateOrUpdateRequestTagsMap = {
@@ -2723,7 +2730,7 @@ export type IntegrationAccountAgreementsCreateOrUpdateRequestTagsMap = {
 /** The integration account agreement properties. */
 export interface IntegrationAccountAgreementPropertiesInput {
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The agreement type. */
   agreementType: AgreementType | (string & {});
   /** The integration account partner that is set as host partner for this agreement. */
@@ -2747,9 +2754,9 @@ export interface IntegrationAccountAgreementsCreateOrUpdateRequest {
   /** The integration account agreement name. */
   agreementName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountAgreementsCreateOrUpdateRequestTagsMap;
+  tags?: IntegrationAccountAgreementsCreateOrUpdateRequestTagsMap | undefined;
   /** The integration account agreement properties. */
   properties: IntegrationAccountAgreementPropertiesInput;
 }
@@ -2759,15 +2766,15 @@ export type IntegrationAccountAgreementsCreateOrUpdateResponseTagsMap = {
 };
 export interface IntegrationAccountAgreementsCreateOrUpdateResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountAgreementsCreateOrUpdateResponseTagsMap;
+  tags?: IntegrationAccountAgreementsCreateOrUpdateResponseTagsMap | undefined;
   /** The integration account agreement properties. */
   properties: IntegrationAccountAgreementProperties;
 }
@@ -2778,28 +2785,28 @@ export type IntegrationAccountAssembliesCreateOrUpdateRequestTagsMap = {
 /** The content link. */
 export interface ContentLinkInput {
   /** The content link URI. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** The assembly properties definition. */
 export interface AssemblyPropertiesInput {
   /** The artifact creation time. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** The artifact changed time. */
-  changedTime?: string;
-  metadata?: unknown;
-  content?: unknown;
+  changedTime?: string | undefined;
+  metadata?: unknown | undefined;
+  content?: unknown | undefined;
   /** The content type. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The content link. */
-  contentLink?: ContentLinkInput;
+  contentLink?: ContentLinkInput | undefined;
   /** The assembly name. */
   assemblyName: string;
   /** The assembly version. */
-  assemblyVersion?: string;
+  assemblyVersion?: string | undefined;
   /** The assembly culture. */
-  assemblyCulture?: string;
+  assemblyCulture?: string | undefined;
   /** The assembly public key token. */
-  assemblyPublicKeyToken?: string;
+  assemblyPublicKeyToken?: string | undefined;
 }
 export interface IntegrationAccountAssembliesCreateOrUpdateRequest {
   /** The subscription id. */
@@ -2811,9 +2818,9 @@ export interface IntegrationAccountAssembliesCreateOrUpdateRequest {
   /** The assembly artifact name. */
   assemblyArtifactName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountAssembliesCreateOrUpdateRequestTagsMap;
+  tags?: IntegrationAccountAssembliesCreateOrUpdateRequestTagsMap | undefined;
   /** The assembly properties. */
   properties: AssemblyPropertiesInput;
 }
@@ -2823,15 +2830,15 @@ export type IntegrationAccountAssembliesCreateOrUpdateResponseTagsMap = {
 };
 export interface IntegrationAccountAssembliesCreateOrUpdateResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountAssembliesCreateOrUpdateResponseTagsMap;
+  tags?: IntegrationAccountAssembliesCreateOrUpdateResponseTagsMap | undefined;
   /** The assembly properties. */
   properties: AssemblyProperties;
 }
@@ -2849,9 +2856,9 @@ export interface IntegrationAccountBatchConfigurationsCreateOrUpdateRequest {
   /** The batch configuration name. */
   batchConfigurationName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountBatchConfigurationsCreateOrUpdateRequestTagsMap;
+  tags?: IntegrationAccountBatchConfigurationsCreateOrUpdateRequestTagsMap | undefined;
   /** The batch configuration properties. */
   properties: BatchConfigurationProperties;
 }
@@ -2861,15 +2868,15 @@ export type IntegrationAccountBatchConfigurationsCreateOrUpdateResponseTagsMap =
 };
 export interface IntegrationAccountBatchConfigurationsCreateOrUpdateResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountBatchConfigurationsCreateOrUpdateResponseTagsMap;
+  tags?: IntegrationAccountBatchConfigurationsCreateOrUpdateResponseTagsMap | undefined;
   /** The batch configuration properties. */
   properties: BatchConfigurationProperties;
 }
@@ -2880,7 +2887,7 @@ export type IntegrationAccountCertificatesCreateOrUpdateRequestTagsMap = {
 /** The key vault reference. */
 export interface KeyVaultKeyReferenceInputKeyVault {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The reference to the key vault key. */
 export interface KeyVaultKeyReferenceInput {
@@ -2889,16 +2896,16 @@ export interface KeyVaultKeyReferenceInput {
   /** The private key name in key vault. */
   keyName: string;
   /** The private key version in key vault. */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
 }
 /** The integration account certificate properties. */
 export interface IntegrationAccountCertificatePropertiesInput {
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The key details in the key vault. */
-  key?: KeyVaultKeyReferenceInput;
+  key?: KeyVaultKeyReferenceInput | undefined;
   /** The public certificate. */
-  publicCertificate?: string;
+  publicCertificate?: string | undefined;
 }
 export interface IntegrationAccountCertificatesCreateOrUpdateRequest {
   /** The subscription id. */
@@ -2910,9 +2917,9 @@ export interface IntegrationAccountCertificatesCreateOrUpdateRequest {
   /** The integration account certificate name. */
   certificateName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountCertificatesCreateOrUpdateRequestTagsMap;
+  tags?: IntegrationAccountCertificatesCreateOrUpdateRequestTagsMap | undefined;
   /** The integration account certificate properties. */
   properties: IntegrationAccountCertificatePropertiesInput;
 }
@@ -2922,15 +2929,15 @@ export type IntegrationAccountCertificatesCreateOrUpdateResponseTagsMap = {
 };
 export interface IntegrationAccountCertificatesCreateOrUpdateResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountCertificatesCreateOrUpdateResponseTagsMap;
+  tags?: IntegrationAccountCertificatesCreateOrUpdateResponseTagsMap | undefined;
   /** The integration account certificate properties. */
   properties: IntegrationAccountCertificateProperties;
 }
@@ -2946,13 +2953,13 @@ export interface IntegrationAccountMapPropertiesInput {
   /** The map type. */
   mapType: MapType | (string & {});
   /** The parameters schema of integration account map. */
-  parametersSchema?: IntegrationAccountMapPropertiesParametersSchema;
+  parametersSchema?: IntegrationAccountMapPropertiesParametersSchema | undefined;
   /** The content. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** The content type. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface IntegrationAccountMapsCreateOrUpdateRequest {
   /** The subscription id. */
@@ -2964,9 +2971,9 @@ export interface IntegrationAccountMapsCreateOrUpdateRequest {
   /** The integration account map name. */
   mapName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountMapsCreateOrUpdateRequestTagsMap;
+  tags?: IntegrationAccountMapsCreateOrUpdateRequestTagsMap | undefined;
   /** The integration account map properties. */
   properties: IntegrationAccountMapPropertiesInput;
 }
@@ -2976,15 +2983,15 @@ export type IntegrationAccountMapsCreateOrUpdateResponseTagsMap = {
 };
 export interface IntegrationAccountMapsCreateOrUpdateResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountMapsCreateOrUpdateResponseTagsMap;
+  tags?: IntegrationAccountMapsCreateOrUpdateResponseTagsMap | undefined;
   /** The integration account map properties. */
   properties: IntegrationAccountMapProperties;
 }
@@ -2997,7 +3004,7 @@ export interface IntegrationAccountPartnerPropertiesInput {
   /** The partner type. */
   partnerType: PartnerType | (string & {});
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The partner content. */
   content: PartnerContent;
 }
@@ -3011,9 +3018,9 @@ export interface IntegrationAccountPartnersCreateOrUpdateRequest {
   /** The integration account partner name. */
   partnerName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountPartnersCreateOrUpdateRequestTagsMap;
+  tags?: IntegrationAccountPartnersCreateOrUpdateRequestTagsMap | undefined;
   /** The integration account partner properties. */
   properties: IntegrationAccountPartnerPropertiesInput;
 }
@@ -3023,15 +3030,15 @@ export type IntegrationAccountPartnersCreateOrUpdateResponseTagsMap = {
 };
 export interface IntegrationAccountPartnersCreateOrUpdateResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountPartnersCreateOrUpdateResponseTagsMap;
+  tags?: IntegrationAccountPartnersCreateOrUpdateResponseTagsMap | undefined;
   /** The integration account partner properties. */
   properties: IntegrationAccountPartnerProperties;
 }
@@ -3044,17 +3051,17 @@ export interface IntegrationAccountSchemaPropertiesInput {
   /** The schema type. */
   schemaType: SchemaType | (string & {});
   /** The target namespace of the schema. */
-  targetNamespace?: string;
+  targetNamespace?: string | undefined;
   /** The document name. */
-  documentName?: string;
+  documentName?: string | undefined;
   /** The file name. */
-  fileName?: string;
+  fileName?: string | undefined;
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The content. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** The content type. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface IntegrationAccountSchemasCreateOrUpdateRequest {
   /** The subscription id. */
@@ -3066,9 +3073,9 @@ export interface IntegrationAccountSchemasCreateOrUpdateRequest {
   /** The integration account schema name. */
   schemaName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountSchemasCreateOrUpdateRequestTagsMap;
+  tags?: IntegrationAccountSchemasCreateOrUpdateRequestTagsMap | undefined;
   /** The integration account schema properties. */
   properties: IntegrationAccountSchemaPropertiesInput;
 }
@@ -3078,15 +3085,15 @@ export type IntegrationAccountSchemasCreateOrUpdateResponseTagsMap = {
 };
 export interface IntegrationAccountSchemasCreateOrUpdateResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountSchemasCreateOrUpdateResponseTagsMap;
+  tags?: IntegrationAccountSchemasCreateOrUpdateResponseTagsMap | undefined;
   /** The integration account schema properties. */
   properties: IntegrationAccountSchemaProperties;
 }
@@ -3097,9 +3104,9 @@ export type ResourceReferenceInput = KeyVaultKeyReferenceInputKeyVault;
 /** The integration account properties. */
 export interface IntegrationAccountPropertiesInput {
   /** The integration service environment. */
-  integrationServiceEnvironment?: KeyVaultKeyReferenceInputKeyVault;
+  integrationServiceEnvironment?: KeyVaultKeyReferenceInputKeyVault | undefined;
   /** The workflow state. */
-  state?: WorkflowState | (string & {});
+  state?: WorkflowState | (string & {}) | undefined;
 }
 export interface IntegrationAccountsCreateOrUpdateRequest {
   /** The subscription id. */
@@ -3109,13 +3116,13 @@ export interface IntegrationAccountsCreateOrUpdateRequest {
   /** The integration account name. */
   integrationAccountName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountsCreateOrUpdateRequestTagsMap;
+  tags?: IntegrationAccountsCreateOrUpdateRequestTagsMap | undefined;
   /** The integration account properties. */
-  properties?: IntegrationAccountPropertiesInput;
+  properties?: IntegrationAccountPropertiesInput | undefined;
   /** The sku. */
-  sku?: IntegrationAccountSku;
+  sku?: IntegrationAccountSku | undefined;
 }
 /** The resource tags. */
 export type IntegrationAccountsCreateOrUpdateResponseTagsMap = {
@@ -3123,19 +3130,19 @@ export type IntegrationAccountsCreateOrUpdateResponseTagsMap = {
 };
 export interface IntegrationAccountsCreateOrUpdateResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountsCreateOrUpdateResponseTagsMap;
+  tags?: IntegrationAccountsCreateOrUpdateResponseTagsMap | undefined;
   /** The integration account properties. */
-  properties?: IntegrationAccountProperties;
+  properties?: IntegrationAccountProperties | undefined;
   /** The sku. */
-  sku?: IntegrationAccountSku;
+  sku?: IntegrationAccountSku | undefined;
 }
 /** The resource tags. */
 export type IntegrationAccountSessionsCreateOrUpdateRequestTagsMap = {
@@ -3144,7 +3151,7 @@ export type IntegrationAccountSessionsCreateOrUpdateRequestTagsMap = {
 /** The integration account session properties. */
 export interface IntegrationAccountSessionPropertiesInput {
   /** The session content. */
-  content?: unknown;
+  content?: unknown | undefined;
 }
 export interface IntegrationAccountSessionsCreateOrUpdateRequest {
   /** The subscription id. */
@@ -3156,9 +3163,9 @@ export interface IntegrationAccountSessionsCreateOrUpdateRequest {
   /** The integration account session name. */
   sessionName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountSessionsCreateOrUpdateRequestTagsMap;
+  tags?: IntegrationAccountSessionsCreateOrUpdateRequestTagsMap | undefined;
   /** The integration account session properties. */
   properties: IntegrationAccountSessionPropertiesInput;
 }
@@ -3168,15 +3175,15 @@ export type IntegrationAccountSessionsCreateOrUpdateResponseTagsMap = {
 };
 export interface IntegrationAccountSessionsCreateOrUpdateResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountSessionsCreateOrUpdateResponseTagsMap;
+  tags?: IntegrationAccountSessionsCreateOrUpdateResponseTagsMap | undefined;
   /** The integration account session properties. */
   properties: IntegrationAccountSessionProperties;
 }
@@ -3211,9 +3218,9 @@ export type TrackingRecordType =
 /** The tracking event error info. */
 export interface TrackingEventErrorInfo {
   /** The message. */
-  message?: string;
+  message?: string | undefined;
   /** The code. */
-  code?: string;
+  code?: string | undefined;
 }
 /** The tracking event. */
 export interface TrackingEvent {
@@ -3224,9 +3231,9 @@ export interface TrackingEvent {
   /** The record type. */
   recordType: TrackingRecordType | (string & {});
   /** The record. */
-  record?: unknown;
+  record?: unknown | undefined;
   /** The error. */
-  error?: TrackingEventErrorInfo;
+  error?: TrackingEventErrorInfo | undefined;
 }
 /** The events. */
 export type IntegrationAccountsLogTrackingEventsRequestEventsList = Array<TrackingEvent>;
@@ -3240,7 +3247,7 @@ export interface IntegrationAccountsLogTrackingEventsRequest {
   /** The source type. */
   sourceType: string;
   /** The track events options. */
-  trackEventsOptions?: TrackEventsOperationOptions | (string & {});
+  trackEventsOptions?: TrackEventsOperationOptions | (string & {}) | undefined;
   /** The events. */
   events: IntegrationAccountsLogTrackingEventsRequestEventsList;
 }
@@ -3254,40 +3261,40 @@ export type NetworkConfigurationInputSubnetsList = Array<KeyVaultKeyReferenceInp
 /** The network configuration. */
 export interface NetworkConfigurationInput {
   /** Gets the virtual network address space. */
-  virtualNetworkAddressSpace?: string;
+  virtualNetworkAddressSpace?: string | undefined;
   /** The access endpoint. */
-  accessEndpoint?: IntegrationServiceEnvironmentAccessEndpoint;
+  accessEndpoint?: IntegrationServiceEnvironmentAccessEndpoint | undefined;
   /** The subnets. */
-  subnets?: NetworkConfigurationInputSubnetsList;
+  subnets?: NetworkConfigurationInputSubnetsList | undefined;
 }
 /** The encryption key details for the integration service environment. */
 export interface IntegrationServiceEnvironmenEncryptionKeyReferenceInput {
   /** The key vault reference. */
-  keyVault?: KeyVaultKeyReferenceInputKeyVault;
+  keyVault?: KeyVaultKeyReferenceInputKeyVault | undefined;
   /** Gets the key name in the Key Vault. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** Gets the version of the key specified in the keyName property. */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
 }
 /** The encryption configuration for the integration service environment. */
 export interface IntegrationServiceEnvironmenEncryptionConfigurationInput {
   /** The encryption key reference. */
-  encryptionKeyReference?: IntegrationServiceEnvironmenEncryptionKeyReferenceInput;
+  encryptionKeyReference?: IntegrationServiceEnvironmenEncryptionKeyReferenceInput | undefined;
 }
 /** The integration service environment properties. */
 export interface IntegrationServiceEnvironmentPropertiesInput {
   /** The provisioning state. */
-  provisioningState?: WorkflowProvisioningState | (string & {});
+  provisioningState?: WorkflowProvisioningState | (string & {}) | undefined;
   /** The integration service environment state. */
-  state?: WorkflowState | (string & {});
+  state?: WorkflowState | (string & {}) | undefined;
   /** Gets the tracking id. */
-  integrationServiceEnvironmentId?: string;
+  integrationServiceEnvironmentId?: string | undefined;
   /** The endpoints configuration. */
-  endpointsConfiguration?: FlowEndpointsConfiguration;
+  endpointsConfiguration?: FlowEndpointsConfiguration | undefined;
   /** The network configuration. */
-  networkConfiguration?: NetworkConfigurationInput;
+  networkConfiguration?: NetworkConfigurationInput | undefined;
   /** The encryption configuration. */
-  encryptionConfiguration?: IntegrationServiceEnvironmenEncryptionConfigurationInput;
+  encryptionConfiguration?: IntegrationServiceEnvironmenEncryptionConfigurationInput | undefined;
 }
 /** Type of managed service identity. The type 'SystemAssigned' includes an implicitly created identity. The type 'None' will remove any identities from the resource. */
 export type ManagedServiceIdentityInputType = "SystemAssigned" | "UserAssigned" | "None";
@@ -3302,7 +3309,7 @@ export interface ManagedServiceIdentityInput {
   /** Type of managed service identity. The type 'SystemAssigned' includes an implicitly created identity. The type 'None' will remove any identities from the resource. */
   type: ManagedServiceIdentityInputType | (string & {});
   /** The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName} */
-  userAssignedIdentities?: ManagedServiceIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedServiceIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface IntegrationServiceEnvironmentsCreateOrUpdateRequest {
   /** The subscription id. */
@@ -3312,14 +3319,14 @@ export interface IntegrationServiceEnvironmentsCreateOrUpdateRequest {
   /** The integration service environment name. */
   integrationServiceEnvironmentName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationServiceEnvironmentsCreateOrUpdateRequestTagsMap;
+  tags?: IntegrationServiceEnvironmentsCreateOrUpdateRequestTagsMap | undefined;
   /** The integration service environment properties. */
-  properties?: IntegrationServiceEnvironmentPropertiesInput;
+  properties?: IntegrationServiceEnvironmentPropertiesInput | undefined;
   /** The sku. */
-  sku?: IntegrationServiceEnvironmentSku;
-  identity?: ManagedServiceIdentityInput;
+  sku?: IntegrationServiceEnvironmentSku | undefined;
+  identity?: ManagedServiceIdentityInput | undefined;
 }
 /** The resource tags. */
 export type IntegrationServiceEnvironmentsCreateOrUpdateResponseTagsMap = {
@@ -3327,20 +3334,20 @@ export type IntegrationServiceEnvironmentsCreateOrUpdateResponseTagsMap = {
 };
 export interface IntegrationServiceEnvironmentsCreateOrUpdateResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationServiceEnvironmentsCreateOrUpdateResponseTagsMap;
+  tags?: IntegrationServiceEnvironmentsCreateOrUpdateResponseTagsMap | undefined;
   /** The integration service environment properties. */
-  properties?: IntegrationServiceEnvironmentProperties;
+  properties?: IntegrationServiceEnvironmentProperties | undefined;
   /** The sku. */
-  sku?: IntegrationServiceEnvironmentSku;
-  identity?: ManagedServiceIdentity;
+  sku?: IntegrationServiceEnvironmentSku | undefined;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** The key type. */
 export type KeyType = "NotSpecified" | "Primary" | "Secondary";
@@ -3354,39 +3361,39 @@ export interface ListIntegrationAccountAgreementContentCallbackUrlRequest {
   /** The integration account agreement name. */
   agreementName: string;
   /** The expiry time. */
-  notAfter?: string;
+  notAfter?: string | undefined;
   /** The key type. */
-  keyType?: KeyType | (string & {});
+  keyType?: KeyType | (string & {}) | undefined;
 }
 /** Gets the workflow trigger callback URL relative path parameters. */
 export type WorkflowTriggerCallbackUrlRelativePathParametersList = Array<string>;
 /** Gets the workflow trigger callback URL query parameters. */
 export interface WorkflowTriggerListCallbackUrlQueries {
   /** The api version. */
-  api_version?: string;
+  api_version?: string | undefined;
   /** The SAS permissions. */
-  sp?: string;
+  sp?: string | undefined;
   /** The SAS version. */
-  sv?: string;
+  sv?: string | undefined;
   /** The SAS signature. */
-  sig?: string;
+  sig?: string | undefined;
   /** The SAS timestamp. */
-  se?: string;
+  se?: string | undefined;
 }
 /** The workflow trigger callback URL. */
 export interface WorkflowTriggerCallbackUrl {
   /** Gets the workflow trigger callback URL. */
-  value?: string;
+  value?: string | undefined;
   /** Gets the workflow trigger callback URL HTTP method. */
-  method?: string;
+  method?: string | undefined;
   /** Gets the workflow trigger callback URL base path. */
-  basePath?: string;
+  basePath?: string | undefined;
   /** Gets the workflow trigger callback URL relative path. */
-  relativePath?: string;
+  relativePath?: string | undefined;
   /** Gets the workflow trigger callback URL relative path parameters. */
-  relativePathParameters?: WorkflowTriggerCallbackUrlRelativePathParametersList;
+  relativePathParameters?: WorkflowTriggerCallbackUrlRelativePathParametersList | undefined;
   /** Gets the workflow trigger callback URL query parameters. */
-  queries?: WorkflowTriggerListCallbackUrlQueries;
+  queries?: WorkflowTriggerListCallbackUrlQueries | undefined;
 }
 export interface ListIntegrationAccountAgreementsRequest {
   /** The subscription id. */
@@ -3396,24 +3403,24 @@ export interface ListIntegrationAccountAgreementsRequest {
   /** The integration account name. */
   integrationAccountName: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. Options for filters include: AgreementType. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The resource tags. */
 export type IntegrationAccountAgreementTagsMap = { [key: string]: string | undefined };
 /** The integration account agreement. */
 export interface IntegrationAccountAgreement {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountAgreementTagsMap;
+  tags?: IntegrationAccountAgreementTagsMap | undefined;
   /** The integration account agreement properties. */
   properties: IntegrationAccountAgreementProperties;
 }
@@ -3422,9 +3429,9 @@ export type IntegrationAccountAgreementListResultValueList = Array<IntegrationAc
 /** The list of integration account agreements. */
 export interface IntegrationAccountAgreementListResult {
   /** The list of integration account agreements. */
-  value?: IntegrationAccountAgreementListResultValueList;
+  value?: IntegrationAccountAgreementListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationAccountAssembliesRequest {
   /** The subscription id. */
@@ -3439,22 +3446,22 @@ export type AssemblyDefinitionTagsMap = { [key: string]: string | undefined };
 /** The assembly definition. */
 export interface AssemblyDefinition {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: AssemblyDefinitionTagsMap;
+  tags?: AssemblyDefinitionTagsMap | undefined;
   /** The assembly properties. */
   properties: AssemblyProperties;
 }
 export type AssemblyCollectionValueList = Array<AssemblyDefinition>;
 /** A collection of assembly definitions. */
 export interface AssemblyCollection {
-  value?: AssemblyCollectionValueList;
+  value?: AssemblyCollectionValueList | undefined;
 }
 export interface ListIntegrationAccountAssemblyContentCallbackUrlRequest {
   /** The subscription id. */
@@ -3479,22 +3486,22 @@ export type BatchConfigurationTagsMap = { [key: string]: string | undefined };
 /** The batch configuration resource definition. */
 export interface BatchConfiguration {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: BatchConfigurationTagsMap;
+  tags?: BatchConfigurationTagsMap | undefined;
   /** The batch configuration properties. */
   properties: BatchConfigurationProperties;
 }
 export type BatchConfigurationCollectionValueList = Array<BatchConfiguration>;
 /** A collection of batch configurations. */
 export interface BatchConfigurationCollection {
-  value?: BatchConfigurationCollectionValueList;
+  value?: BatchConfigurationCollectionValueList | undefined;
 }
 export interface ListIntegrationAccountByResourceGroupRequest {
   /** The subscription id. */
@@ -3502,41 +3509,41 @@ export interface ListIntegrationAccountByResourceGroupRequest {
   /** The resource group name. */
   resourceGroupName: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The resource tags. */
 export type IntegrationAccountTagsMap = { [key: string]: string | undefined };
 /** The integration account. */
 export interface IntegrationAccount {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountTagsMap;
+  tags?: IntegrationAccountTagsMap | undefined;
   /** The integration account properties. */
-  properties?: IntegrationAccountProperties;
+  properties?: IntegrationAccountProperties | undefined;
   /** The sku. */
-  sku?: IntegrationAccountSku;
+  sku?: IntegrationAccountSku | undefined;
 }
 /** The list of integration accounts. */
 export type IntegrationAccountListResultValueList = Array<IntegrationAccount>;
 /** The list of integration accounts. */
 export interface IntegrationAccountListResult {
   /** The list of integration accounts. */
-  value?: IntegrationAccountListResultValueList;
+  value?: IntegrationAccountListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationAccountBySubscriptionRequest {
   /** The subscription id. */
   subscriptionId: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListIntegrationAccountCallbackUrlRequest {
   /** The subscription id. */
@@ -3546,14 +3553,14 @@ export interface ListIntegrationAccountCallbackUrlRequest {
   /** The integration account name. */
   integrationAccountName: string;
   /** The expiry time. */
-  notAfter?: string;
+  notAfter?: string | undefined;
   /** The key type. */
-  keyType?: KeyType | (string & {});
+  keyType?: KeyType | (string & {}) | undefined;
 }
 /** The callback url. */
 export interface CallbackUrl {
   /** The URL value. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface ListIntegrationAccountCertificatesRequest {
   /** The subscription id. */
@@ -3563,22 +3570,22 @@ export interface ListIntegrationAccountCertificatesRequest {
   /** The integration account name. */
   integrationAccountName: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The resource tags. */
 export type IntegrationAccountCertificateTagsMap = { [key: string]: string | undefined };
 /** The integration account certificate. */
 export interface IntegrationAccountCertificate {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountCertificateTagsMap;
+  tags?: IntegrationAccountCertificateTagsMap | undefined;
   /** The integration account certificate properties. */
   properties: IntegrationAccountCertificateProperties;
 }
@@ -3587,9 +3594,9 @@ export type IntegrationAccountCertificateListResultValueList = Array<Integration
 /** The list of integration account certificates. */
 export interface IntegrationAccountCertificateListResult {
   /** The list of integration account certificates. */
-  value?: IntegrationAccountCertificateListResultValueList;
+  value?: IntegrationAccountCertificateListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The key vault reference. */
 export type KeyVaultReferenceInput = KeyVaultKeyReferenceInputKeyVault;
@@ -3603,32 +3610,32 @@ export interface ListIntegrationAccountKeyVaultKeysRequest {
   /** The key vault reference. */
   keyVault: KeyVaultKeyReferenceInputKeyVault;
   /** The skip token. */
-  skipToken?: string;
+  skipToken?: string | undefined;
 }
 /** The key attributes. */
 export interface KeyVaultKeyAttributes {
   /** Whether the key is enabled or not. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** When the key was created. */
-  created?: number;
+  created?: number | undefined;
   /** When the key was updated. */
-  updated?: number;
+  updated?: number | undefined;
 }
 /** The key vault key. */
 export interface KeyVaultKey {
   /** The key id. */
-  kid?: string;
+  kid?: string | undefined;
   /** The key attributes. */
-  attributes?: KeyVaultKeyAttributes;
+  attributes?: KeyVaultKeyAttributes | undefined;
 }
 /** The key vault keys. */
 export type KeyVaultKeyCollectionValueList = Array<KeyVaultKey>;
 /** Collection of key vault keys. */
 export interface KeyVaultKeyCollection {
   /** The key vault keys. */
-  value?: KeyVaultKeyCollectionValueList;
+  value?: KeyVaultKeyCollectionValueList | undefined;
   /** The skip token. */
-  skipToken?: string;
+  skipToken?: string | undefined;
 }
 export interface ListIntegrationAccountMapContentCallbackUrlRequest {
   /** The subscription id. */
@@ -3640,9 +3647,9 @@ export interface ListIntegrationAccountMapContentCallbackUrlRequest {
   /** The integration account map name. */
   mapName: string;
   /** The expiry time. */
-  notAfter?: string;
+  notAfter?: string | undefined;
   /** The key type. */
-  keyType?: KeyType | (string & {});
+  keyType?: KeyType | (string & {}) | undefined;
 }
 export interface ListIntegrationAccountMapsRequest {
   /** The subscription id. */
@@ -3652,24 +3659,24 @@ export interface ListIntegrationAccountMapsRequest {
   /** The integration account name. */
   integrationAccountName: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. Options for filters include: MapType. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The resource tags. */
 export type IntegrationAccountMapTagsMap = { [key: string]: string | undefined };
 /** The integration account map. */
 export interface IntegrationAccountMap {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountMapTagsMap;
+  tags?: IntegrationAccountMapTagsMap | undefined;
   /** The integration account map properties. */
   properties: IntegrationAccountMapProperties;
 }
@@ -3678,9 +3685,9 @@ export type IntegrationAccountMapListResultValueList = Array<IntegrationAccountM
 /** The list of integration account maps. */
 export interface IntegrationAccountMapListResult {
   /** The list of integration account maps. */
-  value?: IntegrationAccountMapListResultValueList;
+  value?: IntegrationAccountMapListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationAccountPartnerContentCallbackUrlRequest {
   /** The subscription id. */
@@ -3692,9 +3699,9 @@ export interface ListIntegrationAccountPartnerContentCallbackUrlRequest {
   /** The integration account partner name. */
   partnerName: string;
   /** The expiry time. */
-  notAfter?: string;
+  notAfter?: string | undefined;
   /** The key type. */
-  keyType?: KeyType | (string & {});
+  keyType?: KeyType | (string & {}) | undefined;
 }
 export interface ListIntegrationAccountPartnersRequest {
   /** The subscription id. */
@@ -3704,24 +3711,24 @@ export interface ListIntegrationAccountPartnersRequest {
   /** The integration account name. */
   integrationAccountName: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. Options for filters include: PartnerType. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The resource tags. */
 export type IntegrationAccountPartnerTagsMap = { [key: string]: string | undefined };
 /** The integration account partner. */
 export interface IntegrationAccountPartner {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountPartnerTagsMap;
+  tags?: IntegrationAccountPartnerTagsMap | undefined;
   /** The integration account partner properties. */
   properties: IntegrationAccountPartnerProperties;
 }
@@ -3730,9 +3737,9 @@ export type IntegrationAccountPartnerListResultValueList = Array<IntegrationAcco
 /** The list of integration account partners. */
 export interface IntegrationAccountPartnerListResult {
   /** The list of integration account partners. */
-  value?: IntegrationAccountPartnerListResultValueList;
+  value?: IntegrationAccountPartnerListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationAccountSchemaContentCallbackUrlRequest {
   /** The subscription id. */
@@ -3744,9 +3751,9 @@ export interface ListIntegrationAccountSchemaContentCallbackUrlRequest {
   /** The integration account schema name. */
   schemaName: string;
   /** The expiry time. */
-  notAfter?: string;
+  notAfter?: string | undefined;
   /** The key type. */
-  keyType?: KeyType | (string & {});
+  keyType?: KeyType | (string & {}) | undefined;
 }
 export interface ListIntegrationAccountSchemasRequest {
   /** The subscription id. */
@@ -3756,24 +3763,24 @@ export interface ListIntegrationAccountSchemasRequest {
   /** The integration account name. */
   integrationAccountName: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. Options for filters include: SchemaType. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The resource tags. */
 export type IntegrationAccountSchemaTagsMap = { [key: string]: string | undefined };
 /** The integration account schema. */
 export interface IntegrationAccountSchema {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountSchemaTagsMap;
+  tags?: IntegrationAccountSchemaTagsMap | undefined;
   /** The integration account schema properties. */
   properties: IntegrationAccountSchemaProperties;
 }
@@ -3782,9 +3789,9 @@ export type IntegrationAccountSchemaListResultValueList = Array<IntegrationAccou
 /** The list of integration account schemas. */
 export interface IntegrationAccountSchemaListResult {
   /** The list of integration account schemas. */
-  value?: IntegrationAccountSchemaListResultValueList;
+  value?: IntegrationAccountSchemaListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationAccountSessionsRequest {
   /** The subscription id. */
@@ -3794,24 +3801,24 @@ export interface ListIntegrationAccountSessionsRequest {
   /** The integration account name. */
   integrationAccountName: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. Options for filters include: ChangedTime. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The resource tags. */
 export type IntegrationAccountSessionTagsMap = { [key: string]: string | undefined };
 /** The integration account session. */
 export interface IntegrationAccountSession {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationAccountSessionTagsMap;
+  tags?: IntegrationAccountSessionTagsMap | undefined;
   /** The integration account session properties. */
   properties: IntegrationAccountSessionProperties;
 }
@@ -3820,9 +3827,9 @@ export type IntegrationAccountSessionListResultValueList = Array<IntegrationAcco
 /** The list of integration account sessions. */
 export interface IntegrationAccountSessionListResult {
   /** The list of integration account sessions. */
-  value?: IntegrationAccountSessionListResultValueList;
+  value?: IntegrationAccountSessionListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationServiceEnvironmentByResourceGroupRequest {
   /** The subscription id. */
@@ -3830,40 +3837,40 @@ export interface ListIntegrationServiceEnvironmentByResourceGroupRequest {
   /** The resource group. */
   resourceGroup: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The resource tags. */
 export type IntegrationServiceEnvironmentTagsMap = { [key: string]: string | undefined };
 /** The integration service environment. */
 export interface IntegrationServiceEnvironment {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationServiceEnvironmentTagsMap;
+  tags?: IntegrationServiceEnvironmentTagsMap | undefined;
   /** The integration service environment properties. */
-  properties?: IntegrationServiceEnvironmentProperties;
+  properties?: IntegrationServiceEnvironmentProperties | undefined;
   /** The sku. */
-  sku?: IntegrationServiceEnvironmentSku;
-  identity?: ManagedServiceIdentity;
+  sku?: IntegrationServiceEnvironmentSku | undefined;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export type IntegrationServiceEnvironmentListResultValueList = Array<IntegrationServiceEnvironment>;
 /** The list of integration service environments. */
 export interface IntegrationServiceEnvironmentListResult {
-  value?: IntegrationServiceEnvironmentListResultValueList;
+  value?: IntegrationServiceEnvironmentListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationServiceEnvironmentBySubscriptionRequest {
   /** The subscription id. */
   subscriptionId: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListIntegrationServiceEnvironmentManagedApiOperationsRequest {
   /** The subscription id. */
@@ -3881,34 +3888,34 @@ export type ApiOperationTagsMap = { [key: string]: string | undefined };
 export type StatusAnnotation = "NotSpecified" | "Preview" | "Production";
 /** The Api Operation Annotation. */
 export interface ApiOperationAnnotation {
-  status?: StatusAnnotation;
+  status?: StatusAnnotation | undefined;
   /** The family. */
-  family?: string;
+  family?: string | undefined;
   /** The revision. */
-  revision?: number;
+  revision?: number | undefined;
 }
 /** The Api reference. */
 export interface ApiReference {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The display name of the api. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the api. */
-  description?: string;
+  description?: string | undefined;
   /** The icon uri of the api. */
-  iconUri?: string;
+  iconUri?: string | undefined;
   /** The swagger of the api. */
-  swagger?: unknown;
+  swagger?: unknown | undefined;
   /** The brand color of the api. */
-  brandColor?: string;
+  brandColor?: string | undefined;
   /** The tier. */
-  category?: ApiTier;
+  category?: ApiTier | undefined;
   /** The integration service environment reference. */
-  integrationServiceEnvironment?: ResourceReference;
+  integrationServiceEnvironment?: ResourceReference | undefined;
 }
 /** The swagger schema type. */
 export type SwaggerSchemaType =
@@ -3931,39 +3938,39 @@ export type SwaggerXmlExtensionsMap = { [key: string]: unknown | undefined };
 /** The Swagger XML. */
 export interface SwaggerXml {
   /** The xml element or attribute name. */
-  name?: string;
+  name?: string | undefined;
   /** The xml namespace. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** The name prefix. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Indicates whether the property should be an attribute instead of an element. */
-  attribute?: boolean;
+  attribute?: boolean | undefined;
   /** Indicates whether the array elements are wrapped in a container element. */
-  wrapped?: boolean;
+  wrapped?: boolean | undefined;
   /** The vendor extensions. */
-  extensions?: SwaggerXmlExtensionsMap;
+  extensions?: SwaggerXmlExtensionsMap | undefined;
 }
 /** The vendor extensions. */
 export type SwaggerExternalDocumentationExtensionsMap = { [key: string]: unknown | undefined };
 /** The swagger external documentation */
 export interface SwaggerExternalDocumentation {
   /** The document description. */
-  description?: string;
+  description?: string | undefined;
   /** The documentation Uri. */
-  uri?: string;
+  uri?: string | undefined;
   /** The vendor extensions. */
-  extensions?: SwaggerExternalDocumentationExtensionsMap;
+  extensions?: SwaggerExternalDocumentationExtensionsMap | undefined;
 }
 /** The operation parameters. */
 export type SwaggerCustomDynamicSchemaParametersMap = { [key: string]: unknown | undefined };
 /** The swagger custom dynamic schema. */
 export interface SwaggerCustomDynamicSchema {
   /** The operation id to fetch dynamic schema. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Json pointer to the dynamic schema on the response body. */
-  valuePath?: string;
+  valuePath?: string | undefined;
   /** The operation parameters. */
-  parameters?: SwaggerCustomDynamicSchemaParametersMap;
+  parameters?: SwaggerCustomDynamicSchemaParametersMap | undefined;
 }
 /** The operation parameters. */
 export type SwaggerCustomDynamicPropertiesParametersMap = {
@@ -3972,11 +3979,11 @@ export type SwaggerCustomDynamicPropertiesParametersMap = {
 /** The swagger custom dynamic properties. */
 export interface SwaggerCustomDynamicProperties {
   /** The operation id to fetch dynamic schema. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Json pointer to the dynamic schema on the response body. */
-  valuePath?: string;
+  valuePath?: string | undefined;
   /** The operation parameters. */
-  parameters?: SwaggerCustomDynamicPropertiesParametersMap;
+  parameters?: SwaggerCustomDynamicPropertiesParametersMap | undefined;
 }
 /** The parameters. */
 export type SwaggerCustomDynamicListParametersMap = {
@@ -3985,35 +3992,35 @@ export type SwaggerCustomDynamicListParametersMap = {
 /** The swagger custom dynamic list. */
 export interface SwaggerCustomDynamicList {
   /** The operation id to fetch dynamic schema. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** The built in operation. */
-  builtInOperation?: string;
+  builtInOperation?: string | undefined;
   /** The path to a response property (relative to the response object, not the response body) which contains an array of dynamic value items. */
-  itemsPath?: string;
+  itemsPath?: string | undefined;
   /** The path to a property which defines the value which should be used. */
-  itemValuePath?: string;
+  itemValuePath?: string | undefined;
   /** The path to an item property which defines the display name of the item. */
-  itemTitlePath?: string;
+  itemTitlePath?: string | undefined;
   /** The parameters. */
-  parameters?: SwaggerCustomDynamicListParametersMap;
+  parameters?: SwaggerCustomDynamicListParametersMap | undefined;
 }
 /** The swagger custom dynamic tree settings. */
 export interface SwaggerCustomDynamicTreeSettings {
   /** Indicates whether parent nodes can be selected. */
-  CanSelectParentNodes?: boolean;
+  CanSelectParentNodes?: boolean | undefined;
   /** Indicates whether leaf nodes can be selected. */
-  CanSelectLeafNodes?: boolean;
+  CanSelectLeafNodes?: boolean | undefined;
 }
 /** The swagger custom dynamic tree parameter. */
 export interface SwaggerCustomDynamicTreeParameter {
   /** Gets or sets a path to a property in the currently selected item to pass as a value to a parameter for the given operation. */
-  selectedItemValuePath?: string;
+  selectedItemValuePath?: string | undefined;
   /** The parameter value. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** The parameter reference. */
-  parameterReference?: string;
+  parameterReference?: string | undefined;
   /** Indicates whether the parameter is required. */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 export type SwaggerCustomDynamicTreeCommandParametersMap = {
   [key: string]: SwaggerCustomDynamicTreeParameter | undefined;
@@ -4021,72 +4028,72 @@ export type SwaggerCustomDynamicTreeCommandParametersMap = {
 /** The swagger tree command. */
 export interface SwaggerCustomDynamicTreeCommand {
   /** The path to an item property which defines the display name of the item. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** The path to an item property which defines the display name of the item. */
-  itemsPath?: string;
+  itemsPath?: string | undefined;
   /** The path to an item property which defines the display name of the item. */
-  itemValuePath?: string;
+  itemValuePath?: string | undefined;
   /** The path to an item property which defines the display name of the item. */
-  itemTitlePath?: string;
+  itemTitlePath?: string | undefined;
   /** The path to an item property which defines the display name of the item. */
-  itemFullTitlePath?: string;
+  itemFullTitlePath?: string | undefined;
   /** The path to an item property which defines the display name of the item. */
-  itemIsParent?: string;
+  itemIsParent?: string | undefined;
   /** The path to an item property which defines the display name of the item. */
-  selectableFilter?: string;
-  parameters?: SwaggerCustomDynamicTreeCommandParametersMap;
+  selectableFilter?: string | undefined;
+  parameters?: SwaggerCustomDynamicTreeCommandParametersMap | undefined;
 }
 /** The swagger custom dynamic tree. */
 export interface SwaggerCustomDynamicTree {
   /** The tree settings */
-  settings?: SwaggerCustomDynamicTreeSettings;
+  settings?: SwaggerCustomDynamicTreeSettings | undefined;
   /** The tree on-open configuration */
-  open?: SwaggerCustomDynamicTreeCommand;
+  open?: SwaggerCustomDynamicTreeCommand | undefined;
   /** The tree on-browse configuration */
-  browse?: SwaggerCustomDynamicTreeCommand;
+  browse?: SwaggerCustomDynamicTreeCommand | undefined;
 }
 /** The swagger schema. */
 export interface SwaggerSchema {
   /** The reference. */
-  ref?: string;
+  ref?: string | undefined;
   /** The type */
-  type?: SwaggerSchemaType;
+  type?: SwaggerSchemaType | undefined;
   /** The title. */
-  title?: string;
+  title?: string | undefined;
   /** The items schema. */
-  items?: SwaggerSchema;
+  items?: SwaggerSchema | undefined;
   /** The object properties */
-  properties?: SwaggerSchemaPropertiesMap;
+  properties?: SwaggerSchemaPropertiesMap | undefined;
   /** The additional properties. */
-  additionalProperties?: unknown;
+  additionalProperties?: unknown | undefined;
   /** The object required properties. */
-  required?: SwaggerSchemaRequiredList;
+  required?: SwaggerSchemaRequiredList | undefined;
   /** The maximum number of allowed properties. */
-  maxProperties?: number;
+  maxProperties?: number | undefined;
   /** The minimum number of allowed properties. */
-  minProperties?: number;
+  minProperties?: number | undefined;
   /** The schemas which must pass validation when this schema is used. */
-  allOf?: SwaggerSchemaAllOfList;
+  allOf?: SwaggerSchemaAllOfList | undefined;
   /** The discriminator. */
-  discriminator?: string;
+  discriminator?: string | undefined;
   /** Indicates whether this property must be present in the a request. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** The xml representation format for a property. */
-  xml?: SwaggerXml;
+  xml?: SwaggerXml | undefined;
   /** The external documentation. */
-  externalDocs?: SwaggerExternalDocumentation;
+  externalDocs?: SwaggerExternalDocumentation | undefined;
   /** The example value. */
-  example?: unknown;
+  example?: unknown | undefined;
   /** Indicates the notification url extension. If this is set, the property's value should be a callback url for a webhook. */
-  notificationUrlExtension?: boolean;
+  notificationUrlExtension?: boolean | undefined;
   /** The dynamic schema configuration. */
-  dynamicSchemaOld?: SwaggerCustomDynamicSchema;
+  dynamicSchemaOld?: SwaggerCustomDynamicSchema | undefined;
   /** The dynamic schema configuration. */
-  dynamicSchemaNew?: SwaggerCustomDynamicProperties;
+  dynamicSchemaNew?: SwaggerCustomDynamicProperties | undefined;
   /** The dynamic list. */
-  dynamicListNew?: SwaggerCustomDynamicList;
+  dynamicListNew?: SwaggerCustomDynamicList | undefined;
   /** The dynamic values tree configuration. */
-  dynamicTree?: SwaggerCustomDynamicTree;
+  dynamicTree?: SwaggerCustomDynamicTree | undefined;
 }
 /** The operation responses definition schemas. */
 export type ApiOperationPropertiesDefinitionResponsesDefinitionMap = {
@@ -4095,52 +4102,52 @@ export type ApiOperationPropertiesDefinitionResponsesDefinitionMap = {
 /** The api operations properties */
 export interface ApiOperationPropertiesDefinition {
   /** The summary of the api operation. */
-  summary?: string;
+  summary?: string | undefined;
   /** The description of the api operation. */
-  description?: string;
+  description?: string | undefined;
   /** The visibility of the api operation. */
-  visibility?: string;
+  visibility?: string | undefined;
   /** The trigger type of api operation. */
-  trigger?: string;
+  trigger?: string | undefined;
   /** The trigger hint for the api operation. */
-  triggerHint?: string;
+  triggerHint?: string | undefined;
   /** Indicates whether the api operation is pageable. */
-  pageable?: boolean;
+  pageable?: boolean | undefined;
   /** The annotation of api operation. */
-  annotation?: ApiOperationAnnotation;
+  annotation?: ApiOperationAnnotation | undefined;
   /** The api reference. */
-  api?: ApiReference;
+  api?: ApiReference | undefined;
   /** The operation inputs definition schema. */
-  inputsDefinition?: SwaggerSchema;
+  inputsDefinition?: SwaggerSchema | undefined;
   /** The operation responses definition schemas. */
-  responsesDefinition?: ApiOperationPropertiesDefinitionResponsesDefinitionMap;
+  responsesDefinition?: ApiOperationPropertiesDefinitionResponsesDefinitionMap | undefined;
   /** Indicates whether the API operation is webhook or not. */
-  isWebhook?: boolean;
+  isWebhook?: boolean | undefined;
   /** Indicates whether the API operation is notification or not. */
-  isNotification?: boolean;
+  isNotification?: boolean | undefined;
 }
 /** The api operation. */
 export interface ApiOperation {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: ApiOperationTagsMap;
-  properties?: ApiOperationPropertiesDefinition;
+  tags?: ApiOperationTagsMap | undefined;
+  properties?: ApiOperationPropertiesDefinition | undefined;
 }
 /** The api operation definitions for an API. */
 export type ApiOperationListResultValueList = Array<ApiOperation>;
 /** The list of managed API operations. */
 export interface ApiOperationListResult {
   /** The api operation definitions for an API. */
-  value?: ApiOperationListResultValueList;
+  value?: ApiOperationListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationServiceEnvironmentManagedApisRequest {
   /** The subscription id. */
@@ -4155,17 +4162,17 @@ export type IntegrationServiceEnvironmentManagedApiTagsMap = { [key: string]: st
 /** The integration service environment managed api. */
 export interface IntegrationServiceEnvironmentManagedApi {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: IntegrationServiceEnvironmentManagedApiTagsMap;
+  tags?: IntegrationServiceEnvironmentManagedApiTagsMap | undefined;
   /** The integration service environment managed api properties. */
-  properties?: IntegrationServiceEnvironmentManagedApiProperties;
+  properties?: IntegrationServiceEnvironmentManagedApiProperties | undefined;
 }
 /** The integration service environment managed APIs. */
 export type IntegrationServiceEnvironmentManagedApiListResultValueList =
@@ -4173,9 +4180,9 @@ export type IntegrationServiceEnvironmentManagedApiListResultValueList =
 /** The list of integration service environment managed APIs. */
 export interface IntegrationServiceEnvironmentManagedApiListResult {
   /** The integration service environment managed APIs. */
-  value?: IntegrationServiceEnvironmentManagedApiListResultValueList;
+  value?: IntegrationServiceEnvironmentManagedApiListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationServiceEnvironmentSkusRequest {
   /** The subscription id. */
@@ -4188,31 +4195,31 @@ export interface ListIntegrationServiceEnvironmentSkusRequest {
 /** The sku. */
 export interface IntegrationServiceEnvironmentSkuDefinitionSku {
   /** The sku name. */
-  name?: IntegrationServiceEnvironmentSkuName;
+  name?: IntegrationServiceEnvironmentSkuName | undefined;
   /** The sku tier. */
-  tier?: string;
+  tier?: string | undefined;
 }
 /** The integration service environment sku scale type. */
 export type IntegrationServiceEnvironmentSkuScaleType = "Manual" | "Automatic" | "None";
 /** The integration service environment sku capacity. */
 export interface IntegrationServiceEnvironmentSkuCapacity {
   /** The minimum capacity. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The maximum capacity. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The default capacity. */
-  default?: number;
+  default?: number | undefined;
   /** The sku scale type. */
-  scaleType?: IntegrationServiceEnvironmentSkuScaleType;
+  scaleType?: IntegrationServiceEnvironmentSkuScaleType | undefined;
 }
 /** The integration service environment sku definition. */
 export interface IntegrationServiceEnvironmentSkuDefinition {
   /** The resource type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The sku. */
-  sku?: IntegrationServiceEnvironmentSkuDefinitionSku;
+  sku?: IntegrationServiceEnvironmentSkuDefinitionSku | undefined;
   /** The sku capacity. */
-  capacity?: IntegrationServiceEnvironmentSkuCapacity;
+  capacity?: IntegrationServiceEnvironmentSkuCapacity | undefined;
 }
 /** The list of integration service environment skus. */
 export type IntegrationServiceEnvironmentSkuListValueList =
@@ -4220,41 +4227,41 @@ export type IntegrationServiceEnvironmentSkuListValueList =
 /** The list of integration service environment skus. */
 export interface IntegrationServiceEnvironmentSkuList {
   /** The list of integration service environment skus. */
-  value?: IntegrationServiceEnvironmentSkuListValueList;
+  value?: IntegrationServiceEnvironmentSkuListValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.Logic */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed: Profile, endpoint, etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type: Read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Operation: description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Logic REST API operation */
 export interface Operation {
   /** Operation: origin */
-  origin?: string;
+  origin?: string | undefined;
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** List of Logic operations supported by the Logic resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list Logic operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of Logic operations supported by the Logic resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkflowByResourceGroupRequest {
   /** The subscription id. */
@@ -4262,44 +4269,44 @@ export interface ListWorkflowByResourceGroupRequest {
   /** The resource group name. */
   resourceGroupName: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. Options for filters include: State, Trigger, and ReferencedResourceId. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The resource tags. */
 export type WorkflowTagsMap = { [key: string]: string | undefined };
 /** The workflow type. */
 export interface Workflow {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: WorkflowTagsMap;
+  tags?: WorkflowTagsMap | undefined;
   /** The workflow properties. */
-  properties?: WorkflowProperties;
-  identity?: ManagedServiceIdentity;
+  properties?: WorkflowProperties | undefined;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** The list of workflows. */
 export type WorkflowListResultValueList = Array<Workflow>;
 /** The list of workflows. */
 export interface WorkflowListResult {
   /** The list of workflows. */
-  value?: WorkflowListResultValueList;
+  value?: WorkflowListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkflowBySubscriptionRequest {
   /** The subscription id. */
   subscriptionId: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. Options for filters include: State, Trigger, and ReferencedResourceId. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListWorkflowCallbackUrlRequest {
   /** The subscription id. */
@@ -4309,9 +4316,9 @@ export interface ListWorkflowCallbackUrlRequest {
   /** The workflow name. */
   workflowName: string;
   /** The expiry time. */
-  notAfter?: string;
+  notAfter?: string | undefined;
   /** The key type. */
-  keyType?: KeyType | (string & {});
+  keyType?: KeyType | (string & {}) | undefined;
 }
 export interface ListWorkflowRunActionExpressionTracesRequest {
   /** The subscription id. */
@@ -4336,34 +4343,34 @@ export interface AzureResourceErrorInfo {
   /** The error message. */
   message: string;
   /** The error details. */
-  details?: AzureResourceErrorInfoDetailsList;
+  details?: AzureResourceErrorInfoDetailsList | undefined;
 }
 /** The expression. */
 export interface Expression {
   /** The text. */
-  text?: string;
-  value?: unknown;
+  text?: string | undefined;
+  value?: unknown | undefined;
   /** The sub expressions. */
-  subexpressions?: ExpressionSubexpressionsList;
-  error?: AzureResourceErrorInfo;
+  subexpressions?: ExpressionSubexpressionsList | undefined;
+  error?: AzureResourceErrorInfo | undefined;
 }
 /** The sub expressions. */
 export type ExpressionRootSubexpressionsList = Array<Expression>;
 /** The expression root. */
 export interface ExpressionRoot {
   /** The text. */
-  text?: string;
-  value?: unknown;
+  text?: string | undefined;
+  value?: unknown | undefined;
   /** The sub expressions. */
-  subexpressions?: ExpressionRootSubexpressionsList;
-  error?: AzureResourceErrorInfo;
+  subexpressions?: ExpressionRootSubexpressionsList | undefined;
+  error?: AzureResourceErrorInfo | undefined;
   /** The path. */
-  path?: string;
+  path?: string | undefined;
 }
 export type ExpressionTracesInputsList = Array<ExpressionRoot>;
 /** The expression traces. */
 export interface ExpressionTraces {
-  inputs?: ExpressionTracesInputsList;
+  inputs?: ExpressionTracesInputsList | undefined;
 }
 export interface ListWorkflowRunActionRepetitionExpressionTracesRequest {
   /** The subscription id. */
@@ -4396,15 +4403,15 @@ export type WorkflowRunActionRepetitionDefinitionTagsMap = { [key: string]: stri
 /** The workflow run action repetition definition. */
 export interface WorkflowRunActionRepetitionDefinition {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: WorkflowRunActionRepetitionDefinitionTagsMap;
+  tags?: WorkflowRunActionRepetitionDefinitionTagsMap | undefined;
   /** The workflow run action repetition properties definition. */
   properties: WorkflowRunActionRepetitionProperties;
 }
@@ -4413,8 +4420,8 @@ export type WorkflowRunActionRepetitionDefinitionCollectionValueList =
 /** A collection of workflow run action repetitions. */
 export interface WorkflowRunActionRepetitionDefinitionCollection {
   /** The link used to get the next page of recommendations. */
-  nextLink?: string;
-  value?: WorkflowRunActionRepetitionDefinitionCollectionValueList;
+  nextLink?: string | undefined;
+  value?: WorkflowRunActionRepetitionDefinitionCollectionValueList | undefined;
 }
 export interface ListWorkflowRunActionRepetitionsRequestHistoriesRequest {
   /** The subscription id. */
@@ -4435,26 +4442,26 @@ export type RequestHistoryTagsMap = { [key: string]: string | undefined };
 /** The request history. */
 export interface RequestHistory {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: RequestHistoryTagsMap;
+  tags?: RequestHistoryTagsMap | undefined;
   /** The request history properties. */
-  properties?: RequestHistoryProperties;
+  properties?: RequestHistoryProperties | undefined;
 }
 /** A list of workflow request histories. */
 export type RequestHistoryListResultValueList = Array<RequestHistory>;
 /** The list of workflow request histories. */
 export interface RequestHistoryListResult {
   /** A list of workflow request histories. */
-  value?: RequestHistoryListResultValueList;
+  value?: RequestHistoryListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkflowRunActionRequestHistoriesRequest {
   /** The subscription id. */
@@ -4478,29 +4485,29 @@ export interface ListWorkflowRunActionsRequest {
   /** The workflow run name. */
   runName: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. Options for filters include: Status. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The workflow run action. */
 export interface WorkflowRunAction {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The workflow run action properties. */
-  properties?: WorkflowRunActionProperties;
+  properties?: WorkflowRunActionProperties | undefined;
   /** Gets the workflow run action name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the workflow run action type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** A list of workflow run actions. */
 export type WorkflowRunActionListResultValueList = Array<WorkflowRunAction>;
 /** The list of workflow run actions. */
 export interface WorkflowRunActionListResult {
   /** A list of workflow run actions. */
-  value?: WorkflowRunActionListResultValueList;
+  value?: WorkflowRunActionListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkflowRunActionScopeRepetitionsRequest {
   /** The subscription id. */
@@ -4522,29 +4529,29 @@ export interface ListWorkflowRunsRequest {
   /** The workflow name. */
   workflowName: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The workflow run. */
 export interface WorkflowRun {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The workflow run properties. */
-  properties?: WorkflowRunProperties;
+  properties?: WorkflowRunProperties | undefined;
   /** Gets the workflow run name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the workflow run type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** A list of workflow runs. */
 export type WorkflowRunListResultValueList = Array<WorkflowRun>;
 /** The list of workflow runs. */
 export interface WorkflowRunListResult {
   /** A list of workflow runs. */
-  value?: WorkflowRunListResultValueList;
+  value?: WorkflowRunListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkflowSwaggerRequest {
   /** The subscription id. */
@@ -4575,29 +4582,29 @@ export interface ListWorkflowTriggerHistoriesRequest {
   /** The workflow trigger name. */
   triggerName: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The workflow trigger history. */
 export interface WorkflowTriggerHistory {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the workflow trigger history properties. */
-  properties?: WorkflowTriggerHistoryProperties;
+  properties?: WorkflowTriggerHistoryProperties | undefined;
   /** Gets the workflow trigger history name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the workflow trigger history type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** A list of workflow trigger histories. */
 export type WorkflowTriggerHistoryListResultValueList = Array<WorkflowTriggerHistory>;
 /** The list of workflow trigger histories. */
 export interface WorkflowTriggerHistoryListResult {
   /** A list of workflow trigger histories. */
-  value?: WorkflowTriggerHistoryListResultValueList;
+  value?: WorkflowTriggerHistoryListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkflowTriggersRequest {
   /** The subscription id. */
@@ -4607,29 +4614,29 @@ export interface ListWorkflowTriggersRequest {
   /** The workflow name. */
   workflowName: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The workflow trigger. */
 export interface WorkflowTrigger {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The workflow trigger properties. */
-  properties?: WorkflowTriggerProperties;
+  properties?: WorkflowTriggerProperties | undefined;
   /** Gets the workflow trigger name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the workflow trigger type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** A list of workflow triggers. */
 export type WorkflowTriggerListResultValueList = Array<WorkflowTrigger>;
 /** The list of workflow triggers. */
 export interface WorkflowTriggerListResult {
   /** A list of workflow triggers. */
-  value?: WorkflowTriggerListResultValueList;
+  value?: WorkflowTriggerListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkflowVersionsRequest {
   /** The subscription id. */
@@ -4639,33 +4646,33 @@ export interface ListWorkflowVersionsRequest {
   /** The workflow name. */
   workflowName: string;
   /** The number of items to be included in the result. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The resource tags. */
 export type WorkflowVersionTagsMap = { [key: string]: string | undefined };
 /** The workflow version. */
 export interface WorkflowVersion {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: WorkflowVersionTagsMap;
+  tags?: WorkflowVersionTagsMap | undefined;
   /** The workflow version properties. */
-  properties?: WorkflowVersionProperties;
+  properties?: WorkflowVersionProperties | undefined;
 }
 /** A list of workflow versions. */
 export type WorkflowVersionListResultValueList = Array<WorkflowVersion>;
 /** The list of workflow versions. */
 export interface WorkflowVersionListResult {
   /** A list of workflow versions. */
-  value?: WorkflowVersionListResultValueList;
+  value?: WorkflowVersionListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkflowVersionTriggerCallbackUrlRequest {
   /** The subscription id. */
@@ -4679,9 +4686,9 @@ export interface ListWorkflowVersionTriggerCallbackUrlRequest {
   /** The workflow trigger name. */
   triggerName: string;
   /** The expiry time. */
-  notAfter?: string;
+  notAfter?: string | undefined;
   /** The key type. */
-  keyType?: KeyType | (string & {});
+  keyType?: KeyType | (string & {}) | undefined;
 }
 export interface MoveWorkflowRequest {
   /** The subscription id. */
@@ -4691,7 +4698,7 @@ export interface MoveWorkflowRequest {
   /** The workflow name. */
   workflowName: string;
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface MoveWorkflowResponse {}
 /** The resource tags. */
@@ -4701,14 +4708,16 @@ export type PutIntegrationServiceEnvironmentManagedApisRequestTagsMap = {
 /** The integration service environment managed api deployment parameters. */
 export interface IntegrationServiceEnvironmentManagedApiDeploymentParametersInput {
   /** The integration service environment managed api content link for deployment. */
-  contentLinkDefinition?: ContentLinkInput;
+  contentLinkDefinition?: ContentLinkInput | undefined;
 }
 /** The integration service environment managed api properties. */
 export interface IntegrationServiceEnvironmentManagedApiPropertiesInput {
   /** The integration service environment reference. */
-  integrationServiceEnvironment?: KeyVaultKeyReferenceInputKeyVault;
+  integrationServiceEnvironment?: KeyVaultKeyReferenceInputKeyVault | undefined;
   /** The integration service environment managed api deployment parameters. */
-  deploymentParameters?: IntegrationServiceEnvironmentManagedApiDeploymentParametersInput;
+  deploymentParameters?:
+    | IntegrationServiceEnvironmentManagedApiDeploymentParametersInput
+    | undefined;
 }
 export interface PutIntegrationServiceEnvironmentManagedApisRequest {
   /** The subscription id. */
@@ -4720,11 +4729,11 @@ export interface PutIntegrationServiceEnvironmentManagedApisRequest {
   /** The api name. */
   apiName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: PutIntegrationServiceEnvironmentManagedApisRequestTagsMap;
+  tags?: PutIntegrationServiceEnvironmentManagedApisRequestTagsMap | undefined;
   /** The integration service environment managed api properties. */
-  properties?: IntegrationServiceEnvironmentManagedApiPropertiesInput;
+  properties?: IntegrationServiceEnvironmentManagedApiPropertiesInput | undefined;
 }
 /** The resource tags. */
 export type PutIntegrationServiceEnvironmentManagedApisResponseTagsMap = {
@@ -4732,17 +4741,17 @@ export type PutIntegrationServiceEnvironmentManagedApisResponseTagsMap = {
 };
 export interface PutIntegrationServiceEnvironmentManagedApisResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: PutIntegrationServiceEnvironmentManagedApisResponseTagsMap;
+  tags?: PutIntegrationServiceEnvironmentManagedApisResponseTagsMap | undefined;
   /** The integration service environment managed api properties. */
-  properties?: IntegrationServiceEnvironmentManagedApiProperties;
+  properties?: IntegrationServiceEnvironmentManagedApiProperties | undefined;
 }
 export interface RegenerateIntegrationAccountAccessKeyRequest {
   /** The subscription id. */
@@ -4752,7 +4761,7 @@ export interface RegenerateIntegrationAccountAccessKeyRequest {
   /** The integration account name. */
   integrationAccountName: string;
   /** The key type. */
-  keyType?: KeyType | (string & {});
+  keyType?: KeyType | (string & {}) | undefined;
 }
 /** The resource tags. */
 export type RegenerateIntegrationAccountAccessKeyResponseTagsMap = {
@@ -4760,19 +4769,19 @@ export type RegenerateIntegrationAccountAccessKeyResponseTagsMap = {
 };
 export interface RegenerateIntegrationAccountAccessKeyResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: RegenerateIntegrationAccountAccessKeyResponseTagsMap;
+  tags?: RegenerateIntegrationAccountAccessKeyResponseTagsMap | undefined;
   /** The integration account properties. */
-  properties?: IntegrationAccountProperties;
+  properties?: IntegrationAccountProperties | undefined;
   /** The sku. */
-  sku?: IntegrationAccountSku;
+  sku?: IntegrationAccountSku | undefined;
 }
 export interface RegenerateWorkflowAccessKeyRequest {
   /** The subscription id. */
@@ -4782,7 +4791,7 @@ export interface RegenerateWorkflowAccessKeyRequest {
   /** The workflow name. */
   workflowName: string;
   /** The key type. */
-  keyType?: KeyType | (string & {});
+  keyType?: KeyType | (string & {}) | undefined;
 }
 export interface RegenerateWorkflowAccessKeyResponse {}
 export interface ResetWorkflowTriggerRequest {
@@ -4808,11 +4817,11 @@ export interface RestartIntegrationServiceEnvironmentResponse {}
 /** The workflow trigger reference. */
 export interface WorkflowTriggerReferenceInput {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The workflow name. */
-  flowName?: string;
+  flowName?: string | undefined;
   /** The workflow trigger name. */
-  triggerName?: string;
+  triggerName?: string | undefined;
 }
 export interface SetWorkflowTriggerStateRequest {
   /** The subscription id. */
@@ -4848,31 +4857,31 @@ export interface UpdateIntegrationAccountRequest {
   /** The integration account name. */
   integrationAccountName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: UpdateIntegrationAccountRequestTagsMap;
+  tags?: UpdateIntegrationAccountRequestTagsMap | undefined;
   /** The integration account properties. */
-  properties?: IntegrationAccountPropertiesInput;
+  properties?: IntegrationAccountPropertiesInput | undefined;
   /** The sku. */
-  sku?: IntegrationAccountSku;
+  sku?: IntegrationAccountSku | undefined;
 }
 /** The resource tags. */
 export type UpdateIntegrationAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateIntegrationAccountResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: UpdateIntegrationAccountResponseTagsMap;
+  tags?: UpdateIntegrationAccountResponseTagsMap | undefined;
   /** The integration account properties. */
-  properties?: IntegrationAccountProperties;
+  properties?: IntegrationAccountProperties | undefined;
   /** The sku. */
-  sku?: IntegrationAccountSku;
+  sku?: IntegrationAccountSku | undefined;
 }
 /** The resource tags. */
 export type UpdateIntegrationServiceEnvironmentRequestTagsMap = {
@@ -4886,14 +4895,14 @@ export interface UpdateIntegrationServiceEnvironmentRequest {
   /** The integration service environment name. */
   integrationServiceEnvironmentName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: UpdateIntegrationServiceEnvironmentRequestTagsMap;
+  tags?: UpdateIntegrationServiceEnvironmentRequestTagsMap | undefined;
   /** The integration service environment properties. */
-  properties?: IntegrationServiceEnvironmentPropertiesInput;
+  properties?: IntegrationServiceEnvironmentPropertiesInput | undefined;
   /** The sku. */
-  sku?: IntegrationServiceEnvironmentSku;
-  identity?: ManagedServiceIdentityInput;
+  sku?: IntegrationServiceEnvironmentSku | undefined;
+  identity?: ManagedServiceIdentityInput | undefined;
 }
 /** The resource tags. */
 export type UpdateIntegrationServiceEnvironmentResponseTagsMap = {
@@ -4901,20 +4910,20 @@ export type UpdateIntegrationServiceEnvironmentResponseTagsMap = {
 };
 export interface UpdateIntegrationServiceEnvironmentResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: UpdateIntegrationServiceEnvironmentResponseTagsMap;
+  tags?: UpdateIntegrationServiceEnvironmentResponseTagsMap | undefined;
   /** The integration service environment properties. */
-  properties?: IntegrationServiceEnvironmentProperties;
+  properties?: IntegrationServiceEnvironmentProperties | undefined;
   /** The sku. */
-  sku?: IntegrationServiceEnvironmentSku;
-  identity?: ManagedServiceIdentity;
+  sku?: IntegrationServiceEnvironmentSku | undefined;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface UpdateWorkflowRequest {
   /** The subscription id. */
@@ -4928,18 +4937,18 @@ export interface UpdateWorkflowRequest {
 export type UpdateWorkflowResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateWorkflowResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: UpdateWorkflowResponseTagsMap;
+  tags?: UpdateWorkflowResponseTagsMap | undefined;
   /** The workflow properties. */
-  properties?: WorkflowProperties;
-  identity?: ManagedServiceIdentity;
+  properties?: WorkflowProperties | undefined;
+  identity?: ManagedServiceIdentity | undefined;
 }
 /** The resource tags. */
 export type ValidateWorkflowByLocationRequestTagsMap = { [key: string]: string | undefined };
@@ -4948,19 +4957,19 @@ export type WorkflowPropertiesInputParametersMap = { [key: string]: WorkflowPara
 /** The workflow properties. */
 export interface WorkflowPropertiesInput {
   /** The state. */
-  state?: WorkflowState | (string & {});
+  state?: WorkflowState | (string & {}) | undefined;
   /** The endpoints configuration. */
-  endpointsConfiguration?: FlowEndpointsConfiguration;
+  endpointsConfiguration?: FlowEndpointsConfiguration | undefined;
   /** The access control configuration. */
-  accessControl?: FlowAccessControlConfiguration;
+  accessControl?: FlowAccessControlConfiguration | undefined;
   /** The integration account. */
-  integrationAccount?: KeyVaultKeyReferenceInputKeyVault;
+  integrationAccount?: KeyVaultKeyReferenceInputKeyVault | undefined;
   /** The integration service environment. */
-  integrationServiceEnvironment?: KeyVaultKeyReferenceInputKeyVault;
+  integrationServiceEnvironment?: KeyVaultKeyReferenceInputKeyVault | undefined;
   /** The definition. */
-  definition?: unknown;
+  definition?: unknown | undefined;
   /** The parameters. */
-  parameters?: WorkflowPropertiesInputParametersMap;
+  parameters?: WorkflowPropertiesInputParametersMap | undefined;
 }
 export interface ValidateWorkflowByLocationRequest {
   /** The subscription id. */
@@ -4972,10 +4981,10 @@ export interface ValidateWorkflowByLocationRequest {
   /** The workflow name. */
   workflowName: string;
   /** The resource tags. */
-  tags?: ValidateWorkflowByLocationRequestTagsMap;
+  tags?: ValidateWorkflowByLocationRequestTagsMap | undefined;
   /** The workflow properties. */
-  properties?: WorkflowPropertiesInput;
-  identity?: ManagedServiceIdentityInput;
+  properties?: WorkflowPropertiesInput | undefined;
+  identity?: ManagedServiceIdentityInput | undefined;
 }
 export interface ValidateWorkflowByLocationResponse {}
 /** The resource tags. */
@@ -4988,12 +4997,12 @@ export interface ValidateWorkflowByResourceGroupRequest {
   /** The workflow name. */
   workflowName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: ValidateWorkflowByResourceGroupRequestTagsMap;
+  tags?: ValidateWorkflowByResourceGroupRequestTagsMap | undefined;
   /** The workflow properties. */
-  properties?: WorkflowPropertiesInput;
-  identity?: ManagedServiceIdentityInput;
+  properties?: WorkflowPropertiesInput | undefined;
+  identity?: ManagedServiceIdentityInput | undefined;
 }
 export interface ValidateWorkflowByResourceGroupResponse {}
 /** The resource tags. */
@@ -5006,29 +5015,29 @@ export interface WorkflowsCreateOrUpdateRequest {
   /** The workflow name. */
   workflowName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: WorkflowsCreateOrUpdateRequestTagsMap;
+  tags?: WorkflowsCreateOrUpdateRequestTagsMap | undefined;
   /** The workflow properties. */
-  properties?: WorkflowPropertiesInput;
-  identity?: ManagedServiceIdentityInput;
+  properties?: WorkflowPropertiesInput | undefined;
+  identity?: ManagedServiceIdentityInput | undefined;
 }
 /** The resource tags. */
 export type WorkflowsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface WorkflowsCreateOrUpdateResponse {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: WorkflowsCreateOrUpdateResponseTagsMap;
+  tags?: WorkflowsCreateOrUpdateResponseTagsMap | undefined;
   /** The workflow properties. */
-  properties?: WorkflowProperties;
-  identity?: ManagedServiceIdentity;
+  properties?: WorkflowProperties | undefined;
+  identity?: ManagedServiceIdentity | undefined;
 }
 export interface WorkflowTriggerHistoriesResubmitRequest {
   /** The subscription id. */

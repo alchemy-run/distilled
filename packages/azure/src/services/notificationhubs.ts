@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Notificationhubs",
   service: "Notificationhubs",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -40,13 +41,13 @@ export type SkuName = "Free" | "Basic" | "Standard";
 export interface Sku {
   name: SkuName | (string & {});
   /** Gets or sets the tier of particular sku */
-  tier?: string;
+  tier?: string | undefined;
   /** Gets or sets the Sku size */
-  size?: string;
+  size?: string | undefined;
   /** Gets or sets the Sku Family */
-  family?: string;
+  family?: string | undefined;
   /** Gets or sets the capacity of the resource */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface CheckNamespaceAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -54,12 +55,12 @@ export interface CheckNamespaceAvailabilityRequest {
   /** Gets or sets resource name */
   name: string;
   /** Gets or sets resource location */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets resource tags */
-  tags?: CheckNamespaceAvailabilityRequestTagsMap;
+  tags?: CheckNamespaceAvailabilityRequestTagsMap | undefined;
   /** Not used and deprecated since API version 2023-09-01 */
-  isAvailiable?: boolean;
-  sku?: Sku;
+  isAvailiable?: boolean | undefined;
+  sku?: Sku | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -68,36 +69,36 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Deprecated - only for compatibility. */
 export type CheckNamespaceAvailabilityResponseTagsMap = { [key: string]: string | undefined };
 export interface CheckNamespaceAvailabilityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets true if the name is available and can be used to create new Namespace/NotificationHub. Otherwise false. */
-  isAvailiable?: boolean;
+  isAvailiable?: boolean | undefined;
   /** Deprecated - only for compatibility. */
-  location?: string;
+  location?: string | undefined;
   /** Deprecated - only for compatibility. */
-  tags?: CheckNamespaceAvailabilityResponseTagsMap;
-  sku?: Sku;
+  tags?: CheckNamespaceAvailabilityResponseTagsMap | undefined;
+  sku?: Sku | undefined;
 }
 /** Gets or sets resource tags */
 export type CheckNotificationHubNotificationHubAvailabilityRequestTagsMap = {
@@ -113,12 +114,12 @@ export interface CheckNotificationHubNotificationHubAvailabilityRequest {
   /** Gets or sets resource name */
   name: string;
   /** Gets or sets resource location */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets resource tags */
-  tags?: CheckNotificationHubNotificationHubAvailabilityRequestTagsMap;
+  tags?: CheckNotificationHubNotificationHubAvailabilityRequestTagsMap | undefined;
   /** Not used and deprecated since API version 2023-09-01 */
-  isAvailiable?: boolean;
-  sku?: Sku;
+  isAvailiable?: boolean | undefined;
+  sku?: Sku | undefined;
 }
 /** Deprecated - only for compatibility. */
 export type CheckNotificationHubNotificationHubAvailabilityResponseTagsMap = {
@@ -126,20 +127,20 @@ export type CheckNotificationHubNotificationHubAvailabilityResponseTagsMap = {
 };
 export interface CheckNotificationHubNotificationHubAvailabilityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets true if the name is available and can be used to create new Namespace/NotificationHub. Otherwise false. */
-  isAvailiable?: boolean;
+  isAvailiable?: boolean | undefined;
   /** Deprecated - only for compatibility. */
-  location?: string;
+  location?: string | undefined;
   /** Deprecated - only for compatibility. */
-  tags?: CheckNotificationHubNotificationHubAvailabilityResponseTagsMap;
-  sku?: Sku;
+  tags?: CheckNotificationHubNotificationHubAvailabilityResponseTagsMap | undefined;
+  sku?: Sku | undefined;
 }
 export interface DeleteNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -196,7 +197,7 @@ export interface DeletePrivateEndpointConnectionRequest {
   privateEndpointConnectionName: string;
 }
 export interface DeletePrivateEndpointConnectionResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -256,8 +257,8 @@ export interface PublicInternetAuthorizationRule {
 /** A collection of network authorization rules. */
 export interface NetworkAcls {
   /** List of IP rules. */
-  ipRules?: NetworkAclsIpRulesList;
-  publicNetworkRule?: PublicInternetAuthorizationRule;
+  ipRules?: NetworkAclsIpRulesList | undefined;
+  publicNetworkRule?: PublicInternetAuthorizationRule | undefined;
 }
 /** Description of a NotificationHub AdmCredential. */
 export interface AdmCredentialProperties {
@@ -275,21 +276,21 @@ export interface AdmCredential {
 /** Description of a NotificationHub ApnsCredential. */
 export interface ApnsCredentialProperties {
   /** Gets or sets the APNS certificate. */
-  apnsCertificate?: string;
+  apnsCertificate?: string | undefined;
   /** Gets or sets the certificate key. */
-  certificateKey?: string;
+  certificateKey?: string | undefined;
   /** Gets or sets the endpoint of this credential. */
   endpoint: string;
   /** Gets or sets the APNS certificate Thumbprint */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Gets or sets a 10-character key identifier (kid) key, obtained from your developer account */
-  keyId?: string;
+  keyId?: string | undefined;
   /** Gets or sets the name of the application */
-  appName?: string;
+  appName?: string | undefined;
   /** Gets or sets the issuer (iss) registered claim key, whose value is your 10-character Team ID, obtained from your developer account */
-  appId?: string;
+  appId?: string | undefined;
   /** Gets or sets provider Authentication Token, obtained through your developer account */
-  token?: string;
+  token?: string | undefined;
 }
 /** Description of a NotificationHub ApnsCredential. */
 export interface ApnsCredential {
@@ -324,7 +325,7 @@ export interface BrowserCredential {
 /** Description of a NotificationHub GcmCredential. */
 export interface GcmCredentialProperties {
   /** Gets or sets the GCM endpoint. */
-  gcmEndpoint?: string;
+  gcmEndpoint?: string | undefined;
   /** Gets or sets the Google API key. */
   googleApiKey: string;
 }
@@ -348,15 +349,15 @@ export interface MpnsCredential {
 /** Description of a NotificationHub WnsCredential. */
 export interface WnsCredentialProperties {
   /** Gets or sets the package ID for this credential. */
-  packageSid?: string;
+  packageSid?: string | undefined;
   /** Gets or sets the secret key. */
-  secretKey?: string | Redacted.Redacted<string>;
+  secretKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the Windows Live endpoint. */
-  windowsLiveEndpoint?: string;
+  windowsLiveEndpoint?: string | undefined;
   /** Ges or sets the WNS Certificate Key. */
-  certificateKey?: string;
+  certificateKey?: string | undefined;
   /** Gets or sets the WNS Certificate. */
-  wnsCertificate?: string;
+  wnsCertificate?: string | undefined;
 }
 /** Description of a NotificationHub WnsCredential. */
 export interface WnsCredential {
@@ -365,9 +366,9 @@ export interface WnsCredential {
 /** Description of a NotificationHub XiaomiCredentialProperties. */
 export interface XiaomiCredentialProperties {
   /** Gets or sets app secret. */
-  appSecret?: string;
+  appSecret?: string | undefined;
   /** Gets or sets xiaomi service endpoint. */
-  endpoint?: string;
+  endpoint?: string | undefined;
 }
 /** Description of a NotificationHub XiaomiCredential. */
 export interface XiaomiCredential {
@@ -375,14 +376,14 @@ export interface XiaomiCredential {
 }
 /** Collection of Notification Hub or Notification Hub Namespace PNS credentials. */
 export interface PnsCredentials {
-  admCredential?: AdmCredential;
-  apnsCredential?: ApnsCredential;
-  baiduCredential?: BaiduCredential;
-  browserCredential?: BrowserCredential;
-  gcmCredential?: GcmCredential;
-  mpnsCredential?: MpnsCredential;
-  wnsCredential?: WnsCredential;
-  xiaomiCredential?: XiaomiCredential;
+  admCredential?: AdmCredential | undefined;
+  apnsCredential?: ApnsCredential | undefined;
+  baiduCredential?: BaiduCredential | undefined;
+  browserCredential?: BrowserCredential | undefined;
+  gcmCredential?: GcmCredential | undefined;
+  mpnsCredential?: MpnsCredential | undefined;
+  wnsCredential?: WnsCredential | undefined;
+  xiaomiCredential?: XiaomiCredential | undefined;
 }
 /** State of Private Endpoint Connection. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -397,7 +398,7 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Represents a Private Endpoint that is connected to Notification Hubs namespace using Private Endpoint Connection. */
 export interface RemotePrivateEndpointConnection {
   /** ARM resource ID of the Private Endpoint. This may belong to different subscription and resource group than a Notification Hubs namespace. */
-  id?: string;
+  id?: string | undefined;
 }
 /** List of group ids. For Notification Hubs, it always contains a single "namespace" element. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -405,31 +406,31 @@ export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 export type PrivateLinkConnectionStatus = "Disconnected" | "Pending" | "Approved" | "Rejected";
 /** State of the Private Link Service connection. */
 export interface RemotePrivateLinkServiceConnectionState {
-  status?: PrivateLinkConnectionStatus;
+  status?: PrivateLinkConnectionStatus | undefined;
   /** Human-friendly description. */
-  description?: string;
+  description?: string | undefined;
   /** Human-friendly description of required actions. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Private Endpoint Connection properties. */
 export interface PrivateEndpointConnectionProperties {
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
-  privateEndpoint?: RemotePrivateEndpointConnection;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
+  privateEndpoint?: RemotePrivateEndpointConnection | undefined;
   /** List of group ids. For Notification Hubs, it always contains a single "namespace" element. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
-  privateLinkServiceConnectionState?: RemotePrivateLinkServiceConnectionState;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
+  privateLinkServiceConnectionState?: RemotePrivateLinkServiceConnectionState | undefined;
 }
 /** Represents a Private Endpoint Connection ARM resource - a sub-resource of Notification Hubs namespace. */
 export interface PrivateEndpointConnectionResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateEndpointConnectionProperties;
+  systemData?: SystemData | undefined;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Private Endpoint Connections for namespace */
 export type NamespacePropertiesPrivateEndpointConnectionsList =
@@ -439,53 +440,53 @@ export type PublicNetworkAccess = "Enabled" | "Disabled";
 /** Represents namespace properties. */
 export interface NamespaceProperties {
   /** Name of the Notification Hubs namespace. This is immutable property, set automatically by the service when the namespace is created. */
-  name?: string;
-  provisioningState?: OperationProvisioningState;
-  status?: NamespaceStatus;
+  name?: string | undefined;
+  provisioningState?: OperationProvisioningState | undefined;
+  status?: NamespaceStatus | undefined;
   /** Gets or sets whether or not the namespace is currently enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Gets or sets whether or not the namespace is set as Critical. */
-  critical?: boolean;
+  critical?: boolean | undefined;
   /** Namespace subscription id. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Region. The value is always set to the same value as Namespace.Location, so we are deprecating this property. */
-  region?: string;
+  region?: string | undefined;
   /** Azure Insights Metrics id. */
-  metricId?: string;
+  metricId?: string | undefined;
   /** Time when the namespace was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Time when the namespace was updated. */
-  updatedAt?: string;
-  namespaceType?: NamespaceType;
-  replicationRegion?: ReplicationRegion;
-  zoneRedundancy?: ZoneRedundancyPreference;
-  networkAcls?: NetworkAcls;
-  pnsCredentials?: PnsCredentials;
+  updatedAt?: string | undefined;
+  namespaceType?: NamespaceType | undefined;
+  replicationRegion?: ReplicationRegion | undefined;
+  zoneRedundancy?: ZoneRedundancyPreference | undefined;
+  networkAcls?: NetworkAcls | undefined;
+  pnsCredentials?: PnsCredentials | undefined;
   /** Gets or sets endpoint you can use to perform NotificationHub operations. */
-  serviceBusEndpoint?: string;
+  serviceBusEndpoint?: string | undefined;
   /** Private Endpoint Connections for namespace */
-  privateEndpointConnections?: NamespacePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: NamespacePropertiesPrivateEndpointConnectionsList | undefined;
   /** Gets or sets scaleUnit where the namespace gets created */
-  scaleUnit?: string;
+  scaleUnit?: string | undefined;
   /** Deprecated. */
-  dataCenter?: string;
-  publicNetworkAccess?: PublicNetworkAccess;
+  dataCenter?: string | undefined;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
 }
 export interface GetNamespaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNamespaceResponseTagsMap;
+  tags?: GetNamespaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   sku: Sku;
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
 }
 export interface GetNamespaceAuthorizationRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -504,38 +505,38 @@ export interface SharedAccessAuthorizationRuleProperties {
   /** Gets or sets the rights associated with the rule. */
   rights: SharedAccessAuthorizationRulePropertiesRightsList;
   /** Gets a base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Gets a base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Gets a string that describes the authorization rule. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** Gets the last modified time for this rule */
-  modifiedTime?: string;
+  modifiedTime?: string | undefined;
   /** Gets the created time for this rule */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** Gets a string that describes the claim type */
-  claimType?: string;
+  claimType?: string | undefined;
   /** Gets a string that describes the claim value */
-  claimValue?: string;
+  claimValue?: string | undefined;
   /** Gets the revision number for the rule */
-  revision?: number;
+  revision?: number | undefined;
 }
 /** Deprecated - only for compatibility. */
 export type GetNamespaceAuthorizationRuleResponseTagsMap = { [key: string]: string | undefined };
 export interface GetNamespaceAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedAccessAuthorizationRuleProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedAccessAuthorizationRuleProperties | undefined;
   /** Deprecated - only for compatibility. */
-  location?: string;
+  location?: string | undefined;
   /** Deprecated - only for compatibility. */
-  tags?: GetNamespaceAuthorizationRuleResponseTagsMap;
+  tags?: GetNamespaceAuthorizationRuleResponseTagsMap | undefined;
 }
 export interface GetNamespacePnsCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -549,18 +550,18 @@ export interface GetNamespacePnsCredentialsRequest {
 export type GetNamespacePnsCredentialsResponseTagsMap = { [key: string]: string | undefined };
 export interface GetNamespacePnsCredentialsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PnsCredentials;
+  systemData?: SystemData | undefined;
+  properties?: PnsCredentials | undefined;
   /** Deprecated - only for compatibility. */
-  location?: string;
+  location?: string | undefined;
   /** Deprecated - only for compatibility. */
-  tags?: GetNamespacePnsCredentialsResponseTagsMap;
+  tags?: GetNamespacePnsCredentialsResponseTagsMap | undefined;
 }
 export interface GetNotificationHubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -580,36 +581,36 @@ export type NotificationHubPropertiesAuthorizationRulesList =
 /** NotificationHub properties. */
 export interface NotificationHubProperties {
   /** Gets or sets the NotificationHub name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the RegistrationTtl of the created NotificationHub */
-  registrationTtl?: string;
+  registrationTtl?: string | undefined;
   /** Gets or sets the AuthorizationRules of the created NotificationHub */
-  authorizationRules?: NotificationHubPropertiesAuthorizationRulesList;
-  apnsCredential?: ApnsCredential;
-  wnsCredential?: WnsCredential;
-  gcmCredential?: GcmCredential;
-  mpnsCredential?: MpnsCredential;
-  admCredential?: AdmCredential;
-  baiduCredential?: BaiduCredential;
-  browserCredential?: BrowserCredential;
-  xiaomiCredential?: XiaomiCredential;
-  dailyMaxActiveDevices?: number;
+  authorizationRules?: NotificationHubPropertiesAuthorizationRulesList | undefined;
+  apnsCredential?: ApnsCredential | undefined;
+  wnsCredential?: WnsCredential | undefined;
+  gcmCredential?: GcmCredential | undefined;
+  mpnsCredential?: MpnsCredential | undefined;
+  admCredential?: AdmCredential | undefined;
+  baiduCredential?: BaiduCredential | undefined;
+  browserCredential?: BrowserCredential | undefined;
+  xiaomiCredential?: XiaomiCredential | undefined;
+  dailyMaxActiveDevices?: number | undefined;
 }
 export interface GetNotificationHubResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNotificationHubResponseTagsMap;
+  tags?: GetNotificationHubResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: NotificationHubProperties;
-  sku?: Sku;
+  properties?: NotificationHubProperties | undefined;
+  sku?: Sku | undefined;
 }
 export interface GetNotificationHubAuthorizationRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -629,18 +630,18 @@ export type GetNotificationHubAuthorizationRuleResponseTagsMap = {
 };
 export interface GetNotificationHubAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedAccessAuthorizationRuleProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedAccessAuthorizationRuleProperties | undefined;
   /** Deprecated - only for compatibility. */
-  location?: string;
+  location?: string | undefined;
   /** Deprecated - only for compatibility. */
-  tags?: GetNotificationHubAuthorizationRuleResponseTagsMap;
+  tags?: GetNotificationHubAuthorizationRuleResponseTagsMap | undefined;
 }
 export interface GetNotificationHubPnsCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -656,18 +657,18 @@ export interface GetNotificationHubPnsCredentialsRequest {
 export type GetNotificationHubPnsCredentialsResponseTagsMap = { [key: string]: string | undefined };
 export interface GetNotificationHubPnsCredentialsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PnsCredentials;
+  systemData?: SystemData | undefined;
+  properties?: PnsCredentials | undefined;
   /** Deprecated - only for compatibility. */
-  location?: string;
+  location?: string | undefined;
   /** Deprecated - only for compatibility. */
-  tags?: GetNotificationHubPnsCredentialsResponseTagsMap;
+  tags?: GetNotificationHubPnsCredentialsResponseTagsMap | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -681,14 +682,14 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateEndpointConnectionProperties;
+  systemData?: SystemData | undefined;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionGroupIdRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -707,58 +708,58 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Represents properties of Private Link Resource. */
 export interface PrivateLinkResourceProperties {
   /** A Group Id for Private Link. For Notification Hubs, it is always set to "namespace". */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Required members. For Notification Hubs, it's always a collection with a single "namespace" item. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** Required DNS zone names. For Notification Hubs, it contains two CNames for Service Bus and Notification Hubs zones. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateEndpointConnectionGroupIdResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateLinkResourceProperties;
+  systemData?: SystemData | undefined;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface ListNamespaceAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** Skip token for subsequent requests. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Maximum number of results to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type NamespaceResourceTagsMap = { [key: string]: string | undefined };
 /** Notification Hubs Namespace Resource. */
 export interface NamespaceResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NamespaceResourceTagsMap;
+  tags?: NamespaceResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   sku: Sku;
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
 }
 /** Gets or sets result of the List AuthorizationRules operation. */
 export type NamespaceListResultValueList = Array<NamespaceResource>;
 /** The response of the List Namespace operation. */
 export interface NamespaceListResult {
   /** Gets or sets result of the List AuthorizationRules operation. */
-  value?: NamespaceListResultValueList;
+  value?: NamespaceListResultValueList | undefined;
   /** Gets or sets link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceAuthorizationRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -773,18 +774,18 @@ export type SharedAccessAuthorizationRuleResourceTagsMap = { [key: string]: stri
 /** Response for POST requests that return single SharedAccessAuthorizationRule. */
 export interface SharedAccessAuthorizationRuleResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedAccessAuthorizationRuleProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedAccessAuthorizationRuleProperties | undefined;
   /** Deprecated - only for compatibility. */
-  location?: string;
+  location?: string | undefined;
   /** Deprecated - only for compatibility. */
-  tags?: SharedAccessAuthorizationRuleResourceTagsMap;
+  tags?: SharedAccessAuthorizationRuleResourceTagsMap | undefined;
 }
 /** Gets or sets result of the List AuthorizationRules operation. */
 export type SharedAccessAuthorizationRuleListResultValueList =
@@ -792,9 +793,9 @@ export type SharedAccessAuthorizationRuleListResultValueList =
 /** The response of the List Namespace operation. */
 export interface SharedAccessAuthorizationRuleListResult {
   /** Gets or sets result of the List AuthorizationRules operation. */
-  value?: SharedAccessAuthorizationRuleListResultValueList;
+  value?: SharedAccessAuthorizationRuleListResultValueList | undefined;
   /** Gets or sets link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -809,15 +810,15 @@ export interface ListNamespaceKeysRequest {
 /** Response for the POST request that returns Namespace or NotificationHub access keys (connection strings). */
 export interface ResourceListKeys {
   /** Gets or sets primaryConnectionString of the AuthorizationRule. */
-  primaryConnectionString?: string;
+  primaryConnectionString?: string | undefined;
   /** Gets or sets secondaryConnectionString of the created AuthorizationRule */
-  secondaryConnectionString?: string;
+  secondaryConnectionString?: string | undefined;
   /** Gets or sets primaryKey of the created AuthorizationRule. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Gets or sets secondaryKey of the created AuthorizationRule */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Gets or sets keyName of the created AuthorizationRule */
-  keyName?: string;
+  keyName?: string | undefined;
 }
 export interface ListNamespacesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -825,9 +826,9 @@ export interface ListNamespacesRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Skip token for subsequent requests. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Maximum number of results to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListNotificationHubAuthorizationRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -859,119 +860,119 @@ export interface ListNotificationHubsRequest {
   /** Namespace name */
   namespaceName: string;
   /** Continuation token. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Page size. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type NotificationHubResourceTagsMap = { [key: string]: string | undefined };
 /** Notification Hub Resource. */
 export interface NotificationHubResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NotificationHubResourceTagsMap;
+  tags?: NotificationHubResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: NotificationHubProperties;
-  sku?: Sku;
+  properties?: NotificationHubProperties | undefined;
+  sku?: Sku | undefined;
 }
 /** Gets or sets result of the List AuthorizationRules operation. */
 export type NotificationHubListResultValueList = Array<NotificationHubResource>;
 /** The response of the List NotificationHub operation. */
 export interface NotificationHubListResult {
   /** Gets or sets result of the List AuthorizationRules operation. */
-  value?: NotificationHubListResultValueList;
+  value?: NotificationHubListResultValueList | undefined;
   /** Gets or sets link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Gets service provider: Microsoft.NotificationHubs */
-  provider?: string;
+  provider?: string | undefined;
   /** Gets resource on which the operation is performed: Invoice, etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Gets operation type: Read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Human-friendly operation description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** A single log category specification. */
 export interface LogSpecification {
   /** Name of the log category. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of the log category. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Duration of data written to a single blob. */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** Log specifications. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
 /** Represents metric availability (part of RP operation descriptions). */
 export interface Availability {
   /** Time grain of the availability. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
   /** Duration of the availability blob. */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** List of availabilities. */
 export type MetricSpecificationAvailabilitiesList = Array<Availability>;
 /** A metric specification. */
 export interface MetricSpecification {
   /** Metric name / id. */
-  name?: string;
+  name?: string | undefined;
   /** User-visible metric name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of the metric. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Metric unit. */
-  unit?: string;
+  unit?: string | undefined;
   /** Type of the aggregation (Average, Minimum, Maximum, Total or Count). */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** List of availabilities. */
-  availabilities?: MetricSpecificationAvailabilitiesList;
+  availabilities?: MetricSpecificationAvailabilitiesList | undefined;
   /** The matching regex pattern to be applied to the field pointed by the "metricsFilterPathSelector" flag in the ARM manifest. */
-  metricFilterPattern?: string;
+  metricFilterPattern?: string | undefined;
   /** Optional property. If set to true, then zero will be returned for time duration where no metric is emitted / published. */
-  fillGapWithZero?: boolean;
+  fillGapWithZero?: boolean | undefined;
 }
 /** Metric specification. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** Optional service specification used in Operations API. */
 export interface ServiceSpecification {
   /** Log specifications. */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
   /** Metric specification. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** Optional operation properties. */
 export interface OperationProperties {
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** A NotificationHubs REST API operation */
 export interface Operation {
   /** Gets operation name: {provider}/{resource}/{operation} */
-  name?: string;
-  display?: OperationDisplay;
-  properties?: OperationProperties;
+  name?: string | undefined;
+  display?: OperationDisplay | undefined;
+  properties?: OperationProperties | undefined;
   /** Gets or sets IsDataAction property. It is used to differentiate management and data plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
 }
 /** Gets list of NotificationHubs operations supported by the Microsoft.NotificationHubs resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list NotificationHubs operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** Gets list of NotificationHubs operations supported by the Microsoft.NotificationHubs resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** Gets URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionGroupIdsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -984,23 +985,23 @@ export interface ListPrivateEndpointConnectionGroupIdsRequest {
 /** A Private Link Arm Resource. */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateLinkResourceProperties;
+  systemData?: SystemData | undefined;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Gets or sets result of the List AuthorizationRules operation. */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** The response of the List Private Link Resources operation. */
 export interface PrivateLinkResourceListResult {
   /** Gets or sets result of the List AuthorizationRules operation. */
-  value?: PrivateLinkResourceListResultValueList;
+  value?: PrivateLinkResourceListResultValueList | undefined;
   /** Gets or sets link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1016,26 +1017,26 @@ export type PrivateEndpointConnectionResourceListResultValueList =
 /** The response of the List Private Endpoint Connections operation. */
 export interface PrivateEndpointConnectionResourceListResult {
   /** Gets or sets result of the List AuthorizationRules operation. */
-  value?: PrivateEndpointConnectionResourceListResultValueList;
+  value?: PrivateEndpointConnectionResourceListResultValueList | undefined;
   /** Gets or sets link to the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NamespacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Represents namespace properties. */
 export interface NamespacePropertiesInput {
-  provisioningState?: OperationProvisioningState | (string & {});
-  status?: NamespaceStatus | (string & {});
-  namespaceType?: NamespaceType | (string & {});
-  replicationRegion?: ReplicationRegion | (string & {});
-  zoneRedundancy?: ZoneRedundancyPreference | (string & {});
-  networkAcls?: NetworkAcls;
-  pnsCredentials?: PnsCredentials;
+  provisioningState?: OperationProvisioningState | (string & {}) | undefined;
+  status?: NamespaceStatus | (string & {}) | undefined;
+  namespaceType?: NamespaceType | (string & {}) | undefined;
+  replicationRegion?: ReplicationRegion | (string & {}) | undefined;
+  zoneRedundancy?: ZoneRedundancyPreference | (string & {}) | undefined;
+  networkAcls?: NetworkAcls | undefined;
+  pnsCredentials?: PnsCredentials | undefined;
   /** Gets or sets scaleUnit where the namespace gets created */
-  scaleUnit?: string;
+  scaleUnit?: string | undefined;
   /** Deprecated. */
-  dataCenter?: string;
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  dataCenter?: string | undefined;
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
 }
 export interface NamespacesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1045,29 +1046,29 @@ export interface NamespacesCreateOrUpdateRequest {
   /** Namespace name */
   namespaceName: string;
   /** Resource tags. */
-  tags?: NamespacesCreateOrUpdateRequestTagsMap;
+  tags?: NamespacesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   sku: Sku;
-  properties?: NamespacePropertiesInput;
+  properties?: NamespacePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type NamespacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface NamespacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NamespacesCreateOrUpdateResponseTagsMap;
+  tags?: NamespacesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   sku: Sku;
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
 }
 /** Gets or sets the rights associated with the rule. */
 export type SharedAccessAuthorizationRulePropertiesInputRightsList = Array<
@@ -1078,9 +1079,9 @@ export interface SharedAccessAuthorizationRulePropertiesInput {
   /** Gets or sets the rights associated with the rule. */
   rights: SharedAccessAuthorizationRulePropertiesInputRightsList;
   /** Gets a base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Gets a base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
 }
 /** Deprecated - only for compatibility. */
 export type NamespacesCreateOrUpdateAuthorizationRuleRequestTagsMap = {
@@ -1095,11 +1096,11 @@ export interface NamespacesCreateOrUpdateAuthorizationRuleRequest {
   namespaceName: string;
   /** Authorization Rule Name */
   authorizationRuleName: string;
-  properties?: SharedAccessAuthorizationRulePropertiesInput;
+  properties?: SharedAccessAuthorizationRulePropertiesInput | undefined;
   /** Deprecated - only for compatibility. */
-  location?: string;
+  location?: string | undefined;
   /** Deprecated - only for compatibility. */
-  tags?: NamespacesCreateOrUpdateAuthorizationRuleRequestTagsMap;
+  tags?: NamespacesCreateOrUpdateAuthorizationRuleRequestTagsMap | undefined;
 }
 /** Deprecated - only for compatibility. */
 export type NamespacesCreateOrUpdateAuthorizationRuleResponseTagsMap = {
@@ -1107,35 +1108,35 @@ export type NamespacesCreateOrUpdateAuthorizationRuleResponseTagsMap = {
 };
 export interface NamespacesCreateOrUpdateAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedAccessAuthorizationRuleProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedAccessAuthorizationRuleProperties | undefined;
   /** Deprecated - only for compatibility. */
-  location?: string;
+  location?: string | undefined;
   /** Deprecated - only for compatibility. */
-  tags?: NamespacesCreateOrUpdateAuthorizationRuleResponseTagsMap;
+  tags?: NamespacesCreateOrUpdateAuthorizationRuleResponseTagsMap | undefined;
 }
 /** Resource tags. */
 export type NotificationHubsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** NotificationHub properties. */
 export interface NotificationHubPropertiesInput {
   /** Gets or sets the NotificationHub name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the RegistrationTtl of the created NotificationHub */
-  registrationTtl?: string;
-  apnsCredential?: ApnsCredential;
-  wnsCredential?: WnsCredential;
-  gcmCredential?: GcmCredential;
-  mpnsCredential?: MpnsCredential;
-  admCredential?: AdmCredential;
-  baiduCredential?: BaiduCredential;
-  browserCredential?: BrowserCredential;
-  xiaomiCredential?: XiaomiCredential;
+  registrationTtl?: string | undefined;
+  apnsCredential?: ApnsCredential | undefined;
+  wnsCredential?: WnsCredential | undefined;
+  gcmCredential?: GcmCredential | undefined;
+  mpnsCredential?: MpnsCredential | undefined;
+  admCredential?: AdmCredential | undefined;
+  baiduCredential?: BaiduCredential | undefined;
+  browserCredential?: BrowserCredential | undefined;
+  xiaomiCredential?: XiaomiCredential | undefined;
 }
 export interface NotificationHubsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1147,29 +1148,29 @@ export interface NotificationHubsCreateOrUpdateRequest {
   /** Notification Hub name */
   notificationHubName: string;
   /** Resource tags. */
-  tags?: NotificationHubsCreateOrUpdateRequestTagsMap;
+  tags?: NotificationHubsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: NotificationHubPropertiesInput;
-  sku?: Sku;
+  properties?: NotificationHubPropertiesInput | undefined;
+  sku?: Sku | undefined;
 }
 /** Resource tags. */
 export type NotificationHubsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface NotificationHubsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NotificationHubsCreateOrUpdateResponseTagsMap;
+  tags?: NotificationHubsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: NotificationHubProperties;
-  sku?: Sku;
+  properties?: NotificationHubProperties | undefined;
+  sku?: Sku | undefined;
 }
 /** Deprecated - only for compatibility. */
 export type NotificationHubsCreateOrUpdateAuthorizationRuleRequestTagsMap = {
@@ -1186,11 +1187,11 @@ export interface NotificationHubsCreateOrUpdateAuthorizationRuleRequest {
   notificationHubName: string;
   /** Authorization Rule Name */
   authorizationRuleName: string;
-  properties?: SharedAccessAuthorizationRulePropertiesInput;
+  properties?: SharedAccessAuthorizationRulePropertiesInput | undefined;
   /** Deprecated - only for compatibility. */
-  location?: string;
+  location?: string | undefined;
   /** Deprecated - only for compatibility. */
-  tags?: NotificationHubsCreateOrUpdateAuthorizationRuleRequestTagsMap;
+  tags?: NotificationHubsCreateOrUpdateAuthorizationRuleRequestTagsMap | undefined;
 }
 /** Deprecated - only for compatibility. */
 export type NotificationHubsCreateOrUpdateAuthorizationRuleResponseTagsMap = {
@@ -1198,18 +1199,18 @@ export type NotificationHubsCreateOrUpdateAuthorizationRuleResponseTagsMap = {
 };
 export interface NotificationHubsCreateOrUpdateAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedAccessAuthorizationRuleProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedAccessAuthorizationRuleProperties | undefined;
   /** Deprecated - only for compatibility. */
-  location?: string;
+  location?: string | undefined;
   /** Deprecated - only for compatibility. */
-  tags?: NotificationHubsCreateOrUpdateAuthorizationRuleResponseTagsMap;
+  tags?: NotificationHubsCreateOrUpdateAuthorizationRuleResponseTagsMap | undefined;
 }
 /** Type of Shared Access Policy Key (primary or secondary). */
 export type PolicyKeyType = "PrimaryKey" | "SecondaryKey";
@@ -1250,41 +1251,41 @@ export interface SendNotificationHubsDebugRequest {
 /** Notification result for a single registration. */
 export interface RegistrationResult {
   /** PNS type. */
-  applicationPlatform?: string;
+  applicationPlatform?: string | undefined;
   /** PNS handle. */
-  pnsHandle?: string;
+  pnsHandle?: string | undefined;
   /** Registration id. */
-  registrationId?: string;
+  registrationId?: string | undefined;
   /** Notification outcome. */
-  outcome?: string;
+  outcome?: string | undefined;
 }
 /** Gets or sets actual failure description */
 export type DebugSendResultResultsList = Array<RegistrationResult>;
 /** Result of DebugSend operations. */
 export interface DebugSendResult {
   /** Gets or sets successful send */
-  success?: number;
+  success?: number | undefined;
   /** Gets or sets send failure */
-  failure?: number;
+  failure?: number | undefined;
   /** Gets or sets actual failure description */
-  results?: DebugSendResultResultsList;
+  results?: DebugSendResultResultsList | undefined;
 }
 /** Deprecated - only for compatibility. */
 export type SendNotificationHubsDebugResponseTagsMap = { [key: string]: string | undefined };
 export interface SendNotificationHubsDebugResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DebugSendResult;
+  systemData?: SystemData | undefined;
+  properties?: DebugSendResult | undefined;
   /** Deprecated - only for compatibility. */
-  location?: string;
+  location?: string | undefined;
   /** Deprecated - only for compatibility. */
-  tags?: SendNotificationHubsDebugResponseTagsMap;
+  tags?: SendNotificationHubsDebugResponseTagsMap | undefined;
 }
 export type UpdateNamespaceRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateNamespaceRequest {
@@ -1294,27 +1295,27 @@ export interface UpdateNamespaceRequest {
   resourceGroupName: string;
   /** Namespace name */
   namespaceName: string;
-  sku?: Sku;
-  properties?: NamespacePropertiesInput;
-  tags?: UpdateNamespaceRequestTagsMap;
+  sku?: Sku | undefined;
+  properties?: NamespacePropertiesInput | undefined;
+  tags?: UpdateNamespaceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNamespaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNamespaceResponseTagsMap;
+  tags?: UpdateNamespaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   sku: Sku;
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
 }
 export type UpdateNotificationHubRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateNotificationHubRequest {
@@ -1326,39 +1327,39 @@ export interface UpdateNotificationHubRequest {
   namespaceName: string;
   /** Notification Hub name */
   notificationHubName: string;
-  properties?: NotificationHubPropertiesInput;
-  sku?: Sku;
-  tags?: UpdateNotificationHubRequestTagsMap;
+  properties?: NotificationHubPropertiesInput | undefined;
+  sku?: Sku | undefined;
+  tags?: UpdateNotificationHubRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateNotificationHubResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNotificationHubResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNotificationHubResponseTagsMap;
+  tags?: UpdateNotificationHubResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: NotificationHubProperties;
-  sku?: Sku;
+  properties?: NotificationHubProperties | undefined;
+  sku?: Sku | undefined;
 }
 /** Represents a Private Endpoint that is connected to Notification Hubs namespace using Private Endpoint Connection. */
 export interface RemotePrivateEndpointConnectionInput {}
 /** State of the Private Link Service connection. */
 export interface RemotePrivateLinkServiceConnectionStateInput {
-  status?: PrivateLinkConnectionStatus | (string & {});
+  status?: PrivateLinkConnectionStatus | (string & {}) | undefined;
 }
 /** Private Endpoint Connection properties. */
 export interface PrivateEndpointConnectionPropertiesInput {
-  provisioningState?: PrivateEndpointConnectionProvisioningState | (string & {});
-  privateEndpoint?: RemotePrivateEndpointConnectionInput;
-  privateLinkServiceConnectionState?: RemotePrivateLinkServiceConnectionStateInput;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | (string & {}) | undefined;
+  privateEndpoint?: RemotePrivateEndpointConnectionInput | undefined;
+  privateLinkServiceConnectionState?: RemotePrivateLinkServiceConnectionStateInput | undefined;
 }
 export interface UpdatePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1369,18 +1370,18 @@ export interface UpdatePrivateEndpointConnectionRequest {
   namespaceName: string;
   /** Private Endpoint Connection Name */
   privateEndpointConnectionName: string;
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface UpdatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateEndpointConnectionProperties;
+  systemData?: SystemData | undefined;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export type CheckNamespaceAvailabilityError = AzureOpError;
 /** Checks the availability of the given service namespace across all Azure subscriptions. This is useful because the domain name is created based on the service namespace name. */

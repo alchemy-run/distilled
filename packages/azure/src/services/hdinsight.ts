@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Hdinsight",
   service: "Hdinsight",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -38,27 +39,27 @@ export interface CheckLocationNameAvailabilityRequest {
   /** The Azure location (region) for which to make the request. */
   location: string;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type */
-  type?: string;
+  type?: string | undefined;
 }
 /** The response spec of checking name availability. */
 export interface NameAvailabilityCheckResult {
   /** This indicates whether the name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason of the result. */
-  reason?: string;
+  reason?: string | undefined;
   /** The related message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The tags for the application. */
 export type CreateApplicationRequestTagsMap = { [key: string]: string | undefined };
 /** The load-based autoscale request parameters */
 export interface AutoscaleCapacity {
   /** The minimum instance count of the cluster */
-  minInstanceCount?: number;
+  minInstanceCount?: number | undefined;
   /** The maximum instance count of the cluster */
-  maxInstanceCount?: number;
+  maxInstanceCount?: number | undefined;
 }
 export type AutoscaleScheduleDaysItem =
   | "Monday"
@@ -73,77 +74,77 @@ export type AutoscaleScheduleDaysList = Array<AutoscaleScheduleDaysItem | (strin
 /** Time and capacity request parameters */
 export interface AutoscaleTimeAndCapacity {
   /** 24-hour time in the form xx:xx */
-  time?: string;
+  time?: string | undefined;
   /** The minimum instance count of the cluster */
-  minInstanceCount?: number;
+  minInstanceCount?: number | undefined;
   /** The maximum instance count of the cluster */
-  maxInstanceCount?: number;
+  maxInstanceCount?: number | undefined;
 }
 /** Parameters for a schedule-based autoscale rule, consisting of an array of days + a time and capacity */
 export interface AutoscaleSchedule {
   /** Days of the week for a schedule-based autoscale rule */
-  days?: AutoscaleScheduleDaysList;
+  days?: AutoscaleScheduleDaysList | undefined;
   /** Time and capacity for a schedule-based autoscale rule */
-  timeAndCapacity?: AutoscaleTimeAndCapacity;
+  timeAndCapacity?: AutoscaleTimeAndCapacity | undefined;
 }
 /** Array of schedule-based autoscale rules */
 export type AutoscaleRecurrenceScheduleList = Array<AutoscaleSchedule>;
 /** Schedule-based autoscale request parameters */
 export interface AutoscaleRecurrence {
   /** The time zone for the autoscale schedule times */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Array of schedule-based autoscale rules */
-  schedule?: AutoscaleRecurrenceScheduleList;
+  schedule?: AutoscaleRecurrenceScheduleList | undefined;
 }
 /** The autoscale request parameters */
 export interface Autoscale {
   /** Parameters for load-based autoscale */
-  capacity?: AutoscaleCapacity;
+  capacity?: AutoscaleCapacity | undefined;
   /** Parameters for schedule-based autoscale */
-  recurrence?: AutoscaleRecurrence;
+  recurrence?: AutoscaleRecurrence | undefined;
 }
 /** The hardware profile. */
 export interface HardwareProfile {
   /** The size of the VM */
-  vmSize?: string;
+  vmSize?: string | undefined;
 }
 /** The SSH public key for the cluster nodes. */
 export interface SshPublicKey {
   /** The certificate for SSH. */
-  certificateData?: string;
+  certificateData?: string | undefined;
 }
 /** The list of SSH public keys. */
 export type SshProfilePublicKeysList = Array<SshPublicKey>;
 /** The list of SSH public keys. */
 export interface SshProfile {
   /** The list of SSH public keys. */
-  publicKeys?: SshProfilePublicKeysList;
+  publicKeys?: SshProfilePublicKeysList | undefined;
 }
 /** The ssh username, password, and ssh public key. */
 export interface LinuxOperatingSystemProfile {
   /** The username. */
-  username?: string;
+  username?: string | undefined;
   /** The password. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The SSH profile. */
-  sshProfile?: SshProfile;
+  sshProfile?: SshProfile | undefined;
 }
 /** The Linux operation systems profile. */
 export interface OsProfile {
   /** The Linux OS profile. */
-  linuxOperatingSystemProfile?: LinuxOperatingSystemProfile;
+  linuxOperatingSystemProfile?: LinuxOperatingSystemProfile | undefined;
 }
 /** The virtual network properties. */
 export interface VirtualNetworkProfile {
   /** The ID of the virtual network. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the subnet. */
-  subnet?: string;
+  subnet?: string | undefined;
 }
 /** The data disks groups for the role. */
 export interface DataDisksGroupsInput {
   /** The number of disks per node. */
-  disksPerNode?: number;
+  disksPerNode?: number | undefined;
 }
 /** The data disks groups for the role. */
 export type RoleInputDataDisksGroupsList = Array<DataDisksGroupsInput>;
@@ -161,34 +162,34 @@ export type RoleInputScriptActionsList = Array<RoleInputScriptActionsItem>;
 /** Describes a role on the cluster. */
 export interface RoleInput {
   /** The name of the role. */
-  name?: string;
+  name?: string | undefined;
   /** The minimum instance count of the cluster. */
-  minInstanceCount?: number;
+  minInstanceCount?: number | undefined;
   /** The instance count of the cluster. */
-  targetInstanceCount?: number;
+  targetInstanceCount?: number | undefined;
   /** The name of the virtual machine group. */
-  VMGroupName?: string;
+  VMGroupName?: string | undefined;
   /** The autoscale configurations. */
-  autoscale?: Autoscale;
+  autoscale?: Autoscale | undefined;
   /** The hardware profile. */
-  hardwareProfile?: HardwareProfile;
+  hardwareProfile?: HardwareProfile | undefined;
   /** The operating system profile. */
-  osProfile?: OsProfile;
+  osProfile?: OsProfile | undefined;
   /** The virtual network profile. */
-  virtualNetworkProfile?: VirtualNetworkProfile;
+  virtualNetworkProfile?: VirtualNetworkProfile | undefined;
   /** The data disks groups for the role. */
-  dataDisksGroups?: RoleInputDataDisksGroupsList;
+  dataDisksGroups?: RoleInputDataDisksGroupsList | undefined;
   /** The list of script actions on the role. */
-  scriptActions?: RoleInputScriptActionsList;
+  scriptActions?: RoleInputScriptActionsList | undefined;
   /** Indicates whether encrypt the data disks. */
-  encryptDataDisks?: boolean;
+  encryptDataDisks?: boolean | undefined;
 }
 /** The list of roles in the cluster. */
 export type ApplicationPropertiesInputComputeProfileRolesList = Array<RoleInput>;
 /** Describes the compute profile. */
 export interface ApplicationPropertiesInputComputeProfile {
   /** The list of roles in the cluster. */
-  roles?: ApplicationPropertiesInputComputeProfileRolesList;
+  roles?: ApplicationPropertiesInputComputeProfileRolesList | undefined;
 }
 /** The list of roles where script will be executed. */
 export type ApplicationPropertiesInputInstallScriptActionsItemRolesList = Array<string>;
@@ -199,7 +200,7 @@ export interface ApplicationPropertiesInputInstallScriptActionsItem {
   /** The URI to the script. */
   uri: string;
   /** The parameters for the script */
-  parameters?: string;
+  parameters?: string | undefined;
   /** The list of roles where script will be executed. */
   roles: ApplicationPropertiesInputInstallScriptActionsItemRolesList;
 }
@@ -215,7 +216,7 @@ export interface ApplicationPropertiesInputUninstallScriptActionsItem {
   /** The URI to the script. */
   uri: string;
   /** The parameters for the script */
-  parameters?: string;
+  parameters?: string | undefined;
   /** The list of roles where script will be executed. */
   roles: ApplicationPropertiesInputUninstallScriptActionsItemRolesList;
 }
@@ -227,37 +228,37 @@ export type ApplicationGetHttpsEndpointInputAccessModesList = Array<string>;
 /** Gets the application HTTP endpoints. */
 export interface ApplicationGetHttpsEndpointInput {
   /** The list of access modes for the application. */
-  accessModes?: ApplicationGetHttpsEndpointInputAccessModesList;
+  accessModes?: ApplicationGetHttpsEndpointInputAccessModesList | undefined;
   /** The destination port to connect to. */
-  destinationPort?: number;
+  destinationPort?: number | undefined;
   /** The private ip address of the endpoint. */
-  privateIPAddress?: string;
+  privateIPAddress?: string | undefined;
   /** The subdomain suffix of the application. */
-  subDomainSuffix?: string;
+  subDomainSuffix?: string | undefined;
   /** The value indicates whether to disable GatewayAuth. */
-  disableGatewayAuth?: boolean;
+  disableGatewayAuth?: boolean | undefined;
 }
 /** The list of application HTTPS endpoints. */
 export type ApplicationPropertiesInputHttpsEndpointsList = Array<ApplicationGetHttpsEndpointInput>;
 /** Gets the application SSH endpoint */
 export interface ApplicationGetEndpoint {
   /** The location of the endpoint. */
-  location?: string;
+  location?: string | undefined;
   /** The destination port to connect to. */
-  destinationPort?: number;
+  destinationPort?: number | undefined;
   /** The public port to connect to. */
-  publicPort?: number;
+  publicPort?: number | undefined;
   /** The private ip address of the endpoint. */
-  privateIPAddress?: string;
+  privateIPAddress?: string | undefined;
 }
 /** The list of application SSH endpoints. */
 export type ApplicationPropertiesInputSshEndpointsList = Array<ApplicationGetEndpoint>;
 /** The error message associated with the cluster creation. */
 export interface ApplicationPropertiesInputErrorsItem {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The list of errors. */
 export type ApplicationPropertiesInputErrorsList = Array<ApplicationPropertiesInputErrorsItem>;
@@ -266,27 +267,28 @@ export type IPConfigurationPropertiesInputPrivateIPAllocationMethod = "dynamic" 
 /** The azure resource id. */
 export interface ResourceId {
   /** The azure resource id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private link ip configuration properties. */
 export interface IPConfigurationPropertiesInput {
   /** Indicates whether this IP configuration is primary for the corresponding NIC. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** The IP address. */
-  privateIPAddress?: string;
+  privateIPAddress?: string | undefined;
   /** The method that private IP address is allocated. */
   privateIPAllocationMethod?:
     | IPConfigurationPropertiesInputPrivateIPAllocationMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The subnet resource id. */
-  subnet?: ResourceId;
+  subnet?: ResourceId | undefined;
 }
 /** The ip configurations for the private link service. */
 export interface IPConfigurationInput {
   /** The name of private link IP configuration. */
   name: string;
   /** The private link ip configuration properties. */
-  properties?: IPConfigurationPropertiesInput;
+  properties?: IPConfigurationPropertiesInput | undefined;
 }
 /** The IP configurations for the private link service. */
 export type PrivateLinkConfigurationPropertiesInputIpConfigurationsList =
@@ -311,21 +313,21 @@ export type ApplicationPropertiesInputPrivateLinkConfigurationsList =
 /** The HDInsight cluster application GET response. */
 export interface ApplicationPropertiesInput {
   /** Describes the compute profile. */
-  computeProfile?: ApplicationPropertiesInputComputeProfile;
+  computeProfile?: ApplicationPropertiesInputComputeProfile | undefined;
   /** The list of install script actions. */
-  installScriptActions?: ApplicationPropertiesInputInstallScriptActionsList;
+  installScriptActions?: ApplicationPropertiesInputInstallScriptActionsList | undefined;
   /** The list of uninstall script actions. */
-  uninstallScriptActions?: ApplicationPropertiesInputUninstallScriptActionsList;
+  uninstallScriptActions?: ApplicationPropertiesInputUninstallScriptActionsList | undefined;
   /** The list of application HTTPS endpoints. */
-  httpsEndpoints?: ApplicationPropertiesInputHttpsEndpointsList;
+  httpsEndpoints?: ApplicationPropertiesInputHttpsEndpointsList | undefined;
   /** The list of application SSH endpoints. */
-  sshEndpoints?: ApplicationPropertiesInputSshEndpointsList;
+  sshEndpoints?: ApplicationPropertiesInputSshEndpointsList | undefined;
   /** The application type. */
-  applicationType?: string;
+  applicationType?: string | undefined;
   /** The list of errors. */
-  errors?: ApplicationPropertiesInputErrorsList;
+  errors?: ApplicationPropertiesInputErrorsList | undefined;
   /** The private link configurations. */
-  privateLinkConfigurations?: ApplicationPropertiesInputPrivateLinkConfigurationsList;
+  privateLinkConfigurations?: ApplicationPropertiesInputPrivateLinkConfigurationsList | undefined;
 }
 export interface CreateApplicationRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -337,22 +339,22 @@ export interface CreateApplicationRequest {
   /** The constant value for the application name. */
   applicationName: string;
   /** The ETag for the application */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags for the application. */
-  tags?: CreateApplicationRequestTagsMap;
+  tags?: CreateApplicationRequestTagsMap | undefined;
   /** The properties of the application. */
-  properties?: ApplicationPropertiesInput;
+  properties?: ApplicationPropertiesInput | undefined;
 }
 /** The tags for the application. */
 export type CreateApplicationResponseTagsMap = { [key: string]: string | undefined };
 /** The data disks groups for the role. */
 export interface DataDisksGroups {
   /** The number of disks per node. */
-  disksPerNode?: number;
+  disksPerNode?: number | undefined;
   /** ReadOnly. The storage account type. Do not set this value. */
-  storageAccountType?: string;
+  storageAccountType?: string | undefined;
   /** ReadOnly. The DiskSize in GB. Do not set this value. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
 }
 /** The data disks groups for the role. */
 export type RoleDataDisksGroupsList = Array<DataDisksGroups>;
@@ -363,34 +365,34 @@ export type RoleScriptActionsList = Array<RoleInputScriptActionsItem>;
 /** Describes a role on the cluster. */
 export interface Role {
   /** The name of the role. */
-  name?: string;
+  name?: string | undefined;
   /** The minimum instance count of the cluster. */
-  minInstanceCount?: number;
+  minInstanceCount?: number | undefined;
   /** The instance count of the cluster. */
-  targetInstanceCount?: number;
+  targetInstanceCount?: number | undefined;
   /** The name of the virtual machine group. */
-  VMGroupName?: string;
+  VMGroupName?: string | undefined;
   /** The autoscale configurations. */
-  autoscale?: Autoscale;
+  autoscale?: Autoscale | undefined;
   /** The hardware profile. */
-  hardwareProfile?: HardwareProfile;
+  hardwareProfile?: HardwareProfile | undefined;
   /** The operating system profile. */
-  osProfile?: OsProfile;
+  osProfile?: OsProfile | undefined;
   /** The virtual network profile. */
-  virtualNetworkProfile?: VirtualNetworkProfile;
+  virtualNetworkProfile?: VirtualNetworkProfile | undefined;
   /** The data disks groups for the role. */
-  dataDisksGroups?: RoleDataDisksGroupsList;
+  dataDisksGroups?: RoleDataDisksGroupsList | undefined;
   /** The list of script actions on the role. */
-  scriptActions?: RoleScriptActionsList;
+  scriptActions?: RoleScriptActionsList | undefined;
   /** Indicates whether encrypt the data disks. */
-  encryptDataDisks?: boolean;
+  encryptDataDisks?: boolean | undefined;
 }
 /** The list of roles in the cluster. */
 export type ApplicationPropertiesComputeProfileRolesList = Array<Role>;
 /** Describes the compute profile. */
 export interface ApplicationPropertiesComputeProfile {
   /** The list of roles in the cluster. */
-  roles?: ApplicationPropertiesComputeProfileRolesList;
+  roles?: ApplicationPropertiesComputeProfileRolesList | undefined;
 }
 /** The list of roles where script will be executed. */
 export type ApplicationPropertiesInstallScriptActionsItemRolesList = Array<string>;
@@ -401,11 +403,11 @@ export interface ApplicationPropertiesInstallScriptActionsItem {
   /** The URI to the script. */
   uri: string;
   /** The parameters for the script */
-  parameters?: string;
+  parameters?: string | undefined;
   /** The list of roles where script will be executed. */
   roles: ApplicationPropertiesInstallScriptActionsItemRolesList;
   /** The application name of the script action, if any. */
-  applicationName?: string;
+  applicationName?: string | undefined;
 }
 /** The list of install script actions. */
 export type ApplicationPropertiesInstallScriptActionsList =
@@ -419,11 +421,11 @@ export interface ApplicationPropertiesUninstallScriptActionsItem {
   /** The URI to the script. */
   uri: string;
   /** The parameters for the script */
-  parameters?: string;
+  parameters?: string | undefined;
   /** The list of roles where script will be executed. */
   roles: ApplicationPropertiesUninstallScriptActionsItemRolesList;
   /** The application name of the script action, if any. */
-  applicationName?: string;
+  applicationName?: string | undefined;
 }
 /** The list of uninstall script actions. */
 export type ApplicationPropertiesUninstallScriptActionsList =
@@ -433,19 +435,19 @@ export type ApplicationGetHttpsEndpointAccessModesList = Array<string>;
 /** Gets the application HTTP endpoints. */
 export interface ApplicationGetHttpsEndpoint {
   /** The list of access modes for the application. */
-  accessModes?: ApplicationGetHttpsEndpointAccessModesList;
+  accessModes?: ApplicationGetHttpsEndpointAccessModesList | undefined;
   /** The location of the endpoint. */
-  location?: string;
+  location?: string | undefined;
   /** The destination port to connect to. */
-  destinationPort?: number;
+  destinationPort?: number | undefined;
   /** The public port to connect to. */
-  publicPort?: number;
+  publicPort?: number | undefined;
   /** The private ip address of the endpoint. */
-  privateIPAddress?: string;
+  privateIPAddress?: string | undefined;
   /** The subdomain suffix of the application. */
-  subDomainSuffix?: string;
+  subDomainSuffix?: string | undefined;
   /** The value indicates whether to disable GatewayAuth. */
-  disableGatewayAuth?: boolean;
+  disableGatewayAuth?: boolean | undefined;
 }
 /** The list of application HTTPS endpoints. */
 export type ApplicationPropertiesHttpsEndpointsList = Array<ApplicationGetHttpsEndpoint>;
@@ -474,26 +476,26 @@ export type IPConfigurationPropertiesPrivateIPAllocationMethod = "dynamic" | "st
 /** The private link ip configuration properties. */
 export interface IPConfigurationProperties {
   /** The private link configuration provisioning state, which only appears in the response. */
-  provisioningState?: IPConfigurationPropertiesProvisioningState;
+  provisioningState?: IPConfigurationPropertiesProvisioningState | undefined;
   /** Indicates whether this IP configuration is primary for the corresponding NIC. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** The IP address. */
-  privateIPAddress?: string;
+  privateIPAddress?: string | undefined;
   /** The method that private IP address is allocated. */
-  privateIPAllocationMethod?: IPConfigurationPropertiesPrivateIPAllocationMethod;
+  privateIPAllocationMethod?: IPConfigurationPropertiesPrivateIPAllocationMethod | undefined;
   /** The subnet resource id. */
-  subnet?: ResourceId;
+  subnet?: ResourceId | undefined;
 }
 /** The ip configurations for the private link service. */
 export interface IPConfiguration {
   /** The private link IP configuration id. */
-  id?: string;
+  id?: string | undefined;
   /** The name of private link IP configuration. */
   name: string;
   /** The type of the private link IP configuration. */
-  type?: string;
+  type?: string | undefined;
   /** The private link ip configuration properties. */
-  properties?: IPConfigurationProperties;
+  properties?: IPConfigurationProperties | undefined;
 }
 /** The IP configurations for the private link service. */
 export type PrivateLinkConfigurationPropertiesIpConfigurationsList = Array<IPConfiguration>;
@@ -502,18 +504,18 @@ export interface PrivateLinkConfigurationProperties {
   /** The HDInsight private linkable sub-resource name to apply the private link configuration to. For example, 'headnode', 'gateway', 'edgenode'. */
   groupId: string;
   /** The private link configuration provisioning state, which only appears in the response. */
-  provisioningState?: PrivateLinkConfigurationPropertiesProvisioningState;
+  provisioningState?: PrivateLinkConfigurationPropertiesProvisioningState | undefined;
   /** The IP configurations for the private link service. */
   ipConfigurations: PrivateLinkConfigurationPropertiesIpConfigurationsList;
 }
 /** The private link configuration. */
 export interface ApplicationPropertiesPrivateLinkConfigurationsItem {
   /** The private link configuration id. */
-  id?: string;
+  id?: string | undefined;
   /** The name of private link configuration. */
   name: string;
   /** The type of the private link configuration. */
-  type?: string;
+  type?: string | undefined;
   /** The private link configuration properties. */
   properties: PrivateLinkConfigurationProperties;
 }
@@ -523,29 +525,29 @@ export type ApplicationPropertiesPrivateLinkConfigurationsList =
 /** The HDInsight cluster application GET response. */
 export interface ApplicationProperties {
   /** Describes the compute profile. */
-  computeProfile?: ApplicationPropertiesComputeProfile;
+  computeProfile?: ApplicationPropertiesComputeProfile | undefined;
   /** The list of install script actions. */
-  installScriptActions?: ApplicationPropertiesInstallScriptActionsList;
+  installScriptActions?: ApplicationPropertiesInstallScriptActionsList | undefined;
   /** The list of uninstall script actions. */
-  uninstallScriptActions?: ApplicationPropertiesUninstallScriptActionsList;
+  uninstallScriptActions?: ApplicationPropertiesUninstallScriptActionsList | undefined;
   /** The list of application HTTPS endpoints. */
-  httpsEndpoints?: ApplicationPropertiesHttpsEndpointsList;
+  httpsEndpoints?: ApplicationPropertiesHttpsEndpointsList | undefined;
   /** The list of application SSH endpoints. */
-  sshEndpoints?: ApplicationPropertiesSshEndpointsList;
+  sshEndpoints?: ApplicationPropertiesSshEndpointsList | undefined;
   /** The provisioning state of the application. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The application type. */
-  applicationType?: string;
+  applicationType?: string | undefined;
   /** The application state. */
-  applicationState?: string;
+  applicationState?: string | undefined;
   /** The list of errors. */
-  errors?: ApplicationPropertiesErrorsList;
+  errors?: ApplicationPropertiesErrorsList | undefined;
   /** The application create date time. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The marketplace identifier. */
-  marketplaceIdentifier?: string;
+  marketplaceIdentifier?: string | undefined;
   /** The private link configurations. */
-  privateLinkConfigurations?: ApplicationPropertiesPrivateLinkConfigurationsList;
+  privateLinkConfigurations?: ApplicationPropertiesPrivateLinkConfigurationsList | undefined;
 }
 /** The type of identity that created the resource. */
 export type CreateApplicationResponseSystemDataCreatedByType =
@@ -562,33 +564,33 @@ export type CreateApplicationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface CreateApplicationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: CreateApplicationResponseSystemDataCreatedByType;
+  createdByType?: CreateApplicationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreateApplicationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: CreateApplicationResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface CreateApplicationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The ETag for the application */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags for the application. */
-  tags?: CreateApplicationResponseTagsMap;
+  tags?: CreateApplicationResponseTagsMap | undefined;
   /** The properties of the application. */
-  properties?: ApplicationProperties;
+  properties?: ApplicationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CreateApplicationResponseSystemData;
+  systemData?: CreateApplicationResponseSystemData | undefined;
 }
 /** The resource tags. */
 export type CreateClusterRequestTagsMap = { [key: string]: string | undefined };
@@ -603,29 +605,29 @@ export type ClusterDefinitionComponentVersionMap = { [key: string]: string | und
 /** The cluster definition. */
 export interface ClusterDefinition {
   /** The link to the blueprint. */
-  blueprint?: string;
+  blueprint?: string | undefined;
   /** The type of cluster. */
-  kind?: string;
+  kind?: string | undefined;
   /** The versions of different services in the cluster. */
-  componentVersion?: ClusterDefinitionComponentVersionMap;
+  componentVersion?: ClusterDefinitionComponentVersionMap | undefined;
   /** The cluster configurations. */
-  configurations?: unknown;
+  configurations?: unknown | undefined;
 }
 /** The information of AAD security group. */
 export interface ClientGroupInfo {
   /** The AAD security group name. */
-  groupName?: string;
+  groupName?: string | undefined;
   /** The AAD security group id. */
-  groupId?: string;
+  groupId?: string | undefined;
 }
 /** The configurations that need to be overriden. */
 export type KafkaRestPropertiesConfigurationOverrideMap = { [key: string]: string | undefined };
 /** The kafka rest proxy configuration which contains AAD security group information. */
 export interface KafkaRestProperties {
   /** The information of AAD security group. */
-  clientGroupInfo?: ClientGroupInfo;
+  clientGroupInfo?: ClientGroupInfo | undefined;
   /** The configurations that need to be overriden. */
-  configurationOverride?: KafkaRestPropertiesConfigurationOverrideMap;
+  configurationOverride?: KafkaRestPropertiesConfigurationOverrideMap | undefined;
 }
 /** The directory type. */
 export type SecurityProfileDirectoryType = "ActiveDirectory";
@@ -636,80 +638,80 @@ export type SecurityProfileClusterUsersGroupDNsList = Array<string>;
 /** The security profile which contains Ssh public key for the HDInsight cluster. */
 export interface SecurityProfile {
   /** The directory type. */
-  directoryType?: SecurityProfileDirectoryType | (string & {});
+  directoryType?: SecurityProfileDirectoryType | (string & {}) | undefined;
   /** The organization's active directory domain. */
-  domain?: string;
+  domain?: string | undefined;
   /** The organizational unit within the Active Directory to place the cluster and service accounts. */
-  organizationalUnitDN?: string;
+  organizationalUnitDN?: string | undefined;
   /** The LDAPS protocol URLs to communicate with the Active Directory. */
-  ldapsUrls?: SecurityProfileLdapsUrlsList;
+  ldapsUrls?: SecurityProfileLdapsUrlsList | undefined;
   /** The domain user account that will have admin privileges on the cluster. */
-  domainUsername?: string;
+  domainUsername?: string | undefined;
   /** The domain admin password. */
-  domainUserPassword?: string | Redacted.Redacted<string>;
+  domainUserPassword?: string | Redacted.Redacted<string> | undefined;
   /** Optional. The Distinguished Names for cluster user groups */
-  clusterUsersGroupDNs?: SecurityProfileClusterUsersGroupDNsList;
+  clusterUsersGroupDNs?: SecurityProfileClusterUsersGroupDNsList | undefined;
   /** The resource ID of the user's Azure Active Directory Domain Service. */
-  aaddsResourceId?: string;
+  aaddsResourceId?: string | undefined;
   /** User assigned identity that has permissions to read and create cluster-related artifacts in the user's AADDS. */
-  msiResourceId?: string;
+  msiResourceId?: string | undefined;
 }
 /** The list of roles in the cluster. */
 export type ComputeProfileInputRolesList = Array<RoleInput>;
 /** Describes the compute profile. */
 export interface ComputeProfileInput {
   /** The list of roles in the cluster. */
-  roles?: ComputeProfileInputRolesList;
+  roles?: ComputeProfileInputRolesList | undefined;
 }
 /** The storage Account. */
 export interface StorageAccount {
   /** The name of the storage account. */
-  name?: string;
+  name?: string | undefined;
   /** Whether or not the storage account is the default storage account. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** The container in the storage account, only to be specified for WASB storage accounts. */
-  container?: string;
+  container?: string | undefined;
   /** The filesystem, only to be specified for Azure Data Lake Storage Gen 2. */
-  fileSystem?: string;
+  fileSystem?: string | undefined;
   /** The storage account access key. */
-  key?: string;
+  key?: string | undefined;
   /** The resource ID of storage account, only to be specified for Azure Data Lake Storage Gen 2. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The managed identity (MSI) that is allowed to access the storage account, only to be specified for Azure Data Lake Storage Gen 2. */
-  msiResourceId?: string;
+  msiResourceId?: string | undefined;
   /** The shared access signature key. */
-  saskey?: string;
+  saskey?: string | undefined;
   /** The file share name. */
-  fileshare?: string;
+  fileshare?: string | undefined;
 }
 /** The list of storage accounts in the cluster. */
 export type StorageProfileStorageaccountsList = Array<StorageAccount>;
 /** The storage profile. */
 export interface StorageProfile {
   /** The list of storage accounts in the cluster. */
-  storageaccounts?: StorageProfileStorageaccountsList;
+  storageaccounts?: StorageProfileStorageaccountsList | undefined;
 }
 /** Algorithm identifier for encryption, default RSA-OAEP. */
 export type DiskEncryptionPropertiesEncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 /** The disk encryption properties */
 export interface DiskEncryptionProperties {
   /** Base key vault URI where the customers key is located eg. https://myvault.vault.azure.net */
-  vaultUri?: string;
+  vaultUri?: string | undefined;
   /** Key name that is used for enabling disk encryption. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** Specific key version that is used for enabling disk encryption. */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
   /** Algorithm identifier for encryption, default RSA-OAEP. */
-  encryptionAlgorithm?: DiskEncryptionPropertiesEncryptionAlgorithm | (string & {});
+  encryptionAlgorithm?: DiskEncryptionPropertiesEncryptionAlgorithm | (string & {}) | undefined;
   /** Resource ID of Managed Identity that is used to access the key vault. */
-  msiResourceId?: string;
+  msiResourceId?: string | undefined;
   /** Indicates whether or not resource disk encryption is enabled. */
-  encryptionAtHost?: boolean;
+  encryptionAtHost?: boolean | undefined;
 }
 /** The encryption-in-transit properties. */
 export interface EncryptionInTransitProperties {
   /** Indicates whether or not inter cluster node communication is encrypted in transit. */
-  isEncryptionInTransitEnabled?: boolean;
+  isEncryptionInTransitEnabled?: boolean | undefined;
 }
 /** The direction for the resource provider connection. */
 export type NetworkPropertiesResourceProviderConnection = "Inbound" | "Outbound";
@@ -718,16 +720,19 @@ export type NetworkPropertiesPrivateLink = "Disabled" | "Enabled";
 /** The network properties. */
 export interface NetworkProperties {
   /** The direction for the resource provider connection. */
-  resourceProviderConnection?: NetworkPropertiesResourceProviderConnection | (string & {});
+  resourceProviderConnection?:
+    | NetworkPropertiesResourceProviderConnection
+    | (string & {})
+    | undefined;
   /** Indicates whether or not private link is enabled. */
-  privateLink?: NetworkPropertiesPrivateLink | (string & {});
+  privateLink?: NetworkPropertiesPrivateLink | (string & {}) | undefined;
 }
 /** The compute isolation properties. */
 export interface ComputeIsolationProperties {
   /** The flag indicates whether enable compute isolation or not. */
-  enableComputeIsolation?: boolean;
+  enableComputeIsolation?: boolean | undefined;
   /** The host sku. */
-  hostSku?: string;
+  hostSku?: string | undefined;
 }
 /** The private link configuration. */
 export type PrivateLinkConfigurationInput = ApplicationPropertiesInputPrivateLinkConfigurationsItem;
@@ -737,33 +742,33 @@ export type ClusterCreatePropertiesInputPrivateLinkConfigurationsList =
 /** The cluster create parameters. */
 export interface ClusterCreatePropertiesInput {
   /** The version of the cluster. */
-  clusterVersion?: string;
+  clusterVersion?: string | undefined;
   /** The type of operating system. */
-  osType?: ClusterCreatePropertiesInputOsType | (string & {});
+  osType?: ClusterCreatePropertiesInputOsType | (string & {}) | undefined;
   /** The cluster tier. */
-  tier?: ClusterCreatePropertiesInputTier | (string & {});
+  tier?: ClusterCreatePropertiesInputTier | (string & {}) | undefined;
   /** The cluster definition. */
-  clusterDefinition?: ClusterDefinition;
+  clusterDefinition?: ClusterDefinition | undefined;
   /** The cluster kafka rest proxy configuration. */
-  kafkaRestProperties?: KafkaRestProperties;
+  kafkaRestProperties?: KafkaRestProperties | undefined;
   /** The security profile. */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** The compute profile. */
-  computeProfile?: ComputeProfileInput;
+  computeProfile?: ComputeProfileInput | undefined;
   /** The storage profile. */
-  storageProfile?: StorageProfile;
+  storageProfile?: StorageProfile | undefined;
   /** The disk encryption properties. */
-  diskEncryptionProperties?: DiskEncryptionProperties;
+  diskEncryptionProperties?: DiskEncryptionProperties | undefined;
   /** The encryption-in-transit properties. */
-  encryptionInTransitProperties?: EncryptionInTransitProperties;
+  encryptionInTransitProperties?: EncryptionInTransitProperties | undefined;
   /** The minimal supported tls version. */
-  minSupportedTlsVersion?: string;
+  minSupportedTlsVersion?: string | undefined;
   /** The network properties. */
-  networkProperties?: NetworkProperties;
+  networkProperties?: NetworkProperties | undefined;
   /** The compute isolation properties. */
-  computeIsolationProperties?: ComputeIsolationProperties;
+  computeIsolationProperties?: ComputeIsolationProperties | undefined;
   /** The private link configurations. */
-  privateLinkConfigurations?: ClusterCreatePropertiesInputPrivateLinkConfigurationsList;
+  privateLinkConfigurations?: ClusterCreatePropertiesInputPrivateLinkConfigurationsList | undefined;
 }
 /** The type of identity used for the cluster. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. */
 export type ClusterIdentityInputType =
@@ -774,7 +779,7 @@ export type ClusterIdentityInputType =
 /** The User Assigned Identity */
 export interface UserAssignedIdentityInput {
   /** The tenant id of user assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** The list of user identities associated with the cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type ClusterIdentityInputUserAssignedIdentitiesMap = {
@@ -783,9 +788,9 @@ export type ClusterIdentityInputUserAssignedIdentitiesMap = {
 /** Identity for the cluster. */
 export interface ClusterIdentityInput {
   /** The type of identity used for the cluster. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. */
-  type?: ClusterIdentityInputType | (string & {});
+  type?: ClusterIdentityInputType | (string & {}) | undefined;
   /** The list of user identities associated with the cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: ClusterIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ClusterIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateClusterRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -795,15 +800,15 @@ export interface CreateClusterRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** The location of the cluster. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: CreateClusterRequestTagsMap;
+  tags?: CreateClusterRequestTagsMap | undefined;
   /** The availability zones. */
-  zones?: CreateClusterRequestZonesList;
+  zones?: CreateClusterRequestZonesList | undefined;
   /** The cluster create parameters. */
-  properties?: ClusterCreatePropertiesInput;
+  properties?: ClusterCreatePropertiesInput | undefined;
   /** The identity of the cluster, if configured. */
-  identity?: ClusterIdentityInput;
+  identity?: ClusterIdentityInput | undefined;
 }
 /** Resource tags. */
 export type CreateClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -818,7 +823,7 @@ export type ComputeProfileRolesList = Array<Role>;
 /** Describes the compute profile. */
 export interface ComputeProfile {
   /** The list of roles in the cluster. */
-  roles?: ComputeProfileRolesList;
+  roles?: ComputeProfileRolesList | undefined;
 }
 /** The provisioning state, which only appears in the response. */
 export type ClusterGetPropertiesProvisioningState =
@@ -830,7 +835,7 @@ export type ClusterGetPropertiesProvisioningState =
 /** The quota properties for the cluster. */
 export interface QuotaInfo {
   /** The cores used by the cluster. */
-  coresUsed?: number;
+  coresUsed?: number | undefined;
 }
 /** The error message associated with the cluster creation. */
 export type Errors = ApplicationPropertiesInputErrorsItem;
@@ -839,24 +844,24 @@ export type ClusterGetPropertiesErrorsList = Array<ApplicationPropertiesInputErr
 /** The connectivity properties */
 export interface ConnectivityEndpoint {
   /** The name of the endpoint. */
-  name?: string;
+  name?: string | undefined;
   /** The protocol of the endpoint. */
-  protocol?: string;
+  protocol?: string | undefined;
   /** The location of the endpoint. */
-  location?: string;
+  location?: string | undefined;
   /** The port to connect to. */
-  port?: number;
+  port?: number | undefined;
   /** The private ip address of the endpoint. */
-  privateIPAddress?: string;
+  privateIPAddress?: string | undefined;
 }
 /** The list of connectivity endpoints. */
 export type ClusterGetPropertiesConnectivityEndpointsList = Array<ConnectivityEndpoint>;
 /** The configuration that services will be excluded when creating cluster. */
 export interface ExcludedServicesConfig {
   /** The config id of excluded services. */
-  excludedServicesConfigId?: string;
+  excludedServicesConfigId?: string | undefined;
   /** The list of excluded services. */
-  excludedServicesList?: string;
+  excludedServicesList?: string | undefined;
 }
 /** The private link configuration. */
 export type PrivateLinkConfiguration = ApplicationPropertiesPrivateLinkConfigurationsItem;
@@ -866,7 +871,7 @@ export type ClusterGetPropertiesPrivateLinkConfigurationsList =
 /** The private endpoint. */
 export interface PrivateEndpoint {
   /** The private endpoint id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The concrete private link service connection. */
 export type PrivateLinkServiceConnectionStateStatus =
@@ -879,9 +884,9 @@ export interface PrivateLinkServiceConnectionState {
   /** The concrete private link service connection. */
   status: PrivateLinkServiceConnectionStateStatus | (string & {});
   /** The optional description of the status. */
-  description?: string;
+  description?: string | undefined;
   /** Whether there is further actions. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The provisioning state, which only appears in the response. */
 export type PrivateEndpointConnectionPropertiesProvisioningState =
@@ -894,13 +899,13 @@ export type PrivateEndpointConnectionPropertiesProvisioningState =
 /** The private endpoint connection properties. */
 export interface PrivateEndpointConnectionProperties {
   /** The private endpoint of the private endpoint connection */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** The private link service connection state. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The link identifier. */
-  linkIdentifier?: string;
+  linkIdentifier?: string | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: PrivateEndpointConnectionPropertiesProvisioningState;
+  provisioningState?: PrivateEndpointConnectionPropertiesProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type ClusterGetPropertiesPrivateEndpointConnectionsItemSystemDataCreatedByType =
@@ -917,30 +922,34 @@ export type ClusterGetPropertiesPrivateEndpointConnectionsItemSystemDataLastModi
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ClusterGetPropertiesPrivateEndpointConnectionsItemSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ClusterGetPropertiesPrivateEndpointConnectionsItemSystemDataCreatedByType;
+  createdByType?:
+    | ClusterGetPropertiesPrivateEndpointConnectionsItemSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ClusterGetPropertiesPrivateEndpointConnectionsItemSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ClusterGetPropertiesPrivateEndpointConnectionsItemSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The private endpoint connection. */
 export interface ClusterGetPropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The private endpoint connection properties. */
   properties: PrivateEndpointConnectionProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ClusterGetPropertiesPrivateEndpointConnectionsItemSystemData;
+  systemData?: ClusterGetPropertiesPrivateEndpointConnectionsItemSystemData | undefined;
 }
 /** The list of private endpoint connections. */
 export type ClusterGetPropertiesPrivateEndpointConnectionsList =
@@ -948,53 +957,53 @@ export type ClusterGetPropertiesPrivateEndpointConnectionsList =
 /** The properties of cluster. */
 export interface ClusterGetProperties {
   /** The version of the cluster. */
-  clusterVersion?: string;
+  clusterVersion?: string | undefined;
   /** The hdp version of the cluster. */
-  clusterHdpVersion?: string;
+  clusterHdpVersion?: string | undefined;
   /** The type of operating system. */
-  osType?: ClusterGetPropertiesOsType;
+  osType?: ClusterGetPropertiesOsType | undefined;
   /** The cluster tier. */
-  tier?: ClusterGetPropertiesTier;
+  tier?: ClusterGetPropertiesTier | undefined;
   /** The cluster id. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** The cluster definition. */
   clusterDefinition: ClusterDefinition;
   /** The cluster kafka rest proxy configuration. */
-  kafkaRestProperties?: KafkaRestProperties;
+  kafkaRestProperties?: KafkaRestProperties | undefined;
   /** The security profile. */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** The compute profile. */
-  computeProfile?: ComputeProfile;
+  computeProfile?: ComputeProfile | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: ClusterGetPropertiesProvisioningState;
+  provisioningState?: ClusterGetPropertiesProvisioningState | undefined;
   /** The date on which the cluster was created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The state of the cluster. */
-  clusterState?: string;
+  clusterState?: string | undefined;
   /** The quota information. */
-  quotaInfo?: QuotaInfo;
+  quotaInfo?: QuotaInfo | undefined;
   /** The list of errors. */
-  errors?: ClusterGetPropertiesErrorsList;
+  errors?: ClusterGetPropertiesErrorsList | undefined;
   /** The list of connectivity endpoints. */
-  connectivityEndpoints?: ClusterGetPropertiesConnectivityEndpointsList;
+  connectivityEndpoints?: ClusterGetPropertiesConnectivityEndpointsList | undefined;
   /** The disk encryption properties. */
-  diskEncryptionProperties?: DiskEncryptionProperties;
+  diskEncryptionProperties?: DiskEncryptionProperties | undefined;
   /** The encryption-in-transit properties. */
-  encryptionInTransitProperties?: EncryptionInTransitProperties;
+  encryptionInTransitProperties?: EncryptionInTransitProperties | undefined;
   /** The storage profile. */
-  storageProfile?: StorageProfile;
+  storageProfile?: StorageProfile | undefined;
   /** The minimal supported tls version. */
-  minSupportedTlsVersion?: string;
+  minSupportedTlsVersion?: string | undefined;
   /** The excluded services config. */
-  excludedServicesConfig?: ExcludedServicesConfig;
+  excludedServicesConfig?: ExcludedServicesConfig | undefined;
   /** The network properties. */
-  networkProperties?: NetworkProperties;
+  networkProperties?: NetworkProperties | undefined;
   /** The compute isolation properties. */
-  computeIsolationProperties?: ComputeIsolationProperties;
+  computeIsolationProperties?: ComputeIsolationProperties | undefined;
   /** The private link configurations. */
-  privateLinkConfigurations?: ClusterGetPropertiesPrivateLinkConfigurationsList;
+  privateLinkConfigurations?: ClusterGetPropertiesPrivateLinkConfigurationsList | undefined;
   /** The list of private endpoint connections. */
-  privateEndpointConnections?: ClusterGetPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: ClusterGetPropertiesPrivateEndpointConnectionsList | undefined;
 }
 /** The type of identity used for the cluster. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. */
 export type ClusterIdentityType =
@@ -1005,11 +1014,11 @@ export type ClusterIdentityType =
 /** The User Assigned Identity */
 export interface UserAssignedIdentity {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The tenant id of user assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** The list of user identities associated with the cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type ClusterIdentityUserAssignedIdentitiesMap = {
@@ -1018,13 +1027,13 @@ export type ClusterIdentityUserAssignedIdentitiesMap = {
 /** Identity for the cluster. */
 export interface ClusterIdentity {
   /** The principal id of cluster identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id associated with the cluster. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of identity used for the cluster. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. */
-  type?: ClusterIdentityType;
+  type?: ClusterIdentityType | undefined;
   /** The list of user identities associated with the cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: ClusterIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ClusterIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** The type of identity that created the resource. */
 export type CreateClusterResponseSystemDataCreatedByType =
@@ -1041,39 +1050,39 @@ export type CreateClusterResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface CreateClusterResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: CreateClusterResponseSystemDataCreatedByType;
+  createdByType?: CreateClusterResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreateClusterResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: CreateClusterResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface CreateClusterResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: CreateClusterResponseTagsMap;
+  tags?: CreateClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The ETag for the resource */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: CreateClusterResponseZonesList;
+  zones?: CreateClusterResponseZonesList | undefined;
   /** The properties of the cluster. */
-  properties?: ClusterGetProperties;
+  properties?: ClusterGetProperties | undefined;
   /** The identity of the cluster, if configured. */
-  identity?: ClusterIdentity;
+  identity?: ClusterIdentity | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CreateClusterResponseSystemData;
+  systemData?: CreateClusterResponseSystemData | undefined;
 }
 export interface CreateExtensionRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1085,9 +1094,9 @@ export interface CreateExtensionRequest {
   /** The name of the cluster extension. */
   extensionName: string;
   /** The workspace ID for the cluster monitoring extension. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
   /** The certificate for the cluster monitoring extensions. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
 }
 export interface CreateExtensionResponse {}
 export interface DeleteApplicationRequest {
@@ -1168,18 +1177,18 @@ export type AzureMonitorSelectedConfigurationsGlobalConfigurationsMap = {
 /** The table configuration for the Log Analytics integration. */
 export interface AzureMonitorTableConfiguration {
   /** The name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The table list. */
 export type AzureMonitorSelectedConfigurationsTableListList = Array<AzureMonitorTableConfiguration>;
 /** The selected configurations for azure monitor. */
 export interface AzureMonitorSelectedConfigurations {
   /** The configuration version. */
-  configurationVersion?: string;
+  configurationVersion?: string | undefined;
   /** The global configurations of selected configurations. */
-  globalConfigurations?: AzureMonitorSelectedConfigurationsGlobalConfigurationsMap;
+  globalConfigurations?: AzureMonitorSelectedConfigurationsGlobalConfigurationsMap | undefined;
   /** The table list. */
-  tableList?: AzureMonitorSelectedConfigurationsTableListList;
+  tableList?: AzureMonitorSelectedConfigurationsTableListList | undefined;
 }
 export interface EnableExtensionAzureMonitorRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1189,11 +1198,11 @@ export interface EnableExtensionAzureMonitorRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** The Log Analytics workspace ID. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
   /** The Log Analytics workspace key. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The selected configurations. */
-  selectedConfigurations?: AzureMonitorSelectedConfigurations;
+  selectedConfigurations?: AzureMonitorSelectedConfigurations | undefined;
 }
 export interface EnableExtensionAzureMonitorResponse {}
 export interface EnableExtensionMonitoringRequest {
@@ -1204,9 +1213,9 @@ export interface EnableExtensionMonitoringRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** The cluster monitor workspace ID. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
   /** The cluster monitor workspace key. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
 }
 export interface EnableExtensionMonitoringResponse {}
 /** The list of roles where script will be executed. */
@@ -1218,7 +1227,7 @@ export interface RuntimeScriptActionInput {
   /** The URI to the script. */
   uri: string;
   /** The parameters for the script */
-  parameters?: string;
+  parameters?: string | undefined;
   /** The list of roles where script will be executed. */
   roles: RuntimeScriptActionInputRolesList;
 }
@@ -1232,7 +1241,7 @@ export interface ExecuteClusterScriptActionsRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** The list of run time script actions. */
-  scriptActions?: ExecuteClusterScriptActionsRequestScriptActionsList;
+  scriptActions?: ExecuteClusterScriptActionsRequestScriptActionsList | undefined;
   /** Gets or sets if the scripts needs to be persisted. */
   persistOnSuccess: boolean;
 }
@@ -1264,33 +1273,33 @@ export type GetApplicationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetApplicationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetApplicationResponseSystemDataCreatedByType;
+  createdByType?: GetApplicationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetApplicationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetApplicationResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetApplicationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The ETag for the application */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags for the application. */
-  tags?: GetApplicationResponseTagsMap;
+  tags?: GetApplicationResponseTagsMap | undefined;
   /** The properties of the application. */
-  properties?: ApplicationProperties;
+  properties?: ApplicationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetApplicationResponseSystemData;
+  systemData?: GetApplicationResponseSystemData | undefined;
 }
 export interface GetApplicationAzureAsyncOperationStatusRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1311,9 +1320,9 @@ export type GetApplicationAzureAsyncOperationStatusResponseStatus =
   | "Failed";
 export interface GetApplicationAzureAsyncOperationStatusResponse {
   /** The async operation state. */
-  status?: GetApplicationAzureAsyncOperationStatusResponseStatus;
+  status?: GetApplicationAzureAsyncOperationStatusResponseStatus | undefined;
   /** The operation error information. */
-  error?: ApplicationPropertiesInputErrorsItem;
+  error?: ApplicationPropertiesInputErrorsItem | undefined;
 }
 export interface GetClusterRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1342,39 +1351,39 @@ export type GetClusterResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetClusterResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetClusterResponseSystemDataCreatedByType;
+  createdByType?: GetClusterResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetClusterResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetClusterResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetClusterResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetClusterResponseTagsMap;
+  tags?: GetClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The ETag for the resource */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: GetClusterResponseZonesList;
+  zones?: GetClusterResponseZonesList | undefined;
   /** The properties of the cluster. */
-  properties?: ClusterGetProperties;
+  properties?: ClusterGetProperties | undefined;
   /** The identity of the cluster, if configured. */
-  identity?: ClusterIdentity;
+  identity?: ClusterIdentity | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetClusterResponseSystemData;
+  systemData?: GetClusterResponseSystemData | undefined;
 }
 export interface GetClusterAzureAsyncOperationStatusRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1391,9 +1400,9 @@ export type AsyncOperationResultStatus = "InProgress" | "Succeeded" | "Failed";
 /** The azure async operation response. */
 export interface AsyncOperationResult {
   /** The async operation state. */
-  status?: AsyncOperationResultStatus;
+  status?: AsyncOperationResultStatus | undefined;
   /** The operation error information. */
-  error?: ApplicationPropertiesInputErrorsItem;
+  error?: ApplicationPropertiesInputErrorsItem | undefined;
 }
 export interface GetClusterGatewaySettingsRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1406,11 +1415,11 @@ export interface GetClusterGatewaySettingsRequest {
 /** Gateway settings. */
 export interface GatewaySettings {
   /** Indicates whether or not the gateway settings based authorization is enabled. */
-  restAuthCredential_isEnabled?: string;
+  restAuthCredential_isEnabled?: string | undefined;
   /** The gateway settings user name. */
-  restAuthCredential_username?: string;
+  restAuthCredential_username?: string | undefined;
   /** The gateway settings user password. */
-  restAuthCredential_password?: string | Redacted.Redacted<string>;
+  restAuthCredential_password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetConfigurationRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1438,9 +1447,9 @@ export interface GetExtensionRequest {
 /** The cluster monitoring status response. */
 export interface ClusterMonitoringResponse {
   /** The status of the monitor on the HDInsight cluster. */
-  clusterMonitoringEnabled?: boolean;
+  clusterMonitoringEnabled?: boolean | undefined;
   /** The workspace ID of the monitor on the HDInsight cluster. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
 }
 export interface GetExtensionAzureAsyncOperationStatusRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1461,9 +1470,9 @@ export type GetExtensionAzureAsyncOperationStatusResponseStatus =
   | "Failed";
 export interface GetExtensionAzureAsyncOperationStatusResponse {
   /** The async operation state. */
-  status?: GetExtensionAzureAsyncOperationStatusResponseStatus;
+  status?: GetExtensionAzureAsyncOperationStatusResponseStatus | undefined;
   /** The operation error information. */
-  error?: ApplicationPropertiesInputErrorsItem;
+  error?: ApplicationPropertiesInputErrorsItem | undefined;
 }
 export interface GetExtensionAzureMonitorStatusRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1476,11 +1485,11 @@ export interface GetExtensionAzureMonitorStatusRequest {
 /** The azure monitor status response. */
 export interface AzureMonitorResponse {
   /** The status of the monitor on the HDInsight cluster. */
-  clusterMonitoringEnabled?: boolean;
+  clusterMonitoringEnabled?: boolean | undefined;
   /** The workspace ID of the monitor on the HDInsight cluster. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
   /** The selected configurations. */
-  selectedConfigurations?: AzureMonitorSelectedConfigurations;
+  selectedConfigurations?: AzureMonitorSelectedConfigurations | undefined;
 }
 export interface GetExtensionMonitoringStatusRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1505,9 +1514,9 @@ export type GetLocationAzureAsyncOperationStatusResponseStatus =
   | "Failed";
 export interface GetLocationAzureAsyncOperationStatusResponse {
   /** The async operation state. */
-  status?: GetLocationAzureAsyncOperationStatusResponseStatus;
+  status?: GetLocationAzureAsyncOperationStatusResponseStatus | undefined;
   /** The operation error information. */
-  error?: ApplicationPropertiesInputErrorsItem;
+  error?: ApplicationPropertiesInputErrorsItem | undefined;
 }
 export interface GetLocationCapabilitiesRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1520,20 +1529,20 @@ export type VersionSpecComponentVersionsMap = { [key: string]: string | undefine
 /** The version properties. */
 export interface VersionSpec {
   /** The friendly name */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** The display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Whether or not the version is the default version. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** The component version property. */
-  componentVersions?: VersionSpecComponentVersionsMap;
+  componentVersions?: VersionSpecComponentVersionsMap | undefined;
 }
 /** The list of version capabilities. */
 export type VersionsCapabilityAvailableList = Array<VersionSpec>;
 /** The version capability. */
 export interface VersionsCapability {
   /** The list of version capabilities. */
-  available?: VersionsCapabilityAvailableList;
+  available?: VersionsCapabilityAvailableList | undefined;
 }
 /** The version capability. */
 export type CapabilitiesResultVersionsMap = { [key: string]: VersionsCapability | undefined };
@@ -1542,7 +1551,7 @@ export type RegionsCapabilityAvailableList = Array<string>;
 /** The regions capability. */
 export interface RegionsCapability {
   /** The list of region capabilities. */
-  available?: RegionsCapabilityAvailableList;
+  available?: RegionsCapabilityAvailableList | undefined;
 }
 /** The virtual machine size compatibility features. */
 export type CapabilitiesResultRegionsMap = { [key: string]: RegionsCapability | undefined };
@@ -1551,33 +1560,33 @@ export type CapabilitiesResultFeaturesList = Array<string>;
 /** The regional quota capacity. */
 export interface RegionalQuotaCapability {
   /** The region name. */
-  regionName?: string;
+  regionName?: string | undefined;
   /** The number of cores used in the region. */
-  coresUsed?: number;
+  coresUsed?: number | undefined;
   /** The number of cores available in the region. */
-  coresAvailable?: number;
+  coresAvailable?: number | undefined;
 }
 /** The list of region quota capabilities. */
 export type QuotaCapabilityRegionalQuotasList = Array<RegionalQuotaCapability>;
 /** The regional quota capability. */
 export interface QuotaCapability {
   /** The number of cores used in the subscription. */
-  coresUsed?: number;
+  coresUsed?: number | undefined;
   /** The number of cores that the subscription allowed. */
-  maxCoresAllowed?: number;
+  maxCoresAllowed?: number | undefined;
   /** The list of region quota capabilities. */
-  regionalQuotas?: QuotaCapabilityRegionalQuotasList;
+  regionalQuotas?: QuotaCapabilityRegionalQuotasList | undefined;
 }
 /** The Get Capabilities operation response. */
 export interface CapabilitiesResult {
   /** The version capability. */
-  versions?: CapabilitiesResultVersionsMap;
+  versions?: CapabilitiesResultVersionsMap | undefined;
   /** The virtual machine size compatibility features. */
-  regions?: CapabilitiesResultRegionsMap;
+  regions?: CapabilitiesResultRegionsMap | undefined;
   /** The capability features. */
-  features?: CapabilitiesResultFeaturesList;
+  features?: CapabilitiesResultFeaturesList | undefined;
   /** The quota capability. */
-  quota?: QuotaCapability;
+  quota?: QuotaCapability | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1604,29 +1613,29 @@ export type GetPrivateEndpointConnectionResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateEndpointConnectionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateEndpointConnectionResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateEndpointConnectionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateEndpointConnectionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetPrivateEndpointConnectionResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The private endpoint connection properties. */
   properties: PrivateEndpointConnectionProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateEndpointConnectionResponseSystemData;
+  systemData?: GetPrivateEndpointConnectionResponseSystemData | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1645,11 +1654,11 @@ export type GetPrivateLinkResourceResponsePropertiesRequiredZoneNamesList = Arra
 /** Properties of a private link resource. */
 export interface GetPrivateLinkResourceResponseProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: GetPrivateLinkResourceResponsePropertiesRequiredMembersList;
+  requiredMembers?: GetPrivateLinkResourceResponsePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: GetPrivateLinkResourceResponsePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: GetPrivateLinkResourceResponsePropertiesRequiredZoneNamesList | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetPrivateLinkResourceResponseSystemDataCreatedByType =
@@ -1666,29 +1675,29 @@ export type GetPrivateLinkResourceResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateLinkResourceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateLinkResourceResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateLinkResourceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateLinkResourceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetPrivateLinkResourceResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of a private link resource. */
-  properties?: GetPrivateLinkResourceResponseProperties;
+  properties?: GetPrivateLinkResourceResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateLinkResourceResponseSystemData;
+  systemData?: GetPrivateLinkResourceResponseSystemData | undefined;
 }
 export interface GetScriptActionExecutionAsyncOperationStatusRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1707,9 +1716,9 @@ export type GetScriptActionExecutionAsyncOperationStatusResponseStatus =
   | "Failed";
 export interface GetScriptActionExecutionAsyncOperationStatusResponse {
   /** The async operation state. */
-  status?: GetScriptActionExecutionAsyncOperationStatusResponseStatus;
+  status?: GetScriptActionExecutionAsyncOperationStatusResponseStatus | undefined;
   /** The operation error information. */
-  error?: ApplicationPropertiesInputErrorsItem;
+  error?: ApplicationPropertiesInputErrorsItem | undefined;
 }
 export interface GetScriptActionExecutionDetailRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1726,9 +1735,9 @@ export type GetScriptActionExecutionDetailResponseRolesList = Array<string>;
 /** The execution summary of a script action. */
 export interface ScriptActionExecutionSummary {
   /** The status of script action execution. */
-  status?: string;
+  status?: string | undefined;
   /** The instance count for a given script action execution status. */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
 }
 /** The summary of script action execution result. */
 export type GetScriptActionExecutionDetailResponseExecutionSummaryList =
@@ -1739,25 +1748,25 @@ export interface GetScriptActionExecutionDetailResponse {
   /** The URI to the script. */
   uri: string;
   /** The parameters for the script */
-  parameters?: string;
+  parameters?: string | undefined;
   /** The list of roles where script will be executed. */
   roles: GetScriptActionExecutionDetailResponseRolesList;
   /** The application name of the script action, if any. */
-  applicationName?: string;
+  applicationName?: string | undefined;
   /** The execution id of the script action. */
-  scriptExecutionId?: number;
+  scriptExecutionId?: number | undefined;
   /** The start time of script action execution. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of script action execution. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The current execution status of the script action. */
-  status?: string;
+  status?: string | undefined;
   /** The reason why the script action was executed. */
-  operation?: string;
+  operation?: string | undefined;
   /** The summary of script action execution result. */
-  executionSummary?: GetScriptActionExecutionDetailResponseExecutionSummaryList;
+  executionSummary?: GetScriptActionExecutionDetailResponseExecutionSummaryList | undefined;
   /** The script action execution debug information. */
-  debugInformation?: string;
+  debugInformation?: string | undefined;
 }
 export interface GetVirtualMachineAsyncOperationStatusRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1776,9 +1785,9 @@ export type GetVirtualMachineAsyncOperationStatusResponseStatus =
   | "Failed";
 export interface GetVirtualMachineAsyncOperationStatusResponse {
   /** The async operation state. */
-  status?: GetVirtualMachineAsyncOperationStatusResponseStatus;
+  status?: GetVirtualMachineAsyncOperationStatusResponseStatus | undefined;
   /** The operation error information. */
-  error?: ApplicationPropertiesInputErrorsItem;
+  error?: ApplicationPropertiesInputErrorsItem | undefined;
 }
 export interface ListApplicationByClusterRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1801,43 +1810,43 @@ export type ApplicationSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ApplicationSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ApplicationSystemDataCreatedByType;
+  createdByType?: ApplicationSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApplicationSystemDataLastModifiedByType;
+  lastModifiedByType?: ApplicationSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The HDInsight cluster application */
 export interface Application {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The ETag for the application */
-  etag?: string;
+  etag?: string | undefined;
   /** The tags for the application. */
-  tags?: ApplicationTagsMap;
+  tags?: ApplicationTagsMap | undefined;
   /** The properties of the application. */
-  properties?: ApplicationProperties;
+  properties?: ApplicationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplicationSystemData;
+  systemData?: ApplicationSystemData | undefined;
 }
 /** The list of HDInsight applications installed on HDInsight cluster. */
 export type ApplicationListResultValueList = Array<Application>;
 /** Result of the request to list cluster Applications. It contains a list of operations and a URL link to get the next set of results. */
 export interface ApplicationListResult {
   /** The list of HDInsight applications installed on HDInsight cluster. */
-  value?: ApplicationListResultValueList;
+  value?: ApplicationListResultValueList | undefined;
   /** The URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClusterByResourceGroupRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1860,49 +1869,49 @@ export type ClusterSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ClusterSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ClusterSystemDataCreatedByType;
+  createdByType?: ClusterSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ClusterSystemDataLastModifiedByType;
+  lastModifiedByType?: ClusterSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The HDInsight cluster. */
 export interface Cluster {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ClusterTagsMap;
+  tags?: ClusterTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The ETag for the resource */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: ClusterZonesList;
+  zones?: ClusterZonesList | undefined;
   /** The properties of the cluster. */
-  properties?: ClusterGetProperties;
+  properties?: ClusterGetProperties | undefined;
   /** The identity of the cluster, if configured. */
-  identity?: ClusterIdentity;
+  identity?: ClusterIdentity | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ClusterSystemData;
+  systemData?: ClusterSystemData | undefined;
 }
 /** The list of Clusters. */
 export type ClusterListResultValueList = Array<Cluster>;
 /** The List Cluster operation response. */
 export interface ClusterListResult {
   /** The list of Clusters. */
-  value?: ClusterListResultValueList;
+  value?: ClusterListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClustersRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1923,7 +1932,7 @@ export type ClusterConfigurationsConfigurationsMap = {
 /** The configuration object for the specified cluster. */
 export interface ClusterConfigurations {
   /** The configuration object for the specified configuration for the specified cluster. */
-  configurations?: ClusterConfigurationsConfigurationsMap;
+  configurations?: ClusterConfigurationsConfigurationsMap | undefined;
 }
 export interface ListLocationBillingSpecsRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1953,59 +1962,59 @@ export type VmSizeCompatibilityFilterV2VmSizesList = Array<string>;
 /** This class represent a single filter object that defines a multidimensional set. The dimensions of this set are Regions, ClusterFlavors, NodeTypes and ClusterVersions. The constraint should be defined based on the following: FilterMode (Exclude vs Include), VMSizes (the vm sizes in affect of exclusion/inclusion) and the ordering of the Filters. Later filters override previous settings if conflicted. */
 export interface VmSizeCompatibilityFilterV2 {
   /** The filtering mode. Effectively this can enabling or disabling the VM sizes in a particular set. */
-  filterMode?: VmSizeCompatibilityFilterV2FilterMode;
+  filterMode?: VmSizeCompatibilityFilterV2FilterMode | undefined;
   /** The list of regions under the effect of the filter. */
-  regions?: VmSizeCompatibilityFilterV2RegionsList;
+  regions?: VmSizeCompatibilityFilterV2RegionsList | undefined;
   /** The list of cluster flavors under the effect of the filter. */
-  clusterFlavors?: VmSizeCompatibilityFilterV2ClusterFlavorsList;
+  clusterFlavors?: VmSizeCompatibilityFilterV2ClusterFlavorsList | undefined;
   /** The list of node types affected by the filter. */
-  nodeTypes?: VmSizeCompatibilityFilterV2NodeTypesList;
+  nodeTypes?: VmSizeCompatibilityFilterV2NodeTypesList | undefined;
   /** The list of cluster versions affected in Major.Minor format. */
-  clusterVersions?: VmSizeCompatibilityFilterV2ClusterVersionsList;
+  clusterVersions?: VmSizeCompatibilityFilterV2ClusterVersionsList | undefined;
   /** The OSType affected, Windows or Linux. */
-  osType?: VmSizeCompatibilityFilterV2OsTypeList;
+  osType?: VmSizeCompatibilityFilterV2OsTypeList | undefined;
   /** The list of virtual machine sizes to include or exclude. */
-  vmSizes?: VmSizeCompatibilityFilterV2VmSizesList;
+  vmSizes?: VmSizeCompatibilityFilterV2VmSizesList | undefined;
   /** Whether apply for ESP cluster. 'true' means only for ESP, 'false' means only for non-ESP, null or empty string or others mean for both. */
-  espApplied?: string;
+  espApplied?: string | undefined;
   /** Whether support compute isolation. 'true' means only for ComputeIsolationEnabled, 'false' means only for regular cluster. */
-  computeIsolationSupported?: string;
+  computeIsolationSupported?: string | undefined;
 }
 /** The virtual machine filtering mode. Effectively this can enabling or disabling the virtual machine sizes in a particular set. */
 export type BillingResponseListResultVmSizeFiltersList = Array<VmSizeCompatibilityFilterV2>;
 /** The vm size property */
 export interface VmSizeProperty {
   /** The vm size name. */
-  name?: string;
+  name?: string | undefined;
   /** The number of cores that the vm size has. */
-  cores?: number;
+  cores?: number | undefined;
   /** The data disk storage tier of the vm size. */
-  dataDiskStorageTier?: string;
+  dataDiskStorageTier?: string | undefined;
   /** The label of the vm size. */
-  label?: string;
+  label?: string | undefined;
   /** The max data disk count of the vm size. */
-  maxDataDiskCount?: number;
+  maxDataDiskCount?: number | undefined;
   /** The memory whose unit is MB of the vm size. */
-  memoryInMb?: number;
+  memoryInMb?: number | undefined;
   /** This indicates this vm size is supported by virtual machines or not */
-  supportedByVirtualMachines?: boolean;
+  supportedByVirtualMachines?: boolean | undefined;
   /** The indicates this vm size is supported by web worker roles or not */
-  supportedByWebWorkerRoles?: boolean;
+  supportedByWebWorkerRoles?: boolean | undefined;
   /** The virtual machine resource disk size whose unit is MB of the vm size. */
-  virtualMachineResourceDiskSizeInMb?: number;
+  virtualMachineResourceDiskSizeInMb?: number | undefined;
   /** The web worker resource disk size whose unit is MB of the vm size. */
-  webWorkerResourceDiskSizeInMb?: number;
+  webWorkerResourceDiskSizeInMb?: number | undefined;
 }
 /** The vm size properties. */
 export type BillingResponseListResultVmSizePropertiesList = Array<VmSizeProperty>;
 /** The billing meters. */
 export interface BillingMeters {
   /** The virtual machine sizes. */
-  meterParameter?: string;
+  meterParameter?: string | undefined;
   /** The HDInsight meter guid. */
-  meter?: string;
+  meter?: string | undefined;
   /** The unit of meter, VMHours or CoreHours. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** The billing meter information. */
 export type BillingResourcesBillingMetersList = Array<BillingMeters>;
@@ -2014,37 +2023,39 @@ export type DiskBillingMetersTier = "Standard" | "Premium";
 /** The disk billing meters. */
 export interface DiskBillingMeters {
   /** The managed disk meter guid. */
-  diskRpMeter?: string;
+  diskRpMeter?: string | undefined;
   /** The managed disk billing sku, P30 or S30. */
-  sku?: string;
+  sku?: string | undefined;
   /** The managed disk billing tier, Standard or Premium. */
-  tier?: DiskBillingMetersTier;
+  tier?: DiskBillingMetersTier | undefined;
 }
 /** The managed disk billing information. */
 export type BillingResourcesDiskBillingMetersList = Array<DiskBillingMeters>;
 /** The billing resources. */
 export interface BillingResources {
   /** The region or location. */
-  region?: string;
+  region?: string | undefined;
   /** The billing meter information. */
-  billingMeters?: BillingResourcesBillingMetersList;
+  billingMeters?: BillingResourcesBillingMetersList | undefined;
   /** The managed disk billing information. */
-  diskBillingMeters?: BillingResourcesDiskBillingMetersList;
+  diskBillingMeters?: BillingResourcesDiskBillingMetersList | undefined;
 }
 /** The billing and managed disk billing resources for a region. */
 export type BillingResponseListResultBillingResourcesList = Array<BillingResources>;
 /** The response for the operation to get regional billingSpecs for a subscription. */
 export interface BillingResponseListResult {
   /** The virtual machine sizes to include or exclude. */
-  vmSizes?: BillingResponseListResultVmSizesList;
+  vmSizes?: BillingResponseListResultVmSizesList | undefined;
   /** The vm sizes which enable encryption at host. */
-  vmSizesWithEncryptionAtHost?: BillingResponseListResultVmSizesWithEncryptionAtHostList;
+  vmSizesWithEncryptionAtHost?:
+    | BillingResponseListResultVmSizesWithEncryptionAtHostList
+    | undefined;
   /** The virtual machine filtering mode. Effectively this can enabling or disabling the virtual machine sizes in a particular set. */
-  vmSizeFilters?: BillingResponseListResultVmSizeFiltersList;
+  vmSizeFilters?: BillingResponseListResultVmSizeFiltersList | undefined;
   /** The vm size properties. */
-  vmSizeProperties?: BillingResponseListResultVmSizePropertiesList;
+  vmSizeProperties?: BillingResponseListResultVmSizePropertiesList | undefined;
   /** The billing and managed disk billing resources for a region. */
-  billingResources?: BillingResponseListResultBillingResourcesList;
+  billingResources?: BillingResponseListResultBillingResourcesList | undefined;
 }
 export interface ListLocationUsagesRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2055,39 +2066,39 @@ export interface ListLocationUsagesRequest {
 /** The details about the localizable name of a type of usage. */
 export interface LocalizedName {
   /** The name of the used resource. */
-  value?: string;
+  value?: string | undefined;
   /** The localized name of the used resource. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** The details about the usage of a particular limited resource. */
 export interface Usage {
   /** The type of measurement for usage. */
-  unit?: string;
+  unit?: string | undefined;
   /** The current usage. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The maximum allowed usage. */
-  limit?: number;
+  limit?: number | undefined;
   /** The details about the localizable name of the used resource. */
-  name?: LocalizedName;
+  name?: LocalizedName | undefined;
 }
 /** The list of usages. */
 export type UsagesListResultValueList = Array<Usage>;
 /** The response for the operation to get regional usages for a subscription. */
 export interface UsagesListResult {
   /** The list of usages. */
-  value?: UsagesListResultValueList;
+  value?: UsagesListResultValueList | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** The service provider: Microsoft.HDInsight */
-  provider?: string;
+  provider?: string | undefined;
   /** The resource on which the operation is performed: Cluster, Applications, etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** The operation type: read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Localized friendly description for the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** The supported aggregation types of the metric specification. */
 export type MetricSpecificationsSupportedAggregationTypesList = Array<string>;
@@ -2096,82 +2107,82 @@ export type MetricSpecificationsSupportedTimeGrainTypesList = Array<string>;
 /** The definition of Dimension. */
 export interface Dimension {
   /** The name of the dimension. */
-  name?: string;
+  name?: string | undefined;
   /** The display name of the dimension. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The display name of the dimension. */
-  internalName?: string;
+  internalName?: string | undefined;
   /** The flag indicates whether the metric will be exported for shoebox or not. */
-  toBeExportedForShoebox?: boolean;
+  toBeExportedForShoebox?: boolean | undefined;
 }
 /** The dimensions of the metric specification. */
 export type MetricSpecificationsDimensionsList = Array<Dimension>;
 /** The details of metric specifications. */
 export interface MetricSpecifications {
   /** The name of the metric specification. */
-  name?: string;
+  name?: string | undefined;
   /** The display name of the metric specification. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The display description of the metric specification. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** The unit of the metric specification. */
-  unit?: string;
+  unit?: string | undefined;
   /** The aggregation type of the metric specification. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** The supported aggregation types of the metric specification. */
-  supportedAggregationTypes?: MetricSpecificationsSupportedAggregationTypesList;
+  supportedAggregationTypes?: MetricSpecificationsSupportedAggregationTypesList | undefined;
   /** The supported time grain types of the metric specification. */
-  supportedTimeGrainTypes?: MetricSpecificationsSupportedTimeGrainTypesList;
+  supportedTimeGrainTypes?: MetricSpecificationsSupportedTimeGrainTypesList | undefined;
   /** The flag indicates whether enable regional mdm account or not. */
-  enableRegionalMdmAccount?: boolean;
+  enableRegionalMdmAccount?: boolean | undefined;
   /** The source mdm account. */
-  sourceMdmAccount?: string;
+  sourceMdmAccount?: string | undefined;
   /** The source mdm namespace. */
-  sourceMdmNamespace?: string;
+  sourceMdmNamespace?: string | undefined;
   /** The metric filter pattern. */
-  metricFilterPattern?: string;
+  metricFilterPattern?: string | undefined;
   /** The flag indicates whether filling gap with zero. */
-  fillGapWithZero?: boolean;
+  fillGapWithZero?: boolean | undefined;
   /** The category of the metric. */
-  category?: string;
+  category?: string | undefined;
   /** The override name of resource id dimension name. */
-  resourceIdDimensionNameOverride?: string;
+  resourceIdDimensionNameOverride?: string | undefined;
   /** The flag indicates whether the metric is internal or not. */
-  isInternal?: boolean;
+  isInternal?: boolean | undefined;
   /** The override name of delegate metric. */
-  delegateMetricNameOverride?: string;
+  delegateMetricNameOverride?: string | undefined;
   /** The dimensions of the metric specification. */
-  dimensions?: MetricSpecificationsDimensionsList;
+  dimensions?: MetricSpecificationsDimensionsList | undefined;
 }
 /** The metric specifications. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecifications>;
 /** The specification of the service. */
 export interface ServiceSpecification {
   /** The metric specifications. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** The details of operation. */
 export interface OperationProperties {
   /** The specification of the service. */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** The HDInsight REST API operation. */
 export interface Operation {
   /** The operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** The display of operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The operation properties. */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** The list of HDInsight operations supported by the HDInsight resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list HDInsight operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** The list of HDInsight operations supported by the HDInsight resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** The URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByClusterRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2196,39 +2207,39 @@ export type PrivateEndpointConnectionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateEndpointConnectionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateEndpointConnectionSystemDataCreatedByType;
+  createdByType?: PrivateEndpointConnectionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateEndpointConnectionSystemDataLastModifiedByType;
+  lastModifiedByType?: PrivateEndpointConnectionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The private endpoint connection. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The private endpoint connection properties. */
   properties: PrivateEndpointConnectionProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateEndpointConnectionSystemData;
+  systemData?: PrivateEndpointConnectionSystemData | undefined;
 }
 /** The list of private endpoint connections. */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
 /** The list private endpoint connections response. */
 export interface PrivateEndpointConnectionListResult {
   /** The list of private endpoint connections. */
-  value?: PrivateEndpointConnectionListResultValueList;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByClusterRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2245,11 +2256,11 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateLinkResourceSystemDataCreatedByType =
@@ -2266,37 +2277,37 @@ export type PrivateLinkResourceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkResourceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkResourceSystemDataCreatedByType;
+  createdByType?: PrivateLinkResourceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkResourceSystemDataLastModifiedByType;
+  lastModifiedByType?: PrivateLinkResourceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of a private link resource. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkResourceSystemData;
+  systemData?: PrivateLinkResourceSystemData | undefined;
 }
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList;
+  value?: PrivateLinkResourceListResultValueList | undefined;
 }
 export interface ListScriptActionByClusterRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2317,34 +2328,34 @@ export interface ScriptActionsListValueItem {
   /** The URI to the script. */
   uri: string;
   /** The parameters for the script */
-  parameters?: string;
+  parameters?: string | undefined;
   /** The list of roles where script will be executed. */
   roles: ScriptActionsListValueItemRolesList;
   /** The application name of the script action, if any. */
-  applicationName?: string;
+  applicationName?: string | undefined;
   /** The execution id of the script action. */
-  scriptExecutionId?: number;
+  scriptExecutionId?: number | undefined;
   /** The start time of script action execution. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of script action execution. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The current execution status of the script action. */
-  status?: string;
+  status?: string | undefined;
   /** The reason why the script action was executed. */
-  operation?: string;
+  operation?: string | undefined;
   /** The summary of script action execution result. */
-  executionSummary?: ScriptActionsListValueItemExecutionSummaryList;
+  executionSummary?: ScriptActionsListValueItemExecutionSummaryList | undefined;
   /** The script action execution debug information. */
-  debugInformation?: string;
+  debugInformation?: string | undefined;
 }
 /** The list of persisted script action details for the cluster. */
 export type ScriptActionsListValueList = Array<ScriptActionsListValueItem>;
 /** The persisted script action for the cluster. */
 export interface ScriptActionsList {
   /** The list of persisted script action details for the cluster. */
-  value?: ScriptActionsListValueList;
+  value?: ScriptActionsListValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListScriptExecutionHistoryByClusterRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2366,25 +2377,25 @@ export interface ScriptActionExecutionHistoryListValueItem {
   /** The URI to the script. */
   uri: string;
   /** The parameters for the script */
-  parameters?: string;
+  parameters?: string | undefined;
   /** The list of roles where script will be executed. */
   roles: ScriptActionExecutionHistoryListValueItemRolesList;
   /** The application name of the script action, if any. */
-  applicationName?: string;
+  applicationName?: string | undefined;
   /** The execution id of the script action. */
-  scriptExecutionId?: number;
+  scriptExecutionId?: number | undefined;
   /** The start time of script action execution. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of script action execution. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The current execution status of the script action. */
-  status?: string;
+  status?: string | undefined;
   /** The reason why the script action was executed. */
-  operation?: string;
+  operation?: string | undefined;
   /** The summary of script action execution result. */
-  executionSummary?: ScriptActionExecutionHistoryListValueItemExecutionSummaryList;
+  executionSummary?: ScriptActionExecutionHistoryListValueItemExecutionSummaryList | undefined;
   /** The script action execution debug information. */
-  debugInformation?: string;
+  debugInformation?: string | undefined;
 }
 /** The list of persisted script action details for the cluster. */
 export type ScriptActionExecutionHistoryListValueList =
@@ -2392,9 +2403,9 @@ export type ScriptActionExecutionHistoryListValueList =
 /** The list script execution history response. */
 export interface ScriptActionExecutionHistoryList {
   /** The list of persisted script action details for the cluster. */
-  value?: ScriptActionExecutionHistoryListValueList;
+  value?: ScriptActionExecutionHistoryListValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineHostsRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2407,11 +2418,11 @@ export interface ListVirtualMachineHostsRequest {
 /** The cluster host information. */
 export interface HostInfo {
   /** The host name */
-  name?: string;
+  name?: string | undefined;
   /** The Fully Qualified Domain Name of host */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** The effective disk encryption key URL used by the host */
-  effectiveDiskEncryptionKeyUrl?: string;
+  effectiveDiskEncryptionKeyUrl?: string | undefined;
 }
 /** Result of the request to list cluster hosts */
 export type HostInfoListResult = Array<HostInfo>;
@@ -2428,34 +2439,34 @@ export interface LocationsValidateClusterCreateRequestRequest {
   /** The Azure location (region) for which to make the request. */
   location: string;
   /** The resource tags. */
-  tags?: LocationsValidateClusterCreateRequestRequestTagsMap;
+  tags?: LocationsValidateClusterCreateRequestRequestTagsMap | undefined;
   /** The availability zones. */
-  zones?: LocationsValidateClusterCreateRequestRequestZonesList;
+  zones?: LocationsValidateClusterCreateRequestRequestZonesList | undefined;
   /** The cluster create parameters. */
-  properties?: ClusterCreatePropertiesInput;
+  properties?: ClusterCreatePropertiesInput | undefined;
   /** The identity of the cluster, if configured. */
-  identity?: ClusterIdentityInput;
+  identity?: ClusterIdentityInput | undefined;
   /** The cluster name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The tenant id. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** This indicates whether fetch Aadds resource or not. */
-  fetchAaddsResource?: boolean;
+  fetchAaddsResource?: boolean | undefined;
 }
 /** The message arguments */
 export type ValidationErrorInfoMessageArgumentsList = Array<string>;
 /** The validation error information. */
 export interface ValidationErrorInfo {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error resource. */
-  errorResource?: string;
+  errorResource?: string | undefined;
   /** The message arguments */
-  messageArguments?: ValidationErrorInfoMessageArgumentsList;
+  messageArguments?: ValidationErrorInfoMessageArgumentsList | undefined;
 }
 /** The validation errors. */
 export type ClusterCreateValidationResultValidationErrorsList = Array<ValidationErrorInfo>;
@@ -2464,32 +2475,32 @@ export type ClusterCreateValidationResultValidationWarningsList = Array<Validati
 /** The Azure active directory domain service resource details. */
 export interface AaddsResourceDetails {
   /** The Azure active directory domain service name. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** This indicates whether initial sync complete or not. */
-  initialSyncComplete?: boolean;
+  initialSyncComplete?: boolean | undefined;
   /** This indicates whether enable ldaps or not. */
-  ldapsEnabled?: boolean;
+  ldapsEnabled?: boolean | undefined;
   /** The base 64 format string of public ldap certificate. */
-  ldapsPublicCertificateInBase64?: string;
+  ldapsPublicCertificateInBase64?: string | undefined;
   /** The resource id of azure active directory domain service. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The subnet resource id. */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** The tenant id of azure active directory domain service . */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** The Azure active directory domain service resource details. */
 export type ClusterCreateValidationResultAaddsResourcesDetailsList = Array<AaddsResourceDetails>;
 /** The response of cluster create request validation. */
 export interface ClusterCreateValidationResult {
   /** The validation errors. */
-  validationErrors?: ClusterCreateValidationResultValidationErrorsList;
+  validationErrors?: ClusterCreateValidationResultValidationErrorsList | undefined;
   /** The validation warnings. */
-  validationWarnings?: ClusterCreateValidationResultValidationWarningsList;
+  validationWarnings?: ClusterCreateValidationResultValidationWarningsList | undefined;
   /** The estimated creation duration. */
-  estimatedCreationDuration?: string;
+  estimatedCreationDuration?: string | undefined;
   /** The Azure active directory domain service resource details. */
-  aaddsResourcesDetails?: ClusterCreateValidationResultAaddsResourcesDetailsList;
+  aaddsResourcesDetails?: ClusterCreateValidationResultAaddsResourcesDetailsList | undefined;
 }
 /** The private endpoint connection properties. */
 export interface PrivateEndpointConnectionPropertiesInput {
@@ -2523,29 +2534,33 @@ export type PrivateEndpointConnectionsCreateOrUpdateResponseSystemDataLastModifi
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateEndpointConnectionsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateEndpointConnectionsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PrivateEndpointConnectionsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateEndpointConnectionsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateEndpointConnectionsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The private endpoint connection properties. */
   properties: PrivateEndpointConnectionProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateEndpointConnectionsCreateOrUpdateResponseSystemData;
+  systemData?: PrivateEndpointConnectionsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface PromoteScriptExecutionHistoryRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2569,7 +2584,7 @@ export interface ResizeClusterRequest {
   /** The constant value for the roleName */
   roleName: ResizeClusterRequestRoleName | (string & {});
   /** The target instance count for the operation. */
-  targetInstanceCount?: number;
+  targetInstanceCount?: number | undefined;
 }
 export interface ResizeClusterResponse {}
 /** The list of hosts which need to be restarted. */
@@ -2592,11 +2607,11 @@ export interface RotateClusterDiskEncryptionKeyRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** Base key vault URI where the customers key is located eg. https://myvault.vault.azure.net */
-  vaultUri?: string;
+  vaultUri?: string | undefined;
   /** Key name that is used for enabling disk encryption. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** Specific key version that is used for enabling disk encryption. */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
 }
 export interface RotateClusterDiskEncryptionKeyResponse {}
 /** The resource tags. */
@@ -2609,7 +2624,7 @@ export interface UpdateClusterRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** The resource tags. */
-  tags?: UpdateClusterRequestTagsMap | null;
+  tags?: UpdateClusterRequestTagsMap | null | undefined;
 }
 /** Resource tags. */
 export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -2630,39 +2645,39 @@ export type UpdateClusterResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateClusterResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateClusterResponseSystemDataCreatedByType;
+  createdByType?: UpdateClusterResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateClusterResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateClusterResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateClusterResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateClusterResponseTagsMap;
+  tags?: UpdateClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The ETag for the resource */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: UpdateClusterResponseZonesList;
+  zones?: UpdateClusterResponseZonesList | undefined;
   /** The properties of the cluster. */
-  properties?: ClusterGetProperties;
+  properties?: ClusterGetProperties | undefined;
   /** The identity of the cluster, if configured. */
-  identity?: ClusterIdentity;
+  identity?: ClusterIdentity | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateClusterResponseSystemData;
+  systemData?: UpdateClusterResponseSystemData | undefined;
 }
 export type UpdateClusterAutoScaleConfigurationRequestRoleName = "workernode";
 export interface UpdateClusterAutoScaleConfigurationRequest {
@@ -2675,7 +2690,7 @@ export interface UpdateClusterAutoScaleConfigurationRequest {
   /** The constant value for the roleName */
   roleName: UpdateClusterAutoScaleConfigurationRequestRoleName | (string & {});
   /** The autoscale configuration. */
-  autoscale?: Autoscale;
+  autoscale?: Autoscale | undefined;
 }
 export interface UpdateClusterAutoScaleConfigurationResponse {}
 export interface UpdateClusterGatewaySettingsRequest {
@@ -2686,11 +2701,11 @@ export interface UpdateClusterGatewaySettingsRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** Indicates whether or not the gateway settings based authorization is enabled. */
-  restAuthCredential_isEnabled?: boolean;
+  restAuthCredential_isEnabled?: boolean | undefined;
   /** The gateway settings user name. */
-  restAuthCredential_username?: string;
+  restAuthCredential_username?: string | undefined;
   /** The gateway settings user password. */
-  restAuthCredential_password?: string | Redacted.Redacted<string>;
+  restAuthCredential_password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpdateClusterGatewaySettingsResponse {}
 export interface UpdateClusterIdentityCertificateRequest {
@@ -2701,11 +2716,11 @@ export interface UpdateClusterIdentityCertificateRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** The application id. */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** The certificate in base64 encoded format. */
-  certificate?: string;
+  certificate?: string | undefined;
   /** The password of the certificate. */
-  certificatePassword?: string | Redacted.Redacted<string>;
+  certificatePassword?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpdateClusterIdentityCertificateResponse {}
 export type CheckLocationNameAvailabilityError = AzureOpError;

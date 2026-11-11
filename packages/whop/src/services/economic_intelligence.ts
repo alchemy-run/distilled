@@ -69,19 +69,19 @@ export type ListEconomicIntelligenceRequestStatus =
   | "superseded";
 export interface ListEconomicIntelligenceRequest {
   /** Account ID, prefixed `biz_`. Defaults to the API key's own account; omit for personal onboarding. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Filter recommendations by their current status. */
-  status?: ListEconomicIntelligenceRequestStatus | (string & {});
+  status?: ListEconomicIntelligenceRequestStatus | (string & {}) | undefined;
   /** What you want recommendations for, in your own words. Up to 1000 characters. Narrows the list to the recommendations that address it. */
-  input?: string;
+  input?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface EconomicIntelligenceOperation {
   /** Concise description of the operation and affected resource, or null for older recommendations. */
@@ -121,7 +121,7 @@ export interface EconomicIntelligence2 {
   /** When the recommendation was rejected or replaced, as an ISO 8601 timestamp, or `null` if neither has occurred. */
   superseded_at: string | null;
   /** Website URL selected for pixel setup, or `null` when no website was captured for this recommendation. */
-  target_url?: string | null;
+  target_url?: string | null | undefined;
   /** Recommended action and its expected benefit, or `null` until generated. */
   title: string | null;
   /** The user's written feedback, or `null` if they have not provided any. */
@@ -146,15 +146,15 @@ export interface UpdateEconomicIntelligenceRequest {
   /** Recommendation ID, prefixed `reca_`. */
   id: string;
   /** Account ID, prefixed `biz_`. Defaults to the API key's own account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** What you want the replacement recommendation for, in your own words. Up to 1000 characters. Sent when superseding, it directs the generation that replaces the rejected recommendation. */
-  input?: string;
+  input?: string | undefined;
   /** A signed-in user can rate a recommendation as `positive` or `negative`. Can be sent alone or together with status. */
-  sentiment?: UpdateEconomicIntelligenceRequestSentiment | (string & {});
+  sentiment?: UpdateEconomicIntelligenceRequestSentiment | (string & {}) | undefined;
   /** Use `executed` to record approval, or `superseded` to reject the recommendation. */
-  status?: UpdateEconomicIntelligenceRequestStatus | (string & {});
+  status?: UpdateEconomicIntelligenceRequestStatus | (string & {}) | undefined;
   /** An optional explanation of the rating or rejection. Negative feedback informs replacement recommendations. */
-  user_feedback?: string;
+  user_feedback?: string | undefined;
 }
 export type ListEconomicIntelligenceError = BadRequest | Forbidden | NotFound | WhopOpError;
 /** List Economic Intelligence Lists an account's recommendations and generation requests, newest first. Without an account, signed-out visitors receive a business-setup template and eligible users receive their saved setup recommendation. */

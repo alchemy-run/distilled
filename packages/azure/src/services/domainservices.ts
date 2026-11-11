@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Domainservices",
   service: "Domainservices",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -42,11 +43,11 @@ export interface CreateOuContainerRequest {
   /** The name of the OuContainer. */
   ouContainerName: string;
   /** The account name */
-  accountName?: string;
+  accountName?: string | undefined;
   /** The account spn */
-  spn?: string;
+  spn?: string | undefined;
   /** The account password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** Resource tags */
 export type CreateOuContainerResponseTagsMap = { [key: string]: string | undefined };
@@ -65,65 +66,65 @@ export type CreateOuContainerResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface CreateOuContainerResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: CreateOuContainerResponseSystemDataCreatedByType;
+  createdByType?: CreateOuContainerResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreateOuContainerResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: CreateOuContainerResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Container Account Description */
 export interface ContainerAccount {
   /** The account name */
-  accountName?: string;
+  accountName?: string | undefined;
   /** The account spn */
-  spn?: string;
+  spn?: string | undefined;
   /** The account password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** The list of container accounts */
 export type OuContainerPropertiesAccountsList = Array<ContainerAccount>;
 /** Properties of the OuContainer. */
 export interface OuContainerProperties {
   /** Azure Active Directory tenant id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The domain name of Domain Services. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** The Deployment id */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** The OuContainer name */
-  containerId?: string;
+  containerId?: string | undefined;
   /** The list of container accounts */
-  accounts?: OuContainerPropertiesAccountsList;
+  accounts?: OuContainerPropertiesAccountsList | undefined;
   /** Status of OuContainer instance */
-  serviceStatus?: string;
+  serviceStatus?: string | undefined;
   /** Distinguished Name of OuContainer instance */
-  distinguishedName?: string;
+  distinguishedName?: string | undefined;
   /** The current deployment or provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface CreateOuContainerResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: CreateOuContainerResponseTagsMap;
+  tags?: CreateOuContainerResponseTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CreateOuContainerResponseSystemData;
+  systemData?: CreateOuContainerResponseSystemData | undefined;
   /** OuContainer properties */
-  properties?: OuContainerProperties;
+  properties?: OuContainerProperties | undefined;
 }
 export interface DeleteDomainServiceRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -150,9 +151,9 @@ export type DomainServicesCreateOrUpdateRequestTagsMap = { [key: string]: string
 /** Replica Set Definition */
 export interface ReplicaSetInput {
   /** Virtual network location */
-  location?: string;
+  location?: string | undefined;
   /** The name of the virtual network that Domain Services will be deployed on. The id of the subnet that Domain Services will be deployed on. /virtualNetwork/vnetName/subnets/subnetName. */
-  subnetId?: string;
+  subnetId?: string | undefined;
 }
 /** List of ReplicaSets */
 export type DomainServicePropertiesInputReplicaSetsList = Array<ReplicaSetInput>;
@@ -163,35 +164,35 @@ export type LdapsSettingsInputExternalAccess = "Enabled" | "Disabled";
 /** Secure LDAP Settings */
 export interface LdapsSettingsInput {
   /** A flag to determine whether or not Secure LDAP is enabled or disabled. */
-  ldaps?: LdapsSettingsInputLdaps | (string & {});
+  ldaps?: LdapsSettingsInputLdaps | (string & {}) | undefined;
   /** The certificate required to configure Secure LDAP. The parameter passed here should be a base64encoded representation of the certificate pfx file. */
-  pfxCertificate?: string;
+  pfxCertificate?: string | undefined;
   /** The password to decrypt the provided Secure LDAP certificate pfx file. */
-  pfxCertificatePassword?: string | Redacted.Redacted<string>;
+  pfxCertificatePassword?: string | Redacted.Redacted<string> | undefined;
   /** A flag to determine whether or not Secure LDAP access over the internet is enabled or disabled. */
-  externalAccess?: LdapsSettingsInputExternalAccess | (string & {});
+  externalAccess?: LdapsSettingsInputExternalAccess | (string & {}) | undefined;
 }
 /** Forest Trust Setting */
 export interface ForestTrust {
   /** Trusted Domain FQDN */
-  trustedDomainFqdn?: string;
+  trustedDomainFqdn?: string | undefined;
   /** Trust Direction */
-  trustDirection?: string;
+  trustDirection?: string | undefined;
   /** Friendly Name */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Remote Dns ips */
-  remoteDnsIps?: string;
+  remoteDnsIps?: string | undefined;
   /** Trust Password */
-  trustPassword?: string | Redacted.Redacted<string>;
+  trustPassword?: string | Redacted.Redacted<string> | undefined;
 }
 /** List of settings for Resource Forest */
 export type ResourceForestSettingsSettingsList = Array<ForestTrust>;
 /** Settings for Resource Forest */
 export interface ResourceForestSettings {
   /** List of settings for Resource Forest */
-  settings?: ResourceForestSettingsSettingsList;
+  settings?: ResourceForestSettingsSettingsList | undefined;
   /** Resource Forest */
-  resourceForest?: string;
+  resourceForest?: string | undefined;
 }
 /** A flag to determine whether or not NtlmV1 is enabled or disabled. */
 export type DomainSecuritySettingsNtlmV1 = "Enabled" | "Disabled";
@@ -214,23 +215,23 @@ export type DomainSecuritySettingsChannelBinding = "Enabled" | "Disabled";
 /** Domain Security Settings */
 export interface DomainSecuritySettings {
   /** A flag to determine whether or not NtlmV1 is enabled or disabled. */
-  ntlmV1?: DomainSecuritySettingsNtlmV1 | (string & {});
+  ntlmV1?: DomainSecuritySettingsNtlmV1 | (string & {}) | undefined;
   /** A flag to determine whether or not TlsV1 is enabled or disabled. */
-  tlsV1?: DomainSecuritySettingsTlsV1 | (string & {});
+  tlsV1?: DomainSecuritySettingsTlsV1 | (string & {}) | undefined;
   /** A flag to determine whether or not SyncNtlmPasswords is enabled or disabled. */
-  syncNtlmPasswords?: DomainSecuritySettingsSyncNtlmPasswords | (string & {});
+  syncNtlmPasswords?: DomainSecuritySettingsSyncNtlmPasswords | (string & {}) | undefined;
   /** A flag to determine whether or not SyncKerberosPasswords is enabled or disabled. */
-  syncKerberosPasswords?: DomainSecuritySettingsSyncKerberosPasswords | (string & {});
+  syncKerberosPasswords?: DomainSecuritySettingsSyncKerberosPasswords | (string & {}) | undefined;
   /** A flag to determine whether or not SyncOnPremPasswords is enabled or disabled. */
-  syncOnPremPasswords?: DomainSecuritySettingsSyncOnPremPasswords | (string & {});
+  syncOnPremPasswords?: DomainSecuritySettingsSyncOnPremPasswords | (string & {}) | undefined;
   /** A flag to determine whether or not KerberosRc4Encryption is enabled or disabled. */
-  kerberosRc4Encryption?: DomainSecuritySettingsKerberosRc4Encryption | (string & {});
+  kerberosRc4Encryption?: DomainSecuritySettingsKerberosRc4Encryption | (string & {}) | undefined;
   /** A flag to determine whether or not KerberosArmoring is enabled or disabled. */
-  kerberosArmoring?: DomainSecuritySettingsKerberosArmoring | (string & {});
+  kerberosArmoring?: DomainSecuritySettingsKerberosArmoring | (string & {}) | undefined;
   /** A flag to determine whether or not LdapSigning is enabled or disabled. */
-  ldapSigning?: DomainSecuritySettingsLdapSigning | (string & {});
+  ldapSigning?: DomainSecuritySettingsLdapSigning | (string & {}) | undefined;
   /** A flag to determine whether or not ChannelBinding is enabled or disabled. */
-  channelBinding?: DomainSecuritySettingsChannelBinding | (string & {});
+  channelBinding?: DomainSecuritySettingsChannelBinding | (string & {}) | undefined;
 }
 /** Enabled or Disabled flag to turn on Group-based filtered sync */
 export type DomainServicePropertiesInputFilteredSync = "Enabled" | "Disabled";
@@ -245,11 +246,11 @@ export type NotificationSettingsAdditionalRecipientsList = Array<string>;
 /** Settings for notification */
 export interface NotificationSettings {
   /** Should global admins be notified */
-  notifyGlobalAdmins?: NotificationSettingsNotifyGlobalAdmins | (string & {});
+  notifyGlobalAdmins?: NotificationSettingsNotifyGlobalAdmins | (string & {}) | undefined;
   /** Should domain controller admins be notified */
-  notifyDcAdmins?: NotificationSettingsNotifyDcAdmins | (string & {});
+  notifyDcAdmins?: NotificationSettingsNotifyDcAdmins | (string & {}) | undefined;
   /** The list of additional recipients */
-  additionalRecipients?: NotificationSettingsAdditionalRecipientsList;
+  additionalRecipients?: NotificationSettingsAdditionalRecipientsList | undefined;
 }
 /** Status for individual validator after running diagnostics. */
 export type ConfigDiagnosticsValidatorResultStatus =
@@ -264,9 +265,9 @@ export type ConfigDiagnosticsValidatorResultIssueDescriptionParamsList = Array<s
 /** Specific issue for a particular config diagnostics validator */
 export interface ConfigDiagnosticsValidatorResultIssue {
   /** Validation issue identifier. */
-  id?: string;
+  id?: string | undefined;
   /** List of domain resource property name or values used to compose a rich description. */
-  descriptionParams?: ConfigDiagnosticsValidatorResultIssueDescriptionParamsList;
+  descriptionParams?: ConfigDiagnosticsValidatorResultIssueDescriptionParamsList | undefined;
 }
 /** List of resource config validation issues. */
 export type ConfigDiagnosticsValidatorResultIssuesList =
@@ -274,47 +275,47 @@ export type ConfigDiagnosticsValidatorResultIssuesList =
 /** Config Diagnostics validator result data */
 export interface ConfigDiagnosticsValidatorResult {
   /** Validator identifier */
-  validatorId?: string;
+  validatorId?: string | undefined;
   /** Replica set location and subnet name */
-  replicaSetSubnetDisplayName?: string;
+  replicaSetSubnetDisplayName?: string | undefined;
   /** Status for individual validator after running diagnostics. */
-  status?: ConfigDiagnosticsValidatorResultStatus | (string & {});
+  status?: ConfigDiagnosticsValidatorResultStatus | (string & {}) | undefined;
   /** List of resource config validation issues. */
-  issues?: ConfigDiagnosticsValidatorResultIssuesList;
+  issues?: ConfigDiagnosticsValidatorResultIssuesList | undefined;
 }
 /** List of Configuration Diagnostics validator results. */
 export type ConfigDiagnosticsValidatorResultsList = Array<ConfigDiagnosticsValidatorResult>;
 /** Configuration Diagnostics */
 export interface ConfigDiagnostics {
   /** Last domain configuration diagnostics DateTime */
-  lastExecuted?: string;
+  lastExecuted?: string | undefined;
   /** List of Configuration Diagnostics validator results. */
-  validatorResults?: ConfigDiagnosticsValidatorResultsList;
+  validatorResults?: ConfigDiagnosticsValidatorResultsList | undefined;
 }
 /** Properties of the Domain Service. */
 export interface DomainServicePropertiesInput {
   /** The name of the Azure domain that the user would like to deploy Domain Services to. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** List of ReplicaSets */
-  replicaSets?: DomainServicePropertiesInputReplicaSetsList;
+  replicaSets?: DomainServicePropertiesInputReplicaSetsList | undefined;
   /** Secure LDAP Settings */
-  ldapsSettings?: LdapsSettingsInput;
+  ldapsSettings?: LdapsSettingsInput | undefined;
   /** Resource Forest Settings */
-  resourceForestSettings?: ResourceForestSettings;
+  resourceForestSettings?: ResourceForestSettings | undefined;
   /** DomainSecurity Settings */
-  domainSecuritySettings?: DomainSecuritySettings;
+  domainSecuritySettings?: DomainSecuritySettings | undefined;
   /** Domain Configuration Type */
-  domainConfigurationType?: string;
+  domainConfigurationType?: string | undefined;
   /** Sku Type */
-  sku?: string;
+  sku?: string | undefined;
   /** Enabled or Disabled flag to turn on Group-based filtered sync */
-  filteredSync?: DomainServicePropertiesInputFilteredSync | (string & {});
+  filteredSync?: DomainServicePropertiesInputFilteredSync | (string & {}) | undefined;
   /** All or CloudOnly, All users in AAD are synced to AAD DS domain or only users actively syncing in the cloud */
-  syncScope?: DomainServicePropertiesInputSyncScope | (string & {});
+  syncScope?: DomainServicePropertiesInputSyncScope | (string & {}) | undefined;
   /** Notification Settings */
-  notificationSettings?: NotificationSettings;
+  notificationSettings?: NotificationSettings | undefined;
   /** Configuration diagnostics data containing latest execution from client. */
-  configDiagnostics?: ConfigDiagnostics;
+  configDiagnostics?: ConfigDiagnostics | undefined;
 }
 export interface DomainServicesCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -324,13 +325,13 @@ export interface DomainServicesCreateOrUpdateRequest {
   /** The name of the domain service. */
   domainServiceName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: DomainServicesCreateOrUpdateRequestTagsMap;
+  tags?: DomainServicesCreateOrUpdateRequestTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Domain service properties */
-  properties?: DomainServicePropertiesInput;
+  properties?: DomainServicePropertiesInput | undefined;
 }
 /** Resource tags */
 export type DomainServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -349,72 +350,72 @@ export type DomainServicesCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DomainServicesCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DomainServicesCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: DomainServicesCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DomainServicesCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: DomainServicesCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** List of Domain Controller IP Address */
 export type ReplicaSetDomainControllerIpAddressList = Array<string>;
 /** Health Monitor Description */
 export interface HealthMonitor {
   /** Health Monitor Id */
-  id?: string;
+  id?: string | undefined;
   /** Health Monitor Name */
-  name?: string;
+  name?: string | undefined;
   /** Health Monitor Details */
-  details?: string;
+  details?: string | undefined;
 }
 /** List of Domain Health Monitors */
 export type ReplicaSetHealthMonitorsList = Array<HealthMonitor>;
 /** Health Alert Description */
 export interface HealthAlert {
   /** Health Alert Id */
-  id?: string;
+  id?: string | undefined;
   /** Health Alert Name */
-  name?: string;
+  name?: string | undefined;
   /** Health Alert Issue */
-  issue?: string;
+  issue?: string | undefined;
   /** Health Alert Severity */
-  severity?: string;
+  severity?: string | undefined;
   /** Health Alert Raised DateTime */
-  raised?: string;
+  raised?: string | undefined;
   /** Health Alert Last Detected DateTime */
-  lastDetected?: string;
+  lastDetected?: string | undefined;
   /** Health Alert TSG Link */
-  resolutionUri?: string;
+  resolutionUri?: string | undefined;
 }
 /** List of Domain Health Alerts */
 export type ReplicaSetHealthAlertsList = Array<HealthAlert>;
 /** Replica Set Definition */
 export interface ReplicaSet {
   /** ReplicaSet Id */
-  replicaSetId?: string;
+  replicaSetId?: string | undefined;
   /** Virtual network location */
-  location?: string;
+  location?: string | undefined;
   /** Virtual network site id */
-  vnetSiteId?: string;
+  vnetSiteId?: string | undefined;
   /** The name of the virtual network that Domain Services will be deployed on. The id of the subnet that Domain Services will be deployed on. /virtualNetwork/vnetName/subnets/subnetName. */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** List of Domain Controller IP Address */
-  domainControllerIpAddress?: ReplicaSetDomainControllerIpAddressList;
+  domainControllerIpAddress?: ReplicaSetDomainControllerIpAddressList | undefined;
   /** External access ip address. */
-  externalAccessIpAddress?: string;
+  externalAccessIpAddress?: string | undefined;
   /** Status of Domain Service instance */
-  serviceStatus?: string;
+  serviceStatus?: string | undefined;
   /** Last domain evaluation run DateTime */
-  healthLastEvaluated?: string;
+  healthLastEvaluated?: string | undefined;
   /** List of Domain Health Monitors */
-  healthMonitors?: ReplicaSetHealthMonitorsList;
+  healthMonitors?: ReplicaSetHealthMonitorsList | undefined;
   /** List of Domain Health Alerts */
-  healthAlerts?: ReplicaSetHealthAlertsList;
+  healthAlerts?: ReplicaSetHealthAlertsList | undefined;
 }
 /** List of ReplicaSets */
 export type DomainServicePropertiesReplicaSetsList = Array<ReplicaSet>;
@@ -425,19 +426,19 @@ export type LdapsSettingsExternalAccess = "Enabled" | "Disabled";
 /** Secure LDAP Settings */
 export interface LdapsSettings {
   /** A flag to determine whether or not Secure LDAP is enabled or disabled. */
-  ldaps?: LdapsSettingsLdaps;
+  ldaps?: LdapsSettingsLdaps | undefined;
   /** The certificate required to configure Secure LDAP. The parameter passed here should be a base64encoded representation of the certificate pfx file. */
-  pfxCertificate?: string;
+  pfxCertificate?: string | undefined;
   /** The password to decrypt the provided Secure LDAP certificate pfx file. */
-  pfxCertificatePassword?: string | Redacted.Redacted<string>;
+  pfxCertificatePassword?: string | Redacted.Redacted<string> | undefined;
   /** Public certificate used to configure secure ldap. */
-  publicCertificate?: string;
+  publicCertificate?: string | undefined;
   /** Thumbprint of configure ldaps certificate. */
-  certificateThumbprint?: string;
+  certificateThumbprint?: string | undefined;
   /** NotAfter DateTime of configure ldaps certificate. */
-  certificateNotAfter?: string;
+  certificateNotAfter?: string | undefined;
   /** A flag to determine whether or not Secure LDAP access over the internet is enabled or disabled. */
-  externalAccess?: LdapsSettingsExternalAccess;
+  externalAccess?: LdapsSettingsExternalAccess | undefined;
 }
 /** Enabled or Disabled flag to turn on Group-based filtered sync */
 export type DomainServicePropertiesFilteredSync = "Enabled" | "Disabled";
@@ -446,75 +447,75 @@ export type DomainServicePropertiesSyncScope = "All" | "CloudOnly";
 /** Migration Progress */
 export interface MigrationProgress {
   /** Completion Percentage */
-  completionPercentage?: number;
+  completionPercentage?: number | undefined;
   /** Progress Message */
-  progressMessage?: string;
+  progressMessage?: string | undefined;
 }
 /** Migration Properties */
 export interface MigrationProperties {
   /** Old Subnet Id */
-  oldSubnetId?: string;
+  oldSubnetId?: string | undefined;
   /** Old Vnet Site Id */
-  oldVnetSiteId?: string;
+  oldVnetSiteId?: string | undefined;
   /** Migration Progress */
-  migrationProgress?: MigrationProgress;
+  migrationProgress?: MigrationProgress | undefined;
 }
 /** Properties of the Domain Service. */
 export interface DomainServiceProperties {
   /** Data Model Version */
-  version?: number;
+  version?: number | undefined;
   /** Azure Active Directory Tenant Id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The name of the Azure domain that the user would like to deploy Domain Services to. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** Deployment Id */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** SyncOwner ReplicaSet Id */
-  syncOwner?: string;
+  syncOwner?: string | undefined;
   /** The unique sync application id of the Azure AD Domain Services deployment. */
-  syncApplicationId?: string;
+  syncApplicationId?: string | undefined;
   /** List of ReplicaSets */
-  replicaSets?: DomainServicePropertiesReplicaSetsList;
+  replicaSets?: DomainServicePropertiesReplicaSetsList | undefined;
   /** Secure LDAP Settings */
-  ldapsSettings?: LdapsSettings;
+  ldapsSettings?: LdapsSettings | undefined;
   /** Resource Forest Settings */
-  resourceForestSettings?: ResourceForestSettings;
+  resourceForestSettings?: ResourceForestSettings | undefined;
   /** DomainSecurity Settings */
-  domainSecuritySettings?: DomainSecuritySettings;
+  domainSecuritySettings?: DomainSecuritySettings | undefined;
   /** Domain Configuration Type */
-  domainConfigurationType?: string;
+  domainConfigurationType?: string | undefined;
   /** Sku Type */
-  sku?: string;
+  sku?: string | undefined;
   /** Enabled or Disabled flag to turn on Group-based filtered sync */
-  filteredSync?: DomainServicePropertiesFilteredSync;
+  filteredSync?: DomainServicePropertiesFilteredSync | undefined;
   /** All or CloudOnly, All users in AAD are synced to AAD DS domain or only users actively syncing in the cloud */
-  syncScope?: DomainServicePropertiesSyncScope;
+  syncScope?: DomainServicePropertiesSyncScope | undefined;
   /** Notification Settings */
-  notificationSettings?: NotificationSettings;
+  notificationSettings?: NotificationSettings | undefined;
   /** Migration Properties */
-  migrationProperties?: MigrationProperties;
+  migrationProperties?: MigrationProperties | undefined;
   /** the current deployment or provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Configuration diagnostics data containing latest execution from client. */
-  configDiagnostics?: ConfigDiagnostics;
+  configDiagnostics?: ConfigDiagnostics | undefined;
 }
 export interface DomainServicesCreateOrUpdateResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: DomainServicesCreateOrUpdateResponseTagsMap;
+  tags?: DomainServicesCreateOrUpdateResponseTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DomainServicesCreateOrUpdateResponseSystemData;
+  systemData?: DomainServicesCreateOrUpdateResponseSystemData | undefined;
   /** Domain service properties */
-  properties?: DomainServiceProperties;
+  properties?: DomainServiceProperties | undefined;
 }
 export interface GetDomainServiceRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -541,35 +542,35 @@ export type GetDomainServiceResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetDomainServiceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetDomainServiceResponseSystemDataCreatedByType;
+  createdByType?: GetDomainServiceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetDomainServiceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetDomainServiceResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetDomainServiceResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: GetDomainServiceResponseTagsMap;
+  tags?: GetDomainServiceResponseTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetDomainServiceResponseSystemData;
+  systemData?: GetDomainServiceResponseSystemData | undefined;
   /** Domain service properties */
-  properties?: DomainServiceProperties;
+  properties?: DomainServiceProperties | undefined;
 }
 export interface GetOuContainerRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -598,35 +599,35 @@ export type GetOuContainerResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetOuContainerResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetOuContainerResponseSystemDataCreatedByType;
+  createdByType?: GetOuContainerResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetOuContainerResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetOuContainerResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetOuContainerResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: GetOuContainerResponseTagsMap;
+  tags?: GetOuContainerResponseTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetOuContainerResponseSystemData;
+  systemData?: GetOuContainerResponseSystemData | undefined;
   /** OuContainer properties */
-  properties?: OuContainerProperties;
+  properties?: OuContainerProperties | undefined;
 }
 export interface ListDomainServiceByResourceGroupRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -651,75 +652,75 @@ export type DomainServiceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DomainServiceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DomainServiceSystemDataCreatedByType;
+  createdByType?: DomainServiceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DomainServiceSystemDataLastModifiedByType;
+  lastModifiedByType?: DomainServiceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Domain service. */
 export interface DomainService {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: DomainServiceTagsMap;
+  tags?: DomainServiceTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DomainServiceSystemData;
+  systemData?: DomainServiceSystemData | undefined;
   /** Domain service properties */
-  properties?: DomainServiceProperties;
+  properties?: DomainServiceProperties | undefined;
 }
 /** the list of domain services. */
 export type DomainServiceListResultValueList = Array<DomainService>;
 /** The response from the List Domain Services operation. */
 export interface DomainServiceListResult {
   /** the list of domain services. */
-  value?: DomainServiceListResultValueList;
+  value?: DomainServiceListResultValueList | undefined;
   /** The continuation token for the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDomainServiceOperationsRequest {}
 /** The operation supported by Domain Services. */
 export interface OperationDisplayInfo {
   /** The description of the operation. */
-  description?: string;
+  description?: string | undefined;
   /** The action that users can perform, based on their permission level. */
-  operation?: string;
+  operation?: string | undefined;
   /** Service provider: Domain Services. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** The operation supported by Domain Services. */
 export interface OperationEntity {
   /** Operation name: {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** The operation supported by Domain Services. */
-  display?: OperationDisplayInfo;
+  display?: OperationDisplayInfo | undefined;
   /** The origin of the operation. */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** The list of operations. */
 export type OperationEntityListResultValueList = Array<OperationEntity>;
 /** The list of domain service operation response. */
 export interface OperationEntityListResult {
   /** The list of operations. */
-  value?: OperationEntityListResultValueList;
+  value?: OperationEntityListResultValueList | undefined;
   /** The continuation token for the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDomainServicesRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -746,45 +747,45 @@ export type OuContainerSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface OuContainerSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: OuContainerSystemDataCreatedByType;
+  createdByType?: OuContainerSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: OuContainerSystemDataLastModifiedByType;
+  lastModifiedByType?: OuContainerSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource for OuContainer. */
 export interface OuContainer {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: OuContainerTagsMap;
+  tags?: OuContainerTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: OuContainerSystemData;
+  systemData?: OuContainerSystemData | undefined;
   /** OuContainer properties */
-  properties?: OuContainerProperties;
+  properties?: OuContainerProperties | undefined;
 }
 /** The list of OuContainer. */
 export type OuContainerListResultValueList = Array<OuContainer>;
 /** The response from the List OuContainer operation. */
 export interface OuContainerListResult {
   /** The list of OuContainer. */
-  value?: OuContainerListResultValueList;
+  value?: OuContainerListResultValueList | undefined;
   /** The continuation token for the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOuContainerOperationsRequest {}
 /** Resource tags */
@@ -797,13 +798,13 @@ export interface UpdateDomainServiceRequest {
   /** The name of the domain service. */
   domainServiceName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateDomainServiceRequestTagsMap;
+  tags?: UpdateDomainServiceRequestTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Domain service properties */
-  properties?: DomainServicePropertiesInput;
+  properties?: DomainServicePropertiesInput | undefined;
 }
 /** Resource tags */
 export type UpdateDomainServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -822,35 +823,35 @@ export type UpdateDomainServiceResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateDomainServiceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateDomainServiceResponseSystemDataCreatedByType;
+  createdByType?: UpdateDomainServiceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateDomainServiceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateDomainServiceResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateDomainServiceResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateDomainServiceResponseTagsMap;
+  tags?: UpdateDomainServiceResponseTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateDomainServiceResponseSystemData;
+  systemData?: UpdateDomainServiceResponseSystemData | undefined;
   /** Domain service properties */
-  properties?: DomainServiceProperties;
+  properties?: DomainServiceProperties | undefined;
 }
 export interface UpdateOuContainerRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -862,11 +863,11 @@ export interface UpdateOuContainerRequest {
   /** The name of the OuContainer. */
   ouContainerName: string;
   /** The account name */
-  accountName?: string;
+  accountName?: string | undefined;
   /** The account spn */
-  spn?: string;
+  spn?: string | undefined;
   /** The account password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** Resource tags */
 export type UpdateOuContainerResponseTagsMap = { [key: string]: string | undefined };
@@ -885,35 +886,35 @@ export type UpdateOuContainerResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateOuContainerResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateOuContainerResponseSystemDataCreatedByType;
+  createdByType?: UpdateOuContainerResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateOuContainerResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateOuContainerResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateOuContainerResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateOuContainerResponseTagsMap;
+  tags?: UpdateOuContainerResponseTagsMap | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateOuContainerResponseSystemData;
+  systemData?: UpdateOuContainerResponseSystemData | undefined;
   /** OuContainer properties */
-  properties?: OuContainerProperties;
+  properties?: OuContainerProperties | undefined;
 }
 export type CreateOuContainerError = AzureOpError;
 /** Create OuContainer The Create OuContainer operation creates a new OuContainer under the specified Domain Service instance. */

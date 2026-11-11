@@ -18,7 +18,8 @@ const sdks = readdirSync(PACKAGES)
 
 /** Packages without a `<Sdk>OpError` union over a REST/RPC protocol, and why. */
 const NO_OP_ERROR: Record<string, string> = {
-  aws: "hand-written protocols; ParseError is part of CommonErrors in src/errors.ts",
+  aws: "re-exports @distilled.cloud/s3's errors, whose CommonErrors include ParseError",
+  s3: "hand-written protocols; ParseError is part of CommonErrors in src/errors.ts",
   railway: "GraphQL Query SDK; errors are typed per root by core/graphql",
 };
 
@@ -82,8 +83,8 @@ describe("every SDK", () => {
     });
   });
 
-  test("aws keeps ParseError in CommonErrors", () => {
-    const errors = read("aws", "src/errors.ts")!;
+  test("s3 keeps ParseError in CommonErrors", () => {
+    const errors = read("s3", "src/errors.ts")!;
     expect(errors).toMatch(/export class ParseError\b/);
     expect(/export type CommonErrors =([^;]*);/.exec(errors)?.[1]).toMatch(/\bParseError\b/);
   });

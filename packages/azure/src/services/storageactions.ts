@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Storageactions",
   service: "Storageactions",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -53,11 +54,11 @@ export interface StorageTaskOperation {
   /** The operation to be performed on the object. */
   name: StorageTaskOperationName | (string & {});
   /** Key-value parameters for the operation. */
-  parameters?: StorageTaskOperationParametersMap;
+  parameters?: StorageTaskOperationParametersMap | undefined;
   /** Action to be taken when the operation is successful for a object. */
-  onSuccess?: OnSuccess | (string & {});
+  onSuccess?: OnSuccess | (string & {}) | undefined;
   /** Action to be taken when the operation fails for a object. */
-  onFailure?: OnFailure | (string & {});
+  onFailure?: OnFailure | (string & {}) | undefined;
 }
 /** List of operations to execute when the condition predicate satisfies. */
 export type IfConditionOperationsList = Array<StorageTaskOperation>;
@@ -80,7 +81,7 @@ export interface StorageTaskAction {
   /** The if block of storage task operation */
   if: IfCondition;
   /** The else block of storage task operation */
-  else?: ElseCondition;
+  else?: ElseCondition | undefined;
 }
 /** Properties of the storage task. */
 export interface StorageTaskPropertiesInput {
@@ -106,7 +107,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateStorageTaskRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface CreateStorageTaskRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -116,7 +117,7 @@ export interface CreateStorageTaskRequest {
   /** The name of the storage task within the specified resource group. Storage task names must be between 3 and 18 characters in length and use numbers and lower-case letters only. */
   storageTaskName: string;
   /** Resource tags. */
-  tags?: CreateStorageTaskRequestTagsMap;
+  tags?: CreateStorageTaskRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the storage task. */
@@ -131,17 +132,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateStorageTaskResponseTagsMap = { [key: string]: string | undefined };
@@ -158,7 +159,7 @@ export type ProvisioningState =
 /** Properties of the storage task. */
 export interface StorageTaskProperties {
   /** Storage task version. */
-  taskVersion?: number;
+  taskVersion?: number | undefined;
   /** Storage Task is enabled when set to true and disabled when set to false */
   enabled: boolean;
   /** Text that describes the purpose of the storage task */
@@ -166,39 +167,39 @@ export interface StorageTaskProperties {
   /** The storage task action that is executed */
   action: StorageTaskAction;
   /** Represents the provisioning state of the storage task. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The creation date and time of the storage task in UTC. */
-  creationTimeInUtc?: string;
+  creationTimeInUtc?: string | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateStorageTaskResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface CreateStorageTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateStorageTaskResponseTagsMap;
+  tags?: CreateStorageTaskResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the storage task. */
@@ -206,9 +207,9 @@ export interface CreateStorageTaskResponse {
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity: CreateStorageTaskResponseIdentity;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteStorageTaskRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -220,11 +221,11 @@ export interface DeleteStorageTaskRequest {
 }
 export interface DeleteStorageTaskResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetStorageTaskRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -240,15 +241,15 @@ export type GetStorageTaskResponseTagsMap = { [key: string]: string | undefined 
 export type GetStorageTaskResponseIdentity = CreateStorageTaskResponseIdentity;
 export interface GetStorageTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetStorageTaskResponseTagsMap;
+  tags?: GetStorageTaskResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the storage task. */
@@ -260,13 +261,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -275,23 +276,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageTaskAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -301,12 +302,12 @@ export interface ListStorageTaskAssignmentRequest {
   /** The name of the storage task within the specified resource group. Storage task names must be between 3 and 18 characters in length and use numbers and lower-case letters only. */
   storageTaskName: string;
   /** Optional, specifies the maximum number of Storage Task Assignment Resource IDs to be included in the list response. */
-  _maxpagesize?: number;
+  _maxpagesize?: number | undefined;
 }
 /** Storage Task Assignment associated with this Storage Task. */
 export interface StorageTaskAssignment {
   /** Resource ID of the Storage Task Assignment. */
-  id?: string;
+  id?: string | undefined;
 }
 /** List of Storage Task Assignment Resource IDs associated with this Storage Task. */
 export type StorageTaskAssignmentsListResultValueList = Array<StorageTaskAssignment>;
@@ -315,7 +316,7 @@ export interface StorageTaskAssignmentsListResult {
   /** List of Storage Task Assignment Resource IDs associated with this Storage Task. */
   value: StorageTaskAssignmentsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageTaskByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -330,15 +331,15 @@ export type StorageTaskIdentity = CreateStorageTaskResponseIdentity;
 /** Represents Storage Task. */
 export interface StorageTask {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StorageTaskTagsMap;
+  tags?: StorageTaskTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the storage task. */
@@ -353,7 +354,7 @@ export interface StorageTasksListResult {
   /** Gets the list of storage tasks and their properties. */
   value: StorageTasksListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageTaskBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -367,9 +368,9 @@ export interface ListStorageTasksReportRequest {
   /** The name of the storage task within the specified resource group. Storage task names must be between 3 and 18 characters in length and use numbers and lower-case letters only. */
   storageTaskName: string;
   /** Optional, specifies the maximum number of Storage Task Assignment Resource IDs to be included in the list response. */
-  _maxpagesize?: number;
+  _maxpagesize?: number | undefined;
   /** Optional. When specified, it can be used to query using reporting properties. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Represents the status of the execution. */
 export type RunStatusEnum = "InProgress" | "Finished";
@@ -378,46 +379,46 @@ export type RunResult = "Succeeded" | "Failed";
 /** Storage task execution report for a run instance. */
 export interface StorageTaskReportProperties {
   /** Resource ID of the Storage Task Assignment associated with this reported run. */
-  taskAssignmentId?: string;
+  taskAssignmentId?: string | undefined;
   /** Resource ID of the Storage Account where this reported run executed. */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
   /** Start time of the run instance. Filter options such as startTime gt '2023-06-26T20:51:24.4494016Z' and other comparison operators can be used as described for DateTime properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of the run instance. Filter options such as startTime gt '2023-06-26T20:51:24.4494016Z' and other comparison operators can be used as described for DateTime properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators */
-  finishTime?: string;
+  finishTime?: string | undefined;
   /** Total number of objects that meet the condition as defined in the storage task assignment execution context. Filter options such as objectsTargetedCount gt 50 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators */
-  objectsTargetedCount?: string;
+  objectsTargetedCount?: string | undefined;
   /** Total number of objects that meet the storage tasks condition and were operated upon. Filter options such as objectsOperatedOnCount ge 100 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators */
-  objectsOperatedOnCount?: string;
+  objectsOperatedOnCount?: string | undefined;
   /** Total number of objects where task operation failed when was attempted. Filter options such as objectFailedCount eq 0 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators */
-  objectFailedCount?: string;
+  objectFailedCount?: string | undefined;
   /** Total number of objects where task operation succeeded when was attempted.Filter options such as objectsSucceededCount gt 150 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators */
-  objectsSucceededCount?: string;
+  objectsSucceededCount?: string | undefined;
   /** Well known Azure Storage error code that represents the error encountered during execution of the run instance. */
-  runStatusError?: string;
+  runStatusError?: string | undefined;
   /** Represents the status of the execution. */
-  runStatusEnum?: RunStatusEnum;
+  runStatusEnum?: RunStatusEnum | undefined;
   /** Full path to the verbose report stored in the reporting container as specified in the assignment execution context for the storage account. */
-  summaryReportPath?: string;
+  summaryReportPath?: string | undefined;
   /** Resource ID of the Storage Task applied during this run. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** Storage Task Version */
-  taskVersion?: string;
+  taskVersion?: string | undefined;
   /** Represents the overall result of the execution for the run instance */
-  runResult?: RunResult;
+  runResult?: RunResult | undefined;
 }
 /** Storage Tasks run report instance */
 export interface StorageTaskReportInstance {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Storage task execution report for a run instance. */
-  properties?: StorageTaskReportProperties;
+  properties?: StorageTaskReportProperties | undefined;
 }
 /** Gets storage tasks run result summary. */
 export type StorageTaskReportSummaryValueList = Array<StorageTaskReportInstance>;
@@ -426,14 +427,14 @@ export interface StorageTaskReportSummary {
   /** Gets storage tasks run result summary. */
   value: StorageTaskReportSummaryValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Storage task preview object key value pair properties. */
 export interface StorageTaskPreviewKeyValueProperties {
   /** Represents the key property of the pair. */
-  key?: string;
+  key?: string | undefined;
   /** Represents the value property of the pair. */
-  value?: string;
+  value?: string | undefined;
 }
 /** metadata key value pairs to be tested for a match against the provided condition. */
 export type StorageTaskPreviewContainerPropertiesMetadataList =
@@ -441,9 +442,9 @@ export type StorageTaskPreviewContainerPropertiesMetadataList =
 /** Storage task preview container properties */
 export interface StorageTaskPreviewContainerProperties {
   /** Name of test container */
-  name?: string;
+  name?: string | undefined;
   /** metadata key value pairs to be tested for a match against the provided condition. */
-  metadata?: StorageTaskPreviewContainerPropertiesMetadataList;
+  metadata?: StorageTaskPreviewContainerPropertiesMetadataList | undefined;
 }
 /** properties key value pairs to be tested for a match against the provided condition. */
 export type StorageTaskPreviewBlobPropertiesPropertiesList =
@@ -456,20 +457,20 @@ export type StorageTaskPreviewBlobPropertiesTagsList = Array<StorageTaskPreviewK
 /** Storage task preview container properties */
 export interface StorageTaskPreviewBlobProperties {
   /** Name of test blob */
-  name?: string;
+  name?: string | undefined;
   /** properties key value pairs to be tested for a match against the provided condition. */
-  properties?: StorageTaskPreviewBlobPropertiesPropertiesList;
+  properties?: StorageTaskPreviewBlobPropertiesPropertiesList | undefined;
   /** metadata key value pairs to be tested for a match against the provided condition. */
-  metadata?: StorageTaskPreviewBlobPropertiesMetadataList;
+  metadata?: StorageTaskPreviewBlobPropertiesMetadataList | undefined;
   /** tags key value pairs to be tested for a match against the provided condition. */
-  tags?: StorageTaskPreviewBlobPropertiesTagsList;
+  tags?: StorageTaskPreviewBlobPropertiesTagsList | undefined;
 }
 /** Properties of some sample blobs in the container to test for matches with the preview action. */
 export type StorageTaskPreviewActionPropertiesBlobsList = Array<StorageTaskPreviewBlobProperties>;
 /** Represents storage task preview action condition. */
 export interface StorageTaskPreviewActionIfCondition {
   /** Storage task condition to bes tested for a match. */
-  condition?: string;
+  condition?: string | undefined;
 }
 /** Represents the storage task conditions to be tested for a match with container and blob properties. */
 export interface StorageTaskPreviewActionCondition {
@@ -510,11 +511,11 @@ export interface StopStorageTaskAllAssignmentsRequest {
 }
 export interface StopStorageTaskAllAssignmentsResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateStorageTaskRequestIdentity = CreateStorageTaskRequestIdentity;
@@ -523,11 +524,11 @@ export type UpdateStorageTaskRequestTagsMap = { [key: string]: string | undefine
 /** Properties of the storage task. */
 export interface StorageTaskUpdatePropertiesInput {
   /** Storage Task is enabled when set to true and disabled when set to false */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Text that describes the purpose of the storage task */
-  description?: string;
+  description?: string | undefined;
   /** The storage task action that is executed */
-  action?: StorageTaskAction;
+  action?: StorageTaskAction | undefined;
 }
 export interface UpdateStorageTaskRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -537,11 +538,11 @@ export interface UpdateStorageTaskRequest {
   /** The name of the storage task within the specified resource group. Storage task names must be between 3 and 18 characters in length and use numbers and lower-case letters only. */
   storageTaskName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateStorageTaskRequestIdentity;
+  identity?: CreateStorageTaskRequestIdentity | undefined;
   /** Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. */
-  tags?: UpdateStorageTaskRequestTagsMap;
+  tags?: UpdateStorageTaskRequestTagsMap | undefined;
   /** Properties of the storage task. */
-  properties?: StorageTaskUpdatePropertiesInput;
+  properties?: StorageTaskUpdatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateStorageTaskResponseTagsMap = { [key: string]: string | undefined };
@@ -549,15 +550,15 @@ export type UpdateStorageTaskResponseTagsMap = { [key: string]: string | undefin
 export type UpdateStorageTaskResponseIdentity = CreateStorageTaskResponseIdentity;
 export interface UpdateStorageTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateStorageTaskResponseTagsMap;
+  tags?: UpdateStorageTaskResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the storage task. */
@@ -565,11 +566,11 @@ export interface UpdateStorageTaskResponse {
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity: CreateStorageTaskResponseIdentity;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CreateStorageTaskError = AzureOpError;
 /** Asynchronously creates a new storage task resource with the specified parameters. If a storage task is already created and a subsequent create request is issued with different properties, the storage task properties will be updated. If a storage task is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed. */

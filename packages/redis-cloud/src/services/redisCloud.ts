@@ -99,17 +99,17 @@ export type AddNewRegionToActiveActiveSubscriptionRequestPreferredAvailabilityZo
 /** Optional. Expected read and write throughput for this region. */
 export interface LocalThroughput {
   /** Specify one of the selected cloud provider regions for the subscription. */
-  region?: string;
+  region?: string | undefined;
   /** Write operations for this region per second. Default: 1000 ops/sec */
-  writeOperationsPerSecond?: number;
+  writeOperationsPerSecond?: number | undefined;
   /** Read operations for this region per second. Default: 1000 ops/sec */
-  readOperationsPerSecond?: number;
+  readOperationsPerSecond?: number | undefined;
 }
 /** List of databases in the subscription with local throughput details. Default: 1000 read and write ops/sec for each database */
 export interface CrdbRegionSpec {
   /** Database name. */
-  name?: string;
-  localThroughputMeasurement?: LocalThroughput;
+  name?: string | undefined;
+  localThroughputMeasurement?: LocalThroughput | undefined;
 }
 /** List of databases in the subscription with local throughput details. Default: 1000 read and write ops/sec for each database */
 export type AddNewRegionToActiveActiveSubscriptionRequestDatabasesList = Array<CrdbRegionSpec>;
@@ -119,27 +119,32 @@ export interface AddNewRegionToActiveActiveSubscriptionRequest {
   /** Subscription ID. */
   subscriptionId: number;
   /** Name of region to add as defined by the cloud provider. */
-  region?: string;
+  region?: string | undefined;
   /** Optional. Enter a VPC identifier that exists in the hosted AWS account. Creates a new VPC if not set. VPC Identifier must be in a valid format and must exist within the hosting account. */
-  vpcId?: string;
+  vpcId?: string | undefined;
   /** Deployment CIDR mask. Must be a valid CIDR format with a range of 256 IP addresses. */
-  deploymentCIDR?: string;
+  deploymentCIDR?: string | undefined;
   /** Optional. Enter a list of subnets identifiers that exists in the hosted AWS account. Subnet Identifier must exist within the hosting account. */
-  subnetIds?: AddNewRegionToActiveActiveSubscriptionRequestSubnetIdsList;
+  subnetIds?: AddNewRegionToActiveActiveSubscriptionRequestSubnetIdsList | undefined;
   /** Optional. Enter a security group identifier that exists in the hosted AWS account. Security group Identifier must be in a valid format (for example: 'sg-0125be68a4625884ad') and must exist within the hosting account. */
-  securityGroupId?: string;
+  securityGroupId?: string | undefined;
   /** Optional. Support deployment on multiple availability zones within the selected region. When omitted, defaults to true unless the region is explicitly marked as not supporting multi-AZ. */
-  multipleAvailabilityZones?: boolean;
+  multipleAvailabilityZones?: boolean | undefined;
   /** Optional. List the zone IDs for your preferred availability zones for the cloud provider and region. */
-  preferredAvailabilityZones?: AddNewRegionToActiveActiveSubscriptionRequestPreferredAvailabilityZonesList;
+  preferredAvailabilityZones?:
+    | AddNewRegionToActiveActiveSubscriptionRequestPreferredAvailabilityZonesList
+    | undefined;
   /** Optional. When 'false': Creates a deployment plan and deploys it, creating any resources required by the plan. When 'true': creates a read-only deployment plan, and does not create any resources. Default: 'false' */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** List of databases in the subscription with local throughput details. Default: 1000 read and write ops/sec for each database */
-  databases?: AddNewRegionToActiveActiveSubscriptionRequestDatabasesList;
+  databases?: AddNewRegionToActiveActiveSubscriptionRequestDatabasesList | undefined;
   /** Optional. RESP version must be compatible with Redis version. */
-  respVersion?: AddNewRegionToActiveActiveSubscriptionRequestRespVersion | (string & {});
+  respVersion?:
+    | AddNewRegionToActiveActiveSubscriptionRequestRespVersion
+    | (string & {})
+    | undefined;
   /** Required for subscriptions where 'persistentStorageEncryptionType' is 'customer-managed-key'. The resource name of the customer-managed encryption key for the region. */
-  customerManagedKeyResourceName?: string;
+  customerManagedKeyResourceName?: string | undefined;
 }
 export type TaskStateUpdateStatus =
   | "initialized"
@@ -778,22 +783,22 @@ export type ProcessorResponseError =
   | "AGENT_MEMORY_STORE_FORBIDDEN"
   | "AGENT_MEMORY_STORE_DEPENDENCY_FAILED";
 export interface ProcessorResponse {
-  resourceId?: number;
-  additionalResourceId?: number;
-  resource?: unknown;
-  error?: ProcessorResponseError;
-  additionalInfo?: string;
+  resourceId?: number | undefined;
+  additionalResourceId?: number | undefined;
+  resource?: unknown | undefined;
+  error?: ProcessorResponseError | undefined;
+  additionalInfo?: string | undefined;
 }
 export type TaskStateUpdateLinksItemMap = { [key: string]: string | undefined };
 export type TaskStateUpdateLinksList = Array<TaskStateUpdateLinksItemMap>;
 export interface TaskStateUpdate {
-  taskId?: string;
-  commandType?: string;
-  status?: TaskStateUpdateStatus;
-  description?: string;
-  timestamp?: string;
-  response?: ProcessorResponse;
-  links?: TaskStateUpdateLinksList;
+  taskId?: string | undefined;
+  commandType?: string | undefined;
+  status?: TaskStateUpdateStatus | undefined;
+  description?: string | undefined;
+  timestamp?: string | undefined;
+  response?: ProcessorResponse | undefined;
+  links?: TaskStateUpdateLinksList | undefined;
 }
 export interface BackupDatabaseRequest {
   /** Subscription ID. */
@@ -801,9 +806,9 @@ export interface BackupDatabaseRequest {
   /** Database ID. */
   databaseId: number;
   /** Required for Active-Active databases. Name of the cloud provider region to back up. When backing up an Active-Active database, you must back up each region separately. */
-  regionName?: string;
+  regionName?: string | undefined;
   /** Optional. Manually backs up data to this location, instead of the set 'remoteBackup' location. */
-  adhocBackupPath?: string;
+  adhocBackupPath?: string | undefined;
 }
 export interface BackupDatabase1Request {
   /** Subscription ID. */
@@ -811,7 +816,7 @@ export interface BackupDatabase1Request {
   /** Database ID. */
   databaseId: number;
   /** Optional. Manually backs up data to this location, instead of the set 'periodicBackupPath' location. */
-  adhocBackupPath?: string;
+  adhocBackupPath?: string | undefined;
 }
 /** Type of the principal */
 export type CreateActiveActivePrivateLinkRequestType =
@@ -833,7 +838,7 @@ export interface CreateActiveActivePrivateLinkRequest {
   /** Type of the principal */
   type: CreateActiveActivePrivateLinkRequestType | (string & {});
   /** Alias or friendly name for the principal */
-  alias?: string;
+  alias?: string | undefined;
 }
 /** Type of the principal */
 export type CreateActiveActivePrivateLinkPrincipalRequestType =
@@ -851,9 +856,9 @@ export interface CreateActiveActivePrivateLinkPrincipalRequest {
   /** AWS account ID or ARN of the principal (IAM user, role, or account) */
   principal: string;
   /** Type of the principal */
-  type?: CreateActiveActivePrivateLinkPrincipalRequestType | (string & {});
+  type?: CreateActiveActivePrivateLinkPrincipalRequestType | (string & {}) | undefined;
   /** Alias or friendly name for the principal */
-  alias?: string;
+  alias?: string | undefined;
 }
 export interface CreateActiveActivePscServiceRequest {
   /** Subscription ID. */
@@ -891,7 +896,7 @@ export interface CreateActiveActiveTgwAttachmentResponse {}
 export interface CreateActiveActiveVpcPeeringRequest {
   /** Subscription ID. */
   subscriptionId: number;
-  provider?: string;
+  provider?: string | undefined;
   /** Name of region to create a VPC peering from. */
   sourceRegion: string;
 }
@@ -901,7 +906,7 @@ export interface CreateCloudAccountRequest {
   /** Cloud account display name. */
   name: string;
   /** Optional. Cloud provider. Default: 'AWS' */
-  provider?: CreateCloudAccountRequestProvider | (string & {});
+  provider?: CreateCloudAccountRequestProvider | (string & {}) | undefined;
   /** Cloud provider access key. */
   accessKeyId: string | Redacted.Redacted<string>;
   /** Cloud provider secret key. */
@@ -939,17 +944,17 @@ export interface CreateCostReportRequest {
   /** Filter for usage ending on or before this date. Must be in format YYYY-MM-DD and must be after start date */
   endDate: string;
   /** Output format for the cost report */
-  format?: CreateCostReportRequestFormat | (string & {});
+  format?: CreateCostReportRequestFormat | (string & {}) | undefined;
   /** Array of subscriptionIDs to filter by */
-  subscriptionIds?: CreateCostReportRequestSubscriptionIdsList;
+  subscriptionIds?: CreateCostReportRequestSubscriptionIdsList | undefined;
   /** Array of database IDs to filter by */
-  databaseIds?: CreateCostReportRequestDatabaseIdsList;
+  databaseIds?: CreateCostReportRequestDatabaseIdsList | undefined;
   /** Filter by plan type */
-  subscriptionType?: CreateCostReportRequestSubscriptionType | (string & {});
+  subscriptionType?: CreateCostReportRequestSubscriptionType | (string & {}) | undefined;
   /** Array of regions to filter by */
-  regions?: CreateCostReportRequestRegionsList;
+  regions?: CreateCostReportRequestRegionsList | undefined;
   /** Array of key-value pairs for tag filtering */
-  tags?: CreateCostReportRequestTagsList;
+  tags?: CreateCostReportRequestTagsList | undefined;
 }
 export interface CreateCostReportResponse {}
 /** Optional. Database protocol. Only set to 'memcached' if you have a legacy application. Default: 'redis' */
@@ -983,9 +988,9 @@ export interface DatabaseSyncSourceSpec {
   /** Redis URI of a source database. Example format: 'redis://user:password@host:port'. If the URI provided is a Redis Cloud database, only host and port should be provided. Example: 'redis://endpoint1:6379'. */
   endpoint: string;
   /** Defines if encryption should be used to connect to the sync source. If not set the source is a Redis Cloud database, it will automatically detect if the source uses encryption. */
-  encryption?: boolean;
+  encryption?: boolean | undefined;
   /** TLS/SSL certificate chain of the sync source. If not set and the source is a Redis Cloud database, it will automatically detect the certificate to use. */
-  serverCert?: string;
+  serverCert?: string | undefined;
 }
 /** Optional. This database will be a replica of the specified Redis databases, provided as a list of objects with endpoint and certificate details. */
 export type ReplicaOfSpecSyncSourcesList = Array<DatabaseSyncSourceSpec>;
@@ -1008,15 +1013,15 @@ export type CreateDatabaseRequestLocalThroughputMeasurementList = Array<LocalThr
 /** Optional. Changes Remote backup configuration details. */
 export interface DatabaseBackupConfigInput {
   /** Optional. Determine if backup should be active. Default: null */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Required when active is 'true'. Defines the interval between backups. Format: 'every-x-hours', where x is one of 24, 12, 6, 4, 2, or 1. Example: "every-4-hours" */
-  interval?: string;
+  interval?: string | undefined;
   /** Optional. Hour when the backup starts. Available only for "every-12-hours" and "every-24-hours" backup intervals. Specified as an hour in 24-hour UTC time. Example: "14:00" is 2 PM UTC. */
-  timeUTC?: string;
+  timeUTC?: string | undefined;
   /** Required when active is 'true'. Type of storage to host backup files. Can be "aws-s3", "google-blob-storage", "azure-blob-storage", or "ftp". See [Set up backup storage locations](https://redis.io/docs/latest/operate/rc/databases/back-up-data/#set-up-backup-storage-locations) to learn how to set up backup storage locations. */
-  storageType?: string;
+  storageType?: string | undefined;
   /** Required when active is 'true'. Path to the backup storage location. */
-  storagePath?: string;
+  storagePath?: string | undefined;
 }
 /** Optional. List of source IP addresses or subnet masks to allow. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: '['192.168.10.0/32', '192.168.12.0/24']' */
 export type CreateDatabaseRequestSourceIpList = Array<string>;
@@ -1053,7 +1058,7 @@ export interface DatabaseModuleSpec {
   /** Redis advanced capability name. Use GET /database-modules for a list of available capabilities. */
   name: string;
   /** Optional. Redis advanced capability parameters. Use GET /database-modules to get the available capabilities and their parameters. */
-  parameters?: DatabaseModuleSpecParametersMap;
+  parameters?: DatabaseModuleSpecParametersMap | undefined;
 }
 /** Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to get a list of available advanced capabilities. Don't specify modules for database versions 8 and above. All capabilities are bundled in the database by default. */
 export type CreateDatabaseRequestModulesList = Array<DatabaseModuleSpec>;
@@ -1066,68 +1071,68 @@ export interface CreateDatabaseRequest {
   /** Subscription ID. */
   subscriptionId: number;
   /** Optional. When 'false': Creates a deployment plan and deploys it, creating any resources required by the plan. When 'true': creates a read-only deployment plan and does not create any resources. Default: 'false' */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** Name of the database. Database name is limited to 40 characters or less and must include only letters, digits, and hyphens ('-'). It must start with a letter and end with a letter or digit. */
   name: string;
   /** Optional. Database protocol. Only set to 'memcached' if you have a legacy application. Default: 'redis' */
-  protocol?: CreateDatabaseRequestProtocol | (string & {});
+  protocol?: CreateDatabaseRequestProtocol | (string & {}) | undefined;
   /** Optional. TCP port on which the database is available (10000-19999). Generated automatically if not set. */
-  port?: number;
+  port?: number | undefined;
   /** Optional. Total memory in GB, including replication and other overhead. You cannot set both datasetSizeInGb and totalMemoryInGb. */
-  memoryLimitInGb?: number;
+  memoryLimitInGb?: number | undefined;
   /** Optional. The maximum amount of data in the dataset for this database in GB. You cannot set both datasetSizeInGb and totalMemoryInGb. If 'replication' is 'true', the database's total memory will be twice as large as the datasetSizeInGb. If 'replication' is false, the database's total memory will be the datasetSizeInGb value. */
-  datasetSizeInGb?: number;
+  datasetSizeInGb?: number | undefined;
   /** Optional. If specified, redisVersion defines the Redis database version. If omitted, the Redis version will be set to the default version (available in 'GET /subscriptions/redis-versions') */
-  redisVersion?: string;
+  redisVersion?: string | undefined;
   /** Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above. Default: true. */
-  autoMinorVersionUpgrade?: boolean;
+  autoMinorVersionUpgrade?: boolean | undefined;
   /** Optional. Redis Serialization Protocol version. Must be compatible with Redis version. */
-  respVersion?: CreateDatabaseRequestRespVersion | (string & {});
+  respVersion?: CreateDatabaseRequestRespVersion | (string & {}) | undefined;
   /** Optional. Support [OSS Cluster API](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#oss-cluster-api). Default: 'false' */
-  supportOSSClusterApi?: boolean;
+  supportOSSClusterApi?: boolean | undefined;
   /** Optional. If set to 'true', the database will use the external endpoint for OSS Cluster API. This setting blocks the database's private endpoint. Can only be set if 'supportOSSClusterAPI' is 'true'. Default: 'false' */
-  useExternalEndpointForOSSClusterApi?: boolean;
+  useExternalEndpointForOSSClusterApi?: boolean | undefined;
   /** Optional. Type and rate of data persistence in persistent storage. Default: 'none' */
-  dataPersistence?: CreateDatabaseRequestDataPersistence | (string & {});
+  dataPersistence?: CreateDatabaseRequestDataPersistence | (string & {}) | undefined;
   /** Optional. Data eviction policy. Default: 'volatile-lru' */
-  dataEvictionPolicy?: CreateDatabaseRequestDataEvictionPolicy | (string & {});
+  dataEvictionPolicy?: CreateDatabaseRequestDataEvictionPolicy | (string & {}) | undefined;
   /** Optional. Sets database replication. Default: 'true' */
-  replication?: boolean;
+  replication?: boolean | undefined;
   /** Optional. This database will be a replica of the specified Redis databases provided as one or more URI(s). Example: 'redis://user:password@host:port'. If the URI provided is a Redis Cloud database, only host and port should be provided. Example: ['redis://endpoint1:6379', 'redis://endpoint2:6380']. */
-  replicaOf?: CreateDatabaseRequestReplicaOfList;
-  replica?: ReplicaOfSpec;
-  throughputMeasurement?: DatabaseThroughputSpec;
+  replicaOf?: CreateDatabaseRequestReplicaOfList | undefined;
+  replica?: ReplicaOfSpec | undefined;
+  throughputMeasurement?: DatabaseThroughputSpec | undefined;
   /** Optional. Expected throughput per region for an Active-Active database. Default: 1000 read and write ops/sec for each region */
-  localThroughputMeasurement?: CreateDatabaseRequestLocalThroughputMeasurementList;
+  localThroughputMeasurement?: CreateDatabaseRequestLocalThroughputMeasurementList | undefined;
   /** Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000 */
-  averageItemSizeInBytes?: number;
+  averageItemSizeInBytes?: number | undefined;
   /** Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Must be between 10 and 50 in steps of 10 (10, 20, 30, 40, 50). Default: 20 */
-  ramPercentage?: number;
+  ramPercentage?: number | undefined;
   /** Optional. The path to a backup storage location. If specified, the database will back up every 24 hours to this location, and you can manually back up the database to this location at any time. */
-  periodicBackupPath?: string;
-  remoteBackup?: DatabaseBackupConfigInput;
+  periodicBackupPath?: string | undefined;
+  remoteBackup?: DatabaseBackupConfigInput | undefined;
   /** Optional. List of source IP addresses or subnet masks to allow. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: '['192.168.10.0/32', '192.168.12.0/24']' */
-  sourceIp?: CreateDatabaseRequestSourceIpList;
+  sourceIp?: CreateDatabaseRequestSourceIpList | undefined;
   /** Optional. A public key client TLS/SSL certificate with new line characters replaced with '\n'. If specified, mTLS authentication will be required to authenticate user connections. Default: 'null' */
-  clientSslCertificate?: string;
+  clientSslCertificate?: string | undefined;
   /** Optional. A list of client TLS/SSL certificates. If specified, mTLS authentication will be required to authenticate user connections. */
-  clientTlsCertificates?: CreateDatabaseRequestClientTlsCertificatesList;
+  clientTlsCertificates?: CreateDatabaseRequestClientTlsCertificatesList | undefined;
   /** Optional. When 'true', requires TLS authentication for all connections - mTLS with valid clientTlsCertificates, regular TLS when clientTlsCertificates is not provided. Default: 'false' */
-  enableTls?: boolean;
+  enableTls?: boolean | undefined;
   /** Optional. Password to access the database. If not set, a random 32-character alphanumeric password will be automatically generated. Can only be set if 'protocol' is 'redis'. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Optional. Memcached (SASL) Username to access the database. If not set, the username will be set to a 'mc-' prefix followed by a random 5 character long alphanumeric. Can only be set if 'protocol' is 'memcached'. */
-  saslUsername?: string;
+  saslUsername?: string | undefined;
   /** Optional. Memcached (SASL) Password to access the database. If not set, a random 32 character long alphanumeric password will be automatically generated. Can only be set if 'protocol' is 'memcached'. */
-  saslPassword?: string | Redacted.Redacted<string>;
+  saslPassword?: string | Redacted.Redacted<string> | undefined;
   /** Optional. Redis database alert details. */
-  alerts?: CreateDatabaseRequestAlertsList;
+  alerts?: CreateDatabaseRequestAlertsList | undefined;
   /** Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to get a list of available advanced capabilities. Don't specify modules for database versions 8 and above. All capabilities are bundled in the database by default. */
-  modules?: CreateDatabaseRequestModulesList;
+  modules?: CreateDatabaseRequestModulesList | undefined;
   /** Optional. Database [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy). */
-  shardingType?: CreateDatabaseRequestShardingType | (string & {});
+  shardingType?: CreateDatabaseRequestShardingType | (string & {}) | undefined;
   /** Optional. The query performance factor adds extra compute power specifically for search and query databases. You can increase your queries per second by the selected factor. */
-  queryPerformanceFactor?: string;
+  queryPerformanceFactor?: string | undefined;
 }
 export interface CreateDatabaseResponse {}
 /** Type of endpoint to redirect. */
@@ -1140,7 +1145,7 @@ export interface CreateEndpointsRedirectionRequest {
   /** Type of endpoint to redirect. */
   endpointTargetType: CreateEndpointsRedirectionRequestEndpointTargetType | (string & {});
   /** Whether to duplicate the source database ACLs to the target database. */
-  duplicateACLs?: boolean;
+  duplicateACLs?: boolean | undefined;
   /** Must be explicitly set to true to start the migration. This is a protective measure to avoid accidental migrations. */
   migrationProtection: boolean;
 }
@@ -1159,42 +1164,42 @@ export type EndpointRedirectionDTOTargetEndpointType = "public" | "private";
 /** Details of a single endpoint redirection. */
 export interface EndpointRedirectionDTO {
   /** Name of the source endpoint. */
-  sourceEndpointName?: string;
+  sourceEndpointName?: string | undefined;
   /** Name of the target endpoint. */
-  targetEndpointName?: string;
+  targetEndpointName?: string | undefined;
   /** Type of the source endpoint. */
-  sourceEndpointType?: EndpointRedirectionDTOSourceEndpointType;
+  sourceEndpointType?: EndpointRedirectionDTOSourceEndpointType | undefined;
   /** Type of the target endpoint. */
-  targetEndpointType?: EndpointRedirectionDTOTargetEndpointType;
+  targetEndpointType?: EndpointRedirectionDTOTargetEndpointType | undefined;
   /** Error message describing why this endpoint redirection failed, if applicable. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 /** Details of the individual endpoint redirections performed. */
 export type EndpointsRedirectionResponseEndpointsList = Array<EndpointRedirectionDTO>;
 /** Dynamic endpoint redirection status response message */
 export interface EndpointsRedirectionResponse {
   /** Unique identifier of the dynamic endpoint redirection. Use it to poll the redirection status. */
-  redirectionId?: string;
+  redirectionId?: string | undefined;
   /** Current status of the dynamic endpoint redirection. */
-  status?: EndpointsRedirectionResponseStatus;
+  status?: EndpointsRedirectionResponseStatus | undefined;
   /** ID of the source database the endpoint is redirected from. */
-  sourceDatabaseId?: number;
+  sourceDatabaseId?: number | undefined;
   /** ID of the target database the endpoint is redirected to. */
-  targetDatabaseId?: number;
+  targetDatabaseId?: number | undefined;
   /** Whether this redirection reverts a previously completed redirection. */
-  isRevert?: boolean;
+  isRevert?: boolean | undefined;
   /** Whether the source database ACLs were duplicated to the target database. */
-  duplicateACLs?: boolean;
+  duplicateACLs?: boolean | undefined;
   /** Timestamp when the redirection started. */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** Timestamp when the redirection completed. */
-  completedAt?: string;
+  completedAt?: string | undefined;
   /** Timestamp when the redirection was reverted, if applicable. */
-  revertedAt?: string;
+  revertedAt?: string | undefined;
   /** Error message describing why the redirection failed, if applicable. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Details of the individual endpoint redirections performed. */
-  endpoints?: EndpointsRedirectionResponseEndpointsList;
+  endpoints?: EndpointsRedirectionResponseEndpointsList | undefined;
 }
 /** Optional. Database protocol. Use 'stack' to get all of Redis' advanced capabilities. Only use 'redis' for Pay-as-you-go or Redis Flex subscriptions. Default: 'stack' for most subscriptions, 'redis' for Redis Flex subscriptions. */
 export type CreateFixedDatabaseRequestProtocol = "redis" | "memcached" | "stack";
@@ -1238,50 +1243,50 @@ export interface CreateFixedDatabaseRequest {
   /** Name of the database. Database name is limited to 40 characters or less and must include only letters, digits, and hyphens ('-'). It must start with a letter and end with a letter or digit. */
   name: string;
   /** Optional. Database protocol. Use 'stack' to get all of Redis' advanced capabilities. Only use 'redis' for Pay-as-you-go or Redis Flex subscriptions. Default: 'stack' for most subscriptions, 'redis' for Redis Flex subscriptions. */
-  protocol?: CreateFixedDatabaseRequestProtocol | (string & {});
+  protocol?: CreateFixedDatabaseRequestProtocol | (string & {}) | undefined;
   /** (Pay-as-you-go subscriptions only) Optional. Total memory in GB, including replication and other overhead. You cannot set both datasetSizeInGb and totalMemoryInGb. */
-  memoryLimitInGb?: number;
+  memoryLimitInGb?: number | undefined;
   /** (Pay-as-you-go subscriptions only) Optional. The maximum amount of data in the dataset for this database in GB. You cannot set both datasetSizeInGb and totalMemoryInGb. If 'replication' is 'true', the database's total memory will be twice as large as the datasetSizeInGb. If 'replication' is false, the database's total memory will be the datasetSizeInGb value. */
-  datasetSizeInGb?: number;
+  datasetSizeInGb?: number | undefined;
   /** (Pay-as-you-go subscriptions only) Optional. Support Redis [OSS Cluster API](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#oss-cluster-api). Default: 'false' */
-  supportOSSClusterApi?: boolean;
+  supportOSSClusterApi?: boolean | undefined;
   /** Optional. If specified, redisVersion defines the Redis database version. If omitted, the Redis version will be set to the default version. (available in 'GET /fixed/redis-versions') */
-  redisVersion?: string;
+  redisVersion?: string | undefined;
   /** Optional. Redis Serialization Protocol version. Must be compatible with Redis version. */
-  respVersion?: CreateFixedDatabaseRequestRespVersion | (string & {});
+  respVersion?: CreateFixedDatabaseRequestRespVersion | (string & {}) | undefined;
   /** (Pay-as-you-go subscriptions only) Optional. If set to 'true', the database will use the external endpoint for OSS Cluster API. This setting blocks the database's private endpoint. Can only be set if 'supportOSSClusterAPI' is 'true'. Default: 'false' */
-  useExternalEndpointForOSSClusterApi?: boolean;
+  useExternalEndpointForOSSClusterApi?: boolean | undefined;
   /** (Pay-as-you-go subscriptions only) Optional. Distributes database data to different cloud instances. Default: 'false' */
-  enableDatabaseClustering?: boolean;
+  enableDatabaseClustering?: boolean | undefined;
   /** (Pay-as-you-go subscriptions only) Optional. Specifies the number of master shards. */
-  numberOfShards?: number;
+  numberOfShards?: number | undefined;
   /** Optional. Type and rate of data persistence in persistent storage. Use GET /fixed/plans/{planId} to see if your plan supports data persistence. */
-  dataPersistence?: CreateFixedDatabaseRequestDataPersistence | (string & {});
+  dataPersistence?: CreateFixedDatabaseRequestDataPersistence | (string & {}) | undefined;
   /** Optional. Data eviction policy. */
-  dataEvictionPolicy?: CreateFixedDatabaseRequestDataEvictionPolicy | (string & {});
+  dataEvictionPolicy?: CreateFixedDatabaseRequestDataEvictionPolicy | (string & {}) | undefined;
   /** Optional. Sets database replication. Use GET /fixed/plans/{planId} to see if your plan supports database replication. */
-  replication?: boolean;
+  replication?: boolean | undefined;
   /** Optional. The path to a backup storage location. If specified, the database will back up every 24 hours to this location, and you can manually back up the database to this location at any time. Use GET /fixed/plans/{planId} to see if your plan supports database backups. */
-  periodicBackupPath?: string;
+  periodicBackupPath?: string | undefined;
   /** Optional. List of source IP addresses or subnet masks to allow. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Use GET /fixed/plans/{planId} to see how many CIDR allow rules your plan supports. Example: '['192.168.10.0/32', '192.168.12.0/24']' */
-  sourceIps?: CreateFixedDatabaseRequestSourceIpsList;
+  sourceIps?: CreateFixedDatabaseRequestSourceIpsList | undefined;
   /** (Pay-as-you-go subscriptions only) Optional. Hashing policy Regex rules. Used only if 'enableDatabaseClustering' is set to 'true' and . */
-  regexRules?: CreateFixedDatabaseRequestRegexRulesList;
+  regexRules?: CreateFixedDatabaseRequestRegexRulesList | undefined;
   /** Optional. This database will be a replica of the specified Redis databases provided as one or more URI(s). Example: 'redis://user:password@host:port'. If the URI provided is a Redis Cloud database, only host and port should be provided. Example: ['redis://endpoint1:6379', 'redis://endpoint2:6380']. */
-  replicaOf?: CreateFixedDatabaseRequestReplicaOfList;
-  replica?: ReplicaOfSpec;
+  replicaOf?: CreateFixedDatabaseRequestReplicaOfList | undefined;
+  replica?: ReplicaOfSpec | undefined;
   /** Optional. A public key client TLS/SSL certificate with new line characters replaced with '\n'. If specified, mTLS authentication will be required to authenticate user connections. Default: 'null' */
-  clientSslCertificate?: string;
+  clientSslCertificate?: string | undefined;
   /** Optional. A list of client TLS/SSL certificates. If specified, mTLS authentication will be required to authenticate user connections. */
-  clientTlsCertificates?: CreateFixedDatabaseRequestClientTlsCertificatesList;
+  clientTlsCertificates?: CreateFixedDatabaseRequestClientTlsCertificatesList | undefined;
   /** Optional. When 'true', requires TLS authentication for all connections - mTLS with valid clientTlsCertificates, regular TLS when clientTlsCertificates is not provided. Default: 'false' */
-  enableTls?: boolean;
+  enableTls?: boolean | undefined;
   /** Optional. Password to access the database. If not set, a random 32-character alphanumeric password will be automatically generated. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Optional. Redis database alert details. */
-  alerts?: CreateFixedDatabaseRequestAlertsList;
+  alerts?: CreateFixedDatabaseRequestAlertsList | undefined;
   /** Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to get a list of available advanced capabilities. Can only be set if 'protocol' is 'redis'. Don't specify modules for database versions 8 and above. All capabilities are bundled in the database by default. */
-  modules?: CreateFixedDatabaseRequestModulesList;
+  modules?: CreateFixedDatabaseRequestModulesList | undefined;
 }
 /** Short-term (working) memory configuration */
 export interface MemoryStoreShortMemoryConfig {
@@ -1295,21 +1300,21 @@ export interface MemoryStoreModelCredentials {
   /** How the supplied secret is interpreted. Required */
   type: MemoryStoreModelCredentialsType | (string & {});
   /** The provider API key. Required on create. On update an omitted or blank value keeps the current key, so only the key being rotated needs to be sent */
-  apiKey?: string | Redacted.Redacted<string>;
+  apiKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** Requested model selection for one purpose (LLM or embedding). On create, llm and longTermMemory.embedding must be supplied together to opt the store into customer-selected models; supplying only one is rejected. Omitting both keeps the platform-owned configuration, and such a store cannot be moved onto customer-selected models later: an update with llm is rejected with /errors/model-config-immutable */
 export interface MemoryStoreModelConfig {
   /** Model provider. Validated against the providers supported by the Agent Memory service. Immutable after creation */
-  provider?: string;
+  provider?: string | undefined;
   /** Model name as advertised by the provider. Required on create. On update, omit to keep the current model; the LLM model may be changed within the stored provider, the embedding model may not */
-  model?: string;
-  credentials?: MemoryStoreModelCredentials;
+  model?: string | undefined;
+  credentials?: MemoryStoreModelCredentials | undefined;
 }
 /** Long-term (persistent) memory configuration accepted on creation. When omitted, the store uses the default long-term memory TTL of 1 year */
 export interface MemoryStoreLongTermMemoryCreateConfig {
   /** Time-to-live of long-term memory entries, in seconds (1 second to 1 year). Required */
   ttlSeconds: number;
-  embedding?: MemoryStoreModelConfig;
+  embedding?: MemoryStoreModelConfig | undefined;
 }
 /** How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories */
 export type CreateMemoryStoreRequestExtractionStrategy = "INSTRUCT";
@@ -1327,15 +1332,15 @@ export interface MemoryStoreSummarizationConfig {
   /** Whether summarization is enabled for the store. Required */
   enabled: boolean;
   /** What triggers a summarization cycle. Defaults to event_count */
-  triggerStrategy?: MemoryStoreSummarizationConfigTriggerStrategy | (string & {});
-  eventCount?: MemoryStoreSummarizationThresholdConfig;
+  triggerStrategy?: MemoryStoreSummarizationConfigTriggerStrategy | (string & {}) | undefined;
+  eventCount?: MemoryStoreSummarizationThresholdConfig | undefined;
 }
 /** Advisory, LLM-mediated exclusion of sensitive content from long-term memory */
 export interface MemoryStoreSemanticExclusionConfig {
   /** Whether semantic exclusion is enabled. Required */
   enabled: boolean;
   /** Customer-authored instruction describing what must not be remembered (max 2000 characters). On update, omit to keep the stored prompt */
-  prompt?: string;
+  prompt?: string | undefined;
 }
 /** What happens to a memory this detector matches. Defaults to redact. When several detectors disagree, drop wins */
 export type MemoryStoreDetectorSelectionAction = "redact" | "drop";
@@ -1346,7 +1351,7 @@ export interface MemoryStoreDetectorSelection {
   /** Whether this detector is active. A disabled selection is still stored. Required */
   enabled: boolean;
   /** What happens to a memory this detector matches. Defaults to redact. When several detectors disagree, drop wins */
-  action?: MemoryStoreDetectorSelectionAction | (string & {});
+  action?: MemoryStoreDetectorSelectionAction | (string & {}) | undefined;
 }
 /** Selected detectors. On update, omitting this list keeps the stored selections; a non-empty list replaces them wholesale; an explicitly empty list clears them */
 export type MemoryStoreBuiltInDetectorsConfigDetectorsList = Array<MemoryStoreDetectorSelection>;
@@ -1355,7 +1360,7 @@ export interface MemoryStoreBuiltInDetectorsConfig {
   /** Toggle for the whole built-in group. False leaves the selections stored but inactive. Required */
   enabled: boolean;
   /** Selected detectors. On update, omitting this list keeps the stored selections; a non-empty list replaces them wholesale; an explicitly empty list clears them */
-  detectors?: MemoryStoreBuiltInDetectorsConfigDetectorsList;
+  detectors?: MemoryStoreBuiltInDetectorsConfigDetectorsList | undefined;
 }
 /** What happens to a memory this detector matches. Defaults to redact */
 export type MemoryStoreCustomDetectorAction = "redact" | "drop";
@@ -1370,7 +1375,7 @@ export interface MemoryStoreRegexSpec {
 export interface MemoryStoreMatcherSpec {
   /** Matching technique. Required */
   kind: MemoryStoreMatcherSpecKind | (string & {});
-  regex?: MemoryStoreRegexSpec;
+  regex?: MemoryStoreRegexSpec | undefined;
 }
 /** One customer-authored detector */
 export interface MemoryStoreCustomDetector {
@@ -1379,7 +1384,7 @@ export interface MemoryStoreCustomDetector {
   /** Whether this detector is active. A disabled detector is still stored and validated. Required */
   enabled: boolean;
   /** What happens to a memory this detector matches. Defaults to redact */
-  action?: MemoryStoreCustomDetectorAction | (string & {});
+  action?: MemoryStoreCustomDetectorAction | (string & {}) | undefined;
   matcher: MemoryStoreMatcherSpec;
 }
 /** Authored detectors (at most 32). On update, omitting this list keeps the stored detectors; a non-empty list replaces them wholesale; an explicitly empty list clears them */
@@ -1389,15 +1394,15 @@ export interface MemoryStoreCustomDetectorsConfig {
   /** Toggle for the whole custom group. False leaves the detectors stored but inactive. Required */
   enabled: boolean;
   /** Authored detectors (at most 32). On update, omitting this list keeps the stored detectors; a non-empty list replaces them wholesale; an explicitly empty list clears them */
-  detectors?: MemoryStoreCustomDetectorsConfigDetectorsList;
+  detectors?: MemoryStoreCustomDetectorsConfigDetectorsList | undefined;
 }
 /** Store-level policy that keeps sensitive data out of long-term memory. When omitted on create, no policy is stored. On update, the policy is replaced as a whole but nested content that is omitted is preserved, so prefer read-modify-write of the complete policy. Disabling sets enabled=false; a stored policy cannot be removed */
 export interface MemoryStoreLongTermMemoryExclusions {
   /** Master toggle gating enforcement of all exclusion groups. Required */
   enabled: boolean;
-  semantic?: MemoryStoreSemanticExclusionConfig;
-  builtInDetectors?: MemoryStoreBuiltInDetectorsConfig;
-  customDetectors?: MemoryStoreCustomDetectorsConfig;
+  semantic?: MemoryStoreSemanticExclusionConfig | undefined;
+  builtInDetectors?: MemoryStoreBuiltInDetectorsConfig | undefined;
+  customDetectors?: MemoryStoreCustomDetectorsConfig | undefined;
 }
 /** Field data type. Required */
 export type MemoryStoreCustomFieldType =
@@ -1424,7 +1429,7 @@ export interface MemoryStoreCustomExtractionStrategy {
   /** Prompt used to extract memories of this type. Required */
   prompt: string;
   /** Whether extraction for this type is active. Defaults to true */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** A custom category of long-term memory with its structured fields and optional extraction strategy. Name, description and fields are immutable once registered */
 export interface MemoryStoreCustomMemoryType {
@@ -1433,8 +1438,8 @@ export interface MemoryStoreCustomMemoryType {
   /** Human-readable description of what this type captures (1-200 characters). Required */
   description: string;
   /** Structured fields of a record of this type. Optional; a type without fields accepts direct writes without structured attributes */
-  fields?: MemoryStoreCustomMemoryTypeFieldsList;
-  extractionStrategy?: MemoryStoreCustomExtractionStrategy;
+  fields?: MemoryStoreCustomMemoryTypeFieldsList | undefined;
+  extractionStrategy?: MemoryStoreCustomExtractionStrategy | undefined;
 }
 /** Optional. Custom memory types to register on the store (at most 3 per store). When omitted only the built-in types are available */
 export type CreateMemoryStoreRequestCustomMemoryTypesList = Array<MemoryStoreCustomMemoryType>;
@@ -1448,16 +1453,16 @@ export interface CreateMemoryStoreRequest {
   name: string;
   /** ID of the database used by the memory store */
   databaseId: number;
-  shortMemory?: MemoryStoreShortMemoryConfig;
-  longTermMemory?: MemoryStoreLongTermMemoryCreateConfig;
-  llm?: MemoryStoreModelConfig;
+  shortMemory?: MemoryStoreShortMemoryConfig | undefined;
+  longTermMemory?: MemoryStoreLongTermMemoryCreateConfig | undefined;
+  llm?: MemoryStoreModelConfig | undefined;
   /** How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories */
-  extractionStrategy?: CreateMemoryStoreRequestExtractionStrategy | (string & {});
-  summarization?: MemoryStoreSummarizationConfig;
-  longTermMemoryExclusions?: MemoryStoreLongTermMemoryExclusions;
+  extractionStrategy?: CreateMemoryStoreRequestExtractionStrategy | (string & {}) | undefined;
+  summarization?: MemoryStoreSummarizationConfig | undefined;
+  longTermMemoryExclusions?: MemoryStoreLongTermMemoryExclusions | undefined;
   /** Optional. Custom memory types to register on the store (at most 3 per store). When omitted only the built-in types are available */
-  customMemoryTypes?: CreateMemoryStoreRequestCustomMemoryTypesList;
-  extractionCadence?: MemoryStoreExtractionCadenceConfig;
+  customMemoryTypes?: CreateMemoryStoreRequestCustomMemoryTypesList | undefined;
+  extractionCadence?: MemoryStoreExtractionCadenceConfig | undefined;
 }
 export interface CreateMemoryStoreResponse {}
 export interface CreateMemoryStoreApiKeyRequest {
@@ -1469,7 +1474,7 @@ export interface CreateMemoryStoreApiKeyRequest {
 /** New memory store API key */
 export interface MemoryStoreApiKeyCreateResponse {
   /** Generated API key. Returned only once. */
-  apiKey?: string | Redacted.Redacted<string>;
+  apiKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** Type of the principal */
 export type CreatePrivateLinkRequestType =
@@ -1489,7 +1494,7 @@ export interface CreatePrivateLinkRequest {
   /** Type of the principal */
   type: CreatePrivateLinkRequestType | (string & {});
   /** Alias or friendly name for the principal */
-  alias?: string;
+  alias?: string | undefined;
 }
 /** Type of the principal */
 export type CreatePrivateLinkPrincipalRequestType =
@@ -1505,9 +1510,9 @@ export interface CreatePrivateLinkPrincipalRequest {
   /** AWS account ID or ARN of the principal (IAM user, role, or account) */
   principal: string;
   /** Type of the principal */
-  type?: CreatePrivateLinkPrincipalRequestType | (string & {});
+  type?: CreatePrivateLinkPrincipalRequestType | (string & {}) | undefined;
   /** Alias or friendly name for the principal */
-  alias?: string;
+  alias?: string | undefined;
 }
 export interface CreatePscServiceRequest {
   /** Subscription ID. */
@@ -1545,7 +1550,7 @@ export interface AclRoleDatabaseSpec {
   /** The database's ID. Use 'GET /subscriptions/{subscriptionId}/databases' or 'GET /fixed/subscriptions/{subscriptionId}/databases' to get a list of databases in a subscription and their IDs. */
   databaseId: number;
   /** (Active-Active databases only) Optional. A list of regions where this rule applies for this role. */
-  regions?: AclRoleDatabaseSpecRegionsList;
+  regions?: AclRoleDatabaseSpecRegionsList | undefined;
 }
 /** A list of databases where the specified rule applies for this role. */
 export type AclRoleRedisRuleSpecDatabasesList = Array<AclRoleDatabaseSpec>;
@@ -1580,7 +1585,7 @@ export interface CustomerManagedKey {
   /** The resource name of the customer managed key. */
   resourceName: string;
   /** (Required for Active-Active subscriptions only) Region for the customer managed key as defined by the cloud provider. */
-  region?: string;
+  region?: string | undefined;
 }
 /** The customer managed keys (CMK) to use for this subscription. If is active-active subscription, must set a key for each region. */
 export type CustomerManagedKeyPropertiesCustomerManagedKeysList = Array<CustomerManagedKey>;
@@ -1600,7 +1605,7 @@ export interface CustomerManagedKeyProperties {
   /** The customer managed keys (CMK) to use for this subscription. If is active-active subscription, must set a key for each region. */
   customerManagedKeys: CustomerManagedKeyPropertiesCustomerManagedKeysList;
   /** Optional. The grace period for deleting the subscription if Redis cannot access the provided key. Required when applying customer managed keys for a new subscription. */
-  deletionGracePeriod?: CustomerManagedKeyPropertiesDeletionGracePeriod | (string & {});
+  deletionGracePeriod?: CustomerManagedKeyPropertiesDeletionGracePeriod | (string & {}) | undefined;
 }
 /** Optional. Cloud provider. Default: 'AWS' */
 export type SubscriptionSpecProvider = "AWS" | "GCP";
@@ -1611,43 +1616,43 @@ export type SubscriptionRegionNetworkingSpecSubnetIdsList = Array<string>;
 /** Optional. Cloud networking details, per region. Required if creating an Active-Active subscription. */
 export interface SubscriptionRegionNetworkingSpec {
   /** Optional. Deployment CIDR mask. Must be a valid CIDR format with a range of 256 IP addresses. Default for single-region subscriptions: If using Redis internal cloud account, 192.168.0.0/24 */
-  deploymentCIDR?: string;
+  deploymentCIDR?: string | undefined;
   /** Optional. Enter a VPC identifier that exists in the hosted AWS account. Creates a new VPC if not set. VPC Identifier must be in a valid format (for example: 'vpc-0125be68a4625884ad') and must exist within the hosting account. */
-  vpcId?: string;
+  vpcId?: string | undefined;
   /** Optional. Enter a list of subnets identifiers that exists in the hosted AWS account. Subnet Identifier must exist within the hosting account. */
-  subnetIds?: SubscriptionRegionNetworkingSpecSubnetIdsList;
+  subnetIds?: SubscriptionRegionNetworkingSpecSubnetIdsList | undefined;
   /** Optional. Enter a security group identifier that exists in the hosted AWS account. Security group Identifier must be in a valid format (for example: 'sg-0125be68a4625884ad') and must exist within the hosting account. */
-  securityGroupId?: string;
+  securityGroupId?: string | undefined;
 }
 /** The cloud provider region or list of regions (Active-Active only) and networking details. */
 export interface SubscriptionRegionSpec {
   /** Deployment region as defined by the cloud provider. */
   region: string;
   /** Optional. Support deployment on multiple availability zones within the selected region. Default for Active-Active: matches the region's multi-AZ capability (true on multi-AZ regions, false on non-multi-AZ regions). Default for Pro / single-region: `false`. */
-  multipleAvailabilityZones?: boolean;
+  multipleAvailabilityZones?: boolean | undefined;
   /** Optional. List the zone ID(s) for your preferred availability zone(s) for the cloud provider and region. If 'multipleAvailabilityZones' is set to 'true', you must list three availability zones. Otherwise, list one availability zone. */
-  preferredAvailabilityZones?: SubscriptionRegionSpecPreferredAvailabilityZonesList;
-  networking?: SubscriptionRegionNetworkingSpec;
+  preferredAvailabilityZones?: SubscriptionRegionSpecPreferredAvailabilityZonesList | undefined;
+  networking?: SubscriptionRegionNetworkingSpec | undefined;
 }
 /** The cloud provider region or list of regions (Active-Active only) and networking details. */
 export type SubscriptionSpecRegionsList = Array<SubscriptionRegionSpec>;
 /** List of resource tags to apply to the subscription. This will replace all existing tags. */
 export interface ResourceTag {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 /** Optional. A list of resource tags to apply to the subscription. (max. 30 tags). */
 export type SubscriptionSpecResourceTagsList = Array<ResourceTag>;
 /** Cloud provider, region, and networking details. */
 export interface SubscriptionSpec {
   /** Optional. Cloud provider. Default: 'AWS' */
-  provider?: SubscriptionSpecProvider | (string & {});
+  provider?: SubscriptionSpecProvider | (string & {}) | undefined;
   /** Optional. Cloud account identifier. Default: Redis internal cloud account (Cloud Account ID = 1). Use GET /cloud-accounts to list all available cloud accounts. Note: A subscription on Google Cloud can be created only with Redis internal cloud account. */
-  cloudAccountId?: number;
+  cloudAccountId?: number | undefined;
   /** The cloud provider region or list of regions (Active-Active only) and networking details. */
   regions: SubscriptionSpecRegionsList;
   /** Optional. A list of resource tags to apply to the subscription. (max. 30 tags). */
-  resourceTags?: SubscriptionSpecResourceTagsList;
+  resourceTags?: SubscriptionSpecResourceTagsList | undefined;
 }
 /** Cloud provider, region, and networking details. */
 export type CreateSubscriptionRequestCloudProvidersList = Array<SubscriptionSpec>;
@@ -1679,67 +1684,68 @@ export interface SubscriptionDatabaseSpec {
   /** Optional. Database protocol. Only set to 'memcached' if you have a legacy application. Default: 'redis' */
   protocol: SubscriptionDatabaseSpecProtocol | (string & {});
   /** Optional. TCP port on which the database is available (10000-19999). Generated automatically if not set. */
-  port?: number;
+  port?: number | undefined;
   /** Optional. Total memory in GB, including replication and other overhead. You cannot set both datasetSizeInGb and totalMemoryInGb. */
-  memoryLimitInGb?: number;
+  memoryLimitInGb?: number | undefined;
   /** Optional. The maximum amount of data in the dataset for this database in GB. You cannot set both datasetSizeInGb and totalMemoryInGb. If 'replication' is 'true', the database's total memory will be twice as large as the datasetSizeInGb.If 'replication' is false, the database's total memory will be the datasetSizeInGb value. */
-  datasetSizeInGb?: number;
+  datasetSizeInGb?: number | undefined;
   /** Optional. Support Redis [OSS Cluster API](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#oss-cluster-api). Default: 'false' */
-  supportOSSClusterApi?: boolean;
+  supportOSSClusterApi?: boolean | undefined;
   /** Optional. Type and rate of data persistence in persistent storage. Default: 'none' */
-  dataPersistence?: SubscriptionDatabaseSpecDataPersistence | (string & {});
+  dataPersistence?: SubscriptionDatabaseSpecDataPersistence | (string & {}) | undefined;
   /** Optional. Databases replication. Default: 'true' */
-  replication?: boolean;
-  throughputMeasurement?: DatabaseThroughputSpec;
+  replication?: boolean | undefined;
+  throughputMeasurement?: DatabaseThroughputSpec | undefined;
   /** Optional. Expected throughput per region for an Active-Active database. Default: 1000 read and write ops/sec for each region */
-  localThroughputMeasurement?: SubscriptionDatabaseSpecLocalThroughputMeasurementList;
+  localThroughputMeasurement?: SubscriptionDatabaseSpecLocalThroughputMeasurementList | undefined;
   /** Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to get a list of available advanced capabilities. Don't specify modules for database versions 8 and above. All capabilities are bundled in the database by default. */
-  modules?: SubscriptionDatabaseSpecModulesList;
+  modules?: SubscriptionDatabaseSpecModulesList | undefined;
   /** Optional. Number of databases that will be created with these settings. Default: 1 */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000 */
-  averageItemSizeInBytes?: number;
+  averageItemSizeInBytes?: number | undefined;
   /** Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Must be between 10 and 50 in steps of 10 (10, 20, 30, 40, 50). Default: 20 */
-  ramPercentage?: number;
+  ramPercentage?: number | undefined;
   /** Optional. Redis Serialization Protocol version. Must be compatible with Redis version. */
-  respVersion?: SubscriptionDatabaseSpecRespVersion | (string & {});
+  respVersion?: SubscriptionDatabaseSpecRespVersion | (string & {}) | undefined;
   /** Optional. If specified, redisVersion defines the Redis database version. If omitted, the Redis version will be set to the default version (available in 'GET /subscriptions/redis-versions') */
-  redisVersion?: string;
+  redisVersion?: string | undefined;
   /** Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above. Default: true. */
-  autoMinorVersionUpgrade?: boolean;
+  autoMinorVersionUpgrade?: boolean | undefined;
   /** Optional. Database [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy). */
-  shardingType?: SubscriptionDatabaseSpecShardingType | (string & {});
+  shardingType?: SubscriptionDatabaseSpecShardingType | (string & {}) | undefined;
   /** Optional. The query performance factor adds extra compute power specifically for search and query databases. You can increase your queries per second by the selected factor. */
-  queryPerformanceFactor?: string;
+  queryPerformanceFactor?: string | undefined;
 }
 /** One or more database specification(s) to create in this subscription. */
 export type CreateSubscriptionRequestDatabasesList = Array<SubscriptionDatabaseSpec>;
 export interface CreateSubscriptionRequest {
   /** Optional. New subscription name. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. When 'false': Creates a deployment plan and deploys it, creating any resources required by the plan. When 'true': creates a read-only deployment plan and does not create any resources. Default: 'false' */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** Optional. When 'single-region' or not set: Creates a single region subscription. When 'active-active': creates an Active-Active (multi-region) subscription. */
-  deploymentType?: CreateSubscriptionRequestDeploymentType | (string & {});
+  deploymentType?: CreateSubscriptionRequestDeploymentType | (string & {}) | undefined;
   /** Optional. The payment method for the subscription. If set to 'credit-card', 'paymentMethodId' must be defined. Default: 'credit-card' */
-  paymentMethod?: CreateSubscriptionRequestPaymentMethod | (string & {});
+  paymentMethod?: CreateSubscriptionRequestPaymentMethod | (string & {}) | undefined;
   /** Optional. A valid payment method ID for this account. Use GET /payment-methods to get a list of all payment methods for your account. This value is optional if 'paymentMethod' is 'marketplace', but required for all other account types. */
-  paymentMethodId?: number;
+  paymentMethodId?: number | undefined;
   /** Optional. Memory storage preference: either 'ram' or a combination of 'ram-and-flash' (also known as Auto Tiering). Default: 'ram' */
-  memoryStorage?: CreateSubscriptionRequestMemoryStorage | (string & {});
+  memoryStorage?: CreateSubscriptionRequestMemoryStorage | (string & {}) | undefined;
   /** Optional. Persistent storage encryption secures data at rest for database persistence. By default, disk storage is encrypted by keys managed by the cloud provider. Use 'customer-managed-key' if you want to use self-managed persistent storage encryption keys. Default: 'cloud-provider-managed-key' */
   persistentStorageEncryptionType?:
     | CreateSubscriptionRequestPersistentStorageEncryptionType
-    | (string & {});
-  persistentStorageEncryptionKeys?: CustomerManagedKeyProperties;
+    | (string & {})
+    | undefined;
+  persistentStorageEncryptionKeys?: CustomerManagedKeyProperties | undefined;
   /** Cloud provider, region, and networking details. */
   cloudProviders: CreateSubscriptionRequestCloudProvidersList;
   /** One or more database specification(s) to create in this subscription. */
   databases: CreateSubscriptionRequestDatabasesList;
   /** Optional. Defines the Redis version of the databases created in this specific request. It doesn't determine future databases associated with this subscription. If not set, databases will use the default Redis version. This field is deprecated and will be removed in a future API version - use the database-level redisVersion property instead. */
-  redisVersion?: string;
+  redisVersion?: string | undefined;
   /** Optional. When 'false', all databases on this subscription will reject any connection attempt to the public endpoint and any connection attempt to the private endpoint that does not come from an IP address in the private address space defined in [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918#section-3 ). You must use a [private connectivity method](https://redis.io/docs/latest/operate/rc/security/database-security/block-public-endpoints/#private-connectivity-methods ) to connect to a database with a blocked public endpoint. Default: 'true'. */
-  publicEndpointAccess?: boolean;
+  publicEndpointAccess?: boolean | undefined;
 }
 export interface CreateSubscriptionResponse {}
 /** Optional. The payment method for the subscription. If set to 'credit-card', 'paymentMethodId' must be defined. Default: 'credit-card' */
@@ -1750,9 +1756,9 @@ export interface CreateSubscription1Request {
   /** An Essentials plan ID. The plan describes the dataset size, cloud provider and region, and available database configuration options. Use GET /fixed/plans to get a list of available options. */
   planId: number;
   /** Optional. The payment method for the subscription. If set to 'credit-card', 'paymentMethodId' must be defined. Default: 'credit-card' */
-  paymentMethod?: CreateSubscription1RequestPaymentMethod | (string & {});
+  paymentMethod?: CreateSubscription1RequestPaymentMethod | (string & {}) | undefined;
   /** Optional. A valid payment method ID for this account. Use GET /payment-methods to get a list of all payment methods for your account. This value is optional if 'paymentMethod' is 'marketplace', but required for all other account types. */
-  paymentMethodId?: number;
+  paymentMethodId?: number | undefined;
 }
 export interface CreateSubscription1Response {}
 export interface CreateTagRequest {
@@ -1769,11 +1775,11 @@ export type CloudTagLinksItemMap = { [key: string]: string | undefined };
 export type CloudTagLinksList = Array<CloudTagLinksItemMap>;
 /** Database tag */
 export interface CloudTag {
-  links?: CloudTagLinksList;
-  key?: string;
-  value?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  links?: CloudTagLinksList | undefined;
+  key?: string | undefined;
+  value?: string | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface CreateTag1Request {
   /** Subscription ID. */
@@ -1804,7 +1810,7 @@ export interface CreateUserResponse {}
 export interface CreateVpcPeeringRequest {
   /** Subscription ID. */
   subscriptionId: number;
-  provider?: string;
+  provider?: string | undefined;
 }
 export interface CreateVpcPeeringResponse {}
 export interface DeleteAclRoleRequest {
@@ -1907,48 +1913,48 @@ export interface DeleteFixedDatabaseByIDRequest {
   /** Database ID. */
   databaseId: number;
   /** Optional. Updated database name. */
-  name?: string;
+  name?: string | undefined;
   /** (Pay-as-you-go subscriptions only) Optional. Total memory in GB, including replication and other overhead. You cannot set both datasetSizeInGb and totalMemoryInGb. */
-  memoryLimitInGb?: number;
+  memoryLimitInGb?: number | undefined;
   /** (Pay-as-you-go subscriptions only) Optional. The maximum amount of data in the dataset for this database in GB. You cannot set both datasetSizeInGb and totalMemoryInGb. If 'replication' is 'true', the database's total memory will be twice as large as the datasetSizeInGb. If 'replication' is false, the database's total memory will be the datasetSizeInGb value. */
-  datasetSizeInGb?: number;
+  datasetSizeInGb?: number | undefined;
   /** (Pay-as-you-go subscriptions only) Optional. Support Redis [OSS Cluster API](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#oss-cluster-api). */
-  supportOSSClusterApi?: boolean;
+  supportOSSClusterApi?: boolean | undefined;
   /** Optional. Redis Serialization Protocol version. Must be compatible with Redis version. */
-  respVersion?: DeleteFixedDatabaseByIDRequestRespVersion | (string & {});
+  respVersion?: DeleteFixedDatabaseByIDRequestRespVersion | (string & {}) | undefined;
   /** (Pay-as-you-go subscriptions only) Optional. If set to 'true', the database will use the external endpoint for OSS Cluster API. This setting blocks the database's private endpoint. Can only be set if 'supportOSSClusterAPI' is 'true'. Default: 'false' */
-  useExternalEndpointForOSSClusterApi?: boolean;
+  useExternalEndpointForOSSClusterApi?: boolean | undefined;
   /** (Pay-as-you-go subscriptions only) Optional. Distributes database data to different cloud instances. */
-  enableDatabaseClustering?: boolean;
+  enableDatabaseClustering?: boolean | undefined;
   /** (Pay-as-you-go subscriptions only) Optional. Changes the number of master shards. */
-  numberOfShards?: number;
+  numberOfShards?: number | undefined;
   /** Optional. Type and rate of data persistence in persistent storage. Use GET /fixed/plans/{planId} to see if your plan supports data persistence. */
-  dataPersistence?: DeleteFixedDatabaseByIDRequestDataPersistence | (string & {});
+  dataPersistence?: DeleteFixedDatabaseByIDRequestDataPersistence | (string & {}) | undefined;
   /** Optional. Turns database replication on or off. */
-  dataEvictionPolicy?: DeleteFixedDatabaseByIDRequestDataEvictionPolicy | (string & {});
+  dataEvictionPolicy?: DeleteFixedDatabaseByIDRequestDataEvictionPolicy | (string & {}) | undefined;
   /** Optional. Sets database replication. Use GET /fixed/plans/{planId} to see if your plan supports database replication. */
-  replication?: boolean;
+  replication?: boolean | undefined;
   /** Optional. Changes the backup location path. If specified, the database will back up every 24 hours to this location, and you can manually back up the database to this location at any time. Use GET /fixed/plans/{planId} to see if your plan supports database backups. If set to an empty string, the backup path will be removed. */
-  periodicBackupPath?: string;
+  periodicBackupPath?: string | undefined;
   /** Optional. List of source IP addresses or subnet masks to allow. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: '['192.168.10.0/32', '192.168.12.0/24']' */
-  sourceIps?: DeleteFixedDatabaseByIDRequestSourceIpsList;
+  sourceIps?: DeleteFixedDatabaseByIDRequestSourceIpsList | undefined;
   /** Optional. This database will be a replica of the specified Redis databases provided as one or more URI (sample format: 'redis://user:password@host:port)'. If the URI provided is Redis Cloud instance, only host and port should be provided (using the format: ['redis://endpoint1:6379', 'redis://endpoint2:6380'] ). */
-  replicaOf?: DeleteFixedDatabaseByIDRequestReplicaOfList;
-  replica?: ReplicaOfSpec;
+  replicaOf?: DeleteFixedDatabaseByIDRequestReplicaOfList | undefined;
+  replica?: ReplicaOfSpec | undefined;
   /** (Pay-as-you-go subscriptions only) Optional. Hashing policy Regex rules. Used only if 'shardingType' is 'custom-regex-rules'. */
-  regexRules?: DeleteFixedDatabaseByIDRequestRegexRulesList;
+  regexRules?: DeleteFixedDatabaseByIDRequestRegexRulesList | undefined;
   /** Optional. A public key client TLS/SSL certificate with new line characters replaced with '\n'. If specified, mTLS authentication will be required to authenticate user connections if it is not already required. If set to an empty string, TLS client certificates will be removed and mTLS will not be required. TLS connection may still apply, depending on the value of 'enableTls'. */
-  clientSslCertificate?: string;
+  clientSslCertificate?: string | undefined;
   /** Optional. A list of client TLS/SSL certificates. If specified, mTLS authentication will be required to authenticate user connections. If set to an empty list, TLS client certificates will be removed and mTLS will not be required. TLS connection may still apply, depending on the value of 'enableTls'. */
-  clientTlsCertificates?: DeleteFixedDatabaseByIDRequestClientTlsCertificatesList;
+  clientTlsCertificates?: DeleteFixedDatabaseByIDRequestClientTlsCertificatesList | undefined;
   /** Optional. When 'true', requires TLS authentication for all connections - mTLS with valid clientTlsCertificates, regular TLS when clientTlsCertificates is not provided. If enableTls is set to 'false' while mTLS is required, it will remove the mTLS requirement and erase previously provided clientTlsCertificates. */
-  enableTls?: boolean;
+  enableTls?: boolean | undefined;
   /** Optional. Changes the password used to access the database with the 'default' user. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Optional. When 'true', allows connecting to the database with the 'default' user. When 'false', only defined access control users can connect to the database. */
-  enableDefaultUser?: boolean;
+  enableDefaultUser?: boolean | undefined;
   /** Optional. Changes Redis database alert details. */
-  alerts?: DeleteFixedDatabaseByIDRequestAlertsList;
+  alerts?: DeleteFixedDatabaseByIDRequestAlertsList | undefined;
 }
 export interface DeleteFixedDatabaseByID1Request {
   /** Subscription ID. */
@@ -1960,7 +1966,7 @@ export interface DeleteMemoryStoreRequest {
   /** Memory store ID. */
   storeId: string;
   /** Whether to flush all data from the database before deleting the memory store */
-  flush?: boolean;
+  flush?: boolean | undefined;
 }
 export interface DeleteMemoryStoreResponse {}
 export interface DeleteMemoryStoreApiKeyRequest {
@@ -2002,7 +2008,7 @@ export interface DeleteRedisRuleResponse {}
 /** The names of the regions to delete. */
 export interface ActiveActiveRegionToDelete {
   /** Name of the cloud provider region to delete. */
-  region?: string;
+  region?: string | undefined;
 }
 /** The names of the regions to delete. */
 export type DeleteRegionsFromActiveActiveSubscriptionRequestRegionsList =
@@ -2011,9 +2017,9 @@ export interface DeleteRegionsFromActiveActiveSubscriptionRequest {
   /** Subscription ID. */
   subscriptionId: number;
   /** The names of the regions to delete. */
-  regions?: DeleteRegionsFromActiveActiveSubscriptionRequestRegionsList;
+  regions?: DeleteRegionsFromActiveActiveSubscriptionRequestRegionsList | undefined;
   /** Optional. When 'false': Creates a deployment plan and deploys it, deleting any resources required by the plan. When 'true': creates a read-only deployment plan and does not delete or modify any resources. Default: 'false' */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface DeleteSubscriptionRequest {
   /** Subscription ID. */
@@ -2068,7 +2074,7 @@ export interface PrivateLinkConnectionDisassociate {
   /** Resource share association ID */
   associationId: string;
   /** VPC endpoint connection ID */
-  connectionId?: string;
+  connectionId?: string | undefined;
   /** Type of the connection */
   type: string;
   /** Principal ID that owns the connection, e.g. AWS account ID */
@@ -2117,66 +2123,66 @@ export type PaymentMethodsLinksItemMap = { [key: string]: string | undefined };
 export type PaymentMethodsLinksList = Array<PaymentMethodsLinksItemMap>;
 /** RedisLabs Account payment methods */
 export interface PaymentMethods {
-  accountId?: number;
-  links?: PaymentMethodsLinksList;
+  accountId?: number | undefined;
+  links?: PaymentMethodsLinksList | undefined;
 }
 export interface GetAccountSessionLogsRequest {
   /** Number of items to skip. */
-  offset?: number;
+  offset?: number | undefined;
   /** Maximum number of logs to return. Limit: 100 */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter session logs with time >= startTime (UTC) */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Filter session logs with time <= endTime (UTC) */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 /** Account session log entry */
 export interface AccountSessionLogEntry {
-  id?: string;
-  time?: string;
-  user?: string;
-  userAgent?: string;
-  ipAddress?: string;
-  userRole?: string;
-  type?: string;
-  action?: string;
+  id?: string | undefined;
+  time?: string | undefined;
+  user?: string | undefined;
+  userAgent?: string | undefined;
+  ipAddress?: string | undefined;
+  userRole?: string | undefined;
+  type?: string | undefined;
+  action?: string | undefined;
 }
 export type AccountSessionLogEntriesEntriesList = Array<AccountSessionLogEntry>;
 export type AccountSessionLogEntriesLinksItemMap = { [key: string]: string | undefined };
 export type AccountSessionLogEntriesLinksList = Array<AccountSessionLogEntriesLinksItemMap>;
 export interface AccountSessionLogEntries {
-  entries?: AccountSessionLogEntriesEntriesList;
-  links?: AccountSessionLogEntriesLinksList;
+  entries?: AccountSessionLogEntriesEntriesList | undefined;
+  links?: AccountSessionLogEntriesLinksList | undefined;
 }
 export interface GetAccountSystemLogsRequest {
   /** Number of items to skip. */
-  offset?: number;
+  offset?: number | undefined;
   /** Maximum number of logs to return. Limit: 1000 */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter logs with time >= startTime (UTC) */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Filter logs with time <= endTime (UTC) */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Filter logs by resourceId */
-  resourceId?: number;
+  resourceId?: number | undefined;
 }
 /** Account system log entry */
 export interface AccountSystemLogEntry {
-  id?: number;
-  time?: string;
-  originator?: string;
-  apiKeyName?: string;
-  resource?: string;
-  resourceId?: number;
-  type?: string;
-  description?: string;
+  id?: number | undefined;
+  time?: string | undefined;
+  originator?: string | undefined;
+  apiKeyName?: string | undefined;
+  resource?: string | undefined;
+  resourceId?: number | undefined;
+  type?: string | undefined;
+  description?: string | undefined;
 }
 export type AccountSystemLogEntriesEntriesList = Array<AccountSystemLogEntry>;
 export type AccountSystemLogEntriesLinksItemMap = { [key: string]: string | undefined };
 export type AccountSystemLogEntriesLinksList = Array<AccountSystemLogEntriesLinksItemMap>;
 export interface AccountSystemLogEntries {
-  entries?: AccountSystemLogEntriesEntriesList;
-  links?: AccountSystemLogEntriesLinksList;
+  entries?: AccountSystemLogEntriesEntriesList | undefined;
+  links?: AccountSystemLogEntriesLinksList | undefined;
 }
 export interface GetActiveActivePrivateLinkRequest {
   /** Subscription ID. */
@@ -2249,54 +2255,54 @@ export interface GetActiveActivPscServiceEndpointDeletionScriptResponse {}
 export type GetAllFixedSubscriptionsPlansRequestProvider = "AWS" | "GCP" | "AZURE";
 export interface GetAllFixedSubscriptionsPlansRequest {
   /** Returns plans supported by the specified Cloud Provider. */
-  provider?: GetAllFixedSubscriptionsPlansRequestProvider | (string & {});
+  provider?: GetAllFixedSubscriptionsPlansRequestProvider | (string & {}) | undefined;
   /** Returns Redis Flex plans. */
-  redisFlex?: boolean;
+  redisFlex?: boolean | undefined;
 }
 export type FixedSubscriptionsPlansLinksItemMap = { [key: string]: string | undefined };
 export type FixedSubscriptionsPlansLinksList = Array<FixedSubscriptionsPlansLinksItemMap>;
 /** Redis list of Essentials subscriptions plans */
 export interface FixedSubscriptionsPlans {
-  links?: FixedSubscriptionsPlansLinksList;
+  links?: FixedSubscriptionsPlansLinksList | undefined;
 }
 export interface GetAllRedisRulesRequest {}
 export type AccountACLRedisRulesLinksItemMap = { [key: string]: string | undefined };
 export type AccountACLRedisRulesLinksList = Array<AccountACLRedisRulesLinksItemMap>;
 /** Redis list of ACL redis rules in current account */
 export interface AccountACLRedisRules {
-  accountId?: number;
-  links?: AccountACLRedisRulesLinksList;
+  accountId?: number | undefined;
+  links?: AccountACLRedisRulesLinksList | undefined;
 }
 export interface GetAllSubscriptionsRequest {}
 export type AccountSubscriptionsLinksItemMap = { [key: string]: string | undefined };
 export type AccountSubscriptionsLinksList = Array<AccountSubscriptionsLinksItemMap>;
 /** RedisLabs list of subscriptions in current account */
 export interface AccountSubscriptions {
-  accountId?: number;
-  links?: AccountSubscriptionsLinksList;
+  accountId?: number | undefined;
+  links?: AccountSubscriptionsLinksList | undefined;
 }
 export interface GetAllSubscriptions1Request {}
 export type FixedSubscriptionsLinksItemMap = { [key: string]: string | undefined };
 export type FixedSubscriptionsLinksList = Array<FixedSubscriptionsLinksItemMap>;
 /** Redis list of Essentials subscriptions in current account */
 export interface FixedSubscriptions {
-  accountId?: number;
-  links?: FixedSubscriptionsLinksList;
+  accountId?: number | undefined;
+  links?: FixedSubscriptionsLinksList | undefined;
 }
 export interface GetAllTasksRequest {}
 export interface GetAllTasksResponse {}
 export interface GetAllUsersRequest {}
 /** RedisLabs list of users in current account */
 export interface AccountUsers {
-  account?: number;
+  account?: number | undefined;
 }
 export interface GetAllUsers1Request {}
 export type AccountACLUsersLinksItemMap = { [key: string]: string | undefined };
 export type AccountACLUsersLinksList = Array<AccountACLUsersLinksItemMap>;
 /** Redis list of ACL users in current account */
 export interface AccountACLUsers {
-  accountId?: number;
-  links?: AccountACLUsersLinksList;
+  accountId?: number | undefined;
+  links?: AccountACLUsersLinksList | undefined;
 }
 export interface GetCidrWhiteListRequest {
   /** Subscription ID. */
@@ -2312,23 +2318,23 @@ export type CloudAccountLinksList = Array<CloudAccountLinksItemMap>;
 export type CloudAccountProvider = "AWS" | "GCP";
 /** RedisLabs Cloud Account information */
 export interface CloudAccount {
-  id?: number;
-  name?: string;
-  status?: string;
-  accessKeyId?: string | Redacted.Redacted<string>;
-  signInLoginUrl?: string;
-  awsUserArn?: string;
-  awsConsoleRoleArn?: string;
-  links?: CloudAccountLinksList;
-  provider?: CloudAccountProvider;
+  id?: number | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  accessKeyId?: string | Redacted.Redacted<string> | undefined;
+  signInLoginUrl?: string | undefined;
+  awsUserArn?: string | undefined;
+  awsConsoleRoleArn?: string | undefined;
+  links?: CloudAccountLinksList | undefined;
+  provider?: CloudAccountProvider | undefined;
 }
 export interface GetCloudAccountsRequest {}
 export type CloudAccountsLinksItemMap = { [key: string]: string | undefined };
 export type CloudAccountsLinksList = Array<CloudAccountsLinksItemMap>;
 /** RedisLabs Cloud Accounts information */
 export interface CloudAccounts {
-  accountId?: number;
-  links?: CloudAccountsLinksList;
+  accountId?: number | undefined;
+  links?: CloudAccountsLinksList | undefined;
 }
 export interface GetCostReportRequest {
   /** Cost Report ID. Returned from a Cost Report generation task. */
@@ -2339,7 +2345,7 @@ export interface GetCurrentAccountRequest {}
 export type RootAccountLinksItemMap = { [key: string]: string | undefined };
 export type RootAccountLinksList = Array<RootAccountLinksItemMap>;
 export interface RootAccount {
-  links?: RootAccountLinksList;
+  links?: RootAccountLinksList | undefined;
 }
 export interface GetDatabaseAvailableVersionsRequest {
   /** Subscription ID. */
@@ -2348,11 +2354,11 @@ export interface GetDatabaseAvailableVersionsRequest {
   databaseId: number;
 }
 export interface TargetVersion {
-  redisVersion?: string;
+  redisVersion?: string | undefined;
 }
 export type DatabaseAvailableVersionsResponseTargetsList = Array<TargetVersion>;
 export interface DatabaseAvailableVersionsResponse {
-  targets?: DatabaseAvailableVersionsResponseTargetsList;
+  targets?: DatabaseAvailableVersionsResponseTargetsList | undefined;
 }
 export interface GetDatabaseBackupStatusRequest {
   /** Subscription ID. */
@@ -2360,7 +2366,7 @@ export interface GetDatabaseBackupStatusRequest {
   /** Database ID. */
   databaseId: number;
   /** Region name - required for Active-Active subscription */
-  regionName?: string;
+  regionName?: string | undefined;
 }
 export interface GetDatabaseBackupStatus1Request {
   /** Subscription ID. */
@@ -2392,10 +2398,10 @@ export type DatabaseVersionUpgradeStatusUpgradeStatus =
   | "done"
   | "failed";
 export interface DatabaseVersionUpgradeStatus {
-  databaseId?: number;
-  targetRedisVersion?: string;
-  progress?: number;
-  upgradeStatus?: DatabaseVersionUpgradeStatusUpgradeStatus;
+  databaseId?: number | undefined;
+  targetRedisVersion?: string | undefined;
+  progress?: number | undefined;
+  upgradeStatus?: DatabaseVersionUpgradeStatusUpgradeStatus | undefined;
 }
 export interface GetDatabaseTrafficRequest {
   /** Subscription ID. */
@@ -2404,12 +2410,12 @@ export interface GetDatabaseTrafficRequest {
   databaseId: number;
 }
 export interface DatabaseTrafficStateResponse {
-  bdbId?: number;
-  trafficStatus?: string;
-  canResume?: boolean;
-  resumeInProgress?: boolean;
-  stopReason?: string;
-  resumeEligibleAt?: string;
+  bdbId?: number | undefined;
+  trafficStatus?: string | undefined;
+  canResume?: boolean | undefined;
+  resumeInProgress?: boolean | undefined;
+  stopReason?: string | undefined;
+  resumeEligibleAt?: string | undefined;
 }
 export interface GetDatabaseTraffic1Request {
   /** Subscription ID. */
@@ -2422,15 +2428,15 @@ export type GetDataIntegrationWorkspacesResponse = unknown;
 export interface GetDataPersistenceOptionsRequest {}
 /** RedisLabs data persistence information */
 export interface DataPersistenceEntry {
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 export type DataPersistenceOptionsDataPersistenceList = Array<DataPersistenceEntry>;
 export type DataPersistenceOptionsLinksItemMap = { [key: string]: string | undefined };
 export type DataPersistenceOptionsLinksList = Array<DataPersistenceOptionsLinksItemMap>;
 export interface DataPersistenceOptions {
-  dataPersistence?: DataPersistenceOptionsDataPersistenceList;
-  links?: DataPersistenceOptionsLinksList;
+  dataPersistence?: DataPersistenceOptionsDataPersistenceList | undefined;
+  links?: DataPersistenceOptionsLinksList | undefined;
 }
 export interface GetEndpointsRedirectionStatusRequest {
   /** Dynamic endpoint redirection ID. */
@@ -2452,17 +2458,17 @@ export interface GetFixedSubscriptionDatabasesRequest {
   /** Subscription ID. */
   subscriptionId: number;
   /** Number of items to skip. */
-  offset?: number;
+  offset?: number | undefined;
   /** Maximum number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type AccountFixedSubscriptionDatabasesLinksItemMap = { [key: string]: string | undefined };
 export type AccountFixedSubscriptionDatabasesLinksList =
   Array<AccountFixedSubscriptionDatabasesLinksItemMap>;
 /** RedisLabs Account Subscription Databases information */
 export interface AccountFixedSubscriptionDatabases {
-  accountId?: number;
-  links?: AccountFixedSubscriptionDatabasesLinksList;
+  accountId?: number | undefined;
+  links?: AccountFixedSubscriptionDatabasesLinksList | undefined;
 }
 export interface GetFixedSubscriptionsPlanByIdRequest {
   /** Essentials plan ID. */
@@ -2472,31 +2478,31 @@ export type FixedSubscriptionsPlanLinksItemMap = { [key: string]: string | undef
 export type FixedSubscriptionsPlanLinksList = Array<FixedSubscriptionsPlanLinksItemMap>;
 /** Redis Essentials subscription plan information */
 export interface FixedSubscriptionsPlan {
-  id?: number;
-  name?: string;
-  size?: number;
-  datasetSize?: number;
-  sizeMeasurementUnit?: string;
-  provider?: string;
-  region?: string;
-  regionId?: number;
-  price?: number;
-  priceCurrency?: string;
-  pricePeriod?: string;
-  maximumDatabases?: number;
-  maximumThroughput?: number;
-  maximumBandwidthGB?: number;
-  availability?: string;
-  connections?: string;
-  cidrAllowRules?: number;
-  supportDataPersistence?: boolean;
-  redisFlex?: boolean;
-  supportInstantAndDailyBackups?: boolean;
-  supportReplication?: boolean;
-  supportClustering?: boolean;
-  supportSsl?: boolean;
-  customerSupport?: string;
-  links?: FixedSubscriptionsPlanLinksList;
+  id?: number | undefined;
+  name?: string | undefined;
+  size?: number | undefined;
+  datasetSize?: number | undefined;
+  sizeMeasurementUnit?: string | undefined;
+  provider?: string | undefined;
+  region?: string | undefined;
+  regionId?: number | undefined;
+  price?: number | undefined;
+  priceCurrency?: string | undefined;
+  pricePeriod?: string | undefined;
+  maximumDatabases?: number | undefined;
+  maximumThroughput?: number | undefined;
+  maximumBandwidthGB?: number | undefined;
+  availability?: string | undefined;
+  connections?: string | undefined;
+  cidrAllowRules?: number | undefined;
+  supportDataPersistence?: boolean | undefined;
+  redisFlex?: boolean | undefined;
+  supportInstantAndDailyBackups?: boolean | undefined;
+  supportReplication?: boolean | undefined;
+  supportClustering?: boolean | undefined;
+  supportSsl?: boolean | undefined;
+  customerSupport?: string | undefined;
+  links?: FixedSubscriptionsPlanLinksList | undefined;
 }
 export interface GetFixedSubscriptionsPlansBySubscriptionIdRequest {
   /** Subscription ID. */
@@ -2510,30 +2516,30 @@ export type MemoryStoreResponseDatabaseAccessCidrsList = Array<string>;
 /** Resolved model in use for one purpose. Present only on stores with an explicit model selection */
 export interface MemoryStoreModelStatus {
   /** Model provider in use */
-  provider?: string;
+  provider?: string | undefined;
   /** Model in use */
-  model?: string;
+  model?: string | undefined;
 }
 /** Long-term memory configuration as stored */
 export interface MemoryStoreLongTermMemoryStatus {
   /** Time-to-live of long-term memory entries, in seconds */
-  ttlSeconds?: number;
-  embedding?: MemoryStoreModelStatus;
+  ttlSeconds?: number | undefined;
+  embedding?: MemoryStoreModelStatus | undefined;
 }
 /** Egress IP addresses used by the endpoint */
 export type MemoryStoreEndpointEgressIpsList = Array<string>;
 /** A regional endpoint through which the memory store is served */
 export interface MemoryStoreEndpoint {
   /** Endpoint URL */
-  url?: string;
+  url?: string | undefined;
   /** Cloud provider hosting the endpoint */
-  provider?: string;
+  provider?: string | undefined;
   /** Cloud region of the endpoint */
-  region?: string;
+  region?: string | undefined;
   /** Egress IP addresses used by the endpoint */
-  egressIps?: MemoryStoreEndpointEgressIpsList;
+  egressIps?: MemoryStoreEndpointEgressIpsList | undefined;
   /** Whether the endpoint is reachable from the store's database network */
-  isAccessible?: boolean;
+  isAccessible?: boolean | undefined;
 }
 export type MemoryStoreResponseEndpointsList = Array<MemoryStoreEndpoint>;
 /** How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories */
@@ -2543,30 +2549,30 @@ export type MemoryStoreResponseCustomMemoryTypesList = Array<MemoryStoreCustomMe
 export type MemoryStoreResponseStatus = "PROVISIONING" | "READY" | "UNAVAILABLE";
 /** Memory store configuration and status */
 export interface MemoryStoreResponse {
-  storeId?: string;
-  name?: string;
-  createdAt?: string;
-  databaseId?: string;
-  databaseName?: string;
-  databaseProvider?: string;
-  databaseRegion?: string;
-  databaseAccessCidrs?: MemoryStoreResponseDatabaseAccessCidrsList;
-  subscriptionId?: string;
-  shortMemory?: MemoryStoreShortMemoryConfig;
-  longTermMemory?: MemoryStoreLongTermMemoryStatus;
-  llm?: MemoryStoreModelStatus;
-  endpoint?: string;
-  endpoints?: MemoryStoreResponseEndpointsList;
+  storeId?: string | undefined;
+  name?: string | undefined;
+  createdAt?: string | undefined;
+  databaseId?: string | undefined;
+  databaseName?: string | undefined;
+  databaseProvider?: string | undefined;
+  databaseRegion?: string | undefined;
+  databaseAccessCidrs?: MemoryStoreResponseDatabaseAccessCidrsList | undefined;
+  subscriptionId?: string | undefined;
+  shortMemory?: MemoryStoreShortMemoryConfig | undefined;
+  longTermMemory?: MemoryStoreLongTermMemoryStatus | undefined;
+  llm?: MemoryStoreModelStatus | undefined;
+  endpoint?: string | undefined;
+  endpoints?: MemoryStoreResponseEndpointsList | undefined;
   /** How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories */
-  extractionStrategy?: MemoryStoreResponseExtractionStrategy;
-  summarization?: MemoryStoreSummarizationConfig;
-  longTermMemoryExclusions?: MemoryStoreLongTermMemoryExclusions;
-  customMemoryTypes?: MemoryStoreResponseCustomMemoryTypesList;
-  extractionCadence?: MemoryStoreExtractionCadenceConfig;
+  extractionStrategy?: MemoryStoreResponseExtractionStrategy | undefined;
+  summarization?: MemoryStoreSummarizationConfig | undefined;
+  longTermMemoryExclusions?: MemoryStoreLongTermMemoryExclusions | undefined;
+  customMemoryTypes?: MemoryStoreResponseCustomMemoryTypesList | undefined;
+  extractionCadence?: MemoryStoreExtractionCadenceConfig | undefined;
   /** Lifecycle status of the memory store */
-  status?: MemoryStoreResponseStatus;
-  errorMessage?: string;
-  errorMessageTimestamp?: number;
+  status?: MemoryStoreResponseStatus | undefined;
+  errorMessage?: string | undefined;
+  errorMessageTimestamp?: number | undefined;
 }
 export interface GetPrivateLinkRequest {
   /** Subscription ID. */
@@ -2610,17 +2616,17 @@ export interface GetPscServiceEndpointsRequest {
 export interface GetPscServiceEndpointsResponse {}
 export interface GetRedisVersionsRequest {
   /** Subscription ID (required for an existing subscription) */
-  subscriptionId?: number;
+  subscriptionId?: number | undefined;
 }
 export interface RedisVersion {
-  version?: string;
-  eolDate?: string;
-  isPreview?: boolean;
-  isDefault?: boolean;
+  version?: string | undefined;
+  eolDate?: string | undefined;
+  isPreview?: boolean | undefined;
+  isDefault?: boolean | undefined;
 }
 export type RedisVersionsRedisVersionsList = Array<RedisVersion>;
 export interface RedisVersions {
-  redisVersions?: RedisVersionsRedisVersionsList;
+  redisVersions?: RedisVersionsRedisVersionsList | undefined;
 }
 export interface GetRedisVersions1Request {
   /** Subscription ID. */
@@ -2635,16 +2641,16 @@ export type ActiveActiveSubscriptionRegionsLinksList =
   Array<ActiveActiveSubscriptionRegionsLinksItemMap>;
 /** List of active-active subscription regions */
 export interface ActiveActiveSubscriptionRegions {
-  subscriptionId?: number;
-  links?: ActiveActiveSubscriptionRegionsLinksList;
+  subscriptionId?: number | undefined;
+  links?: ActiveActiveSubscriptionRegionsLinksList | undefined;
 }
 export interface GetRolesRequest {}
 export type AccountACLRolesLinksItemMap = { [key: string]: string | undefined };
 export type AccountACLRolesLinksList = Array<AccountACLRolesLinksItemMap>;
 /** Redis list of ACL roles in current account */
 export interface AccountACLRoles {
-  accountId?: number;
-  links?: AccountACLRolesLinksList;
+  accountId?: number | undefined;
+  links?: AccountACLRolesLinksList | undefined;
 }
 export interface GetSlowLogRequest {
   /** Subscription ID. */
@@ -2652,21 +2658,21 @@ export interface GetSlowLogRequest {
   /** Database ID. */
   databaseId: number;
   /** Region name - required for Active-Active subscription */
-  regionName?: string;
+  regionName?: string | undefined;
 }
 /** Database slowlog entry */
 export interface DatabaseSlowLogEntry {
-  id?: number;
-  startTime?: string;
-  duration?: number;
-  arguments?: string;
+  id?: number | undefined;
+  startTime?: string | undefined;
+  duration?: number | undefined;
+  arguments?: string | undefined;
 }
 export type DatabaseSlowLogEntriesEntriesList = Array<DatabaseSlowLogEntry>;
 export type DatabaseSlowLogEntriesLinksItemMap = { [key: string]: string | undefined };
 export type DatabaseSlowLogEntriesLinksList = Array<DatabaseSlowLogEntriesLinksItemMap>;
 export interface DatabaseSlowLogEntries {
-  entries?: DatabaseSlowLogEntriesEntriesList;
-  links?: DatabaseSlowLogEntriesLinksList;
+  entries?: DatabaseSlowLogEntriesEntriesList | undefined;
+  links?: DatabaseSlowLogEntriesLinksList | undefined;
 }
 export interface GetSlowLog1Request {
   /** Subscription ID. */
@@ -2687,27 +2693,29 @@ export type CustomerManagedKeyAccessDetailsGoogleCustomPermissionsList = Array<s
 export type CustomerManagedKeyAccessDetailsDeletionGracePeriodOptionsList = Array<string>;
 /** Configuration regarding customer managed persistent storage encryption */
 export interface CustomerManagedKeyAccessDetails {
-  redisServiceAccount?: string;
-  googlePredefinedRoles?: CustomerManagedKeyAccessDetailsGooglePredefinedRolesList;
-  googleCustomPermissions?: CustomerManagedKeyAccessDetailsGoogleCustomPermissionsList;
-  redisIamRole?: string;
-  requiredKeyPolicyStatements?: unknown;
-  deletionGracePeriodOptions?: CustomerManagedKeyAccessDetailsDeletionGracePeriodOptionsList;
+  redisServiceAccount?: string | undefined;
+  googlePredefinedRoles?: CustomerManagedKeyAccessDetailsGooglePredefinedRolesList | undefined;
+  googleCustomPermissions?: CustomerManagedKeyAccessDetailsGoogleCustomPermissionsList | undefined;
+  redisIamRole?: string | undefined;
+  requiredKeyPolicyStatements?: unknown | undefined;
+  deletionGracePeriodOptions?:
+    | CustomerManagedKeyAccessDetailsDeletionGracePeriodOptionsList
+    | undefined;
 }
 /** RedisLabs Subscription information */
 export interface Subscription {
-  id?: number;
-  name?: string;
-  paymentMethodId?: number;
-  status?: string;
-  publicEndpointAccess?: boolean;
-  memoryStorage?: SubscriptionMemoryStorage;
-  numberOfDatabases?: number;
-  paymentMethodType?: SubscriptionPaymentMethodType;
-  links?: SubscriptionLinksList;
-  persistentStorageEncryptionType?: string;
-  deletionGracePeriod?: string;
-  customerManagedKeyAccessDetails?: CustomerManagedKeyAccessDetails;
+  id?: number | undefined;
+  name?: string | undefined;
+  paymentMethodId?: number | undefined;
+  status?: string | undefined;
+  publicEndpointAccess?: boolean | undefined;
+  memoryStorage?: SubscriptionMemoryStorage | undefined;
+  numberOfDatabases?: number | undefined;
+  paymentMethodType?: SubscriptionPaymentMethodType | undefined;
+  links?: SubscriptionLinksList | undefined;
+  persistentStorageEncryptionType?: string | undefined;
+  deletionGracePeriod?: string | undefined;
+  customerManagedKeyAccessDetails?: CustomerManagedKeyAccessDetails | undefined;
 }
 export interface GetSubscriptionById1Request {
   /** Subscription ID. */
@@ -2717,33 +2725,33 @@ export type FixedSubscriptionLinksItemMap = { [key: string]: string | undefined 
 export type FixedSubscriptionLinksList = Array<FixedSubscriptionLinksItemMap>;
 /** Redis Essentials Subscription information */
 export interface FixedSubscription {
-  id?: number;
-  name?: string;
-  status?: string;
-  paymentMethodId?: number;
-  paymentMethodType?: string;
-  planId?: number;
-  planName?: string;
-  planType?: string;
-  size?: number;
-  sizeMeasurementUnit?: string;
-  provider?: string;
-  region?: string;
-  price?: number;
-  pricePeriod?: string;
-  priceCurrency?: string;
-  maximumDatabases?: number;
-  availability?: string;
-  connections?: string;
-  cidrAllowRules?: number;
-  supportDataPersistence?: boolean;
-  supportInstantAndDailyBackups?: boolean;
-  supportReplication?: boolean;
-  supportClustering?: boolean;
-  customerSupport?: string;
-  creationDate?: string;
-  links?: FixedSubscriptionLinksList;
-  databaseStatus?: string;
+  id?: number | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  paymentMethodId?: number | undefined;
+  paymentMethodType?: string | undefined;
+  planId?: number | undefined;
+  planName?: string | undefined;
+  planType?: string | undefined;
+  size?: number | undefined;
+  sizeMeasurementUnit?: string | undefined;
+  provider?: string | undefined;
+  region?: string | undefined;
+  price?: number | undefined;
+  pricePeriod?: string | undefined;
+  priceCurrency?: string | undefined;
+  maximumDatabases?: number | undefined;
+  availability?: string | undefined;
+  connections?: string | undefined;
+  cidrAllowRules?: number | undefined;
+  supportDataPersistence?: boolean | undefined;
+  supportInstantAndDailyBackups?: boolean | undefined;
+  supportReplication?: boolean | undefined;
+  supportClustering?: boolean | undefined;
+  customerSupport?: string | undefined;
+  creationDate?: string | undefined;
+  links?: FixedSubscriptionLinksList | undefined;
+  databaseStatus?: string | undefined;
 }
 export interface GetSubscriptionDatabaseRequest {
   /** Subscription ID. */
@@ -2754,8 +2762,8 @@ export interface GetSubscriptionDatabaseRequest {
 export type DatabaseLinksItemMap = { [key: string]: string | undefined };
 export type DatabaseLinksList = Array<DatabaseLinksItemMap>;
 export interface Database {
-  databaseId?: number;
-  links?: DatabaseLinksList;
+  databaseId?: number | undefined;
+  links?: DatabaseLinksList | undefined;
 }
 export interface GetSubscriptionDatabaseByID1Request {
   /** Subscription ID. */
@@ -2787,50 +2795,50 @@ export type FixedDatabaseDataEvictionPolicy =
 /** Database dynamic endpoints. This is available in private preview. */
 export interface DynamicEndpoints {
   /** Public dynamic endpoint of the database. This is available in private preview. */
-  public?: string;
+  public?: string | undefined;
   /** Private dynamic endpoint of the database. This is available in private preview. */
-  private?: string;
+  private?: string | undefined;
 }
 /** Endpoints to use when configuring another database to replicate from this database (Make sure to use this instead of the dynamic endpoints). */
 export interface ReplicaAsSourceEndpoints {
   /** Public cluster endpoint that can be used as source for replication */
-  public?: string;
+  public?: string | undefined;
   /** Private cluster endpoint that can be used as source for replication */
-  private?: string;
+  private?: string | undefined;
 }
 export type FixedDatabaseLinksItemMap = { [key: string]: string | undefined };
 export type FixedDatabaseLinksList = Array<FixedDatabaseLinksItemMap>;
 export interface FixedDatabase {
-  databaseId?: number;
-  name?: string;
-  protocol?: FixedDatabaseProtocol;
-  provider?: string;
-  region?: string;
-  redisVersion?: string;
-  redisVersionCompliance?: string;
-  respVersion?: FixedDatabaseRespVersion;
-  status?: string;
-  planMemoryLimit?: number;
-  planDatasetSize?: number;
-  memoryLimitMeasurementUnit?: string;
-  memoryLimitInGb?: number;
-  datasetSizeInGb?: number;
-  memoryUsedInMb?: number;
-  networkMonthlyUsageInByte?: number;
-  memoryStorage?: FixedDatabaseMemoryStorage;
-  redisFlex?: boolean;
-  supportOSSClusterApi?: boolean;
-  useExternalEndpointForOSSClusterApi?: boolean;
-  dataPersistence?: FixedDatabaseDataPersistence;
-  replication?: boolean;
-  dataEvictionPolicy?: FixedDatabaseDataEvictionPolicy;
-  activatedOn?: string;
-  lastModified?: string;
-  publicEndpoint?: string;
-  privateEndpoint?: string;
-  dynamicEndpoints?: DynamicEndpoints;
-  replicaAsSourceEndpoints?: ReplicaAsSourceEndpoints;
-  links?: FixedDatabaseLinksList;
+  databaseId?: number | undefined;
+  name?: string | undefined;
+  protocol?: FixedDatabaseProtocol | undefined;
+  provider?: string | undefined;
+  region?: string | undefined;
+  redisVersion?: string | undefined;
+  redisVersionCompliance?: string | undefined;
+  respVersion?: FixedDatabaseRespVersion | undefined;
+  status?: string | undefined;
+  planMemoryLimit?: number | undefined;
+  planDatasetSize?: number | undefined;
+  memoryLimitMeasurementUnit?: string | undefined;
+  memoryLimitInGb?: number | undefined;
+  datasetSizeInGb?: number | undefined;
+  memoryUsedInMb?: number | undefined;
+  networkMonthlyUsageInByte?: number | undefined;
+  memoryStorage?: FixedDatabaseMemoryStorage | undefined;
+  redisFlex?: boolean | undefined;
+  supportOSSClusterApi?: boolean | undefined;
+  useExternalEndpointForOSSClusterApi?: boolean | undefined;
+  dataPersistence?: FixedDatabaseDataPersistence | undefined;
+  replication?: boolean | undefined;
+  dataEvictionPolicy?: FixedDatabaseDataEvictionPolicy | undefined;
+  activatedOn?: string | undefined;
+  lastModified?: string | undefined;
+  publicEndpoint?: string | undefined;
+  privateEndpoint?: string | undefined;
+  dynamicEndpoints?: DynamicEndpoints | undefined;
+  replicaAsSourceEndpoints?: ReplicaAsSourceEndpoints | undefined;
+  links?: FixedDatabaseLinksList | undefined;
 }
 export interface GetSubscriptionDatabaseCertificateRequest {
   /** Subscription ID. */
@@ -2841,22 +2849,22 @@ export interface GetSubscriptionDatabaseCertificateRequest {
 /** Database certificate */
 export interface DatabaseCertificate {
   /** An X.509 PEM (base64) encoded server certificate with new line characters replaced by '\n'. */
-  publicCertificatePEMString?: string;
+  publicCertificatePEMString?: string | undefined;
 }
 export interface GetSubscriptionDatabasesRequest {
   /** Subscription ID. */
   subscriptionId: number;
   /** Number of items to skip. */
-  offset?: number;
+  offset?: number | undefined;
   /** Maximum number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type AccountSubscriptionDatabasesLinksItemMap = { [key: string]: string | undefined };
 export type AccountSubscriptionDatabasesLinksList = Array<AccountSubscriptionDatabasesLinksItemMap>;
 /** RedisLabs Account Subscription Databases information */
 export interface AccountSubscriptionDatabases {
-  accountId?: number;
-  links?: AccountSubscriptionDatabasesLinksList;
+  accountId?: number | undefined;
+  links?: AccountSubscriptionDatabasesLinksList | undefined;
 }
 export interface GetSubscriptionMaintenanceWindowsRequest {
   /** Subscription ID. */
@@ -2865,79 +2873,79 @@ export interface GetSubscriptionMaintenanceWindowsRequest {
 export type SubscriptionMaintenanceWindowsMode = "manual" | "automatic";
 export type MaintenanceWindowDaysList = Array<string>;
 export interface MaintenanceWindow {
-  days?: MaintenanceWindowDaysList;
-  startHour?: number;
-  durationInHours?: number;
+  days?: MaintenanceWindowDaysList | undefined;
+  startHour?: number | undefined;
+  durationInHours?: number | undefined;
 }
 export type SubscriptionMaintenanceWindowsWindowsList = Array<MaintenanceWindow>;
 export interface MaintenanceWindowSkipStatus {
-  remainingSkips?: number;
-  currentSkipEnd?: string;
+  remainingSkips?: number | undefined;
+  currentSkipEnd?: string | undefined;
 }
 export interface SubscriptionMaintenanceWindows {
-  mode?: SubscriptionMaintenanceWindowsMode;
-  timeZone?: string;
-  windows?: SubscriptionMaintenanceWindowsWindowsList;
-  skipStatus?: MaintenanceWindowSkipStatus;
+  mode?: SubscriptionMaintenanceWindowsMode | undefined;
+  timeZone?: string | undefined;
+  windows?: SubscriptionMaintenanceWindowsWindowsList | undefined;
+  skipStatus?: MaintenanceWindowSkipStatus | undefined;
 }
 export interface GetSubscriptionPricingRequest {
   /** Subscription ID. */
   subscriptionId: number;
 }
 export interface SubscriptionPricing {
-  type?: string;
-  typeDetails?: string;
-  quantity?: number;
-  quantityMeasurement?: string;
-  pricePerUnit?: number;
-  priceCurrency?: string;
-  pricePeriod?: string;
-  region?: string;
+  type?: string | undefined;
+  typeDetails?: string | undefined;
+  quantity?: number | undefined;
+  quantityMeasurement?: string | undefined;
+  pricePerUnit?: number | undefined;
+  priceCurrency?: string | undefined;
+  pricePeriod?: string | undefined;
+  region?: string | undefined;
 }
 export type SubscriptionPricingsPricingList = Array<SubscriptionPricing>;
 export interface SubscriptionPricings {
-  pricing?: SubscriptionPricingsPricingList;
+  pricing?: SubscriptionPricingsPricingList | undefined;
 }
 export interface GetSupportedDatabaseModulesRequest {}
 /** RedisLabs database module information */
 export interface Module {
-  name?: string;
-  capabilityName?: string;
-  description?: string;
+  name?: string | undefined;
+  capabilityName?: string | undefined;
+  description?: string | undefined;
 }
 export type ModulesDataModulesList = Array<Module>;
 export type ModulesDataLinksItemMap = { [key: string]: string | undefined };
 export type ModulesDataLinksList = Array<ModulesDataLinksItemMap>;
 export interface ModulesData {
-  modules?: ModulesDataModulesList;
-  links?: ModulesDataLinksList;
+  modules?: ModulesDataModulesList | undefined;
+  links?: ModulesDataLinksList | undefined;
 }
 export type GetSupportedRegionsRequestProvider = "AWS" | "GCP";
 export interface GetSupportedRegionsRequest {
   /** Filters results to the specified cloud provider. */
-  provider?: GetSupportedRegionsRequestProvider | (string & {});
+  provider?: GetSupportedRegionsRequestProvider | (string & {}) | undefined;
 }
 export type RegionProvider = "AWS" | "GCP";
 /** RedisLabs region information */
 export interface Region {
-  id?: number;
-  name?: string;
-  provider?: RegionProvider;
+  id?: number | undefined;
+  name?: string | undefined;
+  provider?: RegionProvider | undefined;
 }
 export type RegionsRegionsList = Array<Region>;
 export type RegionsLinksItemMap = { [key: string]: string | undefined };
 export type RegionsLinksList = Array<RegionsLinksItemMap>;
 export interface Regions {
-  regions?: RegionsRegionsList;
-  links?: RegionsLinksList;
+  regions?: RegionsRegionsList | undefined;
+  links?: RegionsLinksList | undefined;
 }
 export interface GetSupportedSearchScalingFactorsRequest {}
 export type SearchScalingFactorsDataQueryPerformanceFactorsList = Array<string>;
 export type SearchScalingFactorsDataLinksItemMap = { [key: string]: string | undefined };
 export type SearchScalingFactorsDataLinksList = Array<SearchScalingFactorsDataLinksItemMap>;
 export interface SearchScalingFactorsData {
-  queryPerformanceFactors?: SearchScalingFactorsDataQueryPerformanceFactorsList;
-  links?: SearchScalingFactorsDataLinksList;
+  queryPerformanceFactors?: SearchScalingFactorsDataQueryPerformanceFactorsList | undefined;
+  links?: SearchScalingFactorsDataLinksList | undefined;
 }
 export interface GetTagsRequest {
   /** Subscription ID. */
@@ -2949,8 +2957,8 @@ export type CloudTagsLinksItemMap = { [key: string]: string | undefined };
 export type CloudTagsLinksList = Array<CloudTagsLinksItemMap>;
 /** Redis list of database tags */
 export interface CloudTags {
-  links?: CloudTagsLinksList;
-  accountId?: number;
+  links?: CloudTagsLinksList | undefined;
+  accountId?: number | undefined;
 }
 export interface GetTags1Request {
   /** Subscription ID. */
@@ -2976,21 +2984,21 @@ export interface GetUserRequest {
 }
 /** RedisLabs User options information */
 export interface AccountUserOptions {
-  billing?: boolean;
-  emailAlerts?: boolean;
-  operationalEmails?: boolean;
-  mfaEnabled?: boolean;
+  billing?: boolean | undefined;
+  emailAlerts?: boolean | undefined;
+  operationalEmails?: boolean | undefined;
+  mfaEnabled?: boolean | undefined;
 }
 /** RedisLabs User information */
 export interface AccountUser {
-  id?: number;
-  name?: string;
-  email?: string;
-  role?: string;
-  signUp?: string;
-  userType?: string;
-  hasApiKey?: boolean;
-  options?: AccountUserOptions;
+  id?: number | undefined;
+  name?: string | undefined;
+  email?: string | undefined;
+  role?: string | undefined;
+  signUp?: string | undefined;
+  userType?: string | undefined;
+  hasApiKey?: boolean | undefined;
+  options?: AccountUserOptions | undefined;
 }
 export interface GetUserByIDRequest {
   /** Access control user ID. */
@@ -3000,11 +3008,11 @@ export type ACLUserLinksItemMap = { [key: string]: string | undefined };
 export type ACLUserLinksList = Array<ACLUserLinksItemMap>;
 /** Redis ACL user information */
 export interface ACLUser {
-  id?: number;
-  name?: string;
-  role?: string;
-  status?: string;
-  links?: ACLUserLinksList;
+  id?: number | undefined;
+  name?: string | undefined;
+  role?: string | undefined;
+  status?: string | undefined;
+  links?: ACLUserLinksList | undefined;
 }
 export interface GetVpcPeeringRequest {
   /** Subscription ID. */
@@ -3062,23 +3070,23 @@ export type MemoryStoreSummaryExtractionStrategy = "INSTRUCT";
 /** Lifecycle status of the memory store */
 export type MemoryStoreSummaryStatus = "PROVISIONING" | "READY" | "UNAVAILABLE";
 export interface MemoryStoreSummary {
-  storeId?: string;
-  name?: string;
-  createdAt?: string;
-  databaseId?: string;
-  databaseName?: string;
-  subscriptionId?: string;
+  storeId?: string | undefined;
+  name?: string | undefined;
+  createdAt?: string | undefined;
+  databaseId?: string | undefined;
+  databaseName?: string | undefined;
+  subscriptionId?: string | undefined;
   /** How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories */
-  extractionStrategy?: MemoryStoreSummaryExtractionStrategy;
-  summarization?: MemoryStoreSummarizationConfig;
-  llm?: MemoryStoreModelStatus;
+  extractionStrategy?: MemoryStoreSummaryExtractionStrategy | undefined;
+  summarization?: MemoryStoreSummarizationConfig | undefined;
+  llm?: MemoryStoreModelStatus | undefined;
   /** Lifecycle status of the memory store */
-  status?: MemoryStoreSummaryStatus;
+  status?: MemoryStoreSummaryStatus | undefined;
 }
 export type MemoryStoreListResponseDataList = Array<MemoryStoreSummary>;
 /** List of memory stores */
 export interface MemoryStoreListResponse {
-  data?: MemoryStoreListResponseDataList;
+  data?: MemoryStoreListResponseDataList | undefined;
 }
 export interface ProxyDataIntegrationWorkspace5Request {
   /** Subscription ID. */
@@ -3152,20 +3160,20 @@ export interface UpdateActiveActivePscServiceEndpointRequest {
   /** Private Service Connect endpoint ID. */
   endpointId: number;
   /** Google Cloud project ID. */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Name of the Google Cloud VPC that hosts your application. */
-  gcpVpcName?: string;
+  gcpVpcName?: string | undefined;
   /** Name of your VPC's subnet of IP address ranges. */
-  gcpVpcSubnetName?: string;
+  gcpVpcSubnetName?: string | undefined;
   /** Prefix used to create PSC endpoints in the consumer application VPC. Endpoint names appear in Google Cloud as endpoint name prefix + endpoint number. */
-  endpointConnectionName?: string;
+  endpointConnectionName?: string | undefined;
   /** Action to perform on the endpoint. */
-  action?: UpdateActiveActivePscServiceEndpointRequestAction | (string & {});
+  action?: UpdateActiveActivePscServiceEndpointRequestAction | (string & {}) | undefined;
 }
 export interface UpdateActiveActivePscServiceEndpointResponse {}
 /** Optional. List of transit gateway attachment CIDRs. */
 export interface Cidr {
-  cidrAddress?: string;
+  cidrAddress?: string | undefined;
 }
 /** Optional. List of transit gateway attachment CIDRs. */
 export type UpdateActiveActiveTgwAttachmentCidrsRequestCidrsList = Array<Cidr>;
@@ -3177,7 +3185,7 @@ export interface UpdateActiveActiveTgwAttachmentCidrsRequest {
   /** AWS transit gateway ID. */
   TgwId: number;
   /** Optional. List of transit gateway attachment CIDRs. */
-  cidrs?: UpdateActiveActiveTgwAttachmentCidrsRequestCidrsList;
+  cidrs?: UpdateActiveActiveTgwAttachmentCidrsRequestCidrsList | undefined;
 }
 export interface UpdateActiveActiveTgwAttachmentCidrsResponse {}
 /** Optional. List of VPC CIDRs. */
@@ -3188,15 +3196,15 @@ export interface UpdateActiveActiveVpcPeeringRequest {
   /** VPC Peering ID. */
   peeringId: number;
   /** Optional. VPC CIDR. */
-  vpcCidr?: string;
+  vpcCidr?: string | undefined;
   /** Optional. List of VPC CIDRs. */
-  vpcCidrs?: UpdateActiveActiveVpcPeeringRequestVpcCidrsList;
+  vpcCidrs?: UpdateActiveActiveVpcPeeringRequestVpcCidrsList | undefined;
 }
 export interface UpdateCloudAccountRequest {
   /** Cloud Account Id */
   cloudAccountId: number;
   /** name */
-  name?: string;
+  name?: string | undefined;
   /** Cloud provider access key. */
   accessKeyId: string | Redacted.Redacted<string>;
   /** Cloud provider secret key. */
@@ -3206,7 +3214,7 @@ export interface UpdateCloudAccountRequest {
   /** Cloud provider management console password. */
   consolePassword: string | Redacted.Redacted<string>;
   /** Optional. Cloud provider management console login URL. */
-  signInLoginUrl?: string;
+  signInLoginUrl?: string | undefined;
 }
 export interface UpdateCloudAccountResponse {}
 /** Optional. A list of client TLS/SSL certificates. If specified, mTLS authentication will be required to authenticate user connections. If set to an empty list, TLS client certificates will be removed and mTLS will not be required. TLS connection may still apply, depending on the value of 'enableTls'. */
@@ -3241,21 +3249,21 @@ export type LocalRegionPropertiesInputRespVersion = "resp2" | "resp3";
 /** Optional. A list of regions and local settings to update. */
 export interface LocalRegionPropertiesInput {
   /** Required. Name of the region to update. */
-  region?: string;
-  remoteBackup?: DatabaseBackupConfigInput;
-  localThroughputMeasurement?: LocalThroughput;
+  region?: string | undefined;
+  remoteBackup?: DatabaseBackupConfigInput | undefined;
+  localThroughputMeasurement?: LocalThroughput | undefined;
   /** Optional. Type and rate of data persistence for this region. If set, 'globalDataPersistence' will not apply to this region. */
-  dataPersistence?: LocalRegionPropertiesInputDataPersistence | (string & {});
+  dataPersistence?: LocalRegionPropertiesInputDataPersistence | (string & {}) | undefined;
   /** Optional. Changes the password used to access the database in this region. If set, 'globalPassword' will not apply to this region. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Optional. List of source IP addresses or subnet masks to whitelist in this region. If set, Redis clients will be able to connect to the database in this region only from within the specified source IP addresses ranges, and 'globalSourceIp' will not apply to this region. Example: ['192.168.10.0/32', '192.168.12.0/24'] */
-  sourceIp?: LocalRegionPropertiesInputSourceIpList;
+  sourceIp?: LocalRegionPropertiesInputSourceIpList | undefined;
   /** Optional. Redis database alert settings for this region. If set, 'glboalAlerts' will not apply to this region. */
-  alerts?: LocalRegionPropertiesInputAlertsList;
+  alerts?: LocalRegionPropertiesInputAlertsList | undefined;
   /** Optional. Redis Serialization Protocol version for this region. Must be compatible with Redis version. */
-  respVersion?: LocalRegionPropertiesInputRespVersion | (string & {});
+  respVersion?: LocalRegionPropertiesInputRespVersion | (string & {}) | undefined;
   /** Optional. When 'true', allows connecting to the database with the 'default' user. When 'false', only defined access control users can connect to the database. If set, 'globalEnableDefaultUser' will not apply to this region. */
-  enableDefaultUser?: boolean;
+  enableDefaultUser?: boolean | undefined;
 }
 /** Optional. A list of regions and local settings to update. */
 export type UpdateCrdbLocalPropertiesRequestRegionsList = Array<LocalRegionPropertiesInput>;
@@ -3277,39 +3285,45 @@ export interface UpdateCrdbLocalPropertiesRequest {
   /** Database ID. */
   databaseId: number;
   /** Optional. Updated database name. Database name is limited to 40 characters or less and must include only letters, digits, and hyphens ('-'). It must start with a letter and end with a letter or digit. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. When 'false': Creates a deployment plan and deploys it, updating any resources required by the plan. When 'true': creates a read-only deployment plan and does not update any resources. Default: 'false' */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** Optional. Total memory in GB, including replication and other overhead. You cannot set both datasetSizeInGb and totalMemoryInGb. */
-  memoryLimitInGb?: number;
+  memoryLimitInGb?: number | undefined;
   /** Optional. The maximum amount of data in the dataset for this database in GB. You cannot set both datasetSizeInGb and totalMemoryInGb. If 'replication' is 'true', the database's total memory will be twice as large as the datasetSizeInGb.If 'replication' is false, the database's total memory will be the datasetSizeInGb value. */
-  datasetSizeInGb?: number;
+  datasetSizeInGb?: number | undefined;
   /** Optional. Support Redis [OSS Cluster API](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#oss-cluster-api). Default: 'false' */
-  supportOSSClusterApi?: boolean;
+  supportOSSClusterApi?: boolean | undefined;
   /** Optional. If set to 'true', the database will use the external endpoint for OSS Cluster API. This setting blocks the database's private endpoint. Can only be set if 'supportOSSClusterAPI' is 'true'. */
-  useExternalEndpointForOSSClusterApi?: boolean;
+  useExternalEndpointForOSSClusterApi?: boolean | undefined;
   /** Optional. A public key client TLS/SSL certificate with new line characters replaced with '\n'. If specified, mTLS authentication will be required to authenticate user connections if it is not already required. If set to an empty string, TLS client certificates will be removed and mTLS will not be required. TLS connection may still apply, depending on the value of 'enableTls'. */
-  clientSslCertificate?: string;
+  clientSslCertificate?: string | undefined;
   /** Optional. A list of client TLS/SSL certificates. If specified, mTLS authentication will be required to authenticate user connections. If set to an empty list, TLS client certificates will be removed and mTLS will not be required. TLS connection may still apply, depending on the value of 'enableTls'. */
-  clientTlsCertificates?: UpdateCrdbLocalPropertiesRequestClientTlsCertificatesList;
+  clientTlsCertificates?: UpdateCrdbLocalPropertiesRequestClientTlsCertificatesList | undefined;
   /** Optional. When 'true', requires TLS authentication for all connections - mTLS with valid clientTlsCertificates, regular TLS when clientTlsCertificates is not provided. If enableTls is set to 'false' while mTLS is required, it will remove the mTLS requirement and erase previously provided clientTlsCertificates. */
-  enableTls?: boolean;
+  enableTls?: boolean | undefined;
   /** Optional. Type and rate of data persistence in all regions that don't set local 'dataPersistence'. */
-  globalDataPersistence?: UpdateCrdbLocalPropertiesRequestGlobalDataPersistence | (string & {});
+  globalDataPersistence?:
+    | UpdateCrdbLocalPropertiesRequestGlobalDataPersistence
+    | (string & {})
+    | undefined;
   /** Optional. Changes the password used to access the database in all regions that don't set a local 'password'. */
-  globalPassword?: string | Redacted.Redacted<string>;
+  globalPassword?: string | Redacted.Redacted<string> | undefined;
   /** Optional. When 'true', allows connecting to the database with the 'default' user in all regions that don't set local 'enableDefaultUser'. When 'false', only defined access control users can connect to the database. */
-  globalEnableDefaultUser?: boolean;
+  globalEnableDefaultUser?: boolean | undefined;
   /** Optional. List of source IP addresses or subnet masks to whitelist in all regions that don't set local 'sourceIp' settings. If set, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: ['192.168.10.0/32', '192.168.12.0/24'] */
-  globalSourceIp?: UpdateCrdbLocalPropertiesRequestGlobalSourceIpList;
+  globalSourceIp?: UpdateCrdbLocalPropertiesRequestGlobalSourceIpList | undefined;
   /** Optional. Redis database alert settings in all regions that don't set local 'alerts'. */
-  globalAlerts?: UpdateCrdbLocalPropertiesRequestGlobalAlertsList;
+  globalAlerts?: UpdateCrdbLocalPropertiesRequestGlobalAlertsList | undefined;
   /** Optional. A list of regions and local settings to update. */
-  regions?: UpdateCrdbLocalPropertiesRequestRegionsList;
+  regions?: UpdateCrdbLocalPropertiesRequestRegionsList | undefined;
   /** Optional. Data eviction policy. */
-  dataEvictionPolicy?: UpdateCrdbLocalPropertiesRequestDataEvictionPolicy | (string & {});
+  dataEvictionPolicy?:
+    | UpdateCrdbLocalPropertiesRequestDataEvictionPolicy
+    | (string & {})
+    | undefined;
   /** Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above. */
-  autoMinorVersionUpgrade?: boolean;
+  autoMinorVersionUpgrade?: boolean | undefined;
 }
 /** Optional. Redis Serialization Protocol version. Must be compatible with Redis version. */
 export type UpdateDatabaseRequestRespVersion = "resp2" | "resp3";
@@ -3349,64 +3363,64 @@ export interface UpdateDatabaseRequest {
   /** Database ID. */
   databaseId: number;
   /** Optional. When 'false': Creates a deployment plan and deploys it, updating any resources required by the plan. When 'true': creates a read-only deployment plan and does not update any resources. Default: 'false' */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** Optional. Updated database name. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Total memory in GB, including replication and other overhead. You cannot set both datasetSizeInGb and totalMemoryInGb. */
-  memoryLimitInGb?: number;
+  memoryLimitInGb?: number | undefined;
   /** Optional. The maximum amount of data in the dataset for this database in GB. You cannot set both datasetSizeInGb and totalMemoryInGb. If 'replication' is 'true', the database's total memory will be twice as large as the datasetSizeInGb.If 'replication' is false, the database's total memory will be the datasetSizeInGb value. */
-  datasetSizeInGb?: number;
+  datasetSizeInGb?: number | undefined;
   /** Optional. Redis Serialization Protocol version. Must be compatible with Redis version. */
-  respVersion?: UpdateDatabaseRequestRespVersion | (string & {});
-  throughputMeasurement?: DatabaseThroughputSpec;
+  respVersion?: UpdateDatabaseRequestRespVersion | (string & {}) | undefined;
+  throughputMeasurement?: DatabaseThroughputSpec | undefined;
   /** Optional. Type and rate of data persistence in persistent storage. */
-  dataPersistence?: UpdateDatabaseRequestDataPersistence | (string & {});
+  dataPersistence?: UpdateDatabaseRequestDataPersistence | (string & {}) | undefined;
   /** Optional. Data eviction policy. */
-  dataEvictionPolicy?: UpdateDatabaseRequestDataEvictionPolicy | (string & {});
+  dataEvictionPolicy?: UpdateDatabaseRequestDataEvictionPolicy | (string & {}) | undefined;
   /** Optional. Turns database replication on or off. */
-  replication?: boolean;
+  replication?: boolean | undefined;
   /** Optional. Hashing policy Regex rules. Used only if 'shardingType' is 'custom-regex-rules'. */
-  regexRules?: UpdateDatabaseRequestRegexRulesList;
+  regexRules?: UpdateDatabaseRequestRegexRulesList | undefined;
   /** Optional. This database will be a replica of the specified Redis databases provided as one or more URI(s). Example: 'redis://user:password@host:port'. If the URI provided is a Redis Cloud database, only host and port should be provided. Example: ['redis://endpoint1:6379', 'redis://endpoint2:6380']. */
-  replicaOf?: UpdateDatabaseRequestReplicaOfList;
-  replica?: ReplicaOfSpec;
+  replicaOf?: UpdateDatabaseRequestReplicaOfList | undefined;
+  replica?: ReplicaOfSpec | undefined;
   /** Optional. Support Redis [OSS Cluster API](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#oss-cluster-api). */
-  supportOSSClusterApi?: boolean;
+  supportOSSClusterApi?: boolean | undefined;
   /** Optional. If set to 'true', the database will use the external endpoint for OSS Cluster API. This setting blocks the database's private endpoint. Can only be set if 'supportOSSClusterAPI' is 'true'. */
-  useExternalEndpointForOSSClusterApi?: boolean;
+  useExternalEndpointForOSSClusterApi?: boolean | undefined;
   /** Optional. Changes the password used to access the database with the 'default' user. Can only be set if 'protocol' is 'redis'. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Optional. Changes the Memcached (SASL) username to access the database. Can only be set if 'protocol' is 'memcached'. */
-  saslUsername?: string;
+  saslUsername?: string | undefined;
   /** Optional. Changes the Memcached (SASL) password to access the database. Can only be set if 'protocol' is 'memcached'. */
-  saslPassword?: string | Redacted.Redacted<string>;
+  saslPassword?: string | Redacted.Redacted<string> | undefined;
   /** Optional. List of source IP addresses or subnet masks to allow. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: '['192.168.10.0/32', '192.168.12.0/24']' */
-  sourceIp?: UpdateDatabaseRequestSourceIpList;
+  sourceIp?: UpdateDatabaseRequestSourceIpList | undefined;
   /** Optional. A public key client TLS/SSL certificate with new line characters replaced with '\n'. If specified, mTLS authentication will be required to authenticate user connections if it is not already required. If set to an empty string, TLS client certificates will be removed and mTLS will not be required. TLS connection may still apply, depending on the value of 'enableTls'. */
-  clientSslCertificate?: string;
+  clientSslCertificate?: string | undefined;
   /** Optional. A list of client TLS/SSL certificates. If specified, mTLS authentication will be required to authenticate user connections. If set to an empty list, TLS client certificates will be removed and mTLS will not be required. TLS connection may still apply, depending on the value of 'enableTls'. */
-  clientTlsCertificates?: UpdateDatabaseRequestClientTlsCertificatesList;
+  clientTlsCertificates?: UpdateDatabaseRequestClientTlsCertificatesList | undefined;
   /** Optional. When 'true', requires TLS authentication for all connections - mTLS with valid clientTlsCertificates, regular TLS when clientTlsCertificates is not provided. If enableTls is set to 'false' while mTLS is required, it will remove the mTLS requirement and erase previously provided clientTlsCertificates. */
-  enableTls?: boolean;
+  enableTls?: boolean | undefined;
   /** Optional. When 'true', allows connecting to the database with the 'default' user. When 'false', only defined access control users can connect to the database. Can only be set if 'protocol' is 'redis'. */
-  enableDefaultUser?: boolean;
+  enableDefaultUser?: boolean | undefined;
   /** Optional. Changes the backup location path. If specified, the database will back up every 24 hours to this location, and you can manually back up the database to this location at any time. If set to an empty string, the backup path will be removed. */
-  periodicBackupPath?: string;
-  remoteBackup?: DatabaseBackupConfigInput;
+  periodicBackupPath?: string | undefined;
+  remoteBackup?: DatabaseBackupConfigInput | undefined;
   /** Optional. Changes Redis database alert details. */
-  alerts?: UpdateDatabaseRequestAlertsList;
+  alerts?: UpdateDatabaseRequestAlertsList | undefined;
   /** Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Must be between 10 and 50 in steps of 10 (10, 20, 30, 40, 50). */
-  ramPercentage?: number;
+  ramPercentage?: number | undefined;
   /** Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above. */
-  autoMinorVersionUpgrade?: boolean;
+  autoMinorVersionUpgrade?: boolean | undefined;
   /** Optional. Changes the query performance factor. The query performance factor adds extra compute power specifically for search and query databases. You can increase your queries per second by the selected factor. */
-  queryPerformanceFactor?: string;
+  queryPerformanceFactor?: string | undefined;
 }
 /** Long-term memory configuration accepted on update. Only the TTL and the embedding credential can change */
 export interface MemoryStoreLongTermMemoryUpdateConfig {
   /** New time-to-live of long-term memory entries, in seconds (1 second to 1 year). Omit to leave unchanged */
-  ttlSeconds?: number;
-  embedding?: MemoryStoreModelConfig;
+  ttlSeconds?: number | undefined;
+  embedding?: MemoryStoreModelConfig | undefined;
 }
 /** Optional. New custom memory types to append to the store's registry. A store may define at most 3 custom memory types in total, including those already registered. Existing types cannot be redefined */
 export type UpdateMemoryStoreRequestAddCustomMemoryTypesList = Array<MemoryStoreCustomMemoryType>;
@@ -3415,9 +3429,9 @@ export interface MemoryStoreTypeStrategyUpdate {
   /** Name of the existing custom memory type to edit. Required */
   typeName: string;
   /** Replacement extraction prompt. Omit to leave unchanged */
-  prompt?: string;
+  prompt?: string | undefined;
   /** Replacement enabled flag. Omit to leave unchanged */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Optional. Extraction strategy edits (prompt and enabled flag) for existing custom memory types */
 export type UpdateMemoryStoreRequestUpdateCustomMemoryTypeStrategiesList =
@@ -3426,17 +3440,19 @@ export interface UpdateMemoryStoreRequest {
   /** Memory store ID. */
   storeId: string;
   /** Optional. New memory store name (1-64 characters) */
-  name?: string;
-  shortMemory?: MemoryStoreShortMemoryConfig;
-  longTermMemory?: MemoryStoreLongTermMemoryUpdateConfig;
-  llm?: MemoryStoreModelConfig;
-  summarization?: MemoryStoreSummarizationConfig;
-  longTermMemoryExclusions?: MemoryStoreLongTermMemoryExclusions;
+  name?: string | undefined;
+  shortMemory?: MemoryStoreShortMemoryConfig | undefined;
+  longTermMemory?: MemoryStoreLongTermMemoryUpdateConfig | undefined;
+  llm?: MemoryStoreModelConfig | undefined;
+  summarization?: MemoryStoreSummarizationConfig | undefined;
+  longTermMemoryExclusions?: MemoryStoreLongTermMemoryExclusions | undefined;
   /** Optional. New custom memory types to append to the store's registry. A store may define at most 3 custom memory types in total, including those already registered. Existing types cannot be redefined */
-  addCustomMemoryTypes?: UpdateMemoryStoreRequestAddCustomMemoryTypesList;
+  addCustomMemoryTypes?: UpdateMemoryStoreRequestAddCustomMemoryTypesList | undefined;
   /** Optional. Extraction strategy edits (prompt and enabled flag) for existing custom memory types */
-  updateCustomMemoryTypeStrategies?: UpdateMemoryStoreRequestUpdateCustomMemoryTypeStrategiesList;
-  extractionCadence?: MemoryStoreExtractionCadenceConfig;
+  updateCustomMemoryTypeStrategies?:
+    | UpdateMemoryStoreRequestUpdateCustomMemoryTypeStrategiesList
+    | undefined;
+  extractionCadence?: MemoryStoreExtractionCadenceConfig | undefined;
 }
 export interface UpdateMemoryStoreResponse {}
 /** Action to perform on the endpoint. */
@@ -3449,15 +3465,15 @@ export interface UpdatePscServiceEndpointRequest {
   /** Private Service Connect endpoint ID. */
   endpointId: number;
   /** Google Cloud project ID. */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Name of the Google Cloud VPC that hosts your application. */
-  gcpVpcName?: string;
+  gcpVpcName?: string | undefined;
   /** Name of your VPC's subnet of IP address ranges. */
-  gcpVpcSubnetName?: string;
+  gcpVpcSubnetName?: string | undefined;
   /** Prefix used to create PSC endpoints in the consumer application VPC. Endpoint names appear in Google Cloud as endpoint name prefix + endpoint number. */
-  endpointConnectionName?: string;
+  endpointConnectionName?: string | undefined;
   /** Action to perform on the endpoint. */
-  action?: UpdatePscServiceEndpointRequestAction | (string & {});
+  action?: UpdatePscServiceEndpointRequestAction | (string & {}) | undefined;
 }
 export interface UpdatePscServiceEndpointResponse {}
 export interface UpdateRedisRuleRequest {
@@ -3475,9 +3491,9 @@ export interface UpdateRoleRequest {
   /** Database access role ID. */
   aclRoleId: number;
   /** Optional. Changes the database access role name. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Changes the Redis ACL rules to assign to this database access role. */
-  redisRules?: UpdateRoleRequestRedisRulesList;
+  redisRules?: UpdateRoleRequestRedisRulesList | undefined;
 }
 export interface UpdateRoleResponse {}
 export interface UpdateSubscriptionRequest {
@@ -3489,13 +3505,13 @@ export type UpdateSubscription1RequestPaymentMethod = "credit-card" | "marketpla
 export interface UpdateSubscription1Request {
   subscriptionId: number;
   /** Optional. Updated subscription name. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. An Essentials plan ID. The plan describes the dataset size, cloud provider and region, and available database configuration options. Use GET /fixed/plans/subscriptions/{subscriptionId} to get a list of compatible options for the specified subscription. */
-  planId?: number;
+  planId?: number | undefined;
   /** Optional. The payment method for the subscription. If set to 'credit-card' , 'paymentMethodId' must be defined. */
-  paymentMethod?: UpdateSubscription1RequestPaymentMethod | (string & {});
+  paymentMethod?: UpdateSubscription1RequestPaymentMethod | (string & {}) | undefined;
   /** Optional. The payment method ID you'd like to use for this subscription. Must be a valid payment method ID for this account. Use GET /payment-methods to get a list of payment methods for your account. This value is optional if 'paymentMethod' is 'marketplace', but required if 'paymentMethod' is 'credit-card'. */
-  paymentMethodId?: number;
+  paymentMethodId?: number | undefined;
 }
 export interface UpdateSubscription1Response {}
 /** List of CIDR values. Example: ['10.1.1.0/32'] */
@@ -3506,9 +3522,9 @@ export interface UpdateSubscriptionCidrWhiteListRequest {
   /** Subscription ID. */
   subscriptionId: number;
   /** List of CIDR values. Example: ['10.1.1.0/32'] */
-  cidrIps?: UpdateSubscriptionCidrWhiteListRequestCidrIpsList;
+  cidrIps?: UpdateSubscriptionCidrWhiteListRequestCidrIpsList | undefined;
   /** List of AWS Security group IDs. */
-  securityGroupIds?: UpdateSubscriptionCidrWhiteListRequestSecurityGroupIdsList;
+  securityGroupIds?: UpdateSubscriptionCidrWhiteListRequestSecurityGroupIdsList | undefined;
 }
 export interface UpdateSubscriptionCidrWhiteListResponse {}
 /** Maintenance window mode: either 'manual' or 'automatic'. Must provide 'windows' if manual. */
@@ -3532,7 +3548,7 @@ export interface UpdateSubscriptionMaintenanceWindowsRequest {
   /** Maintenance window mode: either 'manual' or 'automatic'. Must provide 'windows' if manual. */
   mode: UpdateSubscriptionMaintenanceWindowsRequestMode | (string & {});
   /** Maintenance window timeframes if mode is set to 'manual'. Up to 7 maintenance windows can be provided. */
-  windows?: UpdateSubscriptionMaintenanceWindowsRequestWindowsList;
+  windows?: UpdateSubscriptionMaintenanceWindowsRequestWindowsList | undefined;
 }
 /** List of resource tags to apply to the subscription. This will replace all existing tags. */
 export type UpdateSubscriptionResourceTagsRequestResourceTagsList = Array<ResourceTag>;
@@ -3598,7 +3614,7 @@ export interface UpdateTgwAttachmentCidrsRequest {
   /** AWS transit gateway ID. */
   TgwId: number;
   /** Optional. List of transit gateway attachment CIDRs. */
-  cidrs?: UpdateTgwAttachmentCidrsRequestCidrsList;
+  cidrs?: UpdateTgwAttachmentCidrsRequestCidrsList | undefined;
 }
 export interface UpdateTgwAttachmentCidrsResponse {}
 /** Changes the account user's role. See [Team management roles](https://redis.io/docs/latest/operate/rc/security/access-control/access-management/#team-management-roles) to learn about available account roles. */
@@ -3615,15 +3631,15 @@ export interface UpdateUserRequest {
   /** The account user's name. */
   name: string;
   /** Changes the account user's role. See [Team management roles](https://redis.io/docs/latest/operate/rc/security/access-control/access-management/#team-management-roles) to learn about available account roles. */
-  role?: UpdateUserRequestRole | (string & {});
+  role?: UpdateUserRequestRole | (string & {}) | undefined;
 }
 export interface UpdateUser1Request {
   /** Access control user ID. */
   aclUserId: number;
   /** Optional. Changes the ACL role assigned to the user. Use GET '/acl/roles' to get a list of database access roles. */
-  role?: string;
+  role?: string | undefined;
   /** Optional. Changes the user's database password. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** Optional. List of VPC CIDRs. */
 export type UpdateVpcPeeringRequestVpcCidrsList = Array<string>;
@@ -3633,9 +3649,9 @@ export interface UpdateVpcPeeringRequest {
   /** VPC Peering ID. */
   peeringId: number;
   /** Optional. VPC CIDR. */
-  vpcCidr?: string;
+  vpcCidr?: string | undefined;
   /** Optional. List of VPC CIDRs. */
-  vpcCidrs?: UpdateVpcPeeringRequestVpcCidrsList;
+  vpcCidrs?: UpdateVpcPeeringRequestVpcCidrsList | undefined;
 }
 export interface UpdateVpcPeeringResponse {}
 export interface UpgradeDatabaseRedisVersionRequest {

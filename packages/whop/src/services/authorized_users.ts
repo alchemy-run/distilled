@@ -64,19 +64,19 @@ export class UnprocessableEntity
 /** Re-authentication proof required to perform this sensitive action. */
 export interface CreateAuthorizedUserRequestElevation {
   /** The WebAuthn authenticator data (base64). */
-  authenticator_data?: string | null;
+  authenticator_data?: string | null | undefined;
   /** The WebAuthn client data JSON (base64). */
-  client_data_json?: string | null;
+  client_data_json?: string | null | undefined;
   /** The WebAuthn credential ID (base64). */
-  credential_id?: string | null;
+  credential_id?: string | null | undefined;
   /** The 6-digit code emailed to the user. */
-  email_code?: string | null;
+  email_code?: string | null | undefined;
   /** The WebAuthn signature (base64). */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** The 6-digit code from the authenticator app or SMS. */
-  totp_code?: string | null;
+  totp_code?: string | null | undefined;
   /** Reuse an existing elevated session (for SMS/email 2FA users). */
-  use_finance_session?: boolean | null;
+  use_finance_session?: boolean | null | undefined;
 }
 /** System roles accepted by legacy authorized-user mutations */
 export type GrantableAuthorizedUserRoles =
@@ -90,11 +90,11 @@ export interface CreateAuthorizedUserRequest {
   /** The ID of the company to add the authorized user to. */
   account_id: string;
   /** Re-authentication proof required to perform this sensitive action. */
-  elevation?: CreateAuthorizedUserRequestElevation | null;
+  elevation?: CreateAuthorizedUserRequestElevation | null | undefined;
   /** The role to assign to the authorized user within the company. Supported roles: 'moderator', 'sales_manager'. */
   role: GrantableAuthorizedUserRoles | (string & {});
   /** Whether to send notification emails to the user on creation. */
-  send_emails?: boolean | null;
+  send_emails?: boolean | null | undefined;
   /** The ID of the user to add as an authorized user. */
   user_id: string;
 }
@@ -143,7 +143,7 @@ export interface AuthorizedUser {
 export interface DeleteAuthorizedUserRequest {
   /** The ID of the authorized user or user to remove. */
   id: string;
-  account_id?: string;
+  account_id?: string | undefined;
 }
 export type DeleteAuthorizedUserResponse = boolean;
 export interface GetAuthorizedUserRequest {
@@ -151,15 +151,15 @@ export interface GetAuthorizedUserRequest {
   id: string;
 }
 export interface ListAuthorizedUserRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  user_id?: string;
-  role?: AuthorizedUserRoles | (string & {});
-  created_before?: string;
-  created_after?: string;
-  account_id?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  user_id?: string | undefined;
+  role?: AuthorizedUserRoles | (string & {}) | undefined;
+  created_before?: string | undefined;
+  created_after?: string | undefined;
+  account_id?: string | undefined;
 }
 /** The company this authorized user has access to. */
 export type AuthorizedUserListItemCompany = AuthorizedUserCompany;

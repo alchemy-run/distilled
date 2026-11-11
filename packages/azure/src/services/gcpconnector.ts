@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Gcpconnector",
   service: "Gcpconnector",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -46,7 +47,7 @@ export type GcpBigQueryDatasetPropertiesLabelsMap = { [key: string]: string | un
 /** Definition of EncryptionConfiguration */
 export interface EncryptionConfiguration {
   /** Cloud KMS key name used for encryption */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
 }
 /** Definition of TableReference */
 export interface TableReference {
@@ -64,9 +65,9 @@ export type DatasetAccessEntryTargetTypesList = Array<TargetTypes | (string & {}
 /** Definition of DatasetAccessEntry */
 export interface DatasetAccessEntry {
   /** The dataset this entry applies to */
-  dataset?: DatasetReference;
+  dataset?: DatasetReference | undefined;
   /** Which resources in the dataset this entry applies to. Currently, only views are supported, but additional target types may be added in the future. */
-  targetTypes?: DatasetAccessEntryTargetTypesList;
+  targetTypes?: DatasetAccessEntryTargetTypesList | undefined;
 }
 /** Definition of RoutineReference */
 export interface RoutineReference {
@@ -80,69 +81,69 @@ export interface RoutineReference {
 /** Definition of Expr */
 export interface Expr {
   /** Textual representation of an expression */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional title for the expression */
-  title?: string;
+  title?: string | undefined;
   /** Optional description of the expression */
-  description?: string;
+  description?: string | undefined;
   /** Optional location of the expression */
-  location?: string;
+  location?: string | undefined;
 }
 /** Definition of DatasetAccess */
 export interface DatasetAccess {
   /** Access role granted to the entity */
-  role?: string;
+  role?: string | undefined;
   /** User email address to grant access to */
-  userByEmail?: string;
+  userByEmail?: string | undefined;
   /** Group email address to grant access to */
-  groupByEmail?: string;
+  groupByEmail?: string | undefined;
   /** Domain to grant access to */
-  domain?: string;
+  domain?: string | undefined;
   /** Special group to grant access to */
-  specialGroup?: string;
+  specialGroup?: string | undefined;
   /** IAM member to grant access to */
-  iamMember?: string;
+  iamMember?: string | undefined;
   /** A view defined in a different dataset to grant access to */
-  view?: TableReference;
+  view?: TableReference | undefined;
   /** The dataset this entry applies to */
-  dataset?: DatasetAccessEntry;
+  dataset?: DatasetAccessEntry | undefined;
   /** The routine this entry applies to */
-  routine?: RoutineReference;
+  routine?: RoutineReference | undefined;
   /** An IAM Condition for this access entry */
-  condition?: Expr;
+  condition?: Expr | undefined;
 }
 /** An array of objects that define dataset access for one or more entities */
 export type GcpBigQueryDatasetPropertiesAccessList = Array<DatasetAccess>;
 /** Definition of LinkedDatasetSource */
 export interface LinkedDatasetSource {
   /** Reference to the source dataset */
-  sourceDataset?: DatasetReference;
+  sourceDataset?: DatasetReference | undefined;
 }
 /** Definition of LinkedDatasetMetadata */
 export interface LinkedDatasetMetadata {
   /** Status of the linked dataset */
-  status?: string;
+  status?: string | undefined;
 }
 /** Definition of ExternalDatasetReference */
 export interface ExternalDatasetReference {
   /** Source of the external dataset */
-  source?: string;
+  source?: string | undefined;
   /** External source identifier */
-  externalSource?: string;
+  externalSource?: string | undefined;
 }
 /** Definition of ExternalCatalogDatasetOptions */
 export interface ExternalCatalogDatasetOptions {
   /** The catalog name */
-  catalog?: string;
+  catalog?: string | undefined;
   /** The schema name */
-  schema?: string;
+  schema?: string | undefined;
 }
 /** Definition of GcpTag */
 export interface GcpTag {
   /** Tag key in format tag_key_id/tag_key_name */
-  key?: string;
+  key?: string | undefined;
   /** Tag value short name */
-  value?: string;
+  value?: string | undefined;
 }
 /** The resource tags associated with this dataset */
 export type GcpBigQueryDatasetPropertiesTagsList = Array<GcpTag>;
@@ -151,86 +152,86 @@ export type GcpBigQueryDatasetPropertiesResourceTagsMap = { [key: string]: strin
 /** Definition of GcpBigQueryDatasetProperties */
 export interface GcpBigQueryDatasetProperties {
   /** The resource type */
-  kind?: string;
+  kind?: string | undefined;
   /** A hash of this resource */
-  etag?: string;
+  etag?: string | undefined;
   /** The fully-qualified, unique ID of the dataset */
-  id?: string;
+  id?: string | undefined;
   /** A URL that can be used to access this resource again */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The reference to the dataset */
   datasetReference: DatasetReference;
   /** A descriptive name for the dataset */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** A user-friendly description of the dataset */
-  description?: string;
+  description?: string | undefined;
   /** The labels associated with this dataset */
-  labels?: GcpBigQueryDatasetPropertiesLabelsMap;
+  labels?: GcpBigQueryDatasetPropertiesLabelsMap | undefined;
   /** The geographic location where the dataset resides */
-  location?: string;
+  location?: string | undefined;
   /** Default expiration time for tables in milliseconds */
-  defaultTableExpirationMs?: string;
+  defaultTableExpirationMs?: string | undefined;
   /** Default partition expiration time in milliseconds */
-  defaultPartitionExpirationMs?: string;
+  defaultPartitionExpirationMs?: string | undefined;
   /** The default encryption configuration for the dataset */
-  defaultEncryptionConfiguration?: EncryptionConfiguration;
+  defaultEncryptionConfiguration?: EncryptionConfiguration | undefined;
   /** Default collation for new string fields */
-  defaultCollation?: string;
+  defaultCollation?: string | undefined;
   /** Default rounding mode for decimal fields */
-  defaultRoundingMode?: string;
+  defaultRoundingMode?: string | undefined;
   /** An array of objects that define dataset access for one or more entities */
-  access?: GcpBigQueryDatasetPropertiesAccessList;
+  access?: GcpBigQueryDatasetPropertiesAccessList | undefined;
   /** The time when this dataset was created */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The time when this dataset was last modified */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** The type of the dataset */
-  type?: string;
+  type?: string | undefined;
   /** The linked dataset source */
-  linkedDatasetSource?: LinkedDatasetSource;
+  linkedDatasetSource?: LinkedDatasetSource | undefined;
   /** The linked dataset metadata */
-  linkedDatasetMetadata?: LinkedDatasetMetadata;
+  linkedDatasetMetadata?: LinkedDatasetMetadata | undefined;
   /** The external dataset reference */
-  externalDatasetReference?: ExternalDatasetReference;
+  externalDatasetReference?: ExternalDatasetReference | undefined;
   /** The external catalog dataset options */
-  externalCatalogDatasetOptions?: ExternalCatalogDatasetOptions;
+  externalCatalogDatasetOptions?: ExternalCatalogDatasetOptions | undefined;
   /** Whether this dataset satisfies Protected Zone Shared requirements */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Whether this dataset satisfies Protected Zone Isolated requirements */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Whether this dataset is case insensitive */
-  isCaseInsensitive?: boolean;
+  isCaseInsensitive?: boolean | undefined;
   /** The maximum time travel hours for this dataset */
-  maxTimeTravelHours?: string;
+  maxTimeTravelHours?: string | undefined;
   /** The resource tags associated with this dataset */
-  tags?: GcpBigQueryDatasetPropertiesTagsList;
+  tags?: GcpBigQueryDatasetPropertiesTagsList | undefined;
   /** The storage billing model for this dataset */
-  storageBillingModel?: string;
+  storageBillingModel?: string | undefined;
   /** The resource tags associated with this dataset */
-  resourceTags?: GcpBigQueryDatasetPropertiesResourceTagsMap;
+  resourceTags?: GcpBigQueryDatasetPropertiesResourceTagsMap | undefined;
 }
 /** GCP Tags */
 export type BigQueryDatasetPropertiesInputGcpTagsMap = { [key: string]: string | undefined };
 /** Definition of BigQueryDatasetProperties */
 export interface BigQueryDatasetPropertiesInput {
   /** GCP Properties */
-  gcpProperties?: GcpBigQueryDatasetProperties;
+  gcpProperties?: GcpBigQueryDatasetProperties | undefined;
   /** Public Cloud Connectors Resource ID */
-  publicCloudConnectorsResourceId?: string;
+  publicCloudConnectorsResourceId?: string | undefined;
   /** GCP Project Number */
-  gcpProjectNumber?: string;
+  gcpProjectNumber?: string | undefined;
   /** GCP Project Id */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Fully qualified resource name of the GCP resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Public Cloud Resource Name */
-  publicCloudResourceName?: string;
+  publicCloudResourceName?: string | undefined;
   /** GCP Source Schema */
-  gcpSourceSchema?: string;
+  gcpSourceSchema?: string | undefined;
   /** GCP Region */
-  gcpRegion?: string;
+  gcpRegion?: string | undefined;
   /** GCP Tags */
-  gcpTags?: BigQueryDatasetPropertiesInputGcpTagsMap;
+  gcpTags?: BigQueryDatasetPropertiesInputGcpTagsMap | undefined;
 }
 export interface BigQueryDatasetsCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -240,11 +241,11 @@ export interface BigQueryDatasetsCreateOrReplaceRequest {
   /** Name of BigQueryDataset */
   name: string;
   /** Resource tags. */
-  tags?: BigQueryDatasetsCreateOrReplaceRequestTagsMap;
+  tags?: BigQueryDatasetsCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BigQueryDatasetPropertiesInput;
+  properties?: BigQueryDatasetPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -253,17 +254,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type BigQueryDatasetsCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
@@ -281,45 +282,45 @@ export type ProvisioningState =
 /** Definition of BigQueryDatasetProperties */
 export interface BigQueryDatasetProperties {
   /** GCP Properties */
-  gcpProperties?: GcpBigQueryDatasetProperties;
+  gcpProperties?: GcpBigQueryDatasetProperties | undefined;
   /** Public Cloud Connectors Resource ID */
-  publicCloudConnectorsResourceId?: string;
+  publicCloudConnectorsResourceId?: string | undefined;
   /** GCP Project Number */
-  gcpProjectNumber?: string;
+  gcpProjectNumber?: string | undefined;
   /** GCP Project Id */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Fully qualified resource name of the GCP resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Public Cloud Resource Name */
-  publicCloudResourceName?: string;
+  publicCloudResourceName?: string | undefined;
   /** GCP Source Schema */
-  gcpSourceSchema?: string;
+  gcpSourceSchema?: string | undefined;
   /** GCP Region */
-  gcpRegion?: string;
+  gcpRegion?: string | undefined;
   /** GCP Tags */
-  gcpTags?: BigQueryDatasetPropertiesGcpTagsMap;
+  gcpTags?: BigQueryDatasetPropertiesGcpTagsMap | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface BigQueryDatasetsCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BigQueryDatasetsCreateOrReplaceResponseTagsMap;
+  tags?: BigQueryDatasetsCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BigQueryDatasetProperties;
+  properties?: BigQueryDatasetProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CloudFunctionsCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
@@ -333,89 +334,89 @@ export type BuildConfigEnvironmentVariablesMap = { [key: string]: string | undef
 /** Security patches are only applied when a function is redeployed. */
 export interface OnDeployUpdatePolicy {
   /** Output only. contains the runtime version which was used during latest function deployment. */
-  runtimeVersion?: string;
+  runtimeVersion?: string | undefined;
 }
 /** Location of the source in a Google Cloud Source Repository. */
 export interface RepoSource {
   /** Regex matching branches to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
-  branchName?: string;
+  branchName?: string | undefined;
   /** Explicit commit SHA to build. */
-  commitSha?: string;
+  commitSha?: string | undefined;
   /** Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's `dir` is specified and is an absolute path, this value is ignored for that step's execution. eg. helloworld (no leading slash allowed) */
-  dir?: string;
+  dir?: string | undefined;
   /** ID of the project that owns the Cloud Source Repository. If omitted, the project ID requesting the build is assumed. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Name of the Cloud Source Repository. */
-  repoName?: string;
+  repoName?: string | undefined;
   /** Regex matching tags to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
-  tagName?: string;
+  tagName?: string | undefined;
 }
 /** Location of the source in an archive file in Google Cloud Storage. */
 export interface StorageSource {
   /** Google Cloud Storage bucket containing the source (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). */
-  bucket?: string;
+  bucket?: string | undefined;
   /** Google Cloud Storage generation for the object. If the generation is omitted, the latest generation will be used. */
-  generation?: string;
+  generation?: string | undefined;
   /** Google Cloud Storage object containing the source. This object must be a gzipped archive file (`.tar.gz`) containing source to build. */
-  object?: string;
+  object?: string | undefined;
 }
 /** The location of the function source code. */
 export interface Source {
   /** If provided, get the source from GitHub repository. This option is valid only for GCF 1st Gen function. Example: https://github.com///blob// */
-  gitUri?: string;
+  gitUri?: string | undefined;
   /** If provided, get the source from this location in a Cloud Source Repository. */
-  repoSource?: RepoSource;
+  repoSource?: RepoSource | undefined;
   /** If provided, get the source from this location in Google Cloud Storage. */
-  storageSource?: StorageSource;
+  storageSource?: StorageSource | undefined;
 }
 /** Provenance of the source. Ways to find the original source, or verify that some source was used for this build. */
 export interface SourceProvenance {
   /** A copy of the build's `source.git_uri`, if exists, with any commits resolved. */
-  gitUri?: string;
+  gitUri?: string | undefined;
   /** A copy of the build's `source.repo_source`, if exists, with any revisions resolved. */
-  resolvedRepoSource?: RepoSource;
+  resolvedRepoSource?: RepoSource | undefined;
   /** A copy of the build's `source.storage_source`, if exists, with any generations resolved. */
-  resolvedStorageSource?: StorageSource;
+  resolvedStorageSource?: StorageSource | undefined;
 }
 /** Describes the Build step of the function that builds a container from the given source. */
 export interface BuildConfig {
   /** AutomaticUpdatePolicy of BuildConfig. */
-  automaticUpdatePolicy?: unknown;
+  automaticUpdatePolicy?: unknown | undefined;
   /** Output only. The Cloud Build name of the latest successful deployment of the function. */
-  build?: string;
+  build?: string | undefined;
   /** Docker Registry to use for this deployment. This configuration is only applicable to 1st Gen functions, 2nd Gen functions can only use Artifact Registry. If `docker_repository` field is specified, this field will be automatically set as `ARTIFACT_REGISTRY`. If unspecified, it currently defaults to `CONTAINER_REGISTRY`. This field may be overridden by the backend for eligible deployments. */
-  dockerRegistry?: DockerRegistry | (string & {});
+  dockerRegistry?: DockerRegistry | (string & {}) | undefined;
   /** Repository in Artifact Registry to which the function docker image will be pushed after it is built by Cloud Build. If specified by user, it is created and managed by user with a customer managed encryption key. Otherwise, GCF will create and use a repository named 'gcf-artifacts' for every deployed region. It must match the pattern `projects/{project}/locations/{location}/repositories/{repository}`. Cross-project repositories are not supported. Cross-location repositories are not supported. Repository format must be 'DOCKER'. */
-  dockerRepository?: string;
+  dockerRepository?: string | undefined;
   /** The name of the function (as defined in source code) that will be executed. Defaults to the resource name suffix, if not specified. For backward compatibility, if function with given name is not found, then the system will try to use function named "function". For Node.js this is name of a function exported by the module specified in `source_location`. */
-  entryPoint?: string;
+  entryPoint?: string | undefined;
   /** User-provided build-time environment variables for the function */
-  environmentVariables?: BuildConfigEnvironmentVariablesMap;
+  environmentVariables?: BuildConfigEnvironmentVariablesMap | undefined;
   /** OnDeployUpdatePolicy of BuildConfig. */
-  onDeployUpdatePolicy?: OnDeployUpdatePolicy;
+  onDeployUpdatePolicy?: OnDeployUpdatePolicy | undefined;
   /** The runtime in which to run the function. Required when deploying a new function, optional when updating an existing function. For a complete list of possible choices, see the [`gcloud` command reference](https://cloud.google.com/sdk/gcloud/reference/functions/deploy#--runtime). */
-  runtime?: string;
+  runtime?: string | undefined;
   /** Service account to be used for building the container. The format of this field is `projects/{projectId}/serviceAccounts/{serviceAccountEmail}`. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** The location of the function source code. */
-  source?: Source;
+  source?: Source | undefined;
   /** Output only. A permanent fixed identifier for source. */
-  sourceProvenance?: SourceProvenance;
+  sourceProvenance?: SourceProvenance | undefined;
   /** An identifier for Firebase function sources. Disclaimer: This field is only supported for Firebase function deployments. */
-  sourceToken?: string;
+  sourceToken?: string | undefined;
   /** Name of the Cloud Build Custom Worker Pool that should be used to build the function. The format of this field is `projects/{project}/locations/{region}/workerPools/{workerPool}` where {project} and {region} are the project id and region respectively where the worker pool is defined and {workerPool} is the short name of the worker pool. If the project id is not the same as the function, then the Cloud Functions Service Agent (service-@gcf-admin-robot.iam.gserviceaccount.com) must be granted the role Cloud Build Custom Workers Builder (roles/cloudbuild.customworkers.builder) in the project. */
-  workerPool?: string;
+  workerPool?: string | undefined;
 }
 /** GcpFunctionProperties.environment values, as defined by the Google Cloud API. */
 export type Environment = "ENVIRONMENT_UNSPECIFIED" | "GEN_1" | "GEN_2";
 /** Filters events based on exact matches on the CloudEvents attributes. */
 export interface EventFilter {
   /** Required. The name of a CloudEvents attribute. */
-  attribute?: string;
+  attribute?: string | undefined;
   /** Optional. The operator used for matching the events with the value of the filter. If not specified, only events that have an exact key-value pair specified in the filter are matched. The only allowed value is `match-path-pattern`. */
-  operator?: string;
+  operator?: string | undefined;
   /** Required. The value for the attribute. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Criteria used to filter events. */
 export type EventTriggerEventFiltersList = Array<EventFilter>;
@@ -427,23 +428,23 @@ export type RetryPolicy =
 /** Describes EventTrigger, used to request events to be sent from another service. */
 export interface EventTrigger {
   /** Optional. The name of the channel associated with the trigger in `projects/{project}/locations/{location}/channels/{channel}` format. You must provide a channel to receive events from Eventarc SaaS partners. */
-  channel?: string;
+  channel?: string | undefined;
   /** Criteria used to filter events. */
-  eventFilters?: EventTriggerEventFiltersList;
+  eventFilters?: EventTriggerEventFiltersList | undefined;
   /** Required. The type of event to observe. For example: `google.cloud.audit.log.v1.written` or `google.cloud.pubsub.topic.v1.messagePublished`. */
-  eventType?: string;
+  eventType?: string | undefined;
   /** Optional. The name of a Pub/Sub topic in the same project that will be used as the transport topic for the event delivery. Format: `projects/{project}/topics/{topic}`. This is only valid for events of type `google.cloud.pubsub.topic.v1.messagePublished`. The topic provided here will not be deleted at function deletion. */
-  pubsubTopic?: string;
+  pubsubTopic?: string | undefined;
   /** Optional. If unset, then defaults to ignoring failures (i.e. not retrying them). */
-  retryPolicy?: RetryPolicy | (string & {});
+  retryPolicy?: RetryPolicy | (string & {}) | undefined;
   /** Optional. The hostname of the service that 1st Gen function should be observed. If no string is provided, the default service implementing the API will be used. For example, `storage.googleapis.com` is the default for all event types in the `google.storage` namespace. The field is only applicable to 1st Gen functions. */
-  service?: string;
+  service?: string | undefined;
   /** Optional. The email of the trigger's service account. The service account must have permission to invoke Cloud Run services, the permission is `run.routes.invoke`. If empty, defaults to the Compute Engine default service account: `{project_number}-compute@developer.gserviceaccount.com`. */
-  serviceAccountEmail?: string;
+  serviceAccountEmail?: string | undefined;
   /** Output only. The resource name of the Eventarc trigger. The format of this field is `projects/{project}/locations/{region}/triggers/{trigger}`. */
-  trigger?: string;
+  trigger?: string | undefined;
   /** The region that the trigger will be in. The trigger will only receive events originating in this region. It can be the same region as the function, a different region or multi-region, or the global region. If not provided, defaults to the same region as the function. */
-  triggerRegion?: string;
+  triggerRegion?: string | undefined;
 }
 /** Labels associated with this Cloud Function. */
 export type GcpFunctionPropertiesLabelsMap = { [key: string]: string | undefined };
@@ -458,35 +459,35 @@ export type IngressSettings =
 /** Configuration for a secret environment variable. It has the information necessary to fetch the secret value from secret manager and expose it as an environment variable. */
 export interface SecretEnvVar {
   /** Name of the environment variable. */
-  key?: string;
+  key?: string | undefined;
   /** Project identifier (preferably project number but can also be the project ID) of the project that contains the secret. If not set, it is assumed that the secret is in the same project as the function. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Name of the secret in secret manager (not the full resource name). */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Version of the secret (version number or the string 'latest'). It is recommended to use a numeric version for secret environment variables as any updates to the secret value is not reflected until new instances start. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Secret environment variables configuration. */
 export type ServiceConfigSecretEnvironmentVariablesList = Array<SecretEnvVar>;
 /** Configuration for a single version. */
 export interface SecretVersion {
   /** Relative path of the file under the mount path where the secret value for this version will be fetched and made available. For example, setting the mount_path as '/etc/secrets' and path as `secret_foo` would mount the secret value file at `/etc/secrets/secret_foo`. */
-  path?: string;
+  path?: string | undefined;
   /** Version of the secret (version number or the string 'latest'). It is preferable to use `latest` version with secret volumes as secret value changes are reflected immediately. */
-  version?: string;
+  version?: string | undefined;
 }
 /** List of secret versions to mount for this secret. If empty, the `latest` version of the secret will be made available in a file named after the secret under the mount point. */
 export type SecretVolumeVersionsList = Array<SecretVersion>;
 /** Configuration for a secret volume. It has the information necessary to fetch the secret value from secret manager and make it available as files mounted at the requested paths within the application container. */
 export interface SecretVolume {
   /** The path within the container to mount the secret volume. For example, setting the mount_path as `/etc/secrets` would mount the secret value files under the `/etc/secrets` directory. This directory will also be completely shadowed and unavailable to mount any other secrets. Recommended mount path: /etc/secrets */
-  mountPath?: string;
+  mountPath?: string | undefined;
   /** Project identifier (preferably project number but can also be the project ID) of the project that contains the secret. If not set, it is assumed that the secret is in the same project as the function. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Name of the secret in secret manager (not the full resource name). */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** List of secret versions to mount for this secret. If empty, the `latest` version of the secret will be made available in a file named after the secret under the mount point. */
-  versions?: SecretVolumeVersionsList;
+  versions?: SecretVolumeVersionsList | undefined;
 }
 /** Secret volumes configuration. */
 export type ServiceConfigSecretVolumesList = Array<SecretVolume>;
@@ -500,41 +501,41 @@ export type VpcConnectorEgressSettings =
 /** Describes the Service being deployed. Currently Supported : Cloud Run (fully managed). */
 export interface ServiceConfig {
   /** Whether 100% of traffic is routed to the latest revision. On CreateFunction and UpdateFunction, when set to true, the revision being deployed will serve 100% of traffic, ignoring any traffic split settings, if any. On GetFunction, true will be returned if the latest revision is serving 100% of traffic. */
-  allTrafficOnLatestRevision?: boolean;
+  allTrafficOnLatestRevision?: boolean | undefined;
   /** The number of CPUs used in a single container instance. Default value is calculated from available memory. Supports the same values as Cloud Run, see https://cloud.google.com/run/docs/reference/rest/v1/Container#resourcerequirements Example: "1" indicates 1 vCPU */
-  availableCpu?: string;
+  availableCpu?: string | undefined;
   /** The amount of memory available for a function. Defaults to 256M. Supported units are k, M, G, Mi, Gi. If no unit is supplied the value is interpreted as bytes. See https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go a full description. */
-  availableMemory?: string;
+  availableMemory?: string | undefined;
   /** Environment variables that shall be available during function execution. */
-  environmentVariables?: ServiceConfigEnvironmentVariablesMap;
+  environmentVariables?: ServiceConfigEnvironmentVariablesMap | undefined;
   /** The ingress settings for the function, controlling what traffic can reach it. */
-  ingressSettings?: IngressSettings | (string & {});
+  ingressSettings?: IngressSettings | (string & {}) | undefined;
   /** The limit on the maximum number of function instances that may coexist at a given time. In some cases, such as rapid traffic surges, Cloud Functions may, for a short period of time, create more instances than the specified max instances limit. If your function cannot tolerate this temporary behavior, you may want to factor in a safety margin and set a lower max instances value than your function can tolerate. See the [Max Instances](https://cloud.google.com/functions/docs/max-instances) Guide for more details. */
-  maxInstanceCount?: number;
+  maxInstanceCount?: number | undefined;
   /** Sets the maximum number of concurrent requests that each instance can receive. Defaults to 1. */
-  maxInstanceRequestConcurrency?: number;
+  maxInstanceRequestConcurrency?: number | undefined;
   /** The limit on the minimum number of function instances that may coexist at a given time. Function instances are kept in idle state for a short period after they finished executing the request to reduce cold start time for subsequent requests. Setting a minimum instance count will ensure that the given number of instances are kept running in idle state always. This can help with cold start times when jump in incoming request count occurs after the idle instance would have been stopped in the default case. */
-  minInstanceCount?: number;
+  minInstanceCount?: number | undefined;
   /** Output only. The name of service revision. */
-  revision?: string;
+  revision?: string | undefined;
   /** Secret environment variables configuration. */
-  secretEnvironmentVariables?: ServiceConfigSecretEnvironmentVariablesList;
+  secretEnvironmentVariables?: ServiceConfigSecretEnvironmentVariablesList | undefined;
   /** Secret volumes configuration. */
-  secretVolumes?: ServiceConfigSecretVolumesList;
+  secretVolumes?: ServiceConfigSecretVolumesList | undefined;
   /** Security level configure whether the function only accepts https. This configuration is only applicable to 1st Gen functions with Http trigger. By default https is optional for 1st Gen functions; 2nd Gen functions are https ONLY. */
-  securityLevel?: SecurityLevel | (string & {});
+  securityLevel?: SecurityLevel | (string & {}) | undefined;
   /** Output only. Name of the service associated with a Function. The format of this field is `projects/{project}/locations/{region}/services/{service}` */
-  service?: string;
+  service?: string | undefined;
   /** The email of the service's service account. If empty, defaults to `{project_number}-compute@developer.gserviceaccount.com`. */
-  serviceAccountEmail?: string;
+  serviceAccountEmail?: string | undefined;
   /** The function execution timeout. Execution is considered failed and can be terminated if the function is not completed at the end of the timeout period. Defaults to 60 seconds. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Output only. URI of the Service deployed. */
-  uri?: string;
+  uri?: string | undefined;
   /** The Serverless VPC Access connector that this cloud function can connect to. The format of this field is `projects/*\/locations/*\/connectors/*`. */
-  vpcConnector?: string;
+  vpcConnector?: string | undefined;
   /** The egress settings for the connector, controlling what traffic is diverted through it. */
-  vpcConnectorEgressSettings?: VpcConnectorEgressSettings | (string & {});
+  vpcConnectorEgressSettings?: VpcConnectorEgressSettings | (string & {}) | undefined;
 }
 /** GcpFunctionProperties.state values, as defined by the Google Cloud API. */
 export type GcpFunctionState =
@@ -551,69 +552,69 @@ export type StateMessageSeverity = "SEVERITY_UNSPECIFIED" | "ERROR" | "WARNING" 
 /** Informational messages about the state of the Cloud Function or Operation. */
 export interface GoogleCloudFunctionsV2StateMessage {
   /** The message. */
-  message?: string;
+  message?: string | undefined;
   /** Severity of the state message. */
-  severity?: StateMessageSeverity | (string & {});
+  severity?: StateMessageSeverity | (string & {}) | undefined;
   /** One-word CamelCase type of the state message. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Output only. State Messages for this Cloud Function. */
 export type GcpFunctionPropertiesStateMessagesList = Array<GoogleCloudFunctionsV2StateMessage>;
 /** Describes a Cloud Function that contains user computation executed in response to an event. It encapsulates function and trigger configurations. */
 export interface GcpFunctionProperties {
   /** Describes the Build step of the function that builds a container from the given source. */
-  buildConfig?: BuildConfig;
+  buildConfig?: BuildConfig | undefined;
   /** Output only. The create timestamp of a Cloud Function. This is only applicable to 2nd Gen functions. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** User-provided description of a function. */
-  description?: string;
+  description?: string | undefined;
   /** Describe whether the function is 1st Gen or 2nd Gen. */
-  environment?: Environment | (string & {});
+  environment?: Environment | (string & {}) | undefined;
   /** An Eventarc trigger managed by Google Cloud Functions that fires events in response to a condition in another service. */
-  eventTrigger?: EventTrigger;
+  eventTrigger?: EventTrigger | undefined;
   /** Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt function resources. It must match the pattern `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}`. */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** Labels associated with this Cloud Function. */
-  labels?: GcpFunctionPropertiesLabelsMap;
+  labels?: GcpFunctionPropertiesLabelsMap | undefined;
   /** A user-defined name of the function. Function names must be unique globally and match pattern `projects/*\/locations/*\/functions/*` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Describes the Service being deployed. Currently deploys services to Cloud Run (fully managed). */
-  serviceConfig?: ServiceConfig;
+  serviceConfig?: ServiceConfig | undefined;
   /** Output only. State of the function. */
-  state?: GcpFunctionState | (string & {});
+  state?: GcpFunctionState | (string & {}) | undefined;
   /** Output only. State Messages for this Cloud Function. */
-  stateMessages?: GcpFunctionPropertiesStateMessagesList;
+  stateMessages?: GcpFunctionPropertiesStateMessagesList | undefined;
   /** Output only. The last update timestamp of a Cloud Function. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The deployed url for the function. */
-  url?: string;
+  url?: string | undefined;
 }
 /** GCP Tags */
 export type FunctionPropertiesInputGcpTagsMap = { [key: string]: string | undefined };
 /** Definition of FunctionProperties */
 export interface FunctionPropertiesInput {
   /** GCP Properties */
-  gcpProperties?: GcpFunctionProperties;
+  gcpProperties?: GcpFunctionProperties | undefined;
   /** Public Cloud Connectors Resource ID */
-  publicCloudConnectorsResourceId?: string;
+  publicCloudConnectorsResourceId?: string | undefined;
   /** GCP Project Number */
-  gcpProjectNumber?: string;
+  gcpProjectNumber?: string | undefined;
   /** GCP Project Id */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Fully qualified resource name of the GCP resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Public Cloud Resource Name */
-  publicCloudResourceName?: string;
+  publicCloudResourceName?: string | undefined;
   /** GCP Source Schema */
-  gcpSourceSchema?: string;
+  gcpSourceSchema?: string | undefined;
   /** GCP Region */
-  gcpRegion?: string;
+  gcpRegion?: string | undefined;
   /** GCP Tags */
-  gcpTags?: FunctionPropertiesInputGcpTagsMap;
+  gcpTags?: FunctionPropertiesInputGcpTagsMap | undefined;
 }
 export interface CloudFunctionsCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -623,11 +624,11 @@ export interface CloudFunctionsCreateOrReplaceRequest {
   /** Name of CloudFunction */
   name: string;
   /** Resource tags. */
-  tags?: CloudFunctionsCreateOrReplaceRequestTagsMap;
+  tags?: CloudFunctionsCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FunctionPropertiesInput;
+  properties?: FunctionPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CloudFunctionsCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
@@ -636,76 +637,76 @@ export type FunctionPropertiesGcpTagsMap = { [key: string]: string | undefined }
 /** Definition of FunctionProperties */
 export interface FunctionProperties {
   /** GCP Properties */
-  gcpProperties?: GcpFunctionProperties;
+  gcpProperties?: GcpFunctionProperties | undefined;
   /** Public Cloud Connectors Resource ID */
-  publicCloudConnectorsResourceId?: string;
+  publicCloudConnectorsResourceId?: string | undefined;
   /** GCP Project Number */
-  gcpProjectNumber?: string;
+  gcpProjectNumber?: string | undefined;
   /** GCP Project Id */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Fully qualified resource name of the GCP resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Public Cloud Resource Name */
-  publicCloudResourceName?: string;
+  publicCloudResourceName?: string | undefined;
   /** GCP Source Schema */
-  gcpSourceSchema?: string;
+  gcpSourceSchema?: string | undefined;
   /** GCP Region */
-  gcpRegion?: string;
+  gcpRegion?: string | undefined;
   /** GCP Tags */
-  gcpTags?: FunctionPropertiesGcpTagsMap;
+  gcpTags?: FunctionPropertiesGcpTagsMap | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CloudFunctionsCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CloudFunctionsCreateOrReplaceResponseTagsMap;
+  tags?: CloudFunctionsCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FunctionProperties;
+  properties?: FunctionProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Specifies options for controlling advanced machine features. Options that would traditionally be configured in a BIOS belong here. Features that require operating system support may have corresponding entries in the GuestOsFeatures of an Image (e.g., whether or not the OS in the Image supports nested virtualization being enabled or disabled). */
 export interface AdvancedMachineFeatures {
   /** Whether to enable nested virtualization or not (default is false). */
-  enableNestedVirtualization?: boolean;
+  enableNestedVirtualization?: boolean | undefined;
   /** Whether to enable UEFI networking for instance creation. */
-  enableUefiNetworking?: boolean;
+  enableUefiNetworking?: boolean | undefined;
   /** The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed. */
-  threadsPerCore?: number;
+  threadsPerCore?: number | undefined;
   /** The number of physical cores to expose to an instance. Multiply by the number of threads per core to compute the total number of virtual CPUs to expose to the instance. If unset, the number of cores is inferred from the instance's nominal CPU count and the underlying platform's SMT width. */
-  visibleCoreCount?: number;
+  visibleCoreCount?: number | undefined;
 }
 /** A set of Confidential Instance options. */
 export interface ConfidentialInstanceConfig {
   /** Defines whether the instance should have confidential compute enabled. */
-  enableConfidentialCompute?: boolean;
+  enableConfidentialCompute?: boolean | undefined;
 }
 /** AttachedDisk.architecture values, as defined by the Google Cloud API. */
 export type Architecture = "ARCHITECTURE_UNSPECIFIED" | "ARM64" | "X86_64";
 /** Customer Encryption Key. */
 export interface CustomerEncryptionKey {
   /** The name of the encryption key that is stored in Google Cloud KMS. For example: "kmsKeyName": "projects/kms_project_id/locations/region/keyRings/ key_region/cryptoKeys/key The fully-qualifed key name may be returned for resource GET requests. For example: "kmsKeyName": "projects/kms_project_id/locations/region/keyRings/ key_region/cryptoKeys/key /cryptoKeyVersions/1 */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used. For example: "kmsKeyServiceAccount": "name@project_id.iam.gserviceaccount.com/ */
-  kmsKeyServiceAccount?: string;
+  kmsKeyServiceAccount?: string | undefined;
   /** Specifies a 256-bit customer-supplied encryption key, encoded in RFC 4648 base64 to either encrypt or decrypt this resource. You can provide either the rawKey or the rsaEncryptedKey. For example: "rawKey": "SGVsbG8gZnJvbSBHb29nbGUgQ2xvdWQgUGxhdGZvcm0=" */
-  rawKey?: string;
+  rawKey?: string | undefined;
   /** Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit customer-supplied encryption key to either encrypt or decrypt this resource. You can provide either the rawKey or the rsaEncryptedKey. For example: "rsaEncryptedKey": "ieCx/NcW06PcT7Ep1X6LUTc/hLvUDYyzSZPPVCVPTVEohpeHASqC8uw5TzyO9U+Fka9JFH z0mBibXUInrC/jEk014kCK/NPjYgEMOyssZ4ZINPKxlUh2zn1bV+MCaTICrdmuSBTWlUUiFoD D6PYznLwh8ZNdaheCeZ8ewEXgFQ8V+sDroLaN3Xs3MDTXQEMMoNUXMCZEIpg9Vtp9x2oe==" The key must meet the following requirements before you can provide it to Compute Engine: 1. The key is wrapped using a RSA public key certificate provided by Google. 2. After being wrapped, the key must be encoded in RFC 4648 base64 encoding. Gets the RSA public key certificate provided by Google at: https://cloud-certs.storage.googleapis.com/google-cloud-csek-ingress.pem */
-  rsaEncryptedKey?: string;
+  rsaEncryptedKey?: string | undefined;
   /** [Output only] The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied encryption key that protects this resource. */
-  sha256?: string;
+  sha256?: string | undefined;
 }
 /** GuestOsFeature.type values, as defined by the Google Cloud API. */
 export type GuestOsFeatureType =
@@ -730,7 +731,7 @@ export type GuestOsFeatureType =
 /** Guest OS features. */
 export interface GuestOsFeature {
   /** The ID of a supported feature. To add multiple values, use commas to separate values. Set to one or more of the following values: - VIRTIO_SCSI_MULTIQUEUE - WINDOWS - MULTI_IP_SUBNET - UEFI_COMPATIBLE - GVNIC - SEV_CAPABLE - SUSPEND_RESUME_COMPATIBLE - SEV_LIVE_MIGRATABLE - SEV_SNP_CAPABLE - TDX_CAPABLE - IDPF For more information, see Enabling guest operating system features. */
-  type?: GuestOsFeatureType | (string & {});
+  type?: GuestOsFeatureType | (string & {}) | undefined;
 }
 /** A list of features to enable on the guest operating system. Applicable only for bootable images. Read Enabling guest operating system features to see a list of available options. */
 export type AttachedDiskGuestOsFeaturesList = Array<GuestOsFeature>;
@@ -759,41 +760,41 @@ export type AttachedDiskInitializeParamsResourcePoliciesList = Array<string>;
 /** [Input Only] Specifies the parameters for a new disk that will be created alongside the new instance. Use initialization parameters to create boot disks or local SSDs attached to the new instance. This field is persisted and returned for instanceTemplate and not returned in the context of instance. This property is mutually exclusive with the source property; you can only define one or the other, but not both. */
 export interface AttachedDiskInitializeParams {
   /** The architecture of the attached disk. Valid values are arm64 or x86_64. */
-  architecture?: AttachedDiskInitializeParamsArchitecture | (string & {});
+  architecture?: AttachedDiskInitializeParamsArchitecture | (string & {}) | undefined;
   /** An optional description. Provide this property when creating the disk. */
-  description?: string;
+  description?: string | undefined;
   /** Specifies the disk name. If not specified, the default is to use the name of the instance. If a disk with the same name already exists in the given region, the existing disk is attached to the new instance and the new disk is not created. */
-  diskName?: string;
+  diskName?: string | undefined;
   /** Specifies the size of the disk in base-2 GB. The size must be at least 10 GB. If you specify a sourceImage, which is required for boot disks, the default size is the size of the sourceImage. If you do not specify a sourceImage, the default disk size is 500 GB. */
-  diskSizeGb?: string;
+  diskSizeGb?: string | undefined;
   /** Specifies the disk type to use to create the instance. If not specified, the default is pd-standard, specified using the full URL. For example: https://www.googleapis.com/compute/v1/projects/project/zones/zone /diskTypes/pd-standard For a full list of acceptable values, see Persistent disk types. If you specify this field when creating a VM, you can provide either the full or partial URL. For example, the following values are valid: - https://www.googleapis.com/compute/v1/projects/project/zones/zone /diskTypes/diskType - projects/project/zones/zone/diskTypes/diskType - zones/zone/diskTypes/diskType If you specify this field when creating or updating an instance template or all-instances configuration, specify the type of the disk, not the URL. For example: pd-standard. */
-  diskType?: string;
+  diskType?: string | undefined;
   /** Whether this disk is using confidential compute mode. */
-  enableConfidentialCompute?: boolean;
+  enableConfidentialCompute?: boolean | undefined;
   /** Labels to apply to this disk. These can be later modified by the disks.setLabels method. This field is only applicable for persistent disks. */
-  labels?: AttachedDiskInitializeParamsLabelsMap;
+  labels?: AttachedDiskInitializeParamsLabelsMap | undefined;
   /** A list of publicly visible licenses. Reserved for Google's use. */
-  licenses?: AttachedDiskInitializeParamsLicensesList;
+  licenses?: AttachedDiskInitializeParamsLicensesList | undefined;
   /** Specifies which action to take on instance update with this disk. Default is to use the existing disk. */
-  onUpdateAction?: OnUpdateAction | (string & {});
+  onUpdateAction?: OnUpdateAction | (string & {}) | undefined;
   /** Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be between 10,000 and 120,000. For more details, see the Extreme persistent disk documentation. */
-  provisionedIops?: string;
+  provisionedIops?: string | undefined;
   /** Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must greater than or equal to 1. */
-  provisionedThroughput?: string;
+  provisionedThroughput?: string | undefined;
   /** Required for each regional disk associated with the instance. Specify the URLs of the zones where the disk should be replicated to. You must provide exactly two replica zones, and one zone must be the same as the instance zone. */
-  replicaZones?: AttachedDiskInitializeParamsReplicaZonesList;
+  replicaZones?: AttachedDiskInitializeParamsReplicaZonesList | undefined;
   /** Resource manager tags to be bound to the disk. Tag keys and values have the same definition as resource manager tags. Keys must be in the format `tagKeys/{tag_key_id}`, and values are in the format `tagValues/456`. The field is ignored (both PUT & PATCH) when empty. */
-  resourceManagerTags?: AttachedDiskInitializeParamsResourceManagerTagsMap;
+  resourceManagerTags?: AttachedDiskInitializeParamsResourceManagerTagsMap | undefined;
   /** Resource policies applied to this disk for automatic snapshot creations. Specified using the full or partial URL. For instance template, specify only the resource policy name. */
-  resourcePolicies?: AttachedDiskInitializeParamsResourcePoliciesList;
+  resourcePolicies?: AttachedDiskInitializeParamsResourcePoliciesList | undefined;
   /** The source image to create this disk. When creating a new instance, one of initializeParams.sourceImage or initializeParams.sourceSnapshot or disks.source is required except for local SSD. To create a disk with one of the public operating system images, specify the image by its family name. For example, specify family/debian-9 to use the latest Debian 9 image: projects/debian-cloud/global/images/family/debian-9 Alternatively, use a specific version of a public operating system image: projects/debian-cloud/global/images/debian-9-stretch-vYYYYMMDD To create a disk with a custom image that you created, specify the image name in the following format: global/images/my-custom-image You can also specify a custom image by its image family, which returns the latest version of the image in that family. Replace the image name with family/family-name: global/images/family/my-image-family If the source image is deleted later, this field will not be set. */
-  sourceImage?: string;
+  sourceImage?: string | undefined;
   /** The customer-supplied encryption key of the source image. Required if the source image is protected by a customer-supplied encryption key. InstanceTemplate and InstancePropertiesPatch do not store customer-supplied encryption keys, so you cannot create disks for instances in a managed instance group if the source images are encrypted with your own keys. */
-  sourceImageEncryptionKey?: CustomerEncryptionKey;
+  sourceImageEncryptionKey?: CustomerEncryptionKey | undefined;
   /** The source snapshot to create this disk. When creating a new instance, one of initializeParams.sourceSnapshot or initializeParams.sourceImage or disks.source is required except for local SSD. To create a disk with a snapshot that you created, specify the snapshot name in the following format: global/snapshots/my-backup If the source snapshot is deleted later, this field will not be set. */
-  sourceSnapshot?: string;
+  sourceSnapshot?: string | undefined;
   /** The customer-supplied encryption key of the source snapshot. */
-  sourceSnapshotEncryptionKey?: CustomerEncryptionKey;
+  sourceSnapshotEncryptionKey?: CustomerEncryptionKey | undefined;
 }
 /** AttachedDisk.interface values, as defined by the Google Cloud API. */
 export type AttachedDiskInterface = "NVME" | "SCSI";
@@ -808,9 +809,9 @@ export type FileContentBufferFileType = "BIN" | "UNDEFINED" | "X509";
 /** File Content Buffer. */
 export interface FileContentBuffer {
   /** The raw content in the secure keys file. */
-  content?: string;
+  content?: string | undefined;
   /** The file type of source file. */
-  fileType?: FileContentBufferFileType | (string & {});
+  fileType?: FileContentBufferFileType | (string & {}) | undefined;
 }
 /** The Key Database (db). */
 export type InitialStateConfigDbsList = Array<FileContentBuffer>;
@@ -821,68 +822,68 @@ export type InitialStateConfigKeksList = Array<FileContentBuffer>;
 /** Initial State for shielded instance, these are public keys which are safe to store in public */
 export interface InitialStateConfig {
   /** The Key Database (db). */
-  dbs?: InitialStateConfigDbsList;
+  dbs?: InitialStateConfigDbsList | undefined;
   /** The forbidden key database (dbx). */
-  dbxs?: InitialStateConfigDbxsList;
+  dbxs?: InitialStateConfigDbxsList | undefined;
   /** The Key Exchange Key (KEK). */
-  keks?: InitialStateConfigKeksList;
+  keks?: InitialStateConfigKeksList | undefined;
   /** The Platform Key (PK). */
-  pk?: FileContentBuffer;
+  pk?: FileContentBuffer | undefined;
 }
 /** AttachedDisk.type values, as defined by the Google Cloud API. */
 export type AttachedDiskType = "PERSISTENT" | "SCRATCH";
 /** An instance-attached disk resource. */
 export interface AttachedDisk {
   /** [Output Only] The architecture of the attached disk. Valid values are ARM64 or X86_64. */
-  architecture?: Architecture | (string & {});
+  architecture?: Architecture | (string & {}) | undefined;
   /** Specifies whether the disk will be auto-deleted when the instance is deleted (but not when the disk is detached from the instance). */
-  autoDelete?: boolean;
+  autoDelete?: boolean | undefined;
   /** Indicates that this is a boot disk. The virtual machine will use the first partition of the disk for its root filesystem. */
-  boot?: boolean;
+  boot?: boolean | undefined;
   /** Specifies a unique device name of your choice that is reflected into the /dev/disk/by-id/google-* tree of a Linux operating system running within the instance. This name can be used to reference the device for mounting, resizing, and so on, from within the instance. If not specified, the server chooses a default device name to apply to this disk, in the form persistent-disk-x, where x is a number assigned by Google Compute Engine. This field is only applicable for persistent disks. */
-  deviceName?: string;
+  deviceName?: string | undefined;
   /** Encrypts or decrypts a disk using a customer-supplied encryption key. If you are creating a new disk, this field encrypts the new disk using an encryption key that you provide. If you are attaching an existing disk that is already encrypted, this field decrypts the disk using the customer-supplied encryption key. If you encrypt a disk using a customer-supplied key, you must provide the same key again when you attempt to use this resource at a later time. For example, you must provide the key when you create a snapshot or an image from the disk or when you attach the disk to a virtual machine instance. If you do not provide an encryption key, then the disk will be encrypted using an automatically generated key and you do not need to provide a key to use the disk later. Instance templates do not store customer-supplied encryption keys, so you cannot use your own keys to encrypt disks in a managed instance group. */
-  diskEncryptionKey?: CustomerEncryptionKey;
+  diskEncryptionKey?: CustomerEncryptionKey | undefined;
   /** The size of the disk in GB. */
-  diskSizeGb?: string;
+  diskSizeGb?: string | undefined;
   /** [Input Only] Whether to force attach the regional disk even if it's currently attached to another instance. If you try to force attach a zonal disk to an instance, you will receive an error. */
-  forceAttach?: boolean;
+  forceAttach?: boolean | undefined;
   /** A list of features to enable on the guest operating system. Applicable only for bootable images. Read Enabling guest operating system features to see a list of available options. */
-  guestOsFeatures?: AttachedDiskGuestOsFeaturesList;
+  guestOsFeatures?: AttachedDiskGuestOsFeaturesList | undefined;
   /** [Output Only] A zero-based index to this disk, where 0 is reserved for the boot disk. If you have many disks attached to an instance, each disk would have a unique index number. */
-  index?: number;
+  index?: number | undefined;
   /** [Input Only] Specifies the parameters for a new disk that will be created alongside the new instance. Use initialization parameters to create boot disks or local SSDs attached to the new instance. This property is mutually exclusive with the source property; you can only define one or the other, but not both. */
-  initializeParams?: AttachedDiskInitializeParams;
+  initializeParams?: AttachedDiskInitializeParams | undefined;
   /** Specifies the disk interface to use for attaching this disk, which is either SCSI or NVME. For most machine types, the default is SCSI. Local SSDs can use either NVME or SCSI. In certain configurations, persistent disks can use NVMe. For more information, see About persistent disks. */
-  interface?: AttachedDiskInterface | (string & {});
+  interface?: AttachedDiskInterface | (string & {}) | undefined;
   /** [Output Only] Type of the resource. Always compute#attachedDisk for attached disks. */
-  kind?: string;
+  kind?: string | undefined;
   /** [Output Only] Any valid publicly visible licenses. */
-  licenses?: AttachedDiskLicensesList;
+  licenses?: AttachedDiskLicensesList | undefined;
   /** The mode in which to attach this disk, either READ_WRITE or READ_ONLY. If not specified, the default is to attach the disk in READ_WRITE mode. */
-  mode?: AttachedDiskMode | (string & {});
+  mode?: AttachedDiskMode | (string & {}) | undefined;
   /** For LocalSSD disks on VM Instances in STOPPED or SUSPENDED state, this field is set to PRESERVED if the LocalSSD data has been saved to a persistent location by customer request. (see the discard_local_ssd option on Stop/Suspend). Read-only in the api. */
-  savedState?: SavedState | (string & {});
+  savedState?: SavedState | (string & {}) | undefined;
   /** [Output Only] shielded vm initial state stored on disk */
-  shieldedInstanceInitialState?: InitialStateConfig;
+  shieldedInstanceInitialState?: InitialStateConfig | undefined;
   /** Specifies a valid partial or full URL to an existing Persistent Disk resource. When creating a new instance, one of initializeParams.sourceImage or initializeParams.sourceSnapshot or disks.source is required except for local SSD. If desired, you can also attach existing non-root persistent disks using this property. This field is only applicable for persistent disks. Note that for InstanceTemplate, specify the disk name for zonal disk, and the URL for regional disk. */
-  source?: string;
+  source?: string | undefined;
   /** Specifies the type of the disk, either SCRATCH or PERSISTENT. If not specified, the default is PERSISTENT. */
-  type?: AttachedDiskType | (string & {});
+  type?: AttachedDiskType | (string & {}) | undefined;
 }
 /** Array of disks associated with this instance. Persistent disks must be created before you can assign them. */
 export type GcpComputeInstancePropertiesDisksList = Array<AttachedDisk>;
 /** A set of Display Device options */
 export interface DisplayDevice {
   /** Defines whether the instance has Display enabled. */
-  enableDisplay?: boolean;
+  enableDisplay?: boolean | undefined;
 }
 /** A specification of the type and number of accelerator cards attached to the instance. */
 export interface AcceleratorConfig {
   /** The number of the guest accelerator cards exposed to this instance. */
-  acceleratorCount?: number;
+  acceleratorCount?: number | undefined;
   /** Full or partial URL of the accelerator type resource to attach to this instance. For example: projects/my-project/zones/us-central1-c/acceleratorTypes/nvidia-tesla-p100 If you are creating an instance template, specify only the accelerator name. See GPUs on Compute Engine for a full list of accelerator types. */
-  acceleratorType?: string;
+  acceleratorType?: string | undefined;
 }
 /** A list of the type and count of accelerator cards attached to the instance. */
 export type GcpComputeInstancePropertiesGuestAcceleratorsList = Array<AcceleratorConfig>;
@@ -891,19 +892,19 @@ export type KeyRevocationActionType = "KEY_REVOCATION_ACTION_TYPE_UNSPECIFIED" |
 /** Labels to apply to this instance. These can be later modified by the setLabels method. */
 export type GcpComputeInstancePropertiesLabelsMap = { [key: string]: string | undefined };
 export interface MetadataItemsItem {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 /** Array of key/value pairs. The total size of all keys and values must be less than 512 KB. */
 export type MetadataItemsList = Array<MetadataItemsItem>;
 /** A metadata key/value entry. */
 export interface Metadata {
   /** Specifies a fingerprint for this request, which is essentially a hash of the metadata's contents and used for optimistic locking. The fingerprint is initially generated by Compute Engine and changes after every request to modify or update metadata. You must always provide an up-to-date fingerprint hash in order to update or change metadata, otherwise the request will fail with error 412 conditionNotMet. To see the latest fingerprint, make a get() request to retrieve the resource. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Array of key/value pairs. The total size of all keys and values must be less than 512 KB. */
-  items?: MetadataItemsList;
+  items?: MetadataItemsList | undefined;
   /** [Output Only] Type of the resource. Always compute#metadata for metadata. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** AccessConfig.networkTier values, as defined by the Google Cloud API. */
 export type NetworkTier =
@@ -916,34 +917,34 @@ export type AccessType = "DIRECT_IPV6" | "ONE_TO_ONE_NAT";
 /** An access configuration attached to an instance's network interface. Only one access config per instance is supported. */
 export interface AccessConfig {
   /** Applies to ipv6AccessConfigs only. The first IPv6 address of the external IPv6 range associated with this instance, prefix length is stored in externalIpv6PrefixLength in ipv6AccessConfig. To use a static external IP address, it must be unused and in the same region as the instance's zone. If not specified, Google Cloud will automatically assign an external IPv6 address from the instance's subnetwork. */
-  externalIpv6?: string;
+  externalIpv6?: string | undefined;
   /** Applies to ipv6AccessConfigs only. The prefix length of the external IPv6 range. */
-  externalIpv6PrefixLength?: number;
+  externalIpv6PrefixLength?: number | undefined;
   /** [Output Only] Type of the resource. Always compute#accessConfig for access configs. */
-  kind?: string;
+  kind?: string | undefined;
   /** The name of this access configuration. In accessConfigs (IPv4), the default and recommended name is External NAT, but you can use any arbitrary string, such as My external IP or Network Access. In ipv6AccessConfigs, the recommend name is External IPv6. */
-  name?: string;
+  name?: string | undefined;
   /** Applies to accessConfigs (IPv4) only. An external IP address associated with this instance. Specify an unused static external IP address available to the project or leave this field undefined to use an IP from a shared ephemeral IP address pool. If you specify a static external IP address, it must live in the same region as the zone of the instance. */
-  natIP?: string;
+  natIP?: string | undefined;
   /** This signifies the networking tier used for configuring this access configuration and can only take the following values: PREMIUM, STANDARD. If an AccessConfig is specified without a valid external IP address, an ephemeral IP will be created with this networkTier. If an AccessConfig with a valid external IP address is specified, it must match that of the networkTier associated with the Address resource owning that IP. */
-  networkTier?: NetworkTier | (string & {});
+  networkTier?: NetworkTier | (string & {}) | undefined;
   /** The DNS domain name for the public PTR record. You can set this field only if the `setPublicPtr` field is enabled in accessConfig. If this field is unspecified in ipv6AccessConfig, a default PTR record will be createc for first IP in associated external IPv6 range. */
-  publicPtrDomainName?: string;
+  publicPtrDomainName?: string | undefined;
   /** [Output Only] The resource URL for the security policy associated with this access config. */
-  securityPolicy?: string;
+  securityPolicy?: string | undefined;
   /** Specifies whether a public DNS 'PTR' record should be created to map the external IP address of the instance to a DNS domain name. This field is not used in ipv6AccessConfig. A default PTR record will be created if the VM has external IPv6 range associated. */
-  setPublicPtr?: boolean;
+  setPublicPtr?: boolean | undefined;
   /** The type of configuration. In accessConfigs (IPv4), the default and only option is ONE_TO_ONE_NAT. In ipv6AccessConfigs, the default and only option is DIRECT_IPV6. */
-  type?: AccessType | (string & {});
+  type?: AccessType | (string & {}) | undefined;
 }
 /** An array of configurations for this interface. Currently, only one access config, ONE_TO_ONE_NAT, is supported. If there are no accessConfigs specified, then this instance will have no external internet access. */
 export type NetworkInterfaceAccessConfigsList = Array<AccessConfig>;
 /** An alias IP range attached to an instance's network interface. */
 export interface AliasIpRange {
   /** The IP alias ranges to allocate for this interface. This IP CIDR range must belong to the specified subnetwork and cannot contain IP addresses reserved by system or used by other network interfaces. This range may be a single IP address (such as 10.2.3.4), a netmask (such as /24) or a CIDR-formatted string (such as 10.1.2.0/24). */
-  ipCidrRange?: string;
+  ipCidrRange?: string | undefined;
   /** The name of a subnetwork secondary IP range from which to allocate an IP alias range. If not specified, the primary range of the subnetwork is used. */
-  subnetworkRangeName?: string;
+  subnetworkRangeName?: string | undefined;
 }
 /** An array of alias IP ranges for this network interface. You can only specify this field for network interfaces in VPC networks. */
 export type NetworkInterfaceAliasIpRangesList = Array<AliasIpRange>;
@@ -964,37 +965,37 @@ export type NetworkInterfaceStackType = "IPV4_IPV6" | "IPV4_ONLY" | "IPV6_ONLY";
 /** A network interface resource attached to an instance. */
 export interface NetworkInterface {
   /** An array of configurations for this interface. Currently, only one access config, ONE_TO_ONE_NAT, is supported. If there are no accessConfigs specified, then this instance will have no external internet access. */
-  accessConfigs?: NetworkInterfaceAccessConfigsList;
+  accessConfigs?: NetworkInterfaceAccessConfigsList | undefined;
   /** An array of alias IP ranges for this network interface. You can only specify this field for network interfaces in VPC networks. */
-  aliasIpRanges?: NetworkInterfaceAliasIpRangesList;
+  aliasIpRanges?: NetworkInterfaceAliasIpRangesList | undefined;
   /** Fingerprint hash of contents stored in this network interface. This field will be ignored when inserting an Instance or adding a NetworkInterface. An up-to-date fingerprint must be provided in order to update the NetworkInterface. The request will fail with error 400 Bad Request if the fingerprint is not provided, or 412 Precondition Failed if the fingerprint is out of date. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** The prefix length of the primary internal IPv6 range. */
-  internalIpv6PrefixLength?: number;
+  internalIpv6PrefixLength?: number | undefined;
   /** An array of IPv6 access configurations for this interface. Currently, only one IPv6 access config, DIRECT_IPV6, is supported. If there is no ipv6AccessConfig specified, then this instance will have no external IPv6 Internet access. */
-  ipv6AccessConfigs?: NetworkInterfaceIpv6AccessConfigsList;
+  ipv6AccessConfigs?: NetworkInterfaceIpv6AccessConfigsList | undefined;
   /** [Output Only] One of EXTERNAL, INTERNAL to indicate whether the IP can be accessed from the Internet. This field is always inherited from its subnetwork. Valid only if stackType is IPV4_IPV6. */
-  ipv6AccessType?: Ipv6AccessType | (string & {});
+  ipv6AccessType?: Ipv6AccessType | (string & {}) | undefined;
   /** An IPv6 internal network address for this network interface. To use a static internal IP address, it must be unused and in the same region as the instance's zone. If not specified, Google Cloud will automatically assign an internal IPv6 address from the instance's subnetwork. */
-  ipv6Address?: string;
+  ipv6Address?: string | undefined;
   /** [Output Only] Type of the resource. Always compute#networkInterface for network interfaces. */
-  kind?: string;
+  kind?: string | undefined;
   /** [Output Only] The name of the network interface, which is generated by the server. For a VM, the network interface uses the nicN naming format. Where N is a value between 0 and 7. The default interface value is nic0. */
-  name?: string;
+  name?: string | undefined;
   /** URL of the VPC network resource for this instance. When creating an instance, if neither the network nor the subnetwork is specified, the default network global/networks/default is used. If the selected project doesn't have the default network, you must specify a network or subnet. If the network is not specified but the subnetwork is specified, the network is inferred. If you specify this property, you can specify the network as a full or partial URL. For example, the following are all valid URLs: - https://www.googleapis.com/compute/v1/projects/project/global/networks/ network - projects/project/global/networks/network - global/networks/default */
-  network?: string;
+  network?: string | undefined;
   /** The URL of the network attachment that this interface should connect to in the following format: projects/{project_number}/regions/{region_name}/networkAttachments/{network_attachment_name}. */
-  networkAttachment?: string;
+  networkAttachment?: string | undefined;
   /** An IPv4 internal IP address to assign to the instance for this network interface. If not specified by the user, an unused internal IP is assigned by the system. */
-  networkIP?: string;
+  networkIP?: string | undefined;
   /** The type of vNIC to be used on this interface. This may be gVNIC or VirtioNet. */
-  nicType?: NetworkInterfaceNicType | (string & {});
+  nicType?: NetworkInterfaceNicType | (string & {}) | undefined;
   /** The networking queue count that's specified by users for the network interface. Both Rx and Tx queues will be set to this number. It'll be empty if not specified by the users. */
-  queueCount?: number;
+  queueCount?: number | undefined;
   /** The stack type for this network interface. To assign only IPv4 addresses, use IPV4_ONLY. To assign both IPv4 and IPv6 addresses, use IPV4_IPV6. If not specified, IPV4_ONLY is used. This field can be both set at instance creation and update network interface operations. */
-  stackType?: NetworkInterfaceStackType | (string & {});
+  stackType?: NetworkInterfaceStackType | (string & {}) | undefined;
   /** The URL of the Subnetwork resource for this instance. If the network resource is in legacy mode, do not specify this field. If the network is in auto subnet mode, specifying the subnetwork is optional. If the network is in custom subnet mode, specifying the subnetwork is required. If you specify this field, you can specify the subnetwork as a full or partial URL. For example, the following are all valid URLs: - https://www.googleapis.com/compute/v1/projects/project/regions/region /subnetworks/subnetwork - regions/region/subnetworks/subnetwork */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
 }
 /** An array of network configurations for this instance. These specify how interfaces are configured to interact with other network services, such as connecting to the internet. Multiple interfaces are supported per instance. */
 export type GcpComputeInstancePropertiesNetworkInterfacesList = Array<NetworkInterface>;
@@ -1003,14 +1004,14 @@ export type TotalEgressBandwidthTier = "DEFAULT" | "TIER_1";
 /** Network Performance Config. */
 export interface NetworkPerformanceConfig {
   /** Total Egress Bandwidth Tier. */
-  totalEgressBandwidthTier?: TotalEgressBandwidthTier | (string & {});
+  totalEgressBandwidthTier?: TotalEgressBandwidthTier | (string & {}) | undefined;
 }
 /** Resource manager tags to be bound to the instance. Tag keys and values have the same definition as resource manager tags. Keys must be in the format `tagKeys/{tag_key_id}`, and values are in the format `tagValues/456`. The field is ignored (both PUT & PATCH) when empty. */
 export type InstanceParamsResourceManagerTagsMap = { [key: string]: string | undefined };
 /** Additional instance params. */
 export interface InstanceParams {
   /** Resource manager tags to be bound to the instance. Tag keys and values have the same definition as resource manager tags. Keys must be in the format `tagKeys/{tag_key_id}`, and values are in the format `tagValues/456`. The field is ignored (both PUT & PATCH) when empty. */
-  resourceManagerTags?: InstanceParamsResourceManagerTagsMap;
+  resourceManagerTags?: InstanceParamsResourceManagerTagsMap | undefined;
 }
 /** GcpComputeInstanceProperties.privateIpv6GoogleAccess values, as defined by the Google Cloud API. */
 export type PrivateIpv6GoogleAccess =
@@ -1028,11 +1029,11 @@ export type ReservationAffinityValuesList = Array<string>;
 /** Specifies the reservations that this instance can consume from. */
 export interface ReservationAffinity {
   /** Specifies the type of reservation from which this instance can consume resources: ANY_RESERVATION (default), SPECIFIC_RESERVATION, or NO_RESERVATION. See Consuming reserved instances for examples. */
-  consumeReservationType?: ConsumeReservationType | (string & {});
+  consumeReservationType?: ConsumeReservationType | (string & {}) | undefined;
   /** Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify googleapis.com/reservation-name as the key and specify the name of your reservation as its value. */
-  key?: string;
+  key?: string | undefined;
   /** Corresponds to the label values of a reservation resource. This can be either a name to a reservation in the same project or "projects/different-project/reservations/some-reservation-name" to target a shared reservation in the same zone but in a different project. */
-  values?: ReservationAffinityValuesList;
+  values?: ReservationAffinityValuesList | undefined;
 }
 /** Resource policies applied to this instance. */
 export type GcpComputeInstancePropertiesResourcePoliciesList = Array<string>;
@@ -1043,24 +1044,24 @@ export type UpcomingMaintenanceType = "MULTIPLE" | "SCHEDULED" | "UNKNOWN_TYPE" 
 /** Upcoming Maintenance notification information. */
 export interface UpcomingMaintenance {
   /** Indicates if the maintenance can be customer triggered. */
-  canReschedule?: boolean;
+  canReschedule?: boolean | undefined;
   /** The latest time for the planned maintenance window to start. This timestamp value is in RFC3339 text format. */
-  latestWindowStartTime?: string;
+  latestWindowStartTime?: string | undefined;
   /** Maintenance Status. */
-  maintenanceStatus?: MaintenanceStatus | (string & {});
+  maintenanceStatus?: MaintenanceStatus | (string & {}) | undefined;
   /** Defines the type of maintenance. */
-  type?: UpcomingMaintenanceType | (string & {});
+  type?: UpcomingMaintenanceType | (string & {}) | undefined;
   /** The time by which the maintenance disruption will be completed. This timestamp value is in RFC3339 text format. */
-  windowEndTime?: string;
+  windowEndTime?: string | undefined;
   /** The current start time of the maintenance window. This timestamp value is in RFC3339 text format. */
-  windowStartTime?: string;
+  windowStartTime?: string | undefined;
 }
 /** Contains output only fields. Use this sub-message for actual values set on Instance attributes as compared to the value requested by the user (intent) in their instance CRUD calls. */
 export interface ResourceStatus {
   /** [Output Only] An opaque ID of the host on which the VM is running. */
-  physicalHost?: string;
+  physicalHost?: string | undefined;
   /** Upcoming Maintenance. */
-  upcomingMaintenance?: UpcomingMaintenance;
+  upcomingMaintenance?: UpcomingMaintenance | undefined;
 }
 /** Scheduling.instanceTerminationAction values, as defined by the Google Cloud API. */
 export type InstanceTerminationAction =
@@ -1070,9 +1071,9 @@ export type InstanceTerminationAction =
 /** A Duration represents a fixed-length span of time represented as a count of seconds and fractions of seconds at nanosecond resolution. It is independent of any calendar and concepts like "day" or "month". Range is approximately 10,000 years. */
 export interface Duration {
   /** Span of time that's a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive. */
-  nanos?: number;
+  nanos?: number | undefined;
   /** Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years */
-  seconds?: string;
+  seconds?: string | undefined;
 }
 /** SchedulingNodeAffinity.operator values, as defined by the Google Cloud API. */
 export type SchedulingNodeAffinityOperator = "IN" | "NOT_IN" | "OPERATOR_UNSPECIFIED";
@@ -1081,11 +1082,11 @@ export type SchedulingNodeAffinityValuesList = Array<string>;
 /** Node Affinity: the configuration of desired nodes onto which this Instance could be scheduled. */
 export interface SchedulingNodeAffinity {
   /** Corresponds to the label key of Node resource. */
-  key?: string;
+  key?: string | undefined;
   /** Defines the operation of node selection. Valid operators are IN for affinity and NOT_IN for anti-affinity. */
-  operator?: SchedulingNodeAffinityOperator | (string & {});
+  operator?: SchedulingNodeAffinityOperator | (string & {}) | undefined;
   /** Corresponds to the label values of Node resource. */
-  values?: SchedulingNodeAffinityValuesList;
+  values?: SchedulingNodeAffinityValuesList | undefined;
 }
 /** A set of node affinity and anti-affinity configurations. Refer to Configuring node affinity for more information. Overrides reservationAffinity. */
 export type SchedulingNodeAffinitiesList = Array<SchedulingNodeAffinity>;
@@ -1096,48 +1097,48 @@ export type ProvisioningModel = "FLEX_START" | "RESERVATION_BOUND" | "SPOT" | "S
 /** Sets the scheduling options for an Instance. */
 export interface Scheduling {
   /** Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). You can only set the automatic restart option for standard instances. Preemptible instances cannot be automatically restarted. By default, this is set to true so an instance is automatically restarted if it is terminated by Compute Engine. */
-  automaticRestart?: boolean;
+  automaticRestart?: boolean | undefined;
   /** Specifies the termination action for the instance. */
-  instanceTerminationAction?: InstanceTerminationAction | (string & {});
+  instanceTerminationAction?: InstanceTerminationAction | (string & {}) | undefined;
   /** Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. */
-  localSsdRecoveryTimeout?: Duration;
+  localSsdRecoveryTimeout?: Duration | undefined;
   /** An opaque location hint used to place the instance close to other resources. This field is for use by internal tools that use the public API. */
-  locationHint?: string;
+  locationHint?: string | undefined;
   /** The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node. */
-  minNodeCpus?: number;
+  minNodeCpus?: number | undefined;
   /** A set of node affinity and anti-affinity configurations. Refer to Configuring node affinity for more information. Overrides reservationAffinity. */
-  nodeAffinities?: SchedulingNodeAffinitiesList;
+  nodeAffinities?: SchedulingNodeAffinitiesList | undefined;
   /** Defines the maintenance behavior for this instance. For standard instances, the default behavior is MIGRATE. For preemptible instances, the default and only possible behavior is TERMINATE. For more information, see Set VM host maintenance policy. */
-  onHostMaintenance?: OnHostMaintenance | (string & {});
+  onHostMaintenance?: OnHostMaintenance | (string & {}) | undefined;
   /** Defines whether the instance is preemptible. This can only be set during instance creation or while the instance is stopped and therefore, in a `TERMINATED` state. See Instance Life Cycle for more information on the possible instance states. */
-  preemptible?: boolean;
+  preemptible?: boolean | undefined;
   /** Specifies the provisioning model of the instance. */
-  provisioningModel?: ProvisioningModel | (string & {});
+  provisioningModel?: ProvisioningModel | (string & {}) | undefined;
 }
 /** The list of scopes to be made available for this service account. */
 export type ServiceAccountScopesList = Array<string>;
 /** A service account. */
 export interface ServiceAccount {
   /** Email address of the service account. */
-  email?: string;
+  email?: string | undefined;
   /** The list of scopes to be made available for this service account. */
-  scopes?: ServiceAccountScopesList;
+  scopes?: ServiceAccountScopesList | undefined;
 }
 /** A list of service accounts, with their specified scopes, authorized for this instance. Only one service account per VM instance is supported. Service accounts generate access tokens that can be accessed through the metadata server and used to authenticate applications on the instance. See Service Accounts for more information. */
 export type GcpComputeInstancePropertiesServiceAccountsList = Array<ServiceAccount>;
 /** A set of Shielded Instance options. */
 export interface ShieldedInstanceConfig {
   /** Defines whether the instance has integrity monitoring enabled. Enabled by default. */
-  enableIntegrityMonitoring?: boolean;
+  enableIntegrityMonitoring?: boolean | undefined;
   /** Defines whether the instance has Secure Boot enabled. Disabled by default. */
-  enableSecureBoot?: boolean;
+  enableSecureBoot?: boolean | undefined;
   /** Defines whether the instance has the vTPM enabled. Enabled by default. */
-  enableVtpm?: boolean;
+  enableVtpm?: boolean | undefined;
 }
 /** The policy describes the baseline against which Instance boot integrity is measured. */
 export interface ShieldedInstanceIntegrityPolicy {
   /** Updates the integrity policy baseline using the measurements from the VM instance's most recent boot. */
-  updateAutoLearnPolicy?: boolean;
+  updateAutoLearnPolicy?: boolean | undefined;
 }
 /** GcpComputeInstanceProperties.status values, as defined by the Google Cloud API. */
 export type GcpComputeInstanceStatus =
@@ -1158,194 +1159,194 @@ export type TagsItemsList = Array<string>;
 /** A set of instance tags. */
 export interface Tags {
   /** Specifies a fingerprint for this request, which is essentially a hash of the tags' contents and used for optimistic locking. The fingerprint is initially generated by Compute Engine and changes after every request to modify or update tags. You must always provide an up-to-date fingerprint hash in order to update or change tags. To see the latest fingerprint, make get() request to the instance. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** An array of tags. Each tag must be 1-63 characters long, and comply with RFC1035. */
-  items?: TagsItemsList;
+  items?: TagsItemsList | undefined;
 }
 /** Represents an Instance resource. An instance is a virtual machine that is hosted on Google Cloud Platform. For more information, read Virtual Machine Instances. */
 export interface GcpComputeInstanceProperties {
   /** Controls for advanced machine-related behavior features. */
-  advancedMachineFeatures?: AdvancedMachineFeatures;
+  advancedMachineFeatures?: AdvancedMachineFeatures | undefined;
   /** Allows this instance to send and receive packets with non-matching destination or source IPs. This is required if you plan to use this instance to forward routes. For more information, see Enabling IP Forwarding . */
-  canIpForward?: boolean;
+  canIpForward?: boolean | undefined;
   /** Confidential Instance Config. */
-  confidentialInstanceConfig?: ConfidentialInstanceConfig;
+  confidentialInstanceConfig?: ConfidentialInstanceConfig | undefined;
   /** [Output Only] The CPU platform used by this instance. */
-  cpuPlatform?: string;
+  cpuPlatform?: string | undefined;
   /** [Output Only] Creation timestamp in RFC3339 text format. */
-  creationTimestamp?: string;
+  creationTimestamp?: string | undefined;
   /** Whether the resource should be protected against deletion. */
-  deletionProtection?: boolean;
+  deletionProtection?: boolean | undefined;
   /** An optional description of this resource. Provide this property when you create the resource. */
-  description?: string;
+  description?: string | undefined;
   /** Array of disks associated with this instance. Persistent disks must be created before you can assign them. */
-  disks?: GcpComputeInstancePropertiesDisksList;
+  disks?: GcpComputeInstancePropertiesDisksList | undefined;
   /** Enables display device for the instance. */
-  displayDevice?: DisplayDevice;
+  displayDevice?: DisplayDevice | undefined;
   /** Specifies a fingerprint for this resource, which is essentially a hash of the instance's contents and used for optimistic locking. The fingerprint is initially generated by Compute Engine and changes after every request to modify or update the instance. You must always provide an up-to-date fingerprint hash in order to update the instance. To see the latest fingerprint, make get() request to the instance. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** A list of the type and count of accelerator cards attached to the instance. */
-  guestAccelerators?: GcpComputeInstancePropertiesGuestAcceleratorsList;
+  guestAccelerators?: GcpComputeInstancePropertiesGuestAcceleratorsList | undefined;
   /** Specifies the hostname of the instance. The specified hostname must be RFC1035 compliant. If hostname is not specified, the default hostname is [INSTANCE_NAME].c.[PROJECT_ID].internal when using the global DNS, and [INSTANCE_NAME].[ZONE].c.[PROJECT_ID].internal when using zonal DNS. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** [Output Only] The unique identifier for the resource. This identifier is defined by the server. */
-  id?: string;
+  id?: string | undefined;
   /** Encrypts suspended data for an instance with a customer-managed encryption key. If you are creating a new instance, this field will encrypt the local SSD and in-memory contents of the instance during the suspend operation. If you do not provide an encryption key when creating the instance, then the local SSD and in-memory contents will be encrypted using an automatically generated key during the suspend operation. */
-  instanceEncryptionKey?: CustomerEncryptionKey;
+  instanceEncryptionKey?: CustomerEncryptionKey | undefined;
   /** KeyRevocationActionType of the instance. Supported options are "STOP" and "NONE". The default value is "NONE" if it is not specified. */
-  keyRevocationActionType?: KeyRevocationActionType | (string & {});
+  keyRevocationActionType?: KeyRevocationActionType | (string & {}) | undefined;
   /** [Output Only] Type of the resource. Always compute#instance for instances. */
-  kind?: string;
+  kind?: string | undefined;
   /** A fingerprint for this request, which is essentially a hash of the label's contents and used for optimistic locking. The fingerprint is initially generated by Compute Engine and changes after every request to modify or update labels. You must always provide an up-to-date fingerprint hash in order to update or change labels. To see the latest fingerprint, make get() request to the instance. */
-  labelFingerprint?: string;
+  labelFingerprint?: string | undefined;
   /** Labels to apply to this instance. These can be later modified by the setLabels method. */
-  labels?: GcpComputeInstancePropertiesLabelsMap;
+  labels?: GcpComputeInstancePropertiesLabelsMap | undefined;
   /** [Output Only] Last start timestamp in RFC3339 text format. */
-  lastStartTimestamp?: string;
+  lastStartTimestamp?: string | undefined;
   /** [Output Only] Last stop timestamp in RFC3339 text format. */
-  lastStopTimestamp?: string;
+  lastStopTimestamp?: string | undefined;
   /** [Output Only] Last suspended timestamp in RFC3339 text format. */
-  lastSuspendedTimestamp?: string;
+  lastSuspendedTimestamp?: string | undefined;
   /** Full or partial URL of the machine type resource to use for this instance, in the format: zones/zone/machineTypes/machine-type. This is provided by the client when the instance is created. For example, the following is a valid partial url to a predefined machine type: zones/us-central1-f/machineTypes/n1-standard-1 To create a custom machine type, provide a URL to a machine type in the following format, where CPUS is 1 or an even number up to 32 (2, 4, 6, ... 24, etc), and MEMORY is the total memory for this instance. Memory must be a multiple of 256 MB and must be supplied in MB (e.g. 5 GB of memory is 5120 MB): zones/zone/machineTypes/custom-CPUS-MEMORY For example: zones/us-central1-f/machineTypes/custom-4-5120 For a full list of restrictions, read the Specifications for custom machine types. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** The metadata key/value pairs assigned to this instance. This includes custom metadata and predefined keys. */
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
   /** Specifies a minimum CPU platform for the VM instance. Applicable values are the friendly names of CPU platforms, such as minCpuPlatform: "Intel Haswell" or minCpuPlatform: "Intel Sandy Bridge". */
-  minCpuPlatform?: string;
+  minCpuPlatform?: string | undefined;
   /** The name of the resource, provided by the client when initially creating the resource. The resource name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
-  name?: string;
+  name?: string | undefined;
   /** An array of network configurations for this instance. These specify how interfaces are configured to interact with other network services, such as connecting to the internet. Multiple interfaces are supported per instance. */
-  networkInterfaces?: GcpComputeInstancePropertiesNetworkInterfacesList;
+  networkInterfaces?: GcpComputeInstancePropertiesNetworkInterfacesList | undefined;
   /** The network performance configuration for the instance. */
-  networkPerformanceConfig?: NetworkPerformanceConfig;
+  networkPerformanceConfig?: NetworkPerformanceConfig | undefined;
   /** Input only. [Input Only] Additional params passed with the request, but not persisted as part of resource payload. */
-  params?: InstanceParams;
+  params?: InstanceParams | undefined;
   /** The private IPv6 google access type for the VM. If not specified, use INHERIT_FROM_SUBNETWORK as default. */
-  privateIpv6GoogleAccess?: PrivateIpv6GoogleAccess | (string & {});
+  privateIpv6GoogleAccess?: PrivateIpv6GoogleAccess | (string & {}) | undefined;
   /** Specifies the reservations that this instance can consume from. */
-  reservationAffinity?: ReservationAffinity;
+  reservationAffinity?: ReservationAffinity | undefined;
   /** Resource policies applied to this instance. */
-  resourcePolicies?: GcpComputeInstancePropertiesResourcePoliciesList;
+  resourcePolicies?: GcpComputeInstancePropertiesResourcePoliciesList | undefined;
   /** [Output Only] Specifies values set for instance attributes as compared to the values requested by user in the corresponding input only field. */
-  resourceStatus?: ResourceStatus;
+  resourceStatus?: ResourceStatus | undefined;
   /** [Output Only] Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** [Output Only] Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Sets the scheduling options for this instance. */
-  scheduling?: Scheduling;
+  scheduling?: Scheduling | undefined;
   /** [Output Only] Server-defined URL for this resource. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** A list of service accounts, with their specified scopes, authorized for this instance. Only one service account per VM instance is supported. Service accounts generate access tokens that can be accessed through the metadata server and used to authenticate applications on the instance. See Service Accounts for more information. */
-  serviceAccounts?: GcpComputeInstancePropertiesServiceAccountsList;
+  serviceAccounts?: GcpComputeInstancePropertiesServiceAccountsList | undefined;
   /** Shielded Instance Config. */
-  shieldedInstanceConfig?: ShieldedInstanceConfig;
+  shieldedInstanceConfig?: ShieldedInstanceConfig | undefined;
   /** ShieldedInstance Integrity Policy. */
-  shieldedInstanceIntegrityPolicy?: ShieldedInstanceIntegrityPolicy;
+  shieldedInstanceIntegrityPolicy?: ShieldedInstanceIntegrityPolicy | undefined;
   /** Source machine image */
-  sourceMachineImage?: string;
+  sourceMachineImage?: string | undefined;
   /** Source machine image encryption key when creating an instance from a machine image. */
-  sourceMachineImageEncryptionKey?: CustomerEncryptionKey;
+  sourceMachineImageEncryptionKey?: CustomerEncryptionKey | undefined;
   /** [Output Only] Whether a VM has been restricted for start because Compute Engine has detected suspicious activity. */
-  startRestricted?: boolean;
+  startRestricted?: boolean | undefined;
   /** [Output Only] The status of the instance. One of the following values: PROVISIONING, STAGING, RUNNING, STOPPING, SUSPENDING, SUSPENDED, REPAIRING, and TERMINATED. For more information about the status of the instance, see Instance life cycle. */
-  status?: GcpComputeInstanceStatus | (string & {});
+  status?: GcpComputeInstanceStatus | (string & {}) | undefined;
   /** [Output Only] An optional, human-readable explanation of the status. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** Tags to apply to this instance. Tags are used to identify valid sources or targets for network firewalls and are specified by the client during instance creation. The tags can be later modified by the setTags method. Each tag within the list must comply with RFC1035. Multiple tags can be specified via the 'tags.items' field. */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** [Output Only] URL of the zone where the instance resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** GCP Tags */
 export type InstancePropertiesInputGcpTagsMap = { [key: string]: string | undefined };
 /** Definition of ComputeInstance */
 export interface InstancePropertiesInput {
   /** GCP Properties */
-  gcpProperties?: GcpComputeInstanceProperties;
+  gcpProperties?: GcpComputeInstanceProperties | undefined;
   /** Public Cloud Connectors Resource ID */
-  publicCloudConnectorsResourceId?: string;
+  publicCloudConnectorsResourceId?: string | undefined;
   /** GCP Project Number */
-  gcpProjectNumber?: string;
+  gcpProjectNumber?: string | undefined;
   /** GCP Project Id */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Fully qualified resource name of the GCP resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Public Cloud Resource Name */
-  publicCloudResourceName?: string;
+  publicCloudResourceName?: string | undefined;
   /** GCP Source Schema */
-  gcpSourceSchema?: string;
+  gcpSourceSchema?: string | undefined;
   /** GCP Region */
-  gcpRegion?: string;
+  gcpRegion?: string | undefined;
   /** GCP Tags */
-  gcpTags?: InstancePropertiesInputGcpTagsMap;
+  gcpTags?: InstancePropertiesInputGcpTagsMap | undefined;
 }
 export interface ComputeInstancesCreateOrReplaceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
   /** The resource-specific properties for this resource. */
-  properties?: InstancePropertiesInput;
+  properties?: InstancePropertiesInput | undefined;
 }
 /** GCP Tags */
 export type InstancePropertiesGcpTagsMap = { [key: string]: string | undefined };
 /** Definition of ComputeInstance */
 export interface InstanceProperties {
   /** GCP Properties */
-  gcpProperties?: GcpComputeInstanceProperties;
+  gcpProperties?: GcpComputeInstanceProperties | undefined;
   /** Public Cloud Connectors Resource ID */
-  publicCloudConnectorsResourceId?: string;
+  publicCloudConnectorsResourceId?: string | undefined;
   /** GCP Project Number */
-  gcpProjectNumber?: string;
+  gcpProjectNumber?: string | undefined;
   /** GCP Project Id */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Fully qualified resource name of the GCP resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Public Cloud Resource Name */
-  publicCloudResourceName?: string;
+  publicCloudResourceName?: string | undefined;
   /** GCP Source Schema */
-  gcpSourceSchema?: string;
+  gcpSourceSchema?: string | undefined;
   /** GCP Region */
-  gcpRegion?: string;
+  gcpRegion?: string | undefined;
   /** GCP Tags */
-  gcpTags?: InstancePropertiesGcpTagsMap;
+  gcpTags?: InstancePropertiesGcpTagsMap | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface ComputeInstancesCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Configuration for the HTTP Load Balancing addon */
 export interface HttpLoadBalancing {
   /** Whether the HTTP Load Balancing addon is disabled */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 /** Configuration for the Horizontal Pod Autoscaling addon */
 export interface HorizontalPodAutoscaling {
   /** Whether the Horizontal Pod Autoscaling addon is disabled */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 /** Configuration for the Kubernetes Dashboard addon */
 export interface KubernetesDashboard {
   /** Whether the Kubernetes Dashboard addon is disabled */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 /** Configuration for the Network Policy addon */
 export interface NetworkPolicyConfig {
   /** Whether the Network Policy addon is disabled */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 /** Load balancer type options for Cloud Run */
 export type CloudRunLoadBalancerType =
@@ -1355,134 +1356,134 @@ export type CloudRunLoadBalancerType =
 /** Configuration for the Cloud Run addon */
 export interface CloudRunConfig {
   /** Whether the Cloud Run addon is disabled */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The load balancer type for Cloud Run */
-  loadBalancerType?: CloudRunLoadBalancerType | (string & {});
+  loadBalancerType?: CloudRunLoadBalancerType | (string & {}) | undefined;
 }
 /** Configuration for the DNS Cache addon */
 export interface DnsCacheConfig {
   /** Whether the DNS Cache addon is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for the Config Connector addon */
 export interface ConfigConnectorConfig {
   /** Whether the Config Connector addon is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for the GCE Persistent Disk CSI Driver addon */
 export interface GcePersistentDiskCsiDriverConfig {
   /** Whether the GCE Persistent Disk CSI Driver addon is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for the GCP Filestore CSI Driver addon */
 export interface GcpFilestoreCsiDriverConfig {
   /** Whether the GCP Filestore CSI Driver addon is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for the GKE Backup Agent addon */
 export interface GkeBackupAgentConfig {
   /** Whether the GKE Backup Agent addon is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for the GCS Fuse CSI Driver addon */
 export interface GcsFuseCsiDriverConfig {
   /** Whether the GCS Fuse CSI Driver addon is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for the Stateful HA addon */
 export interface StatefulHaConfig {
   /** Whether the Stateful HA addon is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for the Parallelstore CSI Driver addon */
 export interface ParallelstoreCsiDriverConfig {
   /** Whether the Parallelstore CSI Driver addon is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for Ray cluster logging */
 export interface RayClusterLoggingConfig {
   /** Whether Ray cluster logging is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for Ray cluster monitoring */
 export interface RayClusterMonitoringConfig {
   /** Whether Ray cluster monitoring is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for the Ray Operator addon */
 export interface RayOperatorConfig {
   /** Whether the Ray Operator addon is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Configuration for Ray logging */
-  rayClusterLoggingConfig?: RayClusterLoggingConfig;
+  rayClusterLoggingConfig?: RayClusterLoggingConfig | undefined;
   /** Configuration for Ray monitoring */
-  rayClusterMonitoringConfig?: RayClusterMonitoringConfig;
+  rayClusterMonitoringConfig?: RayClusterMonitoringConfig | undefined;
 }
 /** Configuration for the High Scale Checkpointing addon */
 export interface HighScaleCheckpointingConfig {
   /** Whether the High Scale Checkpointing addon is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for the Lustre CSI Driver addon */
 export interface LustreCsiDriverConfig {
   /** Whether the Lustre CSI Driver addon is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for the addons that can be automatically enabled */
 export interface AddonsConfig {
   /** Configuration for the HTTP Load Balancing addon */
-  httpLoadBalancing?: HttpLoadBalancing;
+  httpLoadBalancing?: HttpLoadBalancing | undefined;
   /** Configuration for the Horizontal Pod Autoscaling addon */
-  horizontalPodAutoscaling?: HorizontalPodAutoscaling;
+  horizontalPodAutoscaling?: HorizontalPodAutoscaling | undefined;
   /** Configuration for the Kubernetes Dashboard addon */
-  kubernetesDashboard?: KubernetesDashboard;
+  kubernetesDashboard?: KubernetesDashboard | undefined;
   /** Configuration for the Network Policy addon */
-  networkPolicyConfig?: NetworkPolicyConfig;
+  networkPolicyConfig?: NetworkPolicyConfig | undefined;
   /** Configuration for the Cloud Run addon */
-  cloudRunConfig?: CloudRunConfig;
+  cloudRunConfig?: CloudRunConfig | undefined;
   /** Configuration for the DNS Cache addon */
-  dnsCacheConfig?: DnsCacheConfig;
+  dnsCacheConfig?: DnsCacheConfig | undefined;
   /** Configuration for the Config Connector addon */
-  configConnectorConfig?: ConfigConnectorConfig;
+  configConnectorConfig?: ConfigConnectorConfig | undefined;
   /** Configuration for the GCE Persistent Disk CSI Driver addon */
-  gcePersistentDiskCsiDriverConfig?: GcePersistentDiskCsiDriverConfig;
+  gcePersistentDiskCsiDriverConfig?: GcePersistentDiskCsiDriverConfig | undefined;
   /** Configuration for the GCP Filestore CSI Driver addon */
-  gcpFilestoreCsiDriverConfig?: GcpFilestoreCsiDriverConfig;
+  gcpFilestoreCsiDriverConfig?: GcpFilestoreCsiDriverConfig | undefined;
   /** Configuration for the GKE Backup Agent addon */
-  gkeBackupAgentConfig?: GkeBackupAgentConfig;
+  gkeBackupAgentConfig?: GkeBackupAgentConfig | undefined;
   /** Configuration for the GCS Fuse CSI Driver addon */
-  gcsFuseCsiDriverConfig?: GcsFuseCsiDriverConfig;
+  gcsFuseCsiDriverConfig?: GcsFuseCsiDriverConfig | undefined;
   /** Configuration for the Stateful HA addon */
-  statefulHaConfig?: StatefulHaConfig;
+  statefulHaConfig?: StatefulHaConfig | undefined;
   /** Configuration for the Parallelstore CSI Driver addon */
-  parallelstoreCsiDriverConfig?: ParallelstoreCsiDriverConfig;
+  parallelstoreCsiDriverConfig?: ParallelstoreCsiDriverConfig | undefined;
   /** Configuration for the Ray Operator addon */
-  rayOperatorConfig?: RayOperatorConfig;
+  rayOperatorConfig?: RayOperatorConfig | undefined;
   /** Configuration for the High Scale Checkpointing addon */
-  highScaleCheckpointingConfig?: HighScaleCheckpointingConfig;
+  highScaleCheckpointingConfig?: HighScaleCheckpointingConfig | undefined;
   /** Configuration for the Lustre CSI Driver addon */
-  lustreCsiDriverConfig?: LustreCsiDriverConfig;
+  lustreCsiDriverConfig?: LustreCsiDriverConfig | undefined;
 }
 /** Configuration for the Google Groups for GKE feature */
 export interface AuthenticatorGroupsConfig {
   /** Whether Google Groups for RBAC and IAM are enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The name of the security group for the cluster */
-  securityGroup?: string;
+  securityGroup?: string | undefined;
 }
 /** Autopilot cluster configuration */
 export interface Autopilot {
   /** Whether the cluster is an Autopilot cluster */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** ResourceLimit contains resource type and range specification */
 export interface ResourceLimit {
   /** The type of the resource */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Minimum amount of the resource in the cluster */
-  minimum?: string;
+  minimum?: string | undefined;
   /** Maximum amount of the resource in the cluster */
-  maximum?: string;
+  maximum?: string | undefined;
 }
 /** Contains global constraints regarding minimum and maximum amount of resources in the cluster */
 export type ClusterAutoscalingResourceLimitsList = Array<ResourceLimit>;
@@ -1499,43 +1500,43 @@ export type UpgradeStrategy =
 /** Standard rollout policy for blue-green upgrades. */
 export interface StandardRolloutPolicy {
   /** Number of blue nodes to drain in a batch. */
-  batchNodeCount?: number;
+  batchNodeCount?: number | undefined;
   /** Percentage of the blue pool nodes to drain in a batch. */
-  batchPercentage?: number;
+  batchPercentage?: number | undefined;
   /** Soak time after each batch gets drained. */
-  batchSoakDuration?: string;
+  batchSoakDuration?: string | undefined;
 }
 /** Settings for blue-green upgrade strategy. */
 export interface BlueGreenSettings {
   /** Time needed after draining entire blue pool. After this period, blue pool will be cleaned up. */
-  nodePoolSoakDuration?: string;
+  nodePoolSoakDuration?: string | undefined;
   /** Standard policy for the blue-green upgrade. */
-  standardRolloutPolicy?: StandardRolloutPolicy;
+  standardRolloutPolicy?: StandardRolloutPolicy | undefined;
 }
 /** Upgrade settings control disruption and speed of the upgrade. */
 export interface UpgradeSettings {
   /** The maximum number of nodes that can be created beyond the current size of the node pool during the upgrade process. */
-  maxSurge?: number;
+  maxSurge?: number | undefined;
   /** The maximum number of nodes that can be simultaneously unavailable during the upgrade process. */
-  maxUnavailable?: number;
+  maxUnavailable?: number | undefined;
   /** Update strategy of the node pool. */
-  strategy?: UpgradeStrategy | (string & {});
+  strategy?: UpgradeStrategy | (string & {}) | undefined;
   /** Settings for blue-green upgrade. */
-  blueGreenSettings?: BlueGreenSettings;
+  blueGreenSettings?: BlueGreenSettings | undefined;
 }
 /** NodeManagement defines the set of node management services turned on for the node pool. */
 export interface NodeManagement {
   /** A flag that specifies whether node auto-upgrade is enabled. */
-  autoUpgrade?: boolean;
+  autoUpgrade?: boolean | undefined;
   /** A flag that specifies whether the node auto-repair is enabled. */
-  autoRepair?: boolean;
+  autoRepair?: boolean | undefined;
 }
 /** A set of Shielded Instance options */
 export interface ShieldedInstanceConfig_2 {
   /** Defines whether the instance has Secure Boot enabled */
-  enableSecureBoot?: boolean;
+  enableSecureBoot?: boolean | undefined;
   /** Defines whether the instance has integrity monitoring enabled */
-  enableIntegrityMonitoring?: boolean;
+  enableIntegrityMonitoring?: boolean | undefined;
 }
 /** Resource labels for NAP created node pools */
 export type AutoprovisioningNodePoolDefaultsResourceLabelsMap = {
@@ -1546,38 +1547,38 @@ export type ResourceManagerTagsTagsMap = { [key: string]: string | undefined };
 /** A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies */
 export interface ResourceManagerTags {
   /** TagKeyId is the namespaced and unique ID of the tag key */
-  tags?: ResourceManagerTagsTagsMap;
+  tags?: ResourceManagerTagsTagsMap | undefined;
 }
 /** AutoprovisioningNodePoolDefaults contains defaults for a node pool created by NAP */
 export interface AutoprovisioningNodePoolDefaults {
   /** Scopes that are used by NAP when creating node pools */
-  oauthScopes?: AutoprovisioningNodePoolDefaultsOauthScopesList;
+  oauthScopes?: AutoprovisioningNodePoolDefaultsOauthScopesList | undefined;
   /** The Google Cloud Platform Service Account to be used by the node VMs */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Upgrade settings for NAP created node pools */
-  upgradeSettings?: UpgradeSettings;
+  upgradeSettings?: UpgradeSettings | undefined;
   /** The node management for NAP created node pools */
-  management?: NodeManagement;
+  management?: NodeManagement | undefined;
   /** Minimum CPU platform for NAP created node pools */
-  minCpuPlatform?: string;
+  minCpuPlatform?: string | undefined;
   /** Size of the disk attached to each node */
-  diskSizeGb?: string;
+  diskSizeGb?: string | undefined;
   /** Type of the disk attached to each node */
-  diskType?: string;
+  diskType?: string | undefined;
   /** Shielded Instance options for NAP created node pools */
-  shieldedInstanceConfig?: ShieldedInstanceConfig_2;
+  shieldedInstanceConfig?: ShieldedInstanceConfig_2 | undefined;
   /** Boot disk KMS key for NAP created node pools */
-  bootDiskKmsKey?: string;
+  bootDiskKmsKey?: string | undefined;
   /** The image type to use for NAP created node pools */
-  imageType?: string;
+  imageType?: string | undefined;
   /** Whether the nodes are preemptible or not */
-  insecureKubeletReadonlyPortEnabled?: boolean;
+  insecureKubeletReadonlyPortEnabled?: boolean | undefined;
   /** Whether the nodes are created as spot VM instances or not */
-  enableSpotInstances?: boolean;
+  enableSpotInstances?: boolean | undefined;
   /** Resource labels for NAP created node pools */
-  resourceLabels?: AutoprovisioningNodePoolDefaultsResourceLabelsMap;
+  resourceLabels?: AutoprovisioningNodePoolDefaultsResourceLabelsMap | undefined;
   /** Resource manager tags for NAP created node pools */
-  resourceManagerTags?: ResourceManagerTags;
+  resourceManagerTags?: ResourceManagerTags | undefined;
 }
 /** The list of Google Compute Engine zones in which the NodePool's nodes can be created by NAP */
 export type ClusterAutoscalingAutoprovisioningLocationsList = Array<string>;
@@ -1591,22 +1592,22 @@ export type ComputeClass =
 /** Default configuration for the Compute Class of the node pool */
 export interface DefaultComputeClassConfig {
   /** The compute class to use for NAP created node pools */
-  computeClass?: ComputeClass | (string & {});
+  computeClass?: ComputeClass | (string & {}) | undefined;
 }
 /** Cluster-level autoscaling configuration */
 export interface ClusterAutoscaling {
   /** Enables automatic node pool creation and deletion */
-  enableNodeAutoprovisioning?: boolean;
+  enableNodeAutoprovisioning?: boolean | undefined;
   /** Contains global constraints regarding minimum and maximum amount of resources in the cluster */
-  resourceLimits?: ClusterAutoscalingResourceLimitsList;
+  resourceLimits?: ClusterAutoscalingResourceLimitsList | undefined;
   /** Defines the autoscaling behavior */
-  autoscalingProfile?: AutoscalingProfile | (string & {});
+  autoscalingProfile?: AutoscalingProfile | (string & {}) | undefined;
   /** AutoprovisioningNodePoolDefaults contains defaults for a node pool created by NAP */
-  autoprovisioningNodePoolDefaults?: AutoprovisioningNodePoolDefaults;
+  autoprovisioningNodePoolDefaults?: AutoprovisioningNodePoolDefaults | undefined;
   /** The list of Google Compute Engine zones in which the NodePool's nodes can be created by NAP */
-  autoprovisioningLocations?: ClusterAutoscalingAutoprovisioningLocationsList;
+  autoprovisioningLocations?: ClusterAutoscalingAutoprovisioningLocationsList | undefined;
   /** Default configuration for the Compute Class of the node pool */
-  defaultComputeClassConfig?: DefaultComputeClassConfig;
+  defaultComputeClassConfig?: DefaultComputeClassConfig | undefined;
 }
 /** BinaryAuthorization.evaluationMode values, as defined by the Google Cloud API. */
 export type EvaluationMode =
@@ -1616,9 +1617,9 @@ export type EvaluationMode =
 /** Configuration for Binary Authorization */
 export interface BinaryAuthorization {
   /** Whether Binary Authorization is enabled for this cluster */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Mode of operation for Binary Authorization policy evaluation */
-  evaluationMode?: EvaluationMode | (string & {});
+  evaluationMode?: EvaluationMode | (string & {}) | undefined;
 }
 /** StatusCondition.code values, as defined by the Google Cloud API. */
 export type StatusConditionCode =
@@ -1653,11 +1654,11 @@ export type CanonicalCode =
 /** Cluster condition and state */
 export interface StatusCondition {
   /** Machine-readable code indicating the condition state */
-  code?: StatusConditionCode | (string & {});
+  code?: StatusConditionCode | (string & {}) | undefined;
   /** Human-readable message indicating details about the condition */
-  message?: string;
+  message?: string | undefined;
   /** Canonical code of the condition. */
-  canonicalCode?: CanonicalCode | (string & {});
+  canonicalCode?: CanonicalCode | (string & {}) | undefined;
 }
 /** Which conditions caused the current cluster state. */
 export type GcpContainerClusterPropertiesConditionsList = Array<StatusCondition>;
@@ -1670,14 +1671,14 @@ export type ConfidentialInstanceType =
 /** Configuration of Confidential Nodes */
 export interface ConfidentialNodes {
   /** Whether Confidential Nodes feature is enabled for this cluster */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The type of Confidential Compute offering used by the node pool */
-  confidentialInstanceType?: ConfidentialInstanceType | (string & {});
+  confidentialInstanceType?: ConfidentialInstanceType | (string & {}) | undefined;
 }
 /** Configuration for the cost management feature */
 export interface CostManagementConfig {
   /** Whether the cost management feature is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Database encryption state options */
 export type DatabaseEncryptionState =
@@ -1692,13 +1693,13 @@ export type OperationErrorDetailsMap = { [key: string]: string | undefined };
 /** Operation error information */
 export interface OperationError {
   /** Error code */
-  code?: string;
+  code?: string | undefined;
   /** Error message */
-  message?: string;
+  message?: string | undefined;
   /** Timestamp when the error occurred */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Additional details about the error */
-  details?: OperationErrorDetailsMap;
+  details?: OperationErrorDetailsMap | undefined;
 }
 /** Errors that occurred during the last operation */
 export type DatabaseEncryptionLastOperationErrorsList = Array<OperationError>;
@@ -1717,59 +1718,59 @@ export type DatabaseEncryptionCurrentState =
 /** Configuration of etcd encryption */
 export interface DatabaseEncryption {
   /** Name of CloudKMS key to use for the encryption of secrets */
-  keyName?: string;
+  keyName?: string | undefined;
   /** Encryption state */
-  state?: DatabaseEncryptionState | (string & {});
+  state?: DatabaseEncryptionState | (string & {}) | undefined;
   /** List of decryption keys used for encryption */
-  decryptionKeys?: DatabaseEncryptionDecryptionKeysList;
+  decryptionKeys?: DatabaseEncryptionDecryptionKeysList | undefined;
   /** Errors that occurred during the last operation */
-  lastOperationErrors?: DatabaseEncryptionLastOperationErrorsList;
+  lastOperationErrors?: DatabaseEncryptionLastOperationErrorsList | undefined;
   /** Current state of the database encryption */
-  currentState?: DatabaseEncryptionCurrentState | (string & {});
+  currentState?: DatabaseEncryptionCurrentState | (string & {}) | undefined;
 }
 /** Constraints applied to pods */
 export interface MaxPodsConstraint {
   /** The maximum number of pods that can run on a node */
-  maxPodsPerNode?: string;
+  maxPodsPerNode?: string | undefined;
 }
 /** List of allowed Beta APIs */
 export type K8sBetaApiConfigAllowedBetaApisList = Array<string>;
 /** Kubernetes Beta API configuration */
 export interface K8sBetaApiConfig {
   /** Whether Beta APIs are enabled */
-  enableBetaApis?: boolean;
+  enableBetaApis?: boolean | undefined;
   /** List of allowed Beta APIs */
-  allowedBetaApis?: K8sBetaApiConfigAllowedBetaApisList;
+  allowedBetaApis?: K8sBetaApiConfigAllowedBetaApisList | undefined;
 }
 /** EnterpriseConfig.enterpriseTier values, as defined by the Google Cloud API. */
 export type EnterpriseTier = "CLUSTER_TIER_UNSPECIFIED" | "STANDARD" | "ENTERPRISE";
 /** Enterprise features configuration */
 export interface EnterpriseConfig {
   /** Whether enterprise features are enabled */
-  enableEnterpriseFeatures?: boolean;
+  enableEnterpriseFeatures?: boolean | undefined;
   /** The enterprise project ID associated with this cluster */
-  enterpriseProjectId?: string;
+  enterpriseProjectId?: string | undefined;
   /** The enterprise tier level */
-  enterpriseTier?: EnterpriseTier | (string & {});
+  enterpriseTier?: EnterpriseTier | (string & {}) | undefined;
 }
 /** Fleet configuration */
 export interface Fleet {
   /** The project number for the fleet host project */
-  project?: string;
+  project?: string | undefined;
 }
 /** Configuration for Identity Service component */
 export interface IdentityServiceConfig {
   /** Whether Identity Service is enabled for this cluster */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Deprecated. Use node_pools.instance_group_urls. */
 export type GcpContainerClusterPropertiesInstanceGroupUrlsList = Array<string>;
 /** Information for additional pod range. */
 export interface RangeInfo {
   /** The name of the range. */
-  rangeName?: string;
+  rangeName?: string | undefined;
   /** The utilization of the range. */
-  utilization?: number;
+  utilization?: number | undefined;
 }
 /** Output only. [Output only] Information for additional pod range. */
 export type AdditionalPodRangesConfigPodRangeInfoList = Array<RangeInfo>;
@@ -1778,68 +1779,68 @@ export type AdditionalPodRangesConfigPodRangeNamesList = Array<string>;
 /** AdditionalPodRangesConfig is the configuration for additional pod secondary ranges supporting the ClusterUpdate message. */
 export interface AdditionalPodRangesConfig {
   /** Output only. [Output only] Information for additional pod range. */
-  podRangeInfo?: AdditionalPodRangesConfigPodRangeInfoList;
+  podRangeInfo?: AdditionalPodRangesConfigPodRangeInfoList | undefined;
   /** Name for pod secondary ipv4 range which has the actual range defined ahead. */
-  podRangeNames?: AdditionalPodRangesConfigPodRangeNamesList;
+  podRangeNames?: AdditionalPodRangesConfigPodRangeNamesList | undefined;
 }
 /** IPv6 access type options for the cluster */
 export type IPv6AccessType = "IPV6_ACCESS_TYPE_UNSPECIFIED" | "INTERNAL" | "EXTERNAL";
 /** Configuration for pod CIDR overprovision. */
 export interface PodCidrOverprovisionConfig {
   /** Whether to disable pod CIDR overprovision. */
-  disable?: boolean;
+  disable?: boolean | undefined;
 }
 /** IP stack type options for the cluster */
 export type StackType = "STACK_TYPE_UNSPECIFIED" | "IPV4" | "IPV4_IPV6";
 /** Configuration for controlling how IPs are allocated in the cluster. */
 export interface IpAllocationPolicy {
   /** Output only. [Output only] The additional pod ranges that are added to the cluster. These pod ranges can be used by new node pools to allocate pod IPs automatically. Once the range is removed it will not show up in IPAllocationPolicy. */
-  additionalPodRangesConfig?: AdditionalPodRangesConfig;
+  additionalPodRangesConfig?: AdditionalPodRangesConfig | undefined;
   /** This field is deprecated, use cluster_ipv4_cidr_block. */
-  clusterIpv4Cidr?: string;
+  clusterIpv4Cidr?: string | undefined;
   /** The IP address range for the cluster pod IPs. If this field is set, then `cluster.cluster_ipv4_cidr` must be left blank. This field is only applicable when `use_ip_aliases` is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. `/14`) to have a range chosen with a specific netmask. Set to a [CIDR](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. */
-  clusterIpv4CidrBlock?: string;
+  clusterIpv4CidrBlock?: string | undefined;
   /** The name of the secondary range to be used for the cluster CIDR block. The secondary range will be used for pod IP addresses. This must be an existing secondary range associated with the cluster subnetwork. This field is only applicable with use_ip_aliases is true and create_subnetwork is false. */
-  clusterSecondaryRangeName?: string;
+  clusterSecondaryRangeName?: string | undefined;
   /** Whether a new subnetwork will be created automatically for the cluster. This field is only applicable when `use_ip_aliases` is true. */
-  createSubnetwork?: boolean;
+  createSubnetwork?: boolean | undefined;
   /** Output only. [Output only] The utilization of the cluster default IPv4 range for the pod. The ratio is Usage/[Total number of IPs in the secondary range], Usage=numNodes*numZones*podIPsPerNode. */
-  defaultPodIpv4RangeUtilization?: number;
+  defaultPodIpv4RangeUtilization?: number | undefined;
   /** The ipv6 access type (internal or external) when create_subnetwork is true */
-  ipv6AccessType?: IPv6AccessType | (string & {});
+  ipv6AccessType?: IPv6AccessType | (string & {}) | undefined;
   /** This field is deprecated, use node_ipv4_cidr_block. */
-  nodeIpv4Cidr?: string;
+  nodeIpv4Cidr?: string | undefined;
   /** The IP address range of the instance IPs in this cluster. This is applicable only if `create_subnetwork` is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. `/14`) to have a range chosen with a specific netmask. Set to a [CIDR](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. */
-  nodeIpv4CidrBlock?: string;
+  nodeIpv4CidrBlock?: string | undefined;
   /** [PRIVATE FIELD] Pod CIDR size overprovisioning config for the cluster. Pod CIDR size per node depends on max_pods_per_node. By default, the value of max_pods_per_node is doubled and then rounded off to next power of 2 to get the size of pod CIDR block per node. Example: max_pods_per_node of 30 would result in 64 IPs (/26). This config can disable the doubling of IPs (we still round off to next power of 2) Example: max_pods_per_node of 30 will result in 32 IPs (/27) when overprovisioning is disabled. */
-  podCidrOverprovisionConfig?: PodCidrOverprovisionConfig;
+  podCidrOverprovisionConfig?: PodCidrOverprovisionConfig | undefined;
   /** This field is deprecated, use services_ipv4_cidr_block. */
-  servicesIpv4Cidr?: string;
+  servicesIpv4Cidr?: string | undefined;
   /** The IP address range of the services IPs in this cluster. If blank, a range will be automatically chosen with the default size. This field is only applicable when `use_ip_aliases` is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. `/14`) to have a range chosen with a specific netmask. Set to a [CIDR](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. */
-  servicesIpv4CidrBlock?: string;
+  servicesIpv4CidrBlock?: string | undefined;
   /** Output only. [Output only] The services IPv6 CIDR block for the cluster. */
-  servicesIpv6CidrBlock?: string;
+  servicesIpv6CidrBlock?: string | undefined;
   /** The name of the secondary range to be used as for the services CIDR block. The secondary range will be used for service ClusterIPs. This must be an existing secondary range associated with the cluster subnetwork. This field is only applicable with use_ip_aliases is true and create_subnetwork is false. */
-  servicesSecondaryRangeName?: string;
+  servicesSecondaryRangeName?: string | undefined;
   /** The IP stack type of the cluster */
-  stackType?: StackType | (string & {});
+  stackType?: StackType | (string & {}) | undefined;
   /** Output only. [Output only] The subnet's IPv6 CIDR block used by nodes and pods. */
-  subnetIpv6CidrBlock?: string;
+  subnetIpv6CidrBlock?: string | undefined;
   /** A custom subnetwork name to be used if `create_subnetwork` is true. If this field is empty, then an automatic name will be chosen for the new subnetwork. */
-  subnetworkName?: string;
+  subnetworkName?: string | undefined;
   /** The IP address range of the Cloud TPUs in this cluster. If unspecified, a range will be automatically chosen with the default size. This field is only applicable when `use_ip_aliases` is true. If unspecified, the range will use the default size. Set to /netmask (e.g. `/14`) to have a range chosen with a specific netmask. Set to a [CIDR](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. */
-  tpuIpv4CidrBlock?: string;
+  tpuIpv4CidrBlock?: string | undefined;
   /** Whether alias IPs will be used for pod IPs in the cluster. This is used in conjunction with use_routes. It cannot be true if use_routes is true. If both use_ip_aliases and use_routes are false, then the server picks the default IP allocation mode */
-  useIpAliases?: boolean;
+  useIpAliases?: boolean | undefined;
   /** Whether routes will be used for pod IPs in the cluster. This is used in conjunction with use_ip_aliases. It cannot be true if use_ip_aliases is true. If both use_ip_aliases and use_routes are false, then the server picks the default IP allocation mode */
-  useRoutes?: boolean;
+  useRoutes?: boolean | undefined;
 }
 /** Configuration for the legacy Attribute Based Access Control authorization mode */
 export interface LegacyAbac {
   /** Whether the Legacy Authorization mode is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The provider of the legacy ABAC authorization mode */
-  provider?: string;
+  provider?: string | undefined;
 }
 /** The list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the cluster's nodes should be located. This field provides a default value if [NodePool.Locations](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters.nodePools#NodePool.FIELDS.locations) are not specified during node pool creation. Warning: changing cluster locations will update the [NodePool.Locations](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters.nodePools#NodePool.FIELDS.locations) of all node pools and will result in nodes being added and/or removed. */
 export type GcpContainerClusterPropertiesLocationsList = Array<string>;
@@ -1860,33 +1861,33 @@ export type LoggingComponentConfigEnableComponentsList = Array<EnableComponents 
 /** LoggingComponentConfig is cluster logging component configuration */
 export interface LoggingComponentConfig {
   /** Select components to collect logs. An empty set would disable all logging. */
-  enableComponents?: LoggingComponentConfigEnableComponentsList;
+  enableComponents?: LoggingComponentConfigEnableComponentsList | undefined;
 }
 /** Logging configuration for the cluster */
 export interface LoggingConfig {
   /** Logging components configuration */
-  componentConfig?: LoggingComponentConfig;
+  componentConfig?: LoggingComponentConfig | undefined;
 }
 /** Daily maintenance window configuration */
 export interface DailyMaintenanceWindow {
   /** Time of day the maintenance window starts */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Duration of the maintenance window */
-  duration?: string;
+  duration?: string | undefined;
 }
 /** Time window for maintenance operations */
 export interface TimeWindow {
   /** The start time of the time window */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the time window */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 /** Recurring time window for maintenance */
 export interface RecurringTimeWindow {
   /** The window of the first recurrence */
-  window?: TimeWindow;
+  window?: TimeWindow | undefined;
   /** An RRULE for how this window recurs */
-  recurrence?: string;
+  recurrence?: string | undefined;
 }
 /** Scope of maintenance exclusions */
 export type MaintenanceExclusionScope =
@@ -1896,14 +1897,14 @@ export type MaintenanceExclusionScope =
 /** Options for maintenance exclusions */
 export interface MaintenanceExclusionOptions {
   /** The scope of automatic upgrades to restrict */
-  scope?: MaintenanceExclusionScope | (string & {});
+  scope?: MaintenanceExclusionScope | (string & {}) | undefined;
 }
 /** Maintenance exclusion configuration */
 export interface MaintenanceExclusion {
   /** The time window during which maintenance is excluded */
-  window?: TimeWindow;
+  window?: TimeWindow | undefined;
   /** The scope of the exclusion */
-  exclusionOptions?: MaintenanceExclusionOptions;
+  exclusionOptions?: MaintenanceExclusionOptions | undefined;
 }
 /** Exceptions to maintenance window */
 export type MaintenanceWindowMaintenanceExclusionsMap = {
@@ -1912,63 +1913,63 @@ export type MaintenanceWindowMaintenanceExclusionsMap = {
 /** Maintenance window configuration for the cluster */
 export interface MaintenanceWindow {
   /** Daily maintenance window configuration */
-  dailyMaintenanceWindow?: DailyMaintenanceWindow;
+  dailyMaintenanceWindow?: DailyMaintenanceWindow | undefined;
   /** Recurring maintenance window configuration */
-  recurringWindow?: RecurringTimeWindow;
+  recurringWindow?: RecurringTimeWindow | undefined;
   /** Exceptions to maintenance window */
-  maintenanceExclusions?: MaintenanceWindowMaintenanceExclusionsMap;
+  maintenanceExclusions?: MaintenanceWindowMaintenanceExclusionsMap | undefined;
 }
 /** Specifies the maintenance policy for the cluster */
 export interface MaintenancePolicy {
   /** Specifies the maintenance window for this cluster */
-  window?: MaintenanceWindow;
+  window?: MaintenanceWindow | undefined;
   /** A hash identifying the version of this policy, so that updates to fields of the policy won't accidentally undo intermediate changes */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
 }
 /** Configuration for client certificate authentication on the cluster. */
 export interface ClientCertificateConfig {
   /** Issue a client certificate. */
-  issueClientCertificate?: boolean;
+  issueClientCertificate?: boolean | undefined;
 }
 /** The authentication information for accessing the master endpoint. */
 export interface MasterAuth {
   /** The username to use for HTTP basic authentication. */
-  username?: string;
+  username?: string | undefined;
   /** The password to use for HTTP basic authentication. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Configuration for client certificate authentication on the cluster. */
-  clientCertificateConfig?: ClientCertificateConfig;
+  clientCertificateConfig?: ClientCertificateConfig | undefined;
   /** Base64-encoded public certificate used as the root of trust for the cluster. */
-  clusterCaCertificate?: string;
+  clusterCaCertificate?: string | undefined;
   /** Base64-encoded public certificate used by clients to authenticate to the cluster endpoint. Issued only if clientCertificateConfig is set. */
-  clientCertificate?: string;
+  clientCertificate?: string | undefined;
   /** Base64-encoded private key used by clients to authenticate to the cluster endpoint. */
-  clientKey?: string;
+  clientKey?: string | undefined;
 }
 /** Configuration for a CIDR block that can access the cluster master endpoint */
 export interface CidrBlock {
   /** An optional field for users to identify CIDR blocks */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The CIDR block in IPv4 or IPv6 format */
-  cidrBlock?: string;
+  cidrBlock?: string | undefined;
 }
 /** External networks that can access Kubernetes master through HTTPS */
 export type MasterAuthorizedNetworksConfigCidrBlocksList = Array<CidrBlock>;
 /** Configuration for controlling which IP addresses can access the cluster master endpoint */
 export interface MasterAuthorizedNetworksConfig {
   /** Whether or not master authorized networks is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** External networks that can access Kubernetes master through HTTPS */
-  cidrBlocks?: MasterAuthorizedNetworksConfigCidrBlocksList;
+  cidrBlocks?: MasterAuthorizedNetworksConfigCidrBlocksList | undefined;
   /** Whether access from Google Cloud public IP addresses is enabled */
-  gcpPublicCidrsAccessEnabled?: boolean;
+  gcpPublicCidrsAccessEnabled?: boolean | undefined;
   /** Whether private endpoint enforcement is enabled */
-  privateEndpointEnforcementEnabled?: boolean;
+  privateEndpointEnforcementEnabled?: boolean | undefined;
 }
 /** Configuration for issuance of mTLS keys and certificates to Kubernetes pods */
 export interface MeshCertificates {
   /** Whether to enable certificates for service mesh */
-  enableCertificates?: boolean;
+  enableCertificates?: boolean | undefined;
 }
 /** MonitoringComponentConfig.enableComponents values, as defined by the Google Cloud API. */
 export type MonitoringComponentEnableComponents =
@@ -1994,17 +1995,17 @@ export type MonitoringComponentConfigEnableComponentsList = Array<
 /** MonitoringComponentConfig is cluster monitoring component configuration */
 export interface MonitoringComponentConfig {
   /** Select components to collect metrics. An empty set would disable all monitoring. */
-  enableComponents?: MonitoringComponentConfigEnableComponentsList;
+  enableComponents?: MonitoringComponentConfigEnableComponentsList | undefined;
 }
 /** Monitoring configuration for the cluster */
 export interface MonitoringConfig {
   /** Monitoring components configuration */
-  componentConfig?: MonitoringComponentConfig;
+  componentConfig?: MonitoringComponentConfig | undefined;
 }
 /** Configuration for default SNAT status */
 export interface DefaultSnatStatus {
   /** Whether SNAT is disabled */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 /** Datapath provider options */
 export type DatapathProvider =
@@ -2024,16 +2025,16 @@ export type DnsConfigAdditionalDnsSearchDomainsList = Array<string>;
 /** DNS configuration for the cluster */
 export interface DnsConfig {
   /** DNS scope for the cluster */
-  dnsScope?: DnsScope | (string & {});
+  dnsScope?: DnsScope | (string & {}) | undefined;
   /** Custom DNS endpoint for the cluster */
-  customDnsEndpoint?: string;
+  customDnsEndpoint?: string | undefined;
   /** Additional DNS search domains */
-  additionalDnsSearchDomains?: DnsConfigAdditionalDnsSearchDomainsList;
+  additionalDnsSearchDomains?: DnsConfigAdditionalDnsSearchDomainsList | undefined;
 }
 /** Configuration for external IPs on services */
 export interface ServiceExternalIpsConfig {
   /** Whether Services with ExternalIPs field are allowed or not. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** GatewayApiConfig.channel values, as defined by the Google Cloud API. */
 export type GatewayApiChannel =
@@ -2044,14 +2045,14 @@ export type GatewayApiChannel =
 /** Gateway API configuration */
 export interface GatewayApiConfig {
   /** The Gateway API release channel to subscribe to */
-  channel?: GatewayApiChannel | (string & {});
+  channel?: GatewayApiChannel | (string & {}) | undefined;
 }
 /** ClusterNetworkPerformanceConfig.totalEgressBandwidthTier values, as defined by the Google Cloud API. */
 export type TotalEgressBandwidthTier_2 = "TIER_UNSPECIFIED" | "TIER_1";
 /** Network performance configuration for the cluster */
 export interface ClusterNetworkPerformanceConfig {
   /** Total egress bandwidth tier for the cluster */
-  totalEgressBandwidthTier?: TotalEgressBandwidthTier_2 | (string & {});
+  totalEgressBandwidthTier?: TotalEgressBandwidthTier_2 | (string & {}) | undefined;
 }
 /** In-transit encryption configuration options */
 export type InTransitEncryptionConfig =
@@ -2061,57 +2062,57 @@ export type InTransitEncryptionConfig =
 /** NetworkConfig reports the relative names of network & subnetwork */
 export interface NetworkConfig {
   /** Name of the Google Compute Engine network */
-  network?: string;
+  network?: string | undefined;
   /** Name of the Google Compute Engine subnetwork */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
   /** Whether Intra-node visibility is enabled for this cluster */
-  enableIntraNodeVisibility?: boolean;
+  enableIntraNodeVisibility?: boolean | undefined;
   /** Configuration for default SNAT status */
-  defaultSnatStatus?: DefaultSnatStatus;
+  defaultSnatStatus?: DefaultSnatStatus | undefined;
   /** Whether L4ILB Subsetting is enabled for this cluster */
-  enableL4ilbSubsetting?: boolean;
+  enableL4ilbSubsetting?: boolean | undefined;
   /** The datapath provider for this cluster */
-  datapathProvider?: DatapathProvider | (string & {});
+  datapathProvider?: DatapathProvider | (string & {}) | undefined;
   /** Private IPv6 Google Access configuration */
-  privateIpv6GoogleAccess?: PrivateIPv6GoogleAccess | (string & {});
+  privateIpv6GoogleAccess?: PrivateIPv6GoogleAccess | (string & {}) | undefined;
   /** DNS configuration for the cluster */
-  dnsConfig?: DnsConfig;
+  dnsConfig?: DnsConfig | undefined;
   /** Configuration for external IPs on services */
-  serviceExternalIpsConfig?: ServiceExternalIpsConfig;
+  serviceExternalIpsConfig?: ServiceExternalIpsConfig | undefined;
   /** Gateway API configuration */
-  gatewayApiConfig?: GatewayApiConfig;
+  gatewayApiConfig?: GatewayApiConfig | undefined;
   /** Whether multi-networking is enabled for this cluster */
-  enableMultiNetworking?: boolean;
+  enableMultiNetworking?: boolean | undefined;
   /** Network performance configuration for the cluster */
-  networkPerformanceConfig?: ClusterNetworkPerformanceConfig;
+  networkPerformanceConfig?: ClusterNetworkPerformanceConfig | undefined;
   /** Whether FQDN network policy is enabled */
-  enableFqdnNetworkPolicy?: boolean;
+  enableFqdnNetworkPolicy?: boolean | undefined;
   /** In-transit encryption configuration */
-  inTransitEncryptionConfig?: InTransitEncryptionConfig | (string & {});
+  inTransitEncryptionConfig?: InTransitEncryptionConfig | (string & {}) | undefined;
   /** Whether Cilium cluster-wide network policy is enabled */
-  enableCiliumClusterwideNetworkPolicy?: boolean;
+  enableCiliumClusterwideNetworkPolicy?: boolean | undefined;
   /** Whether private nodes are enabled by default */
-  defaultEnablePrivateNodes?: boolean;
+  defaultEnablePrivateNodes?: boolean | undefined;
   /** Whether to disable L4 load balancer firewall reconciliation */
-  disableL4LbFirewallReconciliation?: boolean;
+  disableL4LbFirewallReconciliation?: boolean | undefined;
 }
 /** NetworkPolicy.provider values, as defined by the Google Cloud API. */
 export type NetworkPolicyProvider = "PROVIDER_UNSPECIFIED" | "CALICO";
 /** Configuration options for the NetworkPolicy feature */
 export interface NetworkPolicy {
   /** Whether network policy is enabled on the cluster */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The selected network policy provider */
-  provider?: NetworkPolicyProvider | (string & {});
+  provider?: NetworkPolicyProvider | (string & {}) | undefined;
 }
 /** GpuSharingConfig.gpuSharingStrategy values, as defined by the Google Cloud API. */
 export type GpuSharingStrategy = "GPU_SHARING_STRATEGY_UNSPECIFIED" | "TIME_SHARING" | "MPS";
 /** GpuSharingConfig represents the GPU sharing configuration for Hardware Accelerators */
 export interface GpuSharingConfig {
   /** The type of GPU sharing strategy to enable on the GPU node */
-  gpuSharingStrategy?: GpuSharingStrategy | (string & {});
+  gpuSharingStrategy?: GpuSharingStrategy | (string & {}) | undefined;
   /** The max number of containers that can share a physical GPU */
-  maxSharedClientsPerGpu?: string;
+  maxSharedClientsPerGpu?: string | undefined;
 }
 /** GpuDriverInstallationConfig.gpuDriverVersion values, as defined by the Google Cloud API. */
 export type GpuDriverVersion =
@@ -2122,62 +2123,62 @@ export type GpuDriverVersion =
 /** GPUDriverInstallationConfig specifies the version of GPU driver to be auto installed */
 export interface GpuDriverInstallationConfig {
   /** Mode for how the GPU driver is installed */
-  gpuDriverVersion?: GpuDriverVersion | (string & {});
+  gpuDriverVersion?: GpuDriverVersion | (string & {}) | undefined;
 }
 /** Configuration for hardware accelerators attached to each node */
 export interface AcceleratorConfig_2 {
   /** The number of the accelerator cards exposed to an instance */
-  acceleratorCount?: string;
+  acceleratorCount?: string | undefined;
   /** The accelerator type resource name */
-  acceleratorType?: string;
+  acceleratorType?: string | undefined;
   /** Size of partitions to create on the GPU */
-  gpuPartitionSize?: string;
+  gpuPartitionSize?: string | undefined;
   /** The configuration for GPU sharing options */
-  gpuSharingConfig?: GpuSharingConfig;
+  gpuSharingConfig?: GpuSharingConfig | undefined;
   /** The configuration for auto-installing GPU driver */
-  gpuDriverInstallationConfig?: GpuDriverInstallationConfig;
+  gpuDriverInstallationConfig?: GpuDriverInstallationConfig | undefined;
 }
 /** A list of hardware accelerators to be attached to each node. See https://cloud.google.com/compute/docs/gpus for more information about support for GPUs. */
 export type NodeConfigAcceleratorsList = Array<AcceleratorConfig_2>;
 /** Specifies options for controlling advanced machine features */
 export interface AdvancedMachineFeatures_2 {
   /** The number of threads per physical core */
-  threadsPerCore?: string;
+  threadsPerCore?: string | undefined;
   /** Whether or not to enable nested virtualization */
-  enableNestedVirtualization?: boolean;
+  enableNestedVirtualization?: boolean | undefined;
 }
 /** Configuration for the ephemeral storage local SSD */
 export interface EphemeralStorageLocalSsdConfig {
   /** Number of local SSD disks to use to back ephemeral storage */
-  localSsdCount?: number;
+  localSsdCount?: number | undefined;
 }
 /** Configuration of NCCL Fast Socket */
 export interface FastSocket {
   /** Whether or not NCCL Fast Socket is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Google Container File System (image streaming) configs */
 export interface GcfsConfig {
   /** Whether to use GCFS or not */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration of gVNIC feature */
 export interface VirtualNic {
   /** Whether gVNIC features are enabled in the node pool */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Node kubelet configs */
 export interface NodeKubeletConfig {
   /** Control the CPU management policy on the node */
-  cpuManagerPolicy?: string;
+  cpuManagerPolicy?: string | undefined;
   /** Enable CPU CFS quota enforcement for containers that specify CPU limits */
-  cpuCfsQuota?: boolean;
+  cpuCfsQuota?: boolean | undefined;
   /** Set the CPU CFS quota period value 'cpu.cfs_period_us' */
-  cpuCfsQuotaPeriod?: string;
+  cpuCfsQuotaPeriod?: string | undefined;
   /** Set the verbosity level of the kubelet logs */
-  podPidsLimit?: string;
+  podPidsLimit?: string | undefined;
   /** Set flag to enable/disable the logs verbosity for the node */
-  insecureKubeletReadonlyPortEnabled?: boolean;
+  insecureKubeletReadonlyPortEnabled?: boolean | undefined;
 }
 /** The map of Kubernetes labels (key/value pairs) to be applied to each node. These will added in addition to any default label(s) that Kubernetes may apply to the node. In case of conflict in label keys, the applied set may differ depending on the Kubernetes version -- it's best to assume the behavior is undefined and conflicts should be avoided. For more information, including usage and the valid values, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ */
 export type NodeConfigLabelsMap = { [key: string]: string | undefined };
@@ -2188,26 +2189,26 @@ export type CgroupMode = "CGROUP_MODE_UNSPECIFIED" | "CGROUP_MODE_V1" | "CGROUP_
 /** Parameters that can be configured on Linux nodes */
 export interface LinuxNodeConfig {
   /** The Linux kernel parameters to be applied to the nodes and all pods running on the nodes */
-  sysctls?: LinuxNodeConfigSysctlsMap;
+  sysctls?: LinuxNodeConfigSysctlsMap | undefined;
   /** cgroup_mode specifies the cgroup mode to be used on the node */
-  cgroupMode?: CgroupMode | (string & {});
+  cgroupMode?: CgroupMode | (string & {}) | undefined;
 }
 /** Configuration for the local NVMe SSD block device */
 export interface LocalNvmeSsdBlockConfig {
   /** Number of raw-block local NVMe SSD disks to be attached to the node */
-  localSsdCount?: number;
+  localSsdCount?: number | undefined;
 }
 /** LoggingVariantConfig.variant values, as defined by the Google Cloud API. */
 export type LoggingVariantVariant = "VARIANT_UNSPECIFIED" | "DEFAULT" | "MAX_THROUGHPUT";
 /** LoggingVariantConfig specifies the behaviour of the logging agent */
 export interface LoggingVariantConfig {
   /** Logging variant deployed on nodes */
-  variant?: LoggingVariantVariant | (string & {});
+  variant?: LoggingVariantVariant | (string & {}) | undefined;
 }
 /** NodePoolLoggingConfig specifies logging configuration for nodepools */
 export interface NodePoolLoggingConfig {
   /** Logging variant configuration */
-  variantConfig?: LoggingVariantConfig;
+  variantConfig?: LoggingVariantConfig | undefined;
 }
 /** The metadata key/value pairs assigned to instances in the cluster. Keys must conform to the regexp `[a-zA-Z0-9-_]+` and be less than 128 bytes in length. These are reflected as part of a URL in the metadata server. Additionally, to avoid ambiguity, keys must not conflict with any other metadata keys for the project or be one of the reserved keys: - \"cluster-location\" - \"cluster-name\" - \"cluster-uid\" - \"configure-sh\" - \"containerd-configure-sh\" - \"enable-os-login\" - \"gci-ensure-gke-docker\" - \"gci-metrics-enabled\" - \"gci-update-strategy\" - \"instance-template\" - \"kube-env\" - \"startup-script\" - \"user-data\" - \"disable-address-manager\" - \"windows-startup-script-ps1\" - \"common-psm1\" - \"k8s-node-setup-psm1\" - \"install-ssh-psm1\" - \"user-profile-psm1\" Values are free-form strings, and only have meaning as interpreted by the image running in the instance. The only restriction placed on them is that each value's size must be less than or equal to 32 KB. The total size of all keys and values must be less than 512 KB. */
 export type NodeConfigMetadataMap = { [key: string]: string | undefined };
@@ -2225,11 +2226,11 @@ export type ReservationAffinityValuesList_2 = Array<string>;
 /** ReservationAffinity is the configuration of desired reservation which instances could take capacity from */
 export interface ReservationAffinity_2 {
   /** Corresponds to the type of reservation consumption */
-  consumeReservationType?: ConsumeReservationType_2 | (string & {});
+  consumeReservationType?: ConsumeReservationType_2 | (string & {}) | undefined;
   /** Corresponds to the label key of a reservation resource */
-  key?: string;
+  key?: string | undefined;
   /** Corresponds to the label value(s) of reservation resource(s) */
-  values?: ReservationAffinityValuesList_2;
+  values?: ReservationAffinityValuesList_2 | undefined;
 }
 /** The resource labels for the node pool to use to annotate any related Google Compute Engine resources. */
 export type NodeConfigResourceLabelsMap = { [key: string]: string | undefined };
@@ -2238,16 +2239,16 @@ export type SandboxType = "UNSPECIFIED" | "GVISOR";
 /** SandboxConfig contains configurations of the sandbox to use for the node */
 export interface SandboxConfig {
   /** Type of the sandbox to use for the node */
-  type?: SandboxType | (string & {});
+  type?: SandboxType | (string & {}) | undefined;
 }
 /** SecondaryBootDisk.mode values, as defined by the Google Cloud API. */
 export type SecondaryBootDiskMode = "MODE_UNSPECIFIED" | "CONTAINER_IMAGE_CACHE";
 /** SecondaryBootDisk represents a persistent disk attached to a node with special configurations based on its mode */
 export interface SecondaryBootDisk {
   /** Fully-qualified resource ID for an existing disk image */
-  diskImage?: string;
+  diskImage?: string | undefined;
   /** Disk boot mode */
-  mode?: SecondaryBootDiskMode | (string & {});
+  mode?: SecondaryBootDiskMode | (string & {}) | undefined;
 }
 /** List of secondary boot disks attached to the nodes. */
 export type NodeConfigSecondaryBootDisksList = Array<SecondaryBootDisk>;
@@ -2258,18 +2259,18 @@ export type NodeAffinityValuesList = Array<string>;
 /** Specifies the NodeAffinity key, values, and affinity operator according to shared sole tenant node group affinities */
 export interface NodeAffinity {
   /** Key for NodeAffinity */
-  key?: string;
+  key?: string | undefined;
   /** Operator for NodeAffinity */
-  operator?: NodeAffinityOperator | (string & {});
+  operator?: NodeAffinityOperator | (string & {}) | undefined;
   /** Values for NodeAffinity */
-  values?: NodeAffinityValuesList;
+  values?: NodeAffinityValuesList | undefined;
 }
 /** List of node affinities associated with the sole tenant node pool */
 export type SoleTenantConfigNodeAffinitiesList = Array<NodeAffinity>;
 /** SoleTenantConfig contains the Sole Tenant configuration */
 export interface SoleTenantConfig {
   /** List of node affinities associated with the sole tenant node pool */
-  nodeAffinities?: SoleTenantConfigNodeAffinitiesList;
+  nodeAffinities?: SoleTenantConfigNodeAffinitiesList | undefined;
 }
 /** The list of instance tags applied to all nodes. Tags are used to identify valid sources or targets for network firewalls and are specified by the client during cluster or node pool creation. Each tag within the list must comply with RFC1035. */
 export type NodeConfigTagsList = Array<string>;
@@ -2282,11 +2283,11 @@ export type NodeTaintEffect =
 /** Kubernetes taint is composed of three fields: key, value, and effect */
 export interface NodeTaint {
   /** Key for taint */
-  key?: string;
+  key?: string | undefined;
   /** Value for taint */
-  value?: string;
+  value?: string | undefined;
   /** Effect for taint */
-  effect?: NodeTaintEffect | (string & {});
+  effect?: NodeTaintEffect | (string & {}) | undefined;
 }
 /** List of kubernetes taints to be applied to each node. For more information, including usage and the valid values, see: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/ */
 export type NodeConfigTaintsList = Array<NodeTaint>;
@@ -2298,141 +2299,141 @@ export type WindowsNodeOsVersion =
 /** Parameters that can be configured on Windows nodes */
 export interface WindowsNodeConfig {
   /** OSVersion specifies the Windows node config to be used on the node */
-  osVersion?: WindowsNodeOsVersion | (string & {});
+  osVersion?: WindowsNodeOsVersion | (string & {}) | undefined;
 }
 /** WorkloadMetadataConfig.mode values, as defined by the Google Cloud API. */
 export type WorkloadMetadataMode = "MODE_UNSPECIFIED" | "GCE_METADATA" | "GKE_METADATA";
 /** WorkloadMetadataConfig defines the metadata configuration to expose to workloads on the node pool */
 export interface WorkloadMetadataConfig {
   /** Mode is the configuration for how to expose metadata to workloads running on the node pool */
-  mode?: WorkloadMetadataMode | (string & {});
+  mode?: WorkloadMetadataMode | (string & {}) | undefined;
 }
 /** Parameters that describe the nodes in a cluster. GKE Autopilot clusters do not recognize parameters in `NodeConfig`. Use AutoprovisioningNodePoolDefaults instead. */
 export interface NodeConfig {
   /** A list of hardware accelerators to be attached to each node. See https://cloud.google.com/compute/docs/gpus for more information about support for GPUs. */
-  accelerators?: NodeConfigAcceleratorsList;
+  accelerators?: NodeConfigAcceleratorsList | undefined;
   /** Advanced features for the Compute Engine VM. */
-  advancedMachineFeatures?: AdvancedMachineFeatures_2;
+  advancedMachineFeatures?: AdvancedMachineFeatures_2 | undefined;
   /** The Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool. This should be of the form projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information about protecting resources with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption */
-  bootDiskKmsKey?: string;
+  bootDiskKmsKey?: string | undefined;
   /** Confidential nodes config. All the nodes in the node pool will be Confidential VM once enabled. */
-  confidentialNodes?: ConfidentialNodes;
+  confidentialNodes?: ConfidentialNodes | undefined;
   /** Size of the disk attached to each node, specified in GB. The smallest allowed disk size is 10GB. If unspecified, the default disk size is 100GB. */
-  diskSizeGb?: number;
+  diskSizeGb?: number | undefined;
   /** Type of the disk attached to each node (e.g. 'pd-standard', 'pd-ssd' or 'pd-balanced') If unspecified, the default disk type is 'pd-standard' */
-  diskType?: string;
+  diskType?: string | undefined;
   /** Optional. Reserved for future use. */
-  enableConfidentialStorage?: boolean;
+  enableConfidentialStorage?: boolean | undefined;
   /** Parameters for the node ephemeral storage using Local SSDs. If unspecified, ephemeral storage is backed by the boot disk. */
-  ephemeralStorageLocalSsdConfig?: EphemeralStorageLocalSsdConfig;
+  ephemeralStorageLocalSsdConfig?: EphemeralStorageLocalSsdConfig | undefined;
   /** Enable or disable NCCL fast socket for the node pool. */
-  fastSocket?: FastSocket;
+  fastSocket?: FastSocket | undefined;
   /** Google Container File System (image streaming) configs. */
-  gcfsConfig?: GcfsConfig;
+  gcfsConfig?: GcfsConfig | undefined;
   /** Enable or disable gvnic in the node pool. */
-  gvnic?: VirtualNic;
+  gvnic?: VirtualNic | undefined;
   /** The image type to use for this node. Note that for a given image type, the latest version of it will be used. Please see https://cloud.google.com/kubernetes-engine/docs/concepts/node-images for available image types. */
-  imageType?: string;
+  imageType?: string | undefined;
   /** Node kubelet configs. */
-  kubeletConfig?: NodeKubeletConfig;
+  kubeletConfig?: NodeKubeletConfig | undefined;
   /** The map of Kubernetes labels (key/value pairs) to be applied to each node. These will added in addition to any default label(s) that Kubernetes may apply to the node. In case of conflict in label keys, the applied set may differ depending on the Kubernetes version -- it's best to assume the behavior is undefined and conflicts should be avoided. For more information, including usage and the valid values, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ */
-  labels?: NodeConfigLabelsMap;
+  labels?: NodeConfigLabelsMap | undefined;
   /** Parameters that can be configured on Linux nodes. */
-  linuxNodeConfig?: LinuxNodeConfig;
+  linuxNodeConfig?: LinuxNodeConfig | undefined;
   /** Parameters for using raw-block Local NVMe SSDs. */
-  localNvmeSsdBlockConfig?: LocalNvmeSsdBlockConfig;
+  localNvmeSsdBlockConfig?: LocalNvmeSsdBlockConfig | undefined;
   /** The number of local SSD disks to be attached to the node. The limit for this value is dependent upon the maximum number of disks available on a machine per zone. See: https://cloud.google.com/compute/docs/disks/local-ssd for more information. */
-  localSsdCount?: number;
+  localSsdCount?: number | undefined;
   /** Logging configuration. */
-  loggingConfig?: NodePoolLoggingConfig;
+  loggingConfig?: NodePoolLoggingConfig | undefined;
   /** The name of a Google Compute Engine [machine type](https://cloud.google.com/compute/docs/machine-types) If unspecified, the default machine type is `e2-medium`. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** The metadata key/value pairs assigned to instances in the cluster. Keys must conform to the regexp `[a-zA-Z0-9-_]+` and be less than 128 bytes in length. These are reflected as part of a URL in the metadata server. Additionally, to avoid ambiguity, keys must not conflict with any other metadata keys for the project or be one of the reserved keys: - \"cluster-location\" - \"cluster-name\" - \"cluster-uid\" - \"configure-sh\" - \"containerd-configure-sh\" - \"enable-os-login\" - \"gci-ensure-gke-docker\" - \"gci-metrics-enabled\" - \"gci-update-strategy\" - \"instance-template\" - \"kube-env\" - \"startup-script\" - \"user-data\" - \"disable-address-manager\" - \"windows-startup-script-ps1\" - \"common-psm1\" - \"k8s-node-setup-psm1\" - \"install-ssh-psm1\" - \"user-profile-psm1\" Values are free-form strings, and only have meaning as interpreted by the image running in the instance. The only restriction placed on them is that each value's size must be less than or equal to 32 KB. The total size of all keys and values must be less than 512 KB. */
-  metadata?: NodeConfigMetadataMap;
+  metadata?: NodeConfigMetadataMap | undefined;
   /** Minimum CPU platform to be used by this instance. The instance may be scheduled on the specified or newer CPU platform. Applicable values are the friendly names of CPU platforms, such as `minCpuPlatform: "Intel Haswell"` or `minCpuPlatform: "Intel Sandy Bridge"`. For more information, read [how to specify min CPU platform](https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform) */
-  minCpuPlatform?: string;
+  minCpuPlatform?: string | undefined;
   /** Setting this field will assign instances of this pool to run on the specified node group. This is useful for running workloads on [sole tenant nodes](https://cloud.google.com/compute/docs/nodes/sole-tenant-nodes). */
-  nodeGroup?: string;
+  nodeGroup?: string | undefined;
   /** The set of Google API scopes to be made available on all of the node VMs under the "default" service account. The following scopes are recommended, but not required, and by default are not included: * `https://www.googleapis.com/auth/compute` is required for mounting persistent storage on your nodes. * `https://www.googleapis.com/auth/devstorage.read_only` is required for communicating with **gcr.io** (the [Google Container Registry](https://cloud.google.com/container-registry/)). If unspecified, no scopes are added, unless Cloud Logging or Cloud Monitoring are enabled, in which case their required scopes will be added. */
-  oauthScopes?: NodeConfigOauthScopesList;
+  oauthScopes?: NodeConfigOauthScopesList | undefined;
   /** Whether the nodes are created as preemptible VM instances. See: https://cloud.google.com/compute/docs/instances/preemptible for more information about preemptible VM instances. */
-  preemptible?: boolean;
+  preemptible?: boolean | undefined;
   /** The optional reservation affinity. Setting this field will apply the specified [Zonal Compute Reservation](https://cloud.google.com/compute/docs/instances/reserving-zonal-resources) to this node pool. */
-  reservationAffinity?: ReservationAffinity_2;
+  reservationAffinity?: ReservationAffinity_2 | undefined;
   /** The resource labels for the node pool to use to annotate any related Google Compute Engine resources. */
-  resourceLabels?: NodeConfigResourceLabelsMap;
+  resourceLabels?: NodeConfigResourceLabelsMap | undefined;
   /** A map of resource manager tag keys and values to be attached to the nodes. */
-  resourceManagerTags?: ResourceManagerTags;
+  resourceManagerTags?: ResourceManagerTags | undefined;
   /** Sandbox configuration for this node. */
-  sandboxConfig?: SandboxConfig;
+  sandboxConfig?: SandboxConfig | undefined;
   /** List of secondary boot disks attached to the nodes. */
-  secondaryBootDisks?: NodeConfigSecondaryBootDisksList;
+  secondaryBootDisks?: NodeConfigSecondaryBootDisksList | undefined;
   /** The Google Cloud Platform Service Account to be used by the node VMs. Specify the email address of the Service Account; otherwise, if no Service Account is specified, the "default" service account is used. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Shielded Instance options. */
-  shieldedInstanceConfig?: ShieldedInstanceConfig_2;
+  shieldedInstanceConfig?: ShieldedInstanceConfig_2 | undefined;
   /** Parameters for node pools to be backed by shared sole tenant node groups. */
-  soleTenantConfig?: SoleTenantConfig;
+  soleTenantConfig?: SoleTenantConfig | undefined;
   /** Spot flag for enabling Spot VM, which is a rebrand of the existing preemptible flag. */
-  spot?: boolean;
+  spot?: boolean | undefined;
   /** The list of instance tags applied to all nodes. Tags are used to identify valid sources or targets for network firewalls and are specified by the client during cluster or node pool creation. Each tag within the list must comply with RFC1035. */
-  tags?: NodeConfigTagsList;
+  tags?: NodeConfigTagsList | undefined;
   /** List of kubernetes taints to be applied to each node. For more information, including usage and the valid values, see: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/ */
-  taints?: NodeConfigTaintsList;
+  taints?: NodeConfigTaintsList | undefined;
   /** Parameters that can be configured on Windows nodes. */
-  windowsNodeConfig?: WindowsNodeConfig;
+  windowsNodeConfig?: WindowsNodeConfig | undefined;
   /** The workload metadata configuration for this node. */
-  workloadMetadataConfig?: WorkloadMetadataConfig;
+  workloadMetadataConfig?: WorkloadMetadataConfig | undefined;
 }
 /** List of network tags */
 export type NetworkTagsTagsList = Array<string>;
 /** The list of instance tags applied to all nodes. Tags are used to identify valid sources or targets for network firewalls and are specified by the client during cluster creation. Each tag within the list must comply with RFC1035. */
 export interface NetworkTags {
   /** List of network tags */
-  tags?: NetworkTagsTagsList;
+  tags?: NetworkTagsTagsList | undefined;
 }
 /** Node pool configs that apply to all auto-provisioned node pools in autopilot clusters and node auto-provisioning enabled clusters */
 export interface NodePoolAutoConfig {
   /** The list of instance tags applied to all nodes. Tags are used to identify valid sources or targets for network firewalls and are specified by the client during cluster creation. Each tag within the list must comply with RFC1035. */
-  networkTags?: NetworkTags;
+  networkTags?: NetworkTags | undefined;
   /** Resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. */
-  resourceManagerTags?: ResourceManagerTags;
+  resourceManagerTags?: ResourceManagerTags | undefined;
 }
 /** Subset of NodeConfig message that has defaults. */
 export interface NodeConfigDefaults {
   /** GCFS (Google Container File System, also known as Riptide) options. */
-  gcfsConfig?: GcfsConfig;
+  gcfsConfig?: GcfsConfig | undefined;
 }
 /** Default configurations for node pools */
 export interface NodePoolDefaults {
   /** Subset of NodeConfig message that has defaults. */
-  nodeConfigDefaults?: NodeConfigDefaults;
+  nodeConfigDefaults?: NodeConfigDefaults | undefined;
 }
 /** Location policy options used when scaling up a nodepool. */
 export type LocationPolicy = "LOCATION_POLICY_UNSPECIFIED" | "BALANCED" | "ANY";
 /** NodePoolAutoscaling contains information required by cluster autoscaler to adjust the size of the node pool to the current cluster usage. */
 export interface NodePoolAutoscaling {
   /** Can this node pool be deleted automatically. */
-  autoprovisioned?: boolean;
+  autoprovisioned?: boolean | undefined;
   /** Is autoscaling enabled for this node pool. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Location policy used when scaling up a nodepool. */
-  locationPolicy?: LocationPolicy | (string & {});
+  locationPolicy?: LocationPolicy | (string & {}) | undefined;
   /** Maximum number of nodes for one location in the NodePool. Must be >= min_node_count. There has to be enough quota to scale up the cluster. */
-  maxNodeCount?: number;
+  maxNodeCount?: number | undefined;
   /** Minimum number of nodes for one location in the NodePool. Must be >= 1 and <= max_node_count. */
-  minNodeCount?: number;
+  minNodeCount?: number | undefined;
   /** Maximum number of nodes in the node pool. Must be greater than total_min_node_count. There has to be enough quota to scale up the cluster. The total_*_node_count fields are mutually exclusive with the *_node_count fields. */
-  totalMaxNodeCount?: number;
+  totalMaxNodeCount?: number | undefined;
   /** Minimum number of nodes in the node pool. Must be greater than 1 less than total_max_node_count. The total_*_node_count fields are mutually exclusive with the *_node_count fields. */
-  totalMinNodeCount?: number;
+  totalMinNodeCount?: number | undefined;
 }
 /** Specifies the configuration of best effort provisioning. */
 export interface BestEffortProvisioning {
   /** When this is enabled, cluster/node pool creations will ignore non-fatal errors like stockout to best provision as many nodes as possible. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Minimum number of nodes to be provisioned. */
-  minProvisionNodes?: number;
+  minProvisionNodes?: number | undefined;
 }
 /** Which conditions caused the current node pool state. */
 export type NodePoolConditionsList = Array<StatusCondition>;
@@ -2443,55 +2444,55 @@ export type NodePoolLocationsList = Array<string>;
 /** Configuration for additional node network interfaces. */
 export interface AdditionalNodeNetworkConfig {
   /** Name of the VPC where the additional interface belongs. */
-  network?: string;
+  network?: string | undefined;
   /** Name of the subnetwork where the additional interface belongs. */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
 }
 /** Configuration of additional node network interfaces. */
 export type NodeNetworkConfigAdditionalNodeNetworkConfigsList = Array<AdditionalNodeNetworkConfig>;
 /** Configuration for additional pod network interfaces. */
 export interface AdditionalPodNetworkConfig {
   /** Name of the subnetwork where the additional pod network belongs. */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
   /** Name of the secondary range on the subnetwork. */
-  secondaryPodRange?: string;
+  secondaryPodRange?: string | undefined;
   /** The maximum number of pods per node which use this pod network. */
-  maxPodsPerNode?: MaxPodsConstraint;
+  maxPodsPerNode?: MaxPodsConstraint | undefined;
 }
 /** Configuration of additional pod network interfaces. */
 export type NodeNetworkConfigAdditionalPodNetworkConfigsList = Array<AdditionalPodNetworkConfig>;
 /** Network configuration for node pools. */
 export interface NodeNetworkConfig {
   /** Whether to create a pod range for this node pool. */
-  createPodRange?: boolean;
+  createPodRange?: boolean | undefined;
   /** The ID of the secondary range for pod IPs. */
-  podRange?: string;
+  podRange?: string | undefined;
   /** The IP address range for pods in this node pool. */
-  podIpv4CidrBlock?: string;
+  podIpv4CidrBlock?: string | undefined;
   /** Configuration of additional node network interfaces. */
-  additionalNodeNetworkConfigs?: NodeNetworkConfigAdditionalNodeNetworkConfigsList;
+  additionalNodeNetworkConfigs?: NodeNetworkConfigAdditionalNodeNetworkConfigsList | undefined;
   /** Configuration of additional pod network interfaces. */
-  additionalPodNetworkConfigs?: NodeNetworkConfigAdditionalPodNetworkConfigsList;
+  additionalPodNetworkConfigs?: NodeNetworkConfigAdditionalPodNetworkConfigsList | undefined;
   /** List of pod CIDR ranges to be used for the node pool. */
-  podCidrOverprovisionConfig?: PodCidrOverprovisionConfig;
+  podCidrOverprovisionConfig?: PodCidrOverprovisionConfig | undefined;
   /** Whether to enable private nodes. */
-  enablePrivateNodes?: boolean;
+  enablePrivateNodes?: boolean | undefined;
 }
 /** Placement type options. */
 export type PlacementType = "TYPE_UNSPECIFIED" | "COMPACT";
 /** Specifies the node placement policy. */
 export interface PlacementPolicy {
   /** The type of placement. */
-  type?: PlacementType | (string & {});
+  type?: PlacementType | (string & {}) | undefined;
   /** TPU placement topology for pod slice node pool. */
-  tpuTopology?: string;
+  tpuTopology?: string | undefined;
   /** If set, refers to the name of a custom resource policy supplied by the user. */
-  policyName?: string;
+  policyName?: string | undefined;
 }
 /** Specifies the configuration of queued provisioning. */
 export interface QueuedProvisioning {
   /** Denotes that this nodepool is QRM specific. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Node pool status options. */
 export type NodePoolStatus =
@@ -2519,65 +2520,65 @@ export type BlueGreenInfoGreenInstanceGroupUrlsList = Array<string>;
 /** Information about a blue-green upgrade. */
 export interface BlueGreenInfo {
   /** Current blue-green upgrade phase. */
-  phase?: BlueGreenPhase | (string & {});
+  phase?: BlueGreenPhase | (string & {}) | undefined;
   /** The resource URLs of the managed instance groups associated with blue pool. */
-  blueInstanceGroupUrls?: BlueGreenInfoBlueInstanceGroupUrlsList;
+  blueInstanceGroupUrls?: BlueGreenInfoBlueInstanceGroupUrlsList | undefined;
   /** The resource URLs of the managed instance groups associated with green pool. */
-  greenInstanceGroupUrls?: BlueGreenInfoGreenInstanceGroupUrlsList;
+  greenInstanceGroupUrls?: BlueGreenInfoGreenInstanceGroupUrlsList | undefined;
   /** Time to start deleting blue pool to complete blue-green upgrade. */
-  bluePoolDeletionStartTime?: string;
+  bluePoolDeletionStartTime?: string | undefined;
   /** The resource name of the green pool. */
-  greenPoolVersion?: string;
+  greenPoolVersion?: string | undefined;
 }
 /** Information about the current update. */
 export interface UpdateInfo {
   /** Information about a blue-green upgrade. */
-  blueGreenInfo?: BlueGreenInfo;
+  blueGreenInfo?: BlueGreenInfo | undefined;
 }
 /** NodePool contains the name and configuration for a cluster's node pool. Node pools are a set of nodes (i.e. VM's), with a common configuration and specification, under the control of the cluster master. They may have a set of Kubernetes labels applied to them, which may be used to reference them during pod scheduling. They may also be resized up or down, to accommodate the workload. */
 export interface NodePool {
   /** Autoscaler configuration for this NodePool. Autoscaler is enabled only if a valid configuration is present. */
-  autoscaling?: NodePoolAutoscaling;
+  autoscaling?: NodePoolAutoscaling | undefined;
   /** Enable best effort provisioning for nodes */
-  bestEffortProvisioning?: BestEffortProvisioning;
+  bestEffortProvisioning?: BestEffortProvisioning | undefined;
   /** Which conditions caused the current node pool state. */
-  conditions?: NodePoolConditionsList;
+  conditions?: NodePoolConditionsList | undefined;
   /** The node configuration of the pool. */
-  config?: NodeConfig;
+  config?: NodeConfig | undefined;
   /** This checksum is computed by the server based on the value of node pool fields, and may be sent on update requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** The initial node count for the pool. You must ensure that your Compute Engine [resource quota](https://cloud.google.com/compute/quotas) is sufficient for this number of instances. You must also have available firewall and routes quota. */
-  initialNodeCount?: number;
+  initialNodeCount?: number | undefined;
   /** [Output only] The resource URLs of the [managed instance groups](https://cloud.google.com/compute/docs/instance-groups/creating-groups-of-managed-instances) associated with this node pool. During the node pool blue-green upgrade operation, the URLs contain both blue and green resources. */
-  instanceGroupUrls?: NodePoolInstanceGroupUrlsList;
+  instanceGroupUrls?: NodePoolInstanceGroupUrlsList | undefined;
   /** The list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the NodePool's nodes should be located. If this value is unspecified during node pool creation, the [Cluster.Locations](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters#Cluster.FIELDS.locations) value will be used, instead. Warning: changing node pool locations will result in nodes being added and/or removed. */
-  locations?: NodePoolLocationsList;
+  locations?: NodePoolLocationsList | undefined;
   /** NodeManagement configuration for this NodePool. */
-  management?: NodeManagement;
+  management?: NodeManagement | undefined;
   /** The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool. */
-  maxPodsConstraint?: MaxPodsConstraint;
+  maxPodsConstraint?: MaxPodsConstraint | undefined;
   /** The name of the node pool. */
-  name?: string;
+  name?: string | undefined;
   /** Networking configuration for this NodePool. If specified, it overrides the cluster-level defaults. */
-  networkConfig?: NodeNetworkConfig;
+  networkConfig?: NodeNetworkConfig | undefined;
   /** Specifies the node placement policy. */
-  placementPolicy?: PlacementPolicy;
+  placementPolicy?: PlacementPolicy | undefined;
   /** [Output only] The pod CIDR block size per node in this node pool. */
-  podIpv4CidrSize?: number;
+  podIpv4CidrSize?: number | undefined;
   /** Specifies the configuration of queued provisioning. */
-  queuedProvisioning?: QueuedProvisioning;
+  queuedProvisioning?: QueuedProvisioning | undefined;
   /** [Output only] Server-defined URL for the resource. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** [Output only] The status of the nodes in this pool instance. */
-  status?: NodePoolStatus | (string & {});
+  status?: NodePoolStatus | (string & {}) | undefined;
   /** [Output only] Deprecated. Use conditions instead. Additional information about the current status of this node pool instance, if available. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** Output only. [Output only] Update info contains relevant information during a node pool update. */
-  updateInfo?: UpdateInfo;
+  updateInfo?: UpdateInfo | undefined;
   /** Upgrade settings control disruption and speed of the upgrade. */
-  upgradeSettings?: UpgradeSettings;
+  upgradeSettings?: UpgradeSettings | undefined;
   /** The version of Kubernetes running on this NodePool's nodes. If unspecified, it defaults as described [here](https://cloud.google.com/kubernetes-engine/versioning#specifying_node_version). */
-  version?: string;
+  version?: string | undefined;
 }
 /** The node pools associated with this cluster. This field should not be set if "node_config" or "initial_node_count" are specified. */
 export type GcpContainerClusterPropertiesNodePoolsList = Array<NodePool>;
@@ -2593,92 +2594,92 @@ export type FilterEventTypeList = Array<FilterEventType | (string & {})>;
 /** Filter configuration for notifications */
 export interface Filter {
   /** Event types to include in the filter */
-  eventType?: FilterEventTypeList;
+  eventType?: FilterEventTypeList | undefined;
 }
 /** PubSub configuration for the cluster */
 export interface PubSub {
   /** Whether notifications are enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The Pub/Sub topic for notifications */
-  topic?: string;
+  topic?: string | undefined;
   /** Filter configuration for notifications */
-  filter?: Filter;
+  filter?: Filter | undefined;
 }
 /** Configuration for cluster notifications */
 export interface NotificationConfig {
   /** Configuration for Pub/Sub notifications */
-  pubsub?: PubSub;
+  pubsub?: PubSub | undefined;
 }
 /** Configuration for parent product integration */
 export interface ParentProductConfig {
   /** The ID of the parent product */
-  productId?: string;
+  productId?: string | undefined;
   /** The project ID where the parent product is deployed */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 /** Configuration for private cluster master global access */
 export interface PrivateClusterMasterGlobalAccessConfig {
   /** Whether the cluster master is accessible globally or not */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for private clusters */
 export interface PrivateClusterConfig {
   /** Whether nodes have internal IP addresses only */
-  enablePrivateNodes?: boolean;
+  enablePrivateNodes?: boolean | undefined;
   /** Whether the master's internal IP address is used as the cluster endpoint */
-  enablePrivateEndpoint?: boolean;
+  enablePrivateEndpoint?: boolean | undefined;
   /** The IP range in CIDR notation to use for the hosted master network */
-  masterIpv4CidrBlock?: string;
+  masterIpv4CidrBlock?: string | undefined;
   /** The internal IP address of this cluster's master endpoint */
-  privateEndpoint?: string;
+  privateEndpoint?: string | undefined;
   /** The external IP address of this cluster's master endpoint */
-  publicEndpoint?: string;
+  publicEndpoint?: string | undefined;
   /** The name of the VPC Network peering connection */
-  peeringName?: string;
+  peeringName?: string | undefined;
   /** Controls master global access settings */
-  masterGlobalAccessConfig?: PrivateClusterMasterGlobalAccessConfig;
+  masterGlobalAccessConfig?: PrivateClusterMasterGlobalAccessConfig | undefined;
   /** Subnet to provision the master's private endpoint during cluster creation */
-  privateEndpointSubnetwork?: string;
+  privateEndpointSubnetwork?: string | undefined;
 }
 /** ReleaseChannel.channel values, as defined by the Google Cloud API. */
 export type ReleaseChannelChannel = "UNSPECIFIED" | "RAPID" | "REGULAR" | "STABLE" | "EXTENDED";
 /** ReleaseChannel indicates which release channel a cluster is subscribed to */
 export interface ReleaseChannel {
   /** The release channel the cluster is subscribed to */
-  channel?: ReleaseChannelChannel | (string & {});
+  channel?: ReleaseChannelChannel | (string & {}) | undefined;
 }
 /** The resource labels for the cluster to use to annotate any related Google Compute Engine resources. */
 export type GcpContainerClusterPropertiesResourceLabelsMap = { [key: string]: string | undefined };
 /** Configuration for BigQuery destination */
 export interface BigQueryDestination {
   /** The BigQuery dataset ID */
-  datasetId?: string;
+  datasetId?: string | undefined;
 }
 /** Configuration for consumption metering */
 export interface ConsumptionMeteringConfig {
   /** Whether consumption metering is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for exporting cluster resource usage */
 export interface ResourceUsageExportConfig {
   /** Configuration to use BigQuery as destination of resource usage export */
-  bigqueryDestination?: BigQueryDestination;
+  bigqueryDestination?: BigQueryDestination | undefined;
   /** Whether to enable network egress metering for this cluster */
-  enableNetworkEgressMetering?: boolean;
+  enableNetworkEgressMetering?: boolean | undefined;
   /** Configuration to enable resource consumption metering */
-  consumptionMeteringConfig?: ConsumptionMeteringConfig;
+  consumptionMeteringConfig?: ConsumptionMeteringConfig | undefined;
 }
 /** SecurityPostureConfig.mode values, as defined by the Google Cloud API. */
 export type SecurityPostureMode = "MODE_UNSPECIFIED" | "DISABLED" | "BASIC" | "ENTERPRISE";
 /** Security posture configuration */
 export interface SecurityPostureConfig {
   /** Mode of the security posture */
-  mode?: SecurityPostureMode | (string & {});
+  mode?: SecurityPostureMode | (string & {}) | undefined;
 }
 /** Configuration of Shielded Nodes */
 export interface ShieldedNodes {
   /** Whether Shielded Nodes features are enabled on all nodes in this cluster */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Cluster status options. */
 export type ClusterStatus =
@@ -2692,221 +2693,221 @@ export type ClusterStatus =
 /** Vertical Pod Autoscaling configuration */
 export interface VerticalPodAutoscaling {
   /** Enables vertical pod autoscaling */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configuration for the use of Kubernetes Service Accounts in GCP IAM policies */
 export interface WorkloadIdentityConfig {
   /** The workload pool to attach all Kubernetes service accounts to */
-  workloadPool?: string;
+  workloadPool?: string | undefined;
 }
 /** A Google Kubernetes Engine cluster. */
 export interface GcpContainerClusterProperties {
   /** Configurations for the various addons available to run in the cluster. */
-  addonsConfig?: AddonsConfig;
+  addonsConfig?: AddonsConfig | undefined;
   /** Configuration controlling RBAC group membership information. */
-  authenticatorGroupsConfig?: AuthenticatorGroupsConfig;
+  authenticatorGroupsConfig?: AuthenticatorGroupsConfig | undefined;
   /** Autopilot configuration for the cluster. */
-  autopilot?: Autopilot;
+  autopilot?: Autopilot | undefined;
   /** Cluster-level autoscaling configuration. */
-  autoscaling?: ClusterAutoscaling;
+  autoscaling?: ClusterAutoscaling | undefined;
   /** Configuration for Binary Authorization. */
-  binaryAuthorization?: BinaryAuthorization;
+  binaryAuthorization?: BinaryAuthorization | undefined;
   /** The IP address range of the container pods in this cluster, in [CIDR](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`). Leave blank to have one automatically chosen or specify a `/14` block in `10.0.0.0/8`. */
-  clusterIpv4Cidr?: string;
+  clusterIpv4Cidr?: string | undefined;
   /** Which conditions caused the current cluster state. */
-  conditions?: GcpContainerClusterPropertiesConditionsList;
+  conditions?: GcpContainerClusterPropertiesConditionsList | undefined;
   /** Configuration of Confidential Nodes. All the nodes in the cluster will be Confidential VM once enabled. */
-  confidentialNodes?: ConfidentialNodes;
+  confidentialNodes?: ConfidentialNodes | undefined;
   /** Configuration for the fine-grained cost management feature. */
-  costManagementConfig?: CostManagementConfig;
+  costManagementConfig?: CostManagementConfig | undefined;
   /** [Output only] The time the cluster was created, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** [Output only] The current software version of the master endpoint. */
-  currentMasterVersion?: string;
+  currentMasterVersion?: string | undefined;
   /** [Output only] The number of nodes currently in the cluster. Deprecated. Call Kubernetes API directly to retrieve node information. */
-  currentNodeCount?: number;
+  currentNodeCount?: number | undefined;
   /** [Output only] Deprecated, use [NodePools.version](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters.nodePools) instead. The current version of the node software components. If they are currently at multiple versions because they're in the process of being upgraded, this reflects the minimum version of all nodes. */
-  currentNodeVersion?: string;
+  currentNodeVersion?: string | undefined;
   /** Configuration of etcd encryption. */
-  databaseEncryption?: DatabaseEncryption;
+  databaseEncryption?: DatabaseEncryption | undefined;
   /** The default constraint on the maximum number of pods that can be run simultaneously on a node in the node pool of this cluster. Only honored if cluster created with IP Alias support. */
-  defaultMaxPodsConstraint?: MaxPodsConstraint;
+  defaultMaxPodsConstraint?: MaxPodsConstraint | undefined;
   /** An optional description of this cluster. */
-  description?: string;
+  description?: string | undefined;
   /** Beta APIs Config */
-  enableK8sBetaApis?: K8sBetaApiConfig;
+  enableK8sBetaApis?: K8sBetaApiConfig | undefined;
   /** Kubernetes alpha features are enabled on this cluster. This includes alpha API groups (e.g. v1alpha1) and features that may not be production ready in the kubernetes version of the master and nodes. The cluster has no SLA for uptime and master/node upgrades are disabled. Alpha enabled clusters are automatically deleted thirty days after creation. */
-  enableKubernetesAlpha?: boolean;
+  enableKubernetesAlpha?: boolean | undefined;
   /** Enable the ability to use Cloud TPUs in this cluster. */
-  enableTpu?: boolean;
+  enableTpu?: boolean | undefined;
   /** [Output only] The IP address of this cluster's master endpoint. The endpoint can be accessed from the internet at `https://username:password@endpoint/`. See the `masterAuth` property of this resource for username and password information. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** GKE Enterprise Configuration. */
-  enterpriseConfig?: EnterpriseConfig;
+  enterpriseConfig?: EnterpriseConfig | undefined;
   /** This checksum is computed by the server based on the value of cluster fields, and may be sent on update requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** [Output only] The time the cluster will be automatically deleted in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Fleet information for the cluster. */
-  fleet?: Fleet;
+  fleet?: Fleet | undefined;
   /** Output only. Unique id for the cluster. */
-  id?: string;
+  id?: string | undefined;
   /** Configuration for Identity Service component. */
-  identityServiceConfig?: IdentityServiceConfig;
+  identityServiceConfig?: IdentityServiceConfig | undefined;
   /** The initial Kubernetes version for this cluster. Valid versions are those found in validMasterVersions returned by getServerConfig. The version can be upgraded over time; such upgrades are reflected in currentMasterVersion and currentNodeVersion. Users may specify either explicit versions offered by Kubernetes Engine or version aliases, which have the following behavior: - "latest": picks the highest valid Kubernetes version - "1.X": picks the highest valid patch+gke.N patch in the 1.X version - "1.X.Y": picks the highest valid gke.N patch in the 1.X.Y version - "1.X.Y-gke.N": picks an explicit Kubernetes version - "","-": picks the default Kubernetes version */
-  initialClusterVersion?: string;
+  initialClusterVersion?: string | undefined;
   /** The number of nodes to create in this cluster. You must ensure that your Compute Engine [resource quota](https://cloud.google.com/compute/quotas) is sufficient for this number of instances. You must also have available firewall and routes quota. For requests, this field should only be used in lieu of a "node_pool" object, since this configuration (along with the "node_config") will be used to create a "NodePool" object with an auto-generated name. Do not use this and a node_pool at the same time. This field is deprecated, use node_pool.initial_node_count instead. */
-  initialNodeCount?: number;
+  initialNodeCount?: number | undefined;
   /** Deprecated. Use node_pools.instance_group_urls. */
-  instanceGroupUrls?: GcpContainerClusterPropertiesInstanceGroupUrlsList;
+  instanceGroupUrls?: GcpContainerClusterPropertiesInstanceGroupUrlsList | undefined;
   /** Configuration for cluster IP allocation. */
-  ipAllocationPolicy?: IpAllocationPolicy;
+  ipAllocationPolicy?: IpAllocationPolicy | undefined;
   /** The fingerprint of the set of labels for this cluster. */
-  labelFingerprint?: string;
+  labelFingerprint?: string | undefined;
   /** Configuration for the legacy ABAC authorization mode. */
-  legacyAbac?: LegacyAbac;
+  legacyAbac?: LegacyAbac | undefined;
   /** [Output only] The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/regions-zones/regions-zones#available) or [region](https://cloud.google.com/compute/docs/regions-zones/regions-zones#available) in which the cluster resides. */
-  location?: string;
+  location?: string | undefined;
   /** The list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the cluster's nodes should be located. This field provides a default value if [NodePool.Locations](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters.nodePools#NodePool.FIELDS.locations) are not specified during node pool creation. Warning: changing cluster locations will update the [NodePool.Locations](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters.nodePools#NodePool.FIELDS.locations) of all node pools and will result in nodes being added and/or removed. */
-  locations?: GcpContainerClusterPropertiesLocationsList;
+  locations?: GcpContainerClusterPropertiesLocationsList | undefined;
   /** Logging configuration for the cluster. */
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
   /** The logging service the cluster should use to write logs. Currently available options: * `logging.googleapis.com/kubernetes` - The Cloud Logging service with a Kubernetes-native resource model * `logging.googleapis.com` - The legacy Cloud Logging service (no longer available as of GKE 1.15). * `none` - no logs will be exported from the cluster. If left as an empty string,`logging.googleapis.com/kubernetes` will be used for GKE 1.14+ or `logging.googleapis.com` for earlier versions. */
-  loggingService?: string;
+  loggingService?: string | undefined;
   /** Configure the maintenance policy for this cluster. */
-  maintenancePolicy?: MaintenancePolicy;
+  maintenancePolicy?: MaintenancePolicy | undefined;
   /** The authentication information for accessing the master endpoint. If unspecified, the defaults are used: For clusters before v1.12, if master_auth is unspecified, `username` will be set to "admin", a random password will be generated, and a client certificate will be issued. */
-  masterAuth?: MasterAuth;
+  masterAuth?: MasterAuth | undefined;
   /** The configuration options for master authorized networks feature. */
-  masterAuthorizedNetworksConfig?: MasterAuthorizedNetworksConfig;
+  masterAuthorizedNetworksConfig?: MasterAuthorizedNetworksConfig | undefined;
   /** Configuration for issuance of mTLS keys and certificates to Kubernetes pods. */
-  meshCertificates?: MeshCertificates;
+  meshCertificates?: MeshCertificates | undefined;
   /** Monitoring configuration for the cluster. */
-  monitoringConfig?: MonitoringConfig;
+  monitoringConfig?: MonitoringConfig | undefined;
   /** The monitoring service the cluster should use to write metrics. Currently available options: * "monitoring.googleapis.com/kubernetes" - The Cloud Monitoring service with a Kubernetes-native resource model * `monitoring.googleapis.com` - The legacy Cloud Monitoring service (no longer available as of GKE 1.15). * `none` - No metrics will be exported from the cluster. If left as an empty string,`monitoring.googleapis.com/kubernetes` will be used for GKE 1.14+ or `monitoring.googleapis.com` for earlier versions. */
-  monitoringService?: string;
+  monitoringService?: string | undefined;
   /** The name of this cluster. The name must be unique within this project and location (e.g. zone or region), and can be up to 40 characters with the following restrictions: * Lowercase letters, numbers, and hyphens only. * Must start with a letter. * Must end with a number or a letter. */
-  name?: string;
+  name?: string | undefined;
   /** The name of the Google Compute Engine [network](https://cloud.google.com/compute/docs/networks-and-firewalls#networks) to which the cluster is connected. If left unspecified, the `default` network will be used. */
-  network?: string;
+  network?: string | undefined;
   /** Configuration for cluster networking. */
-  networkConfig?: NetworkConfig;
+  networkConfig?: NetworkConfig | undefined;
   /** Configuration options for the NetworkPolicy feature. */
-  networkPolicy?: NetworkPolicy;
+  networkPolicy?: NetworkPolicy | undefined;
   /** Parameters used in creating the cluster's nodes. For requests, this field should only be used in lieu of a "node_pool" object, since this configuration (along with the "initial_node_count") will be used to create a "NodePool" object with an auto-generated name. Do not use this and a node_pool at the same time. For responses, this field will be populated with the node configuration of the first node pool. (For configuration of each node pool, see `node_pool.config`) If unspecified, the defaults are used. This field is deprecated, use node_pool.config instead. */
-  nodeConfig?: NodeConfig;
+  nodeConfig?: NodeConfig | undefined;
   /** [Output only] The size of the address space on each node for hosting containers. This is provisioned from within the `container_ipv4_cidr` range. This field will only be set when cluster is in route-based network mode. */
-  nodeIpv4CidrSize?: number;
+  nodeIpv4CidrSize?: number | undefined;
   /** Node pool configs that apply to all auto-provisioned node pools in autopilot clusters and node auto-provisioning enabled clusters. */
-  nodePoolAutoConfig?: NodePoolAutoConfig;
+  nodePoolAutoConfig?: NodePoolAutoConfig | undefined;
   /** Default NodePool settings for the entire cluster. These settings are overridden if specified on the specific NodePool object. */
-  nodePoolDefaults?: NodePoolDefaults;
+  nodePoolDefaults?: NodePoolDefaults | undefined;
   /** The node pools associated with this cluster. This field should not be set if "node_config" or "initial_node_count" are specified. */
-  nodePools?: GcpContainerClusterPropertiesNodePoolsList;
+  nodePools?: GcpContainerClusterPropertiesNodePoolsList | undefined;
   /** Notification configuration of the cluster. */
-  notificationConfig?: NotificationConfig;
+  notificationConfig?: NotificationConfig | undefined;
   /** The configuration of the parent product of the cluster. This field is used by Google internal products that are built on top of the GKE cluster and take the ownership of the cluster. */
-  parentProductConfig?: ParentProductConfig;
+  parentProductConfig?: ParentProductConfig | undefined;
   /** Configuration for private cluster. */
-  privateClusterConfig?: PrivateClusterConfig;
+  privateClusterConfig?: PrivateClusterConfig | undefined;
   /** Release channel configuration. If left unspecified on cluster creation and a version is specified, the cluster is enrolled in the most mature release channel where the version is available (first checking STABLE, then REGULAR, and finally RAPID). Otherwise, if no release channel configuration and no version is specified, the cluster is enrolled in the REGULAR channel with its default version. */
-  releaseChannel?: ReleaseChannel;
+  releaseChannel?: ReleaseChannel | undefined;
   /** The resource labels for the cluster to use to annotate any related Google Compute Engine resources. */
-  resourceLabels?: GcpContainerClusterPropertiesResourceLabelsMap;
+  resourceLabels?: GcpContainerClusterPropertiesResourceLabelsMap | undefined;
   /** Configuration for exporting resource usages. Resource usage export is disabled when this config is unspecified. */
-  resourceUsageExportConfig?: ResourceUsageExportConfig;
+  resourceUsageExportConfig?: ResourceUsageExportConfig | undefined;
   /** Enable/Disable Security Posture API features for the cluster. */
-  securityPostureConfig?: SecurityPostureConfig;
+  securityPostureConfig?: SecurityPostureConfig | undefined;
   /** [Output only] Server-defined URL for the resource. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** [Output only] The IP address range of the Kubernetes services in this cluster, in [CIDR](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `1.2.3.4/29`). Service addresses are typically put in the last `/16` from the container CIDR. */
-  servicesIpv4Cidr?: string;
+  servicesIpv4Cidr?: string | undefined;
   /** Shielded Nodes configuration. */
-  shieldedNodes?: ShieldedNodes;
+  shieldedNodes?: ShieldedNodes | undefined;
   /** [Output only] The current status of this cluster. */
-  status?: ClusterStatus | (string & {});
+  status?: ClusterStatus | (string & {}) | undefined;
   /** [Output only] Deprecated. Use conditions instead. Additional information about the current status of this cluster, if available. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** The name of the Google Compute Engine [subnetwork](https://cloud.google.com/compute/docs/subnetworks) to which the cluster is connected. */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
   /** [Output only] The IP address range of the Cloud TPUs in this cluster, in [CIDR](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `1.2.3.4/29`). */
-  tpuIpv4CidrBlock?: string;
+  tpuIpv4CidrBlock?: string | undefined;
   /** Cluster-level Vertical Pod Autoscaling configuration. */
-  verticalPodAutoscaling?: VerticalPodAutoscaling;
+  verticalPodAutoscaling?: VerticalPodAutoscaling | undefined;
   /** Configuration for the use of Kubernetes Service Accounts in GCP IAM policies. */
-  workloadIdentityConfig?: WorkloadIdentityConfig;
+  workloadIdentityConfig?: WorkloadIdentityConfig | undefined;
   /** [Output only] The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field is deprecated, use location instead. */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** GCP Tags */
 export type ClusterPropertiesInputGcpTagsMap = { [key: string]: string | undefined };
 /** Definition of ContainerCluster */
 export interface ClusterPropertiesInput {
   /** GCP Properties */
-  gcpProperties?: GcpContainerClusterProperties;
+  gcpProperties?: GcpContainerClusterProperties | undefined;
   /** Public Cloud Connectors Resource ID */
-  publicCloudConnectorsResourceId?: string;
+  publicCloudConnectorsResourceId?: string | undefined;
   /** GCP Project Number */
-  gcpProjectNumber?: string;
+  gcpProjectNumber?: string | undefined;
   /** GCP Project Id */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Fully qualified resource name of the GCP resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Public Cloud Resource Name */
-  publicCloudResourceName?: string;
+  publicCloudResourceName?: string | undefined;
   /** GCP Source Schema */
-  gcpSourceSchema?: string;
+  gcpSourceSchema?: string | undefined;
   /** GCP Region */
-  gcpRegion?: string;
+  gcpRegion?: string | undefined;
   /** GCP Tags */
-  gcpTags?: ClusterPropertiesInputGcpTagsMap;
+  gcpTags?: ClusterPropertiesInputGcpTagsMap | undefined;
 }
 export interface ContainerClustersCreateOrReplaceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
   /** The resource-specific properties for this resource. */
-  properties?: ClusterPropertiesInput;
+  properties?: ClusterPropertiesInput | undefined;
 }
 /** GCP Tags */
 export type ClusterPropertiesGcpTagsMap = { [key: string]: string | undefined };
 /** Definition of ContainerCluster */
 export interface ClusterProperties {
   /** GCP Properties */
-  gcpProperties?: GcpContainerClusterProperties;
+  gcpProperties?: GcpContainerClusterProperties | undefined;
   /** Public Cloud Connectors Resource ID */
-  publicCloudConnectorsResourceId?: string;
+  publicCloudConnectorsResourceId?: string | undefined;
   /** GCP Project Number */
-  gcpProjectNumber?: string;
+  gcpProjectNumber?: string | undefined;
   /** GCP Project Id */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Fully qualified resource name of the GCP resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Public Cloud Resource Name */
-  publicCloudResourceName?: string;
+  publicCloudResourceName?: string | undefined;
   /** GCP Source Schema */
-  gcpSourceSchema?: string;
+  gcpSourceSchema?: string | undefined;
   /** GCP Region */
-  gcpRegion?: string;
+  gcpRegion?: string | undefined;
   /** GCP Tags */
-  gcpTags?: ClusterPropertiesGcpTagsMap;
+  gcpTags?: ClusterPropertiesGcpTagsMap | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface ContainerClustersCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBigQueryDatasetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2918,9 +2919,9 @@ export interface DeleteBigQueryDatasetRequest {
 }
 export interface DeleteBigQueryDatasetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCloudFunctionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2932,9 +2933,9 @@ export interface DeleteCloudFunctionRequest {
 }
 export interface DeleteCloudFunctionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteComputeInstanceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -2942,9 +2943,9 @@ export interface DeleteComputeInstanceRequest {
 }
 export interface DeleteComputeInstanceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteContainerClusterRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -2952,9 +2953,9 @@ export interface DeleteContainerClusterRequest {
 }
 export interface DeleteContainerClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSQLAdminInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2966,9 +2967,9 @@ export interface DeleteSQLAdminInstanceRequest {
 }
 export interface DeleteSQLAdminInstanceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteStorageBucketRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2980,9 +2981,9 @@ export interface DeleteStorageBucketRequest {
 }
 export interface DeleteStorageBucketResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetBigQueryDatasetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2996,19 +2997,19 @@ export interface GetBigQueryDatasetRequest {
 export type GetBigQueryDatasetResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBigQueryDatasetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetBigQueryDatasetResponseTagsMap;
+  tags?: GetBigQueryDatasetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BigQueryDatasetProperties;
+  properties?: BigQueryDatasetProperties | undefined;
 }
 export interface GetCloudFunctionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3022,19 +3023,19 @@ export interface GetCloudFunctionRequest {
 export type GetCloudFunctionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCloudFunctionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCloudFunctionResponseTagsMap;
+  tags?: GetCloudFunctionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FunctionProperties;
+  properties?: FunctionProperties | undefined;
 }
 export interface GetComputeInstanceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -3042,15 +3043,15 @@ export interface GetComputeInstanceRequest {
 }
 export interface GetComputeInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
 }
 export interface GetContainerClusterRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -3058,15 +3059,15 @@ export interface GetContainerClusterRequest {
 }
 export interface GetContainerClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
 }
 export interface GetSQLAdminInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3081,23 +3082,23 @@ export type GetSQLAdminInstanceResponseTagsMap = { [key: string]: string | undef
 /** Disk encryption configuration. */
 export interface DiskEncryptionConfiguration {
   /** KMS key resource name. */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** This is always sql#diskEncryptionConfiguration. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Disk encryption status. */
 export interface DiskEncryptionStatus {
   /** KMS key version used to encrypt the Cloud SQL instance. */
-  kmsKeyVersionName?: string;
+  kmsKeyVersionName?: string | undefined;
   /** This is always sql#diskEncryptionStatus. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The name and status of the failover replica. */
 export interface GcpSqlAdminInstancePropertiesFailoverReplica {
   /** The availability status of the failover replica. A false status indicates that the failover replica is out of sync. The primary instance can only failover to the failover replica when the status is true. */
-  available?: boolean;
+  available?: boolean | undefined;
   /** The name of the failover replica. This property is applicable only if the instance has a failover replica. */
-  name?: string;
+  name?: string | undefined;
 }
 /** IpMapping.type values, as defined by the Google Cloud API. */
 export type IpMappingType =
@@ -3109,98 +3110,98 @@ export type IpMappingType =
 /** Database instance IP Mapping. */
 export interface IpMapping {
   /** The IP address assigned. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The due time for this IP to be retired in RFC 3339 format. */
-  timeToRetire?: string;
+  timeToRetire?: string | undefined;
   /** The type of this IP address. */
-  type?: IpMappingType | (string & {});
+  type?: IpMappingType | (string & {}) | undefined;
 }
 /** The assigned IP addresses for the instance. */
 export type GcpSqlAdminInstancePropertiesIpAddressesList = Array<IpMapping>;
 /** On-premises instance configuration. */
 export interface OnPremisesConfiguration {
   /** PEM representation of the trusted CA's x509 certificate. */
-  caCertificate?: string;
+  caCertificate?: string | undefined;
   /** PEM representation of the replica's x509 certificate. */
-  clientCertificate?: string;
+  clientCertificate?: string | undefined;
   /** PEM representation of the replica's private key. */
-  clientKey?: string;
+  clientKey?: string | undefined;
   /** The dump file to create the Cloud SQL replica. */
-  dumpFilePath?: string;
+  dumpFilePath?: string | undefined;
   /** The host and port of the on-premises instance in host:port format. */
-  hostPort?: string;
+  hostPort?: string | undefined;
   /** This is always sql#onPremisesConfiguration. */
-  kind?: string;
+  kind?: string | undefined;
   /** The password for connecting to on-premises instance. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The username for connecting to on-premises instance. */
-  username?: string;
+  username?: string | undefined;
 }
 /** Read-replica configuration specific to MySQL databases. */
 export interface MySqlReplicaConfiguration {
   /** PEM representation of the trusted CA's x509 certificate. */
-  caCertificate?: string;
+  caCertificate?: string | undefined;
   /** PEM representation of the replica's x509 certificate. */
-  clientCertificate?: string;
+  clientCertificate?: string | undefined;
   /** PEM representation of the replica's private key. */
-  clientKey?: string;
+  clientKey?: string | undefined;
   /** Seconds to wait between connect retries. */
-  connectRetryInterval?: number;
+  connectRetryInterval?: number | undefined;
   /** Path to a SQL dump file in Google Cloud Storage. */
-  dumpFilePath?: string;
+  dumpFilePath?: string | undefined;
   /** This is always sql#mysqlReplicaConfiguration. */
-  kind?: string;
+  kind?: string | undefined;
   /** Interval in milliseconds between replication heartbeats. */
-  masterHeartbeatPeriod?: string;
+  masterHeartbeatPeriod?: string | undefined;
   /** The password for the replication connection. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** A list of permissible ciphers to use for SSL encryption. */
-  sslCipher?: string;
+  sslCipher?: string | undefined;
   /** The username for the replication connection. */
-  username?: string;
+  username?: string | undefined;
   /** Whether or not to check the primary instance's Common Name value. */
-  verifyServerCertificate?: boolean;
+  verifyServerCertificate?: boolean | undefined;
 }
 /** Read-replica configuration for connecting to the primary instance. */
 export interface ReplicaConfiguration {
   /** Whether this replica can be used as a failover target. */
-  failoverTarget?: boolean;
+  failoverTarget?: boolean | undefined;
   /** This is always sql#replicaConfiguration. */
-  kind?: string;
+  kind?: string | undefined;
   /** MySQL specific configuration when replicating from a MySQL primary instance. */
-  mysqlReplicaConfiguration?: MySqlReplicaConfiguration;
+  mysqlReplicaConfiguration?: MySqlReplicaConfiguration | undefined;
 }
 /** The replicas of the instance. */
 export type GcpSqlAdminInstancePropertiesReplicaNamesList = Array<string>;
 /** SQL Server scheduled maintenance settings. */
 export interface SqlScheduledMaintenance {
   /** If the scheduled maintenance can be deferred. */
-  canDefer?: boolean;
+  canDefer?: boolean | undefined;
   /** If the scheduled maintenance can be rescheduled. */
-  canReschedule?: boolean;
+  canReschedule?: boolean | undefined;
   /** The start time of any upcoming scheduled maintenance for this instance. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 /** SSL certificate resource. */
 export interface SslCert {
   /** PEM representation of the X.509 certificate. */
-  cert?: string;
+  cert?: string | undefined;
   /** Serial number, as extracted from the certificate. */
-  certSerialNumber?: string;
+  certSerialNumber?: string | undefined;
   /** User supplied name. Constrained to [a-zA-Z.-_ ]+. */
-  commonName?: string;
+  commonName?: string | undefined;
   /** The time when the certificate was created in RFC 3339 format. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The time when the certificate expires in RFC 3339 format. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** Name of the database instance. */
-  instance?: string;
+  instance?: string | undefined;
   /** This is always sql#sslCert. */
-  kind?: string;
+  kind?: string | undefined;
   /** The URI of this resource. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** SHA-1 fingerprint of the certificate. */
-  sha1Fingerprint?: string;
+  sha1Fingerprint?: string | undefined;
 }
 /** Settings.activationPolicy values, as defined by the Google Cloud API. */
 export type ActivationPolicy =
@@ -3211,9 +3212,9 @@ export type ActivationPolicy =
 /** Active Directory configuration for SQL Server instances. */
 export interface SqlActiveDirectoryConfig {
   /** The name of the domain directory. */
-  domain?: string;
+  domain?: string | undefined;
   /** This is always sql#activeDirectoryConfig. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The App Engine app IDs that can access this instance. */
 export type SettingsAuthorizedGaeApplicationsList = Array<string>;
@@ -3224,28 +3225,28 @@ export type RetentionUnit = "RETENTION_UNIT_UNSPECIFIED" | "COUNT";
 /** Backup retention settings. */
 export interface BackupRetentionSettings {
   /** Number of backup runs to retain. */
-  retainedBackups?: number;
+  retainedBackups?: number | undefined;
   /** The unit that 'retainedBackups' represents. */
-  retentionUnit?: RetentionUnit | (string & {});
+  retentionUnit?: RetentionUnit | (string & {}) | undefined;
 }
 /** Database instance backup configuration. */
 export interface BackupConfiguration {
   /** Backup retention settings. */
-  backupRetentionSettings?: BackupRetentionSettings;
+  backupRetentionSettings?: BackupRetentionSettings | undefined;
   /** Whether backup configuration is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** This is always sql#backupConfiguration. */
-  kind?: string;
+  kind?: string | undefined;
   /** Location of the backup. */
-  location?: string;
+  location?: string | undefined;
   /** True if Point-in-time recovery is enabled. */
-  pointInTimeRecoveryEnabled?: boolean;
+  pointInTimeRecoveryEnabled?: boolean | undefined;
   /** Reserved for future use. */
-  replicationLogArchivingEnabled?: boolean;
+  replicationLogArchivingEnabled?: boolean | undefined;
   /** Start time for the daily backup configuration in UTC timezone. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The number of days of transaction logs we retain for point in time restore. */
-  transactionLogRetentionDays?: number;
+  transactionLogRetentionDays?: number | undefined;
 }
 /** Settings.dataDiskType values, as defined by the Google Cloud API. */
 export type DataDiskType =
@@ -3257,61 +3258,61 @@ export type DataDiskType =
 /** Database flags for Cloud SQL instances. */
 export interface DatabaseFlags {
   /** The name of the flag. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the flag. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The database flags passed to the instance at startup. */
 export type SettingsDatabaseFlagsList = Array<DatabaseFlags>;
 /** An entry for an Access Control list. */
 export interface AclEntry {
   /** The time when this access control entry expires in RFC 3339 format. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** This is always sql#aclEntry. */
-  kind?: string;
+  kind?: string | undefined;
   /** A label to identify this entry. */
-  name?: string;
+  name?: string | undefined;
   /** The allowlisted value for the access control list. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The list of external networks that are allowed to connect to the instance using the IP. */
 export type IpConfigurationAuthorizedNetworksList = Array<AclEntry>;
 /** IP configuration for a Cloud SQL instance. */
 export interface IpConfiguration {
   /** The name of the allocated IP range for the private IP Cloud SQL instance. */
-  allocatedIpRange?: string;
+  allocatedIpRange?: string | undefined;
   /** The list of external networks that are allowed to connect to the instance using the IP. */
-  authorizedNetworks?: IpConfigurationAuthorizedNetworksList;
+  authorizedNetworks?: IpConfigurationAuthorizedNetworksList | undefined;
   /** Whether the instance is assigned a public IP address or not. */
-  ipv4Enabled?: boolean;
+  ipv4Enabled?: boolean | undefined;
   /** The resource link for the VPC network from which the Cloud SQL instance is accessible for private IP. */
-  privateNetwork?: string;
+  privateNetwork?: string | undefined;
   /** Whether SSL connections over IP are enforced or not. */
-  requireSsl?: boolean;
+  requireSsl?: boolean | undefined;
 }
 /** Preferred location settings. */
 export interface LocationPreference {
   /** The App Engine application to follow. */
-  followGaeApplication?: string;
+  followGaeApplication?: string | undefined;
   /** This is always sql#locationPreference. */
-  kind?: string;
+  kind?: string | undefined;
   /** The preferred Compute Engine zone for the secondary/failover. */
-  secondaryZone?: string;
+  secondaryZone?: string | undefined;
   /** The preferred Compute Engine zone for the instance. */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** MaintenanceWindow.updateTrack values, as defined by the Google Cloud API. */
 export type UpdateTrack = "SQL_UPDATE_TRACK_UNSPECIFIED" | "canary" | "stable" | "week5";
 /** Maintenance window for Cloud SQL instances. */
 export interface MaintenanceWindow_2 {
   /** Day of week (1-7), starting on Monday. */
-  day?: number;
+  day?: number | undefined;
   /** Hour of day (0-23). */
-  hour?: number;
+  hour?: number | undefined;
   /** This is always sql#maintenanceWindow. */
-  kind?: string;
+  kind?: string | undefined;
   /** Maintenance timing setting. */
-  updateTrack?: UpdateTrack | (string & {});
+  updateTrack?: UpdateTrack | (string & {}) | undefined;
 }
 /** Settings.pricingPlan values, as defined by the Google Cloud API. */
 export type PricingPlan = "SQL_PRICING_PLAN_UNSPECIFIED" | "PACKAGE" | "PER_USE";
@@ -3322,49 +3323,49 @@ export type SettingsUserLabelsMap = { [key: string]: string | undefined };
 /** Database instance settings. */
 export interface Settings {
   /** The activation policy specifies when the instance is activated. */
-  activationPolicy?: ActivationPolicy | (string & {});
+  activationPolicy?: ActivationPolicy | (string & {}) | undefined;
   /** Active Directory configuration. */
-  activeDirectoryConfig?: SqlActiveDirectoryConfig;
+  activeDirectoryConfig?: SqlActiveDirectoryConfig | undefined;
   /** The App Engine app IDs that can access this instance. */
-  authorizedGaeApplications?: SettingsAuthorizedGaeApplicationsList;
+  authorizedGaeApplications?: SettingsAuthorizedGaeApplicationsList | undefined;
   /** Availability type. */
-  availabilityType?: AvailabilityType | (string & {});
+  availabilityType?: AvailabilityType | (string & {}) | undefined;
   /** Database instance backup configuration. */
-  backupConfiguration?: BackupConfiguration;
+  backupConfiguration?: BackupConfiguration | undefined;
   /** The name of server Instance collation. */
-  collation?: string;
+  collation?: string | undefined;
   /** Configuration specific to read replicas replication. */
-  crashSafeReplicationEnabled?: boolean;
+  crashSafeReplicationEnabled?: boolean | undefined;
   /** The size of data disk, in GB. */
-  dataDiskSizeGb?: string;
+  dataDiskSizeGb?: string | undefined;
   /** The type of data disk. */
-  dataDiskType?: DataDiskType | (string & {});
+  dataDiskType?: DataDiskType | (string & {}) | undefined;
   /** The database flags passed to the instance at startup. */
-  databaseFlags?: SettingsDatabaseFlagsList;
+  databaseFlags?: SettingsDatabaseFlagsList | undefined;
   /** The default IAM policy for new databases created in the instance. */
-  ipConfiguration?: IpConfiguration;
+  ipConfiguration?: IpConfiguration | undefined;
   /** This is always sql#settings. */
-  kind?: string;
+  kind?: string | undefined;
   /** The location preference for the instance. */
-  locationPreference?: LocationPreference;
+  locationPreference?: LocationPreference | undefined;
   /** Maintenance window for the instance. */
-  maintenanceWindow?: MaintenanceWindow_2;
+  maintenanceWindow?: MaintenanceWindow_2 | undefined;
   /** The pricing plan for this instance. */
-  pricingPlan?: PricingPlan | (string & {});
+  pricingPlan?: PricingPlan | (string & {}) | undefined;
   /** The type of replication this instance uses. */
-  replicationType?: ReplicationType | (string & {});
+  replicationType?: ReplicationType | (string & {}) | undefined;
   /** The version of instance settings. */
-  settingsVersion?: string;
+  settingsVersion?: string | undefined;
   /** Configuration to increase storage size automatically. */
-  storageAutoResize?: boolean;
+  storageAutoResize?: boolean | undefined;
   /** The maximum size to which storage capacity can be automatically increased. */
-  storageAutoResizeLimit?: string;
+  storageAutoResizeLimit?: string | undefined;
   /** The tier of service for this instance. */
-  tier?: string;
+  tier?: string | undefined;
   /** User-provided labels, represented as a dictionary. */
-  userLabels?: SettingsUserLabelsMap;
+  userLabels?: SettingsUserLabelsMap | undefined;
   /** The version of instance settings. */
-  version?: number;
+  version?: number | undefined;
 }
 /** If the instance state is SUSPENDED, the reason for the suspension. */
 export type GcpSqlAdminInstancePropertiesSuspensionReasonList = Array<string>;
@@ -3375,9 +3376,9 @@ export type AvailableDatabaseVersionSupportedEditionsList = Array<string>;
 /** Database version that can be used for the instance. */
 export interface AvailableDatabaseVersion {
   /** The database engine version. */
-  version?: string;
+  version?: string | undefined;
   /** List of database editions supported. */
-  supportedEditions?: AvailableDatabaseVersionSupportedEditionsList;
+  supportedEditions?: AvailableDatabaseVersionSupportedEditionsList | undefined;
 }
 /** List of database versions to which this instance could be upgraded. */
 export type GcpSqlAdminInstancePropertiesUpgradableDatabaseVersionsList =
@@ -3396,26 +3397,26 @@ export type PoolNodeState =
 /** Configuration for a node in the instance pool. */
 export interface PoolNodeConfig {
   /** The ID of the node. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the node. */
-  name?: string;
+  name?: string | undefined;
   /** The zone where the node is located. */
-  zone?: string;
+  zone?: string | undefined;
   /** Current state of the node. */
-  state?: PoolNodeState | (string & {});
+  state?: PoolNodeState | (string & {}) | undefined;
   /** IP address of the node. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 /** List of nodes in the instance. */
 export type GcpSqlAdminInstancePropertiesNodesList = Array<PoolNodeConfig>;
 /** DNS name mapping configuration. */
 export interface DnsNameMapping {
   /** The DNS record name. */
-  name?: string;
+  name?: string | undefined;
   /** The type of DNS record. */
-  type?: string;
+  type?: string | undefined;
   /** The value of the DNS record. */
-  value?: string;
+  value?: string | undefined;
 }
 /** List of DNS mappings configured for the instance. */
 export type GcpSqlAdminInstancePropertiesDnsNamesList = Array<DnsNameMapping>;
@@ -3424,165 +3425,169 @@ export type SqlOutOfDiskState = "SQL_OUT_OF_DISK_STATE_UNSPECIFIED" | "NORMAL" |
 /** Report about out of disk conditions. */
 export interface SqlOutOfDiskReport {
   /** Minimum recommended increase size in GB. */
-  sqlMinRecommendedIncreaseSizeGb?: number;
+  sqlMinRecommendedIncreaseSizeGb?: number | undefined;
   /** Current out of disk state. */
-  sqlOutOfDiskState?: SqlOutOfDiskState | (string & {});
+  sqlOutOfDiskState?: SqlOutOfDiskState | (string & {}) | undefined;
 }
 /** Configuration for replication cluster. */
 export interface ReplicationCluster {
   /** ID of the replication cluster. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Status of the replication cluster. */
-  status?: string;
+  status?: string | undefined;
   /** Name of the leader instance. */
-  leaderInstanceName?: string;
+  leaderInstanceName?: string | undefined;
 }
 /** Gemini instance configuration. */
 export interface GeminiInstanceConfig {
   /** The tier of the Gemini instance. */
-  tier?: string;
+  tier?: string | undefined;
   /** Version of the configuration. */
-  configVersion?: string;
+  configVersion?: string | undefined;
 }
 /** A Cloud SQL instance resource. */
 export interface GcpSqlAdminInstanceProperties {
   /** FIRST_GEN: First Generation instance. V1 is a legacy version and should not be used for new instances. */
-  backendType?: string;
+  backendType?: string | undefined;
   /** Connection name of the Cloud SQL instance used in connection strings. */
-  connectionName?: string;
+  connectionName?: string | undefined;
   /** The time when the instance was created in RFC 3339 format. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The database engine type and version. */
-  databaseVersion?: string;
+  databaseVersion?: string | undefined;
   /** Disk encryption configuration specific to an instance. */
-  diskEncryptionConfiguration?: DiskEncryptionConfiguration;
+  diskEncryptionConfiguration?: DiskEncryptionConfiguration | undefined;
   /** Disk encryption status specific to an instance. */
-  diskEncryptionStatus?: DiskEncryptionStatus;
+  diskEncryptionStatus?: DiskEncryptionStatus | undefined;
   /** This field is deprecated and will be removed from a future version of the API. */
-  etag?: string;
+  etag?: string | undefined;
   /** The name and status of the failover replica. */
-  failoverReplica?: GcpSqlAdminInstancePropertiesFailoverReplica;
+  failoverReplica?: GcpSqlAdminInstancePropertiesFailoverReplica | undefined;
   /** The Compute Engine zone that the instance is serving from. */
-  gceZone?: string;
+  gceZone?: string | undefined;
   /** The instance type. */
-  instanceType?: string;
+  instanceType?: string | undefined;
   /** The assigned IP addresses for the instance. */
-  ipAddresses?: GcpSqlAdminInstancePropertiesIpAddressesList;
+  ipAddresses?: GcpSqlAdminInstancePropertiesIpAddressesList | undefined;
   /** The IPv6 address assigned to the instance. */
-  ipv6Address?: string;
+  ipv6Address?: string | undefined;
   /** This is always sql#instance. */
-  kind?: string;
+  kind?: string | undefined;
   /** The name of the instance which will act as primary in the replication setup. */
-  masterInstanceName?: string;
+  masterInstanceName?: string | undefined;
   /** The maximum disk size in bytes. */
-  maxDiskSize?: string;
+  maxDiskSize?: string | undefined;
   /** Name of the Cloud SQL instance. */
-  name?: string;
+  name?: string | undefined;
   /** The on-premises instance configuration. */
-  onPremisesConfiguration?: OnPremisesConfiguration;
+  onPremisesConfiguration?: OnPremisesConfiguration | undefined;
   /** The project ID of the project containing the Cloud SQL instance. */
-  project?: string;
+  project?: string | undefined;
   /** The geographical region. */
-  region?: string;
+  region?: string | undefined;
   /** The replica configuration. */
-  replicaConfiguration?: ReplicaConfiguration;
+  replicaConfiguration?: ReplicaConfiguration | undefined;
   /** The replicas of the instance. */
-  replicaNames?: GcpSqlAdminInstancePropertiesReplicaNamesList;
+  replicaNames?: GcpSqlAdminInstancePropertiesReplicaNamesList | undefined;
   /** Initial root password. */
-  rootPassword?: string | Redacted.Redacted<string>;
+  rootPassword?: string | Redacted.Redacted<string> | undefined;
   /** The status indicating if instance satisfies physical zone separation. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** The scheduled maintenance for the instance. */
-  scheduledMaintenance?: SqlScheduledMaintenance;
+  scheduledMaintenance?: SqlScheduledMaintenance | undefined;
   /** The Compute Engine zone that the failover instance is currently serving from. */
-  secondaryGceZone?: string;
+  secondaryGceZone?: string | undefined;
   /** The URI of this resource. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The server CA certificate used to connect to the instance via SSL. */
-  serverCaCert?: SslCert;
+  serverCaCert?: SslCert | undefined;
   /** The service account email address assigned to the instance. */
-  serviceAccountEmailAddress?: string;
+  serviceAccountEmailAddress?: string | undefined;
   /** The settings for the instance. */
-  settings?: Settings;
+  settings?: Settings | undefined;
   /** The current serving state of the Cloud SQL instance. */
-  state?: string;
+  state?: string | undefined;
   /** If the instance state is SUSPENDED, the reason for the suspension. */
-  suspensionReason?: GcpSqlAdminInstancePropertiesSuspensionReasonList;
+  suspensionReason?: GcpSqlAdminInstancePropertiesSuspensionReasonList | undefined;
   /** The database engine version currently installed on the instance. */
-  databaseInstalledVersion?: string;
+  databaseInstalledVersion?: string | undefined;
   /** The current disk size of the instance in bytes. */
-  currentDiskSize?: string;
+  currentDiskSize?: string | undefined;
   /** List of maintenance versions available for this instance. */
-  availableMaintenanceVersions?: GcpSqlAdminInstancePropertiesAvailableMaintenanceVersionsList;
+  availableMaintenanceVersions?:
+    | GcpSqlAdminInstancePropertiesAvailableMaintenanceVersionsList
+    | undefined;
   /** The current software version on the instance. */
-  maintenanceVersion?: string;
+  maintenanceVersion?: string | undefined;
   /** List of database versions to which this instance could be upgraded. */
-  upgradableDatabaseVersions?: GcpSqlAdminInstancePropertiesUpgradableDatabaseVersionsList;
+  upgradableDatabaseVersions?:
+    | GcpSqlAdminInstancePropertiesUpgradableDatabaseVersionsList
+    | undefined;
   /** List of nodes in the instance. */
-  nodes?: GcpSqlAdminInstancePropertiesNodesList;
+  nodes?: GcpSqlAdminInstancePropertiesNodesList | undefined;
   /** List of DNS mappings configured for the instance. */
-  dnsNames?: GcpSqlAdminInstancePropertiesDnsNamesList;
+  dnsNames?: GcpSqlAdminInstancePropertiesDnsNamesList | undefined;
   /** Report for out of disk conditions. */
-  outOfDiskReport?: SqlOutOfDiskReport;
+  outOfDiskReport?: SqlOutOfDiskReport | undefined;
   /** The network architecture of the instance. */
-  sqlNetworkArchitecture?: string;
+  sqlNetworkArchitecture?: string | undefined;
   /** PSC service attachment link. */
-  pscServiceAttachmentLink?: string;
+  pscServiceAttachmentLink?: string | undefined;
   /** DNS name of the instance. */
-  dnsName?: string;
+  dnsName?: string | undefined;
   /** Primary DNS name of the instance. */
-  primaryDnsName?: string;
+  primaryDnsName?: string | undefined;
   /** Write endpoint for the instance. */
-  writeEndpoint?: string;
+  writeEndpoint?: string | undefined;
   /** Replication cluster configuration. */
-  replicationCluster?: ReplicationCluster;
+  replicationCluster?: ReplicationCluster | undefined;
   /** Gemini instance configuration. */
-  geminiConfig?: GeminiInstanceConfig;
+  geminiConfig?: GeminiInstanceConfig | undefined;
   /** Whether transaction logs switch to cloud storage is enabled. */
-  switchTransactionLogsToCloudStorageEnabled?: boolean;
+  switchTransactionLogsToCloudStorageEnabled?: boolean | undefined;
   /** Number of nodes in the instance. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
 }
 /** GCP Tags */
 export type SQLAdminInstancePropertiesGcpTagsMap = { [key: string]: string | undefined };
 /** Definition of SQLAdminInstanceProperties */
 export interface SQLAdminInstanceProperties {
   /** GCP Properties */
-  gcpProperties?: GcpSqlAdminInstanceProperties;
+  gcpProperties?: GcpSqlAdminInstanceProperties | undefined;
   /** Public Cloud Connectors Resource ID */
-  publicCloudConnectorsResourceId?: string;
+  publicCloudConnectorsResourceId?: string | undefined;
   /** GCP Project Number */
-  gcpProjectNumber?: string;
+  gcpProjectNumber?: string | undefined;
   /** GCP Project Id */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Fully qualified resource name of the GCP resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Public Cloud Resource Name */
-  publicCloudResourceName?: string;
+  publicCloudResourceName?: string | undefined;
   /** GCP Source Schema */
-  gcpSourceSchema?: string;
+  gcpSourceSchema?: string | undefined;
   /** GCP Region */
-  gcpRegion?: string;
+  gcpRegion?: string | undefined;
   /** GCP Tags */
-  gcpTags?: SQLAdminInstancePropertiesGcpTagsMap;
+  gcpTags?: SQLAdminInstancePropertiesGcpTagsMap | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetSQLAdminInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSQLAdminInstanceResponseTagsMap;
+  tags?: GetSQLAdminInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SQLAdminInstanceProperties;
+  properties?: SQLAdminInstanceProperties | undefined;
 }
 export interface GetStorageBucketRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3597,52 +3602,52 @@ export type GetStorageBucketResponseTagsMap = { [key: string]: string | undefine
 /** The project team associated with the entity, if any. */
 export interface BucketAccessControlProjectTeam {
   /** The project number. */
-  projectNumber?: string;
+  projectNumber?: string | undefined;
   /** The team. */
-  team?: string;
+  team?: string | undefined;
 }
 /** An access-control entry. */
 export interface BucketAccessControl {
   /** The name of the bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** The domain associated with the entity, if any. */
-  domain?: string;
+  domain?: string | undefined;
   /** The email address associated with the entity, if any. */
-  email?: string;
+  email?: string | undefined;
   /** The entity holding the permission, in one of the following forms: - user-userId - user-email - group-groupId - group-email - domain-domain - project-team-projectId - allUsers - allAuthenticatedUsers Examples: - The user liz@example.com would be user-liz@example.com. - The group example@googlegroups.com would be group-example@googlegroups.com. - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com. */
-  entity?: string;
+  entity?: string | undefined;
   /** The ID for the entity, if any. */
-  entityId?: string;
+  entityId?: string | undefined;
   /** HTTP 1.1 Entity tag for the access-control entry. */
-  etag?: string;
+  etag?: string | undefined;
   /** The ID of the access-control entry. */
-  id?: string;
+  id?: string | undefined;
   /** The kind of item this is. For bucket access control entries, this is always storage#bucketAccessControl. */
-  kind?: string;
+  kind?: string | undefined;
   /** The project team associated with the entity, if any. */
-  projectTeam?: BucketAccessControlProjectTeam;
+  projectTeam?: BucketAccessControlProjectTeam | undefined;
   /** The access permission for the entity. */
-  role?: string;
+  role?: string | undefined;
   /** The link to this access-control entry. */
-  selfLink?: string;
+  selfLink?: string | undefined;
 }
 /** Access controls on the bucket. */
 export type GcpBucketPropertiesAclList = Array<BucketAccessControl>;
 /** The bucket's Autoclass configuration. */
 export interface GcpBucketPropertiesAutoclass {
   /** Whether or not Autoclass is enabled on this bucket */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The storage class that objects in the bucket eventually transition to if they are not read for a certain length of time. Valid values are NEARLINE and ARCHIVE. */
-  terminalStorageClass?: string;
+  terminalStorageClass?: string | undefined;
   /** A date and time in RFC 3339 format representing the time of the most recent update to \"terminalStorageClass\" */
-  terminalStorageClassUpdateTime?: string;
+  terminalStorageClassUpdateTime?: string | undefined;
   /** A date and time in RFC 3339 format representing the instant at which \"enabled\" was last toggled. */
-  toggleTime?: string;
+  toggleTime?: string | undefined;
 }
 /** The bucket's billing configuration. */
 export interface GcpBucketPropertiesBilling {
   /** When set to true, Requester Pays is enabled for this bucket. */
-  requesterPays?: boolean;
+  requesterPays?: boolean | undefined;
 }
 /** The list of HTTP methods on which to include CORS response headers, (GET, OPTIONS, POST, etc) Note: '*' is permitted in the list of methods, and means 'any method'. */
 export type GcpBucketPropertiesCorsItemMethodList = Array<string>;
@@ -3652,13 +3657,13 @@ export type GcpBucketPropertiesCorsItemOriginList = Array<string>;
 export type GcpBucketPropertiesCorsItemResponseHeaderList = Array<string>;
 export interface GcpBucketPropertiesCorsItem {
   /** The value, in seconds, to return in the Access-Control-Max-Age header used in preflight responses. */
-  maxAgeSeconds?: number;
+  maxAgeSeconds?: number | undefined;
   /** The list of HTTP methods on which to include CORS response headers, (GET, OPTIONS, POST, etc) Note: '*' is permitted in the list of methods, and means 'any method'. */
-  method?: GcpBucketPropertiesCorsItemMethodList;
+  method?: GcpBucketPropertiesCorsItemMethodList | undefined;
   /** The list of Origins eligible to receive CORS response headers. Note: '*' is permitted in the list of origins, and means 'any Origin'. */
-  origin?: GcpBucketPropertiesCorsItemOriginList;
+  origin?: GcpBucketPropertiesCorsItemOriginList | undefined;
   /** The list of HTTP headers other than the simple response headers to give permission for the user-agent to share across domains. */
-  responseHeader?: GcpBucketPropertiesCorsItemResponseHeaderList;
+  responseHeader?: GcpBucketPropertiesCorsItemResponseHeaderList | undefined;
 }
 /** The bucket's Cross-Origin Resource Sharing (CORS) configuration. */
 export type GcpBucketPropertiesCorsList = Array<GcpBucketPropertiesCorsItem>;
@@ -3667,82 +3672,84 @@ export type GcpBucketPropertiesCustomPlacementConfigDataLocationsList = Array<st
 /** The bucket's custom placement configuration for Custom Dual Regions. */
 export interface GcpBucketPropertiesCustomPlacementConfig {
   /** The list of regional locations in which data is placed. */
-  dataLocations?: GcpBucketPropertiesCustomPlacementConfigDataLocationsList;
+  dataLocations?: GcpBucketPropertiesCustomPlacementConfigDataLocationsList | undefined;
 }
 /** The project team associated with the entity, if any. */
 export type ObjectAccessControlProjectTeam = BucketAccessControlProjectTeam;
 /** An access-control entry. */
 export interface ObjectAccessControl {
   /** The name of the bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** The domain associated with the entity, if any. */
-  domain?: string;
+  domain?: string | undefined;
   /** The email address associated with the entity, if any. */
-  email?: string;
+  email?: string | undefined;
   /** The entity holding the permission, in one of the following forms: - user-userId - user-email - group-groupId - group-email - domain-domain - project-team-projectId - allUsers - allAuthenticatedUsers Examples: - The user liz@example.com would be user-liz@example.com. - The group example@googlegroups.com would be group-example@googlegroups.com. - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com. */
-  entity?: string;
+  entity?: string | undefined;
   /** The ID for the entity, if any. */
-  entityId?: string;
+  entityId?: string | undefined;
   /** HTTP 1.1 Entity tag for the access-control entry. */
-  etag?: string;
+  etag?: string | undefined;
   /** The content generation of the object, if applied to an object. */
-  generation?: string;
+  generation?: string | undefined;
   /** The ID of the access-control entry. */
-  id?: string;
+  id?: string | undefined;
   /** The kind of item this is. For object access control entries, this is always storage#objectAccessControl. */
-  kind?: string;
+  kind?: string | undefined;
   /** The name of the object, if applied to an object. */
-  object?: string;
+  object?: string | undefined;
   /** The project team associated with the entity, if any. */
-  projectTeam?: BucketAccessControlProjectTeam;
+  projectTeam?: BucketAccessControlProjectTeam | undefined;
   /** The access permission for the entity. */
-  role?: string;
+  role?: string | undefined;
   /** The link to this access-control entry. */
-  selfLink?: string;
+  selfLink?: string | undefined;
 }
 /** Default access controls to apply to new objects when no ACL is provided. */
 export type GcpBucketPropertiesDefaultObjectAclList = Array<ObjectAccessControl>;
 /** Encryption configuration for a bucket. */
 export interface GcpBucketPropertiesEncryption {
   /** A Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified. */
-  defaultKmsKeyName?: string;
+  defaultKmsKeyName?: string | undefined;
 }
 /** The bucket's hierarchical namespace configuration. */
 export interface GcpBucketPropertiesHierarchicalNamespace {
   /** When set to true, hierarchical namespace is enabled for this bucket. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The bucket's uniform bucket-level access configuration. The feature was formerly known as Bucket Policy Only. For backward compatibility, this field will be populated with identical information as the uniformBucketLevelAccess field. We recommend using the uniformBucketLevelAccess field to enable and disable the feature. */
 export interface GcpBucketPropertiesIamConfigurationBucketPolicyOnly {
   /** If set, access is controlled only by bucket-level or above IAM policies. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The deadline for changing iamConfiguration.bucketPolicyOnly.enabled from true to false in RFC 3339 format. iamConfiguration.bucketPolicyOnly.enabled may be changed from true to false until the locked time, after which the field is immutable. */
-  lockedTime?: string;
+  lockedTime?: string | undefined;
 }
 /** The bucket's uniform bucket-level access configuration. */
 export interface GcpBucketPropertiesIamConfigurationUniformBucketLevelAccess {
   /** If set, access is controlled only by bucket-level or above IAM policies. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The deadline for changing iamConfiguration.uniformBucketLevelAccess.enabled from true to false in RFC 3339 format. iamConfiguration.uniformBucketLevelAccess.enabled may be changed from true to false until the locked time, after which the field is immutable. */
-  lockedTime?: string;
+  lockedTime?: string | undefined;
 }
 /** The bucket's IAM configuration. */
 export interface GcpBucketPropertiesIamConfiguration {
   /** The bucket's uniform bucket-level access configuration. The feature was formerly known as Bucket Policy Only. For backward compatibility, this field will be populated with identical information as the uniformBucketLevelAccess field. We recommend using the uniformBucketLevelAccess field to enable and disable the feature. */
-  bucketPolicyOnly?: GcpBucketPropertiesIamConfigurationBucketPolicyOnly;
+  bucketPolicyOnly?: GcpBucketPropertiesIamConfigurationBucketPolicyOnly | undefined;
   /** The bucket's Public Access Prevention configuration. Currently, 'inherited' and 'enforced' are supported. */
-  publicAccessPrevention?: string;
+  publicAccessPrevention?: string | undefined;
   /** The bucket's uniform bucket-level access configuration. */
-  uniformBucketLevelAccess?: GcpBucketPropertiesIamConfigurationUniformBucketLevelAccess;
+  uniformBucketLevelAccess?:
+    | GcpBucketPropertiesIamConfigurationUniformBucketLevelAccess
+    | undefined;
 }
 /** User-provided labels, in key/value pairs. */
 export type GcpBucketPropertiesLabelsMap = { [key: string]: string | undefined };
 /** The action to take. */
 export interface GcpBucketPropertiesLifecycleRuleItemAction {
   /** Target storage class. Required iff the type of the action is SetStorageClass. */
-  storageClass?: string;
+  storageClass?: string | undefined;
   /** Type of the action. Currently, only Delete, SetStorageClass, and AbortIncompleteMultipartUpload are supported. */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of object name prefixes. This condition will be satisfied when at least one of the prefixes exactly matches the beginning of the object name. */
 export type GcpBucketPropertiesLifecycleRuleItemConditionMatchesPrefixList = Array<string>;
@@ -3753,201 +3760,203 @@ export type GcpBucketPropertiesLifecycleRuleItemConditionMatchesSuffixList = Arr
 /** The condition(s) under which the action will be taken. */
 export interface GcpBucketPropertiesLifecycleRuleItemCondition {
   /** Age of an object (in days). This condition is satisfied when an object reaches the specified age. */
-  age?: number;
+  age?: number | undefined;
   /** A date in RFC 3339 format with only the date part (for instance, "2013-01-15"). This condition is satisfied when an object is created before midnight of the specified date in UTC. */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** A date in RFC 3339 format with only the date part (for instance, "2013-01-15"). This condition is satisfied when the custom time on an object is before this date in UTC. */
-  customTimeBefore?: string;
+  customTimeBefore?: string | undefined;
   /** Number of days elapsed since the user-specified timestamp set on an object. The condition is satisfied if the days elapsed is at least this number. If no custom timestamp is specified on an object, the condition does not apply. */
-  daysSinceCustomTime?: number;
+  daysSinceCustomTime?: number | undefined;
   /** Number of days elapsed since the noncurrent timestamp of an object. The condition is satisfied if the days elapsed is at least this number. This condition is relevant only for versioned objects. The value of the field must be a nonnegative integer. If it's zero, the object version will become eligible for Lifecycle action as soon as it becomes noncurrent. */
-  daysSinceNoncurrentTime?: number;
+  daysSinceNoncurrentTime?: number | undefined;
   /** Relevant only for versioned objects. If the value is true, this condition matches live objects; if the value is false, it matches archived objects. */
-  isLive?: boolean;
+  isLive?: boolean | undefined;
   /** A regular expression that satisfies the RE2 syntax. This condition is satisfied when the name of the object matches the RE2 pattern. Note: This feature is currently in the "Early Access" launch stage and is only available to a whitelisted set of users; that means that this feature may be changed in backward-incompatible ways and that it is not guaranteed to be released. */
-  matchesPattern?: string;
+  matchesPattern?: string | undefined;
   /** List of object name prefixes. This condition will be satisfied when at least one of the prefixes exactly matches the beginning of the object name. */
-  matchesPrefix?: GcpBucketPropertiesLifecycleRuleItemConditionMatchesPrefixList;
+  matchesPrefix?: GcpBucketPropertiesLifecycleRuleItemConditionMatchesPrefixList | undefined;
   /** Objects having any of the storage classes specified by this condition will be matched. Values include MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE, STANDARD, and DURABLE_REDUCED_AVAILABILITY. */
-  matchesStorageClass?: GcpBucketPropertiesLifecycleRuleItemConditionMatchesStorageClassList;
+  matchesStorageClass?:
+    | GcpBucketPropertiesLifecycleRuleItemConditionMatchesStorageClassList
+    | undefined;
   /** List of object name suffixes. This condition will be satisfied when at least one of the suffixes exactly matches the end of the object name. */
-  matchesSuffix?: GcpBucketPropertiesLifecycleRuleItemConditionMatchesSuffixList;
+  matchesSuffix?: GcpBucketPropertiesLifecycleRuleItemConditionMatchesSuffixList | undefined;
   /** A date in RFC 3339 format with only the date part (for instance, "2013-01-15"). This condition is satisfied when the noncurrent time on an object is before this date in UTC. This condition is relevant only for versioned objects. */
-  noncurrentTimeBefore?: string;
+  noncurrentTimeBefore?: string | undefined;
   /** Relevant only for versioned objects. If the value is N, this condition is satisfied when there are at least N versions (including the live version) newer than this version of the object. */
-  numNewerVersions?: number;
+  numNewerVersions?: number | undefined;
 }
 export interface GcpBucketPropertiesLifecycleRuleItem {
   /** The action to take. */
-  action?: GcpBucketPropertiesLifecycleRuleItemAction;
+  action?: GcpBucketPropertiesLifecycleRuleItemAction | undefined;
   /** The condition(s) under which the action will be taken. */
-  condition?: GcpBucketPropertiesLifecycleRuleItemCondition;
+  condition?: GcpBucketPropertiesLifecycleRuleItemCondition | undefined;
 }
 /** A lifecycle management rule, which is made of an action to take and the condition(s) under which the action will be taken. */
 export type GcpBucketPropertiesLifecycleRuleList = Array<GcpBucketPropertiesLifecycleRuleItem>;
 /** The bucket's lifecycle configuration. See lifecycle management for more information. */
 export interface GcpBucketPropertiesLifecycle {
   /** A lifecycle management rule, which is made of an action to take and the condition(s) under which the action will be taken. */
-  rule?: GcpBucketPropertiesLifecycleRuleList;
+  rule?: GcpBucketPropertiesLifecycleRuleList | undefined;
 }
 /** The bucket's logging configuration, which defines the destination bucket and optional name prefix for the current bucket's logs. */
 export interface GcpBucketPropertiesLogging {
   /** The destination bucket where the current bucket's logs should be placed. */
-  logBucket?: string;
+  logBucket?: string | undefined;
   /** A prefix for log object names. */
-  logObjectPrefix?: string;
+  logObjectPrefix?: string | undefined;
 }
 /** The bucket's object retention config. */
 export interface GcpBucketPropertiesObjectRetention {
   /** The bucket's object retention mode. Can be Enabled. */
-  mode?: string;
+  mode?: string | undefined;
 }
 /** The owner of the bucket. This is always the project team's owner group. */
 export interface GcpBucketPropertiesOwner {
   /** The entity, in the form project-owner-projectId. */
-  entity?: string;
+  entity?: string | undefined;
   /** The ID for the entity. */
-  entityId?: string;
+  entityId?: string | undefined;
 }
 /** The bucket's retention policy. The retention policy enforces a minimum retention time for all objects contained in the bucket, based on their creation time. Any attempt to overwrite or delete objects younger than the retention period will result in a PERMISSION_DENIED error. An unlocked retention policy can be modified or removed from the bucket via a storage.buckets.update operation. A locked retention policy cannot be removed or shortened in duration for the lifetime of the bucket. Attempting to remove or decrease period of a locked retention policy will result in a PERMISSION_DENIED error. */
 export interface GcpBucketPropertiesRetentionPolicy {
   /** Server-determined value that indicates the time from which policy was enforced and effective. This value is in RFC 3339 format. */
-  effectiveTime?: string;
+  effectiveTime?: string | undefined;
   /** Once locked, an object retention policy cannot be modified. */
-  isLocked?: boolean;
+  isLocked?: boolean | undefined;
   /** The duration in seconds that objects need to be retained. Retention duration must be greater than zero and less than 100 years. Note that enforcement of retention periods less than a day is not guaranteed. Such periods should only be used for testing purposes. */
-  retentionPeriod?: string;
+  retentionPeriod?: string | undefined;
 }
 /** The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. */
 export interface GcpBucketPropertiesSoftDeletePolicy {
   /** Server-determined value that indicates the time from which the policy, or one with a greater retention, was effective. This value is in RFC 3339 format. */
-  effectiveTime?: string;
+  effectiveTime?: string | undefined;
   /** The duration in seconds that soft-deleted objects in the bucket will be retained and cannot be permanently deleted. */
-  retentionDurationSeconds?: string;
+  retentionDurationSeconds?: string | undefined;
 }
 /** The bucket's versioning configuration. */
 export interface GcpBucketPropertiesVersioning {
   /** While set to true, versioning is fully enabled for this bucket. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The bucket's website configuration, controlling how the service behaves when accessing bucket contents as a web site. See the Static Website Examples for more information. */
 export interface GcpBucketPropertiesWebsite {
   /** If the requested object path is missing, the service will ensure the path has a trailing '/', append this suffix, and attempt to retrieve the resulting object. This allows the creation of index.html objects to represent directory pages. */
-  mainPageSuffix?: string;
+  mainPageSuffix?: string | undefined;
   /** If the requested object path is missing, and any mainPageSuffix object is missing, if applicable, the service will return the named object from this bucket as the content for a 404 Not Found result. */
-  notFoundPage?: string;
+  notFoundPage?: string | undefined;
 }
 /** A bucket. */
 export interface GcpBucketProperties {
   /** Access controls on the bucket. */
-  acl?: GcpBucketPropertiesAclList;
+  acl?: GcpBucketPropertiesAclList | undefined;
   /** The bucket's Autoclass configuration. */
-  autoclass?: GcpBucketPropertiesAutoclass;
+  autoclass?: GcpBucketPropertiesAutoclass | undefined;
   /** The bucket's billing configuration. */
-  billing?: GcpBucketPropertiesBilling;
+  billing?: GcpBucketPropertiesBilling | undefined;
   /** The bucket's Cross-Origin Resource Sharing (CORS) configuration. */
-  cors?: GcpBucketPropertiesCorsList;
+  cors?: GcpBucketPropertiesCorsList | undefined;
   /** The bucket's custom placement configuration for Custom Dual Regions. */
-  customPlacementConfig?: GcpBucketPropertiesCustomPlacementConfig;
+  customPlacementConfig?: GcpBucketPropertiesCustomPlacementConfig | undefined;
   /** The default value for event-based hold on newly created objects in this bucket. Event-based hold is a way to retain objects indefinitely until an event occurs, signified by the hold's release. After being released, such objects will be subject to bucket-level retention (if any). One sample use case of this flag is for banks to hold loan documents for at least 3 years after loan is paid in full. Here, bucket-level retention is 3 years and the event is loan being paid in full. In this example, these objects will be held intact for any number of years until the event has occurred (event-based hold on the object is released) and then 3 more years after that. That means retention duration of the objects begins from the moment event-based hold transitioned from true to false. Objects under event-based hold cannot be deleted, overwritten or archived until the hold is removed. */
-  defaultEventBasedHold?: boolean;
+  defaultEventBasedHold?: boolean | undefined;
   /** Default access controls to apply to new objects when no ACL is provided. */
-  defaultObjectAcl?: GcpBucketPropertiesDefaultObjectAclList;
+  defaultObjectAcl?: GcpBucketPropertiesDefaultObjectAclList | undefined;
   /** Encryption configuration for a bucket. */
-  encryption?: GcpBucketPropertiesEncryption;
+  encryption?: GcpBucketPropertiesEncryption | undefined;
   /** HTTP 1.1 Entity tag for the bucket. */
-  etag?: string;
+  etag?: string | undefined;
   /** The bucket's hierarchical namespace configuration. */
-  hierarchicalNamespace?: GcpBucketPropertiesHierarchicalNamespace;
+  hierarchicalNamespace?: GcpBucketPropertiesHierarchicalNamespace | undefined;
   /** The bucket's IAM configuration. */
-  iamConfiguration?: GcpBucketPropertiesIamConfiguration;
+  iamConfiguration?: GcpBucketPropertiesIamConfiguration | undefined;
   /** The ID of the bucket. For buckets, the id and name properties are the same. */
-  id?: string;
+  id?: string | undefined;
   /** The content generation of this object. Used for object versioning.. */
-  generation?: string;
+  generation?: string | undefined;
   /** The kind of item this is. For buckets, this is always storage#bucket. */
-  kind?: string;
+  kind?: string | undefined;
   /** User-provided labels, in key/value pairs. */
-  labels?: GcpBucketPropertiesLabelsMap;
+  labels?: GcpBucketPropertiesLabelsMap | undefined;
   /** The bucket's lifecycle configuration. See lifecycle management for more information. */
-  lifecycle?: GcpBucketPropertiesLifecycle;
+  lifecycle?: GcpBucketPropertiesLifecycle | undefined;
   /** The location of the bucket. Object data for objects in the bucket resides in physical storage within this region. Defaults to US. See the developer's guide for the authoritative list. */
-  location?: string;
+  location?: string | undefined;
   /** The type of the bucket location. */
-  locationType?: string;
+  locationType?: string | undefined;
   /** The bucket's logging configuration, which defines the destination bucket and optional name prefix for the current bucket's logs. */
-  logging?: GcpBucketPropertiesLogging;
+  logging?: GcpBucketPropertiesLogging | undefined;
   /** The metadata generation of this bucket. */
-  metageneration?: string;
+  metageneration?: string | undefined;
   /** The name of the bucket. */
-  name?: string;
+  name?: string | undefined;
   /** The bucket's object retention config. */
-  objectRetention?: GcpBucketPropertiesObjectRetention;
+  objectRetention?: GcpBucketPropertiesObjectRetention | undefined;
   /** The owner of the bucket. This is always the project team's owner group. */
-  owner?: GcpBucketPropertiesOwner;
+  owner?: GcpBucketPropertiesOwner | undefined;
   /** The project number of the project the bucket belongs to. */
-  projectNumber?: string;
+  projectNumber?: string | undefined;
   /** The bucket's retention policy. The retention policy enforces a minimum retention time for all objects contained in the bucket, based on their creation time. Any attempt to overwrite or delete objects younger than the retention period will result in a PERMISSION_DENIED error. An unlocked retention policy can be modified or removed from the bucket via a storage.buckets.update operation. A locked retention policy cannot be removed or shortened in duration for the lifetime of the bucket. Attempting to remove or decrease period of a locked retention policy will result in a PERMISSION_DENIED error. */
-  retentionPolicy?: GcpBucketPropertiesRetentionPolicy;
+  retentionPolicy?: GcpBucketPropertiesRetentionPolicy | undefined;
   /** The Recovery Point Objective (RPO) of this bucket. Set to ASYNC_TURBO to turn on Turbo Replication on a bucket. */
-  rpo?: string;
+  rpo?: string | undefined;
   /** Reserved for future use. */
-  satisfiesPZS?: boolean;
+  satisfiesPZS?: boolean | undefined;
   /** The URI of this bucket. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. */
-  softDeletePolicy?: GcpBucketPropertiesSoftDeletePolicy;
+  softDeletePolicy?: GcpBucketPropertiesSoftDeletePolicy | undefined;
   /** The bucket's default storage class, used whenever no storageClass is specified for a newly-created object. This defines how objects in the bucket are stored and determines the SLA and the cost of storage. Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE, COLDLINE, ARCHIVE, and DURABLE_REDUCED_AVAILABILITY. If this value is not specified when the bucket is created, it will default to STANDARD. For more information, see storage classes. */
-  storageClass?: string;
+  storageClass?: string | undefined;
   /** The creation time of the bucket in RFC 3339 format. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
   /** The modification time of the bucket in RFC 3339 format. */
-  updated?: string;
+  updated?: string | undefined;
   /** The bucket's versioning configuration. */
-  versioning?: GcpBucketPropertiesVersioning;
+  versioning?: GcpBucketPropertiesVersioning | undefined;
   /** The bucket's website configuration, controlling how the service behaves when accessing bucket contents as a web site. See the Static Website Examples for more information. */
-  website?: GcpBucketPropertiesWebsite;
+  website?: GcpBucketPropertiesWebsite | undefined;
 }
 /** GCP Tags */
 export type BucketPropertiesGcpTagsMap = { [key: string]: string | undefined };
 /** Definition of BucketProperties */
 export interface BucketProperties {
   /** GCP Properties */
-  gcpProperties?: GcpBucketProperties;
+  gcpProperties?: GcpBucketProperties | undefined;
   /** Public Cloud Connectors Resource ID */
-  publicCloudConnectorsResourceId?: string;
+  publicCloudConnectorsResourceId?: string | undefined;
   /** GCP Project Number */
-  gcpProjectNumber?: string;
+  gcpProjectNumber?: string | undefined;
   /** GCP Project Id */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Fully qualified resource name of the GCP resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Public Cloud Resource Name */
-  publicCloudResourceName?: string;
+  publicCloudResourceName?: string | undefined;
   /** GCP Source Schema */
-  gcpSourceSchema?: string;
+  gcpSourceSchema?: string | undefined;
   /** GCP Region */
-  gcpRegion?: string;
+  gcpRegion?: string | undefined;
   /** GCP Tags */
-  gcpTags?: BucketPropertiesGcpTagsMap;
+  gcpTags?: BucketPropertiesGcpTagsMap | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetStorageBucketResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetStorageBucketResponseTagsMap;
+  tags?: GetStorageBucketResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BucketProperties;
+  properties?: BucketProperties | undefined;
 }
 export interface ListBigQueryDatasetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3960,19 +3969,19 @@ export type BigQueryDatasetTagsMap = { [key: string]: string | undefined };
 /** A Microsoft.GcpConnector resource */
 export interface BigQueryDataset {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BigQueryDatasetTagsMap;
+  tags?: BigQueryDatasetTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BigQueryDatasetProperties;
+  properties?: BigQueryDatasetProperties | undefined;
 }
 /** The BigQueryDataset items on this page */
 export type BigQueryDatasetListResultValueList = Array<BigQueryDataset>;
@@ -3981,7 +3990,7 @@ export interface BigQueryDatasetListResult {
   /** The BigQueryDataset items on this page */
   value: BigQueryDatasetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBigQueryDatasetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3998,19 +4007,19 @@ export type CloudFunctionTagsMap = { [key: string]: string | undefined };
 /** A Microsoft.GcpConnector resource */
 export interface CloudFunction {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CloudFunctionTagsMap;
+  tags?: CloudFunctionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FunctionProperties;
+  properties?: FunctionProperties | undefined;
 }
 /** The CloudFunction items on this page */
 export type CloudFunctionListResultValueList = Array<CloudFunction>;
@@ -4019,7 +4028,7 @@ export interface CloudFunctionListResult {
   /** The CloudFunction items on this page */
   value: CloudFunctionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCloudFunctionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4032,15 +4041,15 @@ export interface ListComputeInstancesRequest {
 /** A Microsoft.GCPConnector resource */
 export interface ComputeInstance {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
 }
 /** The ComputeInstance items on this page */
 export type ComputeInstanceListResultValueList = Array<ComputeInstance>;
@@ -4049,7 +4058,7 @@ export interface ComputeInstanceListResult {
   /** The ComputeInstance items on this page */
   value: ComputeInstanceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerClustersRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -4058,15 +4067,15 @@ export interface ListContainerClustersRequest {
 /** A Microsoft.GCPConnector resource */
 export interface ContainerCluster {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
 }
 /** The ContainerCluster items on this page */
 export type ContainerClusterListResultValueList = Array<ContainerCluster>;
@@ -4075,19 +4084,19 @@ export interface ContainerClusterListResult {
   /** The ContainerCluster items on this page */
   value: ContainerClusterListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -4096,23 +4105,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSQLAdminInstanceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4125,19 +4134,19 @@ export type SQLAdminInstanceTagsMap = { [key: string]: string | undefined };
 /** A Microsoft.GcpConnector resource */
 export interface SQLAdminInstance {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SQLAdminInstanceTagsMap;
+  tags?: SQLAdminInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SQLAdminInstanceProperties;
+  properties?: SQLAdminInstanceProperties | undefined;
 }
 /** The SQLAdminInstance items on this page */
 export type SQLAdminInstanceListResultValueList = Array<SQLAdminInstance>;
@@ -4146,7 +4155,7 @@ export interface SQLAdminInstanceListResult {
   /** The SQLAdminInstance items on this page */
   value: SQLAdminInstanceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSQLAdminInstanceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4163,19 +4172,19 @@ export type StorageBucketTagsMap = { [key: string]: string | undefined };
 /** A Microsoft.GcpConnector resource */
 export interface StorageBucket {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StorageBucketTagsMap;
+  tags?: StorageBucketTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BucketProperties;
+  properties?: BucketProperties | undefined;
 }
 /** The StorageBucket items on this page */
 export type StorageBucketListResultValueList = Array<StorageBucket>;
@@ -4184,7 +4193,7 @@ export interface StorageBucketListResult {
   /** The StorageBucket items on this page */
   value: StorageBucketListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageBucketBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4197,23 +4206,23 @@ export type SQLAdminInstancePropertiesInputGcpTagsMap = { [key: string]: string 
 /** Definition of SQLAdminInstanceProperties */
 export interface SQLAdminInstancePropertiesInput {
   /** GCP Properties */
-  gcpProperties?: GcpSqlAdminInstanceProperties;
+  gcpProperties?: GcpSqlAdminInstanceProperties | undefined;
   /** Public Cloud Connectors Resource ID */
-  publicCloudConnectorsResourceId?: string;
+  publicCloudConnectorsResourceId?: string | undefined;
   /** GCP Project Number */
-  gcpProjectNumber?: string;
+  gcpProjectNumber?: string | undefined;
   /** GCP Project Id */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Fully qualified resource name of the GCP resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Public Cloud Resource Name */
-  publicCloudResourceName?: string;
+  publicCloudResourceName?: string | undefined;
   /** GCP Source Schema */
-  gcpSourceSchema?: string;
+  gcpSourceSchema?: string | undefined;
   /** GCP Region */
-  gcpRegion?: string;
+  gcpRegion?: string | undefined;
   /** GCP Tags */
-  gcpTags?: SQLAdminInstancePropertiesInputGcpTagsMap;
+  gcpTags?: SQLAdminInstancePropertiesInputGcpTagsMap | undefined;
 }
 export interface SQLAdminInstancesCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4223,33 +4232,33 @@ export interface SQLAdminInstancesCreateOrReplaceRequest {
   /** Name of SQLAdminInstance */
   name: string;
   /** Resource tags. */
-  tags?: SQLAdminInstancesCreateOrReplaceRequestTagsMap;
+  tags?: SQLAdminInstancesCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SQLAdminInstancePropertiesInput;
+  properties?: SQLAdminInstancePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type SQLAdminInstancesCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
 export interface SQLAdminInstancesCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SQLAdminInstancesCreateOrReplaceResponseTagsMap;
+  tags?: SQLAdminInstancesCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SQLAdminInstanceProperties;
+  properties?: SQLAdminInstanceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type StorageBucketsCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
@@ -4258,23 +4267,23 @@ export type BucketPropertiesInputGcpTagsMap = { [key: string]: string | undefine
 /** Definition of BucketProperties */
 export interface BucketPropertiesInput {
   /** GCP Properties */
-  gcpProperties?: GcpBucketProperties;
+  gcpProperties?: GcpBucketProperties | undefined;
   /** Public Cloud Connectors Resource ID */
-  publicCloudConnectorsResourceId?: string;
+  publicCloudConnectorsResourceId?: string | undefined;
   /** GCP Project Number */
-  gcpProjectNumber?: string;
+  gcpProjectNumber?: string | undefined;
   /** GCP Project Id */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Fully qualified resource name of the GCP resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Public Cloud Resource Name */
-  publicCloudResourceName?: string;
+  publicCloudResourceName?: string | undefined;
   /** GCP Source Schema */
-  gcpSourceSchema?: string;
+  gcpSourceSchema?: string | undefined;
   /** GCP Region */
-  gcpRegion?: string;
+  gcpRegion?: string | undefined;
   /** GCP Tags */
-  gcpTags?: BucketPropertiesInputGcpTagsMap;
+  gcpTags?: BucketPropertiesInputGcpTagsMap | undefined;
 }
 export interface StorageBucketsCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4284,33 +4293,33 @@ export interface StorageBucketsCreateOrReplaceRequest {
   /** Name of StorageBucket */
   name: string;
   /** Resource tags. */
-  tags?: StorageBucketsCreateOrReplaceRequestTagsMap;
+  tags?: StorageBucketsCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BucketPropertiesInput;
+  properties?: BucketPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type StorageBucketsCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
 export interface StorageBucketsCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StorageBucketsCreateOrReplaceResponseTagsMap;
+  tags?: StorageBucketsCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BucketProperties;
+  properties?: BucketProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateBigQueryDatasetRequestTagsMap = { [key: string]: string | undefined };
@@ -4322,29 +4331,29 @@ export interface UpdateBigQueryDatasetRequest {
   /** Name of BigQueryDataset */
   name: string;
   /** Resource tags. */
-  tags?: UpdateBigQueryDatasetRequestTagsMap;
+  tags?: UpdateBigQueryDatasetRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateBigQueryDatasetResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBigQueryDatasetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateBigQueryDatasetResponseTagsMap;
+  tags?: UpdateBigQueryDatasetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BigQueryDatasetProperties;
+  properties?: BigQueryDatasetProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateCloudFunctionRequestTagsMap = { [key: string]: string | undefined };
@@ -4356,29 +4365,29 @@ export interface UpdateCloudFunctionRequest {
   /** Name of CloudFunction */
   name: string;
   /** Resource tags. */
-  tags?: UpdateCloudFunctionRequestTagsMap;
+  tags?: UpdateCloudFunctionRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateCloudFunctionResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateCloudFunctionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCloudFunctionResponseTagsMap;
+  tags?: UpdateCloudFunctionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FunctionProperties;
+  properties?: FunctionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateSQLAdminInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -4390,29 +4399,29 @@ export interface UpdateSQLAdminInstanceRequest {
   /** Name of SQLAdminInstance */
   name: string;
   /** Resource tags. */
-  tags?: UpdateSQLAdminInstanceRequestTagsMap;
+  tags?: UpdateSQLAdminInstanceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSQLAdminInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSQLAdminInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSQLAdminInstanceResponseTagsMap;
+  tags?: UpdateSQLAdminInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SQLAdminInstanceProperties;
+  properties?: SQLAdminInstanceProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateStorageBucketRequestTagsMap = { [key: string]: string | undefined };
@@ -4424,29 +4433,29 @@ export interface UpdateStorageBucketRequest {
   /** Name of StorageBucket */
   name: string;
   /** Resource tags. */
-  tags?: UpdateStorageBucketRequestTagsMap;
+  tags?: UpdateStorageBucketRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateStorageBucketResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateStorageBucketResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateStorageBucketResponseTagsMap;
+  tags?: UpdateStorageBucketResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BucketProperties;
+  properties?: BucketProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type BigQueryDatasetsCreateOrReplaceError = AzureOpError;
 /** Create a big query dataset. Please note that end user resource creation is currently restricted, but it will be enabled in the future. */

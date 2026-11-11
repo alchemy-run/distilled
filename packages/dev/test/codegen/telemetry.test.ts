@@ -231,6 +231,7 @@ describe("output members and provider rules", () => {
     });
     expect(op?.attributes).toEqual({ "azure.resource_provider.namespace": "Microsoft.Insights" });
     expect(azure.propagation).toBe("w3c");
+    expect(azure.labelNames).toEqual({ resourceGroupName: "azure.resource_group.name" });
     expect(azure.responseHeaders).toContainEqual({
       header: "x-ms-request-id",
       name: "azure.service.request.id",

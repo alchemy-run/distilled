@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Monitoringservice",
   service: "Monitoringservice",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -52,11 +53,11 @@ export interface AddIssueInvestigationResultRequest {
   /** The identifier of the investigation */
   id: string;
   /** The origin of the investigation */
-  origin?: Origin;
+  origin?: Origin | undefined;
   /** The creation time of the investigation (in UTC) */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The last update time of the investigation (in UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
   /** The result of this investigation */
   result: string;
 }
@@ -65,11 +66,11 @@ export interface InvestigationResult {
   /** The identifier of the investigation */
   id: string;
   /** The origin of the investigation */
-  origin?: Origin;
+  origin?: Origin | undefined;
   /** The creation time of the investigation (in UTC) */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The last update time of the investigation (in UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
   /** The result of this investigation */
   result: string;
 }
@@ -80,16 +81,16 @@ export type AzureMonitorWorkspacesCreateOrUpdateRequestTagsMap = {
 /** Properties related to the metrics container in the Azure Monitor Workspace */
 export interface AzureMonitorWorkspaceMetricsInput {
   /** Flag that indicates whether to enable access using resource permissions. */
-  enableAccessUsingResourcePermissions?: boolean;
+  enableAccessUsingResourcePermissions?: boolean | undefined;
 }
 /** Gets or sets allow or disallow public network access to Azure Monitor Workspace */
 export type PublicNetworkAccess = "Enabled" | "Disabled";
 /** Properties of an Azure Monitor Workspace */
 export interface AzureMonitorWorkspaceInput {
   /** Properties related to the metrics container in the Azure Monitor Workspace */
-  metrics?: AzureMonitorWorkspaceMetricsInput;
+  metrics?: AzureMonitorWorkspaceMetricsInput | undefined;
   /** Gets or sets allow or disallow public network access to Azure Monitor Workspace */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -107,7 +108,9 @@ export type AzureMonitorWorkspacesCreateOrUpdateRequestIdentityUserAssignedIdent
 export interface AzureMonitorWorkspacesCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AzureMonitorWorkspacesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | AzureMonitorWorkspacesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface AzureMonitorWorkspacesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -117,13 +120,13 @@ export interface AzureMonitorWorkspacesCreateOrUpdateRequest {
   /** The name of the Azure Monitor Workspace. The name is case insensitive */
   azureMonitorWorkspaceName: string;
   /** Resource tags. */
-  tags?: AzureMonitorWorkspacesCreateOrUpdateRequestTagsMap;
+  tags?: AzureMonitorWorkspacesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties */
-  properties?: AzureMonitorWorkspaceInput;
+  properties?: AzureMonitorWorkspaceInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AzureMonitorWorkspacesCreateOrUpdateRequestIdentity;
+  identity?: AzureMonitorWorkspacesCreateOrUpdateRequestIdentity | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -132,17 +135,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AzureMonitorWorkspacesCreateOrUpdateResponseTagsMap = {
@@ -151,47 +154,47 @@ export type AzureMonitorWorkspacesCreateOrUpdateResponseTagsMap = {
 /** Properties related to the metrics container in the Azure Monitor Workspace */
 export interface AzureMonitorWorkspaceMetrics {
   /** The Prometheus query endpoint for the Azure Monitor Workspace */
-  prometheusQueryEndpoint?: string;
+  prometheusQueryEndpoint?: string | undefined;
   /** An internal identifier for the metrics container. Only to be used by the system. */
-  internalId?: string;
+  internalId?: string | undefined;
   /** Flag that indicates whether to enable access using resource permissions. */
-  enableAccessUsingResourcePermissions?: boolean;
+  enableAccessUsingResourcePermissions?: boolean | undefined;
 }
 /** The provisioning state of a resource type. */
 export type AzureResourceManagerResourceProvisioningState = "Succeeded" | "Failed" | "Canceled";
 /** The ingestion endpoints for an Azure Monitor Workspace. */
 export interface IngestionEndpoints {
   /** The metrics ingestion endpoint for this Azure Monitor Workspace. */
-  metrics?: string;
+  metrics?: string | undefined;
 }
 /** The Data Collection Rule and Endpoint used for ingestion by default. */
 export interface AzureMonitorWorkspaceDefaultIngestionSettings {
   /** The Azure resource Id of the default data collection rule for this Azure Monitor Workspace. */
-  dataCollectionRuleResourceId?: string;
+  dataCollectionRuleResourceId?: string | undefined;
   /** The Azure resource Id of the default data collection endpoint for this Azure Monitor Workspace. */
-  dataCollectionEndpointResourceId?: string;
+  dataCollectionEndpointResourceId?: string | undefined;
   /** The immutable Id of the default data collection rule for this Azure Monitor Workspace. */
-  dataCollectionRuleImmutableId?: string;
+  dataCollectionRuleImmutableId?: string | undefined;
   /** The ingestion endpoints for this Azure Monitor Workspace. */
-  ingestionEndpoints?: IngestionEndpoints;
+  ingestionEndpoints?: IngestionEndpoints | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** The private endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
+  status?: PrivateEndpointServiceConnectionStatus | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -202,26 +205,26 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The private endpoint connection resource. */
 export interface AzureMonitorWorkspacePrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections */
 export type AzureMonitorWorkspacePrivateEndpointConnectionsList =
@@ -229,24 +232,24 @@ export type AzureMonitorWorkspacePrivateEndpointConnectionsList =
 /** Properties of an Azure Monitor Workspace */
 export interface AzureMonitorWorkspace {
   /** The immutable Id of the Azure Monitor Workspace. This property is read-only. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Properties related to the metrics container in the Azure Monitor Workspace */
-  metrics?: AzureMonitorWorkspaceMetrics;
+  metrics?: AzureMonitorWorkspaceMetrics | undefined;
   /** The provisioning state of the Azure Monitor Workspace. Set to Succeeded if everything is healthy. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** The Data Collection Rule and Endpoint used for ingestion by default. */
-  defaultIngestionSettings?: AzureMonitorWorkspaceDefaultIngestionSettings;
+  defaultIngestionSettings?: AzureMonitorWorkspaceDefaultIngestionSettings | undefined;
   /** List of private endpoint connections */
-  privateEndpointConnections?: AzureMonitorWorkspacePrivateEndpointConnectionsList;
+  privateEndpointConnections?: AzureMonitorWorkspacePrivateEndpointConnectionsList | undefined;
   /** Gets or sets allow or disallow public network access to Azure Monitor Workspace */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type AzureMonitorWorkspacesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
@@ -255,32 +258,34 @@ export type AzureMonitorWorkspacesCreateOrUpdateResponseIdentityUserAssignedIden
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AzureMonitorWorkspacesCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AzureMonitorWorkspacesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | AzureMonitorWorkspacesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface AzureMonitorWorkspacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AzureMonitorWorkspacesCreateOrUpdateResponseTagsMap;
+  tags?: AzureMonitorWorkspacesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties */
-  properties?: AzureMonitorWorkspace;
+  properties?: AzureMonitorWorkspace | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AzureMonitorWorkspacesCreateOrUpdateResponseIdentity;
+  identity?: AzureMonitorWorkspacesCreateOrUpdateResponseIdentity | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The issue status */
 export type Status = "New" | "InProgress" | "Mitigated" | "Closed" | "Canceled";
@@ -296,11 +301,11 @@ export type BackgroundDetailsList = Array<BackgroundDetails>;
 /** The issue background information */
 export interface Background {
   /** The background type */
-  type?: string;
+  type?: string | undefined;
   /** The background text */
-  text?: string;
+  text?: string | undefined;
   /** The background details */
-  details?: BackgroundDetailsList;
+  details?: BackgroundDetailsList | undefined;
 }
 /** The type of update that triggers a notification */
 export type UpdateType = "IssueCreation" | "TimeBased" | "OnChange";
@@ -316,11 +321,11 @@ export type NotificationsActionGroupIdsList = Array<string>;
 /** Issue notification settings */
 export interface Notifications {
   /** The types of updates that trigger notifications */
-  updateTypes?: NotificationsUpdateTypesList;
+  updateTypes?: NotificationsUpdateTypesList | undefined;
   /** The action group IDs to notify */
-  actionGroupIds?: NotificationsActionGroupIdsList;
+  actionGroupIds?: NotificationsActionGroupIdsList | undefined;
   /** Whether to exclude default action groups from notifications */
-  excludeDefaultActionGroups?: boolean;
+  excludeDefaultActionGroups?: boolean | undefined;
 }
 /** The issue properties */
 export interface IssuePropertiesInput {
@@ -333,9 +338,9 @@ export interface IssuePropertiesInput {
   /** The issue impact time (in UTC) */
   impactTime: string;
   /** The issue background information */
-  background?: Background;
+  background?: Background | undefined;
   /** The issue notification settings */
-  notifications?: Notifications;
+  notifications?: Notifications | undefined;
 }
 export interface CreateIssueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -347,9 +352,9 @@ export interface CreateIssueRequest {
   /** The name of the IssueResource */
   issueName: string;
   /** Related resource or alert that is to be added to the issue (default: empty - the issue will be created without any related resources or alerts) */
-  related?: string;
+  related?: string | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: IssuePropertiesInput;
+  properties?: IssuePropertiesInput | undefined;
 }
 /** Properties of the current investigation */
 export interface InvestigationMetadata {
@@ -375,23 +380,23 @@ export interface IssueProperties {
   /** The number of investigations in the issue */
   investigationsCount: number;
   /** The issue background information */
-  background?: Background;
+  background?: Background | undefined;
   /** The issue notification settings */
-  notifications?: Notifications;
+  notifications?: Notifications | undefined;
   /** The provisioning state of the resource. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface CreateIssueResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: IssueProperties;
+  properties?: IssueProperties | undefined;
 }
 export interface DeleteAzureMonitorWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -403,9 +408,9 @@ export interface DeleteAzureMonitorWorkspaceRequest {
 }
 export interface DeleteAzureMonitorWorkspaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteIssueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -428,9 +433,9 @@ export interface DeletePipelineGroupRequest {
 }
 export interface DeletePipelineGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface FetchIssueBackgroundVisualizationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -478,32 +483,34 @@ export type GetAzureMonitorWorkspaceResponseIdentityUserAssignedIdentitiesMap = 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetAzureMonitorWorkspaceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetAzureMonitorWorkspaceResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | GetAzureMonitorWorkspaceResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface GetAzureMonitorWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAzureMonitorWorkspaceResponseTagsMap;
+  tags?: GetAzureMonitorWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties */
-  properties?: AzureMonitorWorkspace;
+  properties?: AzureMonitorWorkspace | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetAzureMonitorWorkspaceResponseIdentity;
+  identity?: GetAzureMonitorWorkspaceResponseIdentity | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetIssueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -517,15 +524,15 @@ export interface GetIssueRequest {
 }
 export interface GetIssueResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: IssueProperties;
+  properties?: IssueProperties | undefined;
 }
 export interface GetMetricsContainerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -540,21 +547,21 @@ export interface GetMetricsContainerRequest {
 /** Properties of a metrics container. */
 export interface MetricsContainer {
   /** The provisioning state of the metrics container. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** The version of Metrics Query Service that this AMW will use for all metric queries. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetMetricsContainerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: MetricsContainer;
+  properties?: MetricsContainer | undefined;
 }
 export interface GetPipelineGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -585,11 +592,11 @@ export interface SyslogReceiver {
   /** Syslog receiver endpoint definition. Example: 0.0.0.0:<port>. */
   endpoint: string;
   /** List of allowed message formats for syslog/CEF ingestion. Default 'all'. */
-  allowedFormats?: SyslogReceiverAllowedFormatsList;
+  allowedFormats?: SyslogReceiverAllowedFormatsList | undefined;
   /** Transport protocol. Default tcp. */
-  transportProtocol?: SyslogReceiverTransportProtocol | (string & {});
+  transportProtocol?: SyslogReceiverTransportProtocol | (string & {}) | undefined;
   /** Configure the receiver to allow parsing of messages without the PRI header. Default false. */
-  allowSkipPriHeader?: boolean;
+  allowSkipPriHeader?: boolean | undefined;
 }
 /** OTLP Receiver. */
 export interface OtlpReceiver {
@@ -603,11 +610,11 @@ export interface Receiver {
   /** The name of receiver. */
   name: string;
   /** Reference to a named TLS configuration. If not specified, default TLS configuration is used. */
-  tlsConfiguration?: string;
+  tlsConfiguration?: string | undefined;
   /** Syslog configurations. This field is mandatory for syslog type receivers. */
-  syslog?: SyslogReceiver;
+  syslog?: SyslogReceiver | undefined;
   /** OTLP receiver configurations. This field is mandatory for OTLP receivers. */
-  otlp?: OtlpReceiver;
+  otlp?: OtlpReceiver | undefined;
 }
 /** The receivers specified for a pipeline group instance. */
 export type PipelineGroupPropertiesReceiversList = Array<Receiver>;
@@ -620,9 +627,9 @@ export type ProcessorType =
 /** Batch processor. */
 export interface BatchProcessor {
   /** Size of the batch. */
-  batchSize?: number;
+  batchSize?: number | undefined;
   /** Timeout in milliseconds. */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 /** Transform language processor. */
 export interface TransformLanguageProcessor {
@@ -636,9 +643,9 @@ export interface Processor {
   /** The name of processor. */
   name: string;
   /** Batch processor configurations. */
-  batch?: BatchProcessor;
+  batch?: BatchProcessor | undefined;
   /** Transform language processor configurations. */
-  transformLanguage?: TransformLanguageProcessor;
+  transformLanguage?: TransformLanguageProcessor | undefined;
 }
 /** The processors specified for a pipeline group instance. */
 export type PipelineGroupPropertiesProcessorsList = Array<Processor>;
@@ -676,9 +683,9 @@ export interface SchemaMap {
   /** Record Map. */
   recordMap: SchemaMapRecordMapList;
   /** Resource Map captures information about the entity for which telemetry is recorded. For example, metrics exposed by a Kubernetes container can be linked to a resource that specifies the cluster, namespace, pod, and container name.Resource may capture an entire hierarchy of entity identification. It may describe the host in the cloud and specific container or an application running in the process. */
-  resourceMap?: SchemaMapResourceMapList;
+  resourceMap?: SchemaMapResourceMapList | undefined;
   /** A scope map is a logical unit of the application code with which the emitted telemetry can be associated. */
-  scopeMap?: SchemaMapScopeMapList;
+  scopeMap?: SchemaMapScopeMapList | undefined;
 }
 /** Azure Monitor Workspace Logs Api configurations. */
 export interface AzureMonitorWorkspaceLogsApiConfig {
@@ -694,16 +701,16 @@ export interface AzureMonitorWorkspaceLogsApiConfig {
 /** Persistence options for this exporter. */
 export interface ExporterPersistenceConfiguration {
   /** Max storage usage in gigabytes. */
-  maxStorageUsage?: number;
+  maxStorageUsage?: number | undefined;
   /** Retention period in minutes. */
-  retentionPeriod?: number;
+  retentionPeriod?: number | undefined;
 }
 /** Azure Monitor Workspace Logs specific configurations. */
 export interface AzureMonitorWorkspaceLogsExporter {
   /** API configurations for Azure Monitor workspace exporter. */
   api: AzureMonitorWorkspaceLogsApiConfig;
   /** Persistence options for the exporter. */
-  persistence?: ExporterPersistenceConfiguration;
+  persistence?: ExporterPersistenceConfiguration | undefined;
 }
 /** Exporter Info. */
 export interface Exporter {
@@ -712,7 +719,7 @@ export interface Exporter {
   /** The name of exporter. */
   name: string;
   /** Azure Monitor Workspace Logs specific configurations. */
-  azureMonitorWorkspaceLogs?: AzureMonitorWorkspaceLogsExporter;
+  azureMonitorWorkspaceLogs?: AzureMonitorWorkspaceLogsExporter | undefined;
 }
 /** The exporters specified for a pipeline group instance. */
 export type PipelineGroupPropertiesExportersList = Array<Exporter>;
@@ -733,7 +740,7 @@ export interface Pipeline {
   /** Reference to receivers configured for the pipeline. */
   receivers: PipelineReceiversList;
   /** Reference to processors configured for the pipeline. */
-  processors?: PipelineProcessorsList;
+  processors?: PipelineProcessorsList | undefined;
   /** Reference to exporters configured for the pipeline. */
   exporters: PipelineExportersList;
 }
@@ -749,7 +756,7 @@ export interface Service {
   /** Pipelines belonging to a given pipeline group. */
   pipelines: ServicePipelinesList;
   /** Persistence options to all pipelines in the instance. */
-  persistence?: PersistenceConfigurations;
+  persistence?: PersistenceConfigurations | undefined;
 }
 /** The match operator for placement constraints. */
 export type CapabilityOperator = "In" | "NotIn" | "Exists" | "DoesNotExist";
@@ -762,21 +769,21 @@ export interface PlacementConstraint {
   /** The match operator, e.g., In, NotIn, Exists, DoesNotExist. */
   operator: CapabilityOperator | (string & {});
   /** The values to match against. Not required for Exists/DoesNotExist. */
-  values?: PlacementConstraintValuesList;
+  values?: PlacementConstraintValuesList | undefined;
 }
 /** A list of placement constraints to guide where pipelineGroup instances should run. */
 export type ExecutionPlacementConstraintsList = Array<PlacementConstraint>;
 /** Distribution policy for spreading instances across compute units. */
 export interface DistributionPolicy {
   /** Maximum number of instances allowed per compute unit (node/VM). If not specified, default scheduling applies. */
-  maxInstancesPerHost?: number;
+  maxInstancesPerHost?: number | undefined;
 }
 /** Constraints for guiding the execution environment of the pipeline group. */
 export interface ExecutionPlacement {
   /** A list of placement constraints to guide where pipelineGroup instances should run. */
-  constraints?: ExecutionPlacementConstraintsList;
+  constraints?: ExecutionPlacementConstraintsList | undefined;
   /** Distribution policy for spreading instances across compute units (nodes/VMs). */
-  distribution?: DistributionPolicy;
+  distribution?: DistributionPolicy | undefined;
 }
 /** The TLS security mode for receivers using this configuration. Default is 'mutualTls'. */
 export type TlsConfigurationMode = "disabled" | "serverOnly" | "mutualTls";
@@ -814,11 +821,11 @@ export interface TlsConfiguration {
   /** The name of the TLS configuration. */
   name: string;
   /** The TLS security mode for receivers using this configuration. Default is 'mutualTls'. */
-  mode?: TlsConfigurationMode | (string & {});
+  mode?: TlsConfigurationMode | (string & {}) | undefined;
   /** TLS certificate and its private key. If not specified, default TLS certificate is used. */
-  tlsCertificate?: CertificateWithKey;
+  tlsCertificate?: CertificateWithKey | undefined;
   /** Certificate source configuration for the client CA certificate for validating client certificates. If not specified, default CA certificates are used. */
-  clientCa?: CertificateSource;
+  clientCa?: CertificateSource | undefined;
 }
 /** TLS configurations for the pipeline group instance. */
 export type PipelineGroupPropertiesTlsConfigurationsList = Array<TlsConfiguration>;
@@ -827,7 +834,7 @@ export type ProvisioningState = "Succeeded" | "Failed" | "Canceled" | "Creating"
 /** Properties that need to be specified to create a new pipeline group instance. */
 export interface PipelineGroupProperties {
   /** Defines the amount of replicas of the pipeline group instance. */
-  replicas?: number;
+  replicas?: number | undefined;
   /** The receivers specified for a pipeline group instance. */
   receivers: PipelineGroupPropertiesReceiversList;
   /** The processors specified for a pipeline group instance. */
@@ -837,11 +844,11 @@ export interface PipelineGroupProperties {
   /** The service section for a given pipeline group instance. */
   service: Service;
   /** Constraints for guiding the execution environment of the pipeline group. */
-  executionPlacement?: ExecutionPlacement;
+  executionPlacement?: ExecutionPlacement | undefined;
   /** TLS configurations for the pipeline group instance. */
-  tlsConfigurations?: PipelineGroupPropertiesTlsConfigurationsList;
+  tlsConfigurations?: PipelineGroupPropertiesTlsConfigurationsList | undefined;
   /** The provisioning state of a pipeline group instance. Set to Succeeded if everything is healthy. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** The supported ExtendedLocation types. */
 export type AzureResourceManagerCommonTypesExtendedLocationType = "EdgeZone" | "CustomLocation";
@@ -854,21 +861,21 @@ export interface AzureResourceManagerCommonTypesExtendedLocation {
 }
 export interface GetPipelineGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPipelineGroupResponseTagsMap;
+  tags?: GetPipelineGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PipelineGroupProperties;
+  properties?: PipelineGroupProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 /** The relevance status of the resource */
 export type Relevance = "None" | "Relevant" | "Irrelevant";
@@ -969,33 +976,35 @@ export type AzureMonitorWorkspaceResourceIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AzureMonitorWorkspaceResourceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AzureMonitorWorkspaceResourceIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | AzureMonitorWorkspaceResourceIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 /** An Azure Monitor Workspace definition */
 export interface AzureMonitorWorkspaceResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AzureMonitorWorkspaceResourceTagsMap;
+  tags?: AzureMonitorWorkspaceResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties */
-  properties?: AzureMonitorWorkspace;
+  properties?: AzureMonitorWorkspace | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AzureMonitorWorkspaceResourceIdentity;
+  identity?: AzureMonitorWorkspaceResourceIdentity | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The AzureMonitorWorkspaceResource items on this page */
 export type AzureMonitorWorkspaceResourceListResultValueList = Array<AzureMonitorWorkspaceResource>;
@@ -1004,7 +1013,7 @@ export interface AzureMonitorWorkspaceResourceListResult {
   /** The AzureMonitorWorkspaceResource items on this page */
   value: AzureMonitorWorkspaceResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAzureMonitorWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1021,15 +1030,15 @@ export interface ListIssueRequest {
 /** The Issue resource */
 export interface IssueResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: IssueProperties;
+  properties?: IssueProperties | undefined;
 }
 /** The IssueResource items on this page */
 export type IssueResourceListResultValueList = Array<IssueResource>;
@@ -1038,7 +1047,7 @@ export interface IssueResourceListResult {
   /** The IssueResource items on this page */
   value: IssueResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIssueAlertsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1050,7 +1059,7 @@ export interface ListIssueAlertsRequest {
   /** The name of the IssueResource */
   issueName: string;
   /** The filter to apply on the operation. For example, to filter by relevance, use "$filter=relevance eq 'Relevant'". Note: this property is currently a placeholder and is not in use. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** The RelatedAlert items on this page */
 export type PagedRelatedAlertValueList = Array<RelatedAlert>;
@@ -1059,7 +1068,7 @@ export interface PagedRelatedAlert {
   /** The RelatedAlert items on this page */
   value: PagedRelatedAlertValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIssueResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1071,7 +1080,7 @@ export interface ListIssueResourcesRequest {
   /** The name of the IssueResource */
   issueName: string;
   /** The filter to apply on the operation. For example, to filter by relevance, use "$filter=relevance eq 'Relevant'". Note: this property is currently a placeholder and is not in use. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** The RelatedResource items on this page */
 export type PagedRelatedResourceValueList = Array<RelatedResource>;
@@ -1080,7 +1089,7 @@ export interface PagedRelatedResource {
   /** The RelatedResource items on this page */
   value: PagedRelatedResourceValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMetricsContainerByAzureMonitorWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1093,15 +1102,15 @@ export interface ListMetricsContainerByAzureMonitorWorkspaceRequest {
 /** Metrics container resource for an Azure Monitor Workspace. */
 export interface MetricsContainerResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: MetricsContainer;
+  properties?: MetricsContainer | undefined;
 }
 /** The MetricsContainerResource items on this page */
 export type MetricsContainerResourceListResultValueList = Array<MetricsContainerResource>;
@@ -1110,19 +1119,19 @@ export interface MetricsContainerResourceListResult {
   /** The MetricsContainerResource items on this page */
   value: MetricsContainerResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1131,23 +1140,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPipelineGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1160,21 +1169,21 @@ export type PipelineGroupTagsMap = { [key: string]: string | undefined };
 /** A pipeline group definition. */
 export interface PipelineGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PipelineGroupTagsMap;
+  tags?: PipelineGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PipelineGroupProperties;
+  properties?: PipelineGroupProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 /** The PipelineGroup items on this page */
 export type PipelineGroupListResultValueList = Array<PipelineGroup>;
@@ -1183,7 +1192,7 @@ export interface PipelineGroupListResult {
   /** The PipelineGroup items on this page */
   value: PipelineGroupListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPipelineGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1192,7 +1201,7 @@ export interface ListPipelineGroupBySubscriptionRequest {
 /** Properties of a metrics container. */
 export interface MetricsContainerInput {
   /** The version of Metrics Query Service that this AMW will use for all metric queries. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface MetricsContainersCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1204,19 +1213,19 @@ export interface MetricsContainersCreateOrUpdateRequest {
   /** The name of the MetricsContainer */
   metricsContainerName: string;
   /** The resource-specific properties for this resource. */
-  properties?: MetricsContainerInput;
+  properties?: MetricsContainerInput | undefined;
 }
 export interface MetricsContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: MetricsContainer;
+  properties?: MetricsContainer | undefined;
 }
 /** Resource tags. */
 export type PipelineGroupsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1231,7 +1240,7 @@ export type PipelineGroupPropertiesInputTlsConfigurationsList = Array<TlsConfigu
 /** Properties that need to be specified to create a new pipeline group instance. */
 export interface PipelineGroupPropertiesInput {
   /** Defines the amount of replicas of the pipeline group instance. */
-  replicas?: number;
+  replicas?: number | undefined;
   /** The receivers specified for a pipeline group instance. */
   receivers: PipelineGroupPropertiesInputReceiversList;
   /** The processors specified for a pipeline group instance. */
@@ -1241,9 +1250,9 @@ export interface PipelineGroupPropertiesInput {
   /** The service section for a given pipeline group instance. */
   service: Service;
   /** Constraints for guiding the execution environment of the pipeline group. */
-  executionPlacement?: ExecutionPlacement;
+  executionPlacement?: ExecutionPlacement | undefined;
   /** TLS configurations for the pipeline group instance. */
-  tlsConfigurations?: PipelineGroupPropertiesInputTlsConfigurationsList;
+  tlsConfigurations?: PipelineGroupPropertiesInputTlsConfigurationsList | undefined;
 }
 export interface PipelineGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1253,37 +1262,37 @@ export interface PipelineGroupsCreateOrUpdateRequest {
   /** The name of pipeline group. The name is case insensitive. */
   pipelineGroupName: string;
   /** Resource tags. */
-  tags?: PipelineGroupsCreateOrUpdateRequestTagsMap;
+  tags?: PipelineGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PipelineGroupPropertiesInput;
+  properties?: PipelineGroupPropertiesInput | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 /** Resource tags. */
 export type PipelineGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface PipelineGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PipelineGroupsCreateOrUpdateResponseTagsMap;
+  tags?: PipelineGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PipelineGroupProperties;
+  properties?: PipelineGroupProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SetIssueBackgroundVisualizationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1308,7 +1317,9 @@ export type UpdateAzureMonitorWorkspaceRequestIdentityUserAssignedIdentitiesMap 
 export interface UpdateAzureMonitorWorkspaceRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateAzureMonitorWorkspaceRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | UpdateAzureMonitorWorkspaceRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface UpdateAzureMonitorWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1318,11 +1329,11 @@ export interface UpdateAzureMonitorWorkspaceRequest {
   /** The name of the Azure Monitor Workspace. The name is case insensitive */
   azureMonitorWorkspaceName: string;
   /** Resource tags. */
-  tags?: UpdateAzureMonitorWorkspaceRequestTagsMap;
+  tags?: UpdateAzureMonitorWorkspaceRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateAzureMonitorWorkspaceRequestIdentity;
+  identity?: UpdateAzureMonitorWorkspaceRequestIdentity | undefined;
   /** Resource properties */
-  properties?: AzureMonitorWorkspaceInput;
+  properties?: AzureMonitorWorkspaceInput | undefined;
 }
 /** Resource tags. */
 export type UpdateAzureMonitorWorkspaceResponseTagsMap = { [key: string]: string | undefined };
@@ -1333,47 +1344,49 @@ export type UpdateAzureMonitorWorkspaceResponseIdentityUserAssignedIdentitiesMap
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateAzureMonitorWorkspaceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateAzureMonitorWorkspaceResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | UpdateAzureMonitorWorkspaceResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface UpdateAzureMonitorWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAzureMonitorWorkspaceResponseTagsMap;
+  tags?: UpdateAzureMonitorWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties */
-  properties?: AzureMonitorWorkspace;
+  properties?: AzureMonitorWorkspace | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateAzureMonitorWorkspaceResponseIdentity;
+  identity?: UpdateAzureMonitorWorkspaceResponseIdentity | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The issue properties for update */
 export interface IssuePropertiesUpdate {
   /** The issue title */
-  title?: string;
+  title?: string | undefined;
   /** The issue status */
-  status?: Status | (string & {});
+  status?: Status | (string & {}) | undefined;
   /** The issue severity */
-  severity?: string;
+  severity?: string | undefined;
   /** The issue impact time (in UTC) */
-  impactTime?: string;
+  impactTime?: string | undefined;
   /** The issue background information */
-  background?: Background;
+  background?: Background | undefined;
   /** The issue notification settings */
-  notifications?: Notifications;
+  notifications?: Notifications | undefined;
 }
 export interface UpdateIssueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1385,19 +1398,19 @@ export interface UpdateIssueRequest {
   /** The name of the IssueResource */
   issueName: string;
   /** The resource-specific properties for this resource. */
-  properties?: IssuePropertiesUpdate;
+  properties?: IssuePropertiesUpdate | undefined;
 }
 export interface UpdateIssueResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: IssueProperties;
+  properties?: IssueProperties | undefined;
 }
 /** Resource tags. */
 export type UpdatePipelineGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -1412,33 +1425,33 @@ export type ServiceUpdatePipelinesList = Array<Pipeline>;
 /** Persistence options to all pipelines in the instance. */
 export interface PersistenceConfigurationsUpdate {
   /** The name of the mounted persistent volume. */
-  persistentVolumeName?: string;
+  persistentVolumeName?: string | undefined;
 }
 /** Service Info. */
 export interface ServiceUpdate {
   /** Pipelines belonging to a given pipeline group. */
-  pipelines?: ServiceUpdatePipelinesList;
+  pipelines?: ServiceUpdatePipelinesList | undefined;
   /** Persistence options to all pipelines in the instance. */
-  persistence?: PersistenceConfigurationsUpdate;
+  persistence?: PersistenceConfigurationsUpdate | undefined;
 }
 /** TLS configurations for the pipeline group instance. */
 export type PipelineGroupPropertiesUpdateTlsConfigurationsList = Array<TlsConfiguration>;
 /** Properties that need to be specified to create a new pipeline group instance. */
 export interface PipelineGroupPropertiesUpdate {
   /** Defines the amount of replicas of the pipeline group instance. */
-  replicas?: number;
+  replicas?: number | undefined;
   /** The receivers specified for a pipeline group instance. */
-  receivers?: PipelineGroupPropertiesUpdateReceiversList;
+  receivers?: PipelineGroupPropertiesUpdateReceiversList | undefined;
   /** The processors specified for a pipeline group instance. */
-  processors?: PipelineGroupPropertiesUpdateProcessorsList;
+  processors?: PipelineGroupPropertiesUpdateProcessorsList | undefined;
   /** The exporters specified for a pipeline group instance. */
-  exporters?: PipelineGroupPropertiesUpdateExportersList;
+  exporters?: PipelineGroupPropertiesUpdateExportersList | undefined;
   /** The service section for a given pipeline group instance. */
-  service?: ServiceUpdate;
+  service?: ServiceUpdate | undefined;
   /** Constraints for guiding the execution environment of the pipeline group. */
-  executionPlacement?: ExecutionPlacement;
+  executionPlacement?: ExecutionPlacement | undefined;
   /** TLS configurations for the pipeline group instance. */
-  tlsConfigurations?: PipelineGroupPropertiesUpdateTlsConfigurationsList;
+  tlsConfigurations?: PipelineGroupPropertiesUpdateTlsConfigurationsList | undefined;
 }
 export interface UpdatePipelineGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1448,33 +1461,33 @@ export interface UpdatePipelineGroupRequest {
   /** The name of pipeline group. The name is case insensitive. */
   pipelineGroupName: string;
   /** Resource tags. */
-  tags?: UpdatePipelineGroupRequestTagsMap;
+  tags?: UpdatePipelineGroupRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PipelineGroupPropertiesUpdate;
+  properties?: PipelineGroupPropertiesUpdate | undefined;
 }
 /** Resource tags. */
 export type UpdatePipelineGroupResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePipelineGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePipelineGroupResponseTagsMap;
+  tags?: UpdatePipelineGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PipelineGroupProperties;
+  properties?: PipelineGroupProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AddIssueInvestigationResultError = AzureOpError;
 /** Adds investigation result */

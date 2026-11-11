@@ -48,7 +48,7 @@ export interface BudgetTimePeriod {
   /** The start date for the budget. - Constraints for **CategoryType: Cost** - Must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than twelve months. Past start date should be selected within the timegrain period. - Constraints for **CategoryType: ReservationUtilization** - Must be on or after the current date and less than the end date. */
   startDate: string;
   /** The end date for the budget. - Constraints for **CategoryType: Cost** - No constraints. If not provided, we default this to 10 years from the start date. - Constraints for **CategoryType: ReservationUtilization** - End date cannot be more than 3 years after the start date. */
-  endDate?: string;
+  endDate?: string | undefined;
 }
 /** The operator to use for comparison. */
 export type BudgetOperatorType = "In";
@@ -66,20 +66,20 @@ export interface BudgetComparisonExpression {
 /** The Dimensions or Tags to filter a budget by. Supported for CategoryType(s): Cost, ReservationUtilization. */
 export interface BudgetFilterProperties {
   /** Has comparison expression for a dimension. Supported for CategoryType(s): Cost, ReservationUtilization. Supported dimension names for **CategoryType: ReservationUtilization** - ReservationId - ReservedResourceType */
-  dimensions?: BudgetComparisonExpression;
+  dimensions?: BudgetComparisonExpression | undefined;
   /** Has comparison expression for a tag. Supported for CategoryType(s): Cost. */
-  tags?: BudgetComparisonExpression;
+  tags?: BudgetComparisonExpression | undefined;
 }
 /** The logical "AND" expression. Must have at least 2 items. Supported for CategoryType(s): Cost. */
 export type BudgetFilterAndList = Array<BudgetFilterProperties>;
 /** May be used to filter budgets by user-specified dimensions and/or tags. Supported for CategoryType(s): Cost, ReservationUtilization. */
 export interface BudgetFilter {
   /** The logical "AND" expression. Must have at least 2 items. Supported for CategoryType(s): Cost. */
-  and?: BudgetFilterAndList;
+  and?: BudgetFilterAndList | undefined;
   /** Has comparison expression for a dimension. Supported for CategoryType(s): Cost, ReservationUtilization. Supported dimension names for **CategoryType: ReservationUtilization** - ReservationId - ReservedResourceType */
-  dimensions?: BudgetComparisonExpression;
+  dimensions?: BudgetComparisonExpression | undefined;
   /** Has comparison expression for a tag. Supported for CategoryType(s): Cost. */
-  tags?: BudgetComparisonExpression;
+  tags?: BudgetComparisonExpression | undefined;
 }
 /** The comparison operator. Supported for CategoryType(s): Cost, ReservationUtilization. Supported operators for **CategoryType: Cost** - GreaterThan - GreaterThanOrEqualTo Supported operators for **CategoryType: ReservationUtilization** - LessThan */
 export type BudgetNotificationOperatorType =
@@ -129,17 +129,17 @@ export interface Notification {
   /** Threshold value associated with a notification. It is always percent with a maximum of 2 decimal places. Supported for CategoryType(s): Cost, ReservationUtilization. **CategoryType: Cost** - Must be between 0 and 1000. Notification is sent when the cost exceeded the threshold. **CategoryType: ReservationUtilization** - Must be between 0 and 100. Notification is sent when a reservation has a utilization percentage below the threshold. */
   threshold: number;
   /** Frequency of a notification. Represents how long the notification will be silent after triggering an alert for a threshold breach. If not specified, the frequency will be set by default based on the timeGrain (Weekly when timeGrain: Last7Days, Monthly when timeGrain: Last30Days). Supported for CategoryType(s): ReservationUtilization. */
-  frequency?: Frequency | (string & {});
+  frequency?: Frequency | (string & {}) | undefined;
   /** Email addresses to send the notification to when the threshold is breached. Must have at least one contact email or contact group specified at the Subscription or Resource Group scopes. All other scopes must have at least one contact email specified. Supported for CategoryType(s): Cost, ReservationUtilization. */
   contactEmails: NotificationContactEmailsList;
   /** Subscription or Resource Group scopes only. Contact roles to send the notification to when the threshold is breached. Supported for CategoryType(s): Cost. */
-  contactRoles?: NotificationContactRolesList;
+  contactRoles?: NotificationContactRolesList | undefined;
   /** Subscription or Resource Group scopes only. Action groups to send the notification to when the threshold is exceeded. Must be provided as a fully qualified Azure resource id. Supported for CategoryType(s): Cost. */
-  contactGroups?: NotificationContactGroupsList;
+  contactGroups?: NotificationContactGroupsList | undefined;
   /** The type of threshold. Supported for CategoryType(s): Cost. */
-  thresholdType?: NotificationThresholdType | (string & {});
+  thresholdType?: NotificationThresholdType | (string & {}) | undefined;
   /** Language in which the recipient will receive the notification, Supported for CategoryType(s): Cost, ReservationUtilization. */
-  locale?: CultureCode | (string & {});
+  locale?: CultureCode | (string & {}) | undefined;
 }
 /** Dictionary of notifications associated with the budget. Supported for CategoryType(s): Cost, ReservationUtilization. - Constraints for **CategoryType: Cost** - Budget can have up to 5 notifications with thresholdType: Actual and 5 notifications with thresholdType: Forecasted. - Constraints for **CategoryType: ReservationUtilization** - Only one notification allowed. thresholdType is not applicable. */
 export type BudgetPropertiesInputNotificationsMap = { [key: string]: Notification | undefined };
@@ -148,15 +148,15 @@ export interface BudgetPropertiesInput {
   /** The category of the budget. - 'Cost' defines a Budget. - 'ReservationUtilization' defines a Reservation Utilization Alert Rule. */
   category: CategoryType | (string & {});
   /** The total amount of cost to track with the budget. Supported for CategoryType(s): Cost. Required for CategoryType(s): Cost. */
-  amount?: number;
+  amount?: number | undefined;
   /** The time covered by a budget. Tracking of the amount will be reset based on the time grain. Supported for CategoryType(s): Cost, ReservationUtilization. Supported timeGrainTypes for **CategoryType: Cost** - Monthly - Quarterly - Annually - BillingMonth* - BillingQuarter* - BillingAnnual* *only supported for Web Direct customers. Supported timeGrainTypes for **CategoryType: ReservationUtilization** - Last7Days - Last30Days Required for CategoryType(s): Cost, ReservationUtilization. */
   timeGrain: TimeGrainType | (string & {});
   /** The time period that defines the active period of the budget. The budget will evaluate data on or after the startDate and will expire on the endDate. Supported for CategoryType(s): Cost, ReservationUtilization. Required for CategoryType(s): Cost, ReservationUtilization. */
   timePeriod: BudgetTimePeriod;
   /** May be used to filter budgets by user-specified dimensions and/or tags. Supported for CategoryType(s): Cost, ReservationUtilization. */
-  filter?: BudgetFilter;
+  filter?: BudgetFilter | undefined;
   /** Dictionary of notifications associated with the budget. Supported for CategoryType(s): Cost, ReservationUtilization. - Constraints for **CategoryType: Cost** - Budget can have up to 5 notifications with thresholdType: Actual and 5 notifications with thresholdType: Forecasted. - Constraints for **CategoryType: ReservationUtilization** - Only one notification allowed. thresholdType is not applicable. */
-  notifications?: BudgetPropertiesInputNotificationsMap;
+  notifications?: BudgetPropertiesInputNotificationsMap | undefined;
 }
 export interface BudgetsCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -164,9 +164,9 @@ export interface BudgetsCreateOrUpdateRequest {
   /** Budget Name. */
   budgetName: string;
   /** The properties of the budget. */
-  properties?: BudgetPropertiesInput;
+  properties?: BudgetPropertiesInput | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -175,119 +175,119 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The current amount of cost which is being tracked for a budget. Supported for CategoryType(s): Cost. */
 export interface CurrentSpend {
   /** The total amount of cost which is being tracked by the budget. */
-  amount?: number;
+  amount?: number | undefined;
   /** The unit of measure for the budget amount. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** Dictionary of notifications associated with the budget. Supported for CategoryType(s): Cost, ReservationUtilization. - Constraints for **CategoryType: Cost** - Budget can have up to 5 notifications with thresholdType: Actual and 5 notifications with thresholdType: Forecasted. - Constraints for **CategoryType: ReservationUtilization** - Only one notification allowed. thresholdType is not applicable. */
 export type BudgetPropertiesNotificationsMap = { [key: string]: Notification | undefined };
 /** The forecasted cost which is being tracked for a budget. Supported for CategoryType(s): Cost. */
 export interface ForecastSpend {
   /** The forecasted cost for the total time period which is being tracked by the budget. This value is only provided if the budget contains a forecast alert type. */
-  amount?: number;
+  amount?: number | undefined;
   /** The unit of measure for the budget amount. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** The properties of the budget. */
 export interface BudgetProperties {
   /** The category of the budget. - 'Cost' defines a Budget. - 'ReservationUtilization' defines a Reservation Utilization Alert Rule. */
   category: CategoryType;
   /** The total amount of cost to track with the budget. Supported for CategoryType(s): Cost. Required for CategoryType(s): Cost. */
-  amount?: number;
+  amount?: number | undefined;
   /** The time covered by a budget. Tracking of the amount will be reset based on the time grain. Supported for CategoryType(s): Cost, ReservationUtilization. Supported timeGrainTypes for **CategoryType: Cost** - Monthly - Quarterly - Annually - BillingMonth* - BillingQuarter* - BillingAnnual* *only supported for Web Direct customers. Supported timeGrainTypes for **CategoryType: ReservationUtilization** - Last7Days - Last30Days Required for CategoryType(s): Cost, ReservationUtilization. */
   timeGrain: TimeGrainType;
   /** The time period that defines the active period of the budget. The budget will evaluate data on or after the startDate and will expire on the endDate. Supported for CategoryType(s): Cost, ReservationUtilization. Required for CategoryType(s): Cost, ReservationUtilization. */
   timePeriod: BudgetTimePeriod;
   /** May be used to filter budgets by user-specified dimensions and/or tags. Supported for CategoryType(s): Cost, ReservationUtilization. */
-  filter?: BudgetFilter;
+  filter?: BudgetFilter | undefined;
   /** The current amount of cost which is being tracked for a budget. Supported for CategoryType(s): Cost. */
-  currentSpend?: CurrentSpend;
+  currentSpend?: CurrentSpend | undefined;
   /** Dictionary of notifications associated with the budget. Supported for CategoryType(s): Cost, ReservationUtilization. - Constraints for **CategoryType: Cost** - Budget can have up to 5 notifications with thresholdType: Actual and 5 notifications with thresholdType: Forecasted. - Constraints for **CategoryType: ReservationUtilization** - Only one notification allowed. thresholdType is not applicable. */
-  notifications?: BudgetPropertiesNotificationsMap;
+  notifications?: BudgetPropertiesNotificationsMap | undefined;
   /** The forecasted cost which is being tracked for a budget. Supported for CategoryType(s): Cost. */
-  forecastSpend?: ForecastSpend;
+  forecastSpend?: ForecastSpend | undefined;
 }
 export interface BudgetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the budget. */
-  properties?: BudgetProperties;
+  properties?: BudgetProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface CheckCostAllocationRuleNameAvailabilityRequest {
   /** BillingAccount ID */
   billingAccountId: string;
   /** Rule name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. This is expected to be Microsoft.CostManagement/costAllocationRules */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason this name is not available. */
 export type Reason = "Invalid" | "AlreadyExists" | "Valid";
 /** The cost allocation rule check name availability response */
 export interface CostAllocationRuleCheckNameAvailabilityResponse {
   /** Whether this rule name is available */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason this name is not available */
-  reason?: Reason;
+  reason?: Reason | undefined;
   /** Error message if the name is not available */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CheckScheduledActionNameAvailabilityRequest {
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckScheduledActionNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckScheduledActionNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckScheduledActionNameAvailabilityResponseReason;
+  reason?: CheckScheduledActionNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CheckScheduledActionNameAvailabilityByScopeRequest {
   /** The scope associated with scheduled action operations. This includes 'subscriptions/{subscriptionId}' for subscription scope, 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for BillingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}' for InvoiceSection scope, 'providers/Microsoft.CostManagement/externalBillingAccounts/{externalBillingAccountName}' for External Billing Account scope and 'providers/Microsoft.CostManagement/externalSubscriptions/{externalSubscriptionName}' for External Subscription scope. Note: Insight Alerts are only available on subscription scope. */
   scope: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckScheduledActionNameAvailabilityByScopeResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckScheduledActionNameAvailabilityByScopeResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckScheduledActionNameAvailabilityByScopeResponseReason;
+  reason?: CheckScheduledActionNameAvailabilityByScopeResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Category of resource to use for allocation. */
 export type CostAllocationResourceType = "Dimension" | "Tag";
@@ -331,16 +331,16 @@ export type CostAllocationRuleDetailsTargetResourcesList = Array<TargetCostAlloc
 /** Resource details of the cost allocation rule */
 export interface CostAllocationRuleDetails {
   /** Source resources for cost allocation. At this time, this list can contain no more than one element. */
-  sourceResources?: CostAllocationRuleDetailsSourceResourcesList;
+  sourceResources?: CostAllocationRuleDetailsSourceResourcesList | undefined;
   /** Target resources for cost allocation. At this time, this list can contain no more than one element. */
-  targetResources?: CostAllocationRuleDetailsTargetResourcesList;
+  targetResources?: CostAllocationRuleDetailsTargetResourcesList | undefined;
 }
 /** Current status of the rule. */
 export type RuleStatus = "NotActive" | "Active" | "Processing";
 /** The properties of a cost allocation rule */
 export interface CostAllocationRulePropertiesInput {
   /** Description of a cost allocation rule. */
-  description?: string;
+  description?: string | undefined;
   /** Resource information for the cost allocation rule */
   details: CostAllocationRuleDetails;
   /** Status of the rule */
@@ -352,32 +352,32 @@ export interface CostAllocationRulesCreateOrUpdateRequest {
   /** Cost allocation rule name. The name cannot include spaces or any non alphanumeric characters other than '_' and '-'. The max length is 260 characters. */
   ruleName: string;
   /** Cost allocation rule properties */
-  properties?: CostAllocationRulePropertiesInput;
+  properties?: CostAllocationRulePropertiesInput | undefined;
 }
 /** The properties of a cost allocation rule */
 export interface CostAllocationRuleProperties {
   /** Description of a cost allocation rule. */
-  description?: string;
+  description?: string | undefined;
   /** Resource information for the cost allocation rule */
   details: CostAllocationRuleDetails;
   /** Status of the rule */
   status: RuleStatus;
   /** Time at which the rule was created. Rules that change cost for the same resource are applied in order of creation. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** Time at which the rule was last updated. */
-  updatedDate?: string;
+  updatedDate?: string | undefined;
 }
 export interface CostAllocationRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Cost allocation rule properties */
-  properties?: CostAllocationRuleProperties;
+  properties?: CostAllocationRuleProperties | undefined;
 }
 /** The type of the detailed report. By default ActualCost is provided */
 export type CostDetailsMetricType = "ActualCost" | "AmortizedCost";
@@ -392,13 +392,13 @@ export interface CreateGenerateCostDetailsReportOperationRequest {
   /** The ARM Resource ID for subscription, billing account, or other billing scopes.Currently Resource Group and Management Group are not supported. For details, see https://aka.ms/costmgmt/scopes. */
   scope: string;
   /** The type of the detailed report. By default ActualCost is provided */
-  metric?: CostDetailsMetricType | (string & {});
+  metric?: CostDetailsMetricType | (string & {}) | undefined;
   /** The specific date range of cost details requested for the report. This parameter cannot be used alongside either the invoiceId or billingPeriod parameters. If a timePeriod, invoiceId or billingPeriod parameter is not provided in the request body the API will return the current month's cost. API only allows data to be pulled for 1 month or less and no older than 13 months. If no timePeriod or billingPeriod or invoiceId is provided the API defaults to the open month time period */
-  timePeriod?: CostDetailsTimePeriod;
+  timePeriod?: CostDetailsTimePeriod | undefined;
   /** This parameter can be used only by Enterprise Agreement customers. Use the YearMonth(e.g. 202008) format. This parameter cannot be used alongside either the invoiceId or timePeriod parameters. If a timePeriod, invoiceId or billingPeriod parameter is not provided in the request body the API will return the current month's cost. */
-  billingPeriod?: string;
+  billingPeriod?: string | undefined;
   /** This parameter can only be used by Microsoft Customer Agreement customers. Additionally, it can only be used at the Billing Profile or Customer scope. This parameter cannot be used alongside either the billingPeriod or timePeriod parameters. If a timePeriod, invoiceId or billingPeriod parameter is not provided in the request body the API will return the current month's cost. */
-  invoiceId?: string;
+  invoiceId?: string | undefined;
 }
 /** The status of the cost details operation */
 export type CostDetailsStatusType = "Completed" | "NoDataFound" | "Failed";
@@ -407,74 +407,74 @@ export type CostDetailsDataFormat = "Csv";
 /** The definition of a cost detailed report. */
 export interface GenerateCostDetailsReportRequestDefinition {
   /** The type of the detailed report. By default ActualCost is provided */
-  metric?: CostDetailsMetricType;
+  metric?: CostDetailsMetricType | undefined;
   /** The specific date range of cost details requested for the report. This parameter cannot be used alongside either the invoiceId or billingPeriod parameters. If a timePeriod, invoiceId or billingPeriod parameter is not provided in the request body the API will return the current month's cost. API only allows data to be pulled for 1 month or less and no older than 13 months. If no timePeriod or billingPeriod or invoiceId is provided the API defaults to the open month time period */
-  timePeriod?: CostDetailsTimePeriod;
+  timePeriod?: CostDetailsTimePeriod | undefined;
   /** This parameter can be used only by Enterprise Agreement customers. Use the YearMonth(e.g. 202008) format. This parameter cannot be used alongside either the invoiceId or timePeriod parameters. If a timePeriod, invoiceId or billingPeriod parameter is not provided in the request body the API will return the current month's cost. */
-  billingPeriod?: string;
+  billingPeriod?: string | undefined;
   /** This parameter can only be used by Microsoft Customer Agreement customers. Additionally, it can only be used at the Billing Profile or Customer scope. This parameter cannot be used alongside either the billingPeriod or timePeriod parameters. If a timePeriod, invoiceId or billingPeriod parameter is not provided in the request body the API will return the current month's cost. */
-  invoiceId?: string;
+  invoiceId?: string | undefined;
 }
 /** The context of the Cost Details request. */
 export interface RequestContext {
   /** The request scope of the request. */
-  requestScope?: string;
+  requestScope?: string | undefined;
   /** The request payload body provided in Cost Details call */
-  requestBody?: GenerateCostDetailsReportRequestDefinition;
+  requestBody?: GenerateCostDetailsReportRequestDefinition | undefined;
 }
 /** The blob information generated by this operation. */
 export interface BlobInfo {
   /** Link to the blob to download file. */
-  blobLink?: string;
+  blobLink?: string | undefined;
   /** Bytes in the blob. */
-  byteCount?: number;
+  byteCount?: number | undefined;
 }
 /** List of blob information generated by this operation. */
 export type ReportManifestBlobsList = Array<BlobInfo>;
 /** The manifest of the report generated by the operation. */
 export interface ReportManifest {
   /** The Manifest version. */
-  manifestVersion?: string;
+  manifestVersion?: string | undefined;
   /** The data format of the report */
-  dataFormat?: CostDetailsDataFormat;
+  dataFormat?: CostDetailsDataFormat | undefined;
   /** The total number of bytes in all blobs. */
-  byteCount?: number;
+  byteCount?: number | undefined;
   /** The total number of blobs. */
-  blobCount?: number;
+  blobCount?: number | undefined;
   /** Is the data in compressed format. */
-  compressData?: boolean;
+  compressData?: boolean | undefined;
   /** The context of the Cost Details request. */
-  requestContext?: RequestContext;
+  requestContext?: RequestContext | undefined;
   /** List of blob information generated by this operation. */
-  blobs?: ReportManifestBlobsList;
+  blobs?: ReportManifestBlobsList | undefined;
 }
 /** The details of the error. */
 export interface ErrorDetails {
   /** Error code. */
-  code?: string;
+  code?: string | undefined;
   /** Error message indicating why the operation failed. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The result of the long running operation for cost details Api. */
 export interface CostDetailsOperationResults {
   /** The id of the long running operation. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the long running operation. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the long running operation. */
-  type?: string;
+  type?: string | undefined;
   /** The status of the cost details operation */
-  status?: CostDetailsStatusType;
+  status?: CostDetailsStatusType | undefined;
   /** The manifest of the report generated by the operation. */
-  manifest?: ReportManifest;
+  manifest?: ReportManifest | undefined;
   /** The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z. */
-  validTill?: string;
+  validTill?: string | undefined;
   /** The details of the error. */
-  error?: ErrorDetails;
+  error?: ErrorDetails | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The type of the detailed report. By default ActualCost is provided */
 export type GenerateDetailedCostReportMetricType = "ActualCost" | "AmortizedCost";
@@ -484,40 +484,40 @@ export interface CreateGenerateDetailedCostReportOperationRequest {
   /** The ARM Resource ID for subscription, resource group, billing account, or other billing scopes. For details, see https://aka.ms/costmgmt/scopes. */
   scope: string;
   /** The type of the detailed report. By default ActualCost is provided */
-  metric?: GenerateDetailedCostReportMetricType | (string & {});
+  metric?: GenerateDetailedCostReportMetricType | (string & {}) | undefined;
   /** Has time period for pulling data for the cost detailed report. Can only have one of either timePeriod or invoiceId or billingPeriod parameters. If none provided current month cost is provided. */
-  timePeriod?: CostDetailsTimePeriod;
+  timePeriod?: CostDetailsTimePeriod | undefined;
   /** Billing period in YearMonth(e.g. 202008) format. Only for legacy enterprise customers can use this. Can only have one of either timePeriod or invoiceId or billingPeriod parameters. If none provided current month cost is provided. */
-  billingPeriod?: string;
+  billingPeriod?: string | undefined;
   /** Invoice ID for Pay-as-you-go and Microsoft Customer Agreement scopes. Can only have one of either timePeriod or invoiceId or billingPeriod parameters. If none provided current month cost is provided. */
-  invoiceId?: string;
+  invoiceId?: string | undefined;
   /** Customer ID for Microsoft Customer Agreement scopes (Invoice Id is also required for this). */
-  customerId?: string;
+  customerId?: string | undefined;
 }
 /** The URL to download the generated report. */
 export interface DownloadURL {
   /** The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z. */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
   /** The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z. */
-  validTill?: string;
+  validTill?: string | undefined;
   /** The URL to download the generated report. */
-  downloadUrl?: string;
+  downloadUrl?: string | undefined;
 }
 export interface CreateGenerateDetailedCostReportOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource generated. */
-  properties?: DownloadURL;
+  properties?: DownloadURL | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteBudgetRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -592,13 +592,13 @@ export interface DimensionsByExternalCloudProviderTypeRequest {
   /** This can be '{externalSubscriptionId}' for linked account or '{externalBillingAccountId}' for consolidated account used with dimension/query operations. */
   externalCloudProviderId: string;
   /** May be used to filter dimensions by properties/category, properties/usageStart, properties/usageEnd. Supported operators are 'eq','lt', 'gt', 'le', 'ge'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** May be used to expand the properties/data within a dimension category. By default, data is not included when listing dimensions. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
   /** May be used to limit the number of results to the most recent N dimension data. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type DimensionTagsMap = { [key: string]: string | undefined };
@@ -607,51 +607,51 @@ export type DimensionPropertiesDataList = Array<string>;
 /** Dimension properties. */
 export interface DimensionProperties {
   /** Dimension description. */
-  description?: string;
+  description?: string | undefined;
   /** Filter enabled. */
-  filterEnabled?: boolean;
+  filterEnabled?: boolean | undefined;
   /** Grouping enabled. */
-  groupingEnabled?: boolean;
+  groupingEnabled?: boolean | undefined;
   /** Dimension data. */
-  data?: DimensionPropertiesDataList;
+  data?: DimensionPropertiesDataList | undefined;
   /** Total number of data for the dimension. */
-  total?: number;
+  total?: number | undefined;
   /** Dimension category. */
-  category?: string;
+  category?: string | undefined;
   /** Usage start. */
-  usageStart?: string;
+  usageStart?: string | undefined;
   /** Usage end. */
-  usageEnd?: string;
+  usageEnd?: string | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** List of Dimension. */
 export interface Dimension {
   /** Resource Id. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** SKU of the resource. */
-  sku?: string;
+  sku?: string | undefined;
   /** ETag of the resource. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Resource tags. */
-  tags?: DimensionTagsMap;
+  tags?: DimensionTagsMap | undefined;
   /** Dimension properties. */
-  properties?: DimensionProperties;
+  properties?: DimensionProperties | undefined;
 }
 /** The list of dimensions. */
 export type DimensionsListResultValueList = Array<Dimension>;
 /** Result of listing dimensions. It contains a list of available dimensions. */
 export interface DimensionsListResult {
   /** The list of dimensions. */
-  value?: DimensionsListResultValueList;
+  value?: DimensionsListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** type of alert */
 export type AlertType =
@@ -683,11 +683,11 @@ export type AlertCriteria =
 /** defines the type of alert */
 export interface AlertPropertiesDefinition {
   /** type of alert */
-  type?: AlertType | (string & {});
+  type?: AlertType | (string & {}) | undefined;
   /** Alert category */
-  category?: AlertCategory | (string & {});
+  category?: AlertCategory | (string & {}) | undefined;
   /** Criteria that triggered alert */
-  criteria?: AlertCriteria | (string & {});
+  criteria?: AlertCriteria | (string & {}) | undefined;
 }
 /** Source of alert */
 export type AlertSource = "Preset" | "User";
@@ -723,76 +723,76 @@ export type AlertPropertiesDetailsContactRolesList = Array<string>;
 /** Alert details */
 export interface AlertPropertiesDetails {
   /** Type of timegrain cadence */
-  timeGrainType?: AlertTimeGrainType | (string & {});
+  timeGrainType?: AlertTimeGrainType | (string & {}) | undefined;
   /** datetime of periodStartDate */
-  periodStartDate?: string;
+  periodStartDate?: string | undefined;
   /** notificationId that triggered this alert */
-  triggeredBy?: string;
+  triggeredBy?: string | undefined;
   /** array of resourceGroups to filter by */
-  resourceGroupFilter?: AlertPropertiesDetailsResourceGroupFilterList;
+  resourceGroupFilter?: AlertPropertiesDetailsResourceGroupFilterList | undefined;
   /** array of resources to filter by */
-  resourceFilter?: AlertPropertiesDetailsResourceFilterList;
+  resourceFilter?: AlertPropertiesDetailsResourceFilterList | undefined;
   /** array of meters to filter by */
-  meterFilter?: AlertPropertiesDetailsMeterFilterList;
+  meterFilter?: AlertPropertiesDetailsMeterFilterList | undefined;
   /** tags to filter by */
-  tagFilter?: unknown;
+  tagFilter?: unknown | undefined;
   /** notification threshold percentage as a decimal which activated this alert */
-  threshold?: number;
+  threshold?: number | undefined;
   /** operator used to compare currentSpend with amount */
-  operator?: AlertOperator | (string & {});
+  operator?: AlertOperator | (string & {}) | undefined;
   /** budget threshold amount */
-  amount?: number;
+  amount?: number | undefined;
   /** unit of currency being used */
-  unit?: string;
+  unit?: string | undefined;
   /** current spend */
-  currentSpend?: number;
+  currentSpend?: number | undefined;
   /** list of emails to contact */
-  contactEmails?: AlertPropertiesDetailsContactEmailsList;
+  contactEmails?: AlertPropertiesDetailsContactEmailsList | undefined;
   /** list of action groups to broadcast to */
-  contactGroups?: AlertPropertiesDetailsContactGroupsList;
+  contactGroups?: AlertPropertiesDetailsContactGroupsList | undefined;
   /** list of contact roles */
-  contactRoles?: AlertPropertiesDetailsContactRolesList;
+  contactRoles?: AlertPropertiesDetailsContactRolesList | undefined;
   /** overriding alert */
-  overridingAlert?: string;
+  overridingAlert?: string | undefined;
   /** department name */
-  departmentName?: string;
+  departmentName?: string | undefined;
   /** company name */
-  companyName?: string;
+  companyName?: string | undefined;
   /** enrollment number */
-  enrollmentNumber?: string;
+  enrollmentNumber?: string | undefined;
   /** datetime of enrollmentStartDate */
-  enrollmentStartDate?: string;
+  enrollmentStartDate?: string | undefined;
   /** datetime of enrollmentEndDate */
-  enrollmentEndDate?: string;
+  enrollmentEndDate?: string | undefined;
   /** invoicing threshold */
-  invoicingThreshold?: number;
+  invoicingThreshold?: number | undefined;
 }
 /** alert status */
 export type AlertStatus = "None" | "Active" | "Overridden" | "Resolved" | "Dismissed";
 /** Alert properties. */
 export interface AlertProperties {
   /** defines the type of alert */
-  definition?: AlertPropertiesDefinition;
+  definition?: AlertPropertiesDefinition | undefined;
   /** Alert description */
-  description?: string;
+  description?: string | undefined;
   /** Source of alert */
-  source?: AlertSource | (string & {});
+  source?: AlertSource | (string & {}) | undefined;
   /** Alert details */
-  details?: AlertPropertiesDetails;
+  details?: AlertPropertiesDetails | undefined;
   /** related budget */
-  costEntityId?: string;
+  costEntityId?: string | undefined;
   /** alert status */
-  status?: AlertStatus | (string & {});
+  status?: AlertStatus | (string & {}) | undefined;
   /** dateTime in which alert was created */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** dateTime in which alert was closed */
-  closeTime?: string;
+  closeTime?: string | undefined;
   /** dateTime in which alert was last modified */
-  modificationTime?: string;
+  modificationTime?: string | undefined;
   /** User who last modified the alert */
-  statusModificationUserName?: string;
+  statusModificationUserName?: string | undefined;
   /** dateTime in which the alert status was last modified */
-  statusModificationTime?: string;
+  statusModificationTime?: string | undefined;
 }
 export interface DismissAlertRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -800,21 +800,21 @@ export interface DismissAlertRequest {
   /** Alert ID */
   alertId: string;
   /** Alert properties. */
-  properties?: AlertProperties;
+  properties?: AlertProperties | undefined;
 }
 export interface DismissAlertResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Alert properties. */
-  properties?: AlertProperties;
+  properties?: AlertProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface DownloadPriceSheetByBillingAccountRequest {
   /** BillingAccount ID */
@@ -840,18 +840,18 @@ export type ReservationReportSchema =
 /** The URL to download the generated report. */
 export interface ReportURL {
   /** The CSV file from the reportUrl blob link consists of reservation usage data with the following schema at daily granularity */
-  reportUrl?: ReservationReportSchema;
+  reportUrl?: ReservationReportSchema | undefined;
   /** The time at which report URL becomes invalid. */
-  validUntil?: string;
+  validUntil?: string | undefined;
 }
 /** The status of the long running operation. */
 export interface OperationStatus {
   /** The status of the long running operation. */
-  status?: OperationStatusType;
+  status?: OperationStatusType | undefined;
   /** The properties of the resource generated. */
-  properties?: ReportURL;
+  properties?: ReportURL | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DownloadPriceSheetByBillingProfileRequest {
   /** BillingAccount ID */
@@ -862,68 +862,68 @@ export interface DownloadPriceSheetByBillingProfileRequest {
 /** The properties of the price sheet. */
 export interface MCAPriceSheetProperties {
   /** Unique identifier for the billing account. */
-  billingAccountID?: string;
+  billingAccountID?: string | undefined;
   /** Name of the billing profile that is set up to receive invoices. The prices in the price sheet are associated with this billing profile. */
-  billingAccountName?: string;
+  billingAccountName?: string | undefined;
   /** Unique identifier for the billing profile. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Name of the billing profile that is set up to receive invoices. The prices in the price sheet are associated with this billing profile. */
-  billingProfileName?: string;
+  billingProfileName?: string | undefined;
   /** Name of the purchased product plan. Indicates if this pricing is standard Azure Plan pricing, Dev/Test pricing etc. Currently unavailable for Azure 3rd party and ReservedInstance meters. */
-  productOrderName?: string;
+  productOrderName?: string | undefined;
   /** Type of Azure service. For example, Compute, Analytics, and Security. */
-  serviceFamily?: number;
+  serviceFamily?: number | undefined;
   /** Name of the product accruing the charges. */
-  product?: string;
+  product?: string | undefined;
   /** Unique identifier for the product whose meter is consumed. */
-  productId?: string;
+  productId?: string | undefined;
   /** Unique identifier of the SKU */
-  skuId?: string;
+  skuId?: string | undefined;
   /** How usage is measured for the service */
-  unitOfMeasure?: string;
+  unitOfMeasure?: string | undefined;
   /** Unique identifier of the meter */
-  meterId?: string;
+  meterId?: string | undefined;
   /** Name of the meter. The meter represents the deployable resource of an Azure service. */
-  meterName?: string;
+  meterName?: string | undefined;
   /** Name of the meter type */
-  meterType?: string;
+  meterType?: string | undefined;
   /** Name of the classification category for the meter. For example, Cloud services, Networking, etc. */
-  meterCategory?: string;
+  meterCategory?: string | undefined;
   /** Name of the meter subclassification category. */
-  meterSubCategory?: string;
+  meterSubCategory?: string | undefined;
   /** Name of the Azure region where the meter for the service is available. */
-  meterRegion?: string;
+  meterRegion?: string | undefined;
   /** Defines the lower bound of the tier range for which prices are defined. For example, if the range is 0 to 100, tierMinimumUnits would be 0. */
-  tierMinimumUnits?: string;
+  tierMinimumUnits?: string | undefined;
   /** Effective start date of the Price Sheet billing period */
-  effectiveStartDate?: string;
+  effectiveStartDate?: string | undefined;
   /** Effective end date of the Price Sheet billing period */
-  effectiveEndDate?: string;
+  effectiveEndDate?: string | undefined;
   /** The per-unit price at the time of billing for a given product or service, inclusive of any negotiated discounts on top of the market price. For PriceType ReservedInstance, unit price reflects the total cost of the 1 or 3-year commitment including discounts. Note: The unit price isn't the same as the effective price in usage details downloads when services have differential prices across tiers. If services have multi-tiered pricing, the effective price is a blended rate across the tiers and doesn't show a tier-specific unit price. The blended price or effective price is the net price for the consumed quantity spanning across the multiple tiers (where each tier has a specific unit price). */
-  unitPrice?: string;
+  unitPrice?: string | undefined;
   /** The unit price at the time the customer signs on or the unit price at the time of service meter GA launch if it is after sign-on. This is applicable for Enterprise Agreement users */
-  basePrice?: string;
+  basePrice?: string | undefined;
   /** The current list price for a given product or service. This price is without any negotiations and is based on your Microsoft Agreement type. For PriceType Consumption, market price is reflected as the pay-as-you-go price. For PriceType Savings Plan, market price reflects the Savings plan benefit on top of pay-as-you-go price for the corresponding commitment term. For PriceType ReservedInstance, market price reflects the total price of the 1 or 3-year commitment. */
-  marketPrice?: string;
+  marketPrice?: string | undefined;
   /** Currency in which all the prices are reflected. */
-  currency?: string;
+  currency?: string | undefined;
   /** Currency in which charges are posted. */
-  billingCurrency?: string;
+  billingCurrency?: string | undefined;
   /** Term length for Azure Savings Plan or Reservation term - one year or three years (P1Y or P3Y) */
-  term?: string;
+  term?: string | undefined;
   /** Price type for a product. For example, an Azure resource with a pay-as-you-go rate with priceType as Consumption. Other price types include ReservedInstance and Savings Plan. */
-  priceType?: string;
+  priceType?: string | undefined;
 }
 /** The URL to download the generated report. */
 export interface PricesheetDownloadProperties {
   /** The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z. */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
   /** The URL to download the generated report. */
-  downloadUrl?: string;
+  downloadUrl?: string | undefined;
   /** The properties in downloaded file */
-  downloadFileProperties?: MCAPriceSheetProperties;
+  downloadFileProperties?: MCAPriceSheetProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DownloadPriceSheetByInvoiceRequest {
   /** BillingAccount ID */
@@ -936,13 +936,13 @@ export interface DownloadPriceSheetByInvoiceRequest {
 /** The URL to download the generated report. */
 export interface DownloadPriceSheetByInvoiceResponse {
   /** The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z. */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
   /** The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z. */
-  validTill?: string;
+  validTill?: string | undefined;
   /** The URL to download the generated report. */
-  downloadUrl?: string;
+  downloadUrl?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The date range for data in the export. This should only be specified with timeFrame set to 'Custom'. The maximum date range is 1 calendar month. */
 export interface ExportTimePeriod {
@@ -957,7 +957,7 @@ export interface ExecuteExportRequest {
   /** Export Name. */
   exportName: string;
   /** Has time period for pulling data for the export. */
-  timePeriod?: ExportTimePeriod;
+  timePeriod?: ExportTimePeriod | undefined;
 }
 export interface ExecuteExportResponse {}
 /** The format of the export being delivered. */
@@ -967,17 +967,17 @@ export type DestinationType = "AzureBlob";
 /** This represents the blob storage account location where exports of costs will be delivered. There are two ways to configure the destination. The approach recommended for most customers is to specify the resourceId of the storage account. This requires a one-time registration of the account's subscription with the Microsoft.CostManagementExports resource provider in order to give Cost Management services access to the storage. When creating an export in the Azure portal this registration is performed automatically but API users may need to register the subscription explicitly (for more information see https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-supported-services ). Another way to configure the destination is available ONLY to Partners with a Microsoft Partner Agreement plan who are global admins of their billing account. These Partners, instead of specifying the resourceId of a storage account, can specify the storage account name along with a SAS token for the account. This allows exports of costs to a storage account in any tenant. The SAS token should be created for the blob service with Service/Container/Object resource types and with Read/Write/Delete/List/Add/Create permissions (for more information see https://docs.microsoft.com/en-us/azure/cost-management-billing/costs/export-cost-data-storage-account-sas-key ). */
 export interface ExportDeliveryDestination {
   /** The export delivery destination type. Currently only 'AzureBlob' is supported. */
-  type?: DestinationType | (string & {});
+  type?: DestinationType | (string & {}) | undefined;
   /** The resource id of the storage account where exports will be delivered. This is not required if a sasToken and storageAccount are specified. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The name of the container where exports will be uploaded. If the container does not exist it will be created. */
   container: string;
   /** The name of the directory where exports will be uploaded. */
-  rootFolderPath?: string;
+  rootFolderPath?: string | undefined;
   /** A SAS token for the storage account. For a restricted set of Azure customers this together with storageAccount can be specified instead of resourceId. Note: the value returned by the API for this property will always be obfuscated. Returning this same obfuscated value will not result in the SAS token being updated. To update this value a new SAS token must be specified. */
-  sasToken?: string;
+  sasToken?: string | undefined;
   /** The storage account where exports will be uploaded. For a restricted set of Azure customers this together with sasToken can be specified instead of resourceId. */
-  storageAccount?: string;
+  storageAccount?: string | undefined;
 }
 /** The delivery information associated with a export. */
 export interface ExportDeliveryInfo {
@@ -1012,27 +1012,27 @@ export type FilterItemNames = "ReservationScope" | "ResourceType" | "LookBackPer
 /** Will contain the filter name and value to operate on. This is currently only supported for Export Definition type of ReservationRecommendations. */
 export interface FilterItems {
   /** The name of the filter. This is currently only supported for Export Definition type of ReservationRecommendations. Supported names are ['ReservationScope', 'LookBackPeriod', 'ResourceType'] */
-  name?: FilterItemNames | (string & {});
+  name?: FilterItemNames | (string & {}) | undefined;
   /** Value to filter by. Currently values supported per name are, for 'ReservationScope' supported values are ['Single', 'Shared'], for 'LookBackPeriod' supported values are ['Last7Days', 'Last30Days', 'Last60Days'] and for 'ResourceType' supported values are ['VirtualMachines', 'SQLDatabases', 'PostgreSQL', 'ManagedDisk', 'MySQL', 'RedHat', 'MariaDB', 'RedisCache', 'CosmosDB', 'SqlDataWarehouse', 'SUSELinux', 'AppService', 'BlockBlob', 'AzureDataExplorer', 'VMwareCloudSimple']. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Filters associated with the data sets. */
 export type ExportDatasetConfigurationFiltersList = Array<FilterItems>;
 /** This is on path to deprecation and will not be supported going forward. */
 export interface ExportDatasetConfiguration {
   /** Array of column names to be included in the export. If not provided then the export will include all available columns. The available columns can vary by customer channel (see examples). */
-  columns?: ExportDatasetConfigurationColumnsList;
+  columns?: ExportDatasetConfigurationColumnsList | undefined;
   /** The data version for the selected for the export. If not provided then the export will default to latest data version. */
-  dataVersion?: string;
+  dataVersion?: string | undefined;
   /** Filters associated with the data sets. */
-  filters?: ExportDatasetConfigurationFiltersList;
+  filters?: ExportDatasetConfigurationFiltersList | undefined;
 }
 /** The definition for data in the export. */
 export interface ExportDataset {
   /** The granularity of rows in the export. Currently 'Daily' is supported for most cases. */
-  granularity?: GranularityType | (string & {});
+  granularity?: GranularityType | (string & {}) | undefined;
   /** The export dataset configuration. */
-  configuration?: ExportDatasetConfiguration;
+  configuration?: ExportDatasetConfiguration | undefined;
 }
 /** The definition of an export. */
 export interface ExportDefinition {
@@ -1041,9 +1041,9 @@ export interface ExportDefinition {
   /** The time frame for pulling data for the export. If custom, then a specific time period must be provided. */
   timeframe: TimeframeType | (string & {});
   /** Has time period for pulling data for the export. */
-  timePeriod?: ExportTimePeriod;
+  timePeriod?: ExportTimePeriod | undefined;
   /** The definition for data in the export. */
-  dataSet?: ExportDataset;
+  dataSet?: ExportDataset | undefined;
 }
 /** Result of listing the run history of an export. */
 export interface ExportExecutionListResultInput {}
@@ -1060,37 +1060,37 @@ export interface ExportRecurrencePeriod {
   /** The start date of recurrence. */
   from: string;
   /** The end date of recurrence. */
-  to?: string;
+  to?: string | undefined;
 }
 /** The schedule associated with the export. */
 export interface ExportSchedule {
   /** The status of the export's schedule. If 'Inactive', the export's schedule is paused. To enable export set the status to be Active and then make a PUT request. */
-  status?: StatusType | (string & {});
+  status?: StatusType | (string & {}) | undefined;
   /** The schedule recurrence. */
-  recurrence?: RecurrenceType | (string & {});
+  recurrence?: RecurrenceType | (string & {}) | undefined;
   /** Has start and end date of the recurrence. The start date must be in future. If present, the end date must be greater than start date. */
-  recurrencePeriod?: ExportRecurrencePeriod;
+  recurrencePeriod?: ExportRecurrencePeriod | undefined;
 }
 /** The properties of the export. */
 export interface ExportPropertiesInput {
   /** The format of the export being delivered. */
-  format?: FormatType | (string & {});
+  format?: FormatType | (string & {}) | undefined;
   /** Has delivery information for the export. */
   deliveryInfo: ExportDeliveryInfo;
   /** Has the definition for the export. */
   definition: ExportDefinition;
   /** If requested, has the most recent run history for the export. */
-  runHistory?: ExportExecutionListResultInput;
+  runHistory?: ExportExecutionListResultInput | undefined;
   /** If set to true, exported data will be partitioned by size and placed in a blob directory together with a manifest file. */
-  partitionData?: boolean;
+  partitionData?: boolean | undefined;
   /** Allow customers to select overwrite data(OverwritePreviousReport) for exports. This setting will enable overwrite data for the same month in customer storage account. By default set to CreateNewReport. */
-  dataOverwriteBehavior?: DataOverwriteBehaviorType | (string & {});
+  dataOverwriteBehavior?: DataOverwriteBehaviorType | (string & {}) | undefined;
   /** Allow customers to select compress data for exports. This setting will enable destination file compression scheme at runtime. By default set to None. Gzip is for csv and snappy for parquet. */
-  compressionMode?: CompressionModeType | (string & {});
+  compressionMode?: CompressionModeType | (string & {}) | undefined;
   /** The export description set by customer at time of export creation/update. */
-  exportDescription?: string;
+  exportDescription?: string | undefined;
   /** Has schedule information for the export. */
-  schedule?: ExportSchedule;
+  schedule?: ExportSchedule | undefined;
 }
 /** Type of managed service identity (either system assigned, or none). */
 export type SystemAssignedServiceIdentityType = "None" | "SystemAssigned";
@@ -1104,13 +1104,13 @@ export interface ExportsCreateOrUpdateRequest {
   /** Export Name. */
   exportName: string;
   /** The properties of the export. */
-  properties?: ExportPropertiesInput;
+  properties?: ExportPropertiesInput | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ExportsCreateOrUpdateRequestIdentity;
+  identity?: ExportsCreateOrUpdateRequestIdentity | undefined;
   /** The location of the Export's managed identity. Only required when utilizing managed identity. */
-  location?: string;
+  location?: string | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The type of the export run. */
 export type ExecutionType = "OnDemand" | "Scheduled";
@@ -1126,132 +1126,132 @@ export type ExecutionStatus =
 /** The properties of the export run. This is not populated currently. */
 export interface ExportSuspensionContext {
   /** The code for export suspension. */
-  suspensionCode?: string;
+  suspensionCode?: string | undefined;
   /** The detailed reason for export suspension. */
-  suspensionReason?: string;
+  suspensionReason?: string | undefined;
   /** The time when the export was suspended. */
-  suspensionTime?: string;
+  suspensionTime?: string | undefined;
 }
 /** The common properties of the export. */
 export interface CommonExportProperties {
   /** The format of the export being delivered. */
-  format?: FormatType;
+  format?: FormatType | undefined;
   /** Has delivery information for the export. */
   deliveryInfo: ExportDeliveryInfo;
   /** Has the definition for the export. */
   definition: ExportDefinition;
   /** If requested, has the most recent run history for the export. */
-  runHistory?: ExportExecutionListResult;
+  runHistory?: ExportExecutionListResult | undefined;
   /** If set to true, exported data will be partitioned by size and placed in a blob directory together with a manifest file. */
-  partitionData?: boolean;
+  partitionData?: boolean | undefined;
   /** Allow customers to select overwrite data(OverwritePreviousReport) for exports. This setting will enable overwrite data for the same month in customer storage account. By default set to CreateNewReport. */
-  dataOverwriteBehavior?: DataOverwriteBehaviorType;
+  dataOverwriteBehavior?: DataOverwriteBehaviorType | undefined;
   /** Allow customers to select compress data for exports. This setting will enable destination file compression scheme at runtime. By default set to None. Gzip is for csv and snappy for parquet. */
-  compressionMode?: CompressionModeType;
+  compressionMode?: CompressionModeType | undefined;
   /** The export description set by customer at time of export creation/update. */
-  exportDescription?: string;
+  exportDescription?: string | undefined;
   /** If the export has an active schedule, provides an estimate of the next run time. */
-  nextRunTimeEstimate?: string;
+  nextRunTimeEstimate?: string | undefined;
   /** The export suspension reason if export is in SystemSuspended state. This is not populated currently. */
-  systemSuspensionContext?: ExportSuspensionContext;
+  systemSuspensionContext?: ExportSuspensionContext | undefined;
 }
 /** The properties of the export run. */
 export interface ExportRunProperties {
   /** The type of the export run. */
-  executionType?: ExecutionType;
+  executionType?: ExecutionType | undefined;
   /** The last known status of the export run. */
-  status?: ExecutionStatus;
+  status?: ExecutionStatus | undefined;
   /** The identifier for the entity that triggered the export. For on-demand runs it is the user email. For scheduled runs it is 'System'. */
-  submittedBy?: string;
+  submittedBy?: string | undefined;
   /** The time when export was queued to be run. */
-  submittedTime?: string;
+  submittedTime?: string | undefined;
   /** The time when export was picked up to be run. */
-  processingStartTime?: string;
+  processingStartTime?: string | undefined;
   /** The time when the export run finished. */
-  processingEndTime?: string;
+  processingEndTime?: string | undefined;
   /** The start datetime for the export. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** The end datetime for the export. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** The name of the exported file. */
-  fileName?: string;
+  fileName?: string | undefined;
   /** The manifest file location(URI location) for the exported files. */
-  manifestFile?: string;
+  manifestFile?: string | undefined;
   /** The export settings that were in effect for this run. */
-  runSettings?: CommonExportProperties;
+  runSettings?: CommonExportProperties | undefined;
   /** The details of any error. */
-  error?: ErrorDetails;
+  error?: ErrorDetails | undefined;
 }
 /** An export run. */
 export interface ExportRun {
   /** Resource Id. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The properties of the export run. */
-  properties?: ExportRunProperties;
+  properties?: ExportRunProperties | undefined;
 }
 /** A list of export runs. */
 export type ExportExecutionListResultValueList = Array<ExportRun>;
 /** Result of listing the run history of an export. */
 export interface ExportExecutionListResult {
   /** A list of export runs. */
-  value?: ExportExecutionListResultValueList;
+  value?: ExportExecutionListResultValueList | undefined;
 }
 /** The properties of the export. */
 export interface ExportProperties {
   /** The format of the export being delivered. */
-  format?: FormatType;
+  format?: FormatType | undefined;
   /** Has delivery information for the export. */
   deliveryInfo: ExportDeliveryInfo;
   /** Has the definition for the export. */
   definition: ExportDefinition;
   /** If requested, has the most recent run history for the export. */
-  runHistory?: ExportExecutionListResult;
+  runHistory?: ExportExecutionListResult | undefined;
   /** If set to true, exported data will be partitioned by size and placed in a blob directory together with a manifest file. */
-  partitionData?: boolean;
+  partitionData?: boolean | undefined;
   /** Allow customers to select overwrite data(OverwritePreviousReport) for exports. This setting will enable overwrite data for the same month in customer storage account. By default set to CreateNewReport. */
-  dataOverwriteBehavior?: DataOverwriteBehaviorType;
+  dataOverwriteBehavior?: DataOverwriteBehaviorType | undefined;
   /** Allow customers to select compress data for exports. This setting will enable destination file compression scheme at runtime. By default set to None. Gzip is for csv and snappy for parquet. */
-  compressionMode?: CompressionModeType;
+  compressionMode?: CompressionModeType | undefined;
   /** The export description set by customer at time of export creation/update. */
-  exportDescription?: string;
+  exportDescription?: string | undefined;
   /** If the export has an active schedule, provides an estimate of the next run time. */
-  nextRunTimeEstimate?: string;
+  nextRunTimeEstimate?: string | undefined;
   /** The export suspension reason if export is in SystemSuspended state. This is not populated currently. */
-  systemSuspensionContext?: ExportSuspensionContext;
+  systemSuspensionContext?: ExportSuspensionContext | undefined;
   /** Has schedule information for the export. */
-  schedule?: ExportSchedule;
+  schedule?: ExportSchedule | undefined;
 }
 /** Managed service identity (either system assigned, or none) */
 export interface ExportsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: SystemAssignedServiceIdentityType;
 }
 export interface ExportsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the export. */
-  properties?: ExportProperties;
+  properties?: ExportProperties | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ExportsCreateOrUpdateResponseIdentity;
+  identity?: ExportsCreateOrUpdateResponseIdentity | undefined;
   /** The location of the Export's managed identity. Only required when utilizing managed identity. */
-  location?: string;
+  location?: string | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export type ForecastExternalCloudProviderUsageRequestExternalCloudProviderType =
   | "externalSubscriptions"
@@ -1272,7 +1272,7 @@ export type ForecastDatasetConfigurationColumnsList = Array<string>;
 /** The configuration of dataset in the forecast. */
 export interface ForecastDatasetConfiguration {
   /** Array of column names to be included in the forecast. Any valid forecast column name is allowed. If not provided, then forecast includes all columns. */
-  columns?: ForecastDatasetConfigurationColumnsList;
+  columns?: ForecastDatasetConfigurationColumnsList | undefined;
 }
 /** The name of the column to aggregate. */
 export type FunctionName = "PreTaxCostUSD" | "Cost" | "CostUSD" | "PreTaxCost";
@@ -1307,24 +1307,24 @@ export interface ForecastComparisonExpression {
 /** The filter expression to be used in the export. */
 export interface ForecastFilter {
   /** The logical "AND" expression. Must have at least 2 items. */
-  and?: ForecastFilterAndList;
+  and?: ForecastFilterAndList | undefined;
   /** The logical "OR" expression. Must have at least 2 items. */
-  or?: ForecastFilterOrList;
+  or?: ForecastFilterOrList | undefined;
   /** Has comparison expression for a dimension */
-  dimensions?: ForecastComparisonExpression;
+  dimensions?: ForecastComparisonExpression | undefined;
   /** Has comparison expression for a tag */
-  tags?: ForecastComparisonExpression;
+  tags?: ForecastComparisonExpression | undefined;
 }
 /** The definition of data present in the forecast. */
 export interface ForecastDataset {
   /** The granularity of rows in the forecast. */
-  granularity?: GranularityType | (string & {});
+  granularity?: GranularityType | (string & {}) | undefined;
   /** Has configuration information for the data in the export. The configuration will be ignored if aggregation and grouping are provided. */
-  configuration?: ForecastDatasetConfiguration;
+  configuration?: ForecastDatasetConfiguration | undefined;
   /** Dictionary of aggregation expression to use in the forecast. The key of each item in the dictionary is the alias for the aggregated column. forecast can have up to 2 aggregation clauses. */
   aggregation: ForecastDatasetAggregationMap;
   /** Has filter expression to use in the forecast. */
-  filter?: ForecastFilter;
+  filter?: ForecastFilter | undefined;
 }
 export interface ForecastExternalCloudProviderUsageRequest {
   /** The external cloud provider type associated with dimension/query operations. This includes 'externalSubscriptions' for linked account and 'externalBillingAccounts' for consolidated account. */
@@ -1334,19 +1334,19 @@ export interface ForecastExternalCloudProviderUsageRequest {
   /** This can be '{externalSubscriptionId}' for linked account or '{externalBillingAccountId}' for consolidated account used with dimension/query operations. */
   externalCloudProviderId: string;
   /** May be used to filter forecasts by properties/usageDate (Utc time), properties/chargeType or properties/grain. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The type of the forecast. */
   type: ForecastType | (string & {});
   /** The time frame for pulling data for the forecast. If custom, then a specific time period must be provided. */
   timeframe: ForecastTimeframe | (string & {});
   /** Has time period for pulling data for the forecast. */
-  timePeriod?: ForecastTimePeriod;
+  timePeriod?: ForecastTimePeriod | undefined;
   /** Has definition for data in this forecast. */
   dataset: ForecastDataset;
   /** A boolean determining if actualCost will be included. */
-  includeActualCost?: boolean;
+  includeActualCost?: boolean | undefined;
   /** A boolean determining if FreshPartialCost will be included. */
-  includeFreshPartialCost?: boolean;
+  includeFreshPartialCost?: boolean | undefined;
 }
 /** Resource tags. */
 export type ForecastExternalCloudProviderUsageResponseTagsMap = {
@@ -1355,9 +1355,9 @@ export type ForecastExternalCloudProviderUsageResponseTagsMap = {
 /** Forecast column properties */
 export interface ForecastColumn {
   /** The name of column. */
-  name?: string;
+  name?: string | undefined;
   /** The type of column. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Array of columns */
 export type ForecastPropertiesColumnsList = Array<ForecastColumn>;
@@ -1367,67 +1367,67 @@ export type ForecastPropertiesRowsList = Array<ForecastPropertiesRowsItemList>;
 /** Forecast properties */
 export interface ForecastProperties {
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of columns */
-  columns?: ForecastPropertiesColumnsList;
+  columns?: ForecastPropertiesColumnsList | undefined;
   /** Array of rows */
-  rows?: ForecastPropertiesRowsList;
+  rows?: ForecastPropertiesRowsList | undefined;
 }
 export interface ForecastExternalCloudProviderUsageResponse {
   /** Resource Id. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** SKU of the resource. */
-  sku?: string;
+  sku?: string | undefined;
   /** ETag of the resource. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Resource tags. */
-  tags?: ForecastExternalCloudProviderUsageResponseTagsMap;
+  tags?: ForecastExternalCloudProviderUsageResponseTagsMap | undefined;
   /** Forecast properties */
-  properties?: ForecastProperties;
+  properties?: ForecastProperties | undefined;
 }
 export interface ForecastUsageRequest {
   /** The scope associated with forecast operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, '/providers/Microsoft.Management/managementGroups/{managementGroupId} for Management Group scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billingProfile scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}' for invoiceSection scope, and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for partners. */
   scope: string;
   /** May be used to filter forecasts by properties/usageDate (Utc time), properties/chargeType or properties/grain. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The type of the forecast. */
   type: ForecastType | (string & {});
   /** The time frame for pulling data for the forecast. If custom, then a specific time period must be provided. */
   timeframe: ForecastTimeframe | (string & {});
   /** Has time period for pulling data for the forecast. */
-  timePeriod?: ForecastTimePeriod;
+  timePeriod?: ForecastTimePeriod | undefined;
   /** Has definition for data in this forecast. */
   dataset: ForecastDataset;
   /** A boolean determining if actualCost will be included. */
-  includeActualCost?: boolean;
+  includeActualCost?: boolean | undefined;
   /** A boolean determining if FreshPartialCost will be included. */
-  includeFreshPartialCost?: boolean;
+  includeFreshPartialCost?: boolean | undefined;
 }
 /** Resource tags. */
 export type ForecastUsageResponseTagsMap = { [key: string]: string | undefined };
 export interface ForecastUsageResponse {
   /** Resource Id. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** SKU of the resource. */
-  sku?: string;
+  sku?: string | undefined;
   /** ETag of the resource. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Resource tags. */
-  tags?: ForecastUsageResponseTagsMap;
+  tags?: ForecastUsageResponseTagsMap | undefined;
   /** Forecast properties */
-  properties?: ForecastProperties;
+  properties?: ForecastProperties | undefined;
 }
 /** Grain which corresponds to value. */
 export type Grain = "Hourly" | "Daily" | "Monthly";
@@ -1437,11 +1437,11 @@ export interface GenerateGenerateBenefitUtilizationSummariesReportByBillingAccou
   /** BillingAccount ID */
   billingAccountId: string;
   /** Billing profile id the benefit utilization summaries report is for. Required for billing profile scope. Not supported for billing account or any benefit scopes. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Benefit order id the benefit utilization summaries report is for. Required for benefit order and benefit id scopes. Not supported for any billing scopes. */
-  benefitOrderId?: string;
+  benefitOrderId?: string | undefined;
   /** Benefit id the benefit utilization summaries report is for. Required for benefit id scope. Not supported for benefit order or any billing scopes. */
-  benefitId?: string;
+  benefitId?: string | undefined;
   /** The grain the summaries data is served at in the report. Accepted values are 'Daily' or 'Monthly'. */
   grain: Grain | (string & {});
   /** The start date of the summaries data that will be served in the report. */
@@ -1449,18 +1449,18 @@ export interface GenerateGenerateBenefitUtilizationSummariesReportByBillingAccou
   /** The end date of the summaries data that will be served in the report. */
   endDate: string;
   /** The type of benefit data requested. Required for billing account and billing profile scopes. Implied and not to be passed at benefit scopes. Supported values are Reservation and SavingsPlan */
-  kind?: BenefitKind | (string & {});
+  kind?: BenefitKind | (string & {}) | undefined;
 }
 /** Properties of an async benefit utilization summaries request. */
 export interface BenefitUtilizationSummariesRequest {
   /** Billing account the benefit utilization summaries report is for. Required for billing account and billing profile scopes. Not supported for any benefit scopes. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** Billing profile id the benefit utilization summaries report is for. Required for billing profile scope. Not supported for billing account or any benefit scopes. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Benefit order id the benefit utilization summaries report is for. Required for benefit order and benefit id scopes. Not supported for any billing scopes. */
-  benefitOrderId?: string;
+  benefitOrderId?: string | undefined;
   /** Benefit id the benefit utilization summaries report is for. Required for benefit id scope. Not supported for benefit order or any billing scopes. */
-  benefitId?: string;
+  benefitId?: string | undefined;
   /** The grain the summaries data is served at in the report. Accepted values are 'Daily' or 'Monthly'. */
   grain: Grain;
   /** The start date of the summaries data that will be served in the report. */
@@ -1468,7 +1468,7 @@ export interface BenefitUtilizationSummariesRequest {
   /** The end date of the summaries data that will be served in the report. */
   endDate: string;
   /** The type of benefit data requested. Required for billing account and billing profile scopes. Implied and not to be passed at benefit scopes. Supported values are Reservation and SavingsPlan */
-  kind?: BenefitKind;
+  kind?: BenefitKind | undefined;
 }
 /** The CSV file from the reportUrl and secondaryReportUrl blob link will consist of the following columns of benefit utilization data. UtilizedPercentage will be 0 for savings plans reports and non data bricks reservations. Utilization percentages will be 0 for data bricks reservations. */
 export type BenefitUtilizationSummaryReportSchema =
@@ -1484,22 +1484,22 @@ export type BenefitUtilizationSummaryReportSchema =
 /** Object representing the report url and valid until date of the async report generated. */
 export interface AsyncOperationStatusProperties {
   /** Sas url to the async benefit utilization summaries report. Will be empty if the report is in Running or Failed state. */
-  reportUrl?: BenefitUtilizationSummaryReportSchema;
+  reportUrl?: BenefitUtilizationSummaryReportSchema | undefined;
   /** Sas url to async benefit utilization summaries report in secondary storage in case of primary outage. Will be empty if the report is in Running or Failed state. */
-  secondaryReportUrl?: BenefitUtilizationSummaryReportSchema;
+  secondaryReportUrl?: BenefitUtilizationSummaryReportSchema | undefined;
   /** The date that the sas url provided in reportUrl expires. */
-  validUntil?: string;
+  validUntil?: string | undefined;
 }
 /** Status of a benefit utilization summaries report. Provides Async Benefit Utilization Summaries Request input, status, and report sas url. */
 export interface BenefitUtilizationSummariesOperationStatus {
   /** Input given to create the benefit utilization summaries report. */
-  input?: BenefitUtilizationSummariesRequest;
+  input?: BenefitUtilizationSummariesRequest | undefined;
   /** The status of the creation of the benefit utilization summaries report. */
-  status?: OperationStatusType;
+  status?: OperationStatusType | undefined;
   /** Contains sas url to the async benefit utilization summaries report and a date that the url is valid until. These values will be empty if the report is in a Running or Failed state */
-  properties?: AsyncOperationStatusProperties;
+  properties?: AsyncOperationStatusProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GenerateGenerateBenefitUtilizationSummariesReportByBillingProfileRequest {
   /** BillingAccount ID */
@@ -1507,9 +1507,9 @@ export interface GenerateGenerateBenefitUtilizationSummariesReportByBillingProfi
   /** Billing Profile ID. */
   billingProfileId: string;
   /** Benefit order id the benefit utilization summaries report is for. Required for benefit order and benefit id scopes. Not supported for any billing scopes. */
-  benefitOrderId?: string;
+  benefitOrderId?: string | undefined;
   /** Benefit id the benefit utilization summaries report is for. Required for benefit id scope. Not supported for benefit order or any billing scopes. */
-  benefitId?: string;
+  benefitId?: string | undefined;
   /** The grain the summaries data is served at in the report. Accepted values are 'Daily' or 'Monthly'. */
   grain: Grain | (string & {});
   /** The start date of the summaries data that will be served in the report. */
@@ -1517,7 +1517,7 @@ export interface GenerateGenerateBenefitUtilizationSummariesReportByBillingProfi
   /** The end date of the summaries data that will be served in the report. */
   endDate: string;
   /** The type of benefit data requested. Required for billing account and billing profile scopes. Implied and not to be passed at benefit scopes. Supported values are Reservation and SavingsPlan */
-  kind?: BenefitKind | (string & {});
+  kind?: BenefitKind | (string & {}) | undefined;
 }
 export interface GenerateGenerateBenefitUtilizationSummariesReportByReservationIdRequest {
   /** Reservation Order ID */
@@ -1525,13 +1525,13 @@ export interface GenerateGenerateBenefitUtilizationSummariesReportByReservationI
   /** Reservation ID */
   reservationId: string;
   /** Billing account the benefit utilization summaries report is for. Required for billing account and billing profile scopes. Not supported for any benefit scopes. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** Billing profile id the benefit utilization summaries report is for. Required for billing profile scope. Not supported for billing account or any benefit scopes. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Benefit order id the benefit utilization summaries report is for. Required for benefit order and benefit id scopes. Not supported for any billing scopes. */
-  benefitOrderId?: string;
+  benefitOrderId?: string | undefined;
   /** Benefit id the benefit utilization summaries report is for. Required for benefit id scope. Not supported for benefit order or any billing scopes. */
-  benefitId?: string;
+  benefitId?: string | undefined;
   /** The grain the summaries data is served at in the report. Accepted values are 'Daily' or 'Monthly'. */
   grain: Grain | (string & {});
   /** The start date of the summaries data that will be served in the report. */
@@ -1539,19 +1539,19 @@ export interface GenerateGenerateBenefitUtilizationSummariesReportByReservationI
   /** The end date of the summaries data that will be served in the report. */
   endDate: string;
   /** The type of benefit data requested. Required for billing account and billing profile scopes. Implied and not to be passed at benefit scopes. Supported values are Reservation and SavingsPlan */
-  kind?: BenefitKind | (string & {});
+  kind?: BenefitKind | (string & {}) | undefined;
 }
 export interface GenerateGenerateBenefitUtilizationSummariesReportByReservationOrderIdRequest {
   /** Reservation Order ID */
   reservationOrderId: string;
   /** Billing account the benefit utilization summaries report is for. Required for billing account and billing profile scopes. Not supported for any benefit scopes. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** Billing profile id the benefit utilization summaries report is for. Required for billing profile scope. Not supported for billing account or any benefit scopes. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Benefit order id the benefit utilization summaries report is for. Required for benefit order and benefit id scopes. Not supported for any billing scopes. */
-  benefitOrderId?: string;
+  benefitOrderId?: string | undefined;
   /** Benefit id the benefit utilization summaries report is for. Required for benefit id scope. Not supported for benefit order or any billing scopes. */
-  benefitId?: string;
+  benefitId?: string | undefined;
   /** The grain the summaries data is served at in the report. Accepted values are 'Daily' or 'Monthly'. */
   grain: Grain | (string & {});
   /** The start date of the summaries data that will be served in the report. */
@@ -1559,7 +1559,7 @@ export interface GenerateGenerateBenefitUtilizationSummariesReportByReservationO
   /** The end date of the summaries data that will be served in the report. */
   endDate: string;
   /** The type of benefit data requested. Required for billing account and billing profile scopes. Implied and not to be passed at benefit scopes. Supported values are Reservation and SavingsPlan */
-  kind?: BenefitKind | (string & {});
+  kind?: BenefitKind | (string & {}) | undefined;
 }
 export interface GenerateGenerateBenefitUtilizationSummariesReportBySavingsPlanIdRequest {
   /** Savings plan order ID. */
@@ -1567,13 +1567,13 @@ export interface GenerateGenerateBenefitUtilizationSummariesReportBySavingsPlanI
   /** Savings plan ID. */
   savingsPlanId: string;
   /** Billing account the benefit utilization summaries report is for. Required for billing account and billing profile scopes. Not supported for any benefit scopes. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** Billing profile id the benefit utilization summaries report is for. Required for billing profile scope. Not supported for billing account or any benefit scopes. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Benefit order id the benefit utilization summaries report is for. Required for benefit order and benefit id scopes. Not supported for any billing scopes. */
-  benefitOrderId?: string;
+  benefitOrderId?: string | undefined;
   /** Benefit id the benefit utilization summaries report is for. Required for benefit id scope. Not supported for benefit order or any billing scopes. */
-  benefitId?: string;
+  benefitId?: string | undefined;
   /** The grain the summaries data is served at in the report. Accepted values are 'Daily' or 'Monthly'. */
   grain: Grain | (string & {});
   /** The start date of the summaries data that will be served in the report. */
@@ -1581,19 +1581,19 @@ export interface GenerateGenerateBenefitUtilizationSummariesReportBySavingsPlanI
   /** The end date of the summaries data that will be served in the report. */
   endDate: string;
   /** The type of benefit data requested. Required for billing account and billing profile scopes. Implied and not to be passed at benefit scopes. Supported values are Reservation and SavingsPlan */
-  kind?: BenefitKind | (string & {});
+  kind?: BenefitKind | (string & {}) | undefined;
 }
 export interface GenerateGenerateBenefitUtilizationSummariesReportBySavingsPlanOrderIdRequest {
   /** Savings plan order ID. */
   savingsPlanOrderId: string;
   /** Billing account the benefit utilization summaries report is for. Required for billing account and billing profile scopes. Not supported for any benefit scopes. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** Billing profile id the benefit utilization summaries report is for. Required for billing profile scope. Not supported for billing account or any benefit scopes. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Benefit order id the benefit utilization summaries report is for. Required for benefit order and benefit id scopes. Not supported for any billing scopes. */
-  benefitOrderId?: string;
+  benefitOrderId?: string | undefined;
   /** Benefit id the benefit utilization summaries report is for. Required for benefit id scope. Not supported for benefit order or any billing scopes. */
-  benefitId?: string;
+  benefitId?: string | undefined;
   /** The grain the summaries data is served at in the report. Accepted values are 'Daily' or 'Monthly'. */
   grain: Grain | (string & {});
   /** The start date of the summaries data that will be served in the report. */
@@ -1601,7 +1601,7 @@ export interface GenerateGenerateBenefitUtilizationSummariesReportBySavingsPlanO
   /** The end date of the summaries data that will be served in the report. */
   endDate: string;
   /** The type of benefit data requested. Required for billing account and billing profile scopes. Implied and not to be passed at benefit scopes. Supported values are Reservation and SavingsPlan */
-  kind?: BenefitKind | (string & {});
+  kind?: BenefitKind | (string & {}) | undefined;
 }
 export interface GenerateReservationDetailsReportByBillingAccountIdRequest {
   /** BillingAccount ID */
@@ -1629,17 +1629,17 @@ export interface GetAlertRequest {
 }
 export interface GetAlertResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Alert properties. */
-  properties?: AlertProperties;
+  properties?: AlertProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetBudgetRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1649,17 +1649,17 @@ export interface GetBudgetRequest {
 }
 export interface GetBudgetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the budget. */
-  properties?: BudgetProperties;
+  properties?: BudgetProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetCostAllocationRuleRequest {
   /** BillingAccount ID */
@@ -1669,15 +1669,15 @@ export interface GetCostAllocationRuleRequest {
 }
 export interface GetCostAllocationRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Cost allocation rule properties */
-  properties?: CostAllocationRuleProperties;
+  properties?: CostAllocationRuleProperties | undefined;
 }
 export interface GetExportRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1685,27 +1685,27 @@ export interface GetExportRequest {
   /** Export Name. */
   exportName: string;
   /** May be used to expand the properties within an export. Currently only 'runHistory' is supported and will return information for the last 10 runs of the export. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Managed service identity (either system assigned, or none) */
 export type GetExportResponseIdentity = ExportsCreateOrUpdateResponseIdentity;
 export interface GetExportResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the export. */
-  properties?: ExportProperties;
+  properties?: ExportProperties | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ExportsCreateOrUpdateResponseIdentity;
+  identity?: ExportsCreateOrUpdateResponseIdentity | undefined;
   /** The location of the Export's managed identity. Only required when utilizing managed identity. */
-  location?: string;
+  location?: string | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetExportExecutionHistoryRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1727,17 +1727,17 @@ export interface GetGenerateDetailedCostReportOperationResultRequest {
 }
 export interface GetGenerateDetailedCostReportOperationResultResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource generated. */
-  properties?: DownloadURL;
+  properties?: DownloadURL | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetGenerateDetailedCostReportOperationStatusRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1757,27 +1757,27 @@ export type ReportOperationStatusType =
 /** The status of the long running operation. */
 export interface Status {
   /** The status of the long running operation. */
-  status?: ReportOperationStatusType;
+  status?: ReportOperationStatusType | undefined;
 }
 export interface GetGenerateDetailedCostReportOperationStatusResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the usage file generated. */
-  properties?: DownloadURL;
+  properties?: DownloadURL | undefined;
   /** The status of the long running operation. */
-  status?: Status;
+  status?: Status | undefined;
   /** The startTime of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The endTime of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The details of the error. */
-  error?: ErrorDetails;
+  error?: ErrorDetails | undefined;
 }
 export interface GetMarkupRuleRequest {
   /** BillingAccount ID */
@@ -1797,27 +1797,27 @@ export interface CustomerMetadata {
 /** The properties of the markup rule. */
 export interface MarkupRuleProperties {
   /** The description of the markup rule. */
-  description?: string;
+  description?: string | undefined;
   /** The markup percentage of the rule. */
   percentage: number;
   /** Starting date of the markup rule. */
   startDate: string;
   /** Ending date of the markup rule. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Customer information for the markup rule. */
   customerDetails: CustomerMetadata;
 }
 export interface GetMarkupRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Markup rule properties */
-  properties?: MarkupRuleProperties;
+  properties?: MarkupRuleProperties | undefined;
 }
 export interface GetScheduledActionRequest {
   /** Scheduled action name. */
@@ -1830,7 +1830,7 @@ export type FileDestinationFileFormatsList = Array<FileFormat | (string & {})>;
 /** Destination of the view data. This is optional. Currently only CSV format is supported. */
 export interface FileDestination {
   /** Destination of the view data. Currently only CSV format is supported. */
-  fileFormats?: FileDestinationFileFormatsList;
+  fileFormats?: FileDestinationFileFormatsList | undefined;
 }
 /** Array of email addresses. */
 export type NotificationPropertiesToList = Array<string>;
@@ -1839,11 +1839,11 @@ export interface NotificationProperties {
   /** Array of email addresses. */
   to: NotificationPropertiesToList;
   /** Locale of the email. */
-  language?: string;
+  language?: string | undefined;
   /** Optional message to be added in the email. Length is limited to 250 characters. */
-  message?: string;
+  message?: string | undefined;
   /** Regional format used for formatting date/time and currency values in the email. */
-  regionalFormat?: string;
+  regionalFormat?: string | undefined;
   /** Subject of the email. Length is limited to 70 characters. */
   subject: string;
 }
@@ -1869,13 +1869,13 @@ export interface ScheduleProperties {
   /** Frequency of the schedule. */
   frequency: ScheduleFrequency | (string & {});
   /** UTC time at which cost analysis data will be emailed. */
-  hourOfDay?: number;
+  hourOfDay?: number | undefined;
   /** Day names in english on which cost analysis data will be emailed. This property is applicable when frequency is Weekly or Monthly. */
-  daysOfWeek?: SchedulePropertiesDaysOfWeekList;
+  daysOfWeek?: SchedulePropertiesDaysOfWeekList | undefined;
   /** Weeks in which cost analysis data will be emailed. This property is applicable when frequency is Monthly and used in combination with daysOfWeek. */
-  weeksOfMonth?: SchedulePropertiesWeeksOfMonthList;
+  weeksOfMonth?: SchedulePropertiesWeeksOfMonthList | undefined;
   /** UTC day on which cost analysis data will be emailed. Must be between 1 and 31. This property is applicable when frequency is Monthly and overrides weeksOfMonth or daysOfWeek. */
-  dayOfMonth?: number;
+  dayOfMonth?: number | undefined;
   /** The start date and time of the scheduled action (UTC). */
   startDate: string;
   /** The end date and time of the scheduled action (UTC). */
@@ -1888,15 +1888,15 @@ export interface ScheduledActionProperties {
   /** Scheduled action name. */
   displayName: string;
   /** Destination format of the view data. This is optional. */
-  fileDestination?: FileDestination;
+  fileDestination?: FileDestination | undefined;
   /** Notification properties based on scheduled action kind. */
   notification: NotificationProperties;
   /** Email address of the point of contact that should get the unsubscribe requests and notification emails. */
-  notificationEmail?: string;
+  notificationEmail?: string | undefined;
   /** Schedule of the scheduled action. */
   schedule: ScheduleProperties;
   /** For private scheduled action(Create or Update), scope will be empty.<br /> For shared scheduled action(Create or Update By Scope), Cost Management scope can be 'subscriptions/{subscriptionId}' for subscription scope, 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for BillingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}' for InvoiceSection scope, '/providers/Microsoft.CostManagement/externalBillingAccounts/{externalBillingAccountName}' for ExternalBillingAccount scope, and '/providers/Microsoft.CostManagement/externalSubscriptions/{externalSubscriptionName}' for ExternalSubscription scope. */
-  scope?: string;
+  scope?: string | undefined;
   /** Status of the scheduled action. */
   status: ScheduledActionStatus | (string & {});
   /** Cost analysis viewId used for scheduled action. For example, '/providers/Microsoft.CostManagement/views/swaggerExample' */
@@ -1906,19 +1906,19 @@ export interface ScheduledActionProperties {
 export type ScheduledActionKind = "Email" | "InsightAlert";
 export interface GetScheduledActionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the scheduled action. */
-  properties?: ScheduledActionProperties;
+  properties?: ScheduledActionProperties | undefined;
   /** Resource Etag. For update calls, eTag is optional and can be specified to achieve optimistic concurrency. Fetch the resource's eTag by doing a 'GET' call first and then including the latest eTag as part of the request body or 'If-Match' header while performing the update. For create calls, eTag is not required. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Kind of the scheduled action. */
-  kind?: ScheduledActionKind;
+  kind?: ScheduledActionKind | undefined;
 }
 export interface GetScheduledActionByScopeRequest {
   /** undefined */
@@ -1928,19 +1928,19 @@ export interface GetScheduledActionByScopeRequest {
 }
 export interface GetScheduledActionByScopeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the scheduled action. */
-  properties?: ScheduledActionProperties;
+  properties?: ScheduledActionProperties | undefined;
   /** Resource Etag. For update calls, eTag is optional and can be specified to achieve optimistic concurrency. Fetch the resource's eTag by doing a 'GET' call first and then including the latest eTag as part of the request body or 'If-Match' header while performing the update. For create calls, eTag is not required. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Kind of the scheduled action. */
-  kind?: ScheduledActionKind;
+  kind?: ScheduledActionKind | undefined;
 }
 export type GetSettingsByScopeRequestType = "taginheritance";
 export interface GetSettingsByScopeRequest {
@@ -1953,13 +1953,13 @@ export interface GetSettingsByScopeRequest {
 export type SettingsKind = "taginheritance";
 export interface GetSettingsByScopeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: SettingsKind;
 }
@@ -1980,7 +1980,7 @@ export type ReportConfigDatasetConfigurationColumnsList = Array<string>;
 /** The configuration of dataset in the report. */
 export interface ReportConfigDatasetConfiguration {
   /** Array of column names to be included in the report. Any valid report column name is allowed. If not provided, then report includes all columns. */
-  columns?: ReportConfigDatasetConfigurationColumnsList;
+  columns?: ReportConfigDatasetConfigurationColumnsList | undefined;
 }
 /** The aggregation expression to be used in the report. */
 export interface ReportConfigAggregation {
@@ -2009,7 +2009,7 @@ export type ReportConfigSortingType = "Ascending" | "Descending";
 /** The order by expression to be used in the report. */
 export interface ReportConfigSorting {
   /** Direction of sort. */
-  direction?: ReportConfigSortingType | (string & {});
+  direction?: ReportConfigSortingType | (string & {}) | undefined;
   /** The name of the column to sort. */
   name: string;
 }
@@ -2035,28 +2035,28 @@ export interface ReportConfigComparisonExpression {
 /** The filter expression to be used in the report. */
 export interface ReportConfigFilter {
   /** The logical "AND" expression. Must have at least 2 items. */
-  and?: ReportConfigFilterAndList;
+  and?: ReportConfigFilterAndList | undefined;
   /** The logical "OR" expression. Must have at least 2 items. */
-  or?: ReportConfigFilterOrList;
+  or?: ReportConfigFilterOrList | undefined;
   /** Has comparison expression for a dimension */
-  dimensions?: ReportConfigComparisonExpression;
+  dimensions?: ReportConfigComparisonExpression | undefined;
   /** Has comparison expression for a tag */
-  tags?: ReportConfigComparisonExpression;
+  tags?: ReportConfigComparisonExpression | undefined;
 }
 /** The definition of data present in the report. */
 export interface ReportConfigDataset {
   /** The granularity of rows in the report. */
-  granularity?: ReportGranularityType | (string & {});
+  granularity?: ReportGranularityType | (string & {}) | undefined;
   /** Has configuration information for the data in the report. The configuration will be ignored if aggregation and grouping are provided. */
-  configuration?: ReportConfigDatasetConfiguration;
+  configuration?: ReportConfigDatasetConfiguration | undefined;
   /** Dictionary of aggregation expression to use in the report. The key of each item in the dictionary is the alias for the aggregated column. Report can have up to 2 aggregation clauses. */
-  aggregation?: ReportConfigDatasetAggregationMap;
+  aggregation?: ReportConfigDatasetAggregationMap | undefined;
   /** Array of group by expression to use in the report. Report can have up to 2 group by clauses. */
-  grouping?: ReportConfigDatasetGroupingList;
+  grouping?: ReportConfigDatasetGroupingList | undefined;
   /** Array of order by expression to use in the report. */
-  sorting?: ReportConfigDatasetSortingList;
+  sorting?: ReportConfigDatasetSortingList | undefined;
   /** Has filter expression to use in the report. */
-  filter?: ReportConfigFilter;
+  filter?: ReportConfigFilter | undefined;
 }
 /** The definition of a report config. */
 export interface ReportConfigDefinition {
@@ -2065,11 +2065,11 @@ export interface ReportConfigDefinition {
   /** The time frame for pulling data for the report. If custom, then a specific time period must be provided. */
   timeframe: ReportTimeframeType | (string & {});
   /** Has time period for pulling data for the report. */
-  timePeriod?: ForecastTimePeriod;
+  timePeriod?: ForecastTimePeriod | undefined;
   /** Has definition for data in this report config. */
-  dataSet?: ReportConfigDataset;
+  dataSet?: ReportConfigDataset | undefined;
   /** If true, report includes monetary commitment. */
-  includeMonetaryCommitment?: boolean;
+  includeMonetaryCommitment?: boolean | undefined;
 }
 /** Chart type of the main view in Cost Analysis. Required. */
 export type ChartType = "Area" | "Line" | "StackedColumn" | "GroupedColumn" | "Table";
@@ -2082,11 +2082,11 @@ export type KpiTypeType = "Forecast" | "Budget";
 /** Each KPI must contain a 'type' and 'enabled' key. */
 export interface KpiProperties {
   /** KPI type (Forecast, Budget). */
-  type?: KpiTypeType | (string & {});
+  type?: KpiTypeType | (string & {}) | undefined;
   /** ID of resource related to metric (budget). */
-  id?: string;
+  id?: string | undefined;
   /** show the KPI in the UI? */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** List of KPIs to show in Cost Analysis UI. */
 export type ViewPropertiesKpisList = Array<KpiProperties>;
@@ -2095,52 +2095,52 @@ export type PivotTypeType = "Dimension" | "TagKey";
 /** Each pivot must contain a 'type' and 'name'. */
 export interface PivotProperties {
   /** Data type to show in view. */
-  type?: PivotTypeType | (string & {});
+  type?: PivotTypeType | (string & {}) | undefined;
   /** Data field to show in view. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Configuration of 3 sub-views in the Cost Analysis UI. */
 export type ViewPropertiesPivotsList = Array<PivotProperties>;
 /** The properties of the view. */
 export interface ViewProperties {
   /** User input name of the view. Required. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Cost Management scope to save the view on. This includes 'subscriptions/{subscriptionId}' for subscription scope, 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for BillingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}' for InvoiceSection scope, 'providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group scope, '/providers/Microsoft.CostManagement/externalBillingAccounts/{externalBillingAccountName}' for ExternalBillingAccount scope, and '/providers/Microsoft.CostManagement/externalSubscriptions/{externalSubscriptionName}' for ExternalSubscription scope. */
-  scope?: string;
+  scope?: string | undefined;
   /** Date the user created this view. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** Date when the user last modified this view. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
   /** Date range of the current view. */
-  dateRange?: string;
+  dateRange?: string | undefined;
   /** Currency of the current view. */
-  currency?: string;
+  currency?: string | undefined;
   /** Query body configuration. Required. */
-  query?: ReportConfigDefinition;
+  query?: ReportConfigDefinition | undefined;
   /** Chart type of the main view in Cost Analysis. Required. */
-  chart?: ChartType;
+  chart?: ChartType | undefined;
   /** Show costs accumulated over time. */
-  accumulated?: AccumulatedType;
+  accumulated?: AccumulatedType | undefined;
   /** Metric to use when displaying costs. */
-  metric?: MetricType;
+  metric?: MetricType | undefined;
   /** List of KPIs to show in Cost Analysis UI. */
-  kpis?: ViewPropertiesKpisList;
+  kpis?: ViewPropertiesKpisList | undefined;
   /** Configuration of 3 sub-views in the Cost Analysis UI. */
-  pivots?: ViewPropertiesPivotsList;
+  pivots?: ViewPropertiesPivotsList | undefined;
 }
 export interface GetViewResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the view. */
-  properties?: ViewProperties;
+  properties?: ViewProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetViewByScopeRequest {
   /** undefined */
@@ -2150,17 +2150,17 @@ export interface GetViewByScopeRequest {
 }
 export interface GetViewByScopeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the view. */
-  properties?: ViewProperties;
+  properties?: ViewProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export type ListAlertExternalRequestExternalCloudProviderType =
   | "externalSubscriptions"
@@ -2174,26 +2174,26 @@ export interface ListAlertExternalRequest {
 /** An individual alert. */
 export interface Alert {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Alert properties. */
-  properties?: AlertProperties;
+  properties?: AlertProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** List of alerts. */
 export type AlertsResultValueList = Array<Alert>;
 /** Result of alerts. */
 export interface AlertsResult {
   /** List of alerts. */
-  value?: AlertsResultValueList;
+  value?: AlertsResultValueList | undefined;
   /** URL to get the next set of alerts results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAlertsRequest {
   /** The scope associated with alerts operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, '/providers/Microsoft.Management/managementGroups/{managementGroupId} for Management Group scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billingProfile scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}' for invoiceSection scope, and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for partners. */
@@ -2203,11 +2203,11 @@ export interface ListBenefitRecommendationsRequest {
   /** The scope associated with benefit recommendation operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope, /providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for enterprise agreement scope, and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billing profile scope */
   billingScope: string;
   /** Can be used to filter benefitRecommendations by: properties/scope with allowed values ['Single', 'Shared'] and default value 'Shared'; and properties/lookBackPeriod with allowed values ['Last7Days', 'Last30Days', 'Last60Days'] and default value 'Last60Days'; properties/term with allowed values ['P1Y', 'P3Y'] and default value 'P3Y'; properties/subscriptionId; properties/resourceGroup */
-  _filter?: string;
+  _filter?: string | undefined;
   /** May be used to order the recommendations by: properties/armSkuName. For the savings plan, the results are in order by default. There is no need to use this clause. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** May be used to expand the properties by: properties/usage, properties/allRecommendationDetails */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The number of days used to look back. */
 export type LookBackPeriod = "Last7Days" | "Last30Days" | "Last60Days";
@@ -2216,96 +2216,96 @@ export type RecommendationUsageDetailsChargesList = Array<number>;
 /** On-demand charges between firstConsumptionDate and lastConsumptionDate that were used for computing benefit recommendations. */
 export interface RecommendationUsageDetails {
   /** The grain of the usage. Supported values: 'Hourly' */
-  usageGrain?: Grain;
+  usageGrain?: Grain | undefined;
   /** On-demand charges for each hour between firstConsumptionDate and lastConsumptionDate that were used for computing benefit recommendations. */
-  charges?: RecommendationUsageDetailsChargesList;
+  charges?: RecommendationUsageDetailsChargesList | undefined;
 }
 /** Grain which corresponds to value. */
 export type Term = "P1Y" | "P3Y";
 /** Benefit recommendation details. */
 export interface AllSavingsBenefitDetails {
   /** The difference between total cost and benefit cost for the 'totalHours' in the look-back period. */
-  overageCost?: number;
+  overageCost?: number | undefined;
   /** The estimated cost with benefit for the 'totalHours' in the look-back period. It's equal to (commitmentAmount * totalHours) */
-  benefitCost?: number;
+  benefitCost?: number | undefined;
   /** Total cost, which is sum of benefit cost and overage cost. */
-  totalCost?: number;
+  totalCost?: number | undefined;
   /** The amount saved for the 'totalHours' in the look-back period, by purchasing the recommended quantity of the benefit. */
-  savingsAmount?: number;
+  savingsAmount?: number | undefined;
   /** The savings in percentage for the 'totalHours' in the look-back period, by purchasing the recommended quantity of benefit. */
-  savingsPercentage?: number;
+  savingsPercentage?: number | undefined;
   /** Estimated benefit coverage percentage for the 'totalHours' in the look-back period, with this commitment. */
-  coveragePercentage?: number;
+  coveragePercentage?: number | undefined;
   /** The commitment amount at the commitmentGranularity. */
-  commitmentAmount?: number;
+  commitmentAmount?: number | undefined;
   /** Estimated average utilization percentage for the 'totalHours' in the look-back period, with this commitment. */
-  averageUtilizationPercentage?: number;
+  averageUtilizationPercentage?: number | undefined;
   /** Estimated unused portion of the 'benefitCost'. */
-  wastageCost?: number;
+  wastageCost?: number | undefined;
 }
 /** The list of benefit recommendations with the recommendation details.. */
 export type AllSavingsListValueList = Array<AllSavingsBenefitDetails>;
 /** The list of all benefit recommendations with the recommendation details. */
 export interface AllSavingsList {
   /** The list of benefit recommendations with the recommendation details.. */
-  value?: AllSavingsListValueList;
+  value?: AllSavingsListValueList | undefined;
   /** The link (URL) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Kind of the recommendation scope. */
 export type Scope = "Single" | "Shared" | "ManagementGroup";
 /** The properties of the benefit recommendations. */
 export interface BenefitRecommendationProperties {
   /** The first usage date used for looking back for computing the recommendations. */
-  firstConsumptionDate?: string;
+  firstConsumptionDate?: string | undefined;
   /** The last usage date used for looking back for computing the recommendations. */
-  lastConsumptionDate?: string;
+  lastConsumptionDate?: string | undefined;
   /** The number of days of usage evaluated for computing the recommendations. */
-  lookBackPeriod?: LookBackPeriod;
+  lookBackPeriod?: LookBackPeriod | undefined;
   /** The total hours for which the cost is covered. Its equal to number of records in a property 'properties/usage/charges'. */
-  totalHours?: number;
+  totalHours?: number | undefined;
   /** On-demand charges between firstConsumptionDate and lastConsumptionDate that were used for computing benefit recommendations. */
-  usage?: RecommendationUsageDetails;
+  usage?: RecommendationUsageDetails | undefined;
   /** ARM SKU name. 'Compute_Savings_Plan' for SavingsPlan. */
-  armSkuName?: string;
+  armSkuName?: string | undefined;
   /** Term period of the benefit. For example, P1Y or P3Y. */
-  term?: Term;
+  term?: Term | undefined;
   /** Grain of the proposed commitment amount. Supported values: 'Hourly' */
-  commitmentGranularity?: Grain;
+  commitmentGranularity?: Grain | undefined;
   /** An ISO 4217 currency code identifier for the costs and savings amounts. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** The current cost without benefit, corresponds to 'totalHours' in the look-back period. */
-  costWithoutBenefit?: number;
+  costWithoutBenefit?: number | undefined;
   /** The details of the proposed recommendation. */
-  recommendationDetails?: AllSavingsBenefitDetails;
+  recommendationDetails?: AllSavingsBenefitDetails | undefined;
   /** The list of all benefit recommendations with the recommendation details. */
-  allRecommendationDetails?: AllSavingsList;
+  allRecommendationDetails?: AllSavingsList | undefined;
   /** Benefit scope. For example, Single or Shared. */
   scope: Scope;
 }
 /** benefit plan recommendation details. */
 export interface BenefitRecommendationModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Reservation or SavingsPlan. */
-  kind?: BenefitKind;
+  kind?: BenefitKind | undefined;
   /** The properties of the benefit recommendations. */
-  properties?: BenefitRecommendationProperties;
+  properties?: BenefitRecommendationProperties | undefined;
 }
 /** The list of benefit recommendations. */
 export type BenefitRecommendationsListResultValueList = Array<BenefitRecommendationModel>;
 /** Result of listing benefit recommendations. */
 export interface BenefitRecommendationsListResult {
   /** The list of benefit recommendations. */
-  value?: BenefitRecommendationsListResultValueList;
+  value?: BenefitRecommendationsListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListBenefitUtilizationSummaryByBillingAccountIdRequestGrainParameter =
   | "Hourly"
@@ -2317,20 +2317,21 @@ export interface ListBenefitUtilizationSummaryByBillingAccountIdRequest {
   /** Grain. */
   grainParameter?:
     | ListBenefitUtilizationSummaryByBillingAccountIdRequestGrainParameter
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Supports filtering by properties/benefitId, properties/benefitOrderId and properties/usageDate. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Benefit utilization summary resource. */
 export interface BenefitUtilizationSummary {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Supported values: 'SavingsPlan'. */
   kind: BenefitKind;
 }
@@ -2339,9 +2340,9 @@ export type BenefitUtilizationSummariesListResultValueList = Array<BenefitUtiliz
 /** List of benefit utilization summaries. */
 export interface BenefitUtilizationSummariesListResult {
   /** The list of benefit utilization summaries. */
-  value?: BenefitUtilizationSummariesListResultValueList;
+  value?: BenefitUtilizationSummariesListResultValueList | undefined;
   /** The link (URL) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListBenefitUtilizationSummaryByBillingProfileIdRequestGrainParameter =
   | "Hourly"
@@ -2355,9 +2356,10 @@ export interface ListBenefitUtilizationSummaryByBillingProfileIdRequest {
   /** Grain. */
   grainParameter?:
     | ListBenefitUtilizationSummaryByBillingProfileIdRequestGrainParameter
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Supports filtering by properties/benefitId, properties/benefitOrderId and properties/usageDate. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ListBenefitUtilizationSummaryBySavingsPlanIdRequestGrainParameter =
   | "Hourly"
@@ -2369,11 +2371,12 @@ export interface ListBenefitUtilizationSummaryBySavingsPlanIdRequest {
   /** Savings plan ID. */
   savingsPlanId: string;
   /** Supports filtering by properties/usageDate. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Grain. */
   grainParameter?:
     | ListBenefitUtilizationSummaryBySavingsPlanIdRequestGrainParameter
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type ListBenefitUtilizationSummaryBySavingsPlanOrderRequestGrainParameter =
   | "Hourly"
@@ -2383,41 +2386,42 @@ export interface ListBenefitUtilizationSummaryBySavingsPlanOrderRequest {
   /** Savings plan order ID. */
   savingsPlanOrderId: string;
   /** Supports filtering by properties/usageDate. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Grain. */
   grainParameter?:
     | ListBenefitUtilizationSummaryBySavingsPlanOrderRequestGrainParameter
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface ListBudgetsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   scope: string;
   /** OData filter option. May be used to filter budgets by properties/category. The filter supports 'eq' only. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** A budget resource. */
 export interface Budget {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the budget. */
-  properties?: BudgetProperties;
+  properties?: BudgetProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The list of budgets. */
 export type BudgetsListResultValueList = Array<Budget>;
 /** Result of listing budgets. It contains a list of available budgets in the scope provided. */
 export interface BudgetsListResult {
   /** The list of budgets. */
-  value?: BudgetsListResultValueList;
+  value?: BudgetsListResultValueList | undefined;
   /** The link (url) to the next page of results.\r\nIt's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCostAllocationRulesRequest {
   /** BillingAccount ID */
@@ -2426,70 +2430,70 @@ export interface ListCostAllocationRulesRequest {
 /** The cost allocation rule model definition */
 export interface CostAllocationRuleDefinition {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Cost allocation rule properties */
-  properties?: CostAllocationRuleProperties;
+  properties?: CostAllocationRuleProperties | undefined;
 }
 /** The list of cost allocation rules. */
 export type CostAllocationRuleListValueList = Array<CostAllocationRuleDefinition>;
 /** Result of listing cost allocation rules. It contains a list of available rules in the billing account or enterprise enrollment provided. */
 export interface CostAllocationRuleList {
   /** The list of cost allocation rules. */
-  value?: CostAllocationRuleListValueList;
+  value?: CostAllocationRuleListValueList | undefined;
   /** URL to get the next set of rule list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDimensionsRequest {
   /** The scope associated with dimension operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, '/providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}' for invoiceSection scope, and 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for partners. */
   scope: string;
   /** May be used to filter dimensions by properties/category, properties/usageStart, properties/usageEnd. Supported operators are 'eq','lt', 'gt', 'le', 'ge'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** May be used to expand the properties/data within a dimension category. By default, data is not included when listing dimensions. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
   /** May be used to limit the number of results to the most recent N dimension data. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListExportsRequest {
   /** The scope associated with alerts operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, '/providers/Microsoft.Management/managementGroups/{managementGroupId} for Management Group scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billingProfile scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}' for invoiceSection scope, and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for partners. */
   scope: string;
   /** May be used to expand the properties within an export. Currently only 'runHistory' is supported and will return information for the last run of each export. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Managed service identity (either system assigned, or none) */
 export type ExportIdentity = ExportsCreateOrUpdateResponseIdentity;
 /** An export resource. */
 export interface Export {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the export. */
-  properties?: ExportProperties;
+  properties?: ExportProperties | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ExportsCreateOrUpdateResponseIdentity;
+  identity?: ExportsCreateOrUpdateResponseIdentity | undefined;
   /** The location of the Export's managed identity. Only required when utilizing managed identity. */
-  location?: string;
+  location?: string | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The list of exports. */
 export type ExportListResultValueList = Array<Export>;
 /** Result of listing exports. It contains a list of available exports in the scope provided. */
 export interface ExportListResult {
   /** The list of exports. */
-  value?: ExportListResultValueList;
+  value?: ExportListResultValueList | undefined;
 }
 export interface ListMarkupRulesRequest {
   /** BillingAccount ID */
@@ -2500,36 +2504,36 @@ export interface ListMarkupRulesRequest {
 /** Markup rule */
 export interface MarkupRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Markup rule properties */
-  properties?: MarkupRuleProperties;
+  properties?: MarkupRuleProperties | undefined;
 }
 /** The list of markup rules. */
 export type MarkupRulePagedResponseValueList = Array<MarkupRule>;
 /** Markup rule list result. It contains a list of Markup rules. */
 export interface MarkupRulePagedResponse {
   /** The list of markup rules. */
-  value?: MarkupRulePagedResponseValueList;
+  value?: MarkupRulePagedResponseValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface CostManagementOperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type CostManagementOperationOrigin = "user" | "system" | "user,system";
@@ -2538,62 +2542,62 @@ export type CostManagementOperationActionType = "Internal";
 /** A Cost management REST API operation. */
 export interface CostManagementOperation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: CostManagementOperationDisplay;
+  display?: CostManagementOperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: CostManagementOperationOrigin;
+  origin?: CostManagementOperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: CostManagementOperationActionType;
+  actionType?: CostManagementOperationActionType | undefined;
   /** Operation id: {provider}/{resource}/{operation}. */
-  id?: string;
+  id?: string | undefined;
 }
 /** List of cost management operations supported by the Microsoft.CostManagement resource provider. */
 export type OperationListResultValueList = Array<CostManagementOperation>;
 /** Result of listing cost management operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of cost management operations supported by the Microsoft.CostManagement resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListScheduledActionByScopeRequest {
   /** undefined */
   scope: string;
   /** May be used to filter scheduled actions by properties/viewId. Supported operator is 'eq'. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Scheduled action definition. */
 export interface ScheduledAction {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the scheduled action. */
-  properties?: ScheduledActionProperties;
+  properties?: ScheduledActionProperties | undefined;
   /** Resource Etag. For update calls, eTag is optional and can be specified to achieve optimistic concurrency. Fetch the resource's eTag by doing a 'GET' call first and then including the latest eTag as part of the request body or 'If-Match' header while performing the update. For create calls, eTag is not required. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Kind of the scheduled action. */
-  kind?: ScheduledActionKind;
+  kind?: ScheduledActionKind | undefined;
 }
 /** The list of scheduled actions. */
 export type ScheduledActionListResultValueList = Array<ScheduledAction>;
 /** Scheduled actions list result. It contains a list of scheduled actions. */
 export interface ScheduledActionListResult {
   /** The list of scheduled actions. */
-  value?: ScheduledActionListResultValueList;
+  value?: ScheduledActionListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListScheduledActionsRequest {
   /** May be used to filter scheduled actions by properties/viewId. Supported operator is 'eq'. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListSettingsRequest {
   /** undefined */
@@ -2602,13 +2606,13 @@ export interface ListSettingsRequest {
 /** Setting definition. */
 export interface Setting {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: SettingsKind;
 }
@@ -2617,7 +2621,7 @@ export type SettingsListResultValueList = Array<Setting>;
 /** Setting list result. It contains a list of settings. */
 export interface SettingsListResult {
   /** The list of settings. */
-  value?: SettingsListResultValueList;
+  value?: SettingsListResultValueList | undefined;
 }
 export interface ListViewByScopeRequest {
   /** undefined */
@@ -2626,26 +2630,26 @@ export interface ListViewByScopeRequest {
 /** States and configurations of Cost Analysis. */
 export interface View {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the view. */
-  properties?: ViewProperties;
+  properties?: ViewProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The list of views. */
 export type ViewListResultValueList = Array<View>;
 /** Result of listing views. It contains a list of available views. */
 export interface ViewListResult {
   /** The list of views. */
-  value?: ViewListResultValueList;
+  value?: ViewListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListViewsRequest {}
 export interface MarkupRulesCreateOrUpdateRequest {
@@ -2656,19 +2660,19 @@ export interface MarkupRulesCreateOrUpdateRequest {
   /** Markup rule name. */
   ruleName: string;
   /** Markup rule properties */
-  properties?: MarkupRuleProperties;
+  properties?: MarkupRuleProperties | undefined;
 }
 export interface MarkupRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Markup rule properties */
-  properties?: MarkupRuleProperties;
+  properties?: MarkupRuleProperties | undefined;
 }
 /** The start and end date for pulling data for the query. */
 export type QueryTimePeriod = ForecastTimePeriod;
@@ -2677,7 +2681,7 @@ export type QueryDatasetConfigurationColumnsList = Array<string>;
 /** The configuration of dataset in the query. */
 export interface QueryDatasetConfiguration {
   /** Array of column names to be included in the query. Any valid query column name is allowed. If not provided, then query includes all columns. */
-  columns?: QueryDatasetConfigurationColumnsList;
+  columns?: QueryDatasetConfigurationColumnsList | undefined;
 }
 /** The aggregation expression to be used in the query. */
 export type QueryAggregation = ReportConfigAggregation;
@@ -2712,26 +2716,26 @@ export interface QueryComparisonExpression {
 /** The filter expression to be used in the export. */
 export interface QueryFilter {
   /** The logical "AND" expression. Must have at least 2 items. */
-  and?: QueryFilterAndList;
+  and?: QueryFilterAndList | undefined;
   /** The logical "OR" expression. Must have at least 2 items. */
-  or?: QueryFilterOrList;
+  or?: QueryFilterOrList | undefined;
   /** Has comparison expression for a dimension */
-  dimensions?: QueryComparisonExpression;
+  dimensions?: QueryComparisonExpression | undefined;
   /** Has comparison expression for a tag */
-  tags?: QueryComparisonExpression;
+  tags?: QueryComparisonExpression | undefined;
 }
 /** The definition of data present in the query. */
 export interface QueryDataset {
   /** The granularity of rows in the query. */
-  granularity?: GranularityType | (string & {});
+  granularity?: GranularityType | (string & {}) | undefined;
   /** Has configuration information for the data in the export. The configuration will be ignored if aggregation and grouping are provided. */
-  configuration?: QueryDatasetConfiguration;
+  configuration?: QueryDatasetConfiguration | undefined;
   /** Dictionary of aggregation expression to use in the query. The key of each item in the dictionary is the alias for the aggregated column. Query can have up to 2 aggregation clauses. */
-  aggregation?: QueryDatasetAggregationMap;
+  aggregation?: QueryDatasetAggregationMap | undefined;
   /** Array of group by expression to use in the query. Query can have up to 2 group by clauses. */
-  grouping?: QueryDatasetGroupingList;
+  grouping?: QueryDatasetGroupingList | undefined;
   /** The filter expression to use in the query. Please reference our Query API REST documentation for how to properly format the filter. */
-  filter?: QueryFilter;
+  filter?: QueryFilter | undefined;
 }
 export interface QueryUsageRequest {
   /** The scope associated with query and export operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, '/providers/Microsoft.Management/managementGroups/{managementGroupId} for Management Group scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billingProfile scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}' for invoiceSection scope, and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for partners. */
@@ -2741,7 +2745,7 @@ export interface QueryUsageRequest {
   /** The time frame for pulling data for the query. If custom, then a specific time period must be provided. */
   timeframe: TimeframeType | (string & {});
   /** Has time period for pulling data for the query. */
-  timePeriod?: ForecastTimePeriod;
+  timePeriod?: ForecastTimePeriod | undefined;
   /** Has definition for data in this query. */
   dataset: QueryDataset;
 }
@@ -2757,29 +2761,29 @@ export type QueryPropertiesRowsList = Array<QueryPropertiesRowsItemList>;
 /** Query properties */
 export interface QueryProperties {
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of columns */
-  columns?: QueryPropertiesColumnsList;
+  columns?: QueryPropertiesColumnsList | undefined;
   /** Array of rows */
-  rows?: QueryPropertiesRowsList;
+  rows?: QueryPropertiesRowsList | undefined;
 }
 export interface QueryUsageResponse {
   /** Resource Id. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** SKU of the resource. */
-  sku?: string;
+  sku?: string | undefined;
   /** ETag of the resource. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Resource tags. */
-  tags?: QueryUsageResponseTagsMap;
+  tags?: QueryUsageResponseTagsMap | undefined;
   /** Query properties */
-  properties?: QueryProperties;
+  properties?: QueryProperties | undefined;
 }
 export type QueryUsageByExternalCloudProviderTypeRequestExternalCloudProviderType =
   | "externalSubscriptions"
@@ -2796,7 +2800,7 @@ export interface QueryUsageByExternalCloudProviderTypeRequest {
   /** The time frame for pulling data for the query. If custom, then a specific time period must be provided. */
   timeframe: TimeframeType | (string & {});
   /** Has time period for pulling data for the query. */
-  timePeriod?: ForecastTimePeriod;
+  timePeriod?: ForecastTimePeriod | undefined;
   /** Has definition for data in this query. */
   dataset: QueryDataset;
 }
@@ -2806,21 +2810,21 @@ export type QueryUsageByExternalCloudProviderTypeResponseTagsMap = {
 };
 export interface QueryUsageByExternalCloudProviderTypeResponse {
   /** Resource Id. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** SKU of the resource. */
-  sku?: string;
+  sku?: string | undefined;
   /** ETag of the resource. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Resource tags. */
-  tags?: QueryUsageByExternalCloudProviderTypeResponseTagsMap;
+  tags?: QueryUsageByExternalCloudProviderTypeResponseTagsMap | undefined;
   /** Query properties */
-  properties?: QueryProperties;
+  properties?: QueryProperties | undefined;
 }
 export interface RunScheduledActionRequest {
   /** Scheduled action name. */
@@ -2838,27 +2842,27 @@ export interface ScheduledActionsCreateOrUpdateRequest {
   /** Scheduled action name. */
   name: string;
   /** The properties of the scheduled action. */
-  properties?: ScheduledActionProperties;
+  properties?: ScheduledActionProperties | undefined;
   /** Resource Etag. For update calls, eTag is optional and can be specified to achieve optimistic concurrency. Fetch the resource's eTag by doing a 'GET' call first and then including the latest eTag as part of the request body or 'If-Match' header while performing the update. For create calls, eTag is not required. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Kind of the scheduled action. */
-  kind?: ScheduledActionKind | (string & {});
+  kind?: ScheduledActionKind | (string & {}) | undefined;
 }
 export interface ScheduledActionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the scheduled action. */
-  properties?: ScheduledActionProperties;
+  properties?: ScheduledActionProperties | undefined;
   /** Resource Etag. For update calls, eTag is optional and can be specified to achieve optimistic concurrency. Fetch the resource's eTag by doing a 'GET' call first and then including the latest eTag as part of the request body or 'If-Match' header while performing the update. For create calls, eTag is not required. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Kind of the scheduled action. */
-  kind?: ScheduledActionKind;
+  kind?: ScheduledActionKind | undefined;
 }
 export interface ScheduledActionsCreateOrUpdateByScopeRequest {
   /** undefined */
@@ -2866,27 +2870,27 @@ export interface ScheduledActionsCreateOrUpdateByScopeRequest {
   /** Scheduled action name. */
   name: string;
   /** The properties of the scheduled action. */
-  properties?: ScheduledActionProperties;
+  properties?: ScheduledActionProperties | undefined;
   /** Resource Etag. For update calls, eTag is optional and can be specified to achieve optimistic concurrency. Fetch the resource's eTag by doing a 'GET' call first and then including the latest eTag as part of the request body or 'If-Match' header while performing the update. For create calls, eTag is not required. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Kind of the scheduled action. */
-  kind?: ScheduledActionKind | (string & {});
+  kind?: ScheduledActionKind | (string & {}) | undefined;
 }
 export interface ScheduledActionsCreateOrUpdateByScopeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the scheduled action. */
-  properties?: ScheduledActionProperties;
+  properties?: ScheduledActionProperties | undefined;
   /** Resource Etag. For update calls, eTag is optional and can be specified to achieve optimistic concurrency. Fetch the resource's eTag by doing a 'GET' call first and then including the latest eTag as part of the request body or 'If-Match' header while performing the update. For create calls, eTag is not required. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Kind of the scheduled action. */
-  kind?: ScheduledActionKind;
+  kind?: ScheduledActionKind | undefined;
 }
 export type SettingsCreateOrUpdateByScopeRequestType = "taginheritance";
 export interface SettingsCreateOrUpdateByScopeRequest {
@@ -2899,13 +2903,13 @@ export interface SettingsCreateOrUpdateByScopeRequest {
 }
 export interface SettingsCreateOrUpdateByScopeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: SettingsKind;
 }
@@ -2916,47 +2920,47 @@ export type ViewPropertiesInputPivotsList = Array<PivotProperties>;
 /** The properties of the view. */
 export interface ViewPropertiesInput {
   /** User input name of the view. Required. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Cost Management scope to save the view on. This includes 'subscriptions/{subscriptionId}' for subscription scope, 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for BillingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}' for InvoiceSection scope, 'providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group scope, '/providers/Microsoft.CostManagement/externalBillingAccounts/{externalBillingAccountName}' for ExternalBillingAccount scope, and '/providers/Microsoft.CostManagement/externalSubscriptions/{externalSubscriptionName}' for ExternalSubscription scope. */
-  scope?: string;
+  scope?: string | undefined;
   /** Date when the user last modified this view. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
   /** Date range of the current view. */
-  dateRange?: string;
+  dateRange?: string | undefined;
   /** Query body configuration. Required. */
-  query?: ReportConfigDefinition;
+  query?: ReportConfigDefinition | undefined;
   /** Chart type of the main view in Cost Analysis. Required. */
-  chart?: ChartType | (string & {});
+  chart?: ChartType | (string & {}) | undefined;
   /** Show costs accumulated over time. */
-  accumulated?: boolean;
+  accumulated?: boolean | undefined;
   /** Metric to use when displaying costs. */
-  metric?: MetricType | (string & {});
+  metric?: MetricType | (string & {}) | undefined;
   /** List of KPIs to show in Cost Analysis UI. */
-  kpis?: ViewPropertiesInputKpisList;
+  kpis?: ViewPropertiesInputKpisList | undefined;
   /** Configuration of 3 sub-views in the Cost Analysis UI. */
-  pivots?: ViewPropertiesInputPivotsList;
+  pivots?: ViewPropertiesInputPivotsList | undefined;
 }
 export interface ViewsCreateOrUpdateRequest {
   /** View name */
   viewName: string;
   /** The properties of the view. */
-  properties?: ViewPropertiesInput;
+  properties?: ViewPropertiesInput | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface ViewsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the view. */
-  properties?: ViewProperties;
+  properties?: ViewProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface ViewsCreateOrUpdateByScopeRequest {
   /** undefined */
@@ -2964,23 +2968,23 @@ export interface ViewsCreateOrUpdateByScopeRequest {
   /** View name */
   viewName: string;
   /** The properties of the view. */
-  properties?: ViewPropertiesInput;
+  properties?: ViewPropertiesInput | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface ViewsCreateOrUpdateByScopeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the view. */
-  properties?: ViewProperties;
+  properties?: ViewProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export type BudgetsCreateOrUpdateError = AzureOpError;
 /** The operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation. */
