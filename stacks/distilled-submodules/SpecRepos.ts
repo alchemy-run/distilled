@@ -60,6 +60,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "clerk" },
   { package: "cloudflare" },
   { package: "coinbase" },
+  { package: "coinflow" },
   { package: "coolify" },
   { package: "customerio" },
   { package: "datadog" },
