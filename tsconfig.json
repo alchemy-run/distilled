@@ -1,6 +1,8 @@
 {
   "files": [],
   "references": [
+    { "path": "./packages/steam/tsconfig.json" },
+    { "path": "./packages/steam/tsconfig.test.json" },
     { "path": "./packages/acme/tsconfig.json" },
     { "path": "./packages/acme/tsconfig.test.json" },
     { "path": "./packages/acme/tsconfig.scripts.json" },

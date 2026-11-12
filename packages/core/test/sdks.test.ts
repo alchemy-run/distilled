@@ -18,6 +18,8 @@ const sdks = readdirSync(PACKAGES)
 
 /** Packages without a `<Sdk>OpError` union over a REST/RPC protocol, and why. */
 const NO_OP_ERROR: Record<string, string> = {
+  steam:
+    "OpenID protocol helper; AuthenticationError models strict assertion/discovery validation, no generated REST operations",
   aws: "re-exports @distilled.cloud/s3's errors, whose CommonErrors include ParseError",
   linear: "GraphQL Query SDK; errors are typed per root by core/graphql",
   s3: "hand-written protocols; ParseError is part of CommonErrors in src/errors.ts",
