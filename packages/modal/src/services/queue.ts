@@ -79,14 +79,14 @@ export interface ListPagination {
 }
 export interface ListQueueRequest {
   environmentName?: string | undefined;
-  totalSizeLimit?: number | undefined;
   /** Limit on "number of partitions" reported, since checking them is costly */
+  totalSizeLimit?: number | undefined;
   pagination?: ListPagination | undefined;
 }
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
   createdAt: number;
-  /** Timestamp of resource creation */
+  /** User name or service name */
   createdBy: string;
 }
 export interface QueueMetadata {
@@ -95,8 +95,8 @@ export interface QueueMetadata {
 }
 export interface ListQueueResponseQueueInfo {
   name: string;
-  createdAt: number;
   /** Superseded by metadata, used by clients up to 1.1.2 */
+  createdAt: number;
   numPartitions: number;
   totalSize: number;
   queueId: string;
@@ -130,7 +130,6 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export interface QueueGetOrCreateRequest {
   deploymentName?: string | undefined;
-  /** removed namespace */
   environmentName?: string | undefined;
   objectCreationType?: ObjectCreationType | (string & {}) | undefined;
 }
@@ -154,6 +153,7 @@ export interface QueueNextItemsRequest {
   queueId?: string | undefined;
   partitionKey?: string | undefined;
   lastEntryId?: string | undefined;
+  /** seconds */
   itemPollTimeout?: number | undefined;
 }
 export interface QueueItem {

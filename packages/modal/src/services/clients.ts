@@ -36,8 +36,8 @@ export interface Warning {
 export type WarningList = Array<Warning>;
 export interface ClientHelloResponse {
   warning: string;
-  imageBuilderVersion: string;
   /** Deprecated, no longer used in client */
+  imageBuilderVersion: string;
   serverWarnings: WarningList;
 }
 export type ClientHelloError = ModalOpError;
