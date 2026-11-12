@@ -77,6 +77,9 @@
     3. aws: AWS's documented throttling and transient error codes get
        explicit marks; long-poll back-off. (Header parsing landed in 1 for
        every SDK; a modeled `Retry-After` stays a minimum, as elsewhere.)
-    4. gcp: converter reads googleapis service configs, skips templates
+    4. gcp: converter reads googleapis service configs, skips templates.
+       Only the numbers carry over (attempts, backoff, cap, multiplier).
+       Open: a config's own retryable codes (e.g. RESOURCE_EXHAUSTED,
+       INTERNAL) and methods listed with no retryPolicy ("do not retry")
     5. alchemy: its own deploy-time policy, merged before 1 is released
        (throttling patience drops from ~22 s to ~1.5 s)

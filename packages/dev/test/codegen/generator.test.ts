@@ -421,5 +421,11 @@ describe("distilled.retry#policy", () => {
     expect(() => generateService(withRetryTraits({ retries: 2 }), spec)).toThrow(/unknown key/);
     expect(() => generateService(withRetryTraits({ maxAttempts: 0 }), spec)).toThrow(/whole/);
     expect(() => generateService(withRetryTraits({ baseMs: 1.5 }), spec)).toThrow(/whole/);
+    expect(() => generateService(withRetryTraits({ factor: 0.5 }), spec)).toThrow(/at least 1/);
+  });
+
+  test("factor may be fractional", () => {
+    const { code } = generateService(withRetryTraits({ factor: 1.3 }), spec);
+    expect(code).toContain(`  retryPolicy: {"factor":1.3},`);
   });
 });

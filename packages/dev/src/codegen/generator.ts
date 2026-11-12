@@ -206,10 +206,11 @@ const RETRY_POLICY_KEYS = [
   "baseMs",
   "throttlingBaseMs",
   "capMs",
+  "factor",
   "longPoll",
 ] as const;
 
-/** The trait's value, checked: known keys, whole numbers, `longPoll` a boolean. */
+/** The trait's value, checked: known keys, whole numbers, `factor` ≥ 1, `longPoll` a boolean. */
 const retryPolicyOf = (value: unknown, where: string): Record<string, number | boolean> => {
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
     throw new Error(`${where}: ${RETRY_POLICY_TRAIT} must be an object`);
@@ -221,6 +222,12 @@ const retryPolicyOf = (value: unknown, where: string): Record<string, number | b
     if (key === "longPoll") {
       if (typeof n !== "boolean") {
         throw new Error(`${where}: ${RETRY_POLICY_TRAIT}.longPoll must be a boolean`);
+      }
+      continue;
+    }
+    if (key === "factor") {
+      if (typeof n !== "number" || !(n >= 1)) {
+        throw new Error(`${where}: ${RETRY_POLICY_TRAIT}.factor must be a number of at least 1`);
       }
       continue;
     }

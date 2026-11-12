@@ -711,6 +711,7 @@ export const createProjectsAgentPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsAgentPools",
+  retryPolicy: { maxAttempts: 5, baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type CreateTransferJobsError =
@@ -757,6 +758,7 @@ export const deleteProjectsAgentPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsAgentPools",
+  retryPolicy: { maxAttempts: 5, baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type DeleteTransferJobsError =
@@ -780,6 +782,7 @@ export const deleteTransferJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTransferJobs",
+  retryPolicy: { maxAttempts: 5, baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type GetGoogleServiceAccountsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -797,6 +800,7 @@ export const getGoogleServiceAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGoogleServiceAccounts",
+  retryPolicy: { maxAttempts: 5, baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type GetProjectsAgentPoolsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -814,6 +818,7 @@ export const getProjectsAgentPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsAgentPools",
+  retryPolicy: { maxAttempts: 5, baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type GetTransferJobsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -831,6 +836,7 @@ export const getTransferJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTransferJobs",
+  retryPolicy: { maxAttempts: 5, baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type GetTransferOperationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -866,6 +872,7 @@ export const listProjectsAgentPools: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsAgentPools",
+  retryPolicy: { maxAttempts: 5, baseMs: 1000, capMs: 60000, factor: 2 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -885,6 +892,7 @@ export const listTransferJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTransferJobs",
+  retryPolicy: { maxAttempts: 5, baseMs: 1000, capMs: 60000, factor: 2 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -928,6 +936,7 @@ export const patchProjectsAgentPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsAgentPools",
+  retryPolicy: { maxAttempts: 5, baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type PatchTransferJobsError =
@@ -951,6 +960,7 @@ export const patchTransferJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchTransferJobs",
+  retryPolicy: { maxAttempts: 5, baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type PauseTransferOperationsError =
@@ -974,6 +984,7 @@ export const pauseTransferOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseTransferOperations",
+  retryPolicy: { maxAttempts: 5, baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type ResumeTransferOperationsError =
@@ -997,6 +1008,7 @@ export const resumeTransferOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeTransferOperations",
+  retryPolicy: { maxAttempts: 5, baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type RunTransferJobsError =
@@ -1020,6 +1032,7 @@ export const runTransferJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunTransferJobs",
+  retryPolicy: { maxAttempts: 5, baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -2531,6 +2531,7 @@ export const deleteProjectsAlertPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsAlertPolicies",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type DeleteProjectsGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2548,6 +2549,7 @@ export const deleteProjectsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsGroups",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type DeleteProjectsMetricDescriptorsError =
@@ -2570,6 +2572,7 @@ export const deleteProjectsMetricDescriptors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsMetricDescriptors",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type DeleteProjectsNotificationChannelsError =
@@ -2592,6 +2595,7 @@ export const deleteProjectsNotificationChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsNotificationChannels",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type DeleteProjectsUptimeCheckConfigsError =
@@ -2614,6 +2618,7 @@ export const deleteProjectsUptimeCheckConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsUptimeCheckConfigs",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type DeleteServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2631,6 +2636,7 @@ export const deleteServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteServices",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type DeleteServicesServiceLevelObjectivesError =
@@ -2653,6 +2659,7 @@ export const deleteServicesServiceLevelObjectives: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteServicesServiceLevelObjectives",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type GetProjectsAlertPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -2670,6 +2677,7 @@ export const getProjectsAlertPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsAlertPolicies",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type GetProjectsAlertsError = NotFound | Forbidden | GcpOpError;
@@ -2704,6 +2712,7 @@ export const getProjectsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsGroups",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type GetProjectsMetricDescriptorsError = NotFound | Forbidden | GcpOpError;
@@ -2721,6 +2730,7 @@ export const getProjectsMetricDescriptors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsMetricDescriptors",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type GetProjectsMonitoredResourceDescriptorsError = NotFound | Forbidden | GcpOpError;
@@ -2738,6 +2748,7 @@ export const getProjectsMonitoredResourceDescriptors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsMonitoredResourceDescriptors",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type GetProjectsNotificationChannelDescriptorsError = NotFound | Forbidden | GcpOpError;
@@ -2755,6 +2766,7 @@ export const getProjectsNotificationChannelDescriptors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsNotificationChannelDescriptors",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type GetProjectsNotificationChannelsError = NotFound | Forbidden | GcpOpError;
@@ -2772,6 +2784,7 @@ export const getProjectsNotificationChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsNotificationChannels",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type GetProjectsSnoozesError = NotFound | Forbidden | GcpOpError;
@@ -2789,6 +2802,7 @@ export const getProjectsSnoozes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsSnoozes",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type GetProjectsUptimeCheckConfigsError = NotFound | Forbidden | GcpOpError;
@@ -2806,6 +2820,7 @@ export const getProjectsUptimeCheckConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsUptimeCheckConfigs",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type GetServicesError = NotFound | Forbidden | GcpOpError;
@@ -2823,6 +2838,7 @@ export const getServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServices",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type GetServicesServiceLevelObjectivesError = NotFound | Forbidden | GcpOpError;
@@ -2840,6 +2856,7 @@ export const getServicesServiceLevelObjectives: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServicesServiceLevelObjectives",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type GetVerificationCodeProjectsNotificationChannelsError =
@@ -2866,6 +2883,7 @@ export const getVerificationCodeProjectsNotificationChannels: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVerificationCodeProjectsNotificationChannels",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type ListFoldersTimeSeriesError = NotFound | Forbidden | GcpOpError;
@@ -2884,6 +2902,7 @@ export const listFoldersTimeSeries: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFoldersTimeSeries",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2903,6 +2922,7 @@ export const listOrganizationsTimeSeries: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsTimeSeries",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2922,6 +2942,7 @@ export const listProjectsAlertPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsAlertPolicies",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2960,6 +2981,7 @@ export const listProjectsGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsGroups",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2979,6 +3001,7 @@ export const listProjectsGroupsMembers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsGroupsMembers",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2998,6 +3021,7 @@ export const listProjectsMetricDescriptors: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsMetricDescriptors",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3017,6 +3041,7 @@ export const listProjectsMonitoredResourceDescriptors: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsMonitoredResourceDescriptors",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3036,6 +3061,7 @@ export const listProjectsNotificationChannelDescriptors: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsNotificationChannelDescriptors",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3055,6 +3081,7 @@ export const listProjectsNotificationChannels: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsNotificationChannels",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3074,6 +3101,7 @@ export const listProjectsSnoozes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsSnoozes",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3093,6 +3121,7 @@ export const listProjectsTimeSeries: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsTimeSeries",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3112,6 +3141,7 @@ export const listProjectsUptimeCheckConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsUptimeCheckConfigs",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3131,6 +3161,7 @@ export const listServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServices",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3150,6 +3181,7 @@ export const listServicesServiceLevelObjectives: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServicesServiceLevelObjectives",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3169,6 +3201,7 @@ export const listUptimeCheckIps: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUptimeCheckIps",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3357,6 +3390,7 @@ export const updateProjectsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsGroups",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 export type VerifyProjectsNotificationChannelsError =
@@ -3379,6 +3413,7 @@ export const verifyProjectsNotificationChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "VerifyProjectsNotificationChannels",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 30000, factor: 1.3 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -366,6 +366,8 @@ export interface RetryOverride {
   readonly baseMs?: number;
   readonly throttlingBaseMs?: number;
   readonly capMs?: number;
+  /** Multiplier between delays (2 by default). */
+  readonly factor?: number;
   readonly longPoll?: boolean;
 }
 
@@ -386,6 +388,7 @@ export const defaultWith = (override: RetryOverride): Options => {
         ? { throttlingBaseMs: override.throttlingBaseMs }
         : {}),
       ...(override.capMs !== undefined ? { capMs: override.capMs } : {}),
+      ...(override.factor !== undefined ? { factor: override.factor } : {}),
       ...(override.longPoll !== undefined ? { longPoll: override.longPoll } : {}),
     },
   };

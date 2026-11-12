@@ -589,6 +589,7 @@ export const createProjectsLocationsApis: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsApis",
+  retryPolicy: { baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type CreateProjectsLocationsApisConfigsError =
@@ -611,6 +612,7 @@ export const createProjectsLocationsApisConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsApisConfigs",
+  retryPolicy: { baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type CreateProjectsLocationsGatewaysError =
@@ -633,6 +635,7 @@ export const createProjectsLocationsGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsGateways",
+  retryPolicy: { baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type DeleteProjectsLocationsApisError =
@@ -655,6 +658,7 @@ export const deleteProjectsLocationsApis: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsApis",
+  retryPolicy: { baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type DeleteProjectsLocationsApisConfigsError =
@@ -677,6 +681,7 @@ export const deleteProjectsLocationsApisConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsApisConfigs",
+  retryPolicy: { baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type DeleteProjectsLocationsGatewaysError =
@@ -699,6 +704,7 @@ export const deleteProjectsLocationsGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsGateways",
+  retryPolicy: { baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -974,6 +980,7 @@ export const patchProjectsLocationsApis: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsApis",
+  retryPolicy: { baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type PatchProjectsLocationsApisConfigsError =
@@ -996,6 +1003,7 @@ export const patchProjectsLocationsApisConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsApisConfigs",
+  retryPolicy: { baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type PatchProjectsLocationsGatewaysError =
@@ -1018,6 +1026,7 @@ export const patchProjectsLocationsGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsGateways",
+  retryPolicy: { baseMs: 1000, capMs: 60000, factor: 2 },
 }));
 
 export type SetIamPolicyProjectsLocationsApisError =

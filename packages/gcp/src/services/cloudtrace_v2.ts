@@ -289,6 +289,7 @@ export const batchWriteProjectsTraces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchWriteProjectsTraces",
+  retryPolicy: { baseMs: 100, capMs: 30000, factor: 2 },
 }));
 
 export type CreateSpanProjectsTracesSpansError =
@@ -311,6 +312,7 @@ export const createSpanProjectsTracesSpans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSpanProjectsTracesSpans",
+  retryPolicy: { baseMs: 100, capMs: 1000, factor: 1.2 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
