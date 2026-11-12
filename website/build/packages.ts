@@ -111,7 +111,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "archil",
     ],
   ],
-  ["Identity", ["auth0", "better-auth", "clerk", "workos", "okta"]],
+  ["Identity", ["auth0", "better-auth", "clerk", "workos", "okta", "steam"]],
   ["Secrets & certificates", ["onepassword", "doppler", "infisical", "unkey", "acme", "zerossl"]],
   [
     "Payments",
