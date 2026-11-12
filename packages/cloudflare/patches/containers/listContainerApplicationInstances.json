@@ -1,5 +1,5 @@
 {
-  "description": "Name the documented instances listing (GET …/applications/{application_id}/instances-v2) listContainerApplicationInstances, like the other containers operations, and page it with the documented cursor: page_token and per_page (default 100, max 1000) in the request, result_info.next_page_token in the response. Drop the deprecated GET …/applications/{application_id}/instances: the docs mark it deprecated in favour of instances-v2, which returns the same instances.",
+  "description": "Name the documented instances listing (GET …/applications/{application_id}/instances-v2) listContainerApplicationInstances, like the other containers operations, and page it with the documented cursor: page_token and per_page (default 100, max 1000) in the request, result_info.next_page_token in the response. Drop the deprecated GET …/applications/{application_id}/instances: the docs mark it deprecated in favour of instances-v2, which returns the same instances. GET …/applications/{application_id}/instances-v2 on a missing application returns HTTP 404, code 1609, message {\"error\":\"APPLICATION_NOT_FOUND\"} (live, 2026-11-12), typed ContainerApplicationNotFound.",
   "patches": [
     {
       "op": "remove",
@@ -85,6 +85,19 @@
         "items": "result",
         "pageSize": "perPage"
       }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.cloudflare.containers#InvalidRoute"
+        },
+        {
+          "target": "com.cloudflare.containers#ContainerApplicationNotFound"
+        }
+      ]
     },
     {
       "op": "move",
