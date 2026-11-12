@@ -38,6 +38,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -46,11 +47,10 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  * `<group>.<code>` pair from the body.
  */
 export class UnknownRivetError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownRivetError>()("UnknownRivetError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownRivetError>()(
+    "UnknownRivetError",
+    UnknownErrorFields,
+  ) {}
 
 /** A 2xx response that does not match the operation's output schema. */
 export class RivetParseError

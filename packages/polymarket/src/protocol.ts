@@ -1,7 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import type { CryptoError } from "@distilled.cloud/core/crypto";
 import { HTTP_STATUS_MAP, type ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * Polymarket protocols -- the shared bearer-REST protocol, once per API.
@@ -65,12 +65,7 @@ const rest = (
     // Failure bodies are `{ error, code? }`, which the default envelope
     // reader already handles (`error` as the message).
     statusMap: { ...HTTP_STATUS_MAP, 413: PayloadTooLarge },
-    unknownError: ({ code, message, body }) =>
-      new UnknownPolymarketError({
-        code: code === undefined ? undefined : String(code),
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownPolymarketError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new PolymarketParseError({ body, cause }),
   });
 

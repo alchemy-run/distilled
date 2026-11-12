@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * RedisCloudProtocol -- hand-written.
@@ -50,12 +50,7 @@ export const RedisCloudProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeR
     credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
     baseUrl: (creds) => creds.apiBaseUrl,
     headers: (creds) => formatHeaders(creds),
-    unknownError: ({ code, message, body }) =>
-      new UnknownRedisCloudError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownRedisCloudError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new RedisCloudParseError({ body, cause }),
   },
 );

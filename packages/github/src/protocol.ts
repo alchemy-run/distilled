@@ -6,6 +6,7 @@ import {
   makeRestProtocol,
   type RestErrorEnvelope,
   type RestErrorInfo,
+  unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfter } from "@distilled.cloud/core/retry-after";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
@@ -133,14 +134,8 @@ const RestProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<C
   // Core's shared map plus 410 -- GitHub uses Gone far more than most APIs
   // (issues disabled, deleted migration archives).
   statusMap: { ...HTTP_STATUS_MAP, 410: Gone },
-  unknownError: ({ status, code, message, body, headers }) =>
-    new UnknownGithubError({
-      status,
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      headers,
-      body,
-    }),
+  unknownError: (info) =>
+    new UnknownGithubError({ ...unknownErrorProps(info), headers: info.headers }),
   parseError: ({ body, cause }) => new GithubParseError({ body, cause }),
 });
 

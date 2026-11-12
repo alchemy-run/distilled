@@ -30,6 +30,7 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -37,11 +38,10 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  * operation's typed errors nor a shared HTTP status class.
  */
 export class UnknownSteelError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownSteelError>()("UnknownSteelError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownSteelError>()(
+    "UnknownSteelError",
+    UnknownErrorFields,
+  ) {}
 
 /** A 2xx response that does not match the operation's output schema. */
 export class SteelParseError

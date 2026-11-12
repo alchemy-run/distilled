@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * NetBirdProtocol -- hand-written.
  *
@@ -51,11 +51,6 @@ export const NetBirdProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
   }),
   // NetBird's error body is `{ message, code }` -- the factory's default
   // lenient envelope covers it.
-  unknownError: ({ code, message, body }) =>
-    new UnknownNetBirdError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownNetBirdError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new NetBirdParseError({ body, cause }),
 });

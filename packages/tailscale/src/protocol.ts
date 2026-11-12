@@ -13,6 +13,7 @@ import {
   rawResponseRootSymbol,
   rawResponseSymbol,
   validateSuccess,
+  unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
@@ -81,12 +82,7 @@ const TailscaleProtocolRest: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.token)}`,
   }),
-  unknownError: ({ code, message, body }) =>
-    new UnknownTailscaleError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownTailscaleError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new TailscaleParseError({ body, cause }),
 });
 

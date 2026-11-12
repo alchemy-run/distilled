@@ -27,11 +27,10 @@ export interface MapAwaitRequest {
   functionCallId?: string | undefined;
   mapToken?: string | undefined;
   lastEntryId?: string | undefined;
-  requestedAt?: number | undefined;
   /** Used for waypoints. */
+  requestedAt?: number | undefined;
   timeout?: number | undefined;
 }
-/** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
   | "GENERIC_STATUS_UNSPECIFIED"
   | "GENERIC_STATUS_SUCCESS"
@@ -44,24 +43,25 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
   | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
   | "GENERIC_STATUS_KERNEL_OOM_KILL";
-/** sub-type for generic types like lists */
+/** Used for both tasks and function outputs */
 export interface GenericResult {
-  status: GenericResultGenericStatus;
   /** Status of the task or function output. */
-  exception: string;
+  status: GenericResultGenericStatus;
   /** Exception message for failures, if available. */
-  exitcode: number;
+  exception: string;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback: string;
+  exitcode: number;
   /** String value of the Python traceback. */
-  serializedTb: string;
+  traceback: string;
   /** Pickled traceback object. */
-  tbLineCache: string;
+  serializedTb: string;
   /** Pickled line cache for traceback object. */
-  data?: string | undefined;
+  tbLineCache: string;
   /** Inline data of the result. */
-  dataBlobId?: string | undefined;
+  data?: string | undefined;
   /** Blob ID for large data. */
+  dataBlobId?: string | undefined;
+  /** (?) */
   propagationReason: string;
 }
 /** Which data format a binary message is encoded with. */
@@ -75,12 +75,13 @@ export interface FunctionGetOutputsItem {
   result?: GenericResult | undefined;
   idx: number;
   inputId: string;
-  dataFormat: DataFormat;
   /** for result.data_oneof */
+  dataFormat: DataFormat;
   taskId: string;
   inputStartedAt: number;
   outputCreatedAt: number;
   retryCount: number;
+  /** datadog function call trace tag */
   fcTraceTag: string;
 }
 export type FunctionGetOutputsItemList = Array<FunctionGetOutputsItem>;
@@ -103,14 +104,15 @@ export interface FunctionInput {
   args?: string | undefined;
   argsBlobId?: string | undefined;
   finalInput?: boolean | undefined;
-  dataFormat?: DataFormat | (string & {}) | undefined;
   /** For args_oneof. */
+  dataFormat?: DataFormat | (string & {}) | undefined;
+  /** specifies which method to call when calling a class/object function */
   methodName?: string | undefined;
 }
 export type BlobUploadResultOutcome = "OUTCOME_UNSPECIFIED" | "OUTCOME_SUCCESS" | "OUTCOME_FAILURE";
 export interface BlobUploadResult {
-  blobId?: string | undefined;
   /** The blob id (from BlobCreateResponse) that this upload attempt targeted. */
+  blobId?: string | undefined;
   outcome?: BlobUploadResultOutcome | (string & {}) | undefined;
   throughputBytesS?: string | undefined;
 }
@@ -119,12 +121,12 @@ export interface FunctionPutInputsItem {
   idx?: number | undefined;
   input?: FunctionInput | undefined;
   r2Failed?: boolean | undefined;
-  /** r2_latency_ms */
   r2ThroughputBytesS?: string | undefined;
   blobUploadResults?: BlobUploadResultList | undefined;
 }
 export interface MapStartOrContinueItem {
   input?: FunctionPutInputsItem | undefined;
+  /** None if this is a fresh input, otherwise it is the attempt token for a retry. */
   attemptToken?: string | undefined;
 }
 export type MapStartOrContinueItemList = Array<MapStartOrContinueItem>;

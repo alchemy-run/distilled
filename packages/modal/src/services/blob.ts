@@ -30,10 +30,9 @@ export interface CreateBlobRequest {
   contentLength?: string | undefined;
 }
 export type StringList = Array<string>;
-/** Server time of the check. Clients send the earliest one back as earliest_checked_at on the commit. */
 export interface MultiPartUpload {
-  partLength: string;
   /** split upload based on this part length - all except the last part must have this length */
+  partLength: string;
   uploadUrls: StringList;
   completionUrl: string;
 }

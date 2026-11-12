@@ -1,6 +1,10 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * PorkbunProtocol -- hand-written.
@@ -66,11 +70,6 @@ export const PorkbunProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => formatHeaders(creds),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownPorkbunError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownPorkbunError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new PorkbunParseError({ body, cause }),
 });

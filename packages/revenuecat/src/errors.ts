@@ -19,15 +19,15 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** A failure no typed or status error matched; `code` is RevenueCat's error `type`. */
 export class UnknownRevenueCatError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownRevenueCatError>()("UnknownRevenueCatError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownRevenueCatError>()(
+    "UnknownRevenueCatError",
+    UnknownErrorFields,
+  ) {}
 
 export class RevenueCatParseError
   extends /*@__PURE__*/ Schema.TaggedError<RevenueCatParseError>()("RevenueCatParseError", {

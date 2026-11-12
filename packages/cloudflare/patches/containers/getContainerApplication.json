@@ -1,0 +1,216 @@
+{
+  "description": "Keep the SDK's name getContainerApplication, return the shared ContainerApplicationItem, and type the 404 the live API returns for a missing application (code 1609).",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResponse/members/result/target",
+      "value": "com.cloudflare.containers#ContainerApplicationItem"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGet/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.cloudflare.containers#InvalidRoute"
+        },
+        {
+          "target": "com.cloudflare.containers#ContainerApplicationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsGet",
+      "path": "/shapes/com.cloudflare.containers#GetContainerApplication"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#GetContainerApplication/input/target",
+      "value": "com.cloudflare.containers#GetContainerApplicationRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsGetRequest",
+      "path": "/shapes/com.cloudflare.containers#GetContainerApplicationRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#GetContainerApplication/output/target",
+      "value": "com.cloudflare.containers#GetContainerApplicationResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsGetResponse",
+      "path": "/shapes/com.cloudflare.containers#GetContainerApplicationResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationConfigurationAuthorizedKeysItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationConfigurationAuthorizedKeysList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationConfigurationCommandList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationConfigurationEntrypointList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationConfigurationEnvironmentVariablesItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationConfigurationEnvironmentVariablesList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationConfigurationInstanceType"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationConfigurationObservabilityLogs"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationConfigurationObservability"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationConfiguration"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationSchedulingPolicy"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationConstraintsRegionsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationConstraints"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationDurableObjects"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationHealthErrorsItemEventDetailsMap"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationHealthErrorsItemEventName"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationHealthErrorsItemEventStatusChangeMap"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationHealthErrorsItemEventType"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationHealthErrorsItemEvent"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationHealthErrorsItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationHealthErrorsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationHealthInstances"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationHealthSummary"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationHealth"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationObservabilityLogs"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplicationObservability"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcScheduledApplication"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcDurableObjectApplicationDurableObjects"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcDurableObjectApplicationSchedulingPolicy"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcDurableObjectApplicationConfigurationAuthorizedKeysItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcDurableObjectApplicationConfigurationAuthorizedKeysList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcDurableObjectApplicationConfigurationWranglerSsh"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcDurableObjectApplicationConfiguration"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcDurableObjectApplicationConstraintsJurisdiction"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcDurableObjectApplicationConstraints"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcDurableObjectApplicationHealthInstances"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcDurableObjectApplicationHealthSummary"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcDurableObjectApplicationHealth"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcDurableObjectApplicationObservabilityLogs"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcDurableObjectApplicationObservability"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResultCcDurableObjectApplication"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsGetResult"
+    }
+  ]
+}
