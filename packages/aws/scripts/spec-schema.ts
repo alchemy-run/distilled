@@ -282,6 +282,20 @@ export const ServiceSpec = S.Struct({
    * The status is emitted as a `T.HttpError(n)` annotation on the error class.
    */
   errorHttpStatus: S.optional(S.Record(S.String, S.Number)),
+  /**
+   * Retry numbers for every operation of the service, written to the model
+   * as the `distilled.retry#policy` trait (see core `RetryOverride`). Use
+   * this for a service whose AWS SDK defaults differ, e.g. DynamoDB's 25ms
+   * base delay and 4 attempts.
+   */
+  retryPolicy: S.optional(
+    S.Struct({
+      maxAttempts: S.optional(S.Number),
+      baseMs: S.optional(S.Number),
+      throttlingBaseMs: S.optional(S.Number),
+      capMs: S.optional(S.Number),
+    }),
+  ),
 });
 export type ServiceSpec = typeof ServiceSpec.Type;
 

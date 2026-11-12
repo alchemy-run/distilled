@@ -65,6 +65,14 @@ const operation = (method: "GET" | "POST", retry?: typeof TestRetry): Call =>
   })) as unknown as Call;
 
 const getThing = operation("GET", TestRetry);
+/** An operation whose model sets `distilled.retry#policy`. */
+const getTuned = API.make(() => ({
+  input: S.Struct({}).pipe(T.Http({ method: "GET", uri: "/thing" })),
+  output: Output,
+  protocol: TestProtocol,
+  retry: TestRetry,
+  retryPolicy: { maxAttempts: 4, baseMs: 100 },
+})) as unknown as Call;
 const createThing = operation("POST", TestRetry);
 const getThingWithoutRetry = operation("GET");
 
@@ -310,6 +318,28 @@ describe("makeDefault schedule", () => {
     await runVirtual(createThing({}), writes.layer);
     expect(writes.attempts.map((a) => a.method)).toEqual(["POST", "POST", "POST"]);
     expect(writes.times()).toEqual(reads.times());
+  });
+});
+
+describe("distilled.retry#policy override", () => {
+  test("replaces the default policy's numbers", async () => {
+    const http = scripted(() => status(503));
+    await runVirtual(getTuned({}), http.layer);
+    expect(http.attempts).toHaveLength(4);
+    // random 0.5 × 100ms × 2^n
+    expect(delays(http.times())).toEqual([50, 100, 200]);
+  });
+
+  test("keeps the default's other numbers", async () => {
+    const http = scripted(failTimes(1, () => status(429)));
+    await runVirtual(getTuned({}), http.layer);
+    expect(delays(http.times())).toEqual([500]);
+  });
+
+  test("a caller's policy ignores it", async () => {
+    const http = scripted(() => status(503));
+    await runVirtual(getTuned({}).pipe(withPolicy(none)), http.layer);
+    expect(http.attempts).toHaveLength(1);
   });
 });
 

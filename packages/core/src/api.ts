@@ -25,6 +25,8 @@ import {
   defaultOptions,
   type Options as RetryOptions,
   type Policy as RetryPolicy,
+  type RetryOverride,
+  defaultWith,
   resolveServerRetryHintCapMs,
 } from "./retry.ts";
 import { SdkError } from "./sdk-error.ts";
@@ -260,6 +262,12 @@ export interface OperationConfig<
    */
   retry?: Context.Key<any, RetryPolicy>;
   /**
+   * The operation's `distilled.retry#policy` trait (the service's, with the
+   * operation's on top): numbers that replace the default policy's when the
+   * caller's context carries no policy. A caller's policy ignores it.
+   */
+  retryPolicy?: RetryOverride;
+  /**
    * The wire operation name for RPC-style protocols (see
    * {@link ProtocolOperationConfig.operationName}).
    */
@@ -364,15 +372,20 @@ const backoffSleep = (
  */
 const applyRetry = (
   base: Effect.Effect<any, any, any>,
-  retryKey: Context.Key<any, RetryPolicy> | undefined,
+  cfg: OperationConfig<any, any, any, any, any>,
   debug: Telemetry.DebugHooks | undefined,
 ): Effect.Effect<any, any, any> => {
+  const retryKey = cfg.retry;
   const first = debug === undefined ? base : debug.attempt(base, 1);
   return retryKey === undefined
     ? first
     : Effect.catch(first, (error) =>
         Effect.flatMap(Effect.serviceOption(retryKey), (opt) => {
-          if (Option.isNone(opt)) return retryWith(base, defaultOptions, error, debug);
+          if (Option.isNone(opt)) {
+            const options =
+              cfg.retryPolicy === undefined ? defaultOptions : defaultWith(cfg.retryPolicy);
+            return retryWith(base, options, error, debug);
+          }
           const policy = opt.value;
           if (typeof policy !== "function") return retryWith(base, policy, error, debug);
           return Effect.flatMap(Ref.make<unknown>(error), (lastError) =>
@@ -587,7 +600,7 @@ const callUntraced = (
   // Warm path: the operation is prepared and its protocol built, so the call
   // is whatever the protocol returns, with no wrapper effects around it.
   const p = state.prepared;
-  if (p?.service !== undefined) return applyRetry(runWith(p, p.service, input), p.cfg.retry, debug);
+  if (p?.service !== undefined) return applyRetry(runWith(p, p.service, input), p.cfg, debug);
   return Effect.suspend(() => {
     const prepared = prepareOr(state);
     if (prepared instanceof SdkError) return Effect.fail(prepared);
@@ -602,7 +615,7 @@ const callUntraced = (
         return runWith(prepared, service, input);
       },
     );
-    return applyRetry(call, prepared.cfg.retry, debug);
+    return applyRetry(call, prepared.cfg, debug);
   });
 };
 

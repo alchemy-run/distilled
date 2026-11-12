@@ -1,4 +1,8 @@
 {
+  "retryPolicy": {
+    "maxAttempts": 4,
+    "baseMs": 25
+  },
   "errorCategories": {
     "ThrottlingException": ["ThrottlingError", "RetryableError"],
     "RequestLimitExceeded": ["ThrottlingError", "RetryableError"],

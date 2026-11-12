@@ -191,7 +191,33 @@ export interface OperationEmit {
    * spec's own `operation` emitter must include them.
    */
   readonly telemetry: readonly string[];
+  /**
+   * The op config line for `distilled.retry#policy` (`retryPolicy: {…}`,
+   * the service's trait with the operation's on top); undefined when
+   * neither sets one. A spec's own `operation` emitter must include it.
+   */
+  readonly retryPolicy?: string;
 }
+
+/** Retry numbers for a service or an operation (see core `RetryOverride`). */
+export const RETRY_POLICY_TRAIT = "distilled.retry#policy";
+const RETRY_POLICY_KEYS = ["maxAttempts", "baseMs", "throttlingBaseMs", "capMs"] as const;
+
+/** The trait's value, checked: known keys with positive integer values. */
+const retryPolicyOf = (value: unknown, where: string): Record<string, number> => {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    throw new Error(`${where}: ${RETRY_POLICY_TRAIT} must be an object`);
+  }
+  for (const [key, n] of Object.entries(value)) {
+    if (!(RETRY_POLICY_KEYS as readonly string[]).includes(key)) {
+      throw new Error(`${where}: ${RETRY_POLICY_TRAIT} has unknown key ${key}`);
+    }
+    if (!Number.isInteger(n) || (n as number) < (key === "maxAttempts" ? 1 : 0)) {
+      throw new Error(`${where}: ${RETRY_POLICY_TRAIT}.${key} must be a whole number`);
+    }
+  }
+  return value as Record<string, number>;
+};
 
 export interface SdkSpec {
   /** Namespace fallback for models with no operations. Default `"smithy.unknown"`. */
@@ -1281,6 +1307,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
         streamLines.map((l) => `  ${l},\n`).join("") +
         ctx.telemetry.map((l) => `  ${l},\n`).join("") +
+        (ctx.retryPolicy !== undefined ? `  ${ctx.retryPolicy},\n` : "") +
         (paginated ? `  pagination: ${JSON.stringify(ctx.pagination)} as const,\n` : "") +
         `}`;
       return [
@@ -1547,6 +1574,20 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     ];
   };
 
+  const serviceRetryPolicy = (() => {
+    const svc = Object.values(shapes).find((d: any) => d?.type === "service") as any;
+    const trait = svc?.traits?.[RETRY_POLICY_TRAIT];
+    return trait === undefined ? undefined : retryPolicyOf(trait, "service");
+  })();
+  const retryPolicyLine = (op: { id: string; def: any }): string | undefined => {
+    const own = op.def.traits?.[RETRY_POLICY_TRAIT];
+    const merged = {
+      ...serviceRetryPolicy,
+      ...(own === undefined ? {} : retryPolicyOf(own, op.id)),
+    };
+    return Object.keys(merged).length === 0 ? undefined : `retryPolicy: ${JSON.stringify(merged)}`;
+  };
+
   for (const op of selected) {
     const opName = local(op.id);
     const errNames = ((op.def.errors ?? []) as Array<{ target: string }>)
@@ -1565,6 +1606,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         doc: oneLine(op.def.traits?.["smithy.api#documentation"]),
         pagination: op.def.__pagination,
         telemetry: telemetryLines(op),
+        retryPolicy: retryPolicyLine(op),
       }),
     );
   }
