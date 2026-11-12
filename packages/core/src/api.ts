@@ -451,7 +451,9 @@ const retryWith = (
       // success would ever refill a bucket. Such calls are not budgeted.
       const budgeted = budget !== undefined && last.host !== "";
       const cost = budgeted ? budget.withdraw(last.host, isThrottling(e)) : undefined;
-      if (budgeted && cost === undefined) return Effect.fail(e);
+      if (budgeted && cost === undefined) {
+        return b.longPoll ? Effect.flatMap(Effect.sleep(ms), () => Effect.fail(e)) : Effect.fail(e);
+      }
       const next =
         cost === undefined
           ? again(n + 2)

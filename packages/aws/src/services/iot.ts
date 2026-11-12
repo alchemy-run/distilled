@@ -194,7 +194,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(410),
-  ).pipe(C.withBadRequestError) {}
+  ).pipe(C.withBadRequestError, C.withThrottlingError, C.withRetryableError) {}
 export class MalformedPolicyException
   extends /*@__PURE__*/ S.TaggedError<MalformedPolicyException>()(
     "MalformedPolicyException",
@@ -264,7 +264,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  ).pipe(C.withBadRequestError, C.withThrottlingError, C.withRetryableError) {}
 export class TopicRuleNotFound
   extends /*@__PURE__*/ S.TaggedError<TopicRuleNotFound>()(
     "TopicRuleNotFound",

@@ -1807,6 +1807,7 @@ export const getActivityTask: API.OperationMethod<
     op: "GetActivityTask",
     input: { activityArn: [{ name: "aws.step_functions.activity.arn" }] },
   },
+  retryPolicy: { longPoll: true },
 }));
 
 export type GetExecutionHistoryError =

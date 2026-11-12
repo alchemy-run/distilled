@@ -553,7 +553,7 @@ export class PriorRequestNotComplete
     "PriorRequestNotComplete",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(400),
-  ).pipe(C.withBadRequestError, C.withConflictError, C.withRetryableError) {}
+  ).pipe(C.withBadRequestError, C.withConflictError, C.withRetryableError, C.withThrottlingError) {}
 export class PublicZoneVPCAssociation
   extends /*@__PURE__*/ S.TaggedError<PublicZoneVPCAssociation>()(
     "PublicZoneVPCAssociation",

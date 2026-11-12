@@ -219,7 +219,7 @@ export class LimitExceededException
       RequestId: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  ).pipe(C.withConflictError, C.withThrottlingError, C.withRetryableError) {}
 export class PreconditionNotMetException
   extends /*@__PURE__*/ S.TaggedError<PreconditionNotMetException>()(
     "PreconditionNotMetException",
@@ -306,7 +306,7 @@ export class ThrottlingException
       RequestId: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnsupportedPricingPlanException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedPricingPlanException>()(
     "UnsupportedPricingPlanException",

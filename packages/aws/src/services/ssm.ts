@@ -1026,7 +1026,7 @@ export class ThrottlingException
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
     QuotaCode: /*@__PURE__*/ S.optional(S.String),
     ServiceCode: /*@__PURE__*/ S.optional(S.String),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TooManyTagsError
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsError>()(
     "TooManyTagsError",

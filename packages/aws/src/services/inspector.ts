@@ -158,7 +158,7 @@ export class LimitExceededException
       identifier: "LimitExceededErrorCode",
     }),
     canRetry: S.Boolean,
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class NoSuchEntityException
   extends /*@__PURE__*/ S.TaggedError<NoSuchEntityException>()("NoSuchEntityException", {
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),

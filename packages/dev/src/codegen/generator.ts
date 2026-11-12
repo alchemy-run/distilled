@@ -201,10 +201,16 @@ export interface OperationEmit {
 
 /** Retry numbers for a service or an operation (see core `RetryOverride`). */
 export const RETRY_POLICY_TRAIT = "distilled.retry#policy";
-const RETRY_POLICY_KEYS = ["maxAttempts", "baseMs", "throttlingBaseMs", "capMs"] as const;
+const RETRY_POLICY_KEYS = [
+  "maxAttempts",
+  "baseMs",
+  "throttlingBaseMs",
+  "capMs",
+  "longPoll",
+] as const;
 
-/** The trait's value, checked: known keys with positive integer values. */
-const retryPolicyOf = (value: unknown, where: string): Record<string, number> => {
+/** The trait's value, checked: known keys, whole numbers, `longPoll` a boolean. */
+const retryPolicyOf = (value: unknown, where: string): Record<string, number | boolean> => {
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
     throw new Error(`${where}: ${RETRY_POLICY_TRAIT} must be an object`);
   }
@@ -212,11 +218,17 @@ const retryPolicyOf = (value: unknown, where: string): Record<string, number> =>
     if (!(RETRY_POLICY_KEYS as readonly string[]).includes(key)) {
       throw new Error(`${where}: ${RETRY_POLICY_TRAIT} has unknown key ${key}`);
     }
+    if (key === "longPoll") {
+      if (typeof n !== "boolean") {
+        throw new Error(`${where}: ${RETRY_POLICY_TRAIT}.longPoll must be a boolean`);
+      }
+      continue;
+    }
     if (!Number.isInteger(n) || (n as number) < (key === "maxAttempts" ? 1 : 0)) {
       throw new Error(`${where}: ${RETRY_POLICY_TRAIT}.${key} must be a whole number`);
     }
   }
-  return value as Record<string, number>;
+  return value as Record<string, number | boolean>;
 };
 
 export interface SdkSpec {

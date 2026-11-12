@@ -138,7 +138,7 @@ export class InvalidSequenceTokenException
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }).pipe(C.withQuotaError) {}
+  }).pipe(C.withQuotaError, C.withThrottlingError, C.withRetryableError) {}
 export class MalformedQueryException
   extends /*@__PURE__*/ S.TaggedError<MalformedQueryException>()("MalformedQueryException", {
     queryCompileError: /*@__PURE__*/ S.optional(

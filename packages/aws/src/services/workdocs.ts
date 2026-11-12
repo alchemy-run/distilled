@@ -190,7 +190,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  ).pipe(C.withConflictError, C.withThrottlingError, C.withRetryableError) {}
 export class ProhibitedStateException
   extends /*@__PURE__*/ S.TaggedError<ProhibitedStateException>()(
     "ProhibitedStateException",

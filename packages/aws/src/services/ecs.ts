@@ -170,7 +170,7 @@ export class InvalidParameterException
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }).pipe(C.withQuotaError) {}
+  }).pipe(C.withQuotaError, C.withThrottlingError, C.withRetryableError) {}
 export class MissingVersionException
   extends /*@__PURE__*/ S.TaggedError<MissingVersionException>()("MissingVersionException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),

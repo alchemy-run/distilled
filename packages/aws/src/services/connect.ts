@@ -233,7 +233,7 @@ export class LimitExceededException
       /*@__PURE__*/ T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 429 }),
       /*@__PURE__*/ T.HttpError(429),
     ),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class MaximumResultReturnedException
   extends /*@__PURE__*/ S.TaggedError<MaximumResultReturnedException>()(
     "MaximumResultReturnedException",
@@ -322,13 +322,13 @@ export class ThrottlingException
       /*@__PURE__*/ T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
       /*@__PURE__*/ T.HttpError(429),
     ),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
     "TooManyRequestsException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UserNotFoundException
   extends /*@__PURE__*/ S.TaggedError<UserNotFoundException>()(
     "UserNotFoundException",

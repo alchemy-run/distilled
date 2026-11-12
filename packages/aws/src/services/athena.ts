@@ -141,7 +141,7 @@ export class TooManyRequestsException
     Reason: /*@__PURE__*/ S.optional(
       /*@__PURE__*/ S.suspend(() => S.String).annotate({ identifier: "ThrottleReason" }),
     ),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class WorkGroupNotFound
   extends /*@__PURE__*/ S.TaggedError<WorkGroupNotFound>()(
     "WorkGroupNotFound",

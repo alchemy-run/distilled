@@ -201,7 +201,7 @@ export class EC2ThrottledException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withThrottlingError, C.withRetryableError) {}
 export class EC2UnexpectedException
   extends /*@__PURE__*/ S.TaggedError<EC2UnexpectedException>()(
     "EC2UnexpectedException",
@@ -522,7 +522,7 @@ export class RecursiveInvocationException
 export class RequestLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<RequestLimitExceeded>()("RequestLimitExceeded", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }).pipe(C.withThrottlingError) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class RequestTooLargeException
   extends /*@__PURE__*/ S.TaggedError<RequestTooLargeException>()(
     "RequestTooLargeException",
@@ -693,7 +693,7 @@ export class TooManyRequestsException
       ),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnsupportedMediaTypeException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedMediaTypeException>()(
     "UnsupportedMediaTypeException",

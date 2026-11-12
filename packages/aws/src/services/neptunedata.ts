@@ -454,7 +454,7 @@ export class ThrottlingException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(500), /*@__PURE__*/ T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+  ).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError) {}
 export class TimeLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<TimeLimitExceededException>()(
     "TimeLimitExceededException",

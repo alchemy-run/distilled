@@ -246,7 +246,7 @@ export class ThrottlingException
       /*@__PURE__*/ T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }),
       /*@__PURE__*/ T.HttpError(400),
     ),
-  ).pipe(C.withBadRequestError) {}
+  ).pipe(C.withBadRequestError, C.withThrottlingError, C.withRetryableError) {}
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",

@@ -1,0 +1,14 @@
+{
+  "operations": {
+    "pollForActivityTask": {
+      "retryPolicy": {
+        "longPoll": true
+      }
+    },
+    "pollForDecisionTask": {
+      "retryPolicy": {
+        "longPoll": true
+      }
+    }
+  }
+}

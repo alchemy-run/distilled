@@ -538,7 +538,7 @@ export class ItemCollectionSizeLimitExceededException
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }).pipe(C.withQuotaError, C.withRetryableError) {}
+  }).pipe(C.withQuotaError, C.withRetryableError, C.withThrottlingError) {}
 export class PointInTimeRecoveryUnavailableException
   extends /*@__PURE__*/ S.TaggedError<PointInTimeRecoveryUnavailableException>()(
     "PointInTimeRecoveryUnavailableException",
@@ -642,7 +642,7 @@ export class TransactionInProgressException
   extends /*@__PURE__*/ S.TaggedError<TransactionInProgressException>()(
     "TransactionInProgressException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
-  ).pipe(C.withConflictError, C.withRetryableError) {}
+  ).pipe(C.withConflictError, C.withRetryableError, C.withThrottlingError) {}
 export type PartiQLStatement = string;
 export type StringAttributeValue = string;
 export type NumberAttributeValue = string;

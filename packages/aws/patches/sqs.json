@@ -36,6 +36,9 @@
       "errors": ["RequestLimitExceeded", "InvalidParameterValueException", "ParseError"]
     },
     "receiveMessage": {
+      "retryPolicy": {
+        "longPoll": true
+      },
       "errors": ["RequestLimitExceeded", "InvalidParameterValueException"]
     },
     "setQueueAttributes": {
@@ -49,7 +52,9 @@
   },
   "errors": {
     "InvalidParameterValueException": {
-      "message": { "type": "string" }
+      "message": {
+        "type": "string"
+      }
     }
   },
   "structures": {

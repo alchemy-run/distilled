@@ -138,7 +138,7 @@ export class ThrottlingException
       retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",

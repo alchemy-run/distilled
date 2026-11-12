@@ -615,7 +615,7 @@ export class TagSetListLimitExceededException
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()("ThrottlingException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TriggerTargetsLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<TriggerTargetsLimitExceededException>()(
     "TriggerTargetsLimitExceededException",
