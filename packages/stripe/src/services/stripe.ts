@@ -85577,6 +85577,11 @@ export type UpdateCustomerRequestMetadata =
   | UpdateCustomerRequestMetadataCase1;
 /** Customer's preferred languages, ordered by preference. */
 export type UpdateCustomerRequestPreferredLocalesList = Array<string>;
+export type UpdateCustomerRequestPreferredLocalesCase1 = "";
+/** Customer's preferred languages, ordered by preference. Pass an empty string to clear them. */
+export type UpdateCustomerRequestPreferredLocales =
+  | UpdateCustomerRequestPreferredLocalesList
+  | UpdateCustomerRequestPreferredLocalesCase1;
 /** Customer shipping address. */
 export type UpdateCustomerRequestShippingCase0Address = CreateCustomerRequestAddressCase0;
 export type UpdateCustomerRequestShippingCase0 = CreateCustomerRequestShippingCase0;
@@ -85633,7 +85638,7 @@ export interface UpdateCustomerRequest {
   /** The customer's phone number. */
   phone?: string | undefined;
   /** Customer's preferred languages, ordered by preference. */
-  preferred_locales?: UpdateCustomerRequestPreferredLocalesList | undefined;
+  preferred_locales?: UpdateCustomerRequestPreferredLocales | undefined;
   /** The customer's shipping information. Appears on invoices emailed to this customer. */
   shipping?: UpdateCustomerRequestShipping | undefined;
   source?: string | undefined;
@@ -95684,9 +95689,6 @@ export type UpdateProductRequestPackageDimensionsCase1 = "";
 export type UpdateProductRequestPackageDimensions =
   | CreateProductRequestPackageDimensions
   | UpdateProductRequestPackageDimensionsCase1;
-export type UpdateProductRequestShippableCase1 = "";
-/** Whether this product is shipped (i.e., physical goods). */
-export type UpdateProductRequestShippable = boolean | UpdateProductRequestShippableCase1;
 export type UpdateProductRequestTaxCodeCase1 = "";
 /** A [tax code](https://docs.stripe.com/tax/tax-categories) ID. */
 export type UpdateProductRequestTaxCode = string | UpdateProductRequestTaxCodeCase1;
@@ -95734,7 +95736,7 @@ export interface UpdateProductRequest {
   /** The dimensions of this product for shipping purposes. */
   package_dimensions?: UpdateProductRequestPackageDimensions | undefined;
   /** Whether this product is shipped (i.e., physical goods). */
-  shippable?: UpdateProductRequestShippable | undefined;
+  shippable?: boolean | undefined;
   /** An arbitrary string to be displayed on your customer's credit card or bank statement. While most banks display this information consistently, some may display it incorrectly or not at all. This may be up to 22 characters. The statement description may not include `<`, `>`, `\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped. It must contain at least one letter. May only be set if `type=service`. Only used for subscription payments. */
   statement_descriptor?: string | undefined;
   /** A [tax code](https://docs.stripe.com/tax/tax-categories) ID. */
@@ -141866,7 +141868,7 @@ function __c830(j: number): any {
           name: S.optional(S.String),
           next_invoice_sequence: S.optional(S.Number),
           phone: S.optional(S.String),
-          preferred_locales: S.optional(__S(128, __c4, 0)),
+          preferred_locales: S.optional(S.Unknown),
           shipping: S.optional(S.Unknown),
           source: S.optional(S.String),
           tax: S.optional(__S(26561, __c830, 1)),
@@ -143416,7 +143418,7 @@ function __c873(j: number): any {
           metadata: S.optional(S.Unknown),
           name: S.optional(S.String),
           package_dimensions: S.optional(S.Unknown),
-          shippable: S.optional(S.Unknown),
+          shippable: S.optional(S.Boolean),
           statement_descriptor: S.optional(S.String),
           tax_code: S.optional(S.Unknown),
           tax_details: S.optional(S.Unknown),
