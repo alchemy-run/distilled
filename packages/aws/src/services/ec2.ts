@@ -47715,6 +47715,7 @@ export type StopInstancesError =
   | DryRunOperation
   | IncorrectInstanceState
   | UnsupportedHibernationConfiguration
+  | UnsupportedOperation
   | CommonErrors;
 /**
  * Stops an Amazon EBS-backed instance. You can restart your instance at any time using
@@ -47772,6 +47773,7 @@ export const stopInstances: API.OperationMethod<
     DryRunOperation,
     IncorrectInstanceState,
     UnsupportedHibernationConfiguration,
+    UnsupportedOperation,
   ],
   protocol: AwsProtocol,
   retry: Retry,
