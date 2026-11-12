@@ -198,7 +198,7 @@ export * as manufacturers_v1 from "./manufacturers_v1.ts";
 export * as marketingplatformadmin_v1alpha from "./marketingplatformadmin_v1alpha.ts";
 export * as meet_v2 from "./meet_v2.ts";
 export * as memcache_v1 from "./memcache_v1.ts";
-export * as merchantapi_reviews_v1beta from "./merchantapi_reviews_v1beta.ts";
+export * as merchantapi_reports_v1 from "./merchantapi_reports_v1.ts";
 export * as metastore_v1 from "./metastore_v1.ts";
 export * as migrationcenter_v1 from "./migrationcenter_v1.ts";
 export * as ml_v1 from "./ml_v1.ts";

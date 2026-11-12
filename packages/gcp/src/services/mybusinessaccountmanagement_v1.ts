@@ -93,89 +93,89 @@ export interface AcceptAccountsInvitationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export type AccountRoleEnum =
-  | "ACCOUNT_ROLE_UNSPECIFIED"
-  | "PRIMARY_OWNER"
-  | "OWNER"
-  | "MANAGER"
-  | "SITE_MANAGER";
 export type AccountVerificationStateEnum =
   | "VERIFICATION_STATE_UNSPECIFIED"
   | "VERIFIED"
   | "UNVERIFIED"
   | "VERIFICATION_REQUESTED";
+export type AccountPermissionLevelEnum =
+  | "PERMISSION_LEVEL_UNSPECIFIED"
+  | "OWNER_LEVEL"
+  | "MEMBER_LEVEL";
+export type AccountVettedStateEnum =
+  | "VETTED_STATE_UNSPECIFIED"
+  | "NOT_VETTED"
+  | "VETTED"
+  | "INVALID";
+export type StringList = Array<string>;
+/** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
+export interface PostalAddress {
+  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
+  revision?: number | undefined;
+  /** Optional. The name of the organization at the address. */
+  organization?: string | undefined;
+  /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
+  regionCode?: string | undefined;
+  /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
+  postalCode?: string | undefined;
+  /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
+  addressLines?: StringList | undefined;
+  /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
+  locality?: string | undefined;
+  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
+  administrativeArea?: string | undefined;
+  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
+  sortingCode?: string | undefined;
+  /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
+  languageCode?: string | undefined;
+  /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
+  recipients?: StringList | undefined;
+  /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
+  sublocality?: string | undefined;
+}
+/** Additional information stored for an organization. */
+export interface OrganizationInfo {
+  /** Output only. The postal address for the account. */
+  address?: PostalAddress | undefined;
+  /** Output only. The contact number for the organization. */
+  phoneNumber?: string | undefined;
+  /** Output only. The registered domain for the account. */
+  registeredDomain?: string | undefined;
+}
 export type AccountTypeEnum =
   | "ACCOUNT_TYPE_UNSPECIFIED"
   | "PERSONAL"
   | "LOCATION_GROUP"
   | "USER_GROUP"
   | "ORGANIZATION";
-export type AccountVettedStateEnum =
-  | "VETTED_STATE_UNSPECIFIED"
-  | "NOT_VETTED"
-  | "VETTED"
-  | "INVALID";
-export type AccountPermissionLevelEnum =
-  | "PERMISSION_LEVEL_UNSPECIFIED"
-  | "OWNER_LEVEL"
-  | "MEMBER_LEVEL";
-export type StringList = Array<string>;
-/** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
-export interface PostalAddress {
-  /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
-  languageCode?: string | undefined;
-  /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
-  regionCode?: string | undefined;
-  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
-  sortingCode?: string | undefined;
-  /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
-  locality?: string | undefined;
-  /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
-  addressLines?: StringList | undefined;
-  /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
-  postalCode?: string | undefined;
-  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
-  revision?: number | undefined;
-  /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
-  sublocality?: string | undefined;
-  /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
-  recipients?: StringList | undefined;
-  /** Optional. The name of the organization at the address. */
-  organization?: string | undefined;
-  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
-  administrativeArea?: string | undefined;
-}
-/** Additional information stored for an organization. */
-export interface OrganizationInfo {
-  /** Output only. The postal address for the account. */
-  address?: PostalAddress | undefined;
-  /** Output only. The registered domain for the account. */
-  registeredDomain?: string | undefined;
-  /** Output only. The contact number for the organization. */
-  phoneNumber?: string | undefined;
-}
+export type AccountRoleEnum =
+  | "ACCOUNT_ROLE_UNSPECIFIED"
+  | "PRIMARY_OWNER"
+  | "OWNER"
+  | "MANAGER"
+  | "SITE_MANAGER";
 /** An account is a container for your location. If you are the only user who manages locations for your business, you can use your personal Google Account. To share management of locations with multiple users, [create a business account] (https://support.google.com/business/answer/6085339?ref_topic=6085325). */
 export interface Account {
+  /** Required. The name of the account. For an account of type `PERSONAL`, this is the first and last name of the user account. */
+  accountName?: string | undefined;
+  /** Output only. If verified, future locations that are created are automatically connected to Google Maps, and have Google+ pages created, without requiring moderation. */
+  verificationState?: AccountVerificationStateEnum | (string & {}) | undefined;
+  /** Immutable. The resource name, in the format `accounts/{account_id}`. */
+  name?: string | undefined;
+  /** Output only. Specifies the permission level the user has for this account. */
+  permissionLevel?: AccountPermissionLevelEnum | (string & {}) | undefined;
+  /** Output only. Indicates whether the account is vetted by Google. A vetted account is able to verify locations via the VETTED_PARTNER method. */
+  vettedState?: AccountVettedStateEnum | (string & {}) | undefined;
+  /** Output only. Account reference number if provisioned. */
+  accountNumber?: string | undefined;
+  /** Output only. Additional info for an organization. This is populated only for an organization account. */
+  organizationInfo?: OrganizationInfo | undefined;
+  /** Required. Contains the type of account. Accounts of type PERSONAL and ORGANIZATION cannot be created using this API. */
+  type?: AccountTypeEnum | (string & {}) | undefined;
   /** Output only. Specifies the AccountRole of this account. */
   role?: AccountRoleEnum | (string & {}) | undefined;
   /** Required. Input only. The resource name of the account which will be the primary owner of the account being created. It should be of the form `accounts/{account_id}`. */
   primaryOwner?: string | undefined;
-  /** Output only. Account reference number if provisioned. */
-  accountNumber?: string | undefined;
-  /** Output only. If verified, future locations that are created are automatically connected to Google Maps, and have Google+ pages created, without requiring moderation. */
-  verificationState?: AccountVerificationStateEnum | (string & {}) | undefined;
-  /** Required. The name of the account. For an account of type `PERSONAL`, this is the first and last name of the user account. */
-  accountName?: string | undefined;
-  /** Required. Contains the type of account. Accounts of type PERSONAL and ORGANIZATION cannot be created using this API. */
-  type?: AccountTypeEnum | (string & {}) | undefined;
-  /** Output only. Indicates whether the account is vetted by Google. A vetted account is able to verify locations via the VETTED_PARTNER method. */
-  vettedState?: AccountVettedStateEnum | (string & {}) | undefined;
-  /** Output only. Specifies the permission level the user has for this account. */
-  permissionLevel?: AccountPermissionLevelEnum | (string & {}) | undefined;
-  /** Output only. Additional info for an organization. This is populated only for an organization account. */
-  organizationInfo?: OrganizationInfo | undefined;
-  /** Immutable. The resource name, in the format `accounts/{account_id}`. */
-  name?: string | undefined;
 }
 export interface CreateAccountsRequest extends Account {}
 export type AdminRoleEnum =
@@ -186,16 +186,16 @@ export type AdminRoleEnum =
   | "SITE_MANAGER";
 /** An administrator of an Account or a location. */
 export interface Admin {
-  /** Output only. Indicates whether this admin has a pending invitation for the specified resource. */
-  pendingInvitation?: boolean | undefined;
+  /** Immutable. The name of the Account resource that this Admin refers to. Used when calling locations.admins.create to invite a LocationGroup as an admin. If both this field and `admin` are set on `CREATE` requests, this field takes precedence and the email address in `admin` will be ignored. Format: `accounts/{account}`. */
+  account?: string | undefined;
   /** Required. Specifies the role that this admin uses with the specified Account or Location. */
   role?: AdminRoleEnum | (string & {}) | undefined;
+  /** Output only. Indicates whether this admin has a pending invitation for the specified resource. */
+  pendingInvitation?: boolean | undefined;
   /** Optional. The name of the admin. When making the initial invitation, this is the invitee's email address. On `GET` calls, the user's email address is returned if the invitation is still pending. Otherwise, it contains the user's first and last names. This field is only needed to be set during admin creation. */
   admin?: string | undefined;
   /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
   name?: string | undefined;
-  /** Immutable. The name of the Account resource that this Admin refers to. Used when calling locations.admins.create to invite a LocationGroup as an admin. If both this field and `admin` are set on `CREATE` requests, this field takes precedence and the email address in `admin` will be ignored. Format: `accounts/{account}`. */
-  account?: string | undefined;
 }
 export interface CreateAccountsAdminsRequest extends Admin {
   /** Required. The resource name of the account this admin is created for. `accounts/{account_id}`. */
@@ -228,20 +228,20 @@ export interface GetAccountsRequest {
 export interface ListAccountsRequest {
   /** Optional. A filter constraining the accounts to return. The response includes only entries that match the filter. If `filter` is empty, then no constraints are applied and all accounts (paginated) are retrieved for the requested account. For example, a request with the filter `type=USER_GROUP` will only return user groups. The `type` field is the only supported filter. */
   filter?: string | undefined;
+  /** Optional. How many accounts to fetch per page. The default and maximum is 20. */
+  pageSize?: number | undefined;
   /** Optional. The resource name of the account for which the list of directly accessible accounts is to be retrieved. This only makes sense for Organizations and User Groups. If empty, will return `ListAccounts` for the authenticated user. `accounts/{account_id}`. */
   parentAccount?: string | undefined;
   /** Optional. If specified, the next page of accounts is retrieved. The `pageToken` is returned when a call to `accounts.list` returns more results than can fit into the requested page size. */
   pageToken?: string | undefined;
-  /** Optional. How many accounts to fetch per page. The default and maximum is 20. */
-  pageSize?: number | undefined;
 }
 export type AccountList = Array<Account>;
 /** Response message for Accounts.ListAccounts. */
 export interface ListAccountsResponse {
-  /** If the number of accounts exceeds the requested page size, this field is populated with a token to fetch the next page of accounts on a subsequent call to `accounts.list`. If there are no more accounts, this field is not present in the response. */
-  nextPageToken?: string | undefined;
   /** A collection of accounts to which the user has access. The personal account of the user doing the query will always be the first item of the result, unless it is filtered out. */
   accounts?: AccountList | undefined;
+  /** If the number of accounts exceeds the requested page size, this field is populated with a token to fetch the next page of accounts on a subsequent call to `accounts.list`. If there are no more accounts, this field is not present in the response. */
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsAdminsRequest {
   /** Required. The name of the account from which to retrieve a list of admins. `accounts/{account_id}/admins`. */
@@ -259,37 +259,37 @@ export interface ListAccountsInvitationsRequest {
   /** Optional. Filtering the response is supported via the Invitation.target_type field. */
   filter?: string | undefined;
 }
-export type InvitationTargetTypeEnum =
-  | "TARGET_TYPE_UNSPECIFIED"
-  | "ACCOUNTS_ONLY"
-  | "LOCATIONS_ONLY";
 export type InvitationRoleEnum =
   | "ADMIN_ROLE_UNSPECIFIED"
   | "PRIMARY_OWNER"
   | "OWNER"
   | "MANAGER"
   | "SITE_MANAGER";
+export type InvitationTargetTypeEnum =
+  | "TARGET_TYPE_UNSPECIFIED"
+  | "ACCOUNTS_ONLY"
+  | "LOCATIONS_ONLY";
 /** Represents a target location for a pending invitation. */
 export interface TargetLocation {
+  /** Output only. The Place ID of the location to which the user is invited. Not always populated. */
+  placeId?: string | undefined;
   /** The address of the location to which the user is invited. Not always populated. */
   address?: string | undefined;
   /** The name of the location to which the user is invited. */
   locationName?: string | undefined;
-  /** Output only. The Place ID of the location to which the user is invited. Not always populated. */
-  placeId?: string | undefined;
 }
 /** Represents a pending invitation. */
 export interface Invitation {
-  /** Output only. Specifies which target types should appear in the response. */
-  targetType?: InvitationTargetTypeEnum | undefined;
   /** Output only. The invited role on the account. */
   role?: InvitationRoleEnum | undefined;
-  /** The target location this invitation is for. */
-  targetLocation?: TargetLocation | undefined;
   /** Required. The resource name for the invitation. `accounts/{account_id}/invitations/{invitation_id}`. */
   name?: string | undefined;
   /** The sparsely populated account this invitation is for. */
   targetAccount?: Account | undefined;
+  /** Output only. Specifies which target types should appear in the response. */
+  targetType?: InvitationTargetTypeEnum | undefined;
+  /** The target location this invitation is for. */
+  targetLocation?: TargetLocation | undefined;
 }
 export type InvitationList = Array<Invitation>;
 /** Response message for AccessControl.ListInvitations. */
@@ -307,18 +307,18 @@ export interface ListLocationAdminsResponse {
   admins?: AdminList | undefined;
 }
 export interface PatchAccountsRequest extends Omit<Account, "name"> {
-  /** Required. The specific fields that should be updated. The only editable field is `accountName`. */
-  updateMask?: string | undefined;
-  /** Optional. If true, the request is validated without actually updating the account. */
-  validateOnly?: boolean | undefined;
   /** Immutable. The resource name, in the format `accounts/{account_id}`. */
   name: string;
+  /** Optional. If true, the request is validated without actually updating the account. */
+  validateOnly?: boolean | undefined;
+  /** Required. The specific fields that should be updated. The only editable field is `accountName`. */
+  updateMask?: string | undefined;
 }
 export interface PatchAccountsAdminsRequest extends Omit<Admin, "name"> {
-  /** Required. The specific fields that should be updated. The only editable field is role. */
-  updateMask?: string | undefined;
   /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
   name: string;
+  /** Required. The specific fields that should be updated. The only editable field is role. */
+  updateMask?: string | undefined;
 }
 export interface PatchLocationsAdminsRequest extends Omit<Admin, "name"> {
   /** Required. The specific fields that should be updated. The only editable field is role. */
@@ -658,9 +658,9 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parentAccount: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -674,8 +674,8 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           accounts: S.optional(__S(17, __c2, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAccountsResponse" });
   }
@@ -726,19 +726,19 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          placeId: S.optional(S.String),
           address: S.optional(S.String),
           locationName: S.optional(S.String),
-          placeId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TargetLocation" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          targetType: S.optional(S.String),
           role: S.optional(S.String),
-          targetLocation: S.optional(__S(41, __c5, 1)),
           name: S.optional(S.String),
           targetAccount: S.optional(__S(115, __c14, 3)),
+          targetType: S.optional(S.String),
+          targetLocation: S.optional(__S(41, __c5, 1)),
         }),
       ).annotate({ identifier: "Invitation" });
     case 3:
@@ -780,9 +780,9 @@ function __c7(j: number): any {
         S.Extend(
           __S(115, __c14, 3),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
-            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -801,8 +801,8 @@ function __c8(j: number): any {
         S.Extend(
           __S(128, __c16, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -903,40 +903,40 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          languageCode: S.optional(S.String),
-          regionCode: S.optional(S.String),
-          sortingCode: S.optional(S.String),
-          locality: S.optional(S.String),
-          addressLines: S.optional(__S(112, __c14, 0)),
-          postalCode: S.optional(S.String),
           revision: S.optional(S.Number),
-          sublocality: S.optional(S.String),
-          recipients: S.optional(__S(112, __c14, 0)),
           organization: S.optional(S.String),
+          regionCode: S.optional(S.String),
+          postalCode: S.optional(S.String),
+          addressLines: S.optional(__S(112, __c14, 0)),
+          locality: S.optional(S.String),
           administrativeArea: S.optional(S.String),
+          sortingCode: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          recipients: S.optional(__S(112, __c14, 0)),
+          sublocality: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostalAddress" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           address: S.optional(__S(113, __c14, 1)),
-          registeredDomain: S.optional(S.String),
           phoneNumber: S.optional(S.String),
+          registeredDomain: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrganizationInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
+          accountName: S.optional(S.String),
+          verificationState: S.optional(S.String),
+          name: S.optional(S.String),
+          permissionLevel: S.optional(S.String),
+          vettedState: S.optional(S.String),
+          accountNumber: S.optional(S.String),
+          organizationInfo: S.optional(__S(114, __c14, 2)),
+          type: S.optional(S.String),
           role: S.optional(S.String),
           primaryOwner: S.optional(S.String),
-          accountNumber: S.optional(S.String),
-          verificationState: S.optional(S.String),
-          accountName: S.optional(S.String),
-          type: S.optional(S.String),
-          vettedState: S.optional(S.String),
-          permissionLevel: S.optional(S.String),
-          organizationInfo: S.optional(__S(114, __c14, 2)),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Account" });
   }
@@ -965,11 +965,11 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pendingInvitation: S.optional(S.Boolean),
+          account: S.optional(S.String),
           role: S.optional(S.String),
+          pendingInvitation: S.optional(S.Boolean),
           admin: S.optional(S.String),
           name: S.optional(S.String),
-          account: S.optional(S.String),
         }),
       ).annotate({ identifier: "Admin" });
   }

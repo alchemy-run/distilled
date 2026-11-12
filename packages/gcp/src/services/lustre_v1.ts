@@ -89,88 +89,6 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
-export type InstanceStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "CREATING"
-  | "DELETING"
-  | "UPGRADING"
-  | "REPAIRING"
-  | "STOPPED"
-  | "UPDATING"
-  | "SUSPENDED";
-export type WeeklyMaintenanceWindowDayOfWeekEnum =
-  | "DAY_OF_WEEK_UNSPECIFIED"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
-/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
-export interface TimeOfDay {
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number | undefined;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number | undefined;
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number | undefined;
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number | undefined;
-}
-/** Weekly time window in which maintenance updates may occur. Duration of the window is currently fixed at 1 hour. Time zone is UTC. */
-export interface WeeklyMaintenanceWindow {
-  /** Required. Day of the week for the maintenance window. */
-  dayOfWeek?: WeeklyMaintenanceWindowDayOfWeekEnum | (string & {}) | undefined;
-  /** Required. Start time of the maintenance window in UTC time zone. */
-  startTime?: TimeOfDay | undefined;
-}
-export type WeeklyMaintenanceWindowList = Array<WeeklyMaintenanceWindow>;
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Lustre_Date {
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number | undefined;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number | undefined;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
-}
-/** Exclusion period when maintenance updates should not occur. An exclusion window can be in either of the following two formats: * Non-recurring : A full date, with non-zero year, month and day values. * Recurring : A month and day value, with a zero year. Time zone is UTC. */
-export interface MaintenanceExclusionWindow {
-  /** Required. Time in UTC when the exclusion window starts on `start_date` and ends on `end_date`. This can be: * Full time OR * All zeros for 00:00:00 UTC. */
-  time?: TimeOfDay | undefined;
-  /** Required. Start date of the exclusion period in UTC time zone. This date is inclusive. */
-  startDate?: Lustre_Date | undefined;
-  /** Required. End date of the exclusion period in UTC time zone. This date is inclusive. */
-  endDate?: Lustre_Date | undefined;
-}
-export type MaintenanceExclusionWindowList = Array<MaintenanceExclusionWindow>;
-/** Defines a maintenance policy for a resource. */
-export interface MaintenancePolicy {
-  /** Required. The weekly maintenance windows for the instance. Currently limited to 1 window. */
-  weeklyMaintenanceWindows?: WeeklyMaintenanceWindowList | undefined;
-  /** Optional. The exclusion windows for the instance. Currently limited to 1 window. */
-  maintenanceExclusionWindow?: MaintenanceExclusionWindowList | undefined;
-}
-/** Represents a scheduled maintenance event. */
-export interface MaintenanceSchedule {
-  /** Output only. The scheduled end time for the maintenance. */
-  endTime?: string | undefined;
-  /** Output only. The scheduled start time for the maintenance. */
-  startTime?: string | undefined;
-}
-export type StringMap = { [key: string]: string | undefined };
-export type DynamicTierOptionsModeEnum = "MODE_UNSPECIFIED" | "DISABLED" | "DEFAULT_CACHE";
-/** Dynamic tier options for a Managed Lustre instance. */
-export interface DynamicTierOptions {
-  /** Required. Immutable. The dynamic tier mode of the instance. */
-  mode?: DynamicTierOptionsModeEnum | (string & {}) | undefined;
-}
-export type AccessRulesOptionsDefaultSquashModeEnum =
-  | "SQUASH_MODE_UNSPECIFIED"
-  | "NO_SQUASH"
-  | "ROOT_SQUASH";
 export type AccessRuleSquashModeEnum = "SQUASH_MODE_UNSPECIFIED" | "NO_SQUASH" | "ROOT_SQUASH";
 export type StringList = Array<string>;
 /** A single policy group with IP-based access rules for the Managed Lustre instance. */
@@ -183,93 +101,175 @@ export interface AccessRule {
   name?: string | undefined;
 }
 export type AccessRuleList = Array<AccessRule>;
+export type AccessRulesOptionsDefaultSquashModeEnum =
+  | "SQUASH_MODE_UNSPECIFIED"
+  | "NO_SQUASH"
+  | "ROOT_SQUASH";
 /** IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. */
 export interface AccessRulesOptions {
+  /** Optional. The access rules for the instance. */
+  accessRules?: AccessRuleList | undefined;
   /** Required. The squash mode for the default access rule. */
   defaultSquashMode?: AccessRulesOptionsDefaultSquashModeEnum | (string & {}) | undefined;
   /** Optional. The user squash UID for the default access rule. This user squash UID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no UID squash). */
   defaultSquashUid?: number | undefined;
   /** Optional. The user squash GID for the default access rule. This user squash GID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no GID squash). */
   defaultSquashGid?: number | undefined;
-  /** Optional. The access rules for the instance. */
-  accessRules?: AccessRuleList | undefined;
+}
+/** Represents a scheduled maintenance event. */
+export interface MaintenanceSchedule {
+  /** Output only. The scheduled start time for the maintenance. */
+  startTime?: string | undefined;
+  /** Output only. The scheduled end time for the maintenance. */
+  endTime?: string | undefined;
+}
+/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
+export interface TimeOfDay {
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number | undefined;
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number | undefined;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number | undefined;
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number | undefined;
+}
+export type WeeklyMaintenanceWindowDayOfWeekEnum =
+  | "DAY_OF_WEEK_UNSPECIFIED"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+/** Weekly time window in which maintenance updates may occur. Duration of the window is currently fixed at 1 hour. Time zone is UTC. */
+export interface WeeklyMaintenanceWindow {
+  /** Required. Start time of the maintenance window in UTC time zone. */
+  startTime?: TimeOfDay | undefined;
+  /** Required. Day of the week for the maintenance window. */
+  dayOfWeek?: WeeklyMaintenanceWindowDayOfWeekEnum | (string & {}) | undefined;
+}
+export type WeeklyMaintenanceWindowList = Array<WeeklyMaintenanceWindow>;
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Lustre_Date {
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
+}
+/** Exclusion period when maintenance updates should not occur. An exclusion window can be in either of the following two formats: * Non-recurring : A full date, with non-zero year, month and day values. * Recurring : A month and day value, with a zero year. Time zone is UTC. */
+export interface MaintenanceExclusionWindow {
+  /** Required. End date of the exclusion period in UTC time zone. This date is inclusive. */
+  endDate?: Lustre_Date | undefined;
+  /** Required. Start date of the exclusion period in UTC time zone. This date is inclusive. */
+  startDate?: Lustre_Date | undefined;
+  /** Required. Time in UTC when the exclusion window starts on `start_date` and ends on `end_date`. This can be: * Full time OR * All zeros for 00:00:00 UTC. */
+  time?: TimeOfDay | undefined;
+}
+export type MaintenanceExclusionWindowList = Array<MaintenanceExclusionWindow>;
+/** Defines a maintenance policy for a resource. */
+export interface MaintenancePolicy {
+  /** Required. The weekly maintenance windows for the instance. Currently limited to 1 window. */
+  weeklyMaintenanceWindows?: WeeklyMaintenanceWindowList | undefined;
+  /** Optional. The exclusion windows for the instance. Currently limited to 1 window. */
+  maintenanceExclusionWindow?: MaintenanceExclusionWindowList | undefined;
+}
+export type InstanceStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "CREATING"
+  | "DELETING"
+  | "UPGRADING"
+  | "REPAIRING"
+  | "STOPPED"
+  | "UPDATING"
+  | "SUSPENDED";
+export type StringMap = { [key: string]: string | undefined };
+export type DynamicTierOptionsModeEnum = "MODE_UNSPECIFIED" | "DISABLED" | "DEFAULT_CACHE";
+/** Dynamic tier options for a Managed Lustre instance. */
+export interface DynamicTierOptions {
+  /** Required. Immutable. The dynamic tier mode of the instance. */
+  mode?: DynamicTierOptionsModeEnum | (string & {}) | undefined;
 }
 /** A Managed Lustre instance. */
 export interface Instance {
-  /** Optional. Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported. */
-  gkeSupportEnabled?: boolean | undefined;
-  /** Output only. The state of the instance. */
-  state?: InstanceStateEnum | (string & {}) | undefined;
-  /** Optional. The maintenance policy for the instance to determine when to allow or exclude the instance from maintenance updates. */
-  maintenancePolicy?: MaintenancePolicy | undefined;
-  /** Optional. The target version for the instance. To trigger an upgrade, specify a version listed in `available_version`, or `latest` for the newest version. */
-  targetVersion?: string | undefined;
-  /** Output only. The reason why the instance is in a certain state (e.g. SUSPENDED). */
-  stateReason?: string | undefined;
-  /** Required. Immutable. The filesystem name for this instance. This name is used by client-side tools, including when mounting the instance. Must be eight characters or less and can only contain letters and numbers. */
-  filesystem?: string | undefined;
-  /** Output only. Date and time of upcoming maintenance for the instance, if a maintenance policy is set. */
-  upcomingMaintenanceSchedule?: MaintenanceSchedule | undefined;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Required. Immutable. The full name of the VPC network to which the instance is connected. Must be in the format `projects/{project_id}/global/networks/{network_name}`. */
-  network?: string | undefined;
-  /** Optional. Immutable. Specifies whether the instance is on the Dynamic tier. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. */
-  dynamicTierOptions?: DynamicTierOptions | undefined;
-  /** Identifier. The name of the instance. */
-  name?: string | undefined;
-  /** Optional. The access rules options for the instance. */
-  accessRulesOptions?: AccessRulesOptions | undefined;
   /** Output only. Unique ID of the resource. This is unrelated to the access rules which allow specifying the root squash uid. */
   uid?: string | undefined;
-  /** Output only. Timestamp when the instance was created. */
-  createTime?: string | undefined;
   /** Optional. Immutable. The Cloud KMS key name to use for data encryption. If not set, the instance will use Google-managed encryption keys. If set, the instance will use customer-managed encryption keys. The key must be in the same region as the instance. The key format is: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{key} */
   kmsKey?: string | undefined;
-  /** Required. The storage capacity of the instance in gibibytes (GiB). Allowed values depend on the `per_unit_storage_throughput`. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for specific minimums, maximums, and step sizes for each performance tier. */
-  capacityGib?: string | undefined;
-  /** Output only. The version that this instance can be upgraded to. If this field is empty, the instance is already running the latest available release. */
-  availableVersion?: string | undefined;
-  /** Output only. Timestamp when the instance was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. The throughput of the instance in MBps per TiB. Valid values are 0, 125, 250, 500, 1000. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. If the instance is using the Dynamic tier, this field must not be set or must be set to zero. */
-  perUnitStorageThroughput?: string | undefined;
+  /** Optional. The access rules options for the instance. */
+  accessRulesOptions?: AccessRulesOptions | undefined;
+  /** Output only. Date and time of upcoming maintenance for the instance, if a maintenance policy is set. */
+  upcomingMaintenanceSchedule?: MaintenanceSchedule | undefined;
   /** Optional. A user-readable description of the instance. */
   description?: string | undefined;
-  /** Optional. The placement policy name for the instance in the format of projects/{project}/locations/{location}/resourcePolicies/{resource_policy} */
-  placementPolicy?: string | undefined;
+  /** Optional. The maintenance policy for the instance to determine when to allow or exclude the instance from maintenance updates. */
+  maintenancePolicy?: MaintenancePolicy | undefined;
+  /** Output only. The state of the instance. */
+  state?: InstanceStateEnum | (string & {}) | undefined;
+  /** Optional. The throughput of the instance in MBps per TiB. Valid values are 0, 125, 250, 500, 1000. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. If the instance is using the Dynamic tier, this field must not be set or must be set to zero. */
+  perUnitStorageThroughput?: string | undefined;
+  /** Output only. Timestamp when the instance was created. */
+  createTime?: string | undefined;
+  /** Optional. The target version for the instance. To trigger an upgrade, specify a version listed in `available_version`, or `latest` for the newest version. */
+  targetVersion?: string | undefined;
   /** Output only. Mount point of the instance in the format `IP_ADDRESS@tcp:/FILESYSTEM`. */
   mountPoint?: string | undefined;
   /** Output only. The software release version currently running on the instance. */
   effectiveVersion?: string | undefined;
+  /** Required. Immutable. The full name of the VPC network to which the instance is connected. Must be in the format `projects/{project_id}/global/networks/{network_name}`. */
+  network?: string | undefined;
+  /** Output only. Timestamp when the instance was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Required. Immutable. The filesystem name for this instance. This name is used by client-side tools, including when mounting the instance. Must be eight characters or less and can only contain letters and numbers. */
+  filesystem?: string | undefined;
+  /** Optional. The placement policy name for the instance in the format of projects/{project}/locations/{location}/resourcePolicies/{resource_policy} */
+  placementPolicy?: string | undefined;
+  /** Output only. The reason why the instance is in a certain state (e.g. SUSPENDED). */
+  stateReason?: string | undefined;
+  /** Optional. Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported. */
+  gkeSupportEnabled?: boolean | undefined;
+  /** Output only. The version that this instance can be upgraded to. If this field is empty, the instance is already running the latest available release. */
+  availableVersion?: string | undefined;
+  /** Optional. Immutable. Specifies whether the instance is on the Dynamic tier. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. */
+  dynamicTierOptions?: DynamicTierOptions | undefined;
+  /** Required. The storage capacity of the instance in gibibytes (GiB). Allowed values depend on the `per_unit_storage_throughput`. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for specific minimums, maximums, and step sizes for each performance tier. */
+  capacityGib?: string | undefined;
+  /** Identifier. The name of the instance. */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsInstancesRequest extends Instance {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The instance's project and location, in the format `projects/{project}/locations/{location}`. Locations map to Google Cloud zones; for example, `us-west1-b`. */
-  parent: string;
   /** Required. The name of the Managed Lustre instance. * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. */
   instanceId?: string | undefined;
+  /** Required. The instance's project and location, in the format `projects/{project}/locations/{location}`. Locations map to Google Cloud zones; for example, `us-west1-b`. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
@@ -278,27 +278,22 @@ export interface Operation {
 export type DirectoryPolicyStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "DELETING";
 /** A directory policy for a Managed Lustre instance. */
 export interface DirectoryPolicy {
-  /** Output only. Unique ID of the resource. */
-  uid?: string | undefined;
-  /** Output only. The current state of the directory policy. */
-  state?: DirectoryPolicyStateEnum | (string & {}) | undefined;
-  /** Required. Immutable. The lustre instance filesystem full path of the directory. It must start with a slash. e.g. /lustre/testFolder */
-  directoryPath?: string | undefined;
   /** Immutable. Identifier. The resource name of the directory policy. DirectoryPolicy names have the form `projects/{project}/locations/{location}/instances/{instance}/directoryPolicies/{id}`. {id} is user provided. */
   name?: string | undefined;
+  /** Required. Immutable. The lustre instance filesystem full path of the directory. It must start with a slash. e.g. /lustre/testFolder */
+  directoryPath?: string | undefined;
+  /** Output only. The current state of the directory policy. */
+  state?: DirectoryPolicyStateEnum | (string & {}) | undefined;
+  /** Output only. Unique ID of the resource. */
+  uid?: string | undefined;
   /** Output only. The lustre project ID assigned for the directory by the service. This read-only ID can be used to manage quotas. See more details in https://docs.cloud.google.com/managed-lustre/docs/file-system-quotas#set_quotas */
   lustreProjectId?: string | undefined;
 }
 export interface CreateProjectsLocationsInstancesDirectoryPoliciesRequest extends DirectoryPolicy {
-  /** Required. The parent instance. It must be in the format of `projects/{project}/locations/{location}/instances/{instance}`. */
-  parent: string;
   /** Required. The ID for the DirectoryPolicy to create. */
   directoryPolicyId?: string | undefined;
-}
-/** The root directory path to the Lustre file system. */
-export interface LustrePath {
-  /** Optional. The root directory path to the Managed Lustre file system. Must start with `/`. Default is `/`. If you're importing data into Managed Lustre, any path other than the default must already exist on the file system. */
-  path?: string | undefined;
+  /** Required. The parent instance. It must be in the format of `projects/{project}/locations/{location}/instances/{instance}`. */
+  parent: string;
 }
 export type MirrorStateEnum =
   | "STATE_UNSPECIFIED"
@@ -307,62 +302,67 @@ export type MirrorStateEnum =
   | "DELETING"
   | "ACTIVE"
   | "SUSPENDED";
+export type MirrorDirectionEnum = "DIRECTION_UNSPECIFIED" | "FROM_CLOUD_STORAGE";
+/** The root directory path to the Lustre file system. */
+export interface LustrePath {
+  /** Optional. The root directory path to the Managed Lustre file system. Must start with `/`. Default is `/`. If you're importing data into Managed Lustre, any path other than the default must already exist on the file system. */
+  path?: string | undefined;
+}
 /** Specifies a Cloud Storage bucket and, optionally, a path inside the bucket. */
 export interface GcsPath {
   /** Required. The URI to a Cloud Storage bucket, or a path within a bucket, using the format `gs:////`. If a path inside the bucket is specified, it must end with a forward slash (`/`). */
   uri?: string | undefined;
 }
-export type MirrorDirectionEnum = "DIRECTION_UNSPECIFIED" | "FROM_CLOUD_STORAGE";
 /** Represents a Cloud Storage mirror. */
 export interface Mirror {
+  /** Optional. Labels to apply to the mirror. */
+  labels?: StringMap | undefined;
+  /** Output only. [Output only] The current state of the mirror. */
+  state?: MirrorStateEnum | (string & {}) | undefined;
+  /** Required. Immutable. Represents the direction of the mirror. */
+  direction?: MirrorDirectionEnum | (string & {}) | undefined;
+  /** Output only. [Output only] Update time stamp. */
+  updateTime?: string | undefined;
+  /** Optional. Description of the mirror. */
+  description?: string | undefined;
   /** Output only. [Output only] Create time stamp. */
   createTime?: string | undefined;
   /** Required. Immutable. The Managed Lustre directory to mirror to. Must be an absolute path starting with `/`, for example `/data` or `/data/subdir`. Defaults to the root directory, `/`. If the specified directory doesn't exist, it is created. */
   lustrePath?: LustrePath | undefined;
-  /** Output only. Unique ID of the resource. */
-  uid?: string | undefined;
-  /** Output only. [Output only] The current state of the mirror. */
-  state?: MirrorStateEnum | (string & {}) | undefined;
-  /** Optional. Description of the mirror. */
-  description?: string | undefined;
-  /** Optional. If `true`, files are not deleted from Managed Lustre when the source files are deleted from Cloud Storage. Default is `false`. */
-  deletedFilesRetained?: boolean | undefined;
-  /** Identifier. Name of the mirror. Format: `projects/{project}/locations/{location}/instances/{instance}/mirrors/{mirror}` */
-  name?: string | undefined;
-  /** Optional. Labels to apply to the mirror. */
-  labels?: StringMap | undefined;
   /** Required. Immutable. The URI to a Cloud Storage bucket, or a path within a bucket, using the format `gs://{BUCKET_NAME}/{OPTIONAL_PATH}/`. If a path inside the bucket is specified, it must end with a forward slash (`/`). */
   gcsPath?: GcsPath | undefined;
-  /** Output only. [Output only] Update time stamp. */
-  updateTime?: string | undefined;
-  /** Required. Immutable. Represents the direction of the mirror. */
-  direction?: MirrorDirectionEnum | (string & {}) | undefined;
+  /** Output only. Unique ID of the resource. */
+  uid?: string | undefined;
+  /** Identifier. Name of the mirror. Format: `projects/{project}/locations/{location}/instances/{instance}/mirrors/{mirror}` */
+  name?: string | undefined;
+  /** Optional. If `true`, files are not deleted from Managed Lustre when the source files are deleted from Cloud Storage. Default is `false`. */
+  deletedFilesRetained?: boolean | undefined;
 }
 export interface CreateProjectsLocationsInstancesMirrorsRequest extends Mirror {
-  /** Required. The ID to use for the mirror. * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. The ID cannot be changed after the mirror is created. */
-  mirrorId?: string | undefined;
   /** Optional. The unique ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate mirrors for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate mirrors. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). This request is only idempotent if a `request_id` is provided. */
   requestId?: string | undefined;
+  /** Required. The ID to use for the mirror. * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. The ID cannot be changed after the mirror is created. */
+  mirrorId?: string | undefined;
   /** Required. Parent instance resource where the mirror will be created, in the format: `projects/{project}/locations/{location}/instances/{instance}` */
   parent: string;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The resource name of the instance to delete, in the format `projects/{projectId}/locations/{location}/instances/{instanceId}`. */
-  name: string;
   /** Optional. If set to true, any sub-resources from this instance will also be deleted. Otherwise, the request will only work if the instance has no sub-resources. */
   force?: boolean | undefined;
+  /** Required. The resource name of the instance to delete, in the format `projects/{projectId}/locations/{location}/instances/{instanceId}`. */
+  name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsInstancesDirectoryPoliciesRequest {
   /** Required. The resource name of the directory policy. DirectoryPolicy names have the form `projects/{project}/locations/{location}/instances/{instance}/directoryPolicies/{id}`. */
   name: string;
 }
 export interface DeleteProjectsLocationsInstancesMirrorsRequest {
-  /** Optional. The unique ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in the same delete request being executed for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). This request is only idempotent if a `request_id` is provided. */
-  requestId?: string | undefined;
   /** Required. Name of the mirror to delete, in the format: `projects/{project}/locations/{location}/instances/{instance}/mirrors/{mirror}` */
   name: string;
+  /** Optional. The unique ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in the same delete request being executed for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). This request is only idempotent if a `request_id` is provided. */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -370,35 +370,35 @@ export interface DeleteProjectsLocationsOperationsRequest {
 }
 /** Export data from Managed Lustre to a Cloud Storage bucket. */
 export interface ExportDataRequest {
-  /** Optional. UUID to identify requests. */
-  requestId?: string | undefined;
-  /** The root directory path to the Managed Lustre file system. Must start with `/`. Default is `/`. */
-  lustrePath?: LustrePath | undefined;
-  /** Optional. User-specified service account used to perform the transfer. If unspecified, the Managed Lustre service agent is used. The caller must have the `iam.serviceAccounts.actAs` permission (`roles/iam.serviceAccountUser`) on the specified service account. When IAM-based access control (`iam_access_control_enabled`) is enabled on the instance, specifying a custom service account is mandatory. Use one of the following formats: * `{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` */
-  serviceAccount?: string | undefined;
   /** The URI to a Cloud Storage bucket, or a path within a bucket, using the format `gs:////`. If a path inside the bucket is specified, it must end with a forward slash (`/`). */
   gcsPath?: GcsPath | undefined;
+  /** Optional. UUID to identify requests. */
+  requestId?: string | undefined;
+  /** Optional. User-specified service account used to perform the transfer. If unspecified, the Managed Lustre service agent is used. The caller must have the `iam.serviceAccounts.actAs` permission (`roles/iam.serviceAccountUser`) on the specified service account. When IAM-based access control (`iam_access_control_enabled`) is enabled on the instance, specifying a custom service account is mandatory. Use one of the following formats: * `{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` */
+  serviceAccount?: string | undefined;
+  /** The root directory path to the Managed Lustre file system. Must start with `/`. Default is `/`. */
+  lustrePath?: LustrePath | undefined;
 }
 export interface ExportDataProjectsLocationsInstancesRequest extends ExportDataRequest {
   /** Required. The name of the Managed Lustre instance in the format `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
 }
 export interface GetIamPolicyProjectsLocationsInstancesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
@@ -417,30 +417,30 @@ export type AuditLogConfigLogTypeEnum =
   | "DATA_READ";
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: StringList | undefined;
+  /** The log type that this config enables. */
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string | undefined;
   /** The configuration for logging of each type of permission. */
   auditLogConfigs?: AuditLogConfigList | undefined;
+  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
+  service?: string | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList | undefined;
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: AuditConfigList | undefined;
 }
 export interface GetIamPolicyProjectsLocationsInstancesDirectoryPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -483,10 +483,10 @@ export interface GetProjectsLocationsOperationsRequest {
 }
 /** Message for importing data to Lustre. */
 export interface ImportDataRequest {
-  /** Optional. UUID to identify requests. */
-  requestId?: string | undefined;
   /** The Cloud Storage source bucket and, optionally, path inside the bucket. If a path inside the bucket is specified, it must end with a forward slash (`/`). */
   gcsPath?: GcsPath | undefined;
+  /** Optional. UUID to identify requests. */
+  requestId?: string | undefined;
   /** Lustre path destination. */
   lustrePath?: LustrePath | undefined;
   /** Optional. User-specified service account used to perform the transfer. If unspecified, the default Managed Lustre service agent will be used. The caller must have the `iam.serviceAccounts.actAs` permission (`roles/iam.serviceAccountUser`) on the specified service account. When IAM-based access control (`iam_access_control_enabled`) is enabled on the instance, specifying a custom service account is mandatory. Use one of the following formats: * `{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` */
@@ -497,14 +497,14 @@ export interface ImportDataProjectsLocationsInstancesRequest extends ImportDataR
   name: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number | undefined;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
 }
@@ -519,14 +519,14 @@ export interface ListLocationsResponse {
 export interface ListProjectsLocationsInstancesRequest {
   /** Optional. Requested page size. Server might return fewer items than requested. If unspecified, the server will pick an appropriate default. */
   pageSize?: number | undefined;
-  /** Optional. Filtering results. */
-  filter?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
-  /** Optional. Desired order of results. */
-  orderBy?: string | undefined;
   /** Required. The project and location for which to retrieve a list of instances, in the format `projects/{projectId}/locations/{location}`. To retrieve instance information for all locations, use "-" as the value of `{location}`. */
   parent: string;
+  /** Optional. Filtering results. */
+  filter?: string | undefined;
+  /** Optional. Desired order of results. */
+  orderBy?: string | undefined;
 }
 export type InstanceList = Array<Instance>;
 /** Message for response to listing Instances */
@@ -539,80 +539,80 @@ export interface ListInstancesResponse {
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsInstancesDirectoryPoliciesRequest {
-  /** Required. The parent instance. It must be in the format of `projects/{project}/locations/{location}/instances/{instance}`. */
-  parent: string;
   /** Optional. Requested page size. Server might return fewer items than requested. If unspecified, the server will pick an appropriate default. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
+  /** Required. The parent instance. It must be in the format of `projects/{project}/locations/{location}/instances/{instance}`. */
+  parent: string;
   /** Optional. A page token, received from a previous `ListDirectoryPolicies` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDirectoryPolicies` must match the call that provided the page token. */
   pageToken?: string | undefined;
 }
 export type DirectoryPolicyList = Array<DirectoryPolicy>;
 /** Response message for ListDirectoryPolicies. */
 export interface ListDirectoryPoliciesResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string | undefined;
   /** The list of DirectoryPolicies. */
   directoryPolicies?: DirectoryPolicyList | undefined;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsInstancesMirrorsRequest {
   /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the default page size is 10. The maximum value is 1000. */
   pageSize?: number | undefined;
-  /** Optional. Desired order of results. */
-  orderBy?: string | undefined;
-  /** Optional. A page token, received from a previous `ListMirrors` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirrors` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Required. Parent instance resource where the mirrors will be listed, in the format: `projects/{project}/locations/{location}/instances/{instance}` */
   parent: string;
+  /** Optional. A page token, received from a previous `ListMirrors` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirrors` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Optional. Filtering results. */
   filter?: string | undefined;
+  /** Optional. Desired order of results. */
+  orderBy?: string | undefined;
 }
 export type MirrorList = Array<Mirror>;
 /** Response for ListMirrors. */
 export interface ListMirrorsResponse {
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
   /** List of mirrors on the instance. */
   mirrors?: MirrorList | undefined;
-  /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page size. */
-  pageSize?: number | undefined;
-  /** The standard list filter. */
-  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list filter. */
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
 export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Optional. Specifies the fields to be overwritten in the instance resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If no mask is provided then all fields present in the request are overwritten. */
   updateMask?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Identifier. The name of the instance. */
   name: string;
 }
 export interface PatchProjectsLocationsInstancesMirrorsRequest extends Omit<Mirror, "name"> {
+  /** Optional. The unique ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in the same update request being executed for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). This request is only idempotent if a `request_id` is provided. */
+  requestId?: string | undefined;
   /** Identifier. Name of the mirror. Format: `projects/{project}/locations/{location}/instances/{instance}/mirrors/{mirror}` */
   name: string;
   /** Optional. Fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If no mask is provided then all fields present in the request are overwritten. */
   updateMask?: string | undefined;
-  /** Optional. The unique ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in the same update request being executed for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). This request is only idempotent if a `request_id` is provided. */
-  requestId?: string | undefined;
 }
 export type RescheduleRescheduleTypeEnum =
   | "RESCHEDULE_TYPE_UNSPECIFIED"
@@ -639,10 +639,10 @@ export interface RescheduleMaintenanceProjectsLocationsInstancesRequest extends 
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsInstancesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -1302,8 +1302,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1335,10 +1335,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String),
-          lustrePath: S.optional(__S(608, __c38, 0)),
-          serviceAccount: S.optional(S.String),
           gcsPath: S.optional(__S(609, __c38, 1)),
+          requestId: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          lustrePath: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "ExportDataRequest" });
     case 1:
@@ -1363,8 +1363,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+          resource: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1380,10 +1380,10 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(S.String),
-          description: S.optional(S.String),
           location: S.optional(S.String),
+          description: S.optional(S.String),
           title: S.optional(S.String),
+          expression: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
     case 1:
@@ -1399,8 +1399,8 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          logType: S.optional(S.String),
           exemptedMembers: S.optional(__S(480, __c30, 0)),
+          logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 4:
@@ -1408,8 +1408,8 @@ function __c4(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          service: S.optional(S.String),
           auditLogConfigs: S.optional(__S(68, __c4, 4)),
+          service: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 6:
@@ -1417,10 +1417,10 @@ function __c4(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(66, __c4, 2)),
-          auditConfigs: S.optional(__S(70, __c4, 6)),
           version: S.optional(S.Number),
+          bindings: S.optional(__S(66, __c4, 2)),
           etag: S.optional(S.String),
+          auditConfigs: S.optional(__S(70, __c4, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
@@ -1521,8 +1521,8 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String),
           gcsPath: S.optional(__S(609, __c38, 1)),
+          requestId: S.optional(S.String),
           lustrePath: S.optional(__S(608, __c38, 0)),
           serviceAccount: S.optional(S.String),
         }),
@@ -1549,10 +1549,10 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           extraLocationTypes: S.optional(__S(480, __c30, 0).pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1579,10 +1579,10 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1608,8 +1608,8 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1624,8 +1624,8 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           directoryPolicies: S.optional(__S(241, __c15, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDirectoryPoliciesResponse" });
   }
@@ -1636,10 +1636,10 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1653,9 +1653,9 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(480, __c30, 0)),
           nextPageToken: S.optional(S.String),
           mirrors: S.optional(__S(257, __c16, 1)),
-          unreachable: S.optional(__S(480, __c30, 0)),
         }),
       ).annotate({ identifier: "ListMirrorsResponse" });
   }
@@ -1665,11 +1665,11 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1683,8 +1683,8 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           operations: S.optional(__S(273, __c17, 1)),
+          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(480, __c30, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -1697,8 +1697,8 @@ function __c18(j: number): any {
         S.Extend(
           __S(508, __c31, 12),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -1714,9 +1714,9 @@ function __c19(j: number): any {
         S.Extend(
           __S(624, __c39, 0),
           S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://lustre.googleapis.com/" }),
@@ -1781,8 +1781,8 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String),
           policy: S.optional(__S(71, __c4, 7)),
+          updateMask: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetIamPolicyRequest" });
   }
@@ -1885,9 +1885,9 @@ function __c29(j: number): any {
         S.Extend(
           __S(508, __c31, 12),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
             instanceId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1910,104 +1910,104 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hours: S.optional(S.Number),
-          seconds: S.optional(S.Number),
-          nanos: S.optional(S.Number),
-          minutes: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TimeOfDay" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          dayOfWeek: S.optional(S.String),
-          startTime: S.optional(__S(496, __c31, 0)),
-        }),
-      ).annotate({ identifier: "WeeklyMaintenanceWindow" });
-    case 2:
-      return S.Array(__S(497, __c31, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          month: S.optional(S.Number),
-          day: S.optional(S.Number),
-          year: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Lustre_Date" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          time: S.optional(__S(496, __c31, 0)),
-          startDate: S.optional(__S(499, __c31, 3)),
-          endDate: S.optional(__S(499, __c31, 3)),
-        }),
-      ).annotate({ identifier: "MaintenanceExclusionWindow" });
-    case 5:
-      return S.Array(__S(500, __c31, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          weeklyMaintenanceWindows: S.optional(__S(498, __c31, 2)),
-          maintenanceExclusionWindow: S.optional(__S(501, __c31, 5)),
-        }),
-      ).annotate({ identifier: "MaintenancePolicy" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          endTime: S.optional(S.String),
-          startTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MaintenanceSchedule" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          mode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DynamicTierOptions" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
           squashMode: S.optional(S.String),
           ipAddressRanges: S.optional(__S(480, __c30, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "AccessRule" });
-    case 10:
-      return S.Array(__S(505, __c31, 9));
-    case 11:
+    case 1:
+      return S.Array(__S(496, __c31, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
+          accessRules: S.optional(__S(497, __c31, 1)),
           defaultSquashMode: S.optional(S.String),
           defaultSquashUid: S.optional(S.Number),
           defaultSquashGid: S.optional(S.Number),
-          accessRules: S.optional(__S(506, __c31, 10)),
         }),
       ).annotate({ identifier: "AccessRulesOptions" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MaintenanceSchedule" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          nanos: S.optional(S.Number),
+          minutes: S.optional(S.Number),
+          seconds: S.optional(S.Number),
+          hours: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TimeOfDay" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(__S(500, __c31, 4)),
+          dayOfWeek: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WeeklyMaintenanceWindow" });
+    case 6:
+      return S.Array(__S(501, __c31, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          year: S.optional(S.Number),
+          month: S.optional(S.Number),
+          day: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Lustre_Date" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          endDate: S.optional(__S(503, __c31, 7)),
+          startDate: S.optional(__S(503, __c31, 7)),
+          time: S.optional(__S(500, __c31, 4)),
+        }),
+      ).annotate({ identifier: "MaintenanceExclusionWindow" });
+    case 9:
+      return S.Array(__S(504, __c31, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          weeklyMaintenanceWindows: S.optional(__S(502, __c31, 6)),
+          maintenanceExclusionWindow: S.optional(__S(505, __c31, 9)),
+        }),
+      ).annotate({ identifier: "MaintenancePolicy" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DynamicTierOptions" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          gkeSupportEnabled: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          maintenancePolicy: S.optional(__S(502, __c31, 6)),
-          targetVersion: S.optional(S.String),
-          stateReason: S.optional(S.String),
-          filesystem: S.optional(S.String),
-          upcomingMaintenanceSchedule: S.optional(__S(503, __c31, 7)),
-          labels: S.optional(__S(544, __c34, 0)),
-          network: S.optional(S.String),
-          dynamicTierOptions: S.optional(__S(504, __c31, 8)),
-          name: S.optional(S.String),
-          accessRulesOptions: S.optional(__S(507, __c31, 11)),
           uid: S.optional(S.String),
-          createTime: S.optional(S.String),
           kmsKey: S.optional(S.String),
-          capacityGib: S.optional(S.String),
-          availableVersion: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          perUnitStorageThroughput: S.optional(S.String),
+          accessRulesOptions: S.optional(__S(498, __c31, 2)),
+          upcomingMaintenanceSchedule: S.optional(__S(499, __c31, 3)),
           description: S.optional(S.String),
-          placementPolicy: S.optional(S.String),
+          maintenancePolicy: S.optional(__S(506, __c31, 10)),
+          state: S.optional(S.String),
+          perUnitStorageThroughput: S.optional(S.String),
+          createTime: S.optional(S.String),
+          targetVersion: S.optional(S.String),
           mountPoint: S.optional(S.String),
           effectiveVersion: S.optional(S.String),
+          network: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(544, __c34, 0)),
+          filesystem: S.optional(S.String),
+          placementPolicy: S.optional(S.String),
+          stateReason: S.optional(S.String),
+          gkeSupportEnabled: S.optional(S.Boolean),
+          availableVersion: S.optional(S.String),
+          dynamicTierOptions: S.optional(__S(507, __c31, 11)),
+          capacityGib: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Instance" });
   }
@@ -2025,17 +2025,17 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          details: S.optional(__S(528, __c33, 0)),
           message: S.optional(S.String),
           code: S.optional(S.Number),
-          details: S.optional(__S(528, __c33, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           error: S.optional(__S(529, __c33, 1)),
-          name: S.optional(S.String),
           response: S.optional(__S(512, __c32, 0)),
+          name: S.optional(S.String),
           metadata: S.optional(__S(512, __c32, 0)),
           done: S.optional(S.Boolean),
         }),
@@ -2055,8 +2055,8 @@ function __c35(j: number): any {
         S.Extend(
           __S(576, __c36, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             directoryPolicyId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2073,10 +2073,10 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uid: S.optional(S.String),
-          state: S.optional(S.String),
-          directoryPath: S.optional(S.String),
           name: S.optional(S.String),
+          directoryPath: S.optional(S.String),
+          state: S.optional(S.String),
+          uid: S.optional(S.String),
           lustreProjectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DirectoryPolicy" });
@@ -2089,8 +2089,8 @@ function __c37(j: number): any {
         S.Extend(
           __S(624, __c39, 0),
           S.Struct({
-            mirrorId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            mirrorId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -2124,17 +2124,17 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          labels: S.optional(__S(544, __c34, 0)),
+          state: S.optional(S.String),
+          direction: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
           createTime: S.optional(S.String),
           lustrePath: S.optional(__S(608, __c38, 0)),
-          uid: S.optional(S.String),
-          state: S.optional(S.String),
-          description: S.optional(S.String),
-          deletedFilesRetained: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          labels: S.optional(__S(544, __c34, 0)),
           gcsPath: S.optional(__S(609, __c38, 1)),
-          updateTime: S.optional(S.String),
-          direction: S.optional(S.String),
+          uid: S.optional(S.String),
+          name: S.optional(S.String),
+          deletedFilesRetained: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Mirror" });
   }
@@ -2144,9 +2144,9 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",

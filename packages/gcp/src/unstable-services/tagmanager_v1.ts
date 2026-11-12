@@ -83,7 +83,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type StringList = Array<string>;
 export type ContainerUsageContextItemEnum =
   | "web"
   | "android"
@@ -94,6 +93,7 @@ export type ContainerUsageContextItemEnum =
 export type ContainerUsageContextItemEnumList = Array<
   ContainerUsageContextItemEnum | (string & {})
 >;
+export type StringList = Array<string>;
 export type ContainerEnabledBuiltInVariableItemEnum =
   | "pageUrl"
   | "pageHostname"
@@ -208,28 +208,28 @@ export type ContainerEnabledBuiltInVariableItemEnumList = Array<
 >;
 /** Represents a Google Tag Manager Container. */
 export interface Container {
+  /** The Container ID uniquely identifies the GTM Container. */
+  containerId?: string | undefined;
   /** The fingerprint of the GTM Container as computed at storage time. This value is recomputed whenever the account is modified. */
   fingerprint?: string | undefined;
   /** GTM Account ID. */
   accountId?: string | undefined;
+  /** Container Time Zone ID. */
+  timeZoneId?: string | undefined;
   /** Container Country ID. */
   timeZoneCountryId?: string | undefined;
-  /** Container display name. */
-  name?: string | undefined;
-  /** The Container ID uniquely identifies the GTM Container. */
-  containerId?: string | undefined;
-  /** Container Notes. */
-  notes?: string | undefined;
-  /** Optional list of domain names associated with the Container. */
-  domainName?: StringList | undefined;
   /** Container Public ID. */
   publicId?: string | undefined;
   /** List of Usage Contexts for the Container. Valid values include: web, android, ios. */
   usageContext?: ContainerUsageContextItemEnumList | undefined;
+  /** Optional list of domain names associated with the Container. */
+  domainName?: StringList | undefined;
+  /** Container Notes. */
+  notes?: string | undefined;
+  /** Container display name. */
+  name?: string | undefined;
   /** List of enabled built-in variables. Valid values include: pageUrl, pageHostname, pagePath, referrer, event, clickElement, clickClasses, clickId, clickTarget, clickUrl, clickText, formElement, formClasses, formId, formTarget, formUrl, formText, errorMessage, errorUrl, errorLine, newHistoryFragment, oldHistoryFragment, newHistoryState, oldHistoryState, historySource, containerVersion, debugMode, randomNumber, containerId. */
   enabledBuiltInVariable?: ContainerEnabledBuiltInVariableItemEnumList | undefined;
-  /** Container Time Zone ID. */
-  timeZoneId?: string | undefined;
 }
 export interface CreateAccountsContainersRequest extends Omit<Container, "accountId"> {
   /** The GTM Account ID. */
@@ -238,61 +238,62 @@ export interface CreateAccountsContainersRequest extends Omit<Container, "accoun
 export type EnvironmentTypeEnum = "user" | "live" | "latest" | "draft";
 /** Represents a Google Tag Manager Environment. Note that a user can create, delete and update environments of type USER, but can only update the enable_debug and url fields of environments of other types. */
 export interface Environment {
-  /** The type of this environment. */
-  type?: EnvironmentTypeEnum | (string & {}) | undefined;
   /** The environment description. Can be set or changed only on USER type environments. */
   description?: string | undefined;
-  /** The last update time-stamp for the authorization code. */
-  authorizationTimestampMs?: string | undefined;
   /** The environment display name. Can be set or changed only on USER type environments. */
   name?: string | undefined;
+  /** The last update time-stamp for the authorization code. */
+  authorizationTimestampMs?: string | undefined;
+  /** The environment authorization code. */
+  authorizationCode?: string | undefined;
   /** Whether or not to enable debug by default on for the environment. */
   enableDebug?: boolean | undefined;
   /** GTM Account ID. */
   accountId?: string | undefined;
-  /** The fingerprint of the GTM environment as computed at storage time. This value is recomputed whenever the environment is modified. */
-  fingerprint?: string | undefined;
-  /** The environment authorization code. */
-  authorizationCode?: string | undefined;
-  /** GTM Environment ID uniquely identifies the GTM Environment. */
-  environmentId?: string | undefined;
   /** Default preview page url for the environment. */
   url?: string | undefined;
+  /** GTM Environment ID uniquely identifies the GTM Environment. */
+  environmentId?: string | undefined;
+  containerVersionId?: string | undefined;
+  /** The type of this environment. */
+  type?: EnvironmentTypeEnum | (string & {}) | undefined;
+  /** The fingerprint of the GTM environment as computed at storage time. This value is recomputed whenever the environment is modified. */
+  fingerprint?: string | undefined;
   /** GTM Container ID. */
   containerId?: string | undefined;
-  containerVersionId?: string | undefined;
 }
 export interface CreateAccountsContainersEnvironmentsRequest extends Omit<
   Environment,
   "accountId" | "containerId"
 > {
-  /** The GTM Account ID. */
-  accountId: string;
   /** The GTM Container ID. */
   containerId: string;
+  /** The GTM Account ID. */
+  accountId: string;
 }
 /** Represents a Google Tag Manager Folder. */
 export interface Folder {
-  /** GTM Account ID. */
-  accountId?: string | undefined;
-  /** The Folder ID uniquely identifies the GTM Folder. */
-  folderId?: string | undefined;
   /** GTM Container ID. */
   containerId?: string | undefined;
   /** Folder display name. */
   name?: string | undefined;
+  /** The Folder ID uniquely identifies the GTM Folder. */
+  folderId?: string | undefined;
   /** The fingerprint of the GTM Folder as computed at storage time. This value is recomputed whenever the folder is modified. */
   fingerprint?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
 }
 export interface CreateAccountsContainersFoldersRequest extends Omit<
   Folder,
-  "accountId" | "containerId"
+  "containerId" | "accountId"
 > {
-  /** The GTM Container ID. */
-  containerId: string;
   /** The GTM Account ID. */
   accountId: string;
+  /** The GTM Container ID. */
+  containerId: string;
 }
+export type ParameterList = Array<Parameter>;
 export type ParameterTypeEnum =
   | "template"
   | "integer"
@@ -303,25 +304,17 @@ export type ParameterTypeEnum =
   | "tagReference";
 /** Represents a Google Tag Manager Parameter. */
 export interface Parameter {
-  /** This list parameter's parameters (keys will be ignored). */
-  list?: ParameterList | undefined;
-  /** The parameter type. Valid values are: - boolean: The value represents a boolean, represented as 'true' or 'false' - integer: The value represents a 64-bit signed integer value, in base 10 - list: A list of parameters should be specified - map: A map of parameters should be specified - template: The value represents any text; this can include variable references (even variable references that might return non-string types) - trigger_reference: The value represents a trigger, represented as the trigger id - tag_reference: The value represents a tag, represented as the tag name */
-  type?: ParameterTypeEnum | (string & {}) | undefined;
-  /** This map parameter's parameters (must have keys; keys must be unique). */
-  map?: ParameterList | undefined;
   /** A parameter's value (may contain variable references). as appropriate to the specified type. */
   value?: string | undefined;
+  /** This list parameter's parameters (keys will be ignored). */
+  list?: ParameterList | undefined;
+  /** This map parameter's parameters (must have keys; keys must be unique). */
+  map?: ParameterList | undefined;
+  /** The parameter type. Valid values are: - boolean: The value represents a boolean, represented as 'true' or 'false' - integer: The value represents a 64-bit signed integer value, in base 10 - list: A list of parameters should be specified - map: A map of parameters should be specified - template: The value represents any text; this can include variable references (even variable references that might return non-string types) - trigger_reference: The value represents a trigger, represented as the trigger id - tag_reference: The value represents a tag, represented as the tag name */
+  type?: ParameterTypeEnum | (string & {}) | undefined;
   /** The named key that uniquely identifies a parameter. Required for top-level parameters, as well as map values. Ignored for list values. */
   key?: string | undefined;
 }
-export type ParameterList = Array<Parameter>;
-export interface TeardownTag {
-  /** If true, fire the teardown tag if and only if the main tag fires successfully. If false, fire the teardown tag regardless of main tag firing status. */
-  stopTeardownOnFailure?: boolean | undefined;
-  /** The name of the teardown tag. */
-  tagName?: string | undefined;
-}
-export type TeardownTagList = Array<TeardownTag>;
 export type TagTagFiringOptionEnum = "unlimited" | "oncePerEvent" | "oncePerLoad";
 export interface SetupTag {
   /** If true, fire the main tag if and only if the setup tag fires successfully. If false, fire the main tag regardless of setup tag firing status. */
@@ -330,50 +323,57 @@ export interface SetupTag {
   tagName?: string | undefined;
 }
 export type SetupTagList = Array<SetupTag>;
+export interface TeardownTag {
+  /** The name of the teardown tag. */
+  tagName?: string | undefined;
+  /** If true, fire the teardown tag if and only if the main tag fires successfully. If false, fire the teardown tag regardless of main tag firing status. */
+  stopTeardownOnFailure?: boolean | undefined;
+}
+export type TeardownTagList = Array<TeardownTag>;
 /** Represents a Google Tag Manager Tag. */
 export interface Tag {
-  /** User notes on how to apply this tag in the container. */
-  notes?: string | undefined;
-  /** If set to true, this tag will only fire in the live environment (e.g. not in preview or debug mode). */
-  liveOnly?: boolean | undefined;
-  /** Firing trigger IDs. A tag will fire when any of the listed triggers are true and all of its blockingTriggerIds (if any specified) are false. */
-  firingTriggerId?: StringList | undefined;
-  /** Blocking trigger IDs. If any of the listed triggers evaluate to true, the tag will not fire. */
-  blockingTriggerId?: StringList | undefined;
-  /** The end timestamp in milliseconds to schedule a tag. */
-  scheduleEndMs?: string | undefined;
   /** Parent folder id. */
   parentFolderId?: string | undefined;
-  /** The tag's parameters. */
-  parameter?: ParameterList | undefined;
-  /** The fingerprint of the GTM Tag as computed at storage time. This value is recomputed whenever the tag is modified. */
-  fingerprint?: string | undefined;
-  /** True if the tag is paused. */
-  paused?: boolean | undefined;
-  /** The list of teardown tags. Currently we only allow one. */
-  teardownTag?: TeardownTagList | undefined;
-  /** GTM Account ID. */
-  accountId?: string | undefined;
-  /** User defined numeric priority of the tag. Tags are fired asynchronously in order of priority. Tags with higher numeric value fire first. A tag's priority can be a positive or negative value. The default value is 0. */
-  priority?: Parameter | undefined;
-  /** The start timestamp in milliseconds to schedule a tag. */
-  scheduleStartMs?: string | undefined;
+  /** Firing trigger IDs. A tag will fire when any of the listed triggers are true and all of its blockingTriggerIds (if any specified) are false. */
+  firingTriggerId?: StringList | undefined;
+  /** If set to true, this tag will only fire in the live environment (e.g. not in preview or debug mode). */
+  liveOnly?: boolean | undefined;
   /** Tag display name. */
   name?: string | undefined;
-  /** Option to fire this tag. */
-  tagFiringOption?: TagTagFiringOptionEnum | (string & {}) | undefined;
-  /** The Tag ID uniquely identifies the GTM Tag. */
-  tagId?: string | undefined;
-  /** The list of setup tags. Currently we only allow one. */
-  setupTag?: SetupTagList | undefined;
-  /** GTM Container ID. */
-  containerId?: string | undefined;
+  /** True if the tag is paused. */
+  paused?: boolean | undefined;
+  /** The end timestamp in milliseconds to schedule a tag. */
+  scheduleEndMs?: string | undefined;
+  /** Blocking trigger IDs. If any of the listed triggers evaluate to true, the tag will not fire. */
+  blockingTriggerId?: StringList | undefined;
+  /** The fingerprint of the GTM Tag as computed at storage time. This value is recomputed whenever the tag is modified. */
+  fingerprint?: string | undefined;
   /** GTM Tag Type. */
   type?: string | undefined;
+  /** User notes on how to apply this tag in the container. */
+  notes?: string | undefined;
+  /** User defined numeric priority of the tag. Tags are fired asynchronously in order of priority. Tags with higher numeric value fire first. A tag's priority can be a positive or negative value. The default value is 0. */
+  priority?: Parameter | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** The Tag ID uniquely identifies the GTM Tag. */
+  tagId?: string | undefined;
+  /** The tag's parameters. */
+  parameter?: ParameterList | undefined;
+  /** The start timestamp in milliseconds to schedule a tag. */
+  scheduleStartMs?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** Option to fire this tag. */
+  tagFiringOption?: TagTagFiringOptionEnum | (string & {}) | undefined;
+  /** The list of setup tags. Currently we only allow one. */
+  setupTag?: SetupTagList | undefined;
+  /** The list of teardown tags. Currently we only allow one. */
+  teardownTag?: TeardownTagList | undefined;
 }
 export interface CreateAccountsContainersTagsRequest extends Omit<
   Tag,
-  "accountId" | "containerId"
+  "containerId" | "accountId"
 > {
   /** The GTM Account ID. */
   accountId: string;
@@ -394,10 +394,10 @@ export type ConditionTypeEnum =
   | "urlMatches";
 /** Represents a predicate. */
 export interface Condition {
-  /** A list of named parameters (key/value), depending on the condition's type. Notes: - For binary operators, include parameters named arg0 and arg1 for specifying the left and right operands, respectively. - At this time, the left operand (arg0) must be a reference to a variable. - For case-insensitive Regex matching, include a boolean parameter named ignore_case that is set to true. If not specified or set to any other value, the matching will be case sensitive. - To negate an operator, include a boolean parameter named negate boolean parameter that is set to true. */
-  parameter?: ParameterList | undefined;
   /** The type of operator for this condition. */
   type?: ConditionTypeEnum | (string & {}) | undefined;
+  /** A list of named parameters (key/value), depending on the condition's type. Notes: - For binary operators, include parameters named arg0 and arg1 for specifying the left and right operands, respectively. - At this time, the left operand (arg0) must be a reference to a variable. - For case-insensitive Regex matching, include a boolean parameter named ignore_case that is set to true. If not specified or set to any other value, the matching will be case sensitive. - To negate an operator, include a boolean parameter named negate boolean parameter that is set to true. */
+  parameter?: ParameterList | undefined;
 }
 export type ConditionList = Array<Condition>;
 export type TriggerTypeEnum =
@@ -422,66 +422,66 @@ export type TriggerTypeEnum =
   | "elementVisibility";
 /** Represents a Google Tag Manager Trigger */
 export interface Trigger {
-  /** The trigger will only fire iff all Conditions are true. */
-  filter?: ConditionList | undefined;
-  /** Limit of the number of GTM events this Timer Trigger will fire. If no limit is set, we will continue to fire GTM events until the user leaves the page. Only valid for Timer triggers. */
-  limit?: Parameter | undefined;
+  /** Additional parameters. */
+  parameter?: ParameterList | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** The Trigger ID uniquely identifies the GTM Trigger. */
+  triggerId?: string | undefined;
+  /** Used in the case of auto event tracking. */
+  autoEventFilter?: ConditionList | undefined;
+  /** Globally unique id of the trigger that auto-generates this (a Form Submit, Link Click or Timer listener) if any. Used to make incompatible auto-events work together with trigger filtering based on trigger ids. This value is populated during output generation since the tags implied by triggers don't exist until then. Only valid for Form Submit, Link Click and Timer triggers. */
+  uniqueTriggerId?: Parameter | undefined;
+  /** Name of the GTM event that is fired. Only valid for Timer triggers. */
+  eventName?: Parameter | undefined;
+  /** A visibility trigger CSS selector (i.e. "#id"). Only valid for AMP Visibility trigger. */
+  visibilitySelector?: Parameter | undefined;
+  /** A visibility trigger minimum continuous visible time (in milliseconds). Only valid for AMP Visibility trigger. */
+  continuousTimeMinMilliseconds?: Parameter | undefined;
   /** Defines the data layer event that causes this trigger. */
   type?: TriggerTypeEnum | (string & {}) | undefined;
   /** A visibility trigger maximum percent visibility. Only valid for AMP Visibility trigger. */
   visiblePercentageMax?: Parameter | undefined;
-  /** List of integer percentage values for scroll triggers. The trigger will fire when each percentage is reached when the view is scrolled horizontally. Only valid for AMP scroll triggers. */
-  horizontalScrollPercentageList?: Parameter | undefined;
-  /** Name of the GTM event that is fired. Only valid for Timer triggers. */
-  eventName?: Parameter | undefined;
-  /** Time between Timer Events to fire (in seconds). Only valid for AMP Timer trigger. */
-  intervalSeconds?: Parameter | undefined;
-  /** Used in the case of auto event tracking. */
-  autoEventFilter?: ConditionList | undefined;
-  /** Used in the case of custom event, which is fired iff all Conditions are true. */
-  customEventFilter?: ConditionList | undefined;
-  /** Time between triggering recurring Timer Events (in milliseconds). Only valid for Timer triggers. */
-  interval?: Parameter | undefined;
-  /** The fingerprint of the GTM Trigger as computed at storage time. This value is recomputed whenever the trigger is modified. */
-  fingerprint?: string | undefined;
-  /** Max time to fire Timer Events (in seconds). Only valid for AMP Timer trigger. */
-  maxTimerLengthSeconds?: Parameter | undefined;
-  /** How long to wait (in milliseconds) for tags to fire when 'waits_for_tags' above evaluates to true. Only valid for Form Submission and Link Click triggers. */
-  waitForTagsTimeout?: Parameter | undefined;
-  /** A visibility trigger minimum percent visibility. Only valid for AMP Visibility trigger. */
-  visiblePercentageMin?: Parameter | undefined;
-  /** Globally unique id of the trigger that auto-generates this (a Form Submit, Link Click or Timer listener) if any. Used to make incompatible auto-events work together with trigger filtering based on trigger ids. This value is populated during output generation since the tags implied by triggers don't exist until then. Only valid for Form Submit, Link Click and Timer triggers. */
-  uniqueTriggerId?: Parameter | undefined;
-  /** List of integer percentage values for scroll triggers. The trigger will fire when each percentage is reached when the view is scrolled vertically. Only valid for AMP scroll triggers. */
-  verticalScrollPercentageList?: Parameter | undefined;
-  /** The Trigger ID uniquely identifies the GTM Trigger. */
-  triggerId?: string | undefined;
   /** A click trigger CSS selector (i.e. "a", "button" etc.). Only valid for AMP Click trigger. */
   selector?: Parameter | undefined;
-  /** Whether or not we should delay the form submissions or link opening until all of the tags have fired (by preventing the default action and later simulating the default action). Only valid for Form Submission and Link Click triggers. */
-  waitForTags?: Parameter | undefined;
-  /** A visibility trigger CSS selector (i.e. "#id"). Only valid for AMP Visibility trigger. */
-  visibilitySelector?: Parameter | undefined;
   /** GTM Container ID. */
   containerId?: string | undefined;
-  /** A visibility trigger minimum total visible time (in milliseconds). Only valid for AMP Visibility trigger. */
-  totalTimeMinMilliseconds?: Parameter | undefined;
-  /** A visibility trigger minimum continuous visible time (in milliseconds). Only valid for AMP Visibility trigger. */
-  continuousTimeMinMilliseconds?: Parameter | undefined;
-  /** GTM Account ID. */
-  accountId?: string | undefined;
-  /** Whether or not we should only fire tags if the form submit or link click event is not cancelled by some other event handler (e.g. because of validation). Only valid for Form Submission and Link Click triggers. */
-  checkValidation?: Parameter | undefined;
+  /** List of integer percentage values for scroll triggers. The trigger will fire when each percentage is reached when the view is scrolled horizontally. Only valid for AMP scroll triggers. */
+  horizontalScrollPercentageList?: Parameter | undefined;
+  /** The fingerprint of the GTM Trigger as computed at storage time. This value is recomputed whenever the trigger is modified. */
+  fingerprint?: string | undefined;
   /** Trigger display name. */
   name?: string | undefined;
-  /** Additional parameters. */
-  parameter?: ParameterList | undefined;
+  /** A visibility trigger minimum percent visibility. Only valid for AMP Visibility trigger. */
+  visiblePercentageMin?: Parameter | undefined;
+  /** Time between triggering recurring Timer Events (in milliseconds). Only valid for Timer triggers. */
+  interval?: Parameter | undefined;
+  /** Whether or not we should only fire tags if the form submit or link click event is not cancelled by some other event handler (e.g. because of validation). Only valid for Form Submission and Link Click triggers. */
+  checkValidation?: Parameter | undefined;
+  /** A visibility trigger minimum total visible time (in milliseconds). Only valid for AMP Visibility trigger. */
+  totalTimeMinMilliseconds?: Parameter | undefined;
   /** Parent folder id. */
   parentFolderId?: string | undefined;
+  /** List of integer percentage values for scroll triggers. The trigger will fire when each percentage is reached when the view is scrolled vertically. Only valid for AMP scroll triggers. */
+  verticalScrollPercentageList?: Parameter | undefined;
+  /** How long to wait (in milliseconds) for tags to fire when 'waits_for_tags' above evaluates to true. Only valid for Form Submission and Link Click triggers. */
+  waitForTagsTimeout?: Parameter | undefined;
+  /** Used in the case of custom event, which is fired iff all Conditions are true. */
+  customEventFilter?: ConditionList | undefined;
+  /** Limit of the number of GTM events this Timer Trigger will fire. If no limit is set, we will continue to fire GTM events until the user leaves the page. Only valid for Timer triggers. */
+  limit?: Parameter | undefined;
+  /** Max time to fire Timer Events (in seconds). Only valid for AMP Timer trigger. */
+  maxTimerLengthSeconds?: Parameter | undefined;
+  /** Whether or not we should delay the form submissions or link opening until all of the tags have fired (by preventing the default action and later simulating the default action). Only valid for Form Submission and Link Click triggers. */
+  waitForTags?: Parameter | undefined;
+  /** The trigger will only fire iff all Conditions are true. */
+  filter?: ConditionList | undefined;
+  /** Time between Timer Events to fire (in seconds). Only valid for AMP Timer trigger. */
+  intervalSeconds?: Parameter | undefined;
 }
 export interface CreateAccountsContainersTriggersRequest extends Omit<
   Trigger,
-  "containerId" | "accountId"
+  "accountId" | "containerId"
 > {
   /** The GTM Account ID. */
   accountId: string;
@@ -490,56 +490,56 @@ export interface CreateAccountsContainersTriggersRequest extends Omit<
 }
 /** Represents a Google Tag Manager Variable. */
 export interface Variable {
+  /** The end timestamp in milliseconds to schedule a variable. */
+  scheduleEndMs?: string | undefined;
+  /** For mobile containers only: A list of trigger IDs for enabling conditional variables; the variable is enabled if one of the enabling triggers is true while all the disabling triggers are false. Treated as an unordered set. */
+  enablingTriggerId?: StringList | undefined;
+  /** Parent folder id. */
+  parentFolderId?: string | undefined;
+  /** Variable display name. */
+  name?: string | undefined;
   /** GTM Container ID. */
   containerId?: string | undefined;
   /** GTM Variable Type. */
   type?: string | undefined;
-  /** The Variable ID uniquely identifies the GTM Variable. */
-  variableId?: string | undefined;
-  /** The end timestamp in milliseconds to schedule a variable. */
-  scheduleEndMs?: string | undefined;
-  /** Parent folder id. */
-  parentFolderId?: string | undefined;
-  /** The start timestamp in milliseconds to schedule a variable. */
-  scheduleStartMs?: string | undefined;
+  /** The fingerprint of the GTM Variable as computed at storage time. This value is recomputed whenever the variable is modified. */
+  fingerprint?: string | undefined;
+  /** For mobile containers only: A list of trigger IDs for disabling conditional variables; the variable is enabled if one of the enabling trigger is true while all the disabling trigger are false. Treated as an unordered set. */
+  disablingTriggerId?: StringList | undefined;
   /** GTM Account ID. */
   accountId?: string | undefined;
   /** User notes on how to apply this variable in the container. */
   notes?: string | undefined;
   /** The variable's parameters. */
   parameter?: ParameterList | undefined;
-  /** The fingerprint of the GTM Variable as computed at storage time. This value is recomputed whenever the variable is modified. */
-  fingerprint?: string | undefined;
-  /** For mobile containers only: A list of trigger IDs for disabling conditional variables; the variable is enabled if one of the enabling trigger is true while all the disabling trigger are false. Treated as an unordered set. */
-  disablingTriggerId?: StringList | undefined;
-  /** For mobile containers only: A list of trigger IDs for enabling conditional variables; the variable is enabled if one of the enabling triggers is true while all the disabling triggers are false. Treated as an unordered set. */
-  enablingTriggerId?: StringList | undefined;
-  /** Variable display name. */
-  name?: string | undefined;
+  /** The start timestamp in milliseconds to schedule a variable. */
+  scheduleStartMs?: string | undefined;
+  /** The Variable ID uniquely identifies the GTM Variable. */
+  variableId?: string | undefined;
 }
 export interface CreateAccountsContainersVariablesRequest extends Omit<
   Variable,
   "containerId" | "accountId"
 > {
-  /** The GTM Container ID. */
-  containerId: string;
   /** The GTM Account ID. */
   accountId: string;
+  /** The GTM Container ID. */
+  containerId: string;
 }
 /** Options for new container versions. */
 export interface CreateContainerVersionRequestVersionOptions {
-  /** The notes of the container version to be created. */
-  notes?: string | undefined;
-  /** The name of the container version to be created. */
-  name?: string | undefined;
   /** The creation of this version may be for quick preview and shouldn't be saved. */
   quickPreview?: boolean | undefined;
+  /** The name of the container version to be created. */
+  name?: string | undefined;
+  /** The notes of the container version to be created. */
+  notes?: string | undefined;
 }
 export interface CreateAccountsContainersVersionsRequest extends CreateContainerVersionRequestVersionOptions {
-  /** The GTM Container ID. */
-  containerId: string;
   /** The GTM Account ID. */
   accountId: string;
+  /** The GTM Container ID. */
+  containerId: string;
 }
 export type TagList = Array<Tag>;
 export type TriggerList = Array<Trigger>;
@@ -547,37 +547,37 @@ export type FolderList = Array<Folder>;
 export type VariableList = Array<Variable>;
 /** Represents a Google Tag Manager Container Version. */
 export interface ContainerVersion {
-  /** A value of true indicates this container version has been deleted. */
-  deleted?: boolean | undefined;
   /** The tags in the container that this version was taken from. */
   tag?: TagList | undefined;
   /** Container version display name. */
   name?: string | undefined;
+  /** The Container Version ID uniquely identifies the GTM Container Version. */
+  containerVersionId?: string | undefined;
   /** The triggers in the container that this version was taken from. */
   trigger?: TriggerList | undefined;
+  /** A value of true indicates this container version has been deleted. */
+  deleted?: boolean | undefined;
+  /** The folders in the container that this version was taken from. */
+  folder?: FolderList | undefined;
+  /** The container that this version was taken from. */
+  container?: Container | undefined;
   /** GTM Account ID. */
   accountId?: string | undefined;
   /** User notes on how to apply this container version in the container. */
   notes?: string | undefined;
-  /** The folders in the container that this version was taken from. */
-  folder?: FolderList | undefined;
   /** The fingerprint of the GTM Container Version as computed at storage time. This value is recomputed whenever the container version is modified. */
   fingerprint?: string | undefined;
-  /** GTM Container ID. */
-  containerId?: string | undefined;
   /** The variables in the container that this version was taken from. */
   variable?: VariableList | undefined;
-  /** The container that this version was taken from. */
-  container?: Container | undefined;
-  /** The Container Version ID uniquely identifies the GTM Container Version. */
-  containerVersionId?: string | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
 }
 /** Create container versions response. */
 export interface CreateContainerVersionResponse {
-  /** Compiler errors or not. */
-  compilerError?: boolean | undefined;
   /** The container version created. */
   containerVersion?: ContainerVersion | undefined;
+  /** Compiler errors or not. */
+  compilerError?: boolean | undefined;
 }
 export type AccountAccessPermissionItemEnum =
   | "read"
@@ -606,70 +606,70 @@ export type ContainerAccessPermissionItemEnumList = Array<
 >;
 /** Defines the Google Tag Manager Container access permissions. */
 export interface ContainerAccess {
-  /** List of Container permissions. Valid container permissions are: read, edit, delete, publish. */
-  permission?: ContainerAccessPermissionItemEnumList | undefined;
   /** GTM Container ID. */
   containerId?: string | undefined;
+  /** List of Container permissions. Valid container permissions are: read, edit, delete, publish. */
+  permission?: ContainerAccessPermissionItemEnumList | undefined;
 }
 export type ContainerAccessList = Array<ContainerAccess>;
 /** Represents a user's permissions to an account and its container. */
 export interface UserAccess {
-  /** GTM Account ID. */
-  accountId?: string | undefined;
   /** GTM Account access permissions. */
   accountAccess?: AccountAccess | undefined;
+  /** GTM Container access permissions. */
+  containerAccess?: ContainerAccessList | undefined;
   /** Account Permission ID. */
   permissionId?: string | undefined;
   /** User's email address. */
   emailAddress?: string | undefined;
-  /** GTM Container access permissions. */
-  containerAccess?: ContainerAccessList | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
 }
 export interface CreateAccountsPermissionsRequest extends Omit<UserAccess, "accountId"> {
   /** The GTM Account ID. */
   accountId: string;
 }
 export interface DeleteAccountsContainersRequest {
-  /** The GTM Account ID. */
-  accountId: string;
   /** The GTM Container ID. */
   containerId: string;
+  /** The GTM Account ID. */
+  accountId: string;
 }
 export interface DeleteAccountsContainersResponse {}
 export interface DeleteAccountsContainersEnvironmentsRequest {
+  /** The GTM Environment ID. */
+  environmentId: string;
   /** The GTM Container ID. */
   containerId: string;
   /** The GTM Account ID. */
   accountId: string;
-  /** The GTM Environment ID. */
-  environmentId: string;
 }
 export interface DeleteAccountsContainersEnvironmentsResponse {}
 export interface DeleteAccountsContainersFoldersRequest {
+  /** The GTM Folder ID. */
+  folderId: string;
   /** The GTM Account ID. */
   accountId: string;
   /** The GTM Container ID. */
   containerId: string;
-  /** The GTM Folder ID. */
-  folderId: string;
 }
 export interface DeleteAccountsContainersFoldersResponse {}
 export interface DeleteAccountsContainersTagsRequest {
-  /** The GTM Container ID. */
-  containerId: string;
-  /** The GTM Account ID. */
-  accountId: string;
   /** The GTM Tag ID. */
   tagId: string;
+  /** The GTM Account ID. */
+  accountId: string;
+  /** The GTM Container ID. */
+  containerId: string;
 }
 export interface DeleteAccountsContainersTagsResponse {}
 export interface DeleteAccountsContainersTriggersRequest {
   /** The GTM Trigger ID. */
   triggerId: string;
-  /** The GTM Container ID. */
-  containerId: string;
   /** The GTM Account ID. */
   accountId: string;
+  /** The GTM Container ID. */
+  containerId: string;
 }
 export interface DeleteAccountsContainersTriggersResponse {}
 export interface DeleteAccountsContainersVariablesRequest {
@@ -682,19 +682,19 @@ export interface DeleteAccountsContainersVariablesRequest {
 }
 export interface DeleteAccountsContainersVariablesResponse {}
 export interface DeleteAccountsContainersVersionsRequest {
-  /** The GTM Account ID. */
-  accountId: string;
-  /** The GTM Container Version ID. */
-  containerVersionId: string;
   /** The GTM Container ID. */
   containerId: string;
+  /** The GTM Container Version ID. */
+  containerVersionId: string;
+  /** The GTM Account ID. */
+  accountId: string;
 }
 export interface DeleteAccountsContainersVersionsResponse {}
 export interface DeleteAccountsPermissionsRequest {
-  /** The GTM Account ID. */
-  accountId: string;
   /** The GTM User ID. */
   permissionId: string;
+  /** The GTM Account ID. */
+  accountId: string;
 }
 export interface DeleteAccountsPermissionsResponse {}
 export interface GetAccountsRequest {
@@ -713,34 +713,34 @@ export interface Account {
   accountId?: string | undefined;
 }
 export interface GetAccountsContainersRequest {
-  /** The GTM Container ID. */
-  containerId: string;
   /** The GTM Account ID. */
   accountId: string;
+  /** The GTM Container ID. */
+  containerId: string;
 }
 export interface GetAccountsContainersEnvironmentsRequest {
-  /** The GTM Account ID. */
-  accountId: string;
   /** The GTM Container ID. */
   containerId: string;
+  /** The GTM Account ID. */
+  accountId: string;
   /** The GTM Environment ID. */
   environmentId: string;
 }
 export interface GetAccountsContainersFoldersRequest {
-  /** The GTM Account ID. */
-  accountId: string;
   /** The GTM Container ID. */
   containerId: string;
   /** The GTM Folder ID. */
   folderId: string;
-}
-export interface GetAccountsContainersTagsRequest {
-  /** The GTM Container ID. */
-  containerId: string;
-  /** The GTM Tag ID. */
-  tagId: string;
   /** The GTM Account ID. */
   accountId: string;
+}
+export interface GetAccountsContainersTagsRequest {
+  /** The GTM Account ID. */
+  accountId: string;
+  /** The GTM Tag ID. */
+  tagId: string;
+  /** The GTM Container ID. */
+  containerId: string;
 }
 export interface GetAccountsContainersTriggersRequest {
   /** The GTM Trigger ID. */
@@ -751,10 +751,10 @@ export interface GetAccountsContainersTriggersRequest {
   accountId: string;
 }
 export interface GetAccountsContainersVariablesRequest {
-  /** The GTM Container ID. */
-  containerId: string;
   /** The GTM Account ID. */
   accountId: string;
+  /** The GTM Container ID. */
+  containerId: string;
   /** The GTM Variable ID. */
   variableId: string;
 }
@@ -802,10 +802,10 @@ export interface ListEnvironmentsResponse {
   environments?: EnvironmentList | undefined;
 }
 export interface ListAccountsContainersFoldersRequest {
-  /** The GTM Account ID. */
-  accountId: string;
   /** The GTM Container ID. */
   containerId: string;
+  /** The GTM Account ID. */
+  accountId: string;
 }
 /** List Folders Response. */
 export interface ListFoldersResponse {
@@ -815,10 +815,10 @@ export interface ListFoldersResponse {
 export interface ListAccountsContainersFoldersEntitiesRequest {
   /** The GTM Account ID. */
   accountId: string;
-  /** The GTM Folder ID. */
-  folderId: string;
   /** The GTM Container ID. */
   containerId: string;
+  /** The GTM Folder ID. */
+  folderId: string;
 }
 /** Represents a Google Tag Manager Folder's contents. */
 export interface FolderEntities {
@@ -830,10 +830,10 @@ export interface FolderEntities {
   variable?: VariableList | undefined;
 }
 export interface ListAccountsContainersTagsRequest {
-  /** The GTM Account ID. */
-  accountId: string;
   /** The GTM Container ID. */
   containerId: string;
+  /** The GTM Account ID. */
+  accountId: string;
 }
 /** List Tags Response. */
 export interface ListTagsResponse {
@@ -863,32 +863,32 @@ export interface ListVariablesResponse {
   variables?: VariableList | undefined;
 }
 export interface ListAccountsContainersVersionsRequest {
-  /** Retrieve headers only when true. */
-  headers?: boolean | undefined;
-  /** The GTM Container ID. */
-  containerId: string;
   /** Also retrieve deleted (archived) versions when true. */
   includeDeleted?: boolean | undefined;
+  /** The GTM Container ID. */
+  containerId: string;
   /** The GTM Account ID. */
   accountId: string;
+  /** Retrieve headers only when true. */
+  headers?: boolean | undefined;
 }
 export type ContainerVersionList = Array<ContainerVersion>;
 /** Represents a Google Tag Manager Container Version Header. */
 export interface ContainerVersionHeader {
+  /** The Container Version ID uniquely identifies the GTM Container Version. */
+  containerVersionId?: string | undefined;
+  /** Number of triggers in the container version. */
+  numTriggers?: string | undefined;
   /** GTM Container ID. */
   containerId?: string | undefined;
   /** Number of variables in the container version. */
   numVariables?: string | undefined;
   /** GTM Account ID. */
   accountId?: string | undefined;
-  /** Number of triggers in the container version. */
-  numTriggers?: string | undefined;
   /** Number of tags in the container version. */
   numTags?: string | undefined;
   /** A value of true indicates this container version has been deleted. */
   deleted?: boolean | undefined;
-  /** The Container Version ID uniquely identifies the GTM Container Version. */
-  containerVersionId?: string | undefined;
   /** Container version display name. */
   name?: string | undefined;
 }
@@ -913,10 +913,10 @@ export interface ListAccountUsersResponse {
 export interface PublishAccountsContainersVersionsRequest {
   /** When provided, this fingerprint must match the fingerprint of the container version in storage. */
   fingerprint?: string | undefined;
-  /** The GTM Account ID. */
-  accountId: string;
   /** The GTM Container Version ID. */
   containerVersionId: string;
+  /** The GTM Account ID. */
+  accountId: string;
   /** The GTM Container ID. */
   containerId: string;
 }
@@ -928,20 +928,20 @@ export interface PublishContainerVersionResponse {
   compilerError?: boolean | undefined;
 }
 export interface RestoreAccountsContainersVersionsRequest {
-  /** The GTM Container ID. */
-  containerId: string;
   /** The GTM Account ID. */
   accountId: string;
   /** The GTM Container Version ID. */
   containerVersionId: string;
+  /** The GTM Container ID. */
+  containerId: string;
 }
 export interface UndeleteAccountsContainersVersionsRequest {
+  /** The GTM Account ID. */
+  accountId: string;
   /** The GTM Container ID. */
   containerId: string;
   /** The GTM Container Version ID. */
   containerVersionId: string;
-  /** The GTM Account ID. */
-  accountId: string;
 }
 export interface UpdateAccountsRequest extends Omit<Account, "fingerprint" | "accountId"> {
   /** When provided, this fingerprint must match the fingerprint of the account in storage. */
@@ -951,18 +951,18 @@ export interface UpdateAccountsRequest extends Omit<Account, "fingerprint" | "ac
 }
 export interface UpdateAccountsContainersRequest extends Omit<
   Container,
-  "fingerprint" | "accountId" | "containerId"
+  "containerId" | "fingerprint" | "accountId"
 > {
-  /** When provided, this fingerprint must match the fingerprint of the container in storage. */
-  fingerprint?: string | undefined;
   /** The GTM Account ID. */
   accountId: string;
   /** The GTM Container ID. */
   containerId: string;
+  /** When provided, this fingerprint must match the fingerprint of the container in storage. */
+  fingerprint?: string | undefined;
 }
 export interface UpdateAccountsContainersEnvironmentsRequest extends Omit<
   Environment,
-  "accountId" | "fingerprint" | "environmentId" | "containerId"
+  "accountId" | "environmentId" | "fingerprint" | "containerId"
 > {
   /** When provided, this fingerprint must match the fingerprint of the environment in storage. */
   fingerprint?: string | undefined;
@@ -975,101 +975,101 @@ export interface UpdateAccountsContainersEnvironmentsRequest extends Omit<
 }
 export interface UpdateAccountsContainersFoldersRequest extends Omit<
   Folder,
-  "accountId" | "folderId" | "containerId" | "fingerprint"
+  "containerId" | "folderId" | "fingerprint" | "accountId"
 > {
+  /** The GTM Account ID. */
+  accountId: string;
   /** The GTM Container ID. */
   containerId: string;
   /** The GTM Folder ID. */
   folderId: string;
-  /** The GTM Account ID. */
-  accountId: string;
   /** When provided, this fingerprint must match the fingerprint of the folder in storage. */
   fingerprint?: string | undefined;
 }
 export interface UpdateAccountsContainersMove_foldersRequest extends Omit<
   Folder,
-  "accountId" | "folderId" | "containerId"
+  "containerId" | "folderId" | "accountId"
 > {
+  /** The tags to be moved to the folder. */
+  tagId?: StringList | undefined;
+  /** The GTM Folder ID. */
+  folderId: string;
+  /** The GTM Account ID. */
+  accountId: string;
+  /** The triggers to be moved to the folder. */
+  triggerId?: StringList | undefined;
   /** The GTM Container ID. */
   containerId: string;
   /** The variables to be moved to the folder. */
   variableId?: StringList | undefined;
-  /** The GTM Account ID. */
-  accountId: string;
-  /** The GTM Folder ID. */
-  folderId: string;
-  /** The tags to be moved to the folder. */
-  tagId?: StringList | undefined;
-  /** The triggers to be moved to the folder. */
-  triggerId?: StringList | undefined;
 }
 export interface UpdateAccountsContainersMove_foldersResponse {}
 export interface UpdateAccountsContainersReauthorize_environmentsRequest extends Omit<
   Environment,
   "accountId" | "environmentId" | "containerId"
 > {
-  /** The GTM Environment ID. */
-  environmentId: string;
-  /** The GTM Container ID. */
-  containerId: string;
   /** The GTM Account ID. */
   accountId: string;
+  /** The GTM Container ID. */
+  containerId: string;
+  /** The GTM Environment ID. */
+  environmentId: string;
 }
 export interface UpdateAccountsContainersTagsRequest extends Omit<
   Tag,
-  "fingerprint" | "accountId" | "tagId" | "containerId"
+  "fingerprint" | "containerId" | "tagId" | "accountId"
 > {
   /** The GTM Container ID. */
   containerId: string;
-  /** The GTM Account ID. */
-  accountId: string;
   /** The GTM Tag ID. */
   tagId: string;
+  /** The GTM Account ID. */
+  accountId: string;
   /** When provided, this fingerprint must match the fingerprint of the tag in storage. */
   fingerprint?: string | undefined;
 }
 export interface UpdateAccountsContainersTriggersRequest extends Omit<
   Trigger,
-  "fingerprint" | "triggerId" | "containerId" | "accountId"
+  "accountId" | "triggerId" | "containerId" | "fingerprint"
 > {
-  /** The GTM Trigger ID. */
-  triggerId: string;
-  /** When provided, this fingerprint must match the fingerprint of the trigger in storage. */
-  fingerprint?: string | undefined;
   /** The GTM Container ID. */
   containerId: string;
+  /** The GTM Trigger ID. */
+  triggerId: string;
   /** The GTM Account ID. */
   accountId: string;
+  /** When provided, this fingerprint must match the fingerprint of the trigger in storage. */
+  fingerprint?: string | undefined;
 }
 export interface UpdateAccountsContainersVariablesRequest extends Omit<
   Variable,
-  "containerId" | "variableId" | "accountId" | "fingerprint"
+  "containerId" | "fingerprint" | "accountId" | "variableId"
 > {
-  /** The GTM Container ID. */
-  containerId: string;
+  /** When provided, this fingerprint must match the fingerprint of the variable in storage. */
+  fingerprint?: string | undefined;
   /** The GTM Variable ID. */
   variableId: string;
   /** The GTM Account ID. */
   accountId: string;
-  /** When provided, this fingerprint must match the fingerprint of the variable in storage. */
-  fingerprint?: string | undefined;
+  /** The GTM Container ID. */
+  containerId: string;
 }
 export interface UpdateAccountsContainersVersionsRequest extends Omit<
   ContainerVersion,
-  "accountId" | "fingerprint" | "containerId" | "containerVersionId"
+  "containerVersionId" | "accountId" | "fingerprint" | "containerId"
 > {
-  /** The GTM Account ID. */
-  accountId: string;
   /** The GTM Container Version ID. */
   containerVersionId: string;
   /** When provided, this fingerprint must match the fingerprint of the container version in storage. */
   fingerprint?: string | undefined;
+  /** The GTM Account ID. */
+  accountId: string;
   /** The GTM Container ID. */
   containerId: string;
 }
 export interface UpdateAccountsPermissionsRequest extends Omit<
   UserAccess,
-  "accountId" | "permissionId"
+  "permissionId" | "accountId"
 > {
   /** The GTM Account ID. */
   accountId: string;
@@ -1089,8 +1089,8 @@ export const createAccountsContainers: API.OperationMethod<
   CreateAccountsContainersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<CreateAccountsContainersRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<Container>,
+  input: __S(312, __c39, 0) as any as S.Schema<CreateAccountsContainersRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<Container>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1111,8 +1111,8 @@ export const createAccountsContainersEnvironments: API.OperationMethod<
   CreateAccountsContainersEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<CreateAccountsContainersEnvironmentsRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<Environment>,
+  input: __S(424, __c53, 0) as any as S.Schema<CreateAccountsContainersEnvironmentsRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<Environment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1133,8 +1133,8 @@ export const createAccountsContainersFolders: API.OperationMethod<
   CreateAccountsContainersFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<CreateAccountsContainersFoldersRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<Folder>,
+  input: __S(464, __c58, 0) as any as S.Schema<CreateAccountsContainersFoldersRequest>,
+  output: __S(472, __c59, 0) as any as S.Schema<Folder>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1155,8 +1155,8 @@ export const createAccountsContainersTags: API.OperationMethod<
   CreateAccountsContainersTagsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<CreateAccountsContainersTagsRequest>,
-  output: __S(484, __c60, 4) as any as S.Schema<Tag>,
+  input: __S(480, __c60, 0) as any as S.Schema<CreateAccountsContainersTagsRequest>,
+  output: __S(492, __c61, 4) as any as S.Schema<Tag>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1177,8 +1177,8 @@ export const createAccountsContainersTriggers: API.OperationMethod<
   CreateAccountsContainersTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<CreateAccountsContainersTriggersRequest>,
-  output: __S(506, __c63, 2) as any as S.Schema<Trigger>,
+  input: __S(504, __c63, 0) as any as S.Schema<CreateAccountsContainersTriggersRequest>,
+  output: __S(514, __c64, 2) as any as S.Schema<Trigger>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1199,8 +1199,8 @@ export const createAccountsContainersVariables: API.OperationMethod<
   CreateAccountsContainersVariablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<CreateAccountsContainersVariablesRequest>,
-  output: __S(520, __c65, 0) as any as S.Schema<Variable>,
+  input: __S(520, __c65, 0) as any as S.Schema<CreateAccountsContainersVariablesRequest>,
+  output: __S(528, __c66, 0) as any as S.Schema<Variable>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1222,7 +1222,7 @@ export const createAccountsContainersVersions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CreateAccountsContainersVersionsRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<CreateContainerVersionResponse>,
+  output: __S(48, __c6, 0) as any as S.Schema<CreateContainerVersionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1243,8 +1243,8 @@ export const createAccountsPermissions: API.OperationMethod<
   CreateAccountsPermissionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<CreateAccountsPermissionsRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<UserAccess>,
+  input: __S(56, __c7, 0) as any as S.Schema<CreateAccountsPermissionsRequest>,
+  output: __S(67, __c8, 3) as any as S.Schema<UserAccess>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1265,8 +1265,8 @@ export const deleteAccountsContainers: API.OperationMethod<
   DeleteAccountsContainersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<DeleteAccountsContainersRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<DeleteAccountsContainersResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<DeleteAccountsContainersRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<DeleteAccountsContainersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1287,8 +1287,8 @@ export const deleteAccountsContainersEnvironments: API.OperationMethod<
   DeleteAccountsContainersEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DeleteAccountsContainersEnvironmentsRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<DeleteAccountsContainersEnvironmentsResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<DeleteAccountsContainersEnvironmentsRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<DeleteAccountsContainersEnvironmentsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1309,8 +1309,8 @@ export const deleteAccountsContainersFolders: API.OperationMethod<
   DeleteAccountsContainersFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<DeleteAccountsContainersFoldersRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<DeleteAccountsContainersFoldersResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<DeleteAccountsContainersFoldersRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<DeleteAccountsContainersFoldersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1331,8 +1331,8 @@ export const deleteAccountsContainersTags: API.OperationMethod<
   DeleteAccountsContainersTagsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<DeleteAccountsContainersTagsRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<DeleteAccountsContainersTagsResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<DeleteAccountsContainersTagsRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<DeleteAccountsContainersTagsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1353,8 +1353,8 @@ export const deleteAccountsContainersTriggers: API.OperationMethod<
   DeleteAccountsContainersTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<DeleteAccountsContainersTriggersRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<DeleteAccountsContainersTriggersResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<DeleteAccountsContainersTriggersRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<DeleteAccountsContainersTriggersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1375,8 +1375,8 @@ export const deleteAccountsContainersVariables: API.OperationMethod<
   DeleteAccountsContainersVariablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<DeleteAccountsContainersVariablesRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<DeleteAccountsContainersVariablesResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<DeleteAccountsContainersVariablesRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<DeleteAccountsContainersVariablesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1397,8 +1397,8 @@ export const deleteAccountsContainersVersions: API.OperationMethod<
   DeleteAccountsContainersVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<DeleteAccountsContainersVersionsRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<DeleteAccountsContainersVersionsResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<DeleteAccountsContainersVersionsRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<DeleteAccountsContainersVersionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1419,8 +1419,8 @@ export const deleteAccountsPermissions: API.OperationMethod<
   DeleteAccountsPermissionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<DeleteAccountsPermissionsRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<DeleteAccountsPermissionsResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<DeleteAccountsPermissionsRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<DeleteAccountsPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1436,8 +1436,8 @@ export const getAccounts: API.OperationMethod<
   GetAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetAccountsRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<Account>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetAccountsRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<Account>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1453,8 +1453,8 @@ export const getAccountsContainers: API.OperationMethod<
   GetAccountsContainersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetAccountsContainersRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<Container>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetAccountsContainersRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<Container>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1470,8 +1470,8 @@ export const getAccountsContainersEnvironments: API.OperationMethod<
   GetAccountsContainersEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetAccountsContainersEnvironmentsRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<Environment>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetAccountsContainersEnvironmentsRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<Environment>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1487,8 +1487,8 @@ export const getAccountsContainersFolders: API.OperationMethod<
   GetAccountsContainersFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetAccountsContainersFoldersRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<Folder>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetAccountsContainersFoldersRequest>,
+  output: __S(472, __c59, 0) as any as S.Schema<Folder>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1504,8 +1504,8 @@ export const getAccountsContainersTags: API.OperationMethod<
   GetAccountsContainersTagsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetAccountsContainersTagsRequest>,
-  output: __S(484, __c60, 4) as any as S.Schema<Tag>,
+  input: __S(184, __c23, 0) as any as S.Schema<GetAccountsContainersTagsRequest>,
+  output: __S(492, __c61, 4) as any as S.Schema<Tag>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1521,8 +1521,8 @@ export const getAccountsContainersTriggers: API.OperationMethod<
   GetAccountsContainersTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetAccountsContainersTriggersRequest>,
-  output: __S(506, __c63, 2) as any as S.Schema<Trigger>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetAccountsContainersTriggersRequest>,
+  output: __S(514, __c64, 2) as any as S.Schema<Trigger>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1538,8 +1538,8 @@ export const getAccountsContainersVariables: API.OperationMethod<
   GetAccountsContainersVariablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetAccountsContainersVariablesRequest>,
-  output: __S(520, __c65, 0) as any as S.Schema<Variable>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetAccountsContainersVariablesRequest>,
+  output: __S(528, __c66, 0) as any as S.Schema<Variable>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1555,7 +1555,7 @@ export const getAccountsContainersVersions: API.OperationMethod<
   GetAccountsContainersVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetAccountsContainersVersionsRequest>,
+  input: __S(208, __c26, 0) as any as S.Schema<GetAccountsContainersVersionsRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<ContainerVersion>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1572,8 +1572,8 @@ export const getAccountsPermissions: API.OperationMethod<
   GetAccountsPermissionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<GetAccountsPermissionsRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<UserAccess>,
+  input: __S(216, __c27, 0) as any as S.Schema<GetAccountsPermissionsRequest>,
+  output: __S(67, __c8, 3) as any as S.Schema<UserAccess>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1589,8 +1589,8 @@ export const listAccounts: API.OperationMethod<
   ListAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<ListAccountsRequest>,
-  output: __S(218, __c27, 2) as any as S.Schema<ListAccountsResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<ListAccountsRequest>,
+  output: __S(226, __c28, 2) as any as S.Schema<ListAccountsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1606,8 +1606,8 @@ export const listAccountsContainers: API.OperationMethod<
   ListAccountsContainersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<ListAccountsContainersRequest>,
-  output: __S(226, __c28, 2) as any as S.Schema<ListContainersResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<ListAccountsContainersRequest>,
+  output: __S(234, __c29, 2) as any as S.Schema<ListContainersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1623,8 +1623,8 @@ export const listAccountsContainersEnvironments: API.OperationMethod<
   ListAccountsContainersEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<ListAccountsContainersEnvironmentsRequest>,
-  output: __S(234, __c29, 2) as any as S.Schema<ListEnvironmentsResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<ListAccountsContainersEnvironmentsRequest>,
+  output: __S(242, __c30, 2) as any as S.Schema<ListEnvironmentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1640,8 +1640,8 @@ export const listAccountsContainersFolders: API.OperationMethod<
   ListAccountsContainersFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<ListAccountsContainersFoldersRequest>,
-  output: __S(241, __c30, 1) as any as S.Schema<ListFoldersResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<ListAccountsContainersFoldersRequest>,
+  output: __S(249, __c31, 1) as any as S.Schema<ListFoldersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1657,8 +1657,8 @@ export const listAccountsContainersFoldersEntities: API.OperationMethod<
   ListAccountsContainersFoldersEntitiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<ListAccountsContainersFoldersEntitiesRequest>,
-  output: __S(249, __c31, 1) as any as S.Schema<FolderEntities>,
+  input: __S(256, __c32, 0) as any as S.Schema<ListAccountsContainersFoldersEntitiesRequest>,
+  output: __S(257, __c32, 1) as any as S.Schema<FolderEntities>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1674,8 +1674,8 @@ export const listAccountsContainersTags: API.OperationMethod<
   ListAccountsContainersTagsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<ListAccountsContainersTagsRequest>,
-  output: __S(257, __c32, 1) as any as S.Schema<ListTagsResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<ListAccountsContainersTagsRequest>,
+  output: __S(265, __c33, 1) as any as S.Schema<ListTagsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1691,8 +1691,8 @@ export const listAccountsContainersTriggers: API.OperationMethod<
   ListAccountsContainersTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<ListAccountsContainersTriggersRequest>,
-  output: __S(265, __c33, 1) as any as S.Schema<ListTriggersResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<ListAccountsContainersTriggersRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<ListTriggersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1708,8 +1708,8 @@ export const listAccountsContainersVariables: API.OperationMethod<
   ListAccountsContainersVariablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<ListAccountsContainersVariablesRequest>,
-  output: __S(273, __c34, 1) as any as S.Schema<ListVariablesResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<ListAccountsContainersVariablesRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<ListVariablesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1725,8 +1725,8 @@ export const listAccountsContainersVersions: API.OperationMethod<
   ListAccountsContainersVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<ListAccountsContainersVersionsRequest>,
-  output: __S(284, __c35, 4) as any as S.Schema<ListContainerVersionsResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<ListAccountsContainersVersionsRequest>,
+  output: __S(292, __c36, 4) as any as S.Schema<ListContainerVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1742,8 +1742,8 @@ export const listAccountsPermissions: API.OperationMethod<
   ListAccountsPermissionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<ListAccountsPermissionsRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<ListAccountUsersResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<ListAccountsPermissionsRequest>,
+  output: __S(298, __c37, 2) as any as S.Schema<ListAccountUsersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1764,8 +1764,8 @@ export const publishAccountsContainersVersions: API.OperationMethod<
   PublishAccountsContainersVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<PublishAccountsContainersVersionsRequest>,
-  output: __S(297, __c37, 1) as any as S.Schema<PublishContainerVersionResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<PublishAccountsContainersVersionsRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<PublishContainerVersionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1786,7 +1786,7 @@ export const restoreAccountsContainersVersions: API.OperationMethod<
   RestoreAccountsContainersVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<RestoreAccountsContainersVersionsRequest>,
+  input: __S(344, __c43, 0) as any as S.Schema<RestoreAccountsContainersVersionsRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<ContainerVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1808,7 +1808,7 @@ export const undeleteAccountsContainersVersions: API.OperationMethod<
   UndeleteAccountsContainersVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<UndeleteAccountsContainersVersionsRequest>,
+  input: __S(352, __c44, 0) as any as S.Schema<UndeleteAccountsContainersVersionsRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<ContainerVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1825,8 +1825,8 @@ export const updateAccounts: API.OperationMethod<
   UpdateAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<UpdateAccountsRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<Account>,
+  input: __S(360, __c45, 0) as any as S.Schema<UpdateAccountsRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<Account>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1847,8 +1847,8 @@ export const updateAccountsContainers: API.OperationMethod<
   UpdateAccountsContainersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<UpdateAccountsContainersRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<Container>,
+  input: __S(368, __c46, 0) as any as S.Schema<UpdateAccountsContainersRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<Container>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1869,8 +1869,8 @@ export const updateAccountsContainersEnvironments: API.OperationMethod<
   UpdateAccountsContainersEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<UpdateAccountsContainersEnvironmentsRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<Environment>,
+  input: __S(376, __c47, 0) as any as S.Schema<UpdateAccountsContainersEnvironmentsRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<Environment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1891,8 +1891,8 @@ export const updateAccountsContainersFolders: API.OperationMethod<
   UpdateAccountsContainersFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<UpdateAccountsContainersFoldersRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<Folder>,
+  input: __S(384, __c48, 0) as any as S.Schema<UpdateAccountsContainersFoldersRequest>,
+  output: __S(472, __c59, 0) as any as S.Schema<Folder>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1913,8 +1913,8 @@ export const updateAccountsContainersMove_folders: API.OperationMethod<
   UpdateAccountsContainersMove_foldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<UpdateAccountsContainersMove_foldersRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<UpdateAccountsContainersMove_foldersResponse>,
+  input: __S(392, __c49, 0) as any as S.Schema<UpdateAccountsContainersMove_foldersRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<UpdateAccountsContainersMove_foldersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1936,11 +1936,11 @@ export const updateAccountsContainersReauthorize_environments: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    392,
-    __c49,
+    400,
+    __c50,
     0,
   ) as any as S.Schema<UpdateAccountsContainersReauthorize_environmentsRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<Environment>,
+  output: __S(432, __c54, 0) as any as S.Schema<Environment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1961,8 +1961,8 @@ export const updateAccountsContainersTags: API.OperationMethod<
   UpdateAccountsContainersTagsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<UpdateAccountsContainersTagsRequest>,
-  output: __S(484, __c60, 4) as any as S.Schema<Tag>,
+  input: __S(408, __c51, 0) as any as S.Schema<UpdateAccountsContainersTagsRequest>,
+  output: __S(492, __c61, 4) as any as S.Schema<Tag>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1983,8 +1983,8 @@ export const updateAccountsContainersTriggers: API.OperationMethod<
   UpdateAccountsContainersTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<UpdateAccountsContainersTriggersRequest>,
-  output: __S(506, __c63, 2) as any as S.Schema<Trigger>,
+  input: __S(416, __c52, 0) as any as S.Schema<UpdateAccountsContainersTriggersRequest>,
+  output: __S(514, __c64, 2) as any as S.Schema<Trigger>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2005,8 +2005,8 @@ export const updateAccountsContainersVariables: API.OperationMethod<
   UpdateAccountsContainersVariablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<UpdateAccountsContainersVariablesRequest>,
-  output: __S(520, __c65, 0) as any as S.Schema<Variable>,
+  input: __S(440, __c55, 0) as any as S.Schema<UpdateAccountsContainersVariablesRequest>,
+  output: __S(528, __c66, 0) as any as S.Schema<Variable>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2027,7 +2027,7 @@ export const updateAccountsContainersVersions: API.OperationMethod<
   UpdateAccountsContainersVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<UpdateAccountsContainersVersionsRequest>,
+  input: __S(448, __c56, 0) as any as S.Schema<UpdateAccountsContainersVersionsRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<ContainerVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2049,8 +2049,8 @@ export const updateAccountsPermissions: API.OperationMethod<
   UpdateAccountsPermissionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<UpdateAccountsPermissionsRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<UserAccess>,
+  input: __S(456, __c57, 0) as any as S.Schema<UpdateAccountsPermissionsRequest>,
+  output: __S(67, __c8, 3) as any as S.Schema<UserAccess>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2064,9 +2064,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          notes: S.optional(S.String),
-          name: S.optional(S.String),
           quickPreview: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          notes: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateContainerVersionRequestVersionOptions" });
     case 1:
@@ -2074,8 +2074,8 @@ function __c0(j: number): any {
         S.Extend(
           __S(0, __c0, 0),
           S.Struct({
-            containerId: S.String.pipe(T.Label()),
             accountId: S.String.pipe(T.Label()),
+            containerId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2085,37 +2085,30 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateAccountsContainersVersionsRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          compilerError: S.optional(S.Boolean),
-          containerVersion: S.optional(__S(40, __c5, 0)),
-        }),
-      ).annotate({ identifier: "CreateContainerVersionResponse" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(464, __c58, 0));
+      return S.Array(__S(472, __c59, 0));
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(484, __c60, 4));
+      return S.Array(__S(492, __c61, 4));
   }
 }
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(506, __c63, 2));
+      return S.Array(__S(514, __c64, 2));
   }
 }
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(520, __c65, 0));
+      return S.Array(__S(528, __c66, 0));
   }
 }
 function __c5(j: number): any {
@@ -2123,18 +2116,18 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deleted: S.optional(S.Boolean),
           tag: S.optional(__S(16, __c2, 0)),
           name: S.optional(S.String),
+          containerVersionId: S.optional(S.String),
           trigger: S.optional(__S(24, __c3, 0)),
+          deleted: S.optional(S.Boolean),
+          folder: S.optional(__S(8, __c1, 0)),
+          container: S.optional(__S(328, __c41, 0)),
           accountId: S.optional(S.String),
           notes: S.optional(S.String),
-          folder: S.optional(__S(8, __c1, 0)),
           fingerprint: S.optional(S.String),
-          containerId: S.optional(S.String),
           variable: S.optional(__S(32, __c4, 0)),
-          container: S.optional(__S(320, __c40, 0)),
-          containerVersionId: S.optional(S.String),
+          containerId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerVersion" });
   }
@@ -2143,8 +2136,19 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          containerVersion: S.optional(__S(40, __c5, 0)),
+          compilerError: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CreateContainerVersionResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(59, __c7, 3),
+          __S(67, __c8, 3),
           S.Struct({
             accountId: S.String.pipe(T.Label()),
           }),
@@ -2158,42 +2162,42 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateAccountsPermissionsRequest" });
   }
 }
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          permission: S.optional(__S(312, __c39, 0)),
-        }),
-      ).annotate({ identifier: "AccountAccess" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          permission: S.optional(__S(312, __c39, 0)),
-          containerId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ContainerAccess" });
-    case 2:
-      return S.Array(__S(57, __c7, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.optional(S.String),
-          accountAccess: S.optional(__S(56, __c7, 0)),
-          permissionId: S.optional(S.String),
-          emailAddress: S.optional(S.String),
-          containerAccess: S.optional(__S(58, __c7, 2)),
-        }),
-      ).annotate({ identifier: "UserAccess" });
-  }
-}
 function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.String.pipe(T.Label()),
+          permission: S.optional(__S(320, __c40, 0)),
+        }),
+      ).annotate({ identifier: "AccountAccess" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          containerId: S.optional(S.String),
+          permission: S.optional(__S(320, __c40, 0)),
+        }),
+      ).annotate({ identifier: "ContainerAccess" });
+    case 2:
+      return S.Array(__S(65, __c8, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          accountAccess: S.optional(__S(64, __c8, 0)),
+          containerAccess: S.optional(__S(66, __c8, 2)),
+          permissionId: S.optional(S.String),
+          emailAddress: S.optional(S.String),
+          accountId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserAccess" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           containerId: S.String.pipe(T.Label()),
+          accountId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2204,7 +2208,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteAccountsContainersRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -2212,14 +2216,14 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          environmentId: S.String.pipe(T.Label()),
           containerId: S.String.pipe(T.Label()),
           accountId: S.String.pipe(T.Label()),
-          environmentId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2230,14 +2234,14 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteAccountsContainersEnvironmentsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          folderId: S.String.pipe(T.Label()),
           accountId: S.String.pipe(T.Label()),
           containerId: S.String.pipe(T.Label()),
-          folderId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2248,14 +2252,14 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteAccountsContainersFoldersRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          containerId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
           tagId: S.String.pipe(T.Label()),
+          accountId: S.String.pipe(T.Label()),
+          containerId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2266,14 +2270,14 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteAccountsContainersTagsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           triggerId: S.String.pipe(T.Label()),
-          containerId: S.String.pipe(T.Label()),
           accountId: S.String.pipe(T.Label()),
+          containerId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2284,7 +2288,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteAccountsContainersTriggersRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2302,14 +2306,14 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteAccountsContainersVariablesRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          containerVersionId: S.String.pipe(T.Label()),
           containerId: S.String.pipe(T.Label()),
+          containerVersionId: S.String.pipe(T.Label()),
+          accountId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2320,13 +2324,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteAccountsContainersVersionsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.String.pipe(T.Label()),
           permissionId: S.String.pipe(T.Label()),
+          accountId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2337,7 +2341,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteAccountsPermissionsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2353,7 +2357,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetAccountsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2366,13 +2370,13 @@ function __c18(j: number): any {
       ).annotate({ identifier: "Account" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          containerId: S.String.pipe(T.Label()),
           accountId: S.String.pipe(T.Label()),
+          containerId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2383,13 +2387,13 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetAccountsContainersRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.String.pipe(T.Label()),
           containerId: S.String.pipe(T.Label()),
+          accountId: S.String.pipe(T.Label()),
           environmentId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -2401,14 +2405,14 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetAccountsContainersEnvironmentsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.String.pipe(T.Label()),
           containerId: S.String.pipe(T.Label()),
           folderId: S.String.pipe(T.Label()),
+          accountId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2419,14 +2423,14 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetAccountsContainersFoldersRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          containerId: S.String.pipe(T.Label()),
-          tagId: S.String.pipe(T.Label()),
           accountId: S.String.pipe(T.Label()),
+          tagId: S.String.pipe(T.Label()),
+          containerId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2437,7 +2441,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetAccountsContainersTagsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2455,13 +2459,13 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetAccountsContainersTriggersRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          containerId: S.String.pipe(T.Label()),
           accountId: S.String.pipe(T.Label()),
+          containerId: S.String.pipe(T.Label()),
           variableId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -2473,7 +2477,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetAccountsContainersVariablesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2491,7 +2495,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetAccountsContainersVersionsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2508,7 +2512,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetAccountsPermissionsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2521,16 +2525,16 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountsRequest" });
     case 1:
-      return S.Array(__S(144, __c18, 0));
+      return S.Array(__S(152, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          accounts: S.optional(__S(217, __c27, 1)),
+          accounts: S.optional(__S(225, __c28, 1)),
         }),
       ).annotate({ identifier: "ListAccountsResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2545,16 +2549,16 @@ function __c28(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountsContainersRequest" });
     case 1:
-      return S.Array(__S(320, __c40, 0));
+      return S.Array(__S(328, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          containers: S.optional(__S(225, __c28, 1)),
+          containers: S.optional(__S(233, __c29, 1)),
         }),
       ).annotate({ identifier: "ListContainersResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2570,22 +2574,22 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountsContainersEnvironmentsRequest" });
     case 1:
-      return S.Array(__S(424, __c53, 0));
+      return S.Array(__S(432, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          environments: S.optional(__S(233, __c29, 1)),
+          environments: S.optional(__S(241, __c30, 1)),
         }),
       ).annotate({ identifier: "ListEnvironmentsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.String.pipe(T.Label()),
           containerId: S.String.pipe(T.Label()),
+          accountId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2602,14 +2606,14 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ListFoldersResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label()),
-          folderId: S.String.pipe(T.Label()),
           containerId: S.String.pipe(T.Label()),
+          folderId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2628,13 +2632,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "FolderEntities" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.String.pipe(T.Label()),
           containerId: S.String.pipe(T.Label()),
+          accountId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2651,7 +2655,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ListTagsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2674,7 +2678,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ListTriggersResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2697,15 +2701,15 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ListVariablesResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(S.Boolean.pipe(T.Query())),
-          containerId: S.String.pipe(T.Label()),
           includeDeleted: S.optional(S.Boolean.pipe(T.Query())),
+          containerId: S.String.pipe(T.Label()),
           accountId: S.String.pipe(T.Label()),
+          headers: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2719,28 +2723,28 @@ function __c35(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          containerVersionId: S.optional(S.String),
+          numTriggers: S.optional(S.String),
           containerId: S.optional(S.String),
           numVariables: S.optional(S.String),
           accountId: S.optional(S.String),
-          numTriggers: S.optional(S.String),
           numTags: S.optional(S.String),
           deleted: S.optional(S.Boolean),
-          containerVersionId: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerVersionHeader" });
     case 3:
-      return S.Array(__S(282, __c35, 2));
+      return S.Array(__S(290, __c36, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          containerVersion: S.optional(__S(281, __c35, 1)),
-          containerVersionHeader: S.optional(__S(283, __c35, 3)),
+          containerVersion: S.optional(__S(289, __c36, 1)),
+          containerVersionHeader: S.optional(__S(291, __c36, 3)),
         }),
       ).annotate({ identifier: "ListContainerVersionsResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2755,23 +2759,23 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountsPermissionsRequest" });
     case 1:
-      return S.Array(__S(59, __c7, 3));
+      return S.Array(__S(67, __c8, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          userAccess: S.optional(__S(289, __c36, 1)),
+          userAccess: S.optional(__S(297, __c37, 1)),
         }),
       ).annotate({ identifier: "ListAccountUsersResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           fingerprint: S.optional(S.String.pipe(T.Query())),
-          accountId: S.String.pipe(T.Label()),
           containerVersionId: S.String.pipe(T.Label()),
+          accountId: S.String.pipe(T.Label()),
           containerId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -2781,21 +2785,14 @@ function __c37(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PublishAccountsContainersVersionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          containerVersion: S.optional(__S(40, __c5, 0)),
-          compilerError: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "PublishContainerVersionResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(320, __c40, 0),
+          __S(328, __c41, 0),
           S.Struct({
             accountId: S.String.pipe(T.Label()),
           }),
@@ -2809,46 +2806,46 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CreateAccountsContainersRequest" });
   }
 }
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          fingerprint: S.optional(S.String),
-          accountId: S.optional(S.String),
-          timeZoneCountryId: S.optional(S.String),
-          name: S.optional(S.String),
-          containerId: S.optional(S.String),
-          notes: S.optional(S.String),
-          domainName: S.optional(__S(328, __c41, 0)),
-          publicId: S.optional(S.String),
-          usageContext: S.optional(__S(312, __c39, 0)),
-          enabledBuiltInVariable: S.optional(__S(312, __c39, 0)),
-          timeZoneId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Container" });
+      return S.Array(S.String);
   }
 }
 function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          containerId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          accountId: S.optional(S.String),
+          timeZoneId: S.optional(S.String),
+          timeZoneCountryId: S.optional(S.String),
+          publicId: S.optional(S.String),
+          usageContext: S.optional(__S(320, __c40, 0)),
+          domainName: S.optional(__S(336, __c42, 0)),
+          notes: S.optional(S.String),
+          name: S.optional(S.String),
+          enabledBuiltInVariable: S.optional(__S(320, __c40, 0)),
+        }),
+      ).annotate({ identifier: "Container" });
   }
 }
 function __c42(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          containerId: S.String.pipe(T.Label()),
           accountId: S.String.pipe(T.Label()),
           containerVersionId: S.String.pipe(T.Label()),
+          containerId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2859,14 +2856,14 @@ function __c42(j: number): any {
       ).annotate({ identifier: "RestoreAccountsContainersVersionsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          accountId: S.String.pipe(T.Label()),
           containerId: S.String.pipe(T.Label()),
           containerVersionId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2877,12 +2874,12 @@ function __c43(j: number): any {
       ).annotate({ identifier: "UndeleteAccountsContainersVersionsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(144, __c18, 0),
+          __S(152, __c19, 0),
           S.Struct({
             fingerprint: S.optional(S.String.pipe(T.Query())),
             accountId: S.String.pipe(T.Label()),
@@ -2897,16 +2894,16 @@ function __c44(j: number): any {
       ).annotate({ identifier: "UpdateAccountsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(320, __c40, 0),
+          __S(328, __c41, 0),
           S.Struct({
-            fingerprint: S.optional(S.String.pipe(T.Query())),
             accountId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2918,12 +2915,12 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UpdateAccountsContainersRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(424, __c53, 0),
+          __S(432, __c54, 0),
           S.Struct({
             fingerprint: S.optional(S.String.pipe(T.Query())),
             environmentId: S.String.pipe(T.Label()),
@@ -2940,16 +2937,16 @@ function __c46(j: number): any {
       ).annotate({ identifier: "UpdateAccountsContainersEnvironmentsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(464, __c58, 0),
+          __S(472, __c59, 0),
           S.Struct({
+            accountId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
             folderId: S.String.pipe(T.Label()),
-            accountId: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -2962,19 +2959,19 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UpdateAccountsContainersFoldersRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(464, __c58, 0),
+          __S(472, __c59, 0),
           S.Struct({
-            containerId: S.String.pipe(T.Label()),
-            variableId: S.optional(__S(328, __c41, 0).pipe(T.Query())),
-            accountId: S.String.pipe(T.Label()),
+            tagId: S.optional(__S(336, __c42, 0).pipe(T.Query())),
             folderId: S.String.pipe(T.Label()),
-            tagId: S.optional(__S(328, __c41, 0).pipe(T.Query())),
-            triggerId: S.optional(__S(328, __c41, 0).pipe(T.Query())),
+            accountId: S.String.pipe(T.Label()),
+            triggerId: S.optional(__S(336, __c42, 0).pipe(T.Query())),
+            containerId: S.String.pipe(T.Label()),
+            variableId: S.optional(__S(336, __c42, 0).pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2986,16 +2983,16 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UpdateAccountsContainersMove_foldersRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(424, __c53, 0),
+          __S(432, __c54, 0),
           S.Struct({
-            environmentId: S.String.pipe(T.Label()),
-            containerId: S.String.pipe(T.Label()),
             accountId: S.String.pipe(T.Label()),
+            containerId: S.String.pipe(T.Label()),
+            environmentId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3007,16 +3004,16 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UpdateAccountsContainersReauthorize_environmentsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(484, __c60, 4),
+          __S(492, __c61, 4),
           S.Struct({
             containerId: S.String.pipe(T.Label()),
-            accountId: S.String.pipe(T.Label()),
             tagId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -3029,17 +3026,17 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UpdateAccountsContainersTagsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(506, __c63, 2),
+          __S(514, __c64, 2),
           S.Struct({
-            triggerId: S.String.pipe(T.Label()),
-            fingerprint: S.optional(S.String.pipe(T.Query())),
             containerId: S.String.pipe(T.Label()),
+            triggerId: S.String.pipe(T.Label()),
             accountId: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -3051,15 +3048,15 @@ function __c51(j: number): any {
       ).annotate({ identifier: "UpdateAccountsContainersTriggersRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(424, __c53, 0),
+          __S(432, __c54, 0),
           S.Struct({
-            accountId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3071,38 +3068,38 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CreateAccountsContainersEnvironmentsRequest" });
   }
 }
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          description: S.optional(S.String),
-          authorizationTimestampMs: S.optional(S.String),
-          name: S.optional(S.String),
-          enableDebug: S.optional(S.Boolean),
-          accountId: S.optional(S.String),
-          fingerprint: S.optional(S.String),
-          authorizationCode: S.optional(S.String),
-          environmentId: S.optional(S.String),
-          url: S.optional(S.String),
-          containerId: S.optional(S.String),
-          containerVersionId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Environment" });
-  }
-}
 function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          authorizationTimestampMs: S.optional(S.String),
+          authorizationCode: S.optional(S.String),
+          enableDebug: S.optional(S.Boolean),
+          accountId: S.optional(S.String),
+          url: S.optional(S.String),
+          environmentId: S.optional(S.String),
+          containerVersionId: S.optional(S.String),
+          type: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          containerId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Environment" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(520, __c65, 0),
+          __S(528, __c66, 0),
           S.Struct({
-            containerId: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
             variableId: S.String.pipe(T.Label()),
             accountId: S.String.pipe(T.Label()),
-            fingerprint: S.optional(S.String.pipe(T.Query())),
+            containerId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3114,16 +3111,16 @@ function __c54(j: number): any {
       ).annotate({ identifier: "UpdateAccountsContainersVariablesRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
           __S(40, __c5, 0),
           S.Struct({
-            accountId: S.String.pipe(T.Label()),
             containerVersionId: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
+            accountId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -3136,12 +3133,12 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpdateAccountsContainersVersionsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(59, __c7, 3),
+          __S(67, __c8, 3),
           S.Struct({
             accountId: S.String.pipe(T.Label()),
             permissionId: S.String.pipe(T.Label()),
@@ -3156,15 +3153,15 @@ function __c56(j: number): any {
       ).annotate({ identifier: "UpdateAccountsPermissionsRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(464, __c58, 0),
+          __S(472, __c59, 0),
           S.Struct({
-            containerId: S.String.pipe(T.Label()),
             accountId: S.String.pipe(T.Label()),
+            containerId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3176,26 +3173,26 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CreateAccountsContainersFoldersRequest" });
   }
 }
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.optional(S.String),
-          folderId: S.optional(S.String),
-          containerId: S.optional(S.String),
-          name: S.optional(S.String),
-          fingerprint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Folder" });
-  }
-}
 function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          containerId: S.optional(S.String),
+          name: S.optional(S.String),
+          folderId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          accountId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Folder" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(484, __c60, 4),
+          __S(492, __c61, 4),
           S.Struct({
             accountId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
@@ -3210,74 +3207,74 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreateAccountsContainersTagsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          stopTeardownOnFailure: S.optional(S.Boolean),
-          tagName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TeardownTag" });
-    case 1:
-      return S.Array(__S(480, __c60, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           stopOnSetupFailure: S.optional(S.Boolean),
           tagName: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetupTag" });
+    case 1:
+      return S.Array(__S(488, __c61, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          tagName: S.optional(S.String),
+          stopTeardownOnFailure: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TeardownTag" });
     case 3:
-      return S.Array(__S(482, __c60, 2));
+      return S.Array(__S(490, __c61, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          notes: S.optional(S.String),
-          liveOnly: S.optional(S.Boolean),
-          firingTriggerId: S.optional(__S(328, __c41, 0)),
-          blockingTriggerId: S.optional(__S(328, __c41, 0)),
-          scheduleEndMs: S.optional(S.String),
           parentFolderId: S.optional(S.String),
-          parameter: S.optional(__S(489, __c61, 1)),
-          fingerprint: S.optional(S.String),
-          paused: S.optional(S.Boolean),
-          teardownTag: S.optional(__S(481, __c60, 1)),
-          accountId: S.optional(S.String),
-          priority: S.optional(__S(488, __c61, 0)),
-          scheduleStartMs: S.optional(S.String),
+          firingTriggerId: S.optional(__S(336, __c42, 0)),
+          liveOnly: S.optional(S.Boolean),
           name: S.optional(S.String),
-          tagFiringOption: S.optional(S.String),
-          tagId: S.optional(S.String),
-          setupTag: S.optional(__S(483, __c60, 3)),
-          containerId: S.optional(S.String),
+          paused: S.optional(S.Boolean),
+          scheduleEndMs: S.optional(S.String),
+          blockingTriggerId: S.optional(__S(336, __c42, 0)),
+          fingerprint: S.optional(S.String),
           type: S.optional(S.String),
+          notes: S.optional(S.String),
+          priority: S.optional(__S(497, __c62, 1)),
+          containerId: S.optional(S.String),
+          tagId: S.optional(S.String),
+          parameter: S.optional(__S(496, __c62, 0)),
+          scheduleStartMs: S.optional(S.String),
+          accountId: S.optional(S.String),
+          tagFiringOption: S.optional(S.String),
+          setupTag: S.optional(__S(489, __c61, 1)),
+          teardownTag: S.optional(__S(491, __c61, 3)),
         }),
       ).annotate({ identifier: "Tag" });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          list: S.optional(S.suspend(() => __S(489, __c61, 1))),
-          type: S.optional(S.String),
-          map: S.optional(S.suspend(() => __S(489, __c61, 1))),
-          value: S.optional(S.String),
-          key: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Parameter" });
-    case 1:
-      return S.Array(__S(488, __c61, 0));
   }
 }
 function __c62(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(497, __c62, 1)));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          list: S.optional(__S(496, __c62, 0)),
+          map: S.optional(__S(496, __c62, 0)),
+          type: S.optional(S.String),
+          key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Parameter" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(506, __c63, 2),
+          __S(514, __c64, 2),
           S.Struct({
             accountId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
@@ -3292,61 +3289,61 @@ function __c62(j: number): any {
       ).annotate({ identifier: "CreateAccountsContainersTriggersRequest" });
   }
 }
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parameter: S.optional(__S(489, __c61, 1)),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Condition" });
-    case 1:
-      return S.Array(__S(504, __c63, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          filter: S.optional(__S(505, __c63, 1)),
-          limit: S.optional(__S(488, __c61, 0)),
-          type: S.optional(S.String),
-          visiblePercentageMax: S.optional(__S(488, __c61, 0)),
-          horizontalScrollPercentageList: S.optional(__S(488, __c61, 0)),
-          eventName: S.optional(__S(488, __c61, 0)),
-          intervalSeconds: S.optional(__S(488, __c61, 0)),
-          autoEventFilter: S.optional(__S(505, __c63, 1)),
-          customEventFilter: S.optional(__S(505, __c63, 1)),
-          interval: S.optional(__S(488, __c61, 0)),
-          fingerprint: S.optional(S.String),
-          maxTimerLengthSeconds: S.optional(__S(488, __c61, 0)),
-          waitForTagsTimeout: S.optional(__S(488, __c61, 0)),
-          visiblePercentageMin: S.optional(__S(488, __c61, 0)),
-          uniqueTriggerId: S.optional(__S(488, __c61, 0)),
-          verticalScrollPercentageList: S.optional(__S(488, __c61, 0)),
-          triggerId: S.optional(S.String),
-          selector: S.optional(__S(488, __c61, 0)),
-          waitForTags: S.optional(__S(488, __c61, 0)),
-          visibilitySelector: S.optional(__S(488, __c61, 0)),
-          containerId: S.optional(S.String),
-          totalTimeMinMilliseconds: S.optional(__S(488, __c61, 0)),
-          continuousTimeMinMilliseconds: S.optional(__S(488, __c61, 0)),
-          accountId: S.optional(S.String),
-          checkValidation: S.optional(__S(488, __c61, 0)),
-          name: S.optional(S.String),
-          parameter: S.optional(__S(489, __c61, 1)),
-          parentFolderId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Trigger" });
-  }
-}
 function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          parameter: S.optional(__S(496, __c62, 0)),
+        }),
+      ).annotate({ identifier: "Condition" });
+    case 1:
+      return S.Array(__S(512, __c64, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          parameter: S.optional(__S(496, __c62, 0)),
+          accountId: S.optional(S.String),
+          triggerId: S.optional(S.String),
+          autoEventFilter: S.optional(__S(513, __c64, 1)),
+          uniqueTriggerId: S.optional(__S(497, __c62, 1)),
+          eventName: S.optional(__S(497, __c62, 1)),
+          visibilitySelector: S.optional(__S(497, __c62, 1)),
+          continuousTimeMinMilliseconds: S.optional(__S(497, __c62, 1)),
+          type: S.optional(S.String),
+          visiblePercentageMax: S.optional(__S(497, __c62, 1)),
+          selector: S.optional(__S(497, __c62, 1)),
+          containerId: S.optional(S.String),
+          horizontalScrollPercentageList: S.optional(__S(497, __c62, 1)),
+          fingerprint: S.optional(S.String),
+          name: S.optional(S.String),
+          visiblePercentageMin: S.optional(__S(497, __c62, 1)),
+          interval: S.optional(__S(497, __c62, 1)),
+          checkValidation: S.optional(__S(497, __c62, 1)),
+          totalTimeMinMilliseconds: S.optional(__S(497, __c62, 1)),
+          parentFolderId: S.optional(S.String),
+          verticalScrollPercentageList: S.optional(__S(497, __c62, 1)),
+          waitForTagsTimeout: S.optional(__S(497, __c62, 1)),
+          customEventFilter: S.optional(__S(513, __c64, 1)),
+          limit: S.optional(__S(497, __c62, 1)),
+          maxTimerLengthSeconds: S.optional(__S(497, __c62, 1)),
+          waitForTags: S.optional(__S(497, __c62, 1)),
+          filter: S.optional(__S(513, __c64, 1)),
+          intervalSeconds: S.optional(__S(497, __c62, 1)),
+        }),
+      ).annotate({ identifier: "Trigger" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(520, __c65, 0),
+          __S(528, __c66, 0),
           S.Struct({
-            containerId: S.String.pipe(T.Label()),
             accountId: S.String.pipe(T.Label()),
+            containerId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3358,24 +3355,24 @@ function __c64(j: number): any {
       ).annotate({ identifier: "CreateAccountsContainersVariablesRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          scheduleEndMs: S.optional(S.String),
+          enablingTriggerId: S.optional(__S(336, __c42, 0)),
+          parentFolderId: S.optional(S.String),
+          name: S.optional(S.String),
           containerId: S.optional(S.String),
           type: S.optional(S.String),
-          variableId: S.optional(S.String),
-          scheduleEndMs: S.optional(S.String),
-          parentFolderId: S.optional(S.String),
-          scheduleStartMs: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          disablingTriggerId: S.optional(__S(336, __c42, 0)),
           accountId: S.optional(S.String),
           notes: S.optional(S.String),
-          parameter: S.optional(__S(489, __c61, 1)),
-          fingerprint: S.optional(S.String),
-          disablingTriggerId: S.optional(__S(328, __c41, 0)),
-          enablingTriggerId: S.optional(__S(328, __c41, 0)),
-          name: S.optional(S.String),
+          parameter: S.optional(__S(496, __c62, 0)),
+          scheduleStartMs: S.optional(S.String),
+          variableId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Variable" });
   }

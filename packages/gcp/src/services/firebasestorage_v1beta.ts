@@ -98,14 +98,14 @@ export interface Bucket {
 }
 /** Spark tier-eligible Cloud Storage bucket. One per project. This resource exists if the underlying Cloud Storage bucket exists and it is linked to your Firebase project. See https://firebase.google.com/pricing for pricing details. */
 export interface DefaultBucket {
-  /** Output only. Underlying bucket resource. */
-  bucket?: Bucket | undefined;
+  /** Immutable. Storage class of the default bucket. Supported values are available at https://cloud.google.com/storage/docs/storage-classes#classes. */
+  storageClass?: string | undefined;
   /** Identifier. Resource name of the default bucket. */
   name?: string | undefined;
   /** Required. Immutable. Location of the default bucket. */
   location?: string | undefined;
-  /** Immutable. Storage class of the default bucket. Supported values are available at https://cloud.google.com/storage/docs/storage-classes#classes. */
-  storageClass?: string | undefined;
+  /** Output only. Underlying bucket resource. */
+  bucket?: Bucket | undefined;
 }
 export interface CreateProjectsDefaultBucketRequest extends DefaultBucket {
   /** Required. The parent resource where the default bucket will be created, `projects/{project_id_or_number}`. */
@@ -126,10 +126,10 @@ export interface GetProjectsBucketsRequest {
   name: string;
 }
 export interface ListProjectsBucketsRequest {
-  /** A page token, received from a previous `ListBuckets` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBuckets` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** The maximum number of buckets to return. If not set, the server will use a reasonable default. */
   pageSize?: number | undefined;
+  /** A page token, received from a previous `ListBuckets` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBuckets` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. Resource name of the parent Firebase project, `projects/{project_id_or_number}`. */
   parent: string;
 }
@@ -365,10 +365,10 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bucket: S.optional(__S(8, __c2, 0)),
+          storageClass: S.optional(S.String),
           name: S.optional(S.String),
           location: S.optional(S.String),
-          storageClass: S.optional(S.String),
+          bucket: S.optional(__S(8, __c2, 0)),
         }),
       ).annotate({ identifier: "DefaultBucket" });
   }
@@ -426,8 +426,8 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({

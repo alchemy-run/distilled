@@ -96,25 +96,25 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: GoogleRpcStatus | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
 }
 /** Request message for CloudChannelService.CancelEntitlement. */
 export type GoogleCloudChannelV1CancelEntitlementRequest =
@@ -135,39 +135,39 @@ export interface CancelOperationsRequest {
 export interface GoogleProtobufEmpty {}
 /** Data type and value of a parameter. */
 export interface GoogleCloudChannelV1Value {
+  /** Represents a string value. */
+  stringValue?: string | undefined;
   /** Represents a double value. */
   doubleValue?: number | undefined;
+  /** Represents a boolean value. */
+  boolValue?: boolean | undefined;
   /** Represents an int64 value. */
   int64Value?: string | undefined;
   /** Represents an 'Any' proto value. */
   protoValue?: DocumentMap | undefined;
-  /** Represents a boolean value. */
-  boolValue?: boolean | undefined;
-  /** Represents a string value. */
-  stringValue?: string | undefined;
 }
 /** Definition for extended entitlement parameters. */
 export interface GoogleCloudChannelV1Parameter {
   /** Name of the parameter. */
   name?: string | undefined;
-  /** Value of the parameter. */
-  value?: GoogleCloudChannelV1Value | undefined;
   /** Output only. Specifies whether this parameter is allowed to be changed. For example, for a Google Workspace Business Starter entitlement in commitment plan, num_units is editable when entitlement is active. */
   editable?: boolean | undefined;
+  /** Value of the parameter. */
+  value?: GoogleCloudChannelV1Value | undefined;
 }
 export type GoogleCloudChannelV1ParameterList = Array<GoogleCloudChannelV1Parameter>;
 /** Request message for CloudChannelService.ChangeOffer. */
 export interface GoogleCloudChannelV1ChangeOfferRequest {
-  /** Optional. The billing account resource name that is used to pay for this entitlement when setting up billing on a trial subscription. This field is only relevant for multi-currency accounts. It should be left empty for single currency accounts. */
-  billingAccount?: string | undefined;
-  /** Optional. Price reference ID for the offer. Only for offers that require additional price information. Used to guarantee that the pricing is consistent between quoting the offer and placing the order. */
-  priceReferenceId?: string | undefined;
   /** Optional. You can specify an optional unique request ID, and if you need to retry your request, the server will know to ignore the request if it's complete. For example, you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if it received the original operation with the same request ID. If it did, it will ignore the second request. The request ID must be a valid [UUID](https://tools.ietf.org/html/rfc4122) with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
   requestId?: string | undefined;
-  /** Optional. Purchase order id provided by the reseller. */
-  purchaseOrderId?: string | undefined;
   /** Required. New Offer. Format: accounts/{account_id}/offers/{offer_id}. */
   offer?: string | undefined;
+  /** Optional. Price reference ID for the offer. Only for offers that require additional price information. Used to guarantee that the pricing is consistent between quoting the offer and placing the order. */
+  priceReferenceId?: string | undefined;
+  /** Optional. Purchase order id provided by the reseller. */
+  purchaseOrderId?: string | undefined;
+  /** Optional. The billing account resource name that is used to pay for this entitlement when setting up billing on a trial subscription. This field is only relevant for multi-currency accounts. It should be left empty for single currency accounts. */
+  billingAccount?: string | undefined;
   /** Optional. Parameters needed to purchase the Offer. To view the available Parameters refer to the Offer.parameter_definitions from the desired offer. */
   parameters?: GoogleCloudChannelV1ParameterList | undefined;
 }
@@ -179,10 +179,10 @@ export interface ChangeOfferAccountsCustomersEntitlementsRequest extends GoogleC
 export interface GoogleCloudChannelV1ChangeParametersRequest {
   /** Optional. Purchase order ID provided by the reseller. */
   purchaseOrderId?: string | undefined;
-  /** Optional. You can specify an optional unique request ID, and if you need to retry your request, the server will know to ignore the request if it's complete. For example, you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if it received the original operation with the same request ID. If it did, it will ignore the second request. The request ID must be a valid [UUID](https://tools.ietf.org/html/rfc4122) with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
-  requestId?: string | undefined;
   /** Required. Entitlement parameters to update. You can only change editable parameters. To view the available Parameters for a request, refer to the Offer.parameter_definitions from the desired offer. */
   parameters?: GoogleCloudChannelV1ParameterList | undefined;
+  /** Optional. You can specify an optional unique request ID, and if you need to retry your request, the server will know to ignore the request if it's complete. For example, you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if it received the original operation with the same request ID. If it did, it will ignore the second request. The request ID must be a valid [UUID](https://tools.ietf.org/html/rfc4122) with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
+  requestId?: string | undefined;
 }
 export interface ChangeParametersAccountsCustomersEntitlementsRequest extends GoogleCloudChannelV1ChangeParametersRequest {
   /** Required. The name of the entitlement to update. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
@@ -202,21 +202,21 @@ export type GoogleCloudChannelV1PeriodPeriodTypeEnum =
   | "YEAR";
 /** Represents period in days/months/years. */
 export interface GoogleCloudChannelV1Period {
-  /** Total duration of Period Type defined. */
-  duration?: number | undefined;
   /** Period Type. */
   periodType?: GoogleCloudChannelV1PeriodPeriodTypeEnum | (string & {}) | undefined;
+  /** Total duration of Period Type defined. */
+  duration?: number | undefined;
 }
 /** Renewal settings for renewable Offers. */
 export interface GoogleCloudChannelV1RenewalSettings {
+  /** If false, the plan will be completed at the end date. */
+  enableRenewal?: boolean | undefined;
   /** If true and enable_renewal = true, the unit (for example seats or licenses) will be set to the number of active units at renewal time. */
   resizeUnitCount?: boolean | undefined;
   /** Describes how a reseller will be billed. */
   paymentPlan?: GoogleCloudChannelV1RenewalSettingsPaymentPlanEnum | (string & {}) | undefined;
   /** Describes how frequently the reseller will be billed, such as once per month. */
   paymentCycle?: GoogleCloudChannelV1Period | undefined;
-  /** If false, the plan will be completed at the end date. */
-  enableRenewal?: boolean | undefined;
 }
 /** Request message for CloudChannelService.ChangeRenewalSettings. */
 export interface GoogleCloudChannelV1ChangeRenewalSettingsRequest {
@@ -231,10 +231,10 @@ export interface ChangeRenewalSettingsAccountsCustomersEntitlementsRequest exten
 }
 /** Request message for CloudChannelService.CheckCloudIdentityAccountsExist. */
 export interface GoogleCloudChannelV1CheckCloudIdentityAccountsExistRequest {
-  /** Optional. Primary admin email to fetch for Cloud Identity account team customer. */
-  primaryAdminEmail?: string | undefined;
   /** Required. Domain to fetch for Cloud Identity account customers, including domain and team customers. For team customers, please use the domain for their emails. */
   domain?: string | undefined;
+  /** Optional. Primary admin email to fetch for Cloud Identity account team customer. */
+  primaryAdminEmail?: string | undefined;
 }
 export interface CheckCloudIdentityAccountsExistAccountsRequest extends GoogleCloudChannelV1CheckCloudIdentityAccountsExistRequest {
   /** Required. The reseller account's resource name. Parent uses the format: accounts/{account_id} */
@@ -246,18 +246,18 @@ export type GoogleCloudChannelV1CloudIdentityCustomerAccountCustomerTypeEnum =
   | "TEAM";
 /** Entity representing a Cloud Identity account that may be associated with a Channel Services API partner. */
 export interface GoogleCloudChannelV1CloudIdentityCustomerAccount {
-  /** If existing = true, the Cloud Identity ID of the customer. */
-  customerCloudIdentityId?: string | undefined;
-  /** If existing = true, the type of the customer. */
-  customerType?: GoogleCloudChannelV1CloudIdentityCustomerAccountCustomerTypeEnum | undefined;
-  /** If existing = true, and is 2-tier customer, the channel partner of the customer. */
-  channelPartnerCloudIdentityId?: string | undefined;
-  /** If owned = true, the name of the customer that owns the Cloud Identity account. Customer_name uses the format: accounts/{account_id}/customers/{customer_id} */
-  customerName?: string | undefined;
-  /** Returns true if the Cloud Identity account is associated with a customer of the Channel Services partner (with active subscriptions or purchase consents). */
-  owned?: boolean | undefined;
   /** Returns true if a Cloud Identity account exists for a specific domain. */
   existing?: boolean | undefined;
+  /** If existing = true, and is 2-tier customer, the channel partner of the customer. */
+  channelPartnerCloudIdentityId?: string | undefined;
+  /** Returns true if the Cloud Identity account is associated with a customer of the Channel Services partner (with active subscriptions or purchase consents). */
+  owned?: boolean | undefined;
+  /** If owned = true, the name of the customer that owns the Cloud Identity account. Customer_name uses the format: accounts/{account_id}/customers/{customer_id} */
+  customerName?: string | undefined;
+  /** If existing = true, the type of the customer. */
+  customerType?: GoogleCloudChannelV1CloudIdentityCustomerAccountCustomerTypeEnum | undefined;
+  /** If existing = true, the Cloud Identity ID of the customer. */
+  customerCloudIdentityId?: string | undefined;
 }
 export type GoogleCloudChannelV1CloudIdentityCustomerAccountList =
   Array<GoogleCloudChannelV1CloudIdentityCustomerAccount>;
@@ -266,10 +266,6 @@ export interface GoogleCloudChannelV1CheckCloudIdentityAccountsExistResponse {
   /** The Cloud Identity accounts associated with the domain. */
   cloudIdentityAccounts?: GoogleCloudChannelV1CloudIdentityCustomerAccountList | undefined;
 }
-export type GoogleCloudChannelV1CloudIdentityInfoCustomerTypeEnum =
-  | "CUSTOMER_TYPE_UNSPECIFIED"
-  | "DOMAIN"
-  | "TEAM";
 export type GoogleCloudChannelV1EduDataInstituteTypeEnum =
   | "INSTITUTE_TYPE_UNSPECIFIED"
   | "K12"
@@ -292,22 +288,26 @@ export interface GoogleCloudChannelV1EduData {
   /** Web address for the edu customer's institution. */
   website?: string | undefined;
 }
+export type GoogleCloudChannelV1CloudIdentityInfoCustomerTypeEnum =
+  | "CUSTOMER_TYPE_UNSPECIFIED"
+  | "DOMAIN"
+  | "TEAM";
 /** Cloud Identity information for the Cloud Channel Customer. */
 export interface GoogleCloudChannelV1CloudIdentityInfo {
-  /** Language code. */
-  languageCode?: string | undefined;
-  /** Output only. URI of Customer's Admin console dashboard. */
-  adminConsoleUri?: string | undefined;
+  /** Edu information about the customer. */
+  eduData?: GoogleCloudChannelV1EduData | undefined;
   /** Output only. The primary domain name. */
   primaryDomain?: string | undefined;
-  /** CustomerType indicates verification type needed for using services. */
-  customerType?: GoogleCloudChannelV1CloudIdentityInfoCustomerTypeEnum | (string & {}) | undefined;
+  /** Output only. URI of Customer's Admin console dashboard. */
+  adminConsoleUri?: string | undefined;
   /** Output only. Whether the domain is verified. This field is not returned for a Customer's cloud_identity_info resource. Partners can use the domains.get() method of the Workspace SDK's Directory API, or listen to the PRIMARY_DOMAIN_VERIFIED Pub/Sub event in to track domain verification of their resolve Workspace customers. */
   isDomainVerified?: boolean | undefined;
   /** The alternate email. */
   alternateEmail?: string | undefined;
-  /** Edu information about the customer. */
-  eduData?: GoogleCloudChannelV1EduData | undefined;
+  /** CustomerType indicates verification type needed for using services. */
+  customerType?: GoogleCloudChannelV1CloudIdentityInfoCustomerTypeEnum | (string & {}) | undefined;
+  /** Language code. */
+  languageCode?: string | undefined;
   /** Phone number associated with the Cloud Identity. */
   phoneNumber?: string | undefined;
 }
@@ -319,27 +319,35 @@ export type GoogleCloudChannelV1ChannelPartnerLinkLinkStateEnum =
   | "SUSPENDED";
 /** Entity representing a link between distributors and their indirect resellers in an n-tier resale channel. */
 export interface GoogleCloudChannelV1ChannelPartnerLink {
-  /** Required. Cloud Identity ID of the linked reseller. */
-  resellerCloudIdentityId?: string | undefined;
-  /** Output only. Timestamp of when the channel partner link is updated. */
-  updateTime?: string | undefined;
-  /** Output only. Cloud Identity info of the channel partner (IR). */
-  channelPartnerCloudIdentityInfo?: GoogleCloudChannelV1CloudIdentityInfo | undefined;
-  /** Output only. Public identifier that a customer must use to generate a transfer token to move to this distributor-reseller combination. */
-  publicId?: string | undefined;
-  /** Output only. Resource name for the channel partner link, in the format accounts/{account_id}/channelPartnerLinks/{id}. */
-  name?: string | undefined;
-  /** Required. State of the channel partner link. */
-  linkState?: GoogleCloudChannelV1ChannelPartnerLinkLinkStateEnum | (string & {}) | undefined;
-  /** Output only. URI of the web page where partner accepts the link invitation. */
-  inviteLinkUri?: string | undefined;
   /** Output only. Timestamp of when the channel partner link is created. */
   createTime?: string | undefined;
+  /** Output only. Cloud Identity info of the channel partner (IR). */
+  channelPartnerCloudIdentityInfo?: GoogleCloudChannelV1CloudIdentityInfo | undefined;
+  /** Required. State of the channel partner link. */
+  linkState?: GoogleCloudChannelV1ChannelPartnerLinkLinkStateEnum | (string & {}) | undefined;
+  /** Output only. Timestamp of when the channel partner link is updated. */
+  updateTime?: string | undefined;
+  /** Output only. Resource name for the channel partner link, in the format accounts/{account_id}/channelPartnerLinks/{id}. */
+  name?: string | undefined;
+  /** Output only. Public identifier that a customer must use to generate a transfer token to move to this distributor-reseller combination. */
+  publicId?: string | undefined;
+  /** Required. Cloud Identity ID of the linked reseller. */
+  resellerCloudIdentityId?: string | undefined;
+  /** Output only. URI of the web page where partner accepts the link invitation. */
+  inviteLinkUri?: string | undefined;
 }
 export interface CreateAccountsChannelPartnerLinksRequest extends GoogleCloudChannelV1ChannelPartnerLink {
   /** Required. Create a channel partner link for the provided reseller account's resource name. Parent uses the format: accounts/{account_id} */
   parent: string;
 }
+/** Applies the repricing configuration at the entitlement level. */
+export interface GoogleCloudChannelV1RepricingConfigEntitlementGranularity {
+  /** Resource name of the entitlement. Format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
+  entitlement?: string | undefined;
+}
+/** Applies the repricing configuration at the channel partner level. The channel partner value is derived from the resource name. Takes an empty json object. Deprecated: This is no longer supported. Use RepricingConfig.EntitlementGranularity instead. */
+export type GoogleCloudChannelV1RepricingConfigChannelPartnerGranularity =
+  GoogleLongrunningCancelOperationRequest;
 /** A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html) or Python's [decimal.Decimal](https://docs.python.org/3/library/decimal.html). */
 export interface GoogleTypeDecimal {
   /** The decimal value, as a string. The string representation consists of an optional sign, `+` (`U+002B`) or `-` (`U+002D`), followed by a sequence of zero or more decimal digits ("the integer"), optionally followed by a fraction, optionally followed by an exponent. An empty string **should** be interpreted as `0`. The fraction consists of a decimal point followed by zero or more decimal digits. The string must contain at least one digit in either the integer or the fraction. The number formed by the sign, the integer and the fraction is referred to as the significand. The exponent consists of the character `e` (`U+0065`) or `E` (`U+0045`) followed by one or more decimal digits. Services **should** normalize decimal values before storing them by: - Removing an explicitly-provided `+` sign (`+2.5` -> `2.5`). - Replacing a zero-length integer value with `0` (`.5` -> `0.5`). - Coercing the exponent character to upper-case, with explicit sign (`2.5e8` -> `2.5E+8`). - Removing an explicitly-provided zero exponent (`2.5E0` -> `2.5`). Services **may** perform additional normalization based on its own needs and the internal decimal implementation selected, such as shifting the decimal point and exponent value together (example: `2.5E-1` <-> `0.25`). Additionally, services **may** preserve trailing zeroes in the fraction to indicate increased precision, but are not required to do so. Note that only the `.` character is supported to divide the integer and the fraction; `,` **should not** be supported regardless of locale. Additionally, thousand separators **should not** be supported. If a service does support them, values **must** be normalized. The ENBF grammar is: DecimalString = '' | [Sign] Significand [Exponent]; Sign = '+' | '-'; Significand = Digits '.' | [Digits] '.' Digits; Exponent = ('e' | 'E') [Sign] Digits; Digits = { '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' }; Services **should** clearly document the range of supported values, the maximum supported precision (total number of digits), and, if applicable, the scale (number of digits after the decimal point), as well as how it behaves when receiving out-of-bounds values. Services **may** choose to accept values passed as input even when the value has a higher precision or scale than the service supports, and **should** round the value to fit the supported scale. Alternatively, the service **may** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC) if precision would be lost. Services **should** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC) if the service receives a value outside of the supported range. */
@@ -355,13 +363,19 @@ export interface GoogleCloudChannelV1RepricingAdjustment {
   /** Flat markup or markdown on an entire bill. */
   percentageAdjustment?: GoogleCloudChannelV1PercentageAdjustment | undefined;
 }
-/** Applies the repricing configuration at the channel partner level. The channel partner value is derived from the resource name. Takes an empty json object. Deprecated: This is no longer supported. Use RepricingConfig.EntitlementGranularity instead. */
-export type GoogleCloudChannelV1RepricingConfigChannelPartnerGranularity =
-  GoogleLongrunningCancelOperationRequest;
 export type GoogleCloudChannelV1RepricingConfigRebillingBasisEnum =
   | "REBILLING_BASIS_UNSPECIFIED"
   | "COST_AT_LIST"
   | "DIRECT_CUSTOMER_COST";
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface GoogleTypeDate {
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
+}
 export type GoogleCloudChannelV1ConditionalOverrideRebillingBasisEnum =
   | "REBILLING_BASIS_UNSPECIFIED"
   | "COST_AT_LIST"
@@ -378,141 +392,127 @@ export interface GoogleCloudChannelV1RepricingCondition {
 }
 /** Specifies the override to conditionally apply. */
 export interface GoogleCloudChannelV1ConditionalOverride {
+  /** Required. Information about the applied override's adjustment. */
+  adjustment?: GoogleCloudChannelV1RepricingAdjustment | undefined;
   /** Required. The RebillingBasis to use for the applied override. Shows the relative cost based on your repricing costs. */
   rebillingBasis?:
     | GoogleCloudChannelV1ConditionalOverrideRebillingBasisEnum
     | (string & {})
     | undefined;
-  /** Required. Information about the applied override's adjustment. */
-  adjustment?: GoogleCloudChannelV1RepricingAdjustment | undefined;
   /** Required. Specifies the condition which, if met, will apply the override. */
   repricingCondition?: GoogleCloudChannelV1RepricingCondition | undefined;
 }
 export type GoogleCloudChannelV1ConditionalOverrideList =
   Array<GoogleCloudChannelV1ConditionalOverride>;
-/** Applies the repricing configuration at the entitlement level. */
-export interface GoogleCloudChannelV1RepricingConfigEntitlementGranularity {
-  /** Resource name of the entitlement. Format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
-  entitlement?: string | undefined;
-}
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface GoogleTypeDate {
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number | undefined;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number | undefined;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
-}
 /** Configuration for repricing a Google bill over a period of time. */
 export interface GoogleCloudChannelV1RepricingConfig {
-  /** Required. Information about the adjustment. */
-  adjustment?: GoogleCloudChannelV1RepricingAdjustment | undefined;
+  /** Required. Applies the repricing configuration at the entitlement level. Note: If a ChannelPartnerRepricingConfig using RepricingConfig.EntitlementGranularity becomes effective, then no existing or future RepricingConfig.ChannelPartnerGranularity will apply to the RepricingConfig.EntitlementGranularity.entitlement. This is the recommended value for both CustomerRepricingConfig and ChannelPartnerRepricingConfig. */
+  entitlementGranularity?: GoogleCloudChannelV1RepricingConfigEntitlementGranularity | undefined;
   /** Applies the repricing configuration at the channel partner level. Only ChannelPartnerRepricingConfig supports this value. Deprecated: This is no longer supported. Use RepricingConfig.entitlement_granularity instead. */
   channelPartnerGranularity?: GoogleLongrunningCancelOperationRequest | undefined;
+  /** Required. Information about the adjustment. */
+  adjustment?: GoogleCloudChannelV1RepricingAdjustment | undefined;
   /** Required. The RebillingBasis to use for this bill. Specifies the relative cost based on repricing costs you will apply. */
   rebillingBasis?:
     | GoogleCloudChannelV1RepricingConfigRebillingBasisEnum
     | (string & {})
     | undefined;
-  /** The conditional overrides to apply for this configuration. If you list multiple overrides, only the first valid override is used. If you don't list any overrides, the API uses the normal adjustment and rebilling basis. */
-  conditionalOverrides?: GoogleCloudChannelV1ConditionalOverrideList | undefined;
-  /** Required. Applies the repricing configuration at the entitlement level. Note: If a ChannelPartnerRepricingConfig using RepricingConfig.EntitlementGranularity becomes effective, then no existing or future RepricingConfig.ChannelPartnerGranularity will apply to the RepricingConfig.EntitlementGranularity.entitlement. This is the recommended value for both CustomerRepricingConfig and ChannelPartnerRepricingConfig. */
-  entitlementGranularity?: GoogleCloudChannelV1RepricingConfigEntitlementGranularity | undefined;
   /** Required. The YearMonth when these adjustments activate. The Day field needs to be "0" since we only accept YearMonth repricing boundaries. */
   effectiveInvoiceMonth?: GoogleTypeDate | undefined;
+  /** The conditional overrides to apply for this configuration. If you list multiple overrides, only the first valid override is used. If you don't list any overrides, the API uses the normal adjustment and rebilling basis. */
+  conditionalOverrides?: GoogleCloudChannelV1ConditionalOverrideList | undefined;
 }
 /** Configuration for how a distributor will rebill a channel partner (also known as a distributor-authorized reseller). */
 export interface GoogleCloudChannelV1ChannelPartnerRepricingConfig {
   /** Output only. Timestamp of an update to the repricing rule. If `update_time` is after RepricingConfig.effective_invoice_month then it indicates this was set mid-month. */
   updateTime?: string | undefined;
-  /** Required. The configuration for bill modifications made by a reseller before sending it to ChannelPartner. */
-  repricingConfig?: GoogleCloudChannelV1RepricingConfig | undefined;
   /** Output only. Resource name of the ChannelPartnerRepricingConfig. Format: accounts/{account_id}/channelPartnerLinks/{channel_partner_id}/channelPartnerRepricingConfigs/{id}. */
   name?: string | undefined;
+  /** Required. The configuration for bill modifications made by a reseller before sending it to ChannelPartner. */
+  repricingConfig?: GoogleCloudChannelV1RepricingConfig | undefined;
 }
 export interface CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest extends GoogleCloudChannelV1ChannelPartnerRepricingConfig {
   /** Required. The resource name of the ChannelPartner that will receive the repricing config. Parent uses the format: accounts/{account_id}/channelPartnerLinks/{channel_partner_id} */
   parent: string;
 }
-export type StringList = Array<string>;
-/** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
-export interface GoogleTypePostalAddress {
-  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
-  sortingCode?: string | undefined;
-  /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
-  recipients?: StringList | undefined;
-  /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
-  languageCode?: string | undefined;
-  /** Optional. The name of the organization at the address. */
-  organization?: string | undefined;
-  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
-  administrativeArea?: string | undefined;
-  /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
-  sublocality?: string | undefined;
-  /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
-  locality?: string | undefined;
-  /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
-  regionCode?: string | undefined;
-  /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
-  addressLines?: StringList | undefined;
-  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
-  revision?: number | undefined;
-  /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
-  postalCode?: string | undefined;
-}
-/** Contact information for a customer account. */
-export interface GoogleCloudChannelV1ContactInfo {
-  /** The customer account's contact phone number. */
-  phone?: string | undefined;
-  /** Optional. The customer account contact's job title. */
-  title?: string | undefined;
-  /** The customer account contact's first name. Optional for Team customers. */
-  firstName?: string | undefined;
-  /** Output only. The customer account contact's display name, formatted as a combination of the customer's first and last name. */
-  displayName?: string | undefined;
-  /** The customer account contact's last name. Optional for Team customers. */
-  lastName?: string | undefined;
-  /** The customer account's contact email. Required for entitlements that create admin.google.com accounts, and serves as the customer's username for those accounts. Use this email to invite Team customers. */
-  email?: string | undefined;
-}
 export type GoogleCloudChannelV1CustomerCustomerAttestationStateEnum =
   | "CUSTOMER_ATTESTATION_STATE_UNSPECIFIED"
   | "EXEMPT"
   | "NON_EXEMPT_AND_INFO_VERIFIED";
+export type StringList = Array<string>;
+/** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
+export interface GoogleTypePostalAddress {
+  /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
+  sublocality?: string | undefined;
+  /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
+  locality?: string | undefined;
+  /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
+  postalCode?: string | undefined;
+  /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
+  recipients?: StringList | undefined;
+  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
+  sortingCode?: string | undefined;
+  /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
+  languageCode?: string | undefined;
+  /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
+  addressLines?: StringList | undefined;
+  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
+  administrativeArea?: string | undefined;
+  /** Optional. The name of the organization at the address. */
+  organization?: string | undefined;
+  /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
+  regionCode?: string | undefined;
+  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
+  revision?: number | undefined;
+}
+/** Contact information for a customer account. */
+export interface GoogleCloudChannelV1ContactInfo {
+  /** The customer account's contact email. Required for entitlements that create admin.google.com accounts, and serves as the customer's username for those accounts. Use this email to invite Team customers. */
+  email?: string | undefined;
+  /** The customer account's contact phone number. */
+  phone?: string | undefined;
+  /** Optional. The customer account contact's job title. */
+  title?: string | undefined;
+  /** The customer account contact's last name. Optional for Team customers. */
+  lastName?: string | undefined;
+  /** The customer account contact's first name. Optional for Team customers. */
+  firstName?: string | undefined;
+  /** Output only. The customer account contact's display name, formatted as a combination of the customer's first and last name. */
+  displayName?: string | undefined;
+}
 /** Entity representing a customer of a reseller or distributor. */
 export interface GoogleCloudChannelV1Customer {
-  /** Required. The organization address for the customer. To enforce US laws and embargoes, we require a region, postal code, and address lines. You must provide valid addresses for every customer. To set the customer's language, use the Customer-level language code. */
-  orgPostalAddress?: GoogleTypePostalAddress | undefined;
-  /** Required. The customer's primary domain. Must match the primary contact email's domain. */
-  domain?: string | undefined;
-  /** Cloud Identity ID of the customer's channel partner. Populated only if a channel partner exists for this customer. */
-  channelPartnerId?: string | undefined;
-  /** Primary contact info. */
-  primaryContactInfo?: GoogleCloudChannelV1ContactInfo | undefined;
-  /** Output only. Time when the customer was updated. */
-  updateTime?: string | undefined;
-  /** Optional. External CRM ID for the customer. Populated only if a CRM ID exists for this customer. */
-  correlationId?: string | undefined;
   /** Optional. Indicate if a customer is attesting about the correctness of provided information. Only required if creating a GCP Entitlement. NOTE: This field will be mandatory for all new GCP customers starting Aug 31st, 2026 and this field will also be required for all existing customers purchasing new GCP Entitlements. */
   customerAttestationState?:
     | GoogleCloudChannelV1CustomerCustomerAttestationStateEnum
     | (string & {})
     | undefined;
-  /** Optional. The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see https://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
-  languageCode?: string | undefined;
-  /** Secondary contact email. You need to provide an alternate email to create different domains if a primary contact email already exists. Users will receive a notification with credentials when you create an admin.google.com account. Secondary emails are also recovery email addresses. Alternate emails are optional when you create Team customers. */
-  alternateEmail?: string | undefined;
-  /** Output only. Time when the customer was created. */
-  createTime?: string | undefined;
-  /** Output only. Cloud Identity information for the customer. Populated only if a Cloud Identity account exists for this customer. */
-  cloudIdentityInfo?: GoogleCloudChannelV1CloudIdentityInfo | undefined;
-  /** Output only. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
-  name?: string | undefined;
-  /** Required. Name of the organization that the customer entity represents. */
-  orgDisplayName?: string | undefined;
+  /** Required. The organization address for the customer. To enforce US laws and embargoes, we require a region, postal code, and address lines. You must provide valid addresses for every customer. To set the customer's language, use the Customer-level language code. */
+  orgPostalAddress?: GoogleTypePostalAddress | undefined;
   /** Output only. The customer's Cloud Identity ID if the customer has a Cloud Identity resource. */
   cloudIdentityId?: string | undefined;
+  /** Output only. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
+  name?: string | undefined;
+  /** Cloud Identity ID of the customer's channel partner. Populated only if a channel partner exists for this customer. */
+  channelPartnerId?: string | undefined;
+  /** Output only. Time when the customer was updated. */
+  updateTime?: string | undefined;
+  /** Required. The customer's primary domain. Must match the primary contact email's domain. */
+  domain?: string | undefined;
+  /** Optional. External CRM ID for the customer. Populated only if a CRM ID exists for this customer. */
+  correlationId?: string | undefined;
+  /** Secondary contact email. You need to provide an alternate email to create different domains if a primary contact email already exists. Users will receive a notification with credentials when you create an admin.google.com account. Secondary emails are also recovery email addresses. Alternate emails are optional when you create Team customers. */
+  alternateEmail?: string | undefined;
+  /** Output only. Cloud Identity information for the customer. Populated only if a Cloud Identity account exists for this customer. */
+  cloudIdentityInfo?: GoogleCloudChannelV1CloudIdentityInfo | undefined;
+  /** Optional. The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see https://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
+  languageCode?: string | undefined;
+  /** Output only. Time when the customer was created. */
+  createTime?: string | undefined;
+  /** Required. Name of the organization that the customer entity represents. */
+  orgDisplayName?: string | undefined;
+  /** Primary contact info. */
+  primaryContactInfo?: GoogleCloudChannelV1ContactInfo | undefined;
 }
 export interface CreateAccountsChannelPartnerLinksCustomersRequest extends GoogleCloudChannelV1Customer {
   /** Required. The resource name of reseller account in which to create the customer. Parent uses the format: accounts/{account_id} */
@@ -524,27 +524,37 @@ export interface CreateAccountsCustomersRequest extends GoogleCloudChannelV1Cust
 }
 /** Configuration for how a reseller will reprice a Customer. */
 export interface GoogleCloudChannelV1CustomerRepricingConfig {
-  /** Output only. Timestamp of an update to the repricing rule. If `update_time` is after RepricingConfig.effective_invoice_month then it indicates this was set mid-month. */
-  updateTime?: string | undefined;
-  /** Required. The configuration for bill modifications made by a reseller before sending it to customers. */
-  repricingConfig?: GoogleCloudChannelV1RepricingConfig | undefined;
   /** Output only. Resource name of the CustomerRepricingConfig. Format: accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}. */
   name?: string | undefined;
+  /** Required. The configuration for bill modifications made by a reseller before sending it to customers. */
+  repricingConfig?: GoogleCloudChannelV1RepricingConfig | undefined;
+  /** Output only. Timestamp of an update to the repricing rule. If `update_time` is after RepricingConfig.effective_invoice_month then it indicates this was set mid-month. */
+  updateTime?: string | undefined;
 }
 export interface CreateAccountsCustomersCustomerRepricingConfigsRequest extends GoogleCloudChannelV1CustomerRepricingConfig {
   /** Required. The resource name of the customer that will receive this repricing config. Parent uses the format: accounts/{account_id}/customers/{customer_id} */
   parent: string;
 }
-/** Association links that an entitlement has to other entitlements. */
-export interface GoogleCloudChannelV1AssociationInfo {
-  /** The name of the base entitlement, for which this entitlement is an add-on. */
-  baseEntitlement?: string | undefined;
+export type GoogleCloudChannelV1EntitlementProvisioningStateEnum =
+  | "PROVISIONING_STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "SUSPENDED";
+/** Service provisioned for an entitlement. */
+export interface GoogleCloudChannelV1ProvisionedService {
+  /** Output only. Provisioning ID of the entitlement. For Google Workspace, this is the underlying Subscription ID. For Google Cloud, this is the Billing Account ID of the billing subaccount. */
+  provisioningId?: string | undefined;
+  /** Output only. The product pertaining to the provisioning resource as specified in the Offer. */
+  productId?: string | undefined;
+  /** Output only. The SKU pertaining to the provisioning resource as specified in the Offer. */
+  skuId?: string | undefined;
 }
-/** Settings for trial offers. */
-export interface GoogleCloudChannelV1TrialSettings {
-  /** Determines if the entitlement is in a trial or not: * `true` - The entitlement is in trial. * `false` - The entitlement is not in trial. */
-  trial?: boolean | undefined;
-  /** Date when the trial ends. The value is in milliseconds using the UNIX Epoch format. See an example [Epoch converter](https://www.epochconverter.com). */
+/** Commitment settings for commitment-based offers. */
+export interface GoogleCloudChannelV1CommitmentSettings {
+  /** Optional. Renewal settings applicable for a commitment-based Offer. */
+  renewalSettings?: GoogleCloudChannelV1RenewalSettings | undefined;
+  /** Output only. Commitment start timestamp. */
+  startTime?: string | undefined;
+  /** Output only. Commitment end timestamp. */
   endTime?: string | undefined;
 }
 export type GoogleCloudChannelV1EntitlementSuspensionReasonsItemEnum =
@@ -557,61 +567,51 @@ export type GoogleCloudChannelV1EntitlementSuspensionReasonsItemEnum =
 export type GoogleCloudChannelV1EntitlementSuspensionReasonsItemEnumList = Array<
   GoogleCloudChannelV1EntitlementSuspensionReasonsItemEnum | (string & {})
 >;
-/** Commitment settings for commitment-based offers. */
-export interface GoogleCloudChannelV1CommitmentSettings {
-  /** Output only. Commitment start timestamp. */
-  startTime?: string | undefined;
-  /** Output only. Commitment end timestamp. */
+/** Settings for trial offers. */
+export interface GoogleCloudChannelV1TrialSettings {
+  /** Determines if the entitlement is in a trial or not: * `true` - The entitlement is in trial. * `false` - The entitlement is not in trial. */
+  trial?: boolean | undefined;
+  /** Date when the trial ends. The value is in milliseconds using the UNIX Epoch format. See an example [Epoch converter](https://www.epochconverter.com). */
   endTime?: string | undefined;
-  /** Optional. Renewal settings applicable for a commitment-based Offer. */
-  renewalSettings?: GoogleCloudChannelV1RenewalSettings | undefined;
 }
-/** Service provisioned for an entitlement. */
-export interface GoogleCloudChannelV1ProvisionedService {
-  /** Output only. Provisioning ID of the entitlement. For Google Workspace, this is the underlying Subscription ID. For Google Cloud, this is the Billing Account ID of the billing subaccount. */
-  provisioningId?: string | undefined;
-  /** Output only. The product pertaining to the provisioning resource as specified in the Offer. */
-  productId?: string | undefined;
-  /** Output only. The SKU pertaining to the provisioning resource as specified in the Offer. */
-  skuId?: string | undefined;
+/** Association links that an entitlement has to other entitlements. */
+export interface GoogleCloudChannelV1AssociationInfo {
+  /** The name of the base entitlement, for which this entitlement is an add-on. */
+  baseEntitlement?: string | undefined;
 }
-export type GoogleCloudChannelV1EntitlementProvisioningStateEnum =
-  | "PROVISIONING_STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "SUSPENDED";
 /** An entitlement is a representation of a customer's ability to use a service. */
 export interface GoogleCloudChannelV1Entitlement {
-  /** Association information to other entitlements. */
-  associationInfo?: GoogleCloudChannelV1AssociationInfo | undefined;
-  /** Optional. The billing account resource name that is used to pay for this entitlement. */
-  billingAccount?: string | undefined;
-  /** Optional. This purchase order (PO) information is for resellers to use for their company tracking usage. If a purchaseOrderId value is given, it appears in the API responses and shows up in the invoice. The property accepts up to 80 plain text characters. This is only supported for Google Workspace entitlements. */
-  purchaseOrderId?: string | undefined;
-  /** Output only. Settings for trial offers. */
-  trialSettings?: GoogleCloudChannelV1TrialSettings | undefined;
-  /** Output only. The time at which the entitlement is created. */
-  createTime?: string | undefined;
-  /** Output only. Enumerable of all current suspension reasons for an entitlement. */
-  suspensionReasons?: GoogleCloudChannelV1EntitlementSuspensionReasonsItemEnumList | undefined;
-  /** Required. The offer resource name for which the entitlement is to be created. Takes the form: accounts/{account_id}/offers/{offer_id}. */
-  offer?: string | undefined;
-  /** Output only. The time at which the entitlement is updated. */
-  updateTime?: string | undefined;
-  /** Commitment settings for a commitment-based Offer. Required for commitment based offers. */
-  commitmentSettings?: GoogleCloudChannelV1CommitmentSettings | undefined;
-  /** Output only. Service provisioning details for the entitlement. */
-  provisionedService?: GoogleCloudChannelV1ProvisionedService | undefined;
   /** Output only. Current provisioning state of the entitlement. */
   provisioningState?:
     | GoogleCloudChannelV1EntitlementProvisioningStateEnum
     | (string & {})
     | undefined;
-  /** Extended entitlement parameters. When creating an entitlement, valid parameter names and values are defined in the Offer.parameter_definitions. For Google Workspace, the following Parameters may be accepted as input: - max_units: The maximum assignable units for a flexible offer OR - num_units: The total commitment for commitment-based offers The response may additionally include the following output-only Parameters: - assigned_units: The number of licenses assigned to users. For Google Cloud billing subaccounts, the following Parameter may be accepted as input: - display_name: The display name of the billing subaccount. */
-  parameters?: GoogleCloudChannelV1ParameterList | undefined;
-  /** Optional. Price reference ID for the offer. Only for offers that require additional price information. Used to guarantee that the pricing is consistent between quoting the offer and placing the order. */
-  priceReferenceId?: string | undefined;
   /** Output only. Resource name of an entitlement in the form: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}. */
   name?: string | undefined;
+  /** Output only. Service provisioning details for the entitlement. */
+  provisionedService?: GoogleCloudChannelV1ProvisionedService | undefined;
+  /** Output only. The time at which the entitlement is updated. */
+  updateTime?: string | undefined;
+  /** Required. The offer resource name for which the entitlement is to be created. Takes the form: accounts/{account_id}/offers/{offer_id}. */
+  offer?: string | undefined;
+  /** Commitment settings for a commitment-based Offer. Required for commitment based offers. */
+  commitmentSettings?: GoogleCloudChannelV1CommitmentSettings | undefined;
+  /** Output only. The time at which the entitlement is created. */
+  createTime?: string | undefined;
+  /** Output only. Enumerable of all current suspension reasons for an entitlement. */
+  suspensionReasons?: GoogleCloudChannelV1EntitlementSuspensionReasonsItemEnumList | undefined;
+  /** Optional. The billing account resource name that is used to pay for this entitlement. */
+  billingAccount?: string | undefined;
+  /** Optional. Price reference ID for the offer. Only for offers that require additional price information. Used to guarantee that the pricing is consistent between quoting the offer and placing the order. */
+  priceReferenceId?: string | undefined;
+  /** Output only. Settings for trial offers. */
+  trialSettings?: GoogleCloudChannelV1TrialSettings | undefined;
+  /** Association information to other entitlements. */
+  associationInfo?: GoogleCloudChannelV1AssociationInfo | undefined;
+  /** Extended entitlement parameters. When creating an entitlement, valid parameter names and values are defined in the Offer.parameter_definitions. For Google Workspace, the following Parameters may be accepted as input: - max_units: The maximum assignable units for a flexible offer OR - num_units: The total commitment for commitment-based offers The response may additionally include the following output-only Parameters: - assigned_units: The number of licenses assigned to users. For Google Cloud billing subaccounts, the following Parameter may be accepted as input: - display_name: The display name of the billing subaccount. */
+  parameters?: GoogleCloudChannelV1ParameterList | undefined;
+  /** Optional. This purchase order (PO) information is for resellers to use for their company tracking usage. If a purchaseOrderId value is given, it appears in the API responses and shows up in the invoice. The property accepts up to 80 plain text characters. This is only supported for Google Workspace entitlements. */
+  purchaseOrderId?: string | undefined;
 }
 /** Request message for CloudChannelService.CreateEntitlement */
 export interface GoogleCloudChannelV1CreateEntitlementRequest {
@@ -646,16 +646,25 @@ export interface DeleteOperationsRequest {
 }
 /** Request message for CloudChannelReportsService.FetchReportResults. */
 export interface GoogleCloudChannelV1FetchReportResultsRequest {
+  /** Optional. A token that specifies a page of results beyond the first page. Obtained through FetchReportResultsResponse.next_page_token of the previous CloudChannelReportsService.FetchReportResults call. */
+  pageToken?: string | undefined;
   /** Optional. List of keys specifying which report partitions to return. If empty, returns all partitions. */
   partitionKeys?: StringList | undefined;
   /** Optional. Requested page size of the report. The server may return fewer results than requested. If you don't specify a page size, the server uses a sensible default (may change over time). The maximum value is 30,000; the server will change larger values to 30,000. */
   pageSize?: number | undefined;
-  /** Optional. A token that specifies a page of results beyond the first page. Obtained through FetchReportResultsResponse.next_page_token of the previous CloudChannelReportsService.FetchReportResults call. */
-  pageToken?: string | undefined;
 }
 export interface FetchReportResultsAccountsReportJobsRequest extends GoogleCloudChannelV1FetchReportResultsRequest {
   /** Required. The report job created by CloudChannelReportsService.RunReportJob. Report_job uses the format: accounts/{account_id}/reportJobs/{report_job_id} */
   reportJob: string;
+}
+/** Represents an amount of money with its currency type. */
+export interface GoogleTypeMoney {
+  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
+  nanos?: number | undefined;
+  /** The three-letter currency code defined in ISO 4217. */
+  currencyCode?: string | undefined;
+  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
+  units?: string | undefined;
 }
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface GoogleTypeTimeZone {
@@ -666,48 +675,39 @@ export interface GoogleTypeTimeZone {
 }
 /** Represents civil time (or occasionally physical time). This type can represent a civil time in one of a few possible ways: * When utc_offset is set and time_zone is unset: a civil time on a calendar day with a particular offset from UTC. * When time_zone is set and utc_offset is unset: a civil time on a calendar day in a particular time zone. * When neither time_zone nor utc_offset is set: a civil time on a calendar day in local time. The date is relative to the Proleptic Gregorian Calendar. If year, month, or day are 0, the DateTime is considered not to have a specific year, month, or day respectively. This type may also be used to represent a physical time if all the date and time fields are set and either case of the `time_offset` oneof is set. Consider using `Timestamp` message for physical time instead. If your use case also would like to store the user's timezone, that can be done in another field. This type is more flexible than some applications may want. Make sure to document and validate your application's limitations. */
 export interface GoogleTypeDateTime {
+  /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
+  utcOffset?: string | undefined;
+  /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
+  year?: number | undefined;
+  /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number | undefined;
   /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
   month?: number | undefined;
   /** Time zone. */
   timeZone?: GoogleTypeTimeZone | undefined;
-  /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number | undefined;
-  /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
-  utcOffset?: string | undefined;
-  /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
-  minutes?: number | undefined;
-  /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
-  year?: number | undefined;
+  /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
+  nanos?: number | undefined;
   /** Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
   hours?: number | undefined;
   /** Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day. */
   day?: number | undefined;
-  /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
-  nanos?: number | undefined;
-}
-/** Represents an amount of money with its currency type. */
-export interface GoogleTypeMoney {
-  /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string | undefined;
-  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string | undefined;
-  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number | undefined;
+  /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
+  minutes?: number | undefined;
 }
 /** A single report value. */
 export interface GoogleCloudChannelV1ReportValue {
-  /** A value of type `string`. */
-  stringValue?: string | undefined;
-  /** A value of type `int`. */
-  intValue?: string | undefined;
+  /** A value of type `google.type.Money` (currency code, whole units, decimal units). */
+  moneyValue?: GoogleTypeMoney | undefined;
   /** A value of type `google.type.Decimal`, representing non-integer numeric values. */
   decimalValue?: GoogleTypeDecimal | undefined;
+  /** A value of type `int`. */
+  intValue?: string | undefined;
+  /** A value of type `string`. */
+  stringValue?: string | undefined;
   /** A value of type `google.type.Date` (year, month, day). */
   dateValue?: GoogleTypeDate | undefined;
   /** A value of type `google.type.DateTime` (year, month, day, hour, minute, second, and UTC offset or timezone.) */
   dateTimeValue?: GoogleTypeDateTime | undefined;
-  /** A value of type `google.type.Money` (currency code, whole units, decimal units). */
-  moneyValue?: GoogleTypeMoney | undefined;
 }
 export type GoogleCloudChannelV1ReportValueList = Array<GoogleCloudChannelV1ReportValue>;
 /** A row of report values. */
@@ -720,14 +720,14 @@ export interface GoogleCloudChannelV1Row {
 export type GoogleCloudChannelV1RowList = Array<GoogleCloudChannelV1Row>;
 /** A representation of usage or invoice date ranges. */
 export interface GoogleCloudChannelV1DateRange {
-  /** The latest usage date time (exclusive). If you use time groupings (daily, weekly, etc), each group uses midnight to midnight (Pacific time). The usage end date is rounded down to include all usage from the specified date. We recommend that clients pass `usage_start_date_time` in Pacific time. */
-  usageEndDateTime?: GoogleTypeDateTime | undefined;
-  /** The latest invoice date (inclusive). If this value is not the last day of a month, this will move it forward to the last day of the given month. */
-  invoiceEndDate?: GoogleTypeDate | undefined;
   /** The earliest invoice date (inclusive). If this value is not the first day of a month, this will move it back to the first day of the given month. */
   invoiceStartDate?: GoogleTypeDate | undefined;
   /** The earliest usage date time (inclusive). If you use time groupings (daily, weekly, etc), each group uses midnight to midnight (Pacific time). The usage start date is rounded down to include all usage from the specified date. We recommend that clients pass `usage_start_date_time` in Pacific time. */
   usageStartDateTime?: GoogleTypeDateTime | undefined;
+  /** The latest usage date time (exclusive). If you use time groupings (daily, weekly, etc), each group uses midnight to midnight (Pacific time). The usage end date is rounded down to include all usage from the specified date. We recommend that clients pass `usage_start_date_time` in Pacific time. */
+  usageEndDateTime?: GoogleTypeDateTime | undefined;
+  /** The latest invoice date (inclusive). If this value is not the last day of a month, this will move it forward to the last day of the given month. */
+  invoiceEndDate?: GoogleTypeDate | undefined;
 }
 export type GoogleCloudChannelV1ColumnDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -739,33 +739,33 @@ export type GoogleCloudChannelV1ColumnDataTypeEnum =
   | "DATE_TIME";
 /** The definition of a report column. Specifies the data properties in the corresponding position of the report rows. */
 export interface GoogleCloudChannelV1Column {
+  /** The type of the values for this column. */
+  dataType?: GoogleCloudChannelV1ColumnDataTypeEnum | undefined;
   /** The unique name of the column (for example, customer_domain, channel_partner, customer_cost). You can use column IDs in RunReportJobRequest.filter. To see all reports and their columns, call CloudChannelReportsService.ListReports. */
   columnId?: string | undefined;
   /** The column's display name. */
   displayName?: string | undefined;
-  /** The type of the values for this column. */
-  dataType?: GoogleCloudChannelV1ColumnDataTypeEnum | undefined;
 }
 export type GoogleCloudChannelV1ColumnList = Array<GoogleCloudChannelV1Column>;
 /** The ID and description of a report that was used to generate report data. For example, "Google Cloud Daily Spend", "Google Workspace License Activity", etc. */
 export interface GoogleCloudChannelV1Report {
+  /** The list of columns included in the report. This defines the schema of the report results. */
+  columns?: GoogleCloudChannelV1ColumnList | undefined;
+  /** A human-readable name for this report. */
+  displayName?: string | undefined;
   /** A description of other aspects of the report, such as the products it supports. */
   description?: string | undefined;
   /** Required. The report's resource name. Specifies the account and report used to generate report data. The report_id identifier is a UID (for example, `613bf59q`). Name uses the format: accounts/{account_id}/reports/{report_id} */
   name?: string | undefined;
-  /** A human-readable name for this report. */
-  displayName?: string | undefined;
-  /** The list of columns included in the report. This defines the schema of the report results. */
-  columns?: GoogleCloudChannelV1ColumnList | undefined;
 }
 /** The features describing the data. Returned by CloudChannelReportsService.RunReportJob and CloudChannelReportsService.FetchReportResults. */
 export interface GoogleCloudChannelV1ReportResultsMetadata {
+  /** The usage dates immediately preceding `date_range` with the same duration. Use this to calculate trending usage and costs. This is only populated if you request trending data. For example, if `date_range` is July 1-15, `preceding_date_range` will be June 16-30. */
+  precedingDateRange?: GoogleCloudChannelV1DateRange | undefined;
   /** The total number of rows of data in the final report. */
   rowCount?: string | undefined;
   /** The date range of reported usage. */
   dateRange?: GoogleCloudChannelV1DateRange | undefined;
-  /** The usage dates immediately preceding `date_range` with the same duration. Use this to calculate trending usage and costs. This is only populated if you request trending data. For example, if `date_range` is July 1-15, `preceding_date_range` will be June 16-30. */
-  precedingDateRange?: GoogleCloudChannelV1DateRange | undefined;
   /** Details of the completed report. */
   report?: GoogleCloudChannelV1Report | undefined;
 }
@@ -780,10 +780,10 @@ export interface GoogleCloudChannelV1FetchReportResultsResponse {
 }
 export type GetAccountsChannelPartnerLinksViewEnum = "UNSPECIFIED" | "BASIC" | "FULL";
 export interface GetAccountsChannelPartnerLinksRequest {
-  /** Optional. The level of granularity the ChannelPartnerLink will display. */
-  view?: GetAccountsChannelPartnerLinksViewEnum | (string & {}) | undefined;
   /** Required. The resource name of the channel partner link to retrieve. Name uses the format: accounts/{account_id}/channelPartnerLinks/{id} where {id} is the Cloud Identity ID of the partner. */
   name: string;
+  /** Optional. The level of granularity the ChannelPartnerLink will display. */
+  view?: GetAccountsChannelPartnerLinksViewEnum | (string & {}) | undefined;
 }
 export interface GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest {
   /** Required. The resource name of the ChannelPartnerRepricingConfig Format: accounts/{account_id}/channelPartnerLinks/{channel_partner_id}/channelPartnerRepricingConfigs/{id}. */
@@ -811,16 +811,16 @@ export interface GetOperationsRequest {
 }
 /** Request message for CloudChannelService.ImportCustomer */
 export interface GoogleCloudChannelV1ImportCustomerRequest {
-  /** Required. Customer's Cloud Identity ID */
-  cloudIdentityId?: string | undefined;
-  /** Optional. The super admin of the resold customer generates this token to authorize a reseller to access their Cloud Identity and purchase entitlements on their behalf. You can omit this token after authorization. See https://support.google.com/a/answer/7643790 for more details. */
-  authToken?: string | undefined;
-  /** Required. Customer domain. */
-  domain?: string | undefined;
-  /** Required. Choose to overwrite an existing customer if found. This must be set to true if there is an existing customer with a conflicting region code or domain. */
-  overwriteIfExists?: boolean | undefined;
   /** Required. Customer's primary admin email. */
   primaryAdminEmail?: string | undefined;
+  /** Required. Choose to overwrite an existing customer if found. This must be set to true if there is an existing customer with a conflicting region code or domain. */
+  overwriteIfExists?: boolean | undefined;
+  /** Optional. The super admin of the resold customer generates this token to authorize a reseller to access their Cloud Identity and purchase entitlements on their behalf. You can omit this token after authorization. See https://support.google.com/a/answer/7643790 for more details. */
+  authToken?: string | undefined;
+  /** Required. Customer's Cloud Identity ID */
+  cloudIdentityId?: string | undefined;
+  /** Required. Customer domain. */
+  domain?: string | undefined;
   /** Optional. Specifies the customer that will receive imported Cloud Identity information. Format: accounts/{account_id}/customers/{customer_id} */
   customer?: string | undefined;
   /** Optional. Cloud Identity ID of a channel partner who will be the direct reseller for the customer's order. This field is required for 2-tier transfer scenarios and can be provided via the request Parent binding as well. */
@@ -838,12 +838,12 @@ export type ListAccountsChannelPartnerLinksViewEnum = "UNSPECIFIED" | "BASIC" | 
 export interface ListAccountsChannelPartnerLinksRequest {
   /** Optional. Requested page size. Server might return fewer results than requested. If unspecified, server will pick a default size (25). The maximum value is 200; the server will coerce values above 200. */
   pageSize?: number | undefined;
-  /** Required. The resource name of the reseller account for listing channel partner links. Parent uses the format: accounts/{account_id} */
-  parent: string;
-  /** Optional. A token for a page of results other than the first page. Obtained using ListChannelPartnerLinksResponse.next_page_token of the previous CloudChannelService.ListChannelPartnerLinks call. */
-  pageToken?: string | undefined;
   /** Optional. The level of granularity the ChannelPartnerLink will display. */
   view?: ListAccountsChannelPartnerLinksViewEnum | (string & {}) | undefined;
+  /** Optional. A token for a page of results other than the first page. Obtained using ListChannelPartnerLinksResponse.next_page_token of the previous CloudChannelService.ListChannelPartnerLinks call. */
+  pageToken?: string | undefined;
+  /** Required. The resource name of the reseller account for listing channel partner links. Parent uses the format: accounts/{account_id} */
+  parent: string;
 }
 export type GoogleCloudChannelV1ChannelPartnerLinkList =
   Array<GoogleCloudChannelV1ChannelPartnerLink>;
@@ -855,14 +855,14 @@ export interface GoogleCloudChannelV1ListChannelPartnerLinksResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest {
-  /** Optional. A token identifying a page of results beyond the first page. Obtained through ListChannelPartnerRepricingConfigsResponse.next_page_token of the previous CloudChannelService.ListChannelPartnerRepricingConfigs call. */
-  pageToken?: string | undefined;
+  /** Optional. The maximum number of repricing configs to return. The service may return fewer than this value. If unspecified, returns a maximum of 50 rules. The maximum value is 100; values above 100 will be coerced to 100. */
+  pageSize?: number | undefined;
   /** Required. The resource name of the account's ChannelPartnerLink. Parent uses the format: accounts/{account_id}/channelPartnerLinks/{channel_partner_id}. Supports accounts/{account_id}/channelPartnerLinks/- to retrieve configs for all channel partners. */
   parent: string;
   /** Optional. A filter for [CloudChannelService.ListChannelPartnerRepricingConfigs] results (channel_partner_link only). You can use this filter when you support a BatchGet-like query. To use the filter, you must set `parent=accounts/{account_id}/channelPartnerLinks/-`. Example: `channel_partner_link = accounts/account_id/channelPartnerLinks/c1` OR `channel_partner_link = accounts/account_id/channelPartnerLinks/c2`. */
   filter?: string | undefined;
-  /** Optional. The maximum number of repricing configs to return. The service may return fewer than this value. If unspecified, returns a maximum of 50 rules. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number | undefined;
+  /** Optional. A token identifying a page of results beyond the first page. Obtained through ListChannelPartnerRepricingConfigsResponse.next_page_token of the previous CloudChannelService.ListChannelPartnerRepricingConfigs call. */
+  pageToken?: string | undefined;
 }
 export type GoogleCloudChannelV1ChannelPartnerRepricingConfigList =
   Array<GoogleCloudChannelV1ChannelPartnerRepricingConfig>;
@@ -888,30 +888,30 @@ export interface ListAccountsChannelPartnerLinksCustomersRequest {
 export type GoogleCloudChannelV1CustomerList = Array<GoogleCloudChannelV1Customer>;
 /** Response message for CloudChannelService.ListCustomers. */
 export interface GoogleCloudChannelV1ListCustomersResponse {
-  /** The customers belonging to a reseller or distributor. */
-  customers?: GoogleCloudChannelV1CustomerList | undefined;
   /** A token to retrieve the next page of results. Pass to ListCustomersRequest.page_token to obtain that page. */
   nextPageToken?: string | undefined;
+  /** The customers belonging to a reseller or distributor. */
+  customers?: GoogleCloudChannelV1CustomerList | undefined;
 }
 export interface ListAccountsCustomersRequest {
-  /** Optional. A token identifying a page of results other than the first page. Obtained through ListCustomersResponse.next_page_token of the previous CloudChannelService.ListCustomers call. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of customers to return. The service may return fewer than this value. If unspecified, returns at most 10 customers. The maximum value is 50. */
   pageSize?: number | undefined;
-  /** Required. The resource name of the reseller account to list customers from. Parent uses the format: accounts/{account_id}. */
-  parent: string;
   /** Optional. Filters applied to the [CloudChannelService.ListCustomers] results. See https://cloud.google.com/channel/docs/concepts/google-cloud/filter-customers for more information. */
   filter?: string | undefined;
+  /** Optional. A token identifying a page of results other than the first page. Obtained through ListCustomersResponse.next_page_token of the previous CloudChannelService.ListCustomers call. */
+  pageToken?: string | undefined;
+  /** Required. The resource name of the reseller account to list customers from. Parent uses the format: accounts/{account_id}. */
+  parent: string;
 }
 export interface ListAccountsCustomersCustomerRepricingConfigsRequest {
-  /** Optional. The maximum number of repricing configs to return. The service may return fewer than this value. If unspecified, returns a maximum of 50 rules. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number | undefined;
   /** Required. The resource name of the customer. Parent uses the format: accounts/{account_id}/customers/{customer_id}. Supports accounts/{account_id}/customers/- to retrieve configs for all customers. */
   parent: string;
-  /** Optional. A filter for [CloudChannelService.ListCustomerRepricingConfigs] results (customer only). You can use this filter when you support a BatchGet-like query. To use the filter, you must set `parent=accounts/{account_id}/customers/-`. Example: customer = accounts/account_id/customers/c1 OR customer = accounts/account_id/customers/c2. */
-  filter?: string | undefined;
+  /** Optional. The maximum number of repricing configs to return. The service may return fewer than this value. If unspecified, returns a maximum of 50 rules. The maximum value is 100; values above 100 will be coerced to 100. */
+  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results beyond the first page. Obtained through ListCustomerRepricingConfigsResponse.next_page_token of the previous CloudChannelService.ListCustomerRepricingConfigs call. */
   pageToken?: string | undefined;
+  /** Optional. A filter for [CloudChannelService.ListCustomerRepricingConfigs] results (customer only). You can use this filter when you support a BatchGet-like query. To use the filter, you must set `parent=accounts/{account_id}/customers/-`. Example: customer = accounts/account_id/customers/c1 OR customer = accounts/account_id/customers/c2. */
+  filter?: string | undefined;
 }
 export type GoogleCloudChannelV1CustomerRepricingConfigList =
   Array<GoogleCloudChannelV1CustomerRepricingConfig>;
@@ -923,63 +923,35 @@ export interface GoogleCloudChannelV1ListCustomerRepricingConfigsResponse {
   customerRepricingConfigs?: GoogleCloudChannelV1CustomerRepricingConfigList | undefined;
 }
 export interface ListAccountsCustomersEntitlementsRequest {
+  /** Optional. A token for a page of results other than the first page. Obtained using ListEntitlementsResponse.next_page_token of the previous CloudChannelService.ListEntitlements call. */
+  pageToken?: string | undefined;
   /** Required. The resource name of the reseller's customer account to list entitlements for. Parent uses the format: accounts/{account_id}/customers/{customer_id} */
   parent: string;
   /** Optional. Requested page size. Server might return fewer results than requested. If unspecified, return at most 50 entitlements. The maximum value is 100; the server will coerce values above 100. */
   pageSize?: number | undefined;
-  /** Optional. A token for a page of results other than the first page. Obtained using ListEntitlementsResponse.next_page_token of the previous CloudChannelService.ListEntitlements call. */
-  pageToken?: string | undefined;
 }
 export type GoogleCloudChannelV1EntitlementList = Array<GoogleCloudChannelV1Entitlement>;
 /** Response message for CloudChannelService.ListEntitlements. */
 export interface GoogleCloudChannelV1ListEntitlementsResponse {
-  /** The reseller customer's entitlements. */
-  entitlements?: GoogleCloudChannelV1EntitlementList | undefined;
   /** A token to list the next page of results. Pass to ListEntitlementsRequest.page_token to obtain that page. */
   nextPageToken?: string | undefined;
+  /** The reseller customer's entitlements. */
+  entitlements?: GoogleCloudChannelV1EntitlementList | undefined;
 }
 export interface ListAccountsOffersRequest {
-  /** Required. The resource name of the reseller account from which to list Offers. Parent uses the format: accounts/{account_id}. */
-  parent: string;
+  /** Optional. A token for a page of results other than the first page. */
+  pageToken?: string | undefined;
+  /** Optional. A boolean flag that determines if a response returns future offers 30 days from now. If the show_future_offers is true, the response will only contain offers that are scheduled to be available 30 days from now. */
+  showFutureOffers?: boolean | undefined;
+  /** Optional. The BCP-47 language code. For example, "en-US". The response will localize in the corresponding language code, if specified. The default value is "en-US". */
+  languageCode?: string | undefined;
   /** Optional. The expression to filter results by name (name of the Offer), sku.name (name of the SKU), or sku.product.name (name of the Product). Example 1: sku.product.name=products/p1 AND sku.name!=products/p1/skus/s1 Example 2: name=accounts/a1/offers/o1 */
   filter?: string | undefined;
   /** Optional. Requested page size. Server might return fewer results than requested. If unspecified, returns at most 500 Offers. The maximum value is 1000; the server will coerce values above 1000. */
   pageSize?: number | undefined;
-  /** Optional. A boolean flag that determines if a response returns future offers 30 days from now. If the show_future_offers is true, the response will only contain offers that are scheduled to be available 30 days from now. */
-  showFutureOffers?: boolean | undefined;
-  /** Optional. A token for a page of results other than the first page. */
-  pageToken?: string | undefined;
-  /** Optional. The BCP-47 language code. For example, "en-US". The response will localize in the corresponding language code, if specified. The default value is "en-US". */
-  languageCode?: string | undefined;
+  /** Required. The resource name of the reseller account from which to list Offers. Parent uses the format: accounts/{account_id}. */
+  parent: string;
 }
-export type GoogleCloudChannelV1ValueList = Array<GoogleCloudChannelV1Value>;
-export type GoogleCloudChannelV1ParameterDefinitionParameterTypeEnum =
-  | "PARAMETER_TYPE_UNSPECIFIED"
-  | "INT64"
-  | "STRING"
-  | "DOUBLE"
-  | "BOOLEAN";
-/** Parameter's definition. Specifies what parameter is required to use the current Offer to purchase. */
-export interface GoogleCloudChannelV1ParameterDefinition {
-  /** Minimal value of the parameter, if applicable. Inclusive. For example, minimal commitment when purchasing Anthos is 0.01. Applicable to INT64 and DOUBLE parameter types. */
-  minValue?: GoogleCloudChannelV1Value | undefined;
-  /** If not empty, parameter values must be drawn from this list. For example, [us-west1, us-west2, ...] Applicable to STRING parameter type. */
-  allowedValues?: GoogleCloudChannelV1ValueList | undefined;
-  /** Data type of the parameter. Minimal value, Maximum value and allowed values will use specified data type here. */
-  parameterType?: GoogleCloudChannelV1ParameterDefinitionParameterTypeEnum | undefined;
-  /** If set to true, parameter is optional to purchase this Offer. */
-  optional?: boolean | undefined;
-  /** Name of the parameter. */
-  name?: string | undefined;
-  /** Maximum value of the parameter, if applicable. Inclusive. For example, maximum seats when purchasing Google Workspace Business Standard. Applicable to INT64 and DOUBLE parameter types. */
-  maxValue?: GoogleCloudChannelV1Value | undefined;
-}
-export type GoogleCloudChannelV1ParameterDefinitionList =
-  Array<GoogleCloudChannelV1ParameterDefinition>;
-export type GoogleCloudChannelV1PlanPaymentTypeEnum =
-  | "PAYMENT_TYPE_UNSPECIFIED"
-  | "PREPAY"
-  | "POSTPAY";
 export type GoogleCloudChannelV1PlanPaymentPlanEnum =
   | "PAYMENT_PLAN_UNSPECIFIED"
   | "COMMITMENT"
@@ -987,37 +959,22 @@ export type GoogleCloudChannelV1PlanPaymentPlanEnum =
   | "FREE"
   | "TRIAL"
   | "OFFLINE";
+export type GoogleCloudChannelV1PlanPaymentTypeEnum =
+  | "PAYMENT_TYPE_UNSPECIFIED"
+  | "PREPAY"
+  | "POSTPAY";
 /** The payment plan for the Offer. Describes how to make a payment. */
 export interface GoogleCloudChannelV1Plan {
-  /** Reseller Billing account to charge after an offer transaction. Only present for Google Cloud offers. */
-  billingAccount?: string | undefined;
   /** Describes how frequently the reseller will be billed, such as once per month. */
   paymentCycle?: GoogleCloudChannelV1Period | undefined;
-  /** Specifies when the payment needs to happen. */
-  paymentType?: GoogleCloudChannelV1PlanPaymentTypeEnum | undefined;
-  /** Present for Offers with a trial period. For trial-only Offers, a paid service needs to start before the trial period ends for continued service. For Regular Offers with a trial period, the regular pricing goes into effect when trial period ends, or if paid service is started before the end of the trial period. */
-  trialPeriod?: GoogleCloudChannelV1Period | undefined;
   /** Describes how a reseller will be billed. */
   paymentPlan?: GoogleCloudChannelV1PlanPaymentPlanEnum | undefined;
-}
-export type GoogleCloudChannelV1MediaTypeEnum = "MEDIA_TYPE_UNSPECIFIED" | "MEDIA_TYPE_IMAGE";
-/** Represents media information. */
-export interface GoogleCloudChannelV1Media {
-  /** URL of the media. */
-  content?: string | undefined;
-  /** Type of the media. */
-  type?: GoogleCloudChannelV1MediaTypeEnum | undefined;
-  /** Title of the media. */
-  title?: string | undefined;
-}
-/** Represents the marketing information for a Product, SKU or Offer. */
-export interface GoogleCloudChannelV1MarketingInfo {
-  /** Human readable name. */
-  displayName?: string | undefined;
-  /** Default logo. */
-  defaultLogo?: GoogleCloudChannelV1Media | undefined;
-  /** Human readable description. Description can contain HTML. */
-  description?: string | undefined;
+  /** Specifies when the payment needs to happen. */
+  paymentType?: GoogleCloudChannelV1PlanPaymentTypeEnum | undefined;
+  /** Reseller Billing account to charge after an offer transaction. Only present for Google Cloud offers. */
+  billingAccount?: string | undefined;
+  /** Present for Offers with a trial period. For trial-only Offers, a paid service needs to start before the trial period ends for continued service. For Regular Offers with a trial period, the regular pricing goes into effect when trial period ends, or if paid service is started before the end of the trial period. */
+  trialPeriod?: GoogleCloudChannelV1Period | undefined;
 }
 export type GoogleCloudChannelV1CustomerConstraintsAllowedCustomerTypesItemEnum =
   | "CUSTOMER_TYPE_UNSPECIFIED"
@@ -1050,6 +1007,11 @@ export interface GoogleCloudChannelV1Constraints {
   /** Represents constraints required to purchase the Offer for a customer. */
   customerConstraints?: GoogleCloudChannelV1CustomerConstraints | undefined;
 }
+export type GoogleCloudChannelV1PricePhasePeriodTypeEnum =
+  | "PERIOD_TYPE_UNSPECIFIED"
+  | "DAY"
+  | "MONTH"
+  | "YEAR";
 export type GoogleCloudChannelV1DiscountComponentDiscountTypeEnum =
   | "DISCOUNT_TYPE_UNSPECIFIED"
   | "REGIONAL_DISCOUNT"
@@ -1061,55 +1023,50 @@ export type GoogleCloudChannelV1DiscountComponentDiscountTypeEnum =
 export interface GoogleCloudChannelV1DiscountComponent {
   /** Type of the discount. */
   discountType?: GoogleCloudChannelV1DiscountComponentDiscountTypeEnum | undefined;
-  /** Fixed value discount. */
-  discountAbsolute?: GoogleTypeMoney | undefined;
   /** Discount percentage, represented as decimal. For example, a 20% discount will be represented as 0.2. */
   discountPercentage?: number | undefined;
+  /** Fixed value discount. */
+  discountAbsolute?: GoogleTypeMoney | undefined;
 }
 export type GoogleCloudChannelV1DiscountComponentList =
   Array<GoogleCloudChannelV1DiscountComponent>;
 /** Represents the price of the Offer. */
 export interface GoogleCloudChannelV1Price {
-  /** Discount percentage, represented as decimal. For example, a 20% discount will be represent as 0.2. */
-  discount?: number | undefined;
-  /** Base price. */
-  basePrice?: GoogleTypeMoney | undefined;
+  /** The time period with respect to which base and effective prices are defined. Example: 1 month, 6 months, 1 year, etc. */
+  pricePeriod?: GoogleCloudChannelV1Period | undefined;
   /** Breakdown of the discount into its components. This will be empty if there is no discount present. */
   discountComponents?: GoogleCloudChannelV1DiscountComponentList | undefined;
   /** Link to external price list, such as link to Google Voice rate card. */
   externalPriceUri?: string | undefined;
+  /** Base price. */
+  basePrice?: GoogleTypeMoney | undefined;
+  /** Discount percentage, represented as decimal. For example, a 20% discount will be represent as 0.2. */
+  discount?: number | undefined;
   /** Effective Price after applying the discounts. */
   effectivePrice?: GoogleTypeMoney | undefined;
-  /** The time period with respect to which base and effective prices are defined. Example: 1 month, 6 months, 1 year, etc. */
-  pricePeriod?: GoogleCloudChannelV1Period | undefined;
 }
 /** Defines price at resource tier level. For example, an offer with following definition : * Tier 1: Provide 25% discount for all seats between 1 and 25. * Tier 2: Provide 10% discount for all seats between 26 and 100. * Tier 3: Provide flat 15% discount for all seats above 100. Each of these tiers is represented as a PriceTier. */
 export interface GoogleCloudChannelV1PriceTier {
-  /** Price of the tier. */
-  price?: GoogleCloudChannelV1Price | undefined;
   /** First resource for which the tier price applies. */
   firstResource?: number | undefined;
   /** Last resource for which the tier price applies. */
   lastResource?: number | undefined;
+  /** Price of the tier. */
+  price?: GoogleCloudChannelV1Price | undefined;
 }
 export type GoogleCloudChannelV1PriceTierList = Array<GoogleCloudChannelV1PriceTier>;
-export type GoogleCloudChannelV1PricePhasePeriodTypeEnum =
-  | "PERIOD_TYPE_UNSPECIFIED"
-  | "DAY"
-  | "MONTH"
-  | "YEAR";
 /** Specifies the price by the duration of months. For example, a 20% discount for the first six months, then a 10% discount starting on the seventh month. */
 export interface GoogleCloudChannelV1PricePhase {
-  /** Price by the resource tiers. */
-  priceTiers?: GoogleCloudChannelV1PriceTierList | undefined;
+  /** Defines the phase period type. */
+  periodType?: GoogleCloudChannelV1PricePhasePeriodTypeEnum | undefined;
   /** Defines first period for the phase. */
   firstPeriod?: number | undefined;
   /** Price of the phase. Present if there are no price tiers. */
   price?: GoogleCloudChannelV1Price | undefined;
   /** Defines first period for the phase. */
   lastPeriod?: number | undefined;
-  /** Defines the phase period type. */
-  periodType?: GoogleCloudChannelV1PricePhasePeriodTypeEnum | undefined;
+  /** Price by the resource tiers. */
+  priceTiers?: GoogleCloudChannelV1PriceTierList | undefined;
 }
 export type GoogleCloudChannelV1PricePhaseList = Array<GoogleCloudChannelV1PricePhase>;
 export type GoogleCloudChannelV1PriceByResourceResourceTypeEnum =
@@ -1126,50 +1083,93 @@ export type GoogleCloudChannelV1PriceByResourceResourceTypeEnum =
 export interface GoogleCloudChannelV1PriceByResource {
   /** Specifies the price by time range. */
   pricePhases?: GoogleCloudChannelV1PricePhaseList | undefined;
-  /** Price of the Offer. Present if there are no price phases. */
-  price?: GoogleCloudChannelV1Price | undefined;
   /** Resource Type. Example: SEAT */
   resourceType?: GoogleCloudChannelV1PriceByResourceResourceTypeEnum | undefined;
+  /** Price of the Offer. Present if there are no price phases. */
+  price?: GoogleCloudChannelV1Price | undefined;
 }
 export type GoogleCloudChannelV1PriceByResourceList = Array<GoogleCloudChannelV1PriceByResource>;
+export type GoogleCloudChannelV1ParameterDefinitionParameterTypeEnum =
+  | "PARAMETER_TYPE_UNSPECIFIED"
+  | "INT64"
+  | "STRING"
+  | "DOUBLE"
+  | "BOOLEAN";
+export type GoogleCloudChannelV1ValueList = Array<GoogleCloudChannelV1Value>;
+/** Parameter's definition. Specifies what parameter is required to use the current Offer to purchase. */
+export interface GoogleCloudChannelV1ParameterDefinition {
+  /** Maximum value of the parameter, if applicable. Inclusive. For example, maximum seats when purchasing Google Workspace Business Standard. Applicable to INT64 and DOUBLE parameter types. */
+  maxValue?: GoogleCloudChannelV1Value | undefined;
+  /** Data type of the parameter. Minimal value, Maximum value and allowed values will use specified data type here. */
+  parameterType?: GoogleCloudChannelV1ParameterDefinitionParameterTypeEnum | undefined;
+  /** If set to true, parameter is optional to purchase this Offer. */
+  optional?: boolean | undefined;
+  /** Name of the parameter. */
+  name?: string | undefined;
+  /** If not empty, parameter values must be drawn from this list. For example, [us-west1, us-west2, ...] Applicable to STRING parameter type. */
+  allowedValues?: GoogleCloudChannelV1ValueList | undefined;
+  /** Minimal value of the parameter, if applicable. Inclusive. For example, minimal commitment when purchasing Anthos is 0.01. Applicable to INT64 and DOUBLE parameter types. */
+  minValue?: GoogleCloudChannelV1Value | undefined;
+}
+export type GoogleCloudChannelV1ParameterDefinitionList =
+  Array<GoogleCloudChannelV1ParameterDefinition>;
+export type GoogleCloudChannelV1MediaTypeEnum = "MEDIA_TYPE_UNSPECIFIED" | "MEDIA_TYPE_IMAGE";
+/** Represents media information. */
+export interface GoogleCloudChannelV1Media {
+  /** URL of the media. */
+  content?: string | undefined;
+  /** Type of the media. */
+  type?: GoogleCloudChannelV1MediaTypeEnum | undefined;
+  /** Title of the media. */
+  title?: string | undefined;
+}
+/** Represents the marketing information for a Product, SKU or Offer. */
+export interface GoogleCloudChannelV1MarketingInfo {
+  /** Human readable name. */
+  displayName?: string | undefined;
+  /** Human readable description. Description can contain HTML. */
+  description?: string | undefined;
+  /** Default logo. */
+  defaultLogo?: GoogleCloudChannelV1Media | undefined;
+}
 /** A Product is the entity a customer uses when placing an order. For example, Google Workspace, Google Voice, etc. */
 export interface GoogleCloudChannelV1Product {
-  /** Marketing information for the product. */
-  marketingInfo?: GoogleCloudChannelV1MarketingInfo | undefined;
   /** Resource Name of the Product. Format: products/{product_id} */
   name?: string | undefined;
+  /** Marketing information for the product. */
+  marketingInfo?: GoogleCloudChannelV1MarketingInfo | undefined;
 }
 /** Represents a product's purchasable Stock Keeping Unit (SKU). SKUs represent the different variations of the product. For example, Google Workspace Business Standard and Google Workspace Business Plus are Google Workspace product SKUs. */
 export interface GoogleCloudChannelV1Sku {
   /** Resource Name of the SKU. Format: products/{product_id}/skus/{sku_id} */
   name?: string | undefined;
-  /** Marketing information for the SKU. */
-  marketingInfo?: GoogleCloudChannelV1MarketingInfo | undefined;
   /** Product the SKU is associated with. */
   product?: GoogleCloudChannelV1Product | undefined;
+  /** Marketing information for the SKU. */
+  marketingInfo?: GoogleCloudChannelV1MarketingInfo | undefined;
 }
 /** Represents an offer made to resellers for purchase. An offer is associated with a Sku, has a plan for payment, a price, and defines the constraints for buying. */
 export interface GoogleCloudChannelV1Offer {
-  /** Parameters required to use current Offer to purchase. */
-  parameterDefinitions?: GoogleCloudChannelV1ParameterDefinitionList | undefined;
   /** Describes the payment plan for the Offer. */
   plan?: GoogleCloudChannelV1Plan | undefined;
-  /** Resource Name of the Offer. Format: accounts/{account_id}/offers/{offer_id} */
-  name?: string | undefined;
-  /** Output only. End of the Offer validity time. */
-  endTime?: string | undefined;
   /** The deal code of the offer to get a special promotion or discount. */
   dealCode?: string | undefined;
-  /** Marketing information for the Offer. */
-  marketingInfo?: GoogleCloudChannelV1MarketingInfo | undefined;
   /** Constraints on transacting the Offer. */
   constraints?: GoogleCloudChannelV1Constraints | undefined;
   /** Price for each monetizable resource type. */
   priceByResources?: GoogleCloudChannelV1PriceByResourceList | undefined;
-  /** Start of the Offer validity time. */
-  startTime?: string | undefined;
+  /** Resource Name of the Offer. Format: accounts/{account_id}/offers/{offer_id} */
+  name?: string | undefined;
+  /** Parameters required to use current Offer to purchase. */
+  parameterDefinitions?: GoogleCloudChannelV1ParameterDefinitionList | undefined;
   /** SKU the offer is associated with. */
   sku?: GoogleCloudChannelV1Sku | undefined;
+  /** Marketing information for the Offer. */
+  marketingInfo?: GoogleCloudChannelV1MarketingInfo | undefined;
+  /** Start of the Offer validity time. */
+  startTime?: string | undefined;
+  /** Output only. End of the Offer validity time. */
+  endTime?: string | undefined;
 }
 export type GoogleCloudChannelV1OfferList = Array<GoogleCloudChannelV1Offer>;
 /** Response message for ListOffers. */
@@ -1180,14 +1180,14 @@ export interface GoogleCloudChannelV1ListOffersResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListAccountsReportsRequest {
-  /** Optional. The BCP-47 language code, such as "en-US". If specified, the response is localized to the corresponding language code if the original data sources support it. Default is "en-US". */
-  languageCode?: string | undefined;
-  /** Optional. Requested page size of the report. The server might return fewer results than requested. If unspecified, returns 20 reports. The maximum value is 100. */
-  pageSize?: number | undefined;
   /** Required. The resource name of the partner account to list available reports for. Parent uses the format: accounts/{account_id} */
   parent: string;
   /** Optional. A token that specifies a page of results beyond the first page. Obtained through ListReportsResponse.next_page_token of the previous CloudChannelReportsService.ListReports call. */
   pageToken?: string | undefined;
+  /** Optional. Requested page size of the report. The server might return fewer results than requested. If unspecified, returns 20 reports. The maximum value is 100. */
+  pageSize?: number | undefined;
+  /** Optional. The BCP-47 language code, such as "en-US". If specified, the response is localized to the corresponding language code if the original data sources support it. Default is "en-US". */
+  languageCode?: string | undefined;
 }
 export type GoogleCloudChannelV1ReportList = Array<GoogleCloudChannelV1Report>;
 /** Response message for CloudChannelReportsService.ListReports. */
@@ -1200,17 +1200,17 @@ export interface GoogleCloudChannelV1ListReportsResponse {
 export interface ListAccountsSkuGroupsRequest {
   /** Optional. A token identifying a page of results beyond the first page. Obtained through ListSkuGroupsResponse.next_page_token of the previous CloudChannelService.ListSkuGroups call. */
   pageToken?: string | undefined;
-  /** Optional. The maximum number of SKU groups to return. The service may return fewer than this value. If unspecified, returns a maximum of 1000 SKU groups. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
   /** Required. The resource name of the account from which to list SKU groups. Parent uses the format: accounts/{account}. */
   parent: string;
+  /** Optional. The maximum number of SKU groups to return. The service may return fewer than this value. If unspecified, returns a maximum of 1000 SKU groups. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
 }
 /** Represents the SKU group information. */
 export interface GoogleCloudChannelV1SkuGroup {
-  /** Unique human readable identifier for the SKU group. */
-  displayName?: string | undefined;
   /** Resource name of SKU group. Format: accounts/{account}/skuGroups/{sku_group}. Example: "accounts/C01234/skuGroups/3d50fd57-3157-4577-a5a9-a219b8490041". */
   name?: string | undefined;
+  /** Unique human readable identifier for the SKU group. */
+  displayName?: string | undefined;
 }
 export type GoogleCloudChannelV1SkuGroupList = Array<GoogleCloudChannelV1SkuGroup>;
 /** Response message for ListSkuGroups. */
@@ -1221,48 +1221,42 @@ export interface GoogleCloudChannelV1ListSkuGroupsResponse {
   skuGroups?: GoogleCloudChannelV1SkuGroupList | undefined;
 }
 export interface ListAccountsSkuGroupsBillableSkusRequest {
-  /** Optional. A token identifying a page of results beyond the first page. Obtained through ListSkuGroupBillableSkusResponse.next_page_token of the previous CloudChannelService.ListSkuGroupBillableSkus call. */
-  pageToken?: string | undefined;
-  /** Required. Resource name of the SKU group. Format: accounts/{account}/skuGroups/{sku_group}. */
-  parent: string;
   /** Optional. The maximum number of SKUs to return. The service may return fewer than this value. If unspecified, returns a maximum of 100000 SKUs. The maximum value is 100000; values above 100000 will be coerced to 100000. */
   pageSize?: number | undefined;
+  /** Required. Resource name of the SKU group. Format: accounts/{account}/skuGroups/{sku_group}. */
+  parent: string;
+  /** Optional. A token identifying a page of results beyond the first page. Obtained through ListSkuGroupBillableSkusResponse.next_page_token of the previous CloudChannelService.ListSkuGroupBillableSkus call. */
+  pageToken?: string | undefined;
 }
 /** Represents the Billable SKU information. */
 export interface GoogleCloudChannelV1BillableSku {
+  /** Resource name of Billable SKU. Format: billableSkus/{sku}. Example: billableSkus/6E1B-6634-470F". */
+  sku?: string | undefined;
   /** Unique human readable name for the SKU. */
   skuDisplayName?: string | undefined;
   /** Unique human readable name for the Service. */
   serviceDisplayName?: string | undefined;
-  /** Resource name of Billable SKU. Format: billableSkus/{sku}. Example: billableSkus/6E1B-6634-470F". */
-  sku?: string | undefined;
   /** Resource name of Service which contains Repricing SKU. Format: services/{service}. Example: "services/B7D9-FDCB-15D8". */
   service?: string | undefined;
 }
 export type GoogleCloudChannelV1BillableSkuList = Array<GoogleCloudChannelV1BillableSku>;
 /** Response message for ListSkuGroupBillableSkus. */
 export interface GoogleCloudChannelV1ListSkuGroupBillableSkusResponse {
-  /** The list of billable SKUs in the requested SKU group. */
-  billableSkus?: GoogleCloudChannelV1BillableSkuList | undefined;
   /** A token to retrieve the next page of results. Pass to ListSkuGroupBillableSkusRequest.page_token to obtain that page. */
   nextPageToken?: string | undefined;
+  /** The list of billable SKUs in the requested SKU group. */
+  billableSkus?: GoogleCloudChannelV1BillableSkuList | undefined;
 }
 export interface ListEntitlementChangesAccountsCustomersEntitlementsRequest {
-  /** Optional. The maximum number of entitlement changes to return. The service may return fewer than this value. If unspecified, returns at most 10 entitlement changes. The maximum value is 50; the server will coerce values above 50. */
-  pageSize?: number | undefined;
-  /** Required. The resource name of the entitlement for which to list entitlement changes. The `-` wildcard may be used to match entitlements across a customer. Formats: * accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} * accounts/{account_id}/customers/{customer_id}/entitlements/- */
-  parent: string;
   /** Optional. Filters applied to the list results. */
   filter?: string | undefined;
+  /** Required. The resource name of the entitlement for which to list entitlement changes. The `-` wildcard may be used to match entitlements across a customer. Formats: * accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} * accounts/{account_id}/customers/{customer_id}/entitlements/- */
+  parent: string;
+  /** Optional. The maximum number of entitlement changes to return. The service may return fewer than this value. If unspecified, returns at most 10 entitlement changes. The maximum value is 50; the server will coerce values above 50. */
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous CloudChannelService.ListEntitlementChanges call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to CloudChannelService.ListEntitlementChanges must match the call that provided the page token. */
   pageToken?: string | undefined;
 }
-export type GoogleCloudChannelV1EntitlementChangeOperatorTypeEnum =
-  | "OPERATOR_TYPE_UNSPECIFIED"
-  | "CUSTOMER_SERVICE_REPRESENTATIVE"
-  | "SYSTEM"
-  | "CUSTOMER"
-  | "RESELLER";
 export type GoogleCloudChannelV1EntitlementChangeActivationReasonEnum =
   | "ACTIVATION_REASON_UNSPECIFIED"
   | "RESELLER_REVOKED_SUSPENSION"
@@ -1274,6 +1268,12 @@ export type GoogleCloudChannelV1EntitlementChangeCancellationReasonEnum =
   | "SERVICE_TERMINATED"
   | "RELATIONSHIP_ENDED"
   | "PARTIAL_TRANSFER";
+export type GoogleCloudChannelV1EntitlementChangeOperatorTypeEnum =
+  | "OPERATOR_TYPE_UNSPECIFIED"
+  | "CUSTOMER_SERVICE_REPRESENTATIVE"
+  | "SYSTEM"
+  | "CUSTOMER"
+  | "RESELLER";
 export type GoogleCloudChannelV1EntitlementChangeSuspensionReasonEnum =
   | "SUSPENSION_REASON_UNSPECIFIED"
   | "RESELLER_INITIATED"
@@ -1299,30 +1299,30 @@ export type GoogleCloudChannelV1EntitlementChangeChangeTypeEnum =
   | "TRIAL_STARTED";
 /** Change event entry for Entitlement order history */
 export interface GoogleCloudChannelV1EntitlementChange {
-  /** Operator type responsible for the change. */
-  operatorType?: GoogleCloudChannelV1EntitlementChangeOperatorTypeEnum | undefined;
-  /** Required. Resource name of the Offer at the time of change. Takes the form: accounts/{account_id}/offers/{offer_id}. */
-  offer?: string | undefined;
   /** The Entitlement's activation reason */
   activationReason?: GoogleCloudChannelV1EntitlementChangeActivationReasonEnum | undefined;
-  /** e.g. purchase_number change reason, entered by CRS. */
-  otherChangeReason?: string | undefined;
-  /** Cancellation reason for the Entitlement. */
-  cancellationReason?: GoogleCloudChannelV1EntitlementChangeCancellationReasonEnum | undefined;
-  /** Human-readable identifier that shows what operator made a change. When the operator_type is RESELLER, this is the user's email address. For all other operator types, this is empty. */
-  operator?: string | undefined;
-  /** Required. Resource name of an entitlement in the form: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
-  entitlement?: string | undefined;
   /** Extended parameters, such as: purchase_order_number, gcp_details; internal_correlation_id, long_running_operation_id, order_id; etc. */
   parameters?: GoogleCloudChannelV1ParameterList | undefined;
+  /** e.g. purchase_number change reason, entered by CRS. */
+  otherChangeReason?: string | undefined;
+  /** Required. Resource name of the Offer at the time of change. Takes the form: accounts/{account_id}/offers/{offer_id}. */
+  offer?: string | undefined;
+  /** Cancellation reason for the Entitlement. */
+  cancellationReason?: GoogleCloudChannelV1EntitlementChangeCancellationReasonEnum | undefined;
+  /** Operator type responsible for the change. */
+  operatorType?: GoogleCloudChannelV1EntitlementChangeOperatorTypeEnum | undefined;
   /** Suspension reason for the Entitlement. */
   suspensionReason?: GoogleCloudChannelV1EntitlementChangeSuspensionReasonEnum | undefined;
+  /** Required. Resource name of an entitlement in the form: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
+  entitlement?: string | undefined;
+  /** The change action type. */
+  changeType?: GoogleCloudChannelV1EntitlementChangeChangeTypeEnum | undefined;
+  /** Human-readable identifier that shows what operator made a change. When the operator_type is RESELLER, this is the user's email address. For all other operator types, this is empty. */
+  operator?: string | undefined;
   /** The submitted time of the change. */
   createTime?: string | undefined;
   /** Service provisioned for an Entitlement. */
   provisionedService?: GoogleCloudChannelV1ProvisionedService | undefined;
-  /** The change action type. */
-  changeType?: GoogleCloudChannelV1EntitlementChangeChangeTypeEnum | undefined;
 }
 export type GoogleCloudChannelV1EntitlementChangeList =
   Array<GoogleCloudChannelV1EntitlementChange>;
@@ -1334,36 +1334,36 @@ export interface GoogleCloudChannelV1ListEntitlementChangesResponse {
   entitlementChanges?: GoogleCloudChannelV1EntitlementChangeList | undefined;
 }
 export interface ListOperationsRequest {
-  /** The standard list filter. */
-  filter?: string | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list filter. */
+  filter?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: GoogleLongrunningOperationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: GoogleLongrunningOperationList | undefined;
 }
 export interface ListProductsRequest {
   /** Optional. The BCP-47 language code. For example, "en-US". The response will localize in the corresponding language code, if specified. The default value is "en-US". */
   languageCode?: string | undefined;
   /** Required. The resource name of the reseller account. Format: accounts/{account_id}. */
   account?: string | undefined;
-  /** Optional. A token for a page of results other than the first page. */
-  pageToken?: string | undefined;
   /** Optional. Requested page size. Server might return fewer results than requested. If unspecified, returns at most 100 Products. The maximum value is 1000; the server will coerce values above 1000. */
   pageSize?: number | undefined;
+  /** Optional. A token for a page of results other than the first page. */
+  pageToken?: string | undefined;
 }
 export type GoogleCloudChannelV1ProductList = Array<GoogleCloudChannelV1Product>;
 /** Response message for ListProducts. */
@@ -1374,16 +1374,16 @@ export interface GoogleCloudChannelV1ListProductsResponse {
   products?: GoogleCloudChannelV1ProductList | undefined;
 }
 export interface ListProductsSkusRequest {
-  /** Optional. A token for a page of results other than the first page. Optional. */
-  pageToken?: string | undefined;
-  /** Optional. Requested page size. Server might return fewer results than requested. If unspecified, returns at most 100 SKUs. The maximum value is 1000; the server will coerce values above 1000. */
-  pageSize?: number | undefined;
-  /** Required. Resource name of the reseller. Format: accounts/{account_id}. */
-  account?: string | undefined;
-  /** Required. The resource name of the Product to list SKUs for. Parent uses the format: products/{product_id}. Supports products/- to retrieve SKUs for all products. */
-  parent: string;
   /** Optional. The BCP-47 language code. For example, "en-US". The response will localize in the corresponding language code, if specified. The default value is "en-US". */
   languageCode?: string | undefined;
+  /** Optional. Requested page size. Server might return fewer results than requested. If unspecified, returns at most 100 SKUs. The maximum value is 1000; the server will coerce values above 1000. */
+  pageSize?: number | undefined;
+  /** Required. The resource name of the Product to list SKUs for. Parent uses the format: products/{product_id}. Supports products/- to retrieve SKUs for all products. */
+  parent: string;
+  /** Optional. A token for a page of results other than the first page. Optional. */
+  pageToken?: string | undefined;
+  /** Required. Resource name of the reseller. Format: accounts/{account_id}. */
+  account?: string | undefined;
 }
 export type GoogleCloudChannelV1SkuList = Array<GoogleCloudChannelV1Sku>;
 /** Response message for ListSkus. */
@@ -1394,31 +1394,31 @@ export interface GoogleCloudChannelV1ListSkusResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListPurchasableOffersAccountsCustomersRequest {
+  /** Optional. The BCP-47 language code. For example, "en-US". The response will localize in the corresponding language code, if specified. The default value is "en-US". */
+  languageCode?: string | undefined;
+  /** Optional. A token for a page of results other than the first page. */
+  pageToken?: string | undefined;
   /** Optional. Resource name of the new target Billing Account. Provide this Billing Account when setting up billing for a trial subscription. Format: accounts/{account_id}/billingAccounts/{billing_account_id}. This field is only relevant for multi-currency accounts. It should be left empty for single currency accounts. */
   "changeOfferPurchase.billingAccount"?: string | undefined;
-  /** Required. The resource name of the customer to list Offers for. Format: accounts/{account_id}/customers/{customer_id}. */
-  customer: string;
-  /** Optional. Billing account that the result should be restricted to. Format: accounts/{account_id}/billingAccounts/{billing_account_id}. */
-  "createEntitlementPurchase.billingAccount"?: string | undefined;
   /** Required. Resource name of the entitlement. Format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   "changeOfferPurchase.entitlement"?: string | undefined;
   /** Required. SKU that the result should be restricted to. Format: products/{product_id}/skus/{sku_id}. */
   "createEntitlementPurchase.sku"?: string | undefined;
-  /** Optional. The BCP-47 language code. For example, "en-US". The response will localize in the corresponding language code, if specified. The default value is "en-US". */
-  languageCode?: string | undefined;
+  /** Optional. Billing account that the result should be restricted to. Format: accounts/{account_id}/billingAccounts/{billing_account_id}. */
+  "createEntitlementPurchase.billingAccount"?: string | undefined;
+  /** Required. The resource name of the customer to list Offers for. Format: accounts/{account_id}/customers/{customer_id}. */
+  customer: string;
   /** Optional. Requested page size. Server might return fewer results than requested. If unspecified, returns at most 100 Offers. The maximum value is 1000; the server will coerce values above 1000. */
   pageSize?: number | undefined;
-  /** Optional. A token for a page of results other than the first page. */
-  pageToken?: string | undefined;
   /** Optional. Resource name of the new target SKU. Provide this SKU when upgrading or downgrading an entitlement. Format: products/{product_id}/skus/{sku_id} */
   "changeOfferPurchase.newSku"?: string | undefined;
 }
 /** Offer that you can purchase for a customer. This is used in the ListPurchasableOffer API response. */
 export interface GoogleCloudChannelV1PurchasableOffer {
-  /** Optional. Price reference ID for the offer. Only for offers that require additional price information. Used to guarantee that the pricing is consistent between quoting the offer and placing the order. */
-  priceReferenceId?: string | undefined;
   /** Offer. */
   offer?: GoogleCloudChannelV1Offer | undefined;
+  /** Optional. Price reference ID for the offer. Only for offers that require additional price information. Used to guarantee that the pricing is consistent between quoting the offer and placing the order. */
+  priceReferenceId?: string | undefined;
 }
 export type GoogleCloudChannelV1PurchasableOfferList = Array<GoogleCloudChannelV1PurchasableOffer>;
 /** Response message for ListPurchasableOffers. */
@@ -1435,14 +1435,14 @@ export type ListPurchasableSkusAccountsCustomersChangeOfferPurchase_changeTypeEn
 export interface ListPurchasableSkusAccountsCustomersRequest {
   /** Optional. Requested page size. Server might return fewer results than requested. If unspecified, returns at most 100 SKUs. The maximum value is 1000; the server will coerce values above 1000. */
   pageSize?: number | undefined;
-  /** Required. Resource name of the entitlement. Format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
-  "changeOfferPurchase.entitlement"?: string | undefined;
+  /** Optional. A token for a page of results other than the first page. */
+  pageToken?: string | undefined;
   /** Optional. The BCP-47 language code. For example, "en-US". The response will localize in the corresponding language code, if specified. The default value is "en-US". */
   languageCode?: string | undefined;
   /** Required. List SKUs belonging to this Product. Format: products/{product_id}. Supports products/- to retrieve SKUs for all products. */
   "createEntitlementPurchase.product"?: string | undefined;
-  /** Optional. A token for a page of results other than the first page. */
-  pageToken?: string | undefined;
+  /** Required. Resource name of the entitlement. Format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
+  "changeOfferPurchase.entitlement"?: string | undefined;
   /** Required. Change Type for the entitlement. */
   "changeOfferPurchase.changeType"?:
     | ListPurchasableSkusAccountsCustomersChangeOfferPurchase_changeTypeEnum
@@ -1459,56 +1459,56 @@ export interface GoogleCloudChannelV1PurchasableSku {
 export type GoogleCloudChannelV1PurchasableSkuList = Array<GoogleCloudChannelV1PurchasableSku>;
 /** Response message for ListPurchasableSkus. */
 export interface GoogleCloudChannelV1ListPurchasableSkusResponse {
-  /** The list of SKUs requested. */
-  purchasableSkus?: GoogleCloudChannelV1PurchasableSkuList | undefined;
   /** A token to retrieve the next page of results. */
   nextPageToken?: string | undefined;
+  /** The list of SKUs requested. */
+  purchasableSkus?: GoogleCloudChannelV1PurchasableSkuList | undefined;
 }
 export interface ListSubscribersAccountsRequest {
   /** Optional. A page token, received from a previous `ListSubscribers` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSubscribers` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
-  account: string;
   /** Optional. The maximum number of service accounts to return. The service may return fewer than this value. If unspecified, returns at most 100 service accounts. The maximum value is 1000; the server will coerce values above 1000. */
   pageSize?: number | undefined;
   /** Optional. Resource name of the integrator. Required if account is not provided. Otherwise, leave this field empty/unset. */
   integrator?: string | undefined;
+  /** Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
+  account: string;
 }
 /** Response Message for ListSubscribers. */
 export interface GoogleCloudChannelV1ListSubscribersResponse {
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** Name of the topic registered with the reseller. */
   topic?: string | undefined;
   /** List of service accounts which have subscriber access to the topic. */
   serviceAccounts?: StringList | undefined;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListSubscribersIntegratorsRequest {
-  /** Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
-  account?: string | undefined;
   /** Optional. The maximum number of service accounts to return. The service may return fewer than this value. If unspecified, returns at most 100 service accounts. The maximum value is 1000; the server will coerce values above 1000. */
   pageSize?: number | undefined;
-  /** Optional. Resource name of the integrator. Required if account is not provided. Otherwise, leave this field empty/unset. */
-  integrator: string;
   /** Optional. A page token, received from a previous `ListSubscribers` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSubscribers` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
+  account?: string | undefined;
+  /** Optional. Resource name of the integrator. Required if account is not provided. Otherwise, leave this field empty/unset. */
+  integrator: string;
 }
 /** Request message for CloudChannelService.ListTransferableOffers */
 export interface GoogleCloudChannelV1ListTransferableOffersRequest {
-  /** Requested page size. Server might return fewer results than requested. If unspecified, returns at most 100 offers. The maximum value is 1000; the server will coerce values above 1000. */
-  pageSize?: number | undefined;
-  /** Required. The SKU to look up Offers for. */
-  sku?: string | undefined;
-  /** Optional. The BCP-47 language code. For example, "en-US". The response will localize in the corresponding language code, if specified. The default value is "en-US". */
-  languageCode?: string | undefined;
-  /** A token for a page of results other than the first page. Obtained using ListTransferableOffersResponse.next_page_token of the previous CloudChannelService.ListTransferableOffers call. */
-  pageToken?: string | undefined;
-  /** Optional. The Billing Account to look up Offers for. Format: accounts/{account_id}/billingAccounts/{billing_account_id}. This field is only relevant for multi-currency accounts. It should be left empty for single currency accounts. */
-  billingAccount?: string | undefined;
-  /** Customer's Cloud Identity ID */
-  cloudIdentityId?: string | undefined;
   /** A reseller should create a customer and use the resource name of that customer here. */
   customerName?: string | undefined;
+  /** Optional. The BCP-47 language code. For example, "en-US". The response will localize in the corresponding language code, if specified. The default value is "en-US". */
+  languageCode?: string | undefined;
+  /** Customer's Cloud Identity ID */
+  cloudIdentityId?: string | undefined;
+  /** Requested page size. Server might return fewer results than requested. If unspecified, returns at most 100 offers. The maximum value is 1000; the server will coerce values above 1000. */
+  pageSize?: number | undefined;
+  /** Optional. The Billing Account to look up Offers for. Format: accounts/{account_id}/billingAccounts/{billing_account_id}. This field is only relevant for multi-currency accounts. It should be left empty for single currency accounts. */
+  billingAccount?: string | undefined;
+  /** A token for a page of results other than the first page. Obtained using ListTransferableOffersResponse.next_page_token of the previous CloudChannelService.ListTransferableOffers call. */
+  pageToken?: string | undefined;
+  /** Required. The SKU to look up Offers for. */
+  sku?: string | undefined;
 }
 export interface ListTransferableOffersAccountsRequest extends GoogleCloudChannelV1ListTransferableOffersRequest {
   /** Required. The resource name of the reseller's account. */
@@ -1516,34 +1516,34 @@ export interface ListTransferableOffersAccountsRequest extends GoogleCloudChanne
 }
 /** TransferableOffer represents an Offer that can be used in Transfer. Read-only. */
 export interface GoogleCloudChannelV1TransferableOffer {
-  /** Optional. Price reference ID for the offer. Only for offers that require additional price information. Used to guarantee that the pricing is consistent between quoting the offer and placing the order. */
-  priceReferenceId?: string | undefined;
   /** Offer with parameter constraints updated to allow the Transfer. */
   offer?: GoogleCloudChannelV1Offer | undefined;
+  /** Optional. Price reference ID for the offer. Only for offers that require additional price information. Used to guarantee that the pricing is consistent between quoting the offer and placing the order. */
+  priceReferenceId?: string | undefined;
 }
 export type GoogleCloudChannelV1TransferableOfferList =
   Array<GoogleCloudChannelV1TransferableOffer>;
 /** Response message for CloudChannelService.ListTransferableOffers. */
 export interface GoogleCloudChannelV1ListTransferableOffersResponse {
-  /** A token to retrieve the next page of results. Pass to ListTransferableOffersRequest.page_token to obtain that page. */
-  nextPageToken?: string | undefined;
   /** Information about Offers for a customer that can be used for transfer. */
   transferableOffers?: GoogleCloudChannelV1TransferableOfferList | undefined;
+  /** A token to retrieve the next page of results. Pass to ListTransferableOffersRequest.page_token to obtain that page. */
+  nextPageToken?: string | undefined;
 }
 /** Request message for CloudChannelService.ListTransferableSkus */
 export interface GoogleCloudChannelV1ListTransferableSkusRequest {
-  /** A token for a page of results other than the first page. Obtained using ListTransferableSkusResponse.next_page_token of the previous CloudChannelService.ListTransferableSkus call. Optional. */
-  pageToken?: string | undefined;
   /** Optional. The super admin of the resold customer generates this token to authorize a reseller to access their Cloud Identity and purchase entitlements on their behalf. You can omit this token after authorization. See https://support.google.com/a/answer/7643790 for more details. */
   authToken?: string | undefined;
-  /** The requested page size. Server might return fewer results than requested. If unspecified, returns at most 100 SKUs. The maximum value is 1000; the server will coerce values above 1000. Optional. */
-  pageSize?: number | undefined;
   /** Customer's Cloud Identity ID */
   cloudIdentityId?: string | undefined;
-  /** The BCP-47 language code. For example, "en-US". The response will localize in the corresponding language code, if specified. The default value is "en-US". Optional. */
-  languageCode?: string | undefined;
+  /** The requested page size. Server might return fewer results than requested. If unspecified, returns at most 100 SKUs. The maximum value is 1000; the server will coerce values above 1000. Optional. */
+  pageSize?: number | undefined;
   /** A reseller is required to create a customer and use the resource name of the created customer here. Customer_name uses the format: accounts/{account_id}/customers/{customer_id} */
   customerName?: string | undefined;
+  /** The BCP-47 language code. For example, "en-US". The response will localize in the corresponding language code, if specified. The default value is "en-US". Optional. */
+  languageCode?: string | undefined;
+  /** A token for a page of results other than the first page. Obtained using ListTransferableSkusResponse.next_page_token of the previous CloudChannelService.ListTransferableSkus call. Optional. */
+  pageToken?: string | undefined;
 }
 export interface ListTransferableSkusAccountsRequest extends GoogleCloudChannelV1ListTransferableSkusRequest {
   /** Required. The reseller account's resource name. Parent uses the format: accounts/{account_id} */
@@ -1566,20 +1566,20 @@ export interface GoogleCloudChannelV1TransferEligibility {
 }
 /** TransferableSku represents information a reseller needs to view existing provisioned services for a customer that they do not own. Read-only. */
 export interface GoogleCloudChannelV1TransferableSku {
-  /** Optional. The customer to transfer has an entitlement with the populated legacy SKU. */
-  legacySku?: GoogleCloudChannelV1Sku | undefined;
   /** Describes the transfer eligibility of a SKU. */
   transferEligibility?: GoogleCloudChannelV1TransferEligibility | undefined;
+  /** Optional. The customer to transfer has an entitlement with the populated legacy SKU. */
+  legacySku?: GoogleCloudChannelV1Sku | undefined;
   /** The SKU pertaining to the provisioning resource as specified in the Offer. */
   sku?: GoogleCloudChannelV1Sku | undefined;
 }
 export type GoogleCloudChannelV1TransferableSkuList = Array<GoogleCloudChannelV1TransferableSku>;
 /** Response message for CloudChannelService.ListTransferableSkus. */
 export interface GoogleCloudChannelV1ListTransferableSkusResponse {
-  /** Information about existing SKUs for a customer that needs a transfer. */
-  transferableSkus?: GoogleCloudChannelV1TransferableSkuList | undefined;
   /** A token to retrieve the next page of results. Pass to ListTransferableSkusRequest.page_token to obtain that page. */
   nextPageToken?: string | undefined;
+  /** Information about existing SKUs for a customer that needs a transfer. */
+  transferableSkus?: GoogleCloudChannelV1TransferableSkuList | undefined;
 }
 export interface LookupOfferAccountsCustomersEntitlementsRequest {
   /** Required. The resource name of the entitlement to retrieve the Offer. Entitlement uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
@@ -1587,10 +1587,10 @@ export interface LookupOfferAccountsCustomersEntitlementsRequest {
 }
 /** Request message for CloudChannelService.UpdateChannelPartnerLink */
 export interface GoogleCloudChannelV1UpdateChannelPartnerLinkRequest {
-  /** Required. The update mask that applies to the resource. The only allowable value for an update mask is channel_partner_link.link_state. */
-  updateMask?: string | undefined;
   /** Required. The channel partner link to update. Only channel_partner_link.link_state is allowed for updates. */
   channelPartnerLink?: GoogleCloudChannelV1ChannelPartnerLink | undefined;
+  /** Required. The update mask that applies to the resource. The only allowable value for an update mask is channel_partner_link.link_state. */
+  updateMask?: string | undefined;
 }
 export interface PatchAccountsChannelPartnerLinksRequest extends GoogleCloudChannelV1UpdateChannelPartnerLinkRequest {
   /** Required. The resource name of the channel partner link to cancel. Name uses the format: accounts/{account_id}/channelPartnerLinks/{id} where {id} is the Cloud Identity ID of the partner. */
@@ -1607,10 +1607,10 @@ export interface PatchAccountsChannelPartnerLinksCustomersRequest extends Omit<
   GoogleCloudChannelV1Customer,
   "name"
 > {
-  /** Output only. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
-  name: string;
   /** The update mask that applies to the resource. Optional. */
   updateMask?: string | undefined;
+  /** Output only. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
+  name: string;
 }
 export interface PatchAccountsCustomersRequest extends Omit<GoogleCloudChannelV1Customer, "name"> {
   /** The update mask that applies to the resource. Optional. */
@@ -1627,21 +1627,21 @@ export interface PatchAccountsCustomersCustomerRepricingConfigsRequest extends O
 }
 /** Information needed to create an Admin User for Google Workspace. */
 export interface GoogleCloudChannelV1AdminUser {
-  /** Family name of the admin user. */
-  familyName?: string | undefined;
-  /** Primary email of the admin user. */
-  email?: string | undefined;
   /** Given name of the admin user. */
   givenName?: string | undefined;
+  /** Primary email of the admin user. */
+  email?: string | undefined;
+  /** Family name of the admin user. */
+  familyName?: string | undefined;
 }
 /** Request message for CloudChannelService.ProvisionCloudIdentity */
 export interface GoogleCloudChannelV1ProvisionCloudIdentityRequest {
+  /** Validate the request and preview the review, but do not post it. */
+  validateOnly?: boolean | undefined;
   /** Admin user information. */
   user?: GoogleCloudChannelV1AdminUser | undefined;
   /** CloudIdentity-specific customer information. */
   cloudIdentityInfo?: GoogleCloudChannelV1CloudIdentityInfo | undefined;
-  /** Validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean | undefined;
 }
 export interface ProvisionCloudIdentityAccountsCustomersRequest extends GoogleCloudChannelV1ProvisionCloudIdentityRequest {
   /** Required. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
@@ -1655,16 +1655,16 @@ export interface QueryEligibleBillingAccountsAccountsCustomersRequest {
 }
 /** Represents a billing account. */
 export interface GoogleCloudChannelV1BillingAccount {
-  /** Output only. The CLDR region code. */
-  regionCode?: string | undefined;
-  /** Output only. The 3-letter currency code defined in ISO 4217. */
-  currencyCode?: string | undefined;
-  /** Output only. The time when this billing account was created. */
-  createTime?: string | undefined;
-  /** Output only. Resource name of the billing account. Format: accounts/{account_id}/billingAccounts/{billing_account_id}. */
-  name?: string | undefined;
   /** Display name of the billing account. */
   displayName?: string | undefined;
+  /** Output only. The 3-letter currency code defined in ISO 4217. */
+  currencyCode?: string | undefined;
+  /** Output only. The CLDR region code. */
+  regionCode?: string | undefined;
+  /** Output only. Resource name of the billing account. Format: accounts/{account_id}/billingAccounts/{billing_account_id}. */
+  name?: string | undefined;
+  /** Output only. The time when this billing account was created. */
+  createTime?: string | undefined;
 }
 /** Represents a billing account that can be used to make a purchase. */
 export interface GoogleCloudChannelV1BillingAccountPurchaseInfo {
@@ -1688,12 +1688,12 @@ export interface GoogleCloudChannelV1QueryEligibleBillingAccountsResponse {
 }
 /** Request Message for RegisterSubscriber. */
 export interface GoogleCloudChannelV1RegisterSubscriberRequest {
+  /** Required. Service account that provides subscriber access to the registered topic. */
+  serviceAccount?: string | undefined;
   /** Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
   account?: string | undefined;
   /** Optional. Resource name of the integrator. Required if account is not provided. Otherwise, leave this field empty/unset. */
   integrator?: string | undefined;
-  /** Required. Service account that provides subscriber access to the registered topic. */
-  serviceAccount?: string | undefined;
 }
 export interface RegisterAccountsRequest extends Omit<
   GoogleCloudChannelV1RegisterSubscriberRequest,
@@ -1716,12 +1716,12 @@ export interface RegisterSubscriberIntegratorsRequest extends Omit<
 }
 /** Request message for CloudChannelReportsService.RunReportJob. */
 export interface GoogleCloudChannelV1RunReportJobRequest {
+  /** Optional. The BCP-47 language code, such as "en-US". If specified, the response is localized to the corresponding language code if the original data sources support it. Default is "en-US". */
+  languageCode?: string | undefined;
   /** Optional. The range of usage or invoice dates to include in the result. */
   dateRange?: GoogleCloudChannelV1DateRange | undefined;
   /** Optional. A structured string that defines conditions on dimension columns to restrict the report output. Filters support logical operators (AND, OR, NOT) and conditional operators (=, !=, <, >, <=, and >=) using `column_id` as keys. For example: `(customer:"accounts/C123abc/customers/S456def" OR customer:"accounts/C123abc/customers/S789ghi") AND invoice_start_date.year >= 2022` */
   filter?: string | undefined;
-  /** Optional. The BCP-47 language code, such as "en-US". If specified, the response is localized to the corresponding language code if the original data sources support it. Default is "en-US". */
-  languageCode?: string | undefined;
 }
 export interface RunAccountsReportsRequest extends GoogleCloudChannelV1RunReportJobRequest {
   /** Required. The report's resource name. Specifies the account and report used to generate report data. The report_id identifier is a UID (for example, `613bf59q`). Name uses the format: accounts/{account_id}/reports/{report_id} */
@@ -1743,10 +1743,10 @@ export interface SuspendAccountsCustomersEntitlementsRequest extends GoogleCloud
 }
 /** Request message for CloudChannelService.TransferEntitlements. */
 export interface GoogleCloudChannelV1TransferEntitlementsRequest {
-  /** Required. The new entitlements to create or transfer. */
-  entitlements?: GoogleCloudChannelV1EntitlementList | undefined;
   /** The super admin of the resold customer generates this token to authorize a reseller to access their Cloud Identity and purchase entitlements on their behalf. You can omit this token after authorization. See https://support.google.com/a/answer/7643790 for more details. */
   authToken?: string | undefined;
+  /** Required. The new entitlements to create or transfer. */
+  entitlements?: GoogleCloudChannelV1EntitlementList | undefined;
   /** Optional. You can specify an optional unique request ID, and if you need to retry your request, the server will know to ignore the request if it's complete. For example, you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if it received the original operation with the same request ID. If it did, it will ignore the second request. The request ID must be a valid [UUID](https://tools.ietf.org/html/rfc4122) with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
   requestId?: string | undefined;
 }
@@ -1756,10 +1756,10 @@ export interface TransferEntitlementsAccountsCustomersRequest extends GoogleClou
 }
 /** Request message for CloudChannelService.TransferEntitlementsToGoogle. */
 export interface GoogleCloudChannelV1TransferEntitlementsToGoogleRequest {
-  /** Required. The entitlements to transfer to Google. */
-  entitlements?: GoogleCloudChannelV1EntitlementList | undefined;
   /** Optional. You can specify an optional unique request ID, and if you need to retry your request, the server will know to ignore the request if it's complete. For example, you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if it received the original operation with the same request ID. If it did, it will ignore the second request. The request ID must be a valid [UUID](https://tools.ietf.org/html/rfc4122) with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
   requestId?: string | undefined;
+  /** Required. The entitlements to transfer to Google. */
+  entitlements?: GoogleCloudChannelV1EntitlementList | undefined;
 }
 export interface TransferEntitlementsToGoogleAccountsCustomersRequest extends GoogleCloudChannelV1TransferEntitlementsToGoogleRequest {
   /** Required. The resource name of the reseller's customer account where the entitlements transfer from. Parent uses the format: accounts/{account_id}/customers/{customer_id} */
@@ -1767,12 +1767,12 @@ export interface TransferEntitlementsToGoogleAccountsCustomersRequest extends Go
 }
 /** Request Message for UnregisterSubscriber. */
 export interface GoogleCloudChannelV1UnregisterSubscriberRequest {
-  /** Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
-  account?: string | undefined;
   /** Optional. Resource name of the integrator. Required if account is not provided. Otherwise, leave this field empty/unset. */
   integrator?: string | undefined;
   /** Required. Service account to unregister from subscriber access to the topic. */
   serviceAccount?: string | undefined;
+  /** Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
+  account?: string | undefined;
 }
 export interface UnregisterAccountsRequest extends Omit<
   GoogleCloudChannelV1UnregisterSubscriberRequest,
@@ -1806,8 +1806,8 @@ export const activateAccountsCustomersEntitlements: API.OperationMethod<
   ActivateAccountsCustomersEntitlementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<ActivateAccountsCustomersEntitlementsRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(816, __c51, 0) as any as S.Schema<ActivateAccountsCustomersEntitlementsRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1828,8 +1828,8 @@ export const cancelAccountsCustomersEntitlements: API.OperationMethod<
   CancelAccountsCustomersEntitlementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<CancelAccountsCustomersEntitlementsRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1072, __c67, 0) as any as S.Schema<CancelAccountsCustomersEntitlementsRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1845,8 +1845,8 @@ export const cancelOperations: API.OperationMethod<
   CancelOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<CancelOperationsRequest>,
-  output: __S(1248, __c78, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(1248, __c78, 0) as any as S.Schema<CancelOperationsRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1867,8 +1867,8 @@ export const changeOfferAccountsCustomersEntitlements: API.OperationMethod<
   ChangeOfferAccountsCustomersEntitlementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1425, __c89, 1) as any as S.Schema<ChangeOfferAccountsCustomersEntitlementsRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1473, __c92, 1) as any as S.Schema<ChangeOfferAccountsCustomersEntitlementsRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1890,11 +1890,11 @@ export const changeParametersAccountsCustomersEntitlements: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1473,
-    __c92,
+    1521,
+    __c95,
     1,
   ) as any as S.Schema<ChangeParametersAccountsCustomersEntitlementsRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(866, __c54, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1916,11 +1916,11 @@ export const changeRenewalSettingsAccountsCustomersEntitlements: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1489,
-    __c93,
+    1537,
+    __c96,
     1,
   ) as any as S.Schema<ChangeRenewalSettingsAccountsCustomersEntitlementsRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(866, __c54, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1994,7 +1994,7 @@ export const createAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: AP
     __c4,
     0,
   ) as any as S.Schema<CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest>,
-  output: __S(120, __c7, 8) as any as S.Schema<GoogleCloudChannelV1ChannelPartnerRepricingConfig>,
+  output: __S(128, __c8, 0) as any as S.Schema<GoogleCloudChannelV1ChannelPartnerRepricingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2015,8 +2015,8 @@ export const createAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   CreateAccountsChannelPartnerLinksCustomersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<CreateAccountsChannelPartnerLinksCustomersRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
+  input: __S(144, __c9, 0) as any as S.Schema<CreateAccountsChannelPartnerLinksCustomersRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2037,8 +2037,8 @@ export const createAccountsCustomers: API.OperationMethod<
   CreateAccountsCustomersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<CreateAccountsCustomersRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
+  input: __S(192, __c12, 0) as any as S.Schema<CreateAccountsCustomersRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2060,11 +2060,11 @@ export const createAccountsCustomersCustomerRepricingConfigs: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    192,
-    __c12,
+    208,
+    __c13,
     0,
   ) as any as S.Schema<CreateAccountsCustomersCustomerRepricingConfigsRequest>,
-  output: __S(120, __c7, 8) as any as S.Schema<GoogleCloudChannelV1CustomerRepricingConfig>,
+  output: __S(224, __c14, 0) as any as S.Schema<GoogleCloudChannelV1CustomerRepricingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2085,8 +2085,8 @@ export const createAccountsCustomersEntitlements: API.OperationMethod<
   CreateAccountsCustomersEntitlementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(209, __c13, 1) as any as S.Schema<CreateAccountsCustomersEntitlementsRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(241, __c15, 1) as any as S.Schema<CreateAccountsCustomersEntitlementsRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2108,11 +2108,11 @@ export const deleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    272,
-    __c17,
+    304,
+    __c19,
     0,
   ) as any as S.Schema<DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest>,
-  output: __S(1248, __c78, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(1264, __c79, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2133,8 +2133,8 @@ export const deleteAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   DeleteAccountsChannelPartnerLinksCustomersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<DeleteAccountsChannelPartnerLinksCustomersRequest>,
-  output: __S(1248, __c78, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(320, __c20, 0) as any as S.Schema<DeleteAccountsChannelPartnerLinksCustomersRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2155,8 +2155,8 @@ export const deleteAccountsCustomers: API.OperationMethod<
   DeleteAccountsCustomersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<DeleteAccountsCustomersRequest>,
-  output: __S(1248, __c78, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(336, __c21, 0) as any as S.Schema<DeleteAccountsCustomersRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2178,11 +2178,11 @@ export const deleteAccountsCustomersCustomerRepricingConfigs: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c20,
+    352,
+    __c22,
     0,
   ) as any as S.Schema<DeleteAccountsCustomersCustomerRepricingConfigsRequest>,
-  output: __S(1248, __c78, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(1264, __c79, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2198,8 +2198,8 @@ export const deleteOperations: API.OperationMethod<
   DeleteOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<DeleteOperationsRequest>,
-  output: __S(1248, __c78, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(368, __c23, 0) as any as S.Schema<DeleteOperationsRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2220,8 +2220,8 @@ export const fetchReportResultsAccountsReportJobs: API.OperationMethod<
   FetchReportResultsAccountsReportJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(353, __c22, 1) as any as S.Schema<FetchReportResultsAccountsReportJobsRequest>,
-  output: __S(359, __c22, 7) as any as S.Schema<GoogleCloudChannelV1FetchReportResultsResponse>,
+  input: __S(385, __c24, 1) as any as S.Schema<FetchReportResultsAccountsReportJobsRequest>,
+  output: __S(391, __c24, 7) as any as S.Schema<GoogleCloudChannelV1FetchReportResultsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2237,7 +2237,7 @@ export const getAccountsChannelPartnerLinks: API.OperationMethod<
   GetAccountsChannelPartnerLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetAccountsChannelPartnerLinksRequest>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetAccountsChannelPartnerLinksRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<GoogleCloudChannelV1ChannelPartnerLink>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2258,11 +2258,11 @@ export const getAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    432,
-    __c27,
+    464,
+    __c29,
     0,
   ) as any as S.Schema<GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest>,
-  output: __S(120, __c7, 8) as any as S.Schema<GoogleCloudChannelV1ChannelPartnerRepricingConfig>,
+  output: __S(128, __c8, 0) as any as S.Schema<GoogleCloudChannelV1ChannelPartnerRepricingConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2278,8 +2278,8 @@ export const getAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   GetAccountsChannelPartnerLinksCustomersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetAccountsChannelPartnerLinksCustomersRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetAccountsChannelPartnerLinksCustomersRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2295,8 +2295,8 @@ export const getAccountsCustomers: API.OperationMethod<
   GetAccountsCustomersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetAccountsCustomersRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetAccountsCustomersRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2312,8 +2312,8 @@ export const getAccountsCustomersCustomerRepricingConfigs: API.OperationMethod<
   GetAccountsCustomersCustomerRepricingConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetAccountsCustomersCustomerRepricingConfigsRequest>,
-  output: __S(120, __c7, 8) as any as S.Schema<GoogleCloudChannelV1CustomerRepricingConfig>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetAccountsCustomersCustomerRepricingConfigsRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<GoogleCloudChannelV1CustomerRepricingConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2329,8 +2329,8 @@ export const getAccountsCustomersEntitlements: API.OperationMethod<
   GetAccountsCustomersEntitlementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetAccountsCustomersEntitlementsRequest>,
-  output: __S(259, __c16, 3) as any as S.Schema<GoogleCloudChannelV1Entitlement>,
+  input: __S(528, __c33, 0) as any as S.Schema<GetAccountsCustomersEntitlementsRequest>,
+  output: __S(291, __c18, 3) as any as S.Schema<GoogleCloudChannelV1Entitlement>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2346,8 +2346,8 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetOperationsRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(544, __c34, 0) as any as S.Schema<GetOperationsRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2368,8 +2368,8 @@ export const importAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   ImportAccountsChannelPartnerLinksCustomersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ImportAccountsChannelPartnerLinksCustomersRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
+  input: __S(560, __c35, 0) as any as S.Schema<ImportAccountsChannelPartnerLinksCustomersRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2390,8 +2390,8 @@ export const importAccountsCustomers: API.OperationMethod<
   ImportAccountsCustomersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ImportAccountsCustomersRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
+  input: __S(592, __c37, 0) as any as S.Schema<ImportAccountsCustomersRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2408,10 +2408,10 @@ export const listAccountsChannelPartnerLinks: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudChannelV1ListChannelPartnerLinksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<ListAccountsChannelPartnerLinksRequest>,
+  input: __S(608, __c38, 0) as any as S.Schema<ListAccountsChannelPartnerLinksRequest>,
   output: __S(
-    578,
-    __c36,
+    610,
+    __c38,
     2,
   ) as any as S.Schema<GoogleCloudChannelV1ListChannelPartnerLinksResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -2435,14 +2435,14 @@ export const listAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: API.
   GoogleCloudChannelV1ListChannelPartnerRepricingConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    592,
-    __c37,
+    624,
+    __c39,
     0,
   ) as any as S.Schema<ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest>,
   output: __S(
-    593,
-    __c37,
-    1,
+    626,
+    __c39,
+    2,
   ) as any as S.Schema<GoogleCloudChannelV1ListChannelPartnerRepricingConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2461,8 +2461,8 @@ export const listAccountsChannelPartnerLinksCustomers: API.PaginatedOperationMet
   GcpOpContext,
   GoogleCloudChannelV1ListCustomersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ListAccountsChannelPartnerLinksCustomersRequest>,
-  output: __S(641, __c40, 1) as any as S.Schema<GoogleCloudChannelV1ListCustomersResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<ListAccountsChannelPartnerLinksCustomersRequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<GoogleCloudChannelV1ListCustomersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2480,8 +2480,8 @@ export const listAccountsCustomers: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudChannelV1ListCustomersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListAccountsCustomersRequest>,
-  output: __S(641, __c40, 1) as any as S.Schema<GoogleCloudChannelV1ListCustomersResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<ListAccountsCustomersRequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<GoogleCloudChannelV1ListCustomersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2500,14 +2500,14 @@ export const listAccountsCustomersCustomerRepricingConfigs: API.PaginatedOperati
   GoogleCloudChannelV1ListCustomerRepricingConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    672,
-    __c42,
+    688,
+    __c43,
     0,
   ) as any as S.Schema<ListAccountsCustomersCustomerRepricingConfigsRequest>,
   output: __S(
-    673,
-    __c42,
-    1,
+    690,
+    __c43,
+    2,
   ) as any as S.Schema<GoogleCloudChannelV1ListCustomerRepricingConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2526,8 +2526,8 @@ export const listAccountsCustomersEntitlements: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudChannelV1ListEntitlementsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<ListAccountsCustomersEntitlementsRequest>,
-  output: __S(689, __c43, 1) as any as S.Schema<GoogleCloudChannelV1ListEntitlementsResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<ListAccountsCustomersEntitlementsRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<GoogleCloudChannelV1ListEntitlementsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2545,8 +2545,8 @@ export const listAccountsOffers: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudChannelV1ListOffersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<ListAccountsOffersRequest>,
-  output: __S(722, __c45, 2) as any as S.Schema<GoogleCloudChannelV1ListOffersResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<ListAccountsOffersRequest>,
+  output: __S(738, __c46, 2) as any as S.Schema<GoogleCloudChannelV1ListOffersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2564,8 +2564,8 @@ export const listAccountsReports: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudChannelV1ListReportsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<ListAccountsReportsRequest>,
-  output: __S(786, __c49, 2) as any as S.Schema<GoogleCloudChannelV1ListReportsResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<ListAccountsReportsRequest>,
+  output: __S(802, __c50, 2) as any as S.Schema<GoogleCloudChannelV1ListReportsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2583,8 +2583,8 @@ export const listAccountsSkuGroups: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudChannelV1ListSkuGroupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<ListAccountsSkuGroupsRequest>,
-  output: __S(867, __c54, 3) as any as S.Schema<GoogleCloudChannelV1ListSkuGroupsResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<ListAccountsSkuGroupsRequest>,
+  output: __S(883, __c55, 3) as any as S.Schema<GoogleCloudChannelV1ListSkuGroupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2602,10 +2602,10 @@ export const listAccountsSkuGroupsBillableSkus: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudChannelV1ListSkuGroupBillableSkusResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ListAccountsSkuGroupsBillableSkusRequest>,
+  input: __S(896, __c56, 0) as any as S.Schema<ListAccountsSkuGroupsBillableSkusRequest>,
   output: __S(
-    883,
-    __c55,
+    899,
+    __c56,
     3,
   ) as any as S.Schema<GoogleCloudChannelV1ListSkuGroupBillableSkusResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -2629,11 +2629,11 @@ export const listEntitlementChangesAccountsCustomersEntitlements: API.PaginatedO
   GoogleCloudChannelV1ListEntitlementChangesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    896,
-    __c56,
+    912,
+    __c57,
     0,
   ) as any as S.Schema<ListEntitlementChangesAccountsCustomersEntitlementsRequest>,
-  output: __S(899, __c56, 3) as any as S.Schema<GoogleCloudChannelV1ListEntitlementChangesResponse>,
+  output: __S(915, __c57, 3) as any as S.Schema<GoogleCloudChannelV1ListEntitlementChangesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2651,8 +2651,8 @@ export const listOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(914, __c57, 2) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2670,8 +2670,8 @@ export const listProducts: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudChannelV1ListProductsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<ListProductsRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleCloudChannelV1ListProductsResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<ListProductsRequest>,
+  output: __S(946, __c59, 2) as any as S.Schema<GoogleCloudChannelV1ListProductsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2689,8 +2689,8 @@ export const listProductsSkus: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudChannelV1ListSkusResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<ListProductsSkusRequest>,
-  output: __S(946, __c59, 2) as any as S.Schema<GoogleCloudChannelV1ListSkusResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<ListProductsSkusRequest>,
+  output: __S(962, __c60, 2) as any as S.Schema<GoogleCloudChannelV1ListSkusResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2708,8 +2708,8 @@ export const listPurchasableOffersAccountsCustomers: API.PaginatedOperationMetho
   GcpOpContext,
   GoogleCloudChannelV1ListPurchasableOffersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<ListPurchasableOffersAccountsCustomersRequest>,
-  output: __S(961, __c60, 1) as any as S.Schema<GoogleCloudChannelV1ListPurchasableOffersResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<ListPurchasableOffersAccountsCustomersRequest>,
+  output: __S(977, __c61, 1) as any as S.Schema<GoogleCloudChannelV1ListPurchasableOffersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2727,8 +2727,8 @@ export const listPurchasableSkusAccountsCustomers: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudChannelV1ListPurchasableSkusResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<ListPurchasableSkusAccountsCustomersRequest>,
-  output: __S(995, __c62, 3) as any as S.Schema<GoogleCloudChannelV1ListPurchasableSkusResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<ListPurchasableSkusAccountsCustomersRequest>,
+  output: __S(1011, __c63, 3) as any as S.Schema<GoogleCloudChannelV1ListPurchasableSkusResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2746,8 +2746,8 @@ export const listSubscribersAccounts: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudChannelV1ListSubscribersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<ListSubscribersAccountsRequest>,
-  output: __S(1024, __c64, 0) as any as S.Schema<GoogleCloudChannelV1ListSubscribersResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<ListSubscribersAccountsRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<GoogleCloudChannelV1ListSubscribersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2765,8 +2765,8 @@ export const listSubscribersIntegrators: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudChannelV1ListSubscribersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<ListSubscribersIntegratorsRequest>,
-  output: __S(1024, __c64, 0) as any as S.Schema<GoogleCloudChannelV1ListSubscribersResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<ListSubscribersIntegratorsRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<GoogleCloudChannelV1ListSubscribersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2788,10 +2788,10 @@ export const listTransferableOffersAccounts: API.OperationMethod<
   ListTransferableOffersAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1073, __c67, 1) as any as S.Schema<ListTransferableOffersAccountsRequest>,
+  input: __S(1089, __c68, 1) as any as S.Schema<ListTransferableOffersAccountsRequest>,
   output: __S(
-    1074,
-    __c67,
+    1090,
+    __c68,
     2,
   ) as any as S.Schema<GoogleCloudChannelV1ListTransferableOffersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -2814,8 +2814,8 @@ export const listTransferableSkusAccounts: API.OperationMethod<
   ListTransferableSkusAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1089, __c68, 1) as any as S.Schema<ListTransferableSkusAccountsRequest>,
-  output: __S(1093, __c68, 5) as any as S.Schema<GoogleCloudChannelV1ListTransferableSkusResponse>,
+  input: __S(1105, __c69, 1) as any as S.Schema<ListTransferableSkusAccountsRequest>,
+  output: __S(1109, __c69, 5) as any as S.Schema<GoogleCloudChannelV1ListTransferableSkusResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2831,8 +2831,8 @@ export const lookupOfferAccountsCustomersEntitlements: API.OperationMethod<
   LookupOfferAccountsCustomersEntitlementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<LookupOfferAccountsCustomersEntitlementsRequest>,
-  output: __S(783, __c48, 15) as any as S.Schema<GoogleCloudChannelV1Offer>,
+  input: __S(1120, __c70, 0) as any as S.Schema<LookupOfferAccountsCustomersEntitlementsRequest>,
+  output: __S(799, __c49, 15) as any as S.Schema<GoogleCloudChannelV1Offer>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2853,7 +2853,7 @@ export const patchAccountsChannelPartnerLinks: API.OperationMethod<
   PatchAccountsChannelPartnerLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1121, __c70, 1) as any as S.Schema<PatchAccountsChannelPartnerLinksRequest>,
+  input: __S(1137, __c71, 1) as any as S.Schema<PatchAccountsChannelPartnerLinksRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<GoogleCloudChannelV1ChannelPartnerLink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2876,11 +2876,11 @@ export const patchAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1136,
-    __c71,
+    1152,
+    __c72,
     0,
   ) as any as S.Schema<PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest>,
-  output: __S(120, __c7, 8) as any as S.Schema<GoogleCloudChannelV1ChannelPartnerRepricingConfig>,
+  output: __S(128, __c8, 0) as any as S.Schema<GoogleCloudChannelV1ChannelPartnerRepricingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2901,8 +2901,8 @@ export const patchAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   PatchAccountsChannelPartnerLinksCustomersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<PatchAccountsChannelPartnerLinksCustomersRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
+  input: __S(1168, __c73, 0) as any as S.Schema<PatchAccountsChannelPartnerLinksCustomersRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2918,8 +2918,8 @@ export const patchAccountsCustomers: API.OperationMethod<
   PatchAccountsCustomersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<PatchAccountsCustomersRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
+  input: __S(1184, __c74, 0) as any as S.Schema<PatchAccountsCustomersRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<GoogleCloudChannelV1Customer>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2941,11 +2941,11 @@ export const patchAccountsCustomersCustomerRepricingConfigs: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1184,
-    __c74,
+    1200,
+    __c75,
     0,
   ) as any as S.Schema<PatchAccountsCustomersCustomerRepricingConfigsRequest>,
-  output: __S(120, __c7, 8) as any as S.Schema<GoogleCloudChannelV1CustomerRepricingConfig>,
+  output: __S(224, __c14, 0) as any as S.Schema<GoogleCloudChannelV1CustomerRepricingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2966,8 +2966,8 @@ export const provisionCloudIdentityAccountsCustomers: API.OperationMethod<
   ProvisionCloudIdentityAccountsCustomersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1202, __c75, 2) as any as S.Schema<ProvisionCloudIdentityAccountsCustomersRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1218, __c76, 2) as any as S.Schema<ProvisionCloudIdentityAccountsCustomersRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2984,13 +2984,13 @@ export const queryEligibleBillingAccountsAccountsCustomers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1216,
-    __c76,
+    1232,
+    __c77,
     0,
   ) as any as S.Schema<QueryEligibleBillingAccountsAccountsCustomersRequest>,
   output: __S(
-    1222,
-    __c76,
+    1238,
+    __c77,
     6,
   ) as any as S.Schema<GoogleCloudChannelV1QueryEligibleBillingAccountsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -3008,8 +3008,8 @@ export const registerAccounts: API.OperationMethod<
   RegisterAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<RegisterAccountsRequest>,
-  output: __S(1281, __c80, 1) as any as S.Schema<GoogleCloudChannelV1RegisterSubscriberResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<RegisterAccountsRequest>,
+  output: __S(1312, __c82, 0) as any as S.Schema<GoogleCloudChannelV1RegisterSubscriberResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3030,8 +3030,8 @@ export const registerSubscriberIntegrators: API.OperationMethod<
   RegisterSubscriberIntegratorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<RegisterSubscriberIntegratorsRequest>,
-  output: __S(1281, __c80, 1) as any as S.Schema<GoogleCloudChannelV1RegisterSubscriberResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<RegisterSubscriberIntegratorsRequest>,
+  output: __S(1312, __c82, 0) as any as S.Schema<GoogleCloudChannelV1RegisterSubscriberResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3047,8 +3047,8 @@ export const runAccountsReports: API.OperationMethod<
   RunAccountsReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1313, __c82, 1) as any as S.Schema<RunAccountsReportsRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1345, __c84, 1) as any as S.Schema<RunAccountsReportsRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3070,11 +3070,11 @@ export const startPaidServiceAccountsCustomersEntitlements: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1328,
-    __c83,
+    1360,
+    __c85,
     0,
   ) as any as S.Schema<StartPaidServiceAccountsCustomersEntitlementsRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(866, __c54, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3095,8 +3095,8 @@ export const suspendAccountsCustomersEntitlements: API.OperationMethod<
   SuspendAccountsCustomersEntitlementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<SuspendAccountsCustomersEntitlementsRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1376, __c86, 0) as any as S.Schema<SuspendAccountsCustomersEntitlementsRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3117,8 +3117,8 @@ export const transferEntitlementsAccountsCustomers: API.OperationMethod<
   TransferEntitlementsAccountsCustomersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1361, __c85, 1) as any as S.Schema<TransferEntitlementsAccountsCustomersRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1393, __c87, 1) as any as S.Schema<TransferEntitlementsAccountsCustomersRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3140,11 +3140,11 @@ export const transferEntitlementsToGoogleAccountsCustomers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1377,
-    __c86,
+    1409,
+    __c88,
     1,
   ) as any as S.Schema<TransferEntitlementsToGoogleAccountsCustomersRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(866, __c54, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3160,8 +3160,8 @@ export const unregisterAccounts: API.OperationMethod<
   UnregisterAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<UnregisterAccountsRequest>,
-  output: __S(1281, __c80, 1) as any as S.Schema<GoogleCloudChannelV1UnregisterSubscriberResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<UnregisterAccountsRequest>,
+  output: __S(1312, __c82, 0) as any as S.Schema<GoogleCloudChannelV1UnregisterSubscriberResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3182,8 +3182,8 @@ export const unregisterSubscriberIntegrators: API.OperationMethod<
   UnregisterSubscriberIntegratorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<UnregisterSubscriberIntegratorsRequest>,
-  output: __S(1281, __c80, 1) as any as S.Schema<GoogleCloudChannelV1UnregisterSubscriberResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<UnregisterSubscriberIntegratorsRequest>,
+  output: __S(1312, __c82, 0) as any as S.Schema<GoogleCloudChannelV1UnregisterSubscriberResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3197,8 +3197,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          primaryAdminEmail: S.optional(S.String),
           domain: S.optional(S.String),
+          primaryAdminEmail: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1CheckCloudIdentityAccountsExistRequest" });
     case 1:
@@ -3219,12 +3219,12 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customerCloudIdentityId: S.optional(S.String),
-          customerType: S.optional(S.String),
-          channelPartnerCloudIdentityId: S.optional(S.String),
-          customerName: S.optional(S.String),
-          owned: S.optional(S.Boolean),
           existing: S.optional(S.Boolean),
+          channelPartnerCloudIdentityId: S.optional(S.String),
+          owned: S.optional(S.Boolean),
+          customerName: S.optional(S.String),
+          customerType: S.optional(S.String),
+          customerCloudIdentityId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1CloudIdentityCustomerAccount" });
     case 3:
@@ -3269,13 +3269,13 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          languageCode: S.optional(S.String),
-          adminConsoleUri: S.optional(S.String),
+          eduData: S.optional(__S(32, __c2, 0)),
           primaryDomain: S.optional(S.String),
-          customerType: S.optional(S.String),
+          adminConsoleUri: S.optional(S.String),
           isDomainVerified: S.optional(S.Boolean),
           alternateEmail: S.optional(S.String),
-          eduData: S.optional(__S(32, __c2, 0)),
+          customerType: S.optional(S.String),
+          languageCode: S.optional(S.String),
           phoneNumber: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1CloudIdentityInfo" });
@@ -3286,14 +3286,14 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resellerCloudIdentityId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          channelPartnerCloudIdentityInfo: S.optional(__S(33, __c2, 1)),
-          publicId: S.optional(S.String),
-          name: S.optional(S.String),
-          linkState: S.optional(S.String),
-          inviteLinkUri: S.optional(S.String),
           createTime: S.optional(S.String),
+          channelPartnerCloudIdentityInfo: S.optional(__S(33, __c2, 1)),
+          linkState: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          publicId: S.optional(S.String),
+          resellerCloudIdentityId: S.optional(S.String),
+          inviteLinkUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ChannelPartnerLink" });
   }
@@ -3303,7 +3303,7 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(120, __c7, 8),
+          __S(128, __c8, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -3334,9 +3334,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          year: S.optional(S.Number),
           day: S.optional(S.Number),
           month: S.optional(S.Number),
-          year: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleTypeDate" });
   }
@@ -3346,70 +3346,74 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          percentage: S.optional(__S(80, __c5, 0)),
+          entitlement: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudChannelV1PercentageAdjustment" });
+      ).annotate({ identifier: "GoogleCloudChannelV1RepricingConfigEntitlementGranularity" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          percentageAdjustment: S.optional(__S(112, __c7, 0)),
+          percentage: S.optional(__S(80, __c5, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1PercentageAdjustment" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          percentageAdjustment: S.optional(__S(113, __c7, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1RepricingAdjustment" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           skuGroup: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1SkuGroupCondition" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          skuGroupCondition: S.optional(__S(114, __c7, 2)),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1RepricingCondition" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          rebillingBasis: S.optional(S.String),
-          adjustment: S.optional(__S(113, __c7, 1)),
-          repricingCondition: S.optional(__S(115, __c7, 3)),
+          skuGroupCondition: S.optional(__S(115, __c7, 3)),
         }),
-      ).annotate({ identifier: "GoogleCloudChannelV1ConditionalOverride" });
+      ).annotate({ identifier: "GoogleCloudChannelV1RepricingCondition" });
     case 5:
-      return S.Array(__S(116, __c7, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          entitlement: S.optional(S.String),
+          adjustment: S.optional(__S(114, __c7, 2)),
+          rebillingBasis: S.optional(S.String),
+          repricingCondition: S.optional(__S(116, __c7, 4)),
         }),
-      ).annotate({ identifier: "GoogleCloudChannelV1RepricingConfigEntitlementGranularity" });
+      ).annotate({ identifier: "GoogleCloudChannelV1ConditionalOverride" });
+    case 6:
+      return S.Array(__S(117, __c7, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          adjustment: S.optional(__S(113, __c7, 1)),
-          channelPartnerGranularity: S.optional(__S(1248, __c78, 0)),
+          entitlementGranularity: S.optional(__S(112, __c7, 0)),
+          channelPartnerGranularity: S.optional(__S(1264, __c79, 0)),
+          adjustment: S.optional(__S(114, __c7, 2)),
           rebillingBasis: S.optional(S.String),
-          conditionalOverrides: S.optional(__S(117, __c7, 5)),
-          entitlementGranularity: S.optional(__S(118, __c7, 6)),
           effectiveInvoiceMonth: S.optional(__S(96, __c6, 0)),
+          conditionalOverrides: S.optional(__S(118, __c7, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1RepricingConfig" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          repricingConfig: S.optional(__S(119, __c7, 7)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1ChannelPartnerRepricingConfig" });
   }
 }
 function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          repricingConfig: S.optional(__S(119, __c7, 7)),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1ChannelPartnerRepricingConfig" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(162, __c10, 2),
+          __S(178, __c11, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -3423,68 +3427,68 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateAccountsChannelPartnerLinksCustomersRequest" });
   }
 }
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sortingCode: S.optional(S.String),
-          recipients: S.optional(__S(144, __c9, 0)),
-          languageCode: S.optional(S.String),
-          organization: S.optional(S.String),
-          administrativeArea: S.optional(S.String),
-          sublocality: S.optional(S.String),
-          locality: S.optional(S.String),
-          regionCode: S.optional(S.String),
-          addressLines: S.optional(__S(144, __c9, 0)),
-          revision: S.optional(S.Number),
-          postalCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleTypePostalAddress" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          phone: S.optional(S.String),
-          title: S.optional(S.String),
-          firstName: S.optional(S.String),
-          displayName: S.optional(S.String),
-          lastName: S.optional(S.String),
-          email: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1ContactInfo" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          orgPostalAddress: S.optional(__S(160, __c10, 0)),
-          domain: S.optional(S.String),
-          channelPartnerId: S.optional(S.String),
-          primaryContactInfo: S.optional(__S(161, __c10, 1)),
-          updateTime: S.optional(S.String),
-          correlationId: S.optional(S.String),
-          customerAttestationState: S.optional(S.String),
-          languageCode: S.optional(S.String),
-          alternateEmail: S.optional(S.String),
-          createTime: S.optional(S.String),
-          cloudIdentityInfo: S.optional(__S(33, __c2, 1)),
-          name: S.optional(S.String),
-          orgDisplayName: S.optional(S.String),
-          cloudIdentityId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1Customer" });
+      return S.Array(S.String);
   }
 }
 function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          sublocality: S.optional(S.String),
+          locality: S.optional(S.String),
+          postalCode: S.optional(S.String),
+          recipients: S.optional(__S(160, __c10, 0)),
+          sortingCode: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          addressLines: S.optional(__S(160, __c10, 0)),
+          administrativeArea: S.optional(S.String),
+          organization: S.optional(S.String),
+          regionCode: S.optional(S.String),
+          revision: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleTypePostalAddress" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          email: S.optional(S.String),
+          phone: S.optional(S.String),
+          title: S.optional(S.String),
+          lastName: S.optional(S.String),
+          firstName: S.optional(S.String),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1ContactInfo" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          customerAttestationState: S.optional(S.String),
+          orgPostalAddress: S.optional(__S(176, __c11, 0)),
+          cloudIdentityId: S.optional(S.String),
+          name: S.optional(S.String),
+          channelPartnerId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          domain: S.optional(S.String),
+          correlationId: S.optional(S.String),
+          alternateEmail: S.optional(S.String),
+          cloudIdentityInfo: S.optional(__S(33, __c2, 1)),
+          languageCode: S.optional(S.String),
+          createTime: S.optional(S.String),
+          orgDisplayName: S.optional(S.String),
+          primaryContactInfo: S.optional(__S(177, __c11, 1)),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1Customer" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(162, __c10, 2),
+          __S(178, __c11, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -3498,12 +3502,12 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateAccountsCustomersRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(120, __c7, 8),
+          __S(224, __c14, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -3517,19 +3521,31 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateAccountsCustomersCustomerRepricingConfigsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          entitlement: S.optional(__S(259, __c16, 3)),
+          name: S.optional(S.String),
+          repricingConfig: S.optional(__S(119, __c7, 7)),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1CustomerRepricingConfig" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          entitlement: S.optional(__S(291, __c18, 3)),
           requestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1CreateEntitlementRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(208, __c13, 0),
+          __S(240, __c15, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -3543,13 +3559,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateAccountsCustomersEntitlementsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3561,14 +3577,16 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1ProvisionedService" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          baseEntitlement: S.optional(S.String),
+          renewalSettings: S.optional(__S(1568, __c98, 0)),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudChannelV1AssociationInfo" });
+      ).annotate({ identifier: "GoogleCloudChannelV1CommitmentSettings" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -3579,33 +3597,31 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-          renewalSettings: S.optional(__S(1520, __c95, 0)),
+          baseEntitlement: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudChannelV1CommitmentSettings" });
+      ).annotate({ identifier: "GoogleCloudChannelV1AssociationInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          associationInfo: S.optional(__S(256, __c16, 0)),
-          billingAccount: S.optional(S.String),
-          purchaseOrderId: S.optional(S.String),
-          trialSettings: S.optional(__S(257, __c16, 1)),
-          createTime: S.optional(S.String),
-          suspensionReasons: S.optional(__S(224, __c14, 0)),
-          offer: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          commitmentSettings: S.optional(__S(258, __c16, 2)),
-          provisionedService: S.optional(__S(240, __c15, 0)),
           provisioningState: S.optional(S.String),
-          parameters: S.optional(__S(1457, __c91, 1)),
-          priceReferenceId: S.optional(S.String),
           name: S.optional(S.String),
+          provisionedService: S.optional(__S(272, __c17, 0)),
+          updateTime: S.optional(S.String),
+          offer: S.optional(S.String),
+          commitmentSettings: S.optional(__S(288, __c18, 0)),
+          createTime: S.optional(S.String),
+          suspensionReasons: S.optional(__S(256, __c16, 0)),
+          billingAccount: S.optional(S.String),
+          priceReferenceId: S.optional(S.String),
+          trialSettings: S.optional(__S(289, __c18, 1)),
+          associationInfo: S.optional(__S(290, __c18, 2)),
+          parameters: S.optional(__S(1505, __c94, 1)),
+          purchaseOrderId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1Entitlement" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3623,7 +3639,7 @@ function __c17(j: number): any {
       });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3639,7 +3655,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteAccountsChannelPartnerLinksCustomersRequest" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3655,7 +3671,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteAccountsCustomersRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3671,7 +3687,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteAccountsCustomersCustomerRepricingConfigsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3687,20 +3703,20 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteOperationsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          partitionKeys: S.optional(__S(144, __c9, 0)),
-          pageSize: S.optional(S.Number),
           pageToken: S.optional(S.String),
+          partitionKeys: S.optional(__S(160, __c10, 0)),
+          pageSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1FetchReportResultsRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(352, __c22, 0),
+          __S(384, __c24, 0),
           S.Struct({
             reportJob: S.String.pipe(T.Label()),
           }),
@@ -3715,80 +3731,80 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          stringValue: S.optional(S.String),
-          intValue: S.optional(S.String),
+          moneyValue: S.optional(__S(400, __c25, 0)),
           decimalValue: S.optional(__S(80, __c5, 0)),
+          intValue: S.optional(S.String),
+          stringValue: S.optional(S.String),
           dateValue: S.optional(__S(96, __c6, 0)),
-          dateTimeValue: S.optional(__S(401, __c25, 1)),
-          moneyValue: S.optional(__S(368, __c23, 0)),
+          dateTimeValue: S.optional(__S(433, __c27, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ReportValue" });
     case 3:
-      return S.Array(__S(354, __c22, 2));
+      return S.Array(__S(386, __c24, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           partitionKey: S.optional(S.String),
-          values: S.optional(__S(355, __c22, 3)),
+          values: S.optional(__S(387, __c24, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1Row" });
     case 5:
-      return S.Array(__S(356, __c22, 4));
+      return S.Array(__S(388, __c24, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
+          precedingDateRange: S.optional(__S(434, __c27, 2)),
           rowCount: S.optional(S.String),
-          dateRange: S.optional(__S(402, __c25, 2)),
-          precedingDateRange: S.optional(__S(402, __c25, 2)),
-          report: S.optional(__S(386, __c24, 2)),
+          dateRange: S.optional(__S(434, __c27, 2)),
+          report: S.optional(__S(418, __c26, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ReportResultsMetadata" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          rows: S.optional(__S(357, __c22, 5)),
-          reportMetadata: S.optional(__S(358, __c22, 6)),
+          rows: S.optional(__S(389, __c24, 5)),
+          reportMetadata: S.optional(__S(390, __c24, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1FetchReportResultsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          nanos: S.optional(S.Number),
           currencyCode: S.optional(S.String),
           units: S.optional(S.String),
-          nanos: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleTypeMoney" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          dataType: S.optional(S.String),
           columnId: S.optional(S.String),
           displayName: S.optional(S.String),
-          dataType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1Column" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(416, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          columns: S.optional(__S(417, __c26, 1)),
+          displayName: S.optional(S.String),
           description: S.optional(S.String),
           name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          columns: S.optional(__S(385, __c24, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1Report" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3800,35 +3816,35 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          month: S.optional(S.Number),
-          timeZone: S.optional(__S(400, __c25, 0)),
-          seconds: S.optional(S.Number),
           utcOffset: S.optional(S.String),
-          minutes: S.optional(S.Number),
           year: S.optional(S.Number),
+          seconds: S.optional(S.Number),
+          month: S.optional(S.Number),
+          timeZone: S.optional(__S(432, __c27, 0)),
+          nanos: S.optional(S.Number),
           hours: S.optional(S.Number),
           day: S.optional(S.Number),
-          nanos: S.optional(S.Number),
+          minutes: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleTypeDateTime" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          usageEndDateTime: S.optional(__S(401, __c25, 1)),
-          invoiceEndDate: S.optional(__S(96, __c6, 0)),
           invoiceStartDate: S.optional(__S(96, __c6, 0)),
-          usageStartDateTime: S.optional(__S(401, __c25, 1)),
+          usageStartDateTime: S.optional(__S(433, __c27, 1)),
+          usageEndDateTime: S.optional(__S(433, __c27, 1)),
+          invoiceEndDate: S.optional(__S(96, __c6, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1DateRange" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3839,7 +3855,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetAccountsChannelPartnerLinksRequest" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3857,7 +3873,7 @@ function __c27(j: number): any {
       });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3873,7 +3889,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetAccountsChannelPartnerLinksCustomersRequest" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3889,7 +3905,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetAccountsCustomersRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3905,7 +3921,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetAccountsCustomersCustomerRepricingConfigsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3921,7 +3937,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetAccountsCustomersEntitlementsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3937,12 +3953,12 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetOperationsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(544, __c34, 0),
+          __S(576, __c36, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -3956,28 +3972,28 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ImportAccountsChannelPartnerLinksCustomersRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cloudIdentityId: S.optional(S.String),
-          authToken: S.optional(S.String),
-          domain: S.optional(S.String),
-          overwriteIfExists: S.optional(S.Boolean),
           primaryAdminEmail: S.optional(S.String),
+          overwriteIfExists: S.optional(S.Boolean),
+          authToken: S.optional(S.String),
+          cloudIdentityId: S.optional(S.String),
+          domain: S.optional(S.String),
           customer: S.optional(S.String),
           channelPartnerId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ImportCustomerRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(544, __c34, 0),
+          __S(576, __c36, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -3991,15 +4007,15 @@ function __c35(j: number): any {
       ).annotate({ identifier: "ImportAccountsCustomersRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4013,21 +4029,21 @@ function __c36(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          channelPartnerLinks: S.optional(__S(577, __c36, 1)),
+          channelPartnerLinks: S.optional(__S(609, __c38, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListChannelPartnerLinksResponse" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4039,21 +4055,17 @@ function __c37(j: number): any {
         identifier: "ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest",
       });
     case 1:
+      return S.Array(__S(128, __c8, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          channelPartnerRepricingConfigs: S.optional(__S(608, __c38, 0)),
+          channelPartnerRepricingConfigs: S.optional(__S(625, __c39, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListChannelPartnerRepricingConfigsResponse" });
   }
 }
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(120, __c7, 8));
-  }
-}
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4072,28 +4084,28 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ListAccountsChannelPartnerLinksCustomersRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(162, __c10, 2));
+      return S.Array(__S(178, __c11, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          customers: S.optional(__S(640, __c40, 0)),
           nextPageToken: S.optional(S.String),
+          customers: S.optional(__S(656, __c41, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListCustomersResponse" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4104,15 +4116,15 @@ function __c41(j: number): any {
       ).annotate({ identifier: "ListAccountsCustomersRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4122,22 +4134,24 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountsCustomersCustomerRepricingConfigsRequest" });
     case 1:
+      return S.Array(__S(224, __c14, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          customerRepricingConfigs: S.optional(__S(608, __c38, 0)),
+          customerRepricingConfigs: S.optional(__S(689, __c43, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListCustomerRepricingConfigsResponse" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4149,29 +4163,29 @@ function __c43(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          entitlements: S.optional(__S(704, __c44, 0)),
           nextPageToken: S.optional(S.String),
+          entitlements: S.optional(__S(720, __c45, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListEntitlementsResponse" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(259, __c16, 3));
   }
 }
 function __c45(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(291, __c18, 3));
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          showFutureOffers: S.optional(S.Boolean.pipe(T.Query())),
+          languageCode: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          showFutureOffers: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          languageCode: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4181,17 +4195,17 @@ function __c45(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountsOffersRequest" });
     case 1:
-      return S.Array(__S(783, __c48, 15));
+      return S.Array(__S(799, __c49, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          offers: S.optional(__S(721, __c45, 1)),
+          offers: S.optional(__S(737, __c46, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListOffersResponse" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4205,140 +4219,29 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          defaultLogo: S.optional(__S(736, __c46, 0)),
           description: S.optional(S.String),
+          defaultLogo: S.optional(__S(752, __c47, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1MarketingInfo" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          marketingInfo: S.optional(__S(737, __c46, 1)),
           name: S.optional(S.String),
+          marketingInfo: S.optional(__S(753, __c47, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1Product" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          marketingInfo: S.optional(__S(737, __c46, 1)),
-          product: S.optional(__S(738, __c46, 2)),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1Sku" });
   }
 }
 function __c48(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1440, __c90, 0));
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          minValue: S.optional(__S(1440, __c90, 0)),
-          allowedValues: S.optional(__S(768, __c48, 0)),
-          parameterType: S.optional(S.String),
-          optional: S.optional(S.Boolean),
           name: S.optional(S.String),
-          maxValue: S.optional(__S(1440, __c90, 0)),
+          product: S.optional(__S(754, __c47, 2)),
+          marketingInfo: S.optional(__S(753, __c47, 1)),
         }),
-      ).annotate({ identifier: "GoogleCloudChannelV1ParameterDefinition" });
-    case 2:
-      return S.Array(__S(769, __c48, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          billingAccount: S.optional(S.String),
-          paymentCycle: S.optional(__S(1504, __c94, 0)),
-          paymentType: S.optional(S.String),
-          trialPeriod: S.optional(__S(1504, __c94, 0)),
-          paymentPlan: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1Plan" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          allowedRegions: S.optional(__S(144, __c9, 0)),
-          allowedCustomerTypes: S.optional(__S(224, __c14, 0)),
-          promotionalOrderTypes: S.optional(__S(224, __c14, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1CustomerConstraints" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          customerConstraints: S.optional(__S(772, __c48, 4)),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1Constraints" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          discountType: S.optional(S.String),
-          discountAbsolute: S.optional(__S(368, __c23, 0)),
-          discountPercentage: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1DiscountComponent" });
-    case 7:
-      return S.Array(__S(774, __c48, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          discount: S.optional(S.Number),
-          basePrice: S.optional(__S(368, __c23, 0)),
-          discountComponents: S.optional(__S(775, __c48, 7)),
-          externalPriceUri: S.optional(S.String),
-          effectivePrice: S.optional(__S(368, __c23, 0)),
-          pricePeriod: S.optional(__S(1504, __c94, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1Price" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          price: S.optional(__S(776, __c48, 8)),
-          firstResource: S.optional(S.Number),
-          lastResource: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1PriceTier" });
-    case 10:
-      return S.Array(__S(777, __c48, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          priceTiers: S.optional(__S(778, __c48, 10)),
-          firstPeriod: S.optional(S.Number),
-          price: S.optional(__S(776, __c48, 8)),
-          lastPeriod: S.optional(S.Number),
-          periodType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1PricePhase" });
-    case 12:
-      return S.Array(__S(779, __c48, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          pricePhases: S.optional(__S(780, __c48, 12)),
-          price: S.optional(__S(776, __c48, 8)),
-          resourceType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1PriceByResource" });
-    case 14:
-      return S.Array(__S(781, __c48, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          parameterDefinitions: S.optional(__S(770, __c48, 2)),
-          plan: S.optional(__S(771, __c48, 3)),
-          name: S.optional(S.String),
-          endTime: S.optional(S.String),
-          dealCode: S.optional(S.String),
-          marketingInfo: S.optional(__S(737, __c46, 1)),
-          constraints: S.optional(__S(773, __c48, 5)),
-          priceByResources: S.optional(__S(782, __c48, 14)),
-          startTime: S.optional(S.String),
-          sku: S.optional(__S(752, __c47, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1Offer" });
+      ).annotate({ identifier: "GoogleCloudChannelV1Sku" });
   }
 }
 function __c49(j: number): any {
@@ -4346,10 +4249,121 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          languageCode: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          paymentCycle: S.optional(__S(1552, __c97, 0)),
+          paymentPlan: S.optional(S.String),
+          paymentType: S.optional(S.String),
+          billingAccount: S.optional(S.String),
+          trialPeriod: S.optional(__S(1552, __c97, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1Plan" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          allowedRegions: S.optional(__S(160, __c10, 0)),
+          allowedCustomerTypes: S.optional(__S(256, __c16, 0)),
+          promotionalOrderTypes: S.optional(__S(256, __c16, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1CustomerConstraints" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          customerConstraints: S.optional(__S(785, __c49, 1)),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1Constraints" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          discountType: S.optional(S.String),
+          discountPercentage: S.optional(S.Number),
+          discountAbsolute: S.optional(__S(400, __c25, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1DiscountComponent" });
+    case 4:
+      return S.Array(__S(787, __c49, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          pricePeriod: S.optional(__S(1552, __c97, 0)),
+          discountComponents: S.optional(__S(788, __c49, 4)),
+          externalPriceUri: S.optional(S.String),
+          basePrice: S.optional(__S(400, __c25, 0)),
+          discount: S.optional(S.Number),
+          effectivePrice: S.optional(__S(400, __c25, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1Price" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          firstResource: S.optional(S.Number),
+          lastResource: S.optional(S.Number),
+          price: S.optional(__S(789, __c49, 5)),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1PriceTier" });
+    case 7:
+      return S.Array(__S(790, __c49, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          periodType: S.optional(S.String),
+          firstPeriod: S.optional(S.Number),
+          price: S.optional(__S(789, __c49, 5)),
+          lastPeriod: S.optional(S.Number),
+          priceTiers: S.optional(__S(791, __c49, 7)),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1PricePhase" });
+    case 9:
+      return S.Array(__S(792, __c49, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          pricePhases: S.optional(__S(793, __c49, 9)),
+          resourceType: S.optional(S.String),
+          price: S.optional(__S(789, __c49, 5)),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1PriceByResource" });
+    case 11:
+      return S.Array(__S(794, __c49, 10));
+    case 12:
+      return S.Array(__S(1488, __c93, 0));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          maxValue: S.optional(__S(1488, __c93, 0)),
+          parameterType: S.optional(S.String),
+          optional: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          allowedValues: S.optional(__S(796, __c49, 12)),
+          minValue: S.optional(__S(1488, __c93, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1ParameterDefinition" });
+    case 14:
+      return S.Array(__S(797, __c49, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          plan: S.optional(__S(784, __c49, 0)),
+          dealCode: S.optional(S.String),
+          constraints: S.optional(__S(786, __c49, 2)),
+          priceByResources: S.optional(__S(795, __c49, 11)),
+          name: S.optional(S.String),
+          parameterDefinitions: S.optional(__S(798, __c49, 14)),
+          sku: S.optional(__S(768, __c48, 0)),
+          marketingInfo: S.optional(__S(753, __c47, 1)),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1Offer" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          languageCode: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4359,22 +4373,22 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountsReportsRequest" });
     case 1:
-      return S.Array(__S(386, __c24, 2));
+      return S.Array(__S(418, __c26, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          reports: S.optional(__S(785, __c49, 1)),
+          reports: S.optional(__S(801, __c50, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListReportsResponse" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(816, __c51, 0),
+          __S(832, __c52, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -4388,7 +4402,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ActivateAccountsCustomersEntitlementsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4398,68 +4412,34 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1ActivateEntitlementRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(832, __c52, 0));
+      return S.Array(__S(848, __c53, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
+          details: S.optional(__S(864, __c54, 0)),
           message: S.optional(S.String),
-          details: S.optional(__S(848, __c53, 0)),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          done: S.optional(S.Boolean),
-          error: S.optional(__S(849, __c53, 1)),
-          metadata: S.optional(__S(832, __c52, 0)),
-          response: S.optional(__S(832, __c52, 0)),
+          error: S.optional(__S(865, __c54, 1)),
+          response: S.optional(__S(848, __c53, 0)),
           name: S.optional(S.String),
+          metadata: S.optional(__S(848, __c53, 0)),
+          done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+parent}/skuGroups",
-            baseUrl: "https://cloudchannel.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListAccountsSkuGroupsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1SkuGroup" });
-    case 2:
-      return S.Array(__S(865, __c54, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          skuGroups: S.optional(__S(866, __c54, 2)),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1ListSkuGroupsResponse" });
   }
 }
 function __c55(j: number): any {
@@ -4473,29 +4453,27 @@ function __c55(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "v1/{+parent}/billableSkus",
+            uri: "v1/{+parent}/skuGroups",
             baseUrl: "https://cloudchannel.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "ListAccountsSkuGroupsBillableSkusRequest" });
+      ).annotate({ identifier: "ListAccountsSkuGroupsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          skuDisplayName: S.optional(S.String),
-          serviceDisplayName: S.optional(S.String),
-          sku: S.optional(S.String),
-          service: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudChannelV1BillableSku" });
+      ).annotate({ identifier: "GoogleCloudChannelV1SkuGroup" });
     case 2:
       return S.Array(__S(881, __c55, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          billableSkus: S.optional(__S(882, __c55, 2)),
           nextPageToken: S.optional(S.String),
+          skuGroups: S.optional(__S(882, __c55, 2)),
         }),
-      ).annotate({ identifier: "GoogleCloudChannelV1ListSkuGroupBillableSkusResponse" });
+      ).annotate({ identifier: "GoogleCloudChannelV1ListSkuGroupsResponse" });
   }
 }
 function __c56(j: number): any {
@@ -4505,7 +4483,43 @@ function __c56(j: number): any {
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+parent}/billableSkus",
+            baseUrl: "https://cloudchannel.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListAccountsSkuGroupsBillableSkusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sku: S.optional(S.String),
+          skuDisplayName: S.optional(S.String),
+          serviceDisplayName: S.optional(S.String),
+          service: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1BillableSku" });
+    case 2:
+      return S.Array(__S(897, __c56, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          billableSkus: S.optional(__S(898, __c56, 2)),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1ListSkuGroupBillableSkusResponse" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -4518,41 +4532,41 @@ function __c56(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operatorType: S.optional(S.String),
-          offer: S.optional(S.String),
           activationReason: S.optional(S.String),
+          parameters: S.optional(__S(1505, __c94, 1)),
           otherChangeReason: S.optional(S.String),
+          offer: S.optional(S.String),
           cancellationReason: S.optional(S.String),
-          operator: S.optional(S.String),
-          entitlement: S.optional(S.String),
-          parameters: S.optional(__S(1457, __c91, 1)),
+          operatorType: S.optional(S.String),
           suspensionReason: S.optional(S.String),
-          createTime: S.optional(S.String),
-          provisionedService: S.optional(__S(240, __c15, 0)),
+          entitlement: S.optional(S.String),
           changeType: S.optional(S.String),
+          operator: S.optional(S.String),
+          createTime: S.optional(S.String),
+          provisionedService: S.optional(__S(272, __c17, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1EntitlementChange" });
     case 2:
-      return S.Array(__S(897, __c56, 1));
+      return S.Array(__S(913, __c57, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          entitlementChanges: S.optional(__S(898, __c56, 2)),
+          entitlementChanges: S.optional(__S(914, __c57, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListEntitlementChangesResponse" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4562,26 +4576,26 @@ function __c57(j: number): any {
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
     case 1:
-      return S.Array(__S(850, __c53, 2));
+      return S.Array(__S(866, __c54, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(144, __c9, 0)),
-          operations: S.optional(__S(913, __c57, 1)),
+          unreachable: S.optional(__S(160, __c10, 0)),
           nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(929, __c58, 1)),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           languageCode: S.optional(S.String.pipe(T.Query())),
           account: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4591,26 +4605,26 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "ListProductsRequest" });
     case 1:
-      return S.Array(__S(738, __c46, 2));
+      return S.Array(__S(754, __c47, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          products: S.optional(__S(929, __c58, 1)),
+          products: S.optional(__S(945, __c59, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListProductsResponse" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          account: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           languageCode: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          account: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4620,29 +4634,29 @@ function __c59(j: number): any {
         ),
       ).annotate({ identifier: "ListProductsSkusRequest" });
     case 1:
-      return S.Array(__S(752, __c47, 0));
+      return S.Array(__S(768, __c48, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          skus: S.optional(__S(945, __c59, 1)),
+          skus: S.optional(__S(961, __c60, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListSkusResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          languageCode: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           "changeOfferPurchase.billingAccount": S.optional(S.String.pipe(T.Query())),
-          customer: S.String.pipe(T.Label()),
-          "createEntitlementPurchase.billingAccount": S.optional(S.String.pipe(T.Query())),
           "changeOfferPurchase.entitlement": S.optional(S.String.pipe(T.Query())),
           "createEntitlementPurchase.sku": S.optional(S.String.pipe(T.Query())),
-          languageCode: S.optional(S.String.pipe(T.Query())),
+          "createEntitlementPurchase.billingAccount": S.optional(S.String.pipe(T.Query())),
+          customer: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           "changeOfferPurchase.newSku": S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -4656,22 +4670,9 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          purchasableOffers: S.optional(__S(977, __c61, 1)),
+          purchasableOffers: S.optional(__S(993, __c62, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListPurchasableOffersResponse" });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          priceReferenceId: S.optional(S.String),
-          offer: S.optional(__S(783, __c48, 15)),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1PurchasableOffer" });
-    case 1:
-      return S.Array(__S(976, __c61, 0));
   }
 }
 function __c62(j: number): any {
@@ -4679,11 +4680,24 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          offer: S.optional(__S(799, __c49, 15)),
+          priceReferenceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1PurchasableOffer" });
+    case 1:
+      return S.Array(__S(992, __c62, 0));
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          "changeOfferPurchase.entitlement": S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           languageCode: S.optional(S.String.pipe(T.Query())),
           "createEntitlementPurchase.product": S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          "changeOfferPurchase.entitlement": S.optional(S.String.pipe(T.Query())),
           "changeOfferPurchase.changeType": S.optional(S.String.pipe(T.Query())),
           customer: S.String.pipe(T.Label()),
         }).pipe(
@@ -4697,29 +4711,29 @@ function __c62(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sku: S.optional(__S(752, __c47, 0)),
+          sku: S.optional(__S(768, __c48, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1PurchasableSku" });
     case 2:
-      return S.Array(__S(993, __c62, 1));
+      return S.Array(__S(1009, __c63, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          purchasableSkus: S.optional(__S(994, __c62, 2)),
           nextPageToken: S.optional(S.String),
+          purchasableSkus: S.optional(__S(1010, __c63, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListPurchasableSkusResponse" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          account: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           integrator: S.optional(S.String.pipe(T.Query())),
+          account: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4730,27 +4744,27 @@ function __c63(j: number): any {
       ).annotate({ identifier: "ListSubscribersAccountsRequest" });
   }
 }
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          topic: S.optional(S.String),
-          serviceAccounts: S.optional(__S(144, __c9, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudChannelV1ListSubscribersResponse" });
-  }
-}
 function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          account: S.optional(S.String.pipe(T.Query())),
+          topic: S.optional(S.String),
+          serviceAccounts: S.optional(__S(160, __c10, 0)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1ListSubscribersResponse" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          integrator: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          account: S.optional(S.String.pipe(T.Query())),
+          integrator: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4761,12 +4775,12 @@ function __c65(j: number): any {
       ).annotate({ identifier: "ListSubscribersIntegratorsRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(816, __c51, 0),
+          __S(832, __c52, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -4780,24 +4794,24 @@ function __c66(j: number): any {
       ).annotate({ identifier: "CancelAccountsCustomersEntitlementsRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number),
-          sku: S.optional(S.String),
-          languageCode: S.optional(S.String),
-          pageToken: S.optional(S.String),
-          billingAccount: S.optional(S.String),
-          cloudIdentityId: S.optional(S.String),
           customerName: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          cloudIdentityId: S.optional(S.String),
+          pageSize: S.optional(S.Number),
+          billingAccount: S.optional(S.String),
+          pageToken: S.optional(S.String),
+          sku: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListTransferableOffersRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(1072, __c67, 0),
+          __S(1088, __c68, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -4812,29 +4826,29 @@ function __c67(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          transferableOffers: S.optional(__S(993, __c62, 1)),
           nextPageToken: S.optional(S.String),
-          transferableOffers: S.optional(__S(977, __c61, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListTransferableOffersResponse" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String),
           authToken: S.optional(S.String),
-          pageSize: S.optional(S.Number),
           cloudIdentityId: S.optional(S.String),
-          languageCode: S.optional(S.String),
+          pageSize: S.optional(S.Number),
           customerName: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          pageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListTransferableSkusRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(1088, __c68, 0),
+          __S(1104, __c69, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -4857,23 +4871,23 @@ function __c68(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          legacySku: S.optional(__S(752, __c47, 0)),
-          transferEligibility: S.optional(__S(1090, __c68, 2)),
-          sku: S.optional(__S(752, __c47, 0)),
+          transferEligibility: S.optional(__S(1106, __c69, 2)),
+          legacySku: S.optional(__S(768, __c48, 0)),
+          sku: S.optional(__S(768, __c48, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1TransferableSku" });
     case 4:
-      return S.Array(__S(1091, __c68, 3));
+      return S.Array(__S(1107, __c69, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          transferableSkus: S.optional(__S(1092, __c68, 4)),
           nextPageToken: S.optional(S.String),
+          transferableSkus: S.optional(__S(1108, __c69, 4)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ListTransferableSkusResponse" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4889,19 +4903,19 @@ function __c69(j: number): any {
       ).annotate({ identifier: "LookupOfferAccountsCustomersEntitlementsRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String),
           channelPartnerLink: S.optional(__S(48, __c3, 0)),
+          updateMask: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1UpdateChannelPartnerLinkRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(1120, __c70, 0),
+          __S(1136, __c71, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -4915,12 +4929,12 @@ function __c70(j: number): any {
       ).annotate({ identifier: "PatchAccountsChannelPartnerLinksRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(120, __c7, 8),
+          __S(128, __c8, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -4936,15 +4950,15 @@ function __c71(j: number): any {
       });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(162, __c10, 2),
+          __S(178, __c11, 2),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -4956,12 +4970,12 @@ function __c72(j: number): any {
       ).annotate({ identifier: "PatchAccountsChannelPartnerLinksCustomersRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(162, __c10, 2),
+          __S(178, __c11, 2),
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
@@ -4976,12 +4990,12 @@ function __c73(j: number): any {
       ).annotate({ identifier: "PatchAccountsCustomersRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(120, __c7, 8),
+          __S(224, __c14, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -4995,28 +5009,28 @@ function __c74(j: number): any {
       ).annotate({ identifier: "PatchAccountsCustomersCustomerRepricingConfigsRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          familyName: S.optional(S.String),
-          email: S.optional(S.String),
           givenName: S.optional(S.String),
+          email: S.optional(S.String),
+          familyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1AdminUser" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          user: S.optional(__S(1200, __c75, 0)),
-          cloudIdentityInfo: S.optional(__S(33, __c2, 1)),
           validateOnly: S.optional(S.Boolean),
+          user: S.optional(__S(1216, __c76, 0)),
+          cloudIdentityInfo: S.optional(__S(33, __c2, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ProvisionCloudIdentityRequest" });
     case 2:
       return S.suspend(() =>
         S.Extend(
-          __S(1201, __c75, 1),
+          __S(1217, __c76, 1),
           S.Struct({
             customer: S.String.pipe(T.Label()),
           }),
@@ -5030,13 +5044,13 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ProvisionCloudIdentityAccountsCustomersRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           customer: S.String.pipe(T.Label()),
-          skus: S.optional(__S(144, __c9, 0).pipe(T.Query())),
+          skus: S.optional(__S(160, __c10, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5048,45 +5062,45 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          regionCode: S.optional(S.String),
-          currencyCode: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
           displayName: S.optional(S.String),
+          currencyCode: S.optional(S.String),
+          regionCode: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1BillingAccount" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          billingAccount: S.optional(__S(1217, __c76, 1)),
+          billingAccount: S.optional(__S(1233, __c77, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1BillingAccountPurchaseInfo" });
     case 3:
-      return S.Array(__S(1218, __c76, 2));
+      return S.Array(__S(1234, __c77, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          skus: S.optional(__S(144, __c9, 0)),
-          billingAccountPurchaseInfos: S.optional(__S(1219, __c76, 3)),
+          skus: S.optional(__S(160, __c10, 0)),
+          billingAccountPurchaseInfos: S.optional(__S(1235, __c77, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1SkuPurchaseGroup" });
     case 5:
-      return S.Array(__S(1220, __c76, 4));
+      return S.Array(__S(1236, __c77, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          skuPurchaseGroups: S.optional(__S(1221, __c76, 5)),
+          skuPurchaseGroups: S.optional(__S(1237, __c77, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1QueryEligibleBillingAccountsResponse" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1248, __c78, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1264, __c79, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5097,7 +5111,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "CancelOperationsRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -5105,12 +5119,12 @@ function __c78(j: number): any {
       });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1280, __c80, 0),
+          __S(1296, __c81, 0),
           S.Struct({
             account: S.String.pipe(T.Label()),
           }),
@@ -5124,17 +5138,21 @@ function __c79(j: number): any {
       ).annotate({ identifier: "RegisterAccountsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          serviceAccount: S.optional(S.String),
           account: S.optional(S.String),
           integrator: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1RegisterSubscriberRequest" });
-    case 1:
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           topic: S.optional(S.String),
@@ -5142,12 +5160,12 @@ function __c80(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1RegisterSubscriberResponse" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1280, __c80, 0),
+          __S(1296, __c81, 0),
           S.Struct({
             integrator: S.String.pipe(T.Label()),
           }),
@@ -5161,20 +5179,20 @@ function __c81(j: number): any {
       ).annotate({ identifier: "RegisterSubscriberIntegratorsRequest" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(402, __c25, 2)),
-          filter: S.optional(S.String),
           languageCode: S.optional(S.String),
+          dateRange: S.optional(__S(434, __c27, 2)),
+          filter: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1RunReportJobRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(1312, __c82, 0),
+          __S(1344, __c84, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -5188,12 +5206,12 @@ function __c82(j: number): any {
       ).annotate({ identifier: "RunAccountsReportsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(816, __c51, 0),
+          __S(832, __c52, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -5207,12 +5225,12 @@ function __c83(j: number): any {
       ).annotate({ identifier: "StartPaidServiceAccountsCustomersEntitlementsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(816, __c51, 0),
+          __S(832, __c52, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -5226,20 +5244,20 @@ function __c84(j: number): any {
       ).annotate({ identifier: "SuspendAccountsCustomersEntitlementsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          entitlements: S.optional(__S(704, __c44, 0)),
           authToken: S.optional(S.String),
+          entitlements: S.optional(__S(720, __c45, 0)),
           requestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1TransferEntitlementsRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(1360, __c85, 0),
+          __S(1392, __c87, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -5253,19 +5271,19 @@ function __c85(j: number): any {
       ).annotate({ identifier: "TransferEntitlementsAccountsCustomersRequest" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          entitlements: S.optional(__S(704, __c44, 0)),
           requestId: S.optional(S.String),
+          entitlements: S.optional(__S(720, __c45, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1TransferEntitlementsToGoogleRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(1376, __c86, 0),
+          __S(1408, __c88, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -5279,12 +5297,12 @@ function __c86(j: number): any {
       ).annotate({ identifier: "TransferEntitlementsToGoogleAccountsCustomersRequest" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1280, __c80, 0),
+          __S(1440, __c90, 0),
           S.Struct({
             account: S.String.pipe(T.Label()),
           }),
@@ -5298,12 +5316,24 @@ function __c87(j: number): any {
       ).annotate({ identifier: "UnregisterAccountsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          integrator: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          account: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudChannelV1UnregisterSubscriberRequest" });
+  }
+}
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1280, __c80, 0),
+          __S(1440, __c90, 0),
           S.Struct({
             integrator: S.String.pipe(T.Label()),
           }),
@@ -5317,23 +5347,23 @@ function __c88(j: number): any {
       ).annotate({ identifier: "UnregisterSubscriberIntegratorsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          billingAccount: S.optional(S.String),
-          priceReferenceId: S.optional(S.String),
           requestId: S.optional(S.String),
-          purchaseOrderId: S.optional(S.String),
           offer: S.optional(S.String),
-          parameters: S.optional(__S(1457, __c91, 1)),
+          priceReferenceId: S.optional(S.String),
+          purchaseOrderId: S.optional(S.String),
+          billingAccount: S.optional(S.String),
+          parameters: S.optional(__S(1505, __c94, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ChangeOfferRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(1424, __c89, 0),
+          __S(1472, __c92, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -5347,48 +5377,48 @@ function __c89(j: number): any {
       ).annotate({ identifier: "ChangeOfferAccountsCustomersEntitlementsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          doubleValue: S.optional(S.Number),
-          int64Value: S.optional(S.String),
-          protoValue: S.optional(__S(832, __c52, 0)),
-          boolValue: S.optional(S.Boolean),
           stringValue: S.optional(S.String),
+          doubleValue: S.optional(S.Number),
+          boolValue: S.optional(S.Boolean),
+          int64Value: S.optional(S.String),
+          protoValue: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1Value" });
   }
 }
-function __c91(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          value: S.optional(__S(1440, __c90, 0)),
           editable: S.optional(S.Boolean),
+          value: S.optional(__S(1488, __c93, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1Parameter" });
     case 1:
-      return S.Array(__S(1456, __c91, 0));
+      return S.Array(__S(1504, __c94, 0));
   }
 }
-function __c92(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           purchaseOrderId: S.optional(S.String),
+          parameters: S.optional(__S(1505, __c94, 1)),
           requestId: S.optional(S.String),
-          parameters: S.optional(__S(1457, __c91, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ChangeParametersRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(1472, __c92, 0),
+          __S(1520, __c95, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -5402,19 +5432,19 @@ function __c92(j: number): any {
       ).annotate({ identifier: "ChangeParametersAccountsCustomersEntitlementsRequest" });
   }
 }
-function __c93(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          renewalSettings: S.optional(__S(1520, __c95, 0)),
+          renewalSettings: S.optional(__S(1568, __c98, 0)),
           requestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1ChangeRenewalSettingsRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(1488, __c93, 0),
+          __S(1536, __c96, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -5428,26 +5458,26 @@ function __c93(j: number): any {
       ).annotate({ identifier: "ChangeRenewalSettingsAccountsCustomersEntitlementsRequest" });
   }
 }
-function __c94(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          duration: S.optional(S.Number),
           periodType: S.optional(S.String),
+          duration: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1Period" });
   }
 }
-function __c95(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          enableRenewal: S.optional(S.Boolean),
           resizeUnitCount: S.optional(S.Boolean),
           paymentPlan: S.optional(S.String),
-          paymentCycle: S.optional(__S(1504, __c94, 0)),
-          enableRenewal: S.optional(S.Boolean),
+          paymentCycle: S.optional(__S(1552, __c97, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudChannelV1RenewalSettings" });
   }

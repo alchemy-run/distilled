@@ -105,48 +105,48 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
   pageToken?: string | undefined;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
 }
-export type OperationList = Array<Operation>;
 export type StringList = Array<string>;
+export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
 }
 export interface ListVoicesRequest {
   /** Optional. Recommended. [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag. If not specified, the API will return all supported voices. If specified, the ListVoices call will only return voices that can be used to synthesize this language_code. For example, if you specify `"en-NZ"`, all `"en-NZ"` voices will be returned. If you specify `"no"`, both `"no-\*"` (Norwegian) and `"nb-\*"` (Norwegian Bokmal) voices will be returned. */
@@ -155,20 +155,41 @@ export interface ListVoicesRequest {
 export type VoiceSsmlGenderEnum = "SSML_VOICE_GENDER_UNSPECIFIED" | "MALE" | "FEMALE" | "NEUTRAL";
 /** Description of a voice supported by the TTS service. */
 export interface Voice {
-  /** The natural sample rate (in hertz) for this voice. */
-  naturalSampleRateHertz?: number | undefined;
+  /** The gender of this voice. */
+  ssmlGender?: VoiceSsmlGenderEnum | undefined;
   /** The name of this voice. Each distinct voice has a unique name. */
   name?: string | undefined;
   /** The languages that this voice supports, expressed as [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tags (e.g. "en-US", "es-419", "cmn-tw"). */
   languageCodes?: StringList | undefined;
-  /** The gender of this voice. */
-  ssmlGender?: VoiceSsmlGenderEnum | undefined;
+  /** The natural sample rate (in hertz) for this voice. */
+  naturalSampleRateHertz?: number | undefined;
 }
 export type VoiceList = Array<Voice>;
 /** The message returned to the client by the `ListVoices` method. */
 export interface ListVoicesResponse {
   /** The list of voices. */
   voices?: VoiceList | undefined;
+}
+export type CustomPronunciationParamsPhoneticEncodingEnum =
+  | "PHONETIC_ENCODING_UNSPECIFIED"
+  | "PHONETIC_ENCODING_IPA"
+  | "PHONETIC_ENCODING_X_SAMPA"
+  | "PHONETIC_ENCODING_JAPANESE_YOMIGANA"
+  | "PHONETIC_ENCODING_PINYIN";
+/** Pronunciation customization for a phrase. */
+export interface CustomPronunciationParams {
+  /** The phrase to which the customization is applied. The phrase can be multiple words, such as proper nouns, but shouldn't span the length of the sentence. */
+  phrase?: string | undefined;
+  /** The phonetic encoding of the phrase. */
+  phoneticEncoding?: CustomPronunciationParamsPhoneticEncodingEnum | (string & {}) | undefined;
+  /** The pronunciation of the phrase. This must be in the phonetic encoding specified above. */
+  pronunciation?: string | undefined;
+}
+export type CustomPronunciationParamsList = Array<CustomPronunciationParams>;
+/** A collection of pronunciation customizations. */
+export interface CustomPronunciations {
+  /** The pronunciation customizations are applied. */
+  pronunciations?: CustomPronunciationParamsList | undefined;
 }
 /** A multi-speaker turn. */
 export interface Turn {
@@ -183,41 +204,44 @@ export interface MultiSpeakerMarkup {
   /** Required. Speaker turns. */
   turns?: TurnList | undefined;
 }
-export type CustomPronunciationParamsPhoneticEncodingEnum =
-  | "PHONETIC_ENCODING_UNSPECIFIED"
-  | "PHONETIC_ENCODING_IPA"
-  | "PHONETIC_ENCODING_X_SAMPA"
-  | "PHONETIC_ENCODING_JAPANESE_YOMIGANA"
-  | "PHONETIC_ENCODING_PINYIN";
-/** Pronunciation customization for a phrase. */
-export interface CustomPronunciationParams {
-  /** The phonetic encoding of the phrase. */
-  phoneticEncoding?: CustomPronunciationParamsPhoneticEncodingEnum | (string & {}) | undefined;
-  /** The pronunciation of the phrase. This must be in the phonetic encoding specified above. */
-  pronunciation?: string | undefined;
-  /** The phrase to which the customization is applied. The phrase can be multiple words, such as proper nouns, but shouldn't span the length of the sentence. */
-  phrase?: string | undefined;
-}
-export type CustomPronunciationParamsList = Array<CustomPronunciationParams>;
-/** A collection of pronunciation customizations. */
-export interface CustomPronunciations {
-  /** The pronunciation customizations are applied. */
-  pronunciations?: CustomPronunciationParamsList | undefined;
-}
 /** Contains text input to be synthesized. Either `text` or `ssml` must be supplied. Supplying both or neither returns google.rpc.Code.INVALID_ARGUMENT. The input size is limited to 5000 bytes. */
 export interface SynthesisInput {
-  /** The raw text to be synthesized. */
-  text?: string | undefined;
+  /** Optional. The pronunciation customizations are applied to the input. If this is set, the input is synthesized using the given pronunciation customizations. The initial support is for en-us, with plans to expand to other locales in the future. Instant Clone voices aren't supported. In order to customize the pronunciation of a phrase, there must be an exact match of the phrase in the input types. If using SSML, the phrase must not be inside a phoneme tag. */
+  customPronunciations?: CustomPronunciations | undefined;
+  /** This system instruction is supported only for controllable/promptable voice models. If this system instruction is used, we pass the unedited text to Gemini-TTS. Otherwise, a default system instruction is used. AI Studio calls this system instruction, Style Instructions. */
+  prompt?: string | undefined;
   /** The SSML document to be synthesized. The SSML document must be valid and well-formed. Otherwise the RPC will fail and return google.rpc.Code.INVALID_ARGUMENT. For more information, see [SSML](https://cloud.google.com/text-to-speech/docs/ssml). */
   ssml?: string | undefined;
   /** Markup for Chirp 3: HD voices specifically. This field may not be used with any other voices. */
   markup?: string | undefined;
-  /** This system instruction is supported only for controllable/promptable voice models. If this system instruction is used, we pass the unedited text to Gemini-TTS. Otherwise, a default system instruction is used. AI Studio calls this system instruction, Style Instructions. */
-  prompt?: string | undefined;
   /** The multi-speaker input to be synthesized. Only applicable for multi-speaker synthesis. */
   multiSpeakerMarkup?: MultiSpeakerMarkup | undefined;
-  /** Optional. The pronunciation customizations are applied to the input. If this is set, the input is synthesized using the given pronunciation customizations. The initial support is for en-us, with plans to expand to other locales in the future. Instant Clone voices aren't supported. In order to customize the pronunciation of a phrase, there must be an exact match of the phrase in the input types. If using SSML, the phrase must not be inside a phoneme tag. */
-  customPronunciations?: CustomPronunciations | undefined;
+  /** The raw text to be synthesized. */
+  text?: string | undefined;
+}
+export type AudioConfigAudioEncodingEnum =
+  | "AUDIO_ENCODING_UNSPECIFIED"
+  | "LINEAR16"
+  | "MP3"
+  | "OGG_OPUS"
+  | "MULAW"
+  | "ALAW"
+  | "PCM"
+  | "M4A";
+/** Description of audio data to be synthesized. */
+export interface AudioConfig {
+  /** Optional. Input only. An identifier which selects 'audio effects' profiles that are applied on (post synthesized) text to speech. Effects are applied on top of each other in the order they are given. See [audio profiles](https://cloud.google.com/text-to-speech/docs/audio-profiles) for current supported profile ids. */
+  effectsProfileId?: StringList | undefined;
+  /** Optional. Input only. Volume gain (in dB) of the normal native volume supported by the specific voice, in the range [-96.0, 16.0]. If unset, or set to a value of 0.0 (dB), will play at normal native signal amplitude. A value of -6.0 (dB) will play at approximately half the amplitude of the normal native signal amplitude. A value of +6.0 (dB) will play at approximately twice the amplitude of the normal native signal amplitude. Strongly recommend not to exceed +10 (dB) as there's usually no effective increase in loudness for any value greater than that. */
+  volumeGainDb?: number | undefined;
+  /** Optional. Input only. Speaking pitch, in the range [-20.0, 20.0]. 20 means increase 20 semitones from the original pitch. -20 means decrease 20 semitones from the original pitch. */
+  pitch?: number | undefined;
+  /** Required. The format of the audio byte stream. */
+  audioEncoding?: AudioConfigAudioEncodingEnum | (string & {}) | undefined;
+  /** Optional. The synthesis sample rate (in hertz) for this audio. When this is specified in SynthesizeSpeechRequest, if this is different from the voice's natural sample rate, then the synthesizer will honor this request by converting to the desired sample rate (which might result in worse audio quality), unless the specified sample rate is not supported for the encoding chosen, in which case it will fail the request and return google.rpc.Code.INVALID_ARGUMENT. */
+  sampleRateHertz?: number | undefined;
+  /** Optional. Input only. Speaking rate/speed, in the range [0.25, 2.0]. 1.0 is the normal native speed supported by the specific voice. 2.0 is twice as fast, and 0.5 is half as fast. If unset(0.0), defaults to the native 1.0 speed. Any other values < 0.25 or > 2.0 will return an error. */
+  speakingRate?: number | undefined;
 }
 export type VoiceSelectionParamsSsmlGenderEnum =
   | "SSML_VOICE_GENDER_UNSPECIFIED"
@@ -243,10 +267,10 @@ export type CustomVoiceParamsReportedUsageEnum =
   | "OFFLINE";
 /** Description of the custom voice to be synthesized. */
 export interface CustomVoiceParams {
-  /** Optional. Deprecated. The usage of the synthesized audio to be reported. */
-  reportedUsage?: CustomVoiceParamsReportedUsageEnum | (string & {}) | undefined;
   /** Required. The name of the AutoML model that synthesizes the custom voice. */
   model?: string | undefined;
+  /** Optional. Deprecated. The usage of the synthesized audio to be reported. */
+  reportedUsage?: CustomVoiceParamsReportedUsageEnum | (string & {}) | undefined;
 }
 /** The configuration of Voice Clone feature. */
 export interface VoiceCloneParams {
@@ -255,60 +279,42 @@ export interface VoiceCloneParams {
 }
 /** Description of which voice to use for a synthesis request. */
 export interface VoiceSelectionParams {
-  /** Optional. The name of the model. If set, the service will choose the model matching the specified configuration. */
-  modelName?: string | undefined;
   /** The preferred gender of the voice. If not set, the service will choose a voice based on the other parameters such as language_code and name. Note that this is only a preference, not requirement; if a voice of the appropriate gender is not available, the synthesizer should substitute a voice with a different gender rather than failing the request. */
   ssmlGender?: VoiceSelectionParamsSsmlGenderEnum | (string & {}) | undefined;
-  /** The name of the voice. If both the name and the gender are not set, the service will choose a voice based on the other parameters such as language_code. */
-  name?: string | undefined;
   /** Optional. The configuration for a Gemini multi-speaker text-to-speech setup. Enables the use of two distinct voices in a single synthesis request. */
   multiSpeakerVoiceConfig?: MultiSpeakerVoiceConfig | undefined;
-  /** Required. The language (and potentially also the region) of the voice expressed as a [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag, e.g. "en-US". This should not include a script tag (e.g. use "cmn-cn" rather than "cmn-Hant-cn"), because the script will be inferred from the input provided in the SynthesisInput. The TTS service will use this parameter to help choose an appropriate voice. Note that the TTS service may choose a voice with a slightly different language code than the one selected; it may substitute a different region (e.g. using en-US rather than en-CA if there isn't a Canadian voice available), or even a different language, e.g. using "nb" (Norwegian Bokmal) instead of "no" (Norwegian)". */
-  languageCode?: string | undefined;
+  /** The name of the voice. If both the name and the gender are not set, the service will choose a voice based on the other parameters such as language_code. */
+  name?: string | undefined;
   /** The configuration for a custom voice. If [CustomVoiceParams.model] is set, the service will choose the custom voice matching the specified configuration. */
   customVoice?: CustomVoiceParams | undefined;
+  /** Optional. The name of the model. If set, the service will choose the model matching the specified configuration. */
+  modelName?: string | undefined;
+  /** Required. The language (and potentially also the region) of the voice expressed as a [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag, e.g. "en-US". This should not include a script tag (e.g. use "cmn-cn" rather than "cmn-Hant-cn"), because the script will be inferred from the input provided in the SynthesisInput. The TTS service will use this parameter to help choose an appropriate voice. Note that the TTS service may choose a voice with a slightly different language code than the one selected; it may substitute a different region (e.g. using en-US rather than en-CA if there isn't a Canadian voice available), or even a different language, e.g. using "nb" (Norwegian Bokmal) instead of "no" (Norwegian)". */
+  languageCode?: string | undefined;
   /** Optional. The configuration for a voice clone. If [VoiceCloneParams.voice_clone_key] is set, the service chooses the voice clone matching the specified configuration. */
   voiceClone?: VoiceCloneParams | undefined;
-}
-export type AudioConfigAudioEncodingEnum =
-  | "AUDIO_ENCODING_UNSPECIFIED"
-  | "LINEAR16"
-  | "MP3"
-  | "OGG_OPUS"
-  | "MULAW"
-  | "ALAW"
-  | "PCM"
-  | "M4A";
-/** Description of audio data to be synthesized. */
-export interface AudioConfig {
-  /** Optional. Input only. Speaking rate/speed, in the range [0.25, 2.0]. 1.0 is the normal native speed supported by the specific voice. 2.0 is twice as fast, and 0.5 is half as fast. If unset(0.0), defaults to the native 1.0 speed. Any other values < 0.25 or > 2.0 will return an error. */
-  speakingRate?: number | undefined;
-  /** Optional. Input only. Volume gain (in dB) of the normal native volume supported by the specific voice, in the range [-96.0, 16.0]. If unset, or set to a value of 0.0 (dB), will play at normal native signal amplitude. A value of -6.0 (dB) will play at approximately half the amplitude of the normal native signal amplitude. A value of +6.0 (dB) will play at approximately twice the amplitude of the normal native signal amplitude. Strongly recommend not to exceed +10 (dB) as there's usually no effective increase in loudness for any value greater than that. */
-  volumeGainDb?: number | undefined;
-  /** Required. The format of the audio byte stream. */
-  audioEncoding?: AudioConfigAudioEncodingEnum | (string & {}) | undefined;
-  /** Optional. Input only. An identifier which selects 'audio effects' profiles that are applied on (post synthesized) text to speech. Effects are applied on top of each other in the order they are given. See [audio profiles](https://cloud.google.com/text-to-speech/docs/audio-profiles) for current supported profile ids. */
-  effectsProfileId?: StringList | undefined;
-  /** Optional. The synthesis sample rate (in hertz) for this audio. When this is specified in SynthesizeSpeechRequest, if this is different from the voice's natural sample rate, then the synthesizer will honor this request by converting to the desired sample rate (which might result in worse audio quality), unless the specified sample rate is not supported for the encoding chosen, in which case it will fail the request and return google.rpc.Code.INVALID_ARGUMENT. */
-  sampleRateHertz?: number | undefined;
-  /** Optional. Input only. Speaking pitch, in the range [-20.0, 20.0]. 20 means increase 20 semitones from the original pitch. -20 means decrease 20 semitones from the original pitch. */
-  pitch?: number | undefined;
 }
 /** The top-level message sent by the client for the `SynthesizeLongAudio` method. */
 export interface SynthesizeLongAudioRequest {
   /** Required. The Synthesizer requires either plain text or SSML as input. */
   input?: SynthesisInput | undefined;
-  /** Required. The desired voice of the synthesized audio. */
-  voice?: VoiceSelectionParams | undefined;
-  /** Required. Specifies a Cloud Storage URI for the synthesis results. Must be specified in the format: `gs://bucket_name/object_name`, and the bucket must already exist. */
-  outputGcsUri?: string | undefined;
   /** Required. The configuration of the synthesized audio. */
   audioConfig?: AudioConfig | undefined;
+  /** Required. Specifies a Cloud Storage URI for the synthesis results. Must be specified in the format: `gs://bucket_name/object_name`, and the bucket must already exist. */
+  outputGcsUri?: string | undefined;
+  /** Required. The desired voice of the synthesized audio. */
+  voice?: VoiceSelectionParams | undefined;
 }
 export interface SynthesizeLongAudioProjectsLocationsRequest extends SynthesizeLongAudioRequest {
   /** The resource states of the request in the form of `projects/*\/locations/*`. */
   parent: string;
 }
+export type SafetySettingCategoryEnum =
+  | "HARM_CATEGORY_UNSPECIFIED"
+  | "HARM_CATEGORY_HATE_SPEECH"
+  | "HARM_CATEGORY_DANGEROUS_CONTENT"
+  | "HARM_CATEGORY_HARASSMENT"
+  | "HARM_CATEGORY_SEXUALLY_EXPLICIT";
 export type SafetySettingThresholdEnum =
   | "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
   | "BLOCK_LOW_AND_ABOVE"
@@ -316,18 +322,12 @@ export type SafetySettingThresholdEnum =
   | "BLOCK_ONLY_HIGH"
   | "BLOCK_NONE"
   | "OFF";
-export type SafetySettingCategoryEnum =
-  | "HARM_CATEGORY_UNSPECIFIED"
-  | "HARM_CATEGORY_HATE_SPEECH"
-  | "HARM_CATEGORY_DANGEROUS_CONTENT"
-  | "HARM_CATEGORY_HARASSMENT"
-  | "HARM_CATEGORY_SEXUALLY_EXPLICIT";
 /** Safety setting for a single harm category. */
 export interface SafetySetting {
-  /** The harm block threshold for the safety setting. */
-  threshold?: SafetySettingThresholdEnum | (string & {}) | undefined;
   /** The harm category to apply the safety setting to. */
   category?: SafetySettingCategoryEnum | (string & {}) | undefined;
+  /** The harm block threshold for the safety setting. */
+  threshold?: SafetySettingThresholdEnum | (string & {}) | undefined;
 }
 export type SafetySettingList = Array<SafetySetting>;
 /** Safety settings for the request. */
@@ -339,21 +339,21 @@ export interface SafetySettings {
 export interface AdvancedVoiceOptions {
   /** Optional. Input only. This applies to Gemini TTS only. If set, the category specified in the safety setting will be blocked if the harm probability is above the threshold. Otherwise, the safety filter will be disabled by default. */
   safetySettings?: SafetySettings | undefined;
+  /** Optional. Input only. Deprecated, use safety_settings instead. If true, relaxes safety filters for Gemini TTS. */
+  relaxSafetyFilters?: boolean | undefined;
   /** Optional. If true, textnorm will be applied to text input. This feature is enabled by default. Only applies for Gemini TTS. */
   enableTextnorm?: boolean | undefined;
   /** Only for Journey voices. If false, the synthesis is context aware and has a higher latency. */
   lowLatencyJourneySynthesis?: boolean | undefined;
-  /** Optional. Input only. Deprecated, use safety_settings instead. If true, relaxes safety filters for Gemini TTS. */
-  relaxSafetyFilters?: boolean | undefined;
 }
 /** The top-level message sent by the client for the `SynthesizeSpeech` method. */
 export interface SynthesizeSpeechRequest {
   /** Required. The configuration of the synthesized audio. */
   audioConfig?: AudioConfig | undefined;
-  /** Required. The Synthesizer requires either plain text or SSML as input. */
-  input?: SynthesisInput | undefined;
   /** Required. The desired voice of the synthesized audio. */
   voice?: VoiceSelectionParams | undefined;
+  /** Required. The Synthesizer requires either plain text or SSML as input. */
+  input?: SynthesisInput | undefined;
   /** Optional. Advanced voice options. */
   advancedVoiceOptions?: AdvancedVoiceOptions | undefined;
 }
@@ -495,8 +495,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          threshold: S.optional(S.String),
           category: S.optional(S.String),
+          threshold: S.optional(S.String),
         }),
       ).annotate({ identifier: "SafetySetting" });
     case 1:
@@ -511,17 +511,17 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           safetySettings: S.optional(__S(2, __c0, 2)),
+          relaxSafetyFilters: S.optional(S.Boolean),
           enableTextnorm: S.optional(S.Boolean),
           lowLatencyJourneySynthesis: S.optional(S.Boolean),
-          relaxSafetyFilters: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AdvancedVoiceOptions" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          audioConfig: S.optional(__S(173, __c10, 13)),
+          audioConfig: S.optional(__S(167, __c10, 7)),
+          voice: S.optional(__S(173, __c10, 13)),
           input: S.optional(__S(166, __c10, 6)),
-          voice: S.optional(__S(172, __c10, 12)),
           advancedVoiceOptions: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "SynthesizeSpeechRequest" });
@@ -607,18 +607,18 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
           details: S.optional(__S(81, __c5, 1)),
+          code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          done: S.optional(S.Boolean),
           name: S.optional(S.String),
-          metadata: S.optional(__S(80, __c5, 0)),
+          done: S.optional(S.Boolean),
           error: S.optional(__S(82, __c5, 2)),
+          metadata: S.optional(__S(80, __c5, 0)),
           response: S.optional(__S(80, __c5, 0)),
         }),
       ).annotate({ identifier: "Operation" });
@@ -630,10 +630,10 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -647,9 +647,9 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(97, __c6, 1)),
           unreachable: S.optional(__S(112, __c7, 0)),
           nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(97, __c6, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -677,10 +677,10 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          naturalSampleRateHertz: S.optional(S.Number),
+          ssmlGender: S.optional(S.String),
           name: S.optional(S.String),
           languageCodes: S.optional(__S(112, __c7, 0)),
-          ssmlGender: S.optional(S.String),
+          naturalSampleRateHertz: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Voice" });
     case 2:
@@ -699,9 +699,9 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           input: S.optional(__S(166, __c10, 6)),
-          voice: S.optional(__S(172, __c10, 12)),
+          audioConfig: S.optional(__S(167, __c10, 7)),
           outputGcsUri: S.optional(S.String),
-          audioConfig: S.optional(__S(173, __c10, 13)),
+          voice: S.optional(__S(173, __c10, 13)),
         }),
       ).annotate({ identifier: "SynthesizeLongAudioRequest" });
     case 1:
@@ -726,96 +726,96 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          speaker: S.optional(S.String),
-          text: S.optional(S.String),
+          phrase: S.optional(S.String),
+          phoneticEncoding: S.optional(S.String),
+          pronunciation: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Turn" });
+      ).annotate({ identifier: "CustomPronunciationParams" });
     case 1:
       return S.Array(__S(160, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          turns: S.optional(__S(161, __c10, 1)),
+          pronunciations: S.optional(__S(161, __c10, 1)),
         }),
-      ).annotate({ identifier: "MultiSpeakerMarkup" });
+      ).annotate({ identifier: "CustomPronunciations" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          phoneticEncoding: S.optional(S.String),
-          pronunciation: S.optional(S.String),
-          phrase: S.optional(S.String),
+          speaker: S.optional(S.String),
+          text: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CustomPronunciationParams" });
+      ).annotate({ identifier: "Turn" });
     case 4:
       return S.Array(__S(163, __c10, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          pronunciations: S.optional(__S(164, __c10, 4)),
+          turns: S.optional(__S(164, __c10, 4)),
         }),
-      ).annotate({ identifier: "CustomPronunciations" });
+      ).annotate({ identifier: "MultiSpeakerMarkup" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          text: S.optional(S.String),
+          customPronunciations: S.optional(__S(162, __c10, 2)),
+          prompt: S.optional(S.String),
           ssml: S.optional(S.String),
           markup: S.optional(S.String),
-          prompt: S.optional(S.String),
-          multiSpeakerMarkup: S.optional(__S(162, __c10, 2)),
-          customPronunciations: S.optional(__S(165, __c10, 5)),
+          multiSpeakerMarkup: S.optional(__S(165, __c10, 5)),
+          text: S.optional(S.String),
         }),
       ).annotate({ identifier: "SynthesisInput" });
     case 7:
+      return S.suspend(() =>
+        S.Struct({
+          effectsProfileId: S.optional(__S(112, __c7, 0)),
+          volumeGainDb: S.optional(S.Number),
+          pitch: S.optional(S.Number),
+          audioEncoding: S.optional(S.String),
+          sampleRateHertz: S.optional(S.Number),
+          speakingRate: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AudioConfig" });
+    case 8:
       return S.suspend(() =>
         S.Struct({
           speakerId: S.optional(S.String),
           speakerAlias: S.optional(S.String),
         }),
       ).annotate({ identifier: "MultispeakerPrebuiltVoice" });
-    case 8:
-      return S.Array(__S(167, __c10, 7));
     case 9:
-      return S.suspend(() =>
-        S.Struct({
-          speakerVoiceConfigs: S.optional(__S(168, __c10, 8)),
-        }),
-      ).annotate({ identifier: "MultiSpeakerVoiceConfig" });
+      return S.Array(__S(168, __c10, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          reportedUsage: S.optional(S.String),
+          speakerVoiceConfigs: S.optional(__S(169, __c10, 9)),
+        }),
+      ).annotate({ identifier: "MultiSpeakerVoiceConfig" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
           model: S.optional(S.String),
+          reportedUsage: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomVoiceParams" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           voiceCloningKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "VoiceCloneParams" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          modelName: S.optional(S.String),
-          ssmlGender: S.optional(S.String),
-          name: S.optional(S.String),
-          multiSpeakerVoiceConfig: S.optional(__S(169, __c10, 9)),
-          languageCode: S.optional(S.String),
-          customVoice: S.optional(__S(170, __c10, 10)),
-          voiceClone: S.optional(__S(171, __c10, 11)),
-        }),
-      ).annotate({ identifier: "VoiceSelectionParams" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          speakingRate: S.optional(S.Number),
-          volumeGainDb: S.optional(S.Number),
-          audioEncoding: S.optional(S.String),
-          effectsProfileId: S.optional(__S(112, __c7, 0)),
-          sampleRateHertz: S.optional(S.Number),
-          pitch: S.optional(S.Number),
+          ssmlGender: S.optional(S.String),
+          multiSpeakerVoiceConfig: S.optional(__S(170, __c10, 10)),
+          name: S.optional(S.String),
+          customVoice: S.optional(__S(171, __c10, 11)),
+          modelName: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          voiceClone: S.optional(__S(172, __c10, 12)),
         }),
-      ).annotate({ identifier: "AudioConfig" });
+      ).annotate({ identifier: "VoiceSelectionParams" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

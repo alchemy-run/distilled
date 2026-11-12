@@ -83,214 +83,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type DocumentMap = { [key: string]: unknown | undefined };
-export type DocumentMapList = Array<DocumentMap>;
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
-}
-export type AnchoredReviewCommentSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "CRITICAL"
-  | "MAJOR"
-  | "MINOR"
-  | "SUGGESTION";
-/** Author name components. */
-export interface Author {
-  /** Output only. Author family name / surname (or organization name). */
-  familyName?: string | undefined;
-  /** Output only. Author given name / initials. */
-  givenName?: string | undefined;
-}
-export type AuthorList = Array<Author>;
-export type StringList = Array<string>;
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Deepreview_Date {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number | undefined;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number | undefined;
-}
-/** Structured bibliographic metadata for an extracted or retrieved work. */
-export interface CitationMetadata {
-  /** Output only. Source database for retrieved metadata (e.g., "openalex", "crossref"). Empty on `extracted_metadata`. */
-  source?: string | undefined;
-  /** Output only. Ordered list of authors. */
-  authors?: AuthorList | undefined;
-  /** Output only. Volume identifier. */
-  volume?: string | undefined;
-  /** Output only. Digital Object Identifier (DOI). */
-  doi?: string | undefined;
-  /** Output only. Journal, conference, or venue name. */
-  journal?: string | undefined;
-  /** Output only. Page range or article number. */
-  pages?: string | undefined;
-  /** Output only. URLs associated with the reference. */
-  urls?: StringList | undefined;
-  /** Output only. Publication date (month and day left as 0 if just year). */
-  publicationDate?: Deepreview_Date | undefined;
-  /** Output only. Work title. */
-  title?: string | undefined;
-}
-export type CitationReportSearchVerdictEnum =
-  | "SEARCH_VERDICT_UNSPECIFIED"
-  | "NOT_HALLUCINATED"
-  | "HALLUCINATED_BY_SEARCH"
-  | "SEARCH_ERROR";
-/** Web source URL surfaced during Google Search grounding verification. */
-export interface GroundingUrl {
-  /** Output only. Source URL. */
-  url?: string | undefined;
-  /** Output only. Source page title or domain. */
-  title?: string | undefined;
-}
-export type GroundingUrlList = Array<GroundingUrl>;
-/** Per-field comparison result between extracted and retrieved metadata. */
-export interface FieldComparison {
-  /** Output only. Human-readable comparison detail (e.g., "extracted=2023, found=2024 (diff=1)"). */
-  detail?: string | undefined;
-  /** Output only. Whether the extracted and retrieved values matched. */
-  match?: boolean | undefined;
-  /** Output only. Field key ("title", "authors", "year", "journal", "volume", "pages", "doi"). */
-  fieldKey?: string | undefined;
-}
-export type FieldComparisonList = Array<FieldComparison>;
-export type CitationReportFinalVerdictEnum =
-  | "VERDICT_UNSPECIFIED"
-  | "OK"
-  | "MINOR_MISMATCH"
-  | "MAJOR_MISMATCH"
-  | "VERIFIED_BY_SEARCH"
-  | "NOT_FOUND"
-  | "HALLUCINATED"
-  | "SKIPPED";
-export type CitationReportLookupVerdictEnum =
-  | "VERDICT_UNSPECIFIED"
-  | "OK"
-  | "MINOR_MISMATCH"
-  | "MAJOR_MISMATCH"
-  | "VERIFIED_BY_SEARCH"
-  | "NOT_FOUND"
-  | "HALLUCINATED"
-  | "SKIPPED";
-/** Structured citation verification report for a single bibliography reference. */
-export interface CitationReport {
-  /** Output only. Metadata retrieved from OpenAlex / Crossref. Populated only when the retrieved work's title matches the extracted title. Omitted when no candidate matches the title so unrelated papers are never displayed as candidates. */
-  retrievedMetadata?: CitationMetadata | undefined;
-  /** Output only. Verbatim reference string extracted from the paper's bibliography. */
-  rawReference?: string | undefined;
-  /** Output only. Verdict from Google Search grounding verification (when run). */
-  searchVerdict?: CitationReportSearchVerdictEnum | (string & {}) | undefined;
-  /** Output only. Web sources surfaced during Google Search grounding. */
-  groundingUrls?: GroundingUrlList | undefined;
-  /** Output only. 1-indexed bibliography reference number in the paper. */
-  refNum?: number | undefined;
-  /** Output only. Whether the first author's family name matched between extracted and retrieved metadata. */
-  firstAuthorFamilyNameMatch?: boolean | undefined;
-  /** Output only. Strategy that produced the scholarly database match (e.g., "doi", "title", "title_author", "autocomplete"). Empty when no title-matching candidate was found. */
-  searchMethod?: string | undefined;
-  /** Output only. Per-field comparisons (populated only when `retrieved_metadata` is present). */
-  fieldComparisons?: FieldComparisonList | undefined;
-  /** Output only. Final combined verdict after database lookup and search grounding. */
-  finalVerdict?: CitationReportFinalVerdictEnum | (string & {}) | undefined;
-  /** Output only. Formatted BibTeX entry for the verified `retrieved_metadata` when present. Empty when `retrieved_metadata` is absent. */
-  retrievedBibtex?: string | undefined;
-  /** Output only. Metadata parsed from the paper's bibliography entry. */
-  extractedMetadata?: CitationMetadata | undefined;
-  /** Output only. Verdict from scholarly database lookup (OpenAlex / Crossref) before search grounding. */
-  lookupVerdict?: CitationReportLookupVerdictEnum | (string & {}) | undefined;
-  /** Output only. Explanation from the Google Search grounding verification step (when run). */
-  searchRationale?: string | undefined;
-  /** Output only. Generated BibTeX citation key (e.g., "smith2023deep"). */
-  citationKey?: string | undefined;
-  /** Output only. BibTeX entry type (e.g., "article", "inproceedings", "misc"). */
-  entryType?: string | undefined;
-}
-/** Location anchor within a plain-text, Markdown, or LaTeX source document. */
-export interface TextLocation {
-  /** Output only. 1-indexed inclusive last line number. */
-  lastLine?: number | undefined;
-  /** Output only. Optional 1-indexed inclusive first column offset within `first_line`. */
-  firstColumn?: number | undefined;
-  /** Output only. Optional 1-indexed inclusive last column offset within `last_line`. */
-  lastColumn?: number | undefined;
-  /** Output only. 1-indexed inclusive first line number. */
-  firstLine?: number | undefined;
-  /** Output only. Verbatim snippet of the anchored source line(s). */
-  quotedLinePreview?: string | undefined;
-}
-/** Bounding box in normalized [0.0, 1.0] page coordinates (origin top-left). */
-export interface NormalizedBoundingBox {
-  /** Output only. Top coordinate in [0.0, 1.0]. */
-  top?: number | undefined;
-  /** Output only. Right coordinate in [0.0, 1.0]. */
-  right?: number | undefined;
-  /** Output only. Bottom coordinate in [0.0, 1.0]. */
-  bottom?: number | undefined;
-  /** Output only. Left coordinate in [0.0, 1.0]. */
-  left?: number | undefined;
-}
-export type NormalizedBoundingBoxList = Array<NormalizedBoundingBox>;
-/** W3C Web Annotation TextQuoteSelector for resilient text anchoring (see https://www.w3.org/TR/annotation-model/#text-quote-selector for details). */
-export interface TextQuoteSelector {
-  /** Output only. Characters immediately preceding `exact` for disambiguation. */
-  prefix?: string | undefined;
-  /** Output only. Characters immediately following `exact` for disambiguation. */
-  suffix?: string | undefined;
-  /** Output only. Verbatim substring extracted from the document character stream. */
-  exact?: string | undefined;
-}
-/** Location anchor within a PDF document. */
-export interface PdfLocation {
-  /** Output only. Normalized bounding boxes [0.0, 1.0] relative to page width and height. At most 50 bounding boxes are returned per anchored span. */
-  boundingBoxes?: NormalizedBoundingBoxList | undefined;
-  /** Output only. W3C Web Annotation TextQuoteSelector (https://www.w3.org/TR/annotation-model/#text-quote-selector) for exact text span highlighting. */
-  quoteSelector?: TextQuoteSelector | undefined;
-  /** Output only. 1-indexed page number within the PDF document. */
-  pageNumber?: number | undefined;
-}
-/** A location targeting either a PDF page region/quote or text lines in the document. */
-export interface DocumentLocation {
-  /** Output only. Location within a plain-text, Markdown, or LaTeX source document. */
-  text?: TextLocation | undefined;
-  /** Output only. Location within a rendered PDF document. */
-  pdf?: PdfLocation | undefined;
-}
-/** A structured review comment anchored to a specific location in the document. */
-export interface AnchoredReviewComment {
-  /** Output only. Severity classification of the comment. */
-  severity?: AnchoredReviewCommentSeverityEnum | (string & {}) | undefined;
-  /** Output only. Short one-line summary of the review comment. */
-  summary?: string | undefined;
-  /** Output only. Unique identifier for the comment within the review. */
-  commentId?: string | undefined;
-  /** Output only. Optional suggested replacement text or edit for the anchored span. */
-  suggestedEdit?: string | undefined;
-  /** Output only. Optional structured citation verification report when this comment corresponds to a bibliography reference. */
-  citationReport?: CitationReport | undefined;
-  /** Output only. Detailed markdown explanation of the review comment. */
-  bodyMarkdown?: string | undefined;
-  /** Output only. Polymorphic location in the document where this comment is anchored. */
-  location?: DocumentLocation | undefined;
-}
-export type AnchoredReviewCommentList = Array<AnchoredReviewComment>;
-/** Encapsulates the synthesized output or failure details of a single review execution. */
-export interface Result {
-  /** Output only. Failure status details if review execution failed. */
-  error?: Status | undefined;
-  /** Output only. Synthesized review report markdown. */
-  reviewMarkdown?: string | undefined;
-  /** Output only. Structured review comments anchored to specific locations in the document. At most 300 anchored comments are returned per review. */
-  anchoredComments?: AnchoredReviewCommentList | undefined;
-}
-export type ReviewStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED";
 export type DeepReviewRunConfigTopologyEnum =
   | "TOPOLOGY_UNSPECIFIED"
   | "EXTRA_HIGH"
@@ -304,66 +96,274 @@ export type DeepReviewRunConfigThinkingLevelEnum =
   | "THINKING_LEVEL_HIGH";
 /** Configuration options for the multi-agent document review execution pipeline. */
 export interface DeepReviewRunConfig {
-  /** Optional. Review execution topology profile to use. */
-  topology?: DeepReviewRunConfigTopologyEnum | (string & {}) | undefined;
-  /** Output only. Indicates whether a developer Bring-Your-Own-Key Gemini API key was provided for this review run. */
-  geminiApiKeySet?: boolean | undefined;
-  /** Optional. Reasoning effort level for model calls in the review pipeline. Defaults to `THINKING_LEVEL_MEDIUM` when omitted or `THINKING_LEVEL_UNSPECIFIED`. Non-`THINKING_LEVEL_MEDIUM` thinking levels require `gemini_api_key` when calling `CreateReview`; otherwise `CreateReview` returns `INVALID_ARGUMENT`. */
-  thinkingLevel?: DeepReviewRunConfigThinkingLevelEnum | (string & {}) | undefined;
-  /** Optional. Input only. Developer Bring-Your-Own-Key Gemini API key. When provided, requests are billed to the caller's Gemini API project. Input only; forwarded to the asynchronous review runner in the task payload and never persisted in database records or returned in review resources (see companion field `gemini_api_key_set`, AIP-147). */
-  geminiApiKey?: string | undefined;
   /** Optional. User-provided guidance, focus areas, or custom evaluation instructions passed to the review agents. */
   userPrompt?: string | undefined;
+  /** Optional. Review execution topology profile to use. */
+  topology?: DeepReviewRunConfigTopologyEnum | (string & {}) | undefined;
+  /** Optional. Reasoning effort level for model calls in the review pipeline. Defaults to `THINKING_LEVEL_MEDIUM` when omitted or `THINKING_LEVEL_UNSPECIFIED`. Non-`THINKING_LEVEL_MEDIUM` thinking levels require `gemini_api_key` when calling `CreateReview`; otherwise `CreateReview` returns `INVALID_ARGUMENT`. */
+  thinkingLevel?: DeepReviewRunConfigThinkingLevelEnum | (string & {}) | undefined;
   /** Optional. The Gemini model identifier to use for the review. If omitted, the server uses its default model. Unsupported values return INVALID_ARGUMENT. */
   model?: string | undefined;
+  /** Optional. Input only. Developer Bring-Your-Own-Key Gemini API key. When provided, requests are billed to the caller's Gemini API project. Input only; forwarded to the asynchronous review runner in the task payload and never persisted in database records or returned in review resources (see companion field `gemini_api_key_set`, AIP-147). */
+  geminiApiKey?: string | undefined;
+  /** Output only. Indicates whether a developer Bring-Your-Own-Key Gemini API key was provided for this review run. */
+  geminiApiKeySet?: boolean | undefined;
 }
+/** W3C Web Annotation TextQuoteSelector for resilient text anchoring (see https://www.w3.org/TR/annotation-model/#text-quote-selector for details). */
+export interface TextQuoteSelector {
+  /** Output only. Characters immediately preceding `exact` for disambiguation. */
+  prefix?: string | undefined;
+  /** Output only. Characters immediately following `exact` for disambiguation. */
+  suffix?: string | undefined;
+  /** Output only. Verbatim substring extracted from the document character stream. */
+  exact?: string | undefined;
+}
+/** Bounding box in normalized [0.0, 1.0] page coordinates (origin top-left). */
+export interface NormalizedBoundingBox {
+  /** Output only. Right coordinate in [0.0, 1.0]. */
+  right?: number | undefined;
+  /** Output only. Left coordinate in [0.0, 1.0]. */
+  left?: number | undefined;
+  /** Output only. Top coordinate in [0.0, 1.0]. */
+  top?: number | undefined;
+  /** Output only. Bottom coordinate in [0.0, 1.0]. */
+  bottom?: number | undefined;
+}
+export type NormalizedBoundingBoxList = Array<NormalizedBoundingBox>;
+/** Location anchor within a PDF document. */
+export interface PdfLocation {
+  /** Output only. 1-indexed page number within the PDF document. */
+  pageNumber?: number | undefined;
+  /** Output only. W3C Web Annotation TextQuoteSelector (https://www.w3.org/TR/annotation-model/#text-quote-selector) for exact text span highlighting. */
+  quoteSelector?: TextQuoteSelector | undefined;
+  /** Output only. Normalized bounding boxes [0.0, 1.0] relative to page width and height. At most 50 bounding boxes are returned per anchored span. */
+  boundingBoxes?: NormalizedBoundingBoxList | undefined;
+}
+/** Location anchor within a plain-text, Markdown, or LaTeX source document. */
+export interface TextLocation {
+  /** Output only. 1-indexed inclusive last line number. */
+  lastLine?: number | undefined;
+  /** Output only. Optional 1-indexed inclusive first column offset within `first_line`. */
+  firstColumn?: number | undefined;
+  /** Output only. Optional 1-indexed inclusive last column offset within `last_line`. */
+  lastColumn?: number | undefined;
+  /** Output only. Verbatim snippet of the anchored source line(s). */
+  quotedLinePreview?: string | undefined;
+  /** Output only. 1-indexed inclusive first line number. */
+  firstLine?: number | undefined;
+}
+/** A location targeting either a PDF page region/quote or text lines in the document. */
+export interface DocumentLocation {
+  /** Output only. Location within a rendered PDF document. */
+  pdf?: PdfLocation | undefined;
+  /** Output only. Location within a plain-text, Markdown, or LaTeX source document. */
+  text?: TextLocation | undefined;
+}
+export type AnchoredReviewCommentSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "CRITICAL"
+  | "MAJOR"
+  | "MINOR"
+  | "SUGGESTION";
+export type StringList = Array<string>;
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Deepreview_Date {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
+}
+/** Author name components. */
+export interface Author {
+  /** Output only. Author given name / initials. */
+  givenName?: string | undefined;
+  /** Output only. Author family name / surname (or organization name). */
+  familyName?: string | undefined;
+}
+export type AuthorList = Array<Author>;
+/** Structured bibliographic metadata for an extracted or retrieved work. */
+export interface CitationMetadata {
+  /** Output only. Digital Object Identifier (DOI). */
+  doi?: string | undefined;
+  /** Output only. Work title. */
+  title?: string | undefined;
+  /** Output only. URLs associated with the reference. */
+  urls?: StringList | undefined;
+  /** Output only. Volume identifier. */
+  volume?: string | undefined;
+  /** Output only. Publication date (month and day left as 0 if just year). */
+  publicationDate?: Deepreview_Date | undefined;
+  /** Output only. Page range or article number. */
+  pages?: string | undefined;
+  /** Output only. Ordered list of authors. */
+  authors?: AuthorList | undefined;
+  /** Output only. Source database for retrieved metadata (e.g., "openalex", "crossref"). Empty on `extracted_metadata`. */
+  source?: string | undefined;
+  /** Output only. Journal, conference, or venue name. */
+  journal?: string | undefined;
+}
+/** Per-field comparison result between extracted and retrieved metadata. */
+export interface FieldComparison {
+  /** Output only. Human-readable comparison detail (e.g., "extracted=2023, found=2024 (diff=1)"). */
+  detail?: string | undefined;
+  /** Output only. Whether the extracted and retrieved values matched. */
+  match?: boolean | undefined;
+  /** Output only. Field key ("title", "authors", "year", "journal", "volume", "pages", "doi"). */
+  fieldKey?: string | undefined;
+}
+export type FieldComparisonList = Array<FieldComparison>;
+export type CitationReportSearchVerdictEnum =
+  | "SEARCH_VERDICT_UNSPECIFIED"
+  | "NOT_HALLUCINATED"
+  | "HALLUCINATED_BY_SEARCH"
+  | "SEARCH_ERROR";
+export type CitationReportLookupVerdictEnum =
+  | "VERDICT_UNSPECIFIED"
+  | "OK"
+  | "MINOR_MISMATCH"
+  | "MAJOR_MISMATCH"
+  | "VERIFIED_BY_SEARCH"
+  | "NOT_FOUND"
+  | "HALLUCINATED"
+  | "SKIPPED";
+/** Web source URL surfaced during Google Search grounding verification. */
+export interface GroundingUrl {
+  /** Output only. Source page title or domain. */
+  title?: string | undefined;
+  /** Output only. Source URL. */
+  url?: string | undefined;
+}
+export type GroundingUrlList = Array<GroundingUrl>;
+export type CitationReportFinalVerdictEnum =
+  | "VERDICT_UNSPECIFIED"
+  | "OK"
+  | "MINOR_MISMATCH"
+  | "MAJOR_MISMATCH"
+  | "VERIFIED_BY_SEARCH"
+  | "NOT_FOUND"
+  | "HALLUCINATED"
+  | "SKIPPED";
+/** Structured citation verification report for a single bibliography reference. */
+export interface CitationReport {
+  /** Output only. Metadata parsed from the paper's bibliography entry. */
+  extractedMetadata?: CitationMetadata | undefined;
+  /** Output only. Metadata retrieved from OpenAlex / Crossref. Populated only when the retrieved work's title matches the extracted title. Omitted when no candidate matches the title so unrelated papers are never displayed as candidates. */
+  retrievedMetadata?: CitationMetadata | undefined;
+  /** Output only. Strategy that produced the scholarly database match (e.g., "doi", "title", "title_author", "autocomplete"). Empty when no title-matching candidate was found. */
+  searchMethod?: string | undefined;
+  /** Output only. Per-field comparisons (populated only when `retrieved_metadata` is present). */
+  fieldComparisons?: FieldComparisonList | undefined;
+  /** Output only. Verdict from Google Search grounding verification (when run). */
+  searchVerdict?: CitationReportSearchVerdictEnum | (string & {}) | undefined;
+  /** Output only. BibTeX entry type (e.g., "article", "inproceedings", "misc"). */
+  entryType?: string | undefined;
+  /** Output only. Generated BibTeX citation key (e.g., "smith2023deep"). */
+  citationKey?: string | undefined;
+  /** Output only. Verbatim reference string extracted from the paper's bibliography. */
+  rawReference?: string | undefined;
+  /** Output only. Formatted BibTeX entry for the verified `retrieved_metadata` when present. Empty when `retrieved_metadata` is absent. */
+  retrievedBibtex?: string | undefined;
+  /** Output only. Explanation from the Google Search grounding verification step (when run). */
+  searchRationale?: string | undefined;
+  /** Output only. Verdict from scholarly database lookup (OpenAlex / Crossref) before search grounding. */
+  lookupVerdict?: CitationReportLookupVerdictEnum | (string & {}) | undefined;
+  /** Output only. Whether the first author's family name matched between extracted and retrieved metadata. */
+  firstAuthorFamilyNameMatch?: boolean | undefined;
+  /** Output only. Web sources surfaced during Google Search grounding. */
+  groundingUrls?: GroundingUrlList | undefined;
+  /** Output only. 1-indexed bibliography reference number in the paper. */
+  refNum?: number | undefined;
+  /** Output only. Final combined verdict after database lookup and search grounding. */
+  finalVerdict?: CitationReportFinalVerdictEnum | (string & {}) | undefined;
+}
+/** A structured review comment anchored to a specific location in the document. */
+export interface AnchoredReviewComment {
+  /** Output only. Detailed markdown explanation of the review comment. */
+  bodyMarkdown?: string | undefined;
+  /** Output only. Optional suggested replacement text or edit for the anchored span. */
+  suggestedEdit?: string | undefined;
+  /** Output only. Polymorphic location in the document where this comment is anchored. */
+  location?: DocumentLocation | undefined;
+  /** Output only. Unique identifier for the comment within the review. */
+  commentId?: string | undefined;
+  /** Output only. Severity classification of the comment. */
+  severity?: AnchoredReviewCommentSeverityEnum | (string & {}) | undefined;
+  /** Output only. Optional structured citation verification report when this comment corresponds to a bibliography reference. */
+  citationReport?: CitationReport | undefined;
+  /** Output only. Short one-line summary of the review comment. */
+  summary?: string | undefined;
+}
+export type AnchoredReviewCommentList = Array<AnchoredReviewComment>;
+export type DocumentMap = { [key: string]: unknown | undefined };
+export type DocumentMapList = Array<DocumentMap>;
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+}
+/** Encapsulates the synthesized output or failure details of a single review execution. */
+export interface Result {
+  /** Output only. Structured review comments anchored to specific locations in the document. At most 300 anchored comments are returned per review. */
+  anchoredComments?: AnchoredReviewCommentList | undefined;
+  /** Output only. Synthesized review report markdown. */
+  reviewMarkdown?: string | undefined;
+  /** Output only. Failure status details if review execution failed. */
+  error?: Status | undefined;
+}
+export type ReviewStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED";
 /** An evaluation run of a document. */
 export interface Review {
-  /** Output only. Timestamp when this review attempt was initiated. */
-  createTime?: string | undefined;
-  /** Output only. Review output (markdown, errors, and future modalities). */
-  result?: Result | undefined;
-  /** Output only. Timestamp when the worker started evaluation. */
-  startTime?: string | undefined;
-  /** Output only. Current review lifecycle state. */
-  state?: ReviewStateEnum | (string & {}) | undefined;
   /** Output only. Timestamp when the review reached a terminal state. */
   endTime?: string | undefined;
-  /** Output only. Estimated completion progress percentage of the review in [0, 100]. */
-  progressPercent?: number | undefined;
-  /** Identifier. Resource name in format `documents/{document}/reviews/{review}`. */
-  name?: string | undefined;
+  /** Output only. Timestamp when this review attempt was initiated. */
+  createTime?: string | undefined;
+  /** Output only. Timestamp when the worker started evaluation. */
+  startTime?: string | undefined;
   /** Optional. Run configuration parameters used for this review. */
   runConfig?: DeepReviewRunConfig | undefined;
+  /** Output only. Review output (markdown, errors, and future modalities). */
+  result?: Result | undefined;
+  /** Identifier. Resource name in format `documents/{document}/reviews/{review}`. */
+  name?: string | undefined;
+  /** Output only. Current review lifecycle state. */
+  state?: ReviewStateEnum | (string & {}) | undefined;
+  /** Output only. Estimated completion progress percentage of the review in [0, 100]. */
+  progressPercent?: number | undefined;
 }
 export interface CreateDocumentsReviewsRequest extends Review {
-  /** Required. The parent Document resource name where this review will be created. */
-  parent: string;
   /** Optional. Idempotency identifier for network retry safety (AIP-155). Must be a valid UUID4 string. */
   requestId?: string | undefined;
+  /** Required. The parent Document resource name where this review will be created. */
+  parent: string;
   /** Optional. The ID to use for the review, which will become the final component of the review's resource name. If not provided, a unique server-generated UUID will be assigned. */
   reviewId?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
 }
 export interface DeleteDocumentsRequest {
   /** Optional. If set to `true`, and the document is not found, the request succeeds. */
   allowMissing?: boolean | undefined;
-  /** Optional. If set to `true`, any child resources (e.g. review resources) are also deleted. If `false` and the document has existing reviews, the request fails with `FAILED_PRECONDITION`. */
-  force?: boolean | undefined;
   /** Required. The resource name of the document to delete. */
   name: string;
+  /** Optional. If set to `true`, any child resources (e.g. review resources) are also deleted. If `false` and the document has existing reviews, the request fails with `FAILED_PRECONDITION`. */
+  force?: boolean | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -393,14 +393,14 @@ export interface Money {
 }
 /** Response message for estimating what a review would cost. When the cost can't be estimated, for example because too few past reviews used the same model, depth, and thinking level, the costs are unset and `past_review_count` is 0. */
 export interface EstimateReviewCostResponse {
-  /** The 20th percentile of what comparable past reviews would cost for this document. */
-  lowCost?: Money | undefined;
   /** Number of past reviews the estimate is based on. */
   pastReviewCount?: number | undefined;
-  /** The 95th percentile of what comparable past reviews would cost for this document. */
-  highCost?: Money | undefined;
   /** The median of what comparable past reviews would cost for this document. */
   medianCost?: Money | undefined;
+  /** The 95th percentile of what comparable past reviews would cost for this document. */
+  highCost?: Money | undefined;
+  /** The 20th percentile of what comparable past reviews would cost for this document. */
+  lowCost?: Money | undefined;
 }
 export interface GetDocumentsRequest {
   /** Required. The resource name of the document to retrieve. */
@@ -414,19 +414,19 @@ export type ReviewSummaryStateEnum =
   | "FAILED";
 /** Lightweight summary of a Review execution run for display in Document views. */
 export interface ReviewSummary {
-  /** Output only. Current review lifecycle state. */
-  state?: ReviewSummaryStateEnum | (string & {}) | undefined;
-  /** Output only. Timestamp when this review attempt was initiated. */
-  createTime?: string | undefined;
   /** Output only. Resource name of the Review. */
   review?: string | undefined;
+  /** Output only. Timestamp when this review attempt was initiated. */
+  createTime?: string | undefined;
+  /** Output only. Current review lifecycle state. */
+  state?: ReviewSummaryStateEnum | (string & {}) | undefined;
 }
 /** Configuration for importing a document directly from Google Drive. */
 export interface DriveSource {
-  /** Optional. Input only. Immutable. Resource key (`^[a-zA-Z0-9_-]{1,128}$`) required to access certain older link-shared Google Drive files returned by the Google Drive Picker (for shortcuts, pass the resolved target file's resource key). Never persisted in database records or returned in Document resources (see companion field `resource_key_set`, AIP-147). */
-  resourceKey?: string | undefined;
   /** Optional. Input only. Immutable. Importing a specific revision is not currently supported; non-empty values return INVALID_ARGUMENT. */
   revisionId?: string | undefined;
+  /** Optional. Input only. Immutable. Resource key (`^[a-zA-Z0-9_-]{1,128}$`) required to access certain older link-shared Google Drive files returned by the Google Drive Picker (for shortcuts, pass the resolved target file's resource key). Never persisted in database records or returned in Document resources (see companion field `resource_key_set`, AIP-147). */
+  resourceKey?: string | undefined;
   /** Required. Immutable. The Google Drive file ID (e.g. "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"). For Google Drive shortcuts, callers must pass the resolved target file's `file_id` and `resource_key`. */
   fileId?: string | undefined;
   /** Output only. Indicates whether a resource key was provided for this Drive source. */
@@ -434,14 +434,14 @@ export interface DriveSource {
 }
 /** A document uploaded for automated review. Documents are immutable post-creation; to review a new version, create a new Document. */
 export interface Document {
-  /** Optional. User-provided display title or filename for the document. */
-  displayName?: string | undefined;
   /** Output only. Summary of the most recent review run for this document, if any. Populated by `GetDocument` and `ListDocuments`; unset on the document returned by `CreateDocument`, which has no reviews yet. */
   latestReviewSummary?: ReviewSummary | undefined;
-  /** Output only. Timestamp when the document was initially created. */
-  createTime?: string | undefined;
+  /** Optional. User-provided display title or filename for the document. */
+  displayName?: string | undefined;
   /** Identifier. Resource name in format `documents/{document}`. */
   name?: string | undefined;
+  /** Output only. Timestamp when the document was initially created. */
+  createTime?: string | undefined;
   /** Optional. Reference to a Google Drive file to import. */
   driveSource?: DriveSource | undefined;
 }
@@ -459,40 +459,38 @@ export interface GetUserQuotaV1Request {
 }
 /** Singleton resource representing the authenticated caller's review quota limits and sliding-window usage. */
 export interface UserQuota {
-  /** Output only. Remaining free-tier reviews available in the current rolling 7-day window (`max(0, max_review_count_per_week - used_review_count)`). */
-  remainingReviewCount?: number | undefined;
+  /** Output only. Timestamp when the next review quota slot becomes available if `remaining_review_count` is 0; unset when quota is currently available. */
+  nextAvailableTime?: string | undefined;
   /** Output only. Maximum free-tier reviews allowed per rolling 7-day window. */
   maxReviewCountPerWeek?: number | undefined;
   /** Output only. Number of free-tier reviews used in the past 7 days. */
   usedReviewCount?: number | undefined;
-  /** Output only. Whether a custom per-user quota override is active for this user. */
-  customLimitEnabled?: boolean | undefined;
-  /** Output only. Timestamp when the next review quota slot becomes available if `remaining_review_count` is 0; unset when quota is currently available. */
-  nextAvailableTime?: string | undefined;
   /** Identifier. Resource name of the singleton user quota (`userQuota`). */
   name?: string | undefined;
+  /** Output only. Remaining free-tier reviews available in the current rolling 7-day window (`max(0, max_review_count_per_week - used_review_count)`). */
+  remainingReviewCount?: number | undefined;
+  /** Output only. Whether a custom per-user quota override is active for this user. */
+  customLimitEnabled?: boolean | undefined;
 }
 export interface ListDocumentsRequest {
-  /** Optional. Custom order_by expressions are not currently supported; non-empty values return INVALID_ARGUMENT. */
-  orderBy?: string | undefined;
   /** Optional. Custom filter expressions are not currently supported; non-empty values return INVALID_ARGUMENT. */
   filter?: string | undefined;
-  /** Optional. A page token received from a previous `ListDocuments` call. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of documents to return in a single page. The server may return fewer than this value. If unspecified, at most 50 documents will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number | undefined;
+  /** Optional. A page token received from a previous `ListDocuments` call. */
+  pageToken?: string | undefined;
+  /** Optional. Custom order_by expressions are not currently supported; non-empty values return INVALID_ARGUMENT. */
+  orderBy?: string | undefined;
 }
 export type DocumentList = Array<Document>;
 /** Response message for listing Document resources. */
 export interface ListDocumentsResponse {
-  /** A token to retrieve the next page of results, or empty if no further pages exist. */
-  nextPageToken?: string | undefined;
   /** The list of Document resources. */
   documents?: DocumentList | undefined;
+  /** A token to retrieve the next page of results, or empty if no further pages exist. */
+  nextPageToken?: string | undefined;
 }
 export interface ListDocumentsReviewsRequest {
-  /** Optional. Custom filter expressions are not currently supported; non-empty values return INVALID_ARGUMENT. */
-  filter?: string | undefined;
   /** Optional. Custom order_by expressions are not currently supported; non-empty values return INVALID_ARGUMENT. */
   orderBy?: string | undefined;
   /** Optional. The maximum number of reviews to return in a single page. The server may return fewer than this value. If unspecified, at most 50 reviews will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
@@ -501,6 +499,8 @@ export interface ListDocumentsReviewsRequest {
   parent: string;
   /** Optional. A page token received from a previous `ListReviews` call. */
   pageToken?: string | undefined;
+  /** Optional. Custom filter expressions are not currently supported; non-empty values return INVALID_ARGUMENT. */
+  filter?: string | undefined;
 }
 export type ReviewList = Array<Review>;
 /** Response message for listing Review resources. */
@@ -511,10 +511,10 @@ export interface ListReviewsResponse {
   reviews?: ReviewList | undefined;
 }
 export interface UploadMediaRequest extends Document {
-  /** Optional. The ID to use for the document, which will become the final component of the document's resource name. If not provided, a unique server-generated UUID will be assigned. */
-  documentId?: string | undefined;
   /** Optional. Idempotency identifier for network retry safety (AIP-155). Must be a valid UUID4 string. */
   requestId?: string | undefined;
+  /** Optional. The ID to use for the document, which will become the final component of the document's resource name. If not provided, a unique server-generated UUID will be assigned. */
+  documentId?: string | undefined;
 }
 export type CreateDocumentsReviewsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates and initiates an asynchronous multi-agent review for a document. Returns a google.longrunning.Operation. When the operation completes, the `response` field contains a `Review` and the `metadata` field contains `CreateReviewMetadata`. */
@@ -746,12 +746,12 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          remainingReviewCount: S.optional(S.Number),
+          nextAvailableTime: S.optional(S.String),
           maxReviewCountPerWeek: S.optional(S.Number),
           usedReviewCount: S.optional(S.Number),
-          customLimitEnabled: S.optional(S.Boolean),
-          nextAvailableTime: S.optional(S.String),
           name: S.optional(S.String),
+          remainingReviewCount: S.optional(S.Number),
+          customLimitEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UserQuota" });
   }
@@ -761,10 +761,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -778,8 +778,8 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           documents: S.optional(__S(65, __c2, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDocumentsResponse" });
   }
@@ -789,11 +789,11 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -820,8 +820,8 @@ function __c4(j: number): any {
         S.Extend(
           __S(450, __c14, 2),
           S.Struct({
-            documentId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            documentId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -840,8 +840,8 @@ function __c5(j: number): any {
         S.Extend(
           __S(276, __c8, 20),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
             reviewId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -859,10 +859,10 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(226, __c7, 2)),
-          done: S.optional(S.Boolean),
           metadata: S.optional(__S(224, __c7, 0)),
           response: S.optional(__S(224, __c7, 0)),
+          done: S.optional(S.Boolean),
+          error: S.optional(__S(226, __c7, 2)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
@@ -889,97 +889,15 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          familyName: S.optional(S.String),
-          givenName: S.optional(S.String),
+          userPrompt: S.optional(S.String),
+          topology: S.optional(S.String),
+          thinkingLevel: S.optional(S.String),
+          model: S.optional(S.String),
+          geminiApiKey: S.optional(S.String),
+          geminiApiKeySet: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "Author" });
+      ).annotate({ identifier: "DeepReviewRunConfig" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
-    case 2:
-      return S.Array(S.String);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          year: S.optional(S.Number),
-          day: S.optional(S.Number),
-          month: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Deepreview_Date" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          source: S.optional(S.String),
-          authors: S.optional(__S(257, __c8, 1)),
-          volume: S.optional(S.String),
-          doi: S.optional(S.String),
-          journal: S.optional(S.String),
-          pages: S.optional(S.String),
-          urls: S.optional(__S(258, __c8, 2)),
-          publicationDate: S.optional(__S(259, __c8, 3)),
-          title: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CitationMetadata" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.optional(S.String),
-          title: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GroundingUrl" });
-    case 6:
-      return S.Array(__S(261, __c8, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          detail: S.optional(S.String),
-          match: S.optional(S.Boolean),
-          fieldKey: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FieldComparison" });
-    case 8:
-      return S.Array(__S(263, __c8, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          retrievedMetadata: S.optional(__S(260, __c8, 4)),
-          rawReference: S.optional(S.String),
-          searchVerdict: S.optional(S.String),
-          groundingUrls: S.optional(__S(262, __c8, 6)),
-          refNum: S.optional(S.Number),
-          firstAuthorFamilyNameMatch: S.optional(S.Boolean),
-          searchMethod: S.optional(S.String),
-          fieldComparisons: S.optional(__S(264, __c8, 8)),
-          finalVerdict: S.optional(S.String),
-          retrievedBibtex: S.optional(S.String),
-          extractedMetadata: S.optional(__S(260, __c8, 4)),
-          lookupVerdict: S.optional(S.String),
-          searchRationale: S.optional(S.String),
-          citationKey: S.optional(S.String),
-          entryType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CitationReport" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          lastLine: S.optional(S.Number),
-          firstColumn: S.optional(S.Number),
-          lastColumn: S.optional(S.Number),
-          firstLine: S.optional(S.Number),
-          quotedLinePreview: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TextLocation" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          top: S.optional(S.Number),
-          right: S.optional(S.Number),
-          bottom: S.optional(S.Number),
-          left: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "NormalizedBoundingBox" });
-    case 12:
-      return S.Array(__S(267, __c8, 11));
-    case 13:
       return S.suspend(() =>
         S.Struct({
           prefix: S.optional(S.String),
@@ -987,65 +905,147 @@ function __c8(j: number): any {
           exact: S.optional(S.String),
         }),
       ).annotate({ identifier: "TextQuoteSelector" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          right: S.optional(S.Number),
+          left: S.optional(S.Number),
+          top: S.optional(S.Number),
+          bottom: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NormalizedBoundingBox" });
+    case 3:
+      return S.Array(__S(258, __c8, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          pageNumber: S.optional(S.Number),
+          quoteSelector: S.optional(__S(257, __c8, 1)),
+          boundingBoxes: S.optional(__S(259, __c8, 3)),
+        }),
+      ).annotate({ identifier: "PdfLocation" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          lastLine: S.optional(S.Number),
+          firstColumn: S.optional(S.Number),
+          lastColumn: S.optional(S.Number),
+          quotedLinePreview: S.optional(S.String),
+          firstLine: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TextLocation" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          pdf: S.optional(__S(260, __c8, 4)),
+          text: S.optional(__S(261, __c8, 5)),
+        }),
+      ).annotate({ identifier: "DocumentLocation" });
+    case 7:
+      return S.Array(S.String);
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          month: S.optional(S.Number),
+          day: S.optional(S.Number),
+          year: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Deepreview_Date" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          givenName: S.optional(S.String),
+          familyName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Author" });
+    case 10:
+      return S.Array(__S(265, __c8, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          doi: S.optional(S.String),
+          title: S.optional(S.String),
+          urls: S.optional(__S(263, __c8, 7)),
+          volume: S.optional(S.String),
+          publicationDate: S.optional(__S(264, __c8, 8)),
+          pages: S.optional(S.String),
+          authors: S.optional(__S(266, __c8, 10)),
+          source: S.optional(S.String),
+          journal: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CitationMetadata" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.optional(S.String),
+          match: S.optional(S.Boolean),
+          fieldKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FieldComparison" });
+    case 13:
+      return S.Array(__S(268, __c8, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          boundingBoxes: S.optional(__S(268, __c8, 12)),
-          quoteSelector: S.optional(__S(269, __c8, 13)),
-          pageNumber: S.optional(S.Number),
+          title: S.optional(S.String),
+          url: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PdfLocation" });
+      ).annotate({ identifier: "GroundingUrl" });
     case 15:
-      return S.suspend(() =>
-        S.Struct({
-          text: S.optional(__S(266, __c8, 10)),
-          pdf: S.optional(__S(270, __c8, 14)),
-        }),
-      ).annotate({ identifier: "DocumentLocation" });
+      return S.Array(__S(270, __c8, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          severity: S.optional(S.String),
-          summary: S.optional(S.String),
-          commentId: S.optional(S.String),
-          suggestedEdit: S.optional(S.String),
-          citationReport: S.optional(__S(265, __c8, 9)),
-          bodyMarkdown: S.optional(S.String),
-          location: S.optional(__S(271, __c8, 15)),
+          extractedMetadata: S.optional(__S(267, __c8, 11)),
+          retrievedMetadata: S.optional(__S(267, __c8, 11)),
+          searchMethod: S.optional(S.String),
+          fieldComparisons: S.optional(__S(269, __c8, 13)),
+          searchVerdict: S.optional(S.String),
+          entryType: S.optional(S.String),
+          citationKey: S.optional(S.String),
+          rawReference: S.optional(S.String),
+          retrievedBibtex: S.optional(S.String),
+          searchRationale: S.optional(S.String),
+          lookupVerdict: S.optional(S.String),
+          firstAuthorFamilyNameMatch: S.optional(S.Boolean),
+          groundingUrls: S.optional(__S(271, __c8, 15)),
+          refNum: S.optional(S.Number),
+          finalVerdict: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AnchoredReviewComment" });
+      ).annotate({ identifier: "CitationReport" });
     case 17:
-      return S.Array(__S(272, __c8, 16));
-    case 18:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(226, __c7, 2)),
-          reviewMarkdown: S.optional(S.String),
-          anchoredComments: S.optional(__S(273, __c8, 17)),
+          bodyMarkdown: S.optional(S.String),
+          suggestedEdit: S.optional(S.String),
+          location: S.optional(__S(262, __c8, 6)),
+          commentId: S.optional(S.String),
+          severity: S.optional(S.String),
+          citationReport: S.optional(__S(272, __c8, 16)),
+          summary: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Result" });
+      ).annotate({ identifier: "AnchoredReviewComment" });
+    case 18:
+      return S.Array(__S(273, __c8, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          topology: S.optional(S.String),
-          geminiApiKeySet: S.optional(S.Boolean),
-          thinkingLevel: S.optional(S.String),
-          geminiApiKey: S.optional(S.String),
-          userPrompt: S.optional(S.String),
-          model: S.optional(S.String),
+          anchoredComments: S.optional(__S(274, __c8, 18)),
+          reviewMarkdown: S.optional(S.String),
+          error: S.optional(__S(226, __c7, 2)),
         }),
-      ).annotate({ identifier: "DeepReviewRunConfig" });
+      ).annotate({ identifier: "Result" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          result: S.optional(__S(274, __c8, 18)),
-          startTime: S.optional(S.String),
-          state: S.optional(S.String),
           endTime: S.optional(S.String),
-          progressPercent: S.optional(S.Number),
+          createTime: S.optional(S.String),
+          startTime: S.optional(S.String),
+          runConfig: S.optional(__S(256, __c8, 0)),
+          result: S.optional(__S(275, __c8, 19)),
           name: S.optional(S.String),
-          runConfig: S.optional(__S(275, __c8, 19)),
+          state: S.optional(S.String),
+          progressPercent: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Review" });
   }
@@ -1056,8 +1056,8 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          force: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1124,10 +1124,10 @@ function __c12(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          lowCost: S.optional(__S(386, __c12, 2)),
           pastReviewCount: S.optional(S.Number),
-          highCost: S.optional(__S(386, __c12, 2)),
           medianCost: S.optional(__S(386, __c12, 2)),
+          highCost: S.optional(__S(386, __c12, 2)),
+          lowCost: S.optional(__S(386, __c12, 2)),
         }),
       ).annotate({ identifier: "EstimateReviewCostResponse" });
   }
@@ -1153,16 +1153,16 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
           review: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReviewSummary" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resourceKey: S.optional(S.String),
           revisionId: S.optional(S.String),
+          resourceKey: S.optional(S.String),
           fileId: S.optional(S.String),
           resourceKeySet: S.optional(S.Boolean),
         }),
@@ -1170,10 +1170,10 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           latestReviewSummary: S.optional(__S(448, __c14, 0)),
-          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
           name: S.optional(S.String),
+          createTime: S.optional(S.String),
           driveSource: S.optional(__S(449, __c14, 1)),
         }),
       ).annotate({ identifier: "Document" });

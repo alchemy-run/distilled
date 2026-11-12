@@ -99,12 +99,12 @@ export interface BatchSearchLinkProcessesProjectsLocationsRequest extends Google
 }
 /** Link details. */
 export interface GoogleCloudDatacatalogLineageV1ProcessLinkInfo {
-  /** The start of the first event establishing this link-process tuple. */
-  startTime?: string | undefined;
   /** The name of the link in the format of `projects/{project}/locations/{location}/links/{link}`. */
   link?: string | undefined;
   /** The end of the last event establishing this link-process tuple. */
   endTime?: string | undefined;
+  /** The start of the first event establishing this link-process tuple. */
+  startTime?: string | undefined;
 }
 export type GoogleCloudDatacatalogLineageV1ProcessLinkInfoList =
   Array<GoogleCloudDatacatalogLineageV1ProcessLinkInfo>;
@@ -134,6 +134,7 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
+export type DocumentMap = { [key: string]: unknown | undefined };
 export type GoogleCloudDatacatalogLineageV1OriginSourceTypeEnum =
   | "SOURCE_TYPE_UNSPECIFIED"
   | "CUSTOM"
@@ -147,28 +148,27 @@ export type GoogleCloudDatacatalogLineageV1OriginSourceTypeEnum =
   | "LOOKER_CORE";
 /** Origin of a process. */
 export interface GoogleCloudDatacatalogLineageV1Origin {
-  /** Type of the source. Use of a source_type other than `CUSTOM` for process creation or updating is highly discouraged. It might be restricted in the future without notice. There will be increase in cost if you use any of the source types other than `CUSTOM`. */
-  sourceType?: GoogleCloudDatacatalogLineageV1OriginSourceTypeEnum | (string & {}) | undefined;
   /** If the source_type isn't CUSTOM, the value of this field should be a Google Cloud resource name of the system, which reports lineage. The project and location parts of the resource name must match the project and location of the lineage resource being created. Examples: - `{source_type: COMPOSER, name: "projects/foo/locations/us/environments/bar"}` - `{source_type: BIGQUERY, name: "projects/foo/locations/eu"}` - `{source_type: CUSTOM, name: "myCustomIntegration"}` */
   name?: string | undefined;
+  /** Type of the source. Use of a source_type other than `CUSTOM` for process creation or updating is highly discouraged. It might be restricted in the future without notice. There will be increase in cost if you use any of the source types other than `CUSTOM`. */
+  sourceType?: GoogleCloudDatacatalogLineageV1OriginSourceTypeEnum | (string & {}) | undefined;
 }
-export type DocumentMap = { [key: string]: unknown | undefined };
 /** A process is the definition of a data transformation operation. */
 export interface GoogleCloudDatacatalogLineageV1Process {
-  /** Optional. The origin of this process and its runs and lineage events. */
-  origin?: GoogleCloudDatacatalogLineageV1Origin | undefined;
+  /** Optional. A human-readable name you can set to display in a user interface. Must be not longer than 200 characters and only contain UTF-8 letters or numbers, spaces or characters like `_-:&.` */
+  displayName?: string | undefined;
   /** Optional. The attributes of the process. Should only be used for the purpose of non-semantic management (classifying, describing or labeling the process). Up to 100 attributes are allowed. */
   attributes?: DocumentMap | undefined;
   /** Immutable. The resource name of the lineage process. Format: `projects/{project}/locations/{location}/processes/{process}`. Can be specified or auto-assigned. {process} must be not longer than 200 characters and only contain characters in a set: `a-zA-Z0-9_-:.` */
   name?: string | undefined;
-  /** Optional. A human-readable name you can set to display in a user interface. Must be not longer than 200 characters and only contain UTF-8 letters or numbers, spaces or characters like `_-:&.` */
-  displayName?: string | undefined;
+  /** Optional. The origin of this process and its runs and lineage events. */
+  origin?: GoogleCloudDatacatalogLineageV1Origin | undefined;
 }
 export interface CreateProjectsLocationsProcessesRequest extends GoogleCloudDatacatalogLineageV1Process {
-  /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is idempotent only if a `request_id` is provided. */
-  requestId?: string | undefined;
   /** Required. The name of the project and its location that should own the process. */
   parent: string;
+  /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is idempotent only if a `request_id` is provided. */
+  requestId?: string | undefined;
 }
 export type GoogleCloudDatacatalogLineageV1RunStateEnum =
   | "UNKNOWN"
@@ -180,22 +180,29 @@ export type GoogleCloudDatacatalogLineageV1RunStateEnum =
 export interface GoogleCloudDatacatalogLineageV1Run {
   /** Optional. A human-readable name you can set to display in a user interface. Must be not longer than 200 characters and only contain UTF-8 letters or numbers, spaces or characters like `_-:&.` */
   displayName?: string | undefined;
-  /** Immutable. The resource name of the run. Format: `projects/{project}/locations/{location}/processes/{process}/runs/{run}`. Can be specified or auto-assigned. {run} must be not longer than 200 characters and only contain characters in a set: `a-zA-Z0-9_-:.` */
-  name?: string | undefined;
-  /** Required. The state of the run. */
-  state?: GoogleCloudDatacatalogLineageV1RunStateEnum | (string & {}) | undefined;
+  /** Optional. The timestamp of the end of the run. */
+  endTime?: string | undefined;
   /** Required. The timestamp of the start of the run. */
   startTime?: string | undefined;
   /** Optional. The attributes of the run. Should only be used for the purpose of non-semantic management (classifying, describing or labeling the run). Up to 100 attributes are allowed. */
   attributes?: DocumentMap | undefined;
-  /** Optional. The timestamp of the end of the run. */
-  endTime?: string | undefined;
+  /** Required. The state of the run. */
+  state?: GoogleCloudDatacatalogLineageV1RunStateEnum | (string & {}) | undefined;
+  /** Immutable. The resource name of the run. Format: `projects/{project}/locations/{location}/processes/{process}/runs/{run}`. Can be specified or auto-assigned. {run} must be not longer than 200 characters and only contain characters in a set: `a-zA-Z0-9_-:.` */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsProcessesRunsRequest extends GoogleCloudDatacatalogLineageV1Run {
-  /** Required. The name of the process that should own the run. */
-  parent: string;
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is idempotent only if a `request_id` is provided. */
   requestId?: string | undefined;
+  /** Required. The name of the process that should own the run. */
+  parent: string;
+}
+/** The soft reference to everything you can attach a lineage event to. */
+export interface GoogleCloudDatacatalogLineageV1EntityReference {
+  /** Required. [Fully Qualified Name (FQN)](https://cloud.google.com/dataplex/docs/fully-qualified-names) of the entity. */
+  fullyQualifiedName?: string | undefined;
+  /** Optional. Field path within the entity. Each nesting level should be a separate value in the repeated field. The order matters. Must be empty for asset level lineage For example to address "salary.net" subfield where "salary" is a column and "net" is a proto field two values in the `field` should be reported, the first is "salary" and the second is "net". Each field length is limited to 500 characters. Maximum supported nesting level is 20. */
+  field?: StringList | undefined;
 }
 export type GoogleCloudDatacatalogLineageV1DependencyInfoDependencyTypeEnum =
   | "DEPENDENCY_TYPE_UNSPECIFIED"
@@ -209,19 +216,12 @@ export interface GoogleCloudDatacatalogLineageV1DependencyInfo {
     | (string & {})
     | undefined;
 }
-/** The soft reference to everything you can attach a lineage event to. */
-export interface GoogleCloudDatacatalogLineageV1EntityReference {
-  /** Optional. Field path within the entity. Each nesting level should be a separate value in the repeated field. The order matters. Must be empty for asset level lineage For example to address "salary.net" subfield where "salary" is a column and "net" is a proto field two values in the `field` should be reported, the first is "salary" and the second is "net". Each field length is limited to 500 characters. Maximum supported nesting level is 20. */
-  field?: StringList | undefined;
-  /** Required. [Fully Qualified Name (FQN)](https://cloud.google.com/dataplex/docs/fully-qualified-names) of the entity. */
-  fullyQualifiedName?: string | undefined;
-}
 /** A lineage between source and target entities. */
 export interface GoogleCloudDatacatalogLineageV1EventLink {
-  /** Optional. Describes how the target depends on the source. */
-  dependencyInfo?: GoogleCloudDatacatalogLineageV1DependencyInfo | undefined;
   /** Required. Reference to the source entity */
   source?: GoogleCloudDatacatalogLineageV1EntityReference | undefined;
+  /** Optional. Describes how the target depends on the source. */
+  dependencyInfo?: GoogleCloudDatacatalogLineageV1DependencyInfo | undefined;
   /** Required. Reference to the target entity */
   target?: GoogleCloudDatacatalogLineageV1EntityReference | undefined;
 }
@@ -233,49 +233,49 @@ export interface GoogleCloudDatacatalogLineageV1LineageEvent {
   startTime?: string | undefined;
   /** Optional. List of source-target pairs. Can't contain more than 100 tuples. */
   links?: GoogleCloudDatacatalogLineageV1EventLinkList | undefined;
-  /** Immutable. The resource name of the lineage event. Format: `projects/{project}/locations/{location}/processes/{process}/runs/{run}/lineageEvents/{lineage_event}`. Can be specified or auto-assigned. {lineage_event} must be not longer than 200 characters and only contain characters in a set: `a-zA-Z0-9_-:.` */
-  name?: string | undefined;
   /** Optional. The end of the transformation which resulted in this lineage event. For streaming scenarios, it should be the end of the period from which the lineage is being reported. */
   endTime?: string | undefined;
+  /** Immutable. The resource name of the lineage event. Format: `projects/{project}/locations/{location}/processes/{process}/runs/{run}/lineageEvents/{lineage_event}`. Can be specified or auto-assigned. {lineage_event} must be not longer than 200 characters and only contain characters in a set: `a-zA-Z0-9_-:.` */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsProcessesRunsLineageEventsRequest extends GoogleCloudDatacatalogLineageV1LineageEvent {
-  /** Required. The name of the run that should own the lineage event. */
-  parent: string;
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is idempotent only if a `request_id` is provided. */
   requestId?: string | undefined;
+  /** Required. The name of the run that should own the lineage event. */
+  parent: string;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
 }
 export interface DeleteProjectsLocationsProcessesRequest {
-  /** Required. The name of the process to delete. */
-  name: string;
   /** Optional. If set to true and the process is not found, the request succeeds but the server doesn't perform any actions. */
   allowMissing?: boolean | undefined;
+  /** Required. The name of the process to delete. */
+  name: string;
 }
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: GoogleRpcStatus | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
 }
 export interface DeleteProjectsLocationsProcessesRunsRequest {
   /** Required. The name of the run to delete. */
@@ -284,14 +284,19 @@ export interface DeleteProjectsLocationsProcessesRunsRequest {
   allowMissing?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsProcessesRunsLineageEventsRequest {
-  /** Required. The name of the lineage event to delete. */
-  name: string;
   /** Optional. If set to true and the lineage event is not found, the request succeeds but the server doesn't perform any actions. */
   allowMissing?: boolean | undefined;
+  /** Required. The name of the lineage event to delete. */
+  name: string;
 }
 export interface GetFoldersLocationsConfigRequest {
   /** Required. REQUIRED: The resource name of the config to be fetched. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
   name: string;
+}
+/** Lineage enablement configuration. Defines configurations for the ingestion of lineage for the resource and its children. */
+export interface GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestionIngestionRuleLineageEnablement {
+  /** Optional. If true, ingestion of lineage should be enabled. If false, it should be disabled. If unspecified, the system default value is used. */
+  enabled?: boolean | undefined;
 }
 export type GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestionIngestionRuleIntegrationSelectorIntegrationEnum =
   | "INTEGRATION_UNSPECIFIED"
@@ -307,20 +312,15 @@ export interface GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestionI
     | (string & {})
     | undefined;
 }
-/** Lineage enablement configuration. Defines configurations for the ingestion of lineage for the resource and its children. */
-export interface GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestionIngestionRuleLineageEnablement {
-  /** Optional. If true, ingestion of lineage should be enabled. If false, it should be disabled. If unspecified, the system default value is used. */
-  enabled?: boolean | undefined;
-}
 /** Ingestion rule for Data Lineage ingestion. */
 export interface GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestionIngestionRule {
-  /** Required. Integration selector of the rule. The rule is only applied to the Integration selected by the selector. */
-  integrationSelector?:
-    | GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestionIngestionRuleIntegrationSelector
-    | undefined;
   /** Required. Lineage enablement configuration. Defines configurations for the ingestion of lineage for the resource and its children. If unspecified, the ingestion will be enabled only if it was configured in the resource's parent. */
   lineageEnablement?:
     | GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestionIngestionRuleLineageEnablement
+    | undefined;
+  /** Required. Integration selector of the rule. The rule is only applied to the Integration selected by the selector. */
+  integrationSelector?:
+    | GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestionIngestionRuleIntegrationSelector
     | undefined;
 }
 export type GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestionIngestionRuleList =
@@ -334,10 +334,10 @@ export interface GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestion 
 }
 /** Configuration for Data Lineage. Defines different configuration options for Lineage customers to control behaviour of lineage systems. */
 export interface GoogleCloudDatacatalogLineageConfigmanagementV1Config {
-  /** Identifier. The resource name of the config. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
-  name?: string | undefined;
   /** Optional. Ingestion rule for Data Lineage ingestion. */
   ingestion?: GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestion | undefined;
+  /** Identifier. The resource name of the config. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
+  name?: string | undefined;
   /** Optional. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a config from overwriting each other. It is required that systems make use of the `etag` in the read-modify-write cycle to perform config updates in order to avoid race conditions: An `etag` is returned in the response to `GetConfig`, and systems are expected to put that etag in the request to `UpdateConfig` to ensure that their change will be applied to the same version of the config. If an `etag` is not provided in the call to `UpdateConfig`, then the existing config, if any, will be overwritten. */
   etag?: string | undefined;
 }
@@ -366,16 +366,16 @@ export interface GetProjectsLocationsProcessesRunsLineageEventsRequest {
   name: string;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
@@ -388,29 +388,29 @@ export interface GoogleLongrunningListOperationsResponse {
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsProcessesRequest {
+  /** Optional. The page token received from a previous `ListProcesses` call. Specify it to get the next page. When paginating, all other parameters specified in this call must match the parameters of the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Optional. The maximum number of processes to return. The service may return fewer than this value. If unspecified, at most 50 processes are returned. The maximum value is 100; values greater than 100 are cut to 100. */
   pageSize?: number | undefined;
   /** Required. The name of the project and its location that owns this collection of processes. */
   parent: string;
-  /** Optional. The page token received from a previous `ListProcesses` call. Specify it to get the next page. When paginating, all other parameters specified in this call must match the parameters of the call that provided the page token. */
-  pageToken?: string | undefined;
 }
 export type GoogleCloudDatacatalogLineageV1ProcessList =
   Array<GoogleCloudDatacatalogLineageV1Process>;
 /** Response message for ListProcesses. */
 export interface GoogleCloudDatacatalogLineageV1ListProcessesResponse {
-  /** The processes from the specified project and location. */
-  processes?: GoogleCloudDatacatalogLineageV1ProcessList | undefined;
   /** The token to specify as `page_token` in the next call to get the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The processes from the specified project and location. */
+  processes?: GoogleCloudDatacatalogLineageV1ProcessList | undefined;
 }
 export interface ListProjectsLocationsProcessesRunsRequest {
-  /** Optional. The maximum number of runs to return. The service may return fewer than this value. If unspecified, at most 50 runs are returned. The maximum value is 100; values greater than 100 are cut to 100. */
-  pageSize?: number | undefined;
   /** Optional. The page token received from a previous `ListRuns` call. Specify it to get the next page. When paginating, all other parameters specified in this call must match the parameters of the call that provided the page token. */
   pageToken?: string | undefined;
   /** Required. The name of process that owns this collection of runs. */
   parent: string;
+  /** Optional. The maximum number of runs to return. The service may return fewer than this value. If unspecified, at most 50 runs are returned. The maximum value is 100; values greater than 100 are cut to 100. */
+  pageSize?: number | undefined;
 }
 export type GoogleCloudDatacatalogLineageV1RunList = Array<GoogleCloudDatacatalogLineageV1Run>;
 /** Response message for ListRuns. */
@@ -483,19 +483,54 @@ export interface PatchProjectsLocationsProcessesRunsRequest extends Omit<
   allowMissing?: boolean | undefined;
 }
 export interface ProcessOpenLineageRunEventProjectsLocationsRequest {
-  /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is idempotent only if a `request_id` is provided. */
-  requestId?: string | undefined;
   /** Required. The name of the project and its location that should own the process, run, and lineage event. */
   parent: string;
+  /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is idempotent only if a `request_id` is provided. */
+  requestId?: string | undefined;
 }
 /** Response message for ProcessOpenLineageRunEvent. */
 export interface GoogleCloudDatacatalogLineageV1ProcessOpenLineageRunEventResponse {
+  /** Created lineage event names. Format: `projects/{project}/locations/{location}/processes/{process}/runs/{run}/lineageEvents/{lineage_event}`. */
+  lineageEvents?: StringList | undefined;
   /** Created run name. Format: `projects/{project}/locations/{location}/processes/{process}/runs/{run}`. */
   run?: string | undefined;
   /** Created process name. Format: `projects/{project}/locations/{location}/processes/{process}`. */
   process?: string | undefined;
-  /** Created lineage event names. Format: `projects/{project}/locations/{location}/processes/{process}/runs/{run}/lineageEvents/{lineage_event}`. */
-  lineageEvents?: StringList | undefined;
+}
+export type GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFiltersEntitySetEnum =
+  | "ENTITY_SET_UNSPECIFIED"
+  | "ENTITIES";
+/** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
+export interface GoogleTypeInterval {
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  startTime?: string | undefined;
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  endTime?: string | undefined;
+}
+export type GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFiltersDependencyTypesItemEnum =
+  | "DEPENDENCY_TYPE_UNSPECIFIED"
+  | "EXACT_COPY"
+  | "OTHER";
+export type GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFiltersDependencyTypesItemEnumList =
+  Array<
+    | GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFiltersDependencyTypesItemEnum
+    | (string & {})
+  >;
+/** Filters for the search. */
+export interface GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFilters {
+  /** Optional. Entity set restriction. If unspecified, the method returns all entities. */
+  entitySet?:
+    | GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFiltersEntitySetEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Time interval to search for lineage. If unspecified, all lineage is returned. Currently, at most one of `start_time` and `end_time` can be set. */
+  timeRange?: GoogleTypeInterval | undefined;
+  /** Optional. Projects to restrict lineage links to. Callers can provide project IDs (for example, `projects/my-project`) or project numbers (for example, `projects/123456789`). If unspecified, lineage is returned from all projects. */
+  projects?: StringList | undefined;
+  /** Optional. Types of dependencies between entities to retrieve. If unspecified, all dependency types are returned. */
+  dependencyTypes?:
+    | GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFiltersDependencyTypesItemEnumList
+    | undefined;
 }
 export type GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestDirectionEnum =
   | "SEARCH_DIRECTION_UNSPECIFIED"
@@ -503,12 +538,12 @@ export type GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestDirectio
   | "UPSTREAM";
 /** Limits for the search results. */
 export interface GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchLimits {
-  /** Optional. The maximum depth of the search. The default value is 5 and maximum value is 100. */
-  maxDepth?: number | undefined;
   /** Optional. The maximum number of links to return in the response. The default value is 1_000 and the maximum value is 10_000. */
   maxResults?: number | undefined;
   /** Optional. The maximum number of processes to return per link. The default value is 0 and the maximum value is 100. If this value is non-zero, the response will contain process names for the links. To retrieve full process details in the response, include `links.processes.process` in the [FieldMask](https://developers.google.com/workspace/docs/api/how-tos/field-masks#read_with_a_field_mask). */
   maxProcessPerLink?: number | undefined;
+  /** Optional. The maximum depth of the search. The default value is 5 and maximum value is 100. */
+  maxDepth?: number | undefined;
 }
 export type GoogleCloudDatacatalogLineageV1EntityReferenceList =
   Array<GoogleCloudDatacatalogLineageV1EntityReference>;
@@ -522,45 +557,12 @@ export interface GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestRoo
   /** Optional. The entities to initiate the search from. Entities can be specified by FQN only, or by FQN and field. To search by FQN and all available fields for that FQN, use the wildcard `*` as the field value. */
   entities?: GoogleCloudDatacatalogLineageV1MultipleEntityReference | undefined;
 }
-export type GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFiltersDependencyTypesItemEnum =
-  | "DEPENDENCY_TYPE_UNSPECIFIED"
-  | "EXACT_COPY"
-  | "OTHER";
-export type GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFiltersDependencyTypesItemEnumList =
-  Array<
-    | GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFiltersDependencyTypesItemEnum
-    | (string & {})
-  >;
-export type GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFiltersEntitySetEnum =
-  | "ENTITY_SET_UNSPECIFIED"
-  | "ENTITIES";
-/** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
-export interface GoogleTypeInterval {
-  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  startTime?: string | undefined;
-  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  endTime?: string | undefined;
-}
-/** Filters for the search. */
-export interface GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFilters {
-  /** Optional. Types of dependencies between entities to retrieve. If unspecified, all dependency types are returned. */
-  dependencyTypes?:
-    | GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFiltersDependencyTypesItemEnumList
-    | undefined;
-  /** Optional. Projects to restrict lineage links to. Callers can provide project IDs (for example, `projects/my-project`) or project numbers (for example, `projects/123456789`). If unspecified, lineage is returned from all projects. */
-  projects?: StringList | undefined;
-  /** Optional. Entity set restriction. If unspecified, the method returns all entities. */
-  entitySet?:
-    | GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFiltersEntitySetEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Time interval to search for lineage. If unspecified, all lineage is returned. Currently, at most one of `start_time` and `end_time` can be set. */
-  timeRange?: GoogleTypeInterval | undefined;
-}
 /** Request message for SearchLineageStreaming. */
 export interface GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequest {
   /** Required. The locations to search in. This list should contain the location from the `parent` field. */
   locations?: StringList | undefined;
+  /** Optional. Filters for the search. */
+  filters?: GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFilters | undefined;
   /** Required. Direction of the search. */
   direction?:
     | GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestDirectionEnum
@@ -572,13 +574,18 @@ export interface GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequest {
   rootCriteria?:
     | GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestRootCriteria
     | undefined;
-  /** Optional. Filters for the search. */
-  filters?: GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFilters | undefined;
 }
 export interface SearchLineageStreamingProjectsLocationsRequest extends GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequest {
   /** Required. The project and location to initiate the search from. */
   parent: string;
 }
+/** Process metadata for the link. */
+export interface GoogleCloudDatacatalogLineageV1LineageLinkLineageProcess {
+  /** Process that created the link. */
+  process?: GoogleCloudDatacatalogLineageV1Process | undefined;
+}
+export type GoogleCloudDatacatalogLineageV1LineageLinkLineageProcessList =
+  Array<GoogleCloudDatacatalogLineageV1LineageLinkLineageProcess>;
 export type GoogleCloudDatacatalogLineageV1LineageLinkDependencyInfoDependencyTypeEnum =
   | "DEPENDENCY_TYPE_UNSPECIFIED"
   | "EXACT_COPY"
@@ -592,51 +599,44 @@ export interface GoogleCloudDatacatalogLineageV1LineageLinkDependencyInfo {
 }
 export type GoogleCloudDatacatalogLineageV1LineageLinkDependencyInfoList =
   Array<GoogleCloudDatacatalogLineageV1LineageLinkDependencyInfo>;
-/** Process metadata for the link. */
-export interface GoogleCloudDatacatalogLineageV1LineageLinkLineageProcess {
-  /** Process that created the link. */
-  process?: GoogleCloudDatacatalogLineageV1Process | undefined;
-}
-export type GoogleCloudDatacatalogLineageV1LineageLinkLineageProcessList =
-  Array<GoogleCloudDatacatalogLineageV1LineageLinkLineageProcess>;
 /** Lineage link between two entities. */
 export interface GoogleCloudDatacatalogLineageV1LineageLink {
-  /** The entity that is the **source** of this link. */
-  source?: GoogleCloudDatacatalogLineageV1EntityReference | undefined;
-  /** The entity that is the **target** of this link. */
-  target?: GoogleCloudDatacatalogLineageV1EntityReference | undefined;
-  /** Depth of the current link in the graph starting from 1. */
-  depth?: number | undefined;
   /** The location where the LineageEvent that created the link is stored. */
   location?: string | undefined;
-  /** Describes how the target entity is dependent on the source entity. */
-  dependencyInfo?: GoogleCloudDatacatalogLineageV1LineageLinkDependencyInfoList | undefined;
+  /** The entity that is the **source** of this link. */
+  source?: GoogleCloudDatacatalogLineageV1EntityReference | undefined;
   /** Processes metadata associated with the link. */
   processes?: GoogleCloudDatacatalogLineageV1LineageLinkLineageProcessList | undefined;
+  /** The entity that is the **target** of this link. */
+  target?: GoogleCloudDatacatalogLineageV1EntityReference | undefined;
+  /** Describes how the target entity is dependent on the source entity. */
+  dependencyInfo?: GoogleCloudDatacatalogLineageV1LineageLinkDependencyInfoList | undefined;
+  /** Depth of the current link in the graph starting from 1. */
+  depth?: number | undefined;
 }
 export type GoogleCloudDatacatalogLineageV1LineageLinkList =
   Array<GoogleCloudDatacatalogLineageV1LineageLink>;
 /** Response message for SearchLineageStreaming. */
 export interface GoogleCloudDatacatalogLineageV1SearchLineageStreamingResponse {
-  /** Output only. The lineage links that match the search criteria. Can be empty if no links match. */
-  links?: GoogleCloudDatacatalogLineageV1LineageLinkList | undefined;
   /** Unordered list. Unreachable resources. If non-empty, the result set might be incomplete. Currently, only locations are supported. Format: `projects/[PROJECT_NUMBER]/locations/[LOCATION]` Example: projects/123456789/locations/us-east1 */
   unreachable?: StringList | undefined;
+  /** Output only. The lineage links that match the search criteria. Can be empty if no links match. */
+  links?: GoogleCloudDatacatalogLineageV1LineageLinkList | undefined;
 }
 /** Request message for SearchLinks. */
 export interface GoogleCloudDatacatalogLineageV1SearchLinksRequest {
-  /** Optional. The page token received from a previous `SearchLinksRequest` call. Use it to get the next page. When requesting subsequent pages of a response, remember that all parameters must match the values you provided in the original request. */
-  pageToken?: string | undefined;
-  /** Optional. Send a list of asset information in the **sources** field to retrieve all links that lead from the specified assets to downstream assets. This field is similar to the `source` source field but allows providing multiple entities. All entities within the `MultipleEntityReference` must have the same `fully_qualified_name`. */
-  sources?: GoogleCloudDatacatalogLineageV1MultipleEntityReference | undefined;
-  /** Optional. Send a list of asset information in the **targets** field to retrieve all links that lead from upstream assets to the specified assets. This field is similar to the `target` target field but allows providing multiple entities. All entities within the `MultipleEntityReference` must have the same `fully_qualified_name`. */
-  targets?: GoogleCloudDatacatalogLineageV1MultipleEntityReference | undefined;
   /** Optional. The maximum number of links to return in a single page of the response. A page may contain fewer links than this value. If unspecified, at most 10 links are returned. Maximum value is 100; values greater than 100 are reduced to 100. */
   pageSize?: number | undefined;
   /** Optional. Send asset information in the **source** field to retrieve all links that lead from the specified asset to downstream assets. */
   source?: GoogleCloudDatacatalogLineageV1EntityReference | undefined;
   /** Optional. Send asset information in the **target** field to retrieve all links that lead from upstream assets to the specified asset. */
   target?: GoogleCloudDatacatalogLineageV1EntityReference | undefined;
+  /** Optional. Send a list of asset information in the **targets** field to retrieve all links that lead from upstream assets to the specified assets. This field is similar to the `target` target field but allows providing multiple entities. All entities within the `MultipleEntityReference` must have the same `fully_qualified_name`. */
+  targets?: GoogleCloudDatacatalogLineageV1MultipleEntityReference | undefined;
+  /** Optional. The page token received from a previous `SearchLinksRequest` call. Use it to get the next page. When requesting subsequent pages of a response, remember that all parameters must match the values you provided in the original request. */
+  pageToken?: string | undefined;
+  /** Optional. Send a list of asset information in the **sources** field to retrieve all links that lead from the specified assets to downstream assets. This field is similar to the `source` source field but allows providing multiple entities. All entities within the `MultipleEntityReference` must have the same `fully_qualified_name`. */
+  sources?: GoogleCloudDatacatalogLineageV1MultipleEntityReference | undefined;
 }
 export interface SearchLinksProjectsLocationsRequest extends GoogleCloudDatacatalogLineageV1SearchLinksRequest {
   /** Required. The project and location you want search in. */
@@ -655,26 +655,26 @@ export type GoogleCloudDatacatalogLineageV1LinkDependencyInfoList =
   Array<GoogleCloudDatacatalogLineageV1LinkDependencyInfo>;
 /** Links represent the data flow between **source** (upstream) and **target** (downstream) assets in transformation pipelines. Links are created when LineageEvents record data transformation between related assets. */
 export interface GoogleCloudDatacatalogLineageV1Link {
-  /** Output only. Immutable. The name of the link. Format: `projects/{project}/locations/{location}/links/{link}`. */
-  name?: string | undefined;
-  /** The end of the last event establishing this link. */
-  endTime?: string | undefined;
-  /** The pointer to the entity that is the **source** of this link. */
-  source?: GoogleCloudDatacatalogLineageV1EntityReference | undefined;
   /** The pointer to the entity that is the **target** of this link. */
   target?: GoogleCloudDatacatalogLineageV1EntityReference | undefined;
-  /** Optional. The dependency info of the link (applies only to column level links). */
-  dependencyInfo?: GoogleCloudDatacatalogLineageV1LinkDependencyInfoList | undefined;
   /** The start of the first event establishing this link. */
   startTime?: string | undefined;
+  /** The end of the last event establishing this link. */
+  endTime?: string | undefined;
+  /** Output only. Immutable. The name of the link. Format: `projects/{project}/locations/{location}/links/{link}`. */
+  name?: string | undefined;
+  /** The pointer to the entity that is the **source** of this link. */
+  source?: GoogleCloudDatacatalogLineageV1EntityReference | undefined;
+  /** Optional. The dependency info of the link (applies only to column level links). */
+  dependencyInfo?: GoogleCloudDatacatalogLineageV1LinkDependencyInfoList | undefined;
 }
 export type GoogleCloudDatacatalogLineageV1LinkList = Array<GoogleCloudDatacatalogLineageV1Link>;
 /** Response message for SearchLinks. */
 export interface GoogleCloudDatacatalogLineageV1SearchLinksResponse {
-  /** The list of links for a given asset. Can be empty if the asset has no relations of requested type (source or target). */
-  links?: GoogleCloudDatacatalogLineageV1LinkList | undefined;
   /** The token to specify as `page_token` in the subsequent call to get the next page. Omitted if there are no more pages in the response. */
   nextPageToken?: string | undefined;
+  /** The list of links for a given asset. Can be empty if the asset has no relations of requested type (source or target). */
+  links?: GoogleCloudDatacatalogLineageV1LinkList | undefined;
 }
 export type BatchSearchLinkProcessesProjectsLocationsError =
   | NotFound
@@ -1314,8 +1314,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1333,19 +1333,19 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(16, __c1, 0)),
-          code: S.optional(S.Number),
           message: S.optional(S.String),
+          code: S.optional(S.Number),
+          details: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(496, __c31, 0)),
-          done: S.optional(S.Boolean),
           metadata: S.optional(__S(496, __c31, 0)),
-          name: S.optional(S.String),
+          done: S.optional(S.Boolean),
           error: S.optional(__S(17, __c1, 1)),
+          name: S.optional(S.String),
+          response: S.optional(__S(496, __c31, 0)),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
@@ -1372,8 +1372,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1405,26 +1405,26 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          integration: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestionIngestionRuleIntegrationSelector",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({
         identifier:
           "GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestionIngestionRuleLineageEnablement",
       });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          integration: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestionIngestionRuleIntegrationSelector",
+      });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          integrationSelector: S.optional(__S(80, __c5, 0)),
-          lineageEnablement: S.optional(__S(81, __c5, 1)),
+          lineageEnablement: S.optional(__S(80, __c5, 0)),
+          integrationSelector: S.optional(__S(81, __c5, 1)),
         }),
       ).annotate({
         identifier: "GoogleCloudDatacatalogLineageConfigmanagementV1ConfigIngestionIngestionRule",
@@ -1440,8 +1440,8 @@ function __c5(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           ingestion: S.optional(__S(84, __c5, 4)),
+          name: S.optional(S.String),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageConfigmanagementV1Config" });
@@ -1548,11 +1548,11 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1578,9 +1578,9 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1594,8 +1594,8 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          processes: S.optional(__S(209, __c13, 1)),
           nextPageToken: S.optional(S.String),
+          processes: S.optional(__S(209, __c13, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1ListProcessesResponse" });
   }
@@ -1605,9 +1605,9 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1759,8 +1759,8 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1772,9 +1772,9 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          lineageEvents: S.optional(__S(416, __c26, 0)),
           run: S.optional(S.String),
           process: S.optional(S.String),
-          lineageEvents: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudDatacatalogLineageV1ProcessOpenLineageRunEventResponse",
@@ -1786,14 +1786,34 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxDepth: S.optional(S.Number),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleTypeInterval" });
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          entitySet: S.optional(S.String),
+          timeRange: S.optional(__S(352, __c22, 0)),
+          projects: S.optional(__S(416, __c26, 0)),
+          dependencyTypes: S.optional(__S(353, __c22, 1)),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFilters",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           maxResults: S.optional(S.Number),
           maxProcessPerLink: S.optional(S.Number),
+          maxDepth: S.optional(S.Number),
         }),
       ).annotate({
         identifier: "GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchLimits",
       });
-    case 1:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           entities: S.optional(__S(369, __c23, 1)),
@@ -1801,34 +1821,14 @@ function __c22(j: number): any {
       ).annotate({
         identifier: "GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestRootCriteria",
       });
-    case 2:
-      return S.Array(S.String);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleTypeInterval" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          dependencyTypes: S.optional(__S(354, __c22, 2)),
-          projects: S.optional(__S(416, __c26, 0)),
-          entitySet: S.optional(S.String),
-          timeRange: S.optional(__S(355, __c22, 3)),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFilters",
-      });
     case 5:
       return S.suspend(() =>
         S.Struct({
           locations: S.optional(__S(416, __c26, 0)),
+          filters: S.optional(__S(354, __c22, 2)),
           direction: S.optional(S.String),
-          limits: S.optional(__S(352, __c22, 0)),
-          rootCriteria: S.optional(__S(353, __c22, 1)),
-          filters: S.optional(__S(356, __c22, 4)),
+          limits: S.optional(__S(355, __c22, 3)),
+          rootCriteria: S.optional(__S(356, __c22, 4)),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequest" });
     case 6:
@@ -1857,12 +1857,12 @@ function __c22(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(577, __c36, 1)),
-          target: S.optional(__S(577, __c36, 1)),
-          depth: S.optional(S.Number),
           location: S.optional(S.String),
-          dependencyInfo: S.optional(__S(370, __c23, 2)),
+          source: S.optional(__S(576, __c36, 0)),
           processes: S.optional(__S(360, __c22, 8)),
+          target: S.optional(__S(576, __c36, 0)),
+          dependencyInfo: S.optional(__S(370, __c23, 2)),
+          depth: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1LineageLink" });
     case 10:
@@ -1870,8 +1870,8 @@ function __c22(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          links: S.optional(__S(362, __c22, 10)),
           unreachable: S.optional(__S(416, __c26, 0)),
+          links: S.optional(__S(362, __c22, 10)),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1SearchLineageStreamingResponse" });
   }
@@ -1879,7 +1879,7 @@ function __c22(j: number): any {
 function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(577, __c36, 1));
+      return S.Array(__S(576, __c36, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -1887,7 +1887,7 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1MultipleEntityReference" });
     case 2:
-      return S.Array(__S(576, __c36, 0));
+      return S.Array(__S(577, __c36, 1));
   }
 }
 function __c24(j: number): any {
@@ -1895,12 +1895,12 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number),
+          source: S.optional(__S(576, __c36, 0)),
+          target: S.optional(__S(576, __c36, 0)),
+          targets: S.optional(__S(369, __c23, 1)),
           pageToken: S.optional(S.String),
           sources: S.optional(__S(369, __c23, 1)),
-          targets: S.optional(__S(369, __c23, 1)),
-          pageSize: S.optional(S.Number),
-          source: S.optional(__S(577, __c36, 1)),
-          target: S.optional(__S(577, __c36, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1SearchLinksRequest" });
     case 1:
@@ -1921,12 +1921,12 @@ function __c24(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          endTime: S.optional(S.String),
-          source: S.optional(__S(577, __c36, 1)),
-          target: S.optional(__S(577, __c36, 1)),
-          dependencyInfo: S.optional(__S(370, __c23, 2)),
+          target: S.optional(__S(576, __c36, 0)),
           startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          name: S.optional(S.String),
+          source: S.optional(__S(576, __c36, 0)),
+          dependencyInfo: S.optional(__S(370, __c23, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1Link" });
     case 3:
@@ -1934,8 +1934,8 @@ function __c24(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          links: S.optional(__S(387, __c24, 3)),
           nextPageToken: S.optional(S.String),
+          links: S.optional(__S(387, __c24, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1SearchLinksResponse" });
   }
@@ -1968,9 +1968,9 @@ function __c25(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(S.String),
           link: S.optional(S.String),
           endTime: S.optional(S.String),
+          startTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1ProcessLinkInfo" });
     case 3:
@@ -2031,8 +2031,8 @@ function __c29(j: number): any {
         S.Extend(
           __S(481, __c30, 1),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2049,17 +2049,17 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sourceType: S.optional(S.String),
           name: S.optional(S.String),
+          sourceType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1Origin" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          origin: S.optional(__S(480, __c30, 0)),
+          displayName: S.optional(S.String),
           attributes: S.optional(__S(496, __c31, 0)),
           name: S.optional(S.String),
-          displayName: S.optional(S.String),
+          origin: S.optional(__S(480, __c30, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1Process" });
   }
@@ -2077,8 +2077,8 @@ function __c32(j: number): any {
         S.Extend(
           __S(528, __c33, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2096,11 +2096,11 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
+          endTime: S.optional(S.String),
           startTime: S.optional(S.String),
           attributes: S.optional(__S(496, __c31, 0)),
-          endTime: S.optional(S.String),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1Run" });
   }
@@ -2112,8 +2112,8 @@ function __c34(j: number): any {
         S.Extend(
           __S(562, __c35, 2),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2130,9 +2130,9 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dependencyInfo: S.optional(__S(576, __c36, 0)),
-          source: S.optional(__S(577, __c36, 1)),
-          target: S.optional(__S(577, __c36, 1)),
+          source: S.optional(__S(576, __c36, 0)),
+          dependencyInfo: S.optional(__S(577, __c36, 1)),
+          target: S.optional(__S(576, __c36, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1EventLink" });
     case 1:
@@ -2142,8 +2142,8 @@ function __c35(j: number): any {
         S.Struct({
           startTime: S.optional(S.String),
           links: S.optional(__S(561, __c35, 1)),
-          name: S.optional(S.String),
           endTime: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1LineageEvent" });
   }
@@ -2153,16 +2153,16 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dependencyType: S.optional(S.String),
+          fullyQualifiedName: S.optional(S.String),
+          field: S.optional(__S(416, __c26, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1DependencyInfo" });
+      ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1EntityReference" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          field: S.optional(__S(416, __c26, 0)),
-          fullyQualifiedName: S.optional(S.String),
+          dependencyType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1EntityReference" });
+      ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1DependencyInfo" });
   }
 }
 function __c37(j: number): any {

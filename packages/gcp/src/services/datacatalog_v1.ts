@@ -89,6 +89,15 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
+/** Timestamps associated with this resource in a particular system. */
+export interface GoogleCloudDatacatalogV1SystemTimestamps {
+  /** Creation timestamp of the resource within the given system. */
+  createTime?: string | undefined;
+  /** Timestamp of the last modification of the resource or its metadata within a given system. Note: Depending on the source system, not every modification updates this timestamp. For example, BigQuery timestamps every metadata modification but not data or permission changes. */
+  updateTime?: string | undefined;
+  /** Output only. Expiration timestamp of the resource within the given system. Currently only applicable to BigQuery resources. */
+  expireTime?: string | undefined;
+}
 export type GoogleCloudDatacatalogV1TaxonomyActivatedPolicyTypesItemEnum =
   | "POLICY_TYPE_UNSPECIFIED"
   | "FINE_GRAINED_ACCESS_CONTROL";
@@ -106,33 +115,24 @@ export interface GoogleCloudDatacatalogV1TaxonomyService {
   /** The service agent for the service. */
   identity?: string | undefined;
 }
-/** Timestamps associated with this resource in a particular system. */
-export interface GoogleCloudDatacatalogV1SystemTimestamps {
-  /** Creation timestamp of the resource within the given system. */
-  createTime?: string | undefined;
-  /** Output only. Expiration timestamp of the resource within the given system. Currently only applicable to BigQuery resources. */
-  expireTime?: string | undefined;
-  /** Timestamp of the last modification of the resource or its metadata within a given system. Note: Depending on the source system, not every modification updates this timestamp. For example, BigQuery timestamps every metadata modification but not data or permission changes. */
-  updateTime?: string | undefined;
-}
 /** A taxonomy is a collection of hierarchical policy tags that classify data along a common axis. For example, a "data sensitivity" taxonomy might contain the following policy tags: ``` + PII + Account number + Age + SSN + Zipcode + Financials + Revenue ``` A "data origin" taxonomy might contain the following policy tags: ``` + User data + Employee data + Partner data + Public data ``` */
 export interface GoogleCloudDatacatalogV1Taxonomy {
+  /** Required. User-defined name of this taxonomy. The name can't start or end with spaces, must contain only Unicode letters, numbers, underscores, dashes, and spaces, and be at most 200 bytes long when encoded in UTF-8. The taxonomy display name must be unique within an organization. */
+  displayName?: string | undefined;
+  /** Optional. Description of this taxonomy. If not set, defaults to empty. The description must contain only Unicode characters, tabs, newlines, carriage returns, and page breaks, and be at most 2000 bytes long when encoded in UTF-8. */
+  description?: string | undefined;
+  /** Output only. Creation and modification timestamps of this taxonomy. */
+  taxonomyTimestamps?: GoogleCloudDatacatalogV1SystemTimestamps | undefined;
   /** Optional. A list of policy types that are activated for this taxonomy. If not set, defaults to an empty list. */
   activatedPolicyTypes?:
     | GoogleCloudDatacatalogV1TaxonomyActivatedPolicyTypesItemEnumList
     | undefined;
-  /** Optional. Description of this taxonomy. If not set, defaults to empty. The description must contain only Unicode characters, tabs, newlines, carriage returns, and page breaks, and be at most 2000 bytes long when encoded in UTF-8. */
-  description?: string | undefined;
-  /** Output only. Identity of the service which owns the Taxonomy. This field is only populated when the taxonomy is created by a Google Cloud service. Currently only 'DATAPLEX' is supported. */
-  service?: GoogleCloudDatacatalogV1TaxonomyService | undefined;
   /** Identifier. Resource name of this taxonomy in URL format. Note: Policy tag manager generates unique taxonomy IDs. */
   name?: string | undefined;
-  /** Required. User-defined name of this taxonomy. The name can't start or end with spaces, must contain only Unicode letters, numbers, underscores, dashes, and spaces, and be at most 200 bytes long when encoded in UTF-8. The taxonomy display name must be unique within an organization. */
-  displayName?: string | undefined;
+  /** Output only. Identity of the service which owns the Taxonomy. This field is only populated when the taxonomy is created by a Google Cloud service. Currently only 'DATAPLEX' is supported. */
+  service?: GoogleCloudDatacatalogV1TaxonomyService | undefined;
   /** Output only. Number of policy tags in this taxonomy. */
   policyTagCount?: number | undefined;
-  /** Output only. Creation and modification timestamps of this taxonomy. */
-  taxonomyTimestamps?: GoogleCloudDatacatalogV1SystemTimestamps | undefined;
 }
 export interface CreateProjectsLocationsTaxonomiesRequest extends GoogleCloudDatacatalogV1Taxonomy {
   /** Required. Resource name of the project that the taxonomy will belong to. */
@@ -141,16 +141,16 @@ export interface CreateProjectsLocationsTaxonomiesRequest extends GoogleCloudDat
 export type StringList = Array<string>;
 /** Denotes one policy tag in a taxonomy, for example, SSN. Policy tags can be defined in a hierarchy. For example: ``` + Geolocation + LatLong + City + ZipCode ``` Where the "Geolocation" policy tag contains three children. */
 export interface GoogleCloudDatacatalogV1PolicyTag {
-  /** Output only. Resource names of child policy tags of this policy tag. */
-  childPolicyTags?: StringList | undefined;
   /** Required. User-defined name of this policy tag. The name can't start or end with spaces and must be unique within the parent taxonomy, contain only Unicode letters, numbers, underscores, dashes and spaces, and be at most 200 bytes long when encoded in UTF-8. */
   displayName?: string | undefined;
-  /** Identifier. Resource name of this policy tag in the URL format. The policy tag manager generates unique taxonomy IDs and policy tag IDs. */
-  name?: string | undefined;
   /** Description of this policy tag. If not set, defaults to empty. The description must contain only Unicode characters, tabs, newlines, carriage returns and page breaks, and be at most 2000 bytes long when encoded in UTF-8. */
   description?: string | undefined;
   /** Resource name of this policy tag's parent policy tag. If empty, this is a top level tag. If not set, defaults to an empty string. For example, for the "LatLong" policy tag in the example above, this field contains the resource name of the "Geolocation" policy tag, and, for "Geolocation", this field is empty. */
   parentPolicyTag?: string | undefined;
+  /** Output only. Resource names of child policy tags of this policy tag. */
+  childPolicyTags?: StringList | undefined;
+  /** Identifier. Resource name of this policy tag in the URL format. The policy tag manager generates unique taxonomy IDs and policy tag IDs. */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsTaxonomiesPolicyTagsRequest extends GoogleCloudDatacatalogV1PolicyTag {
   /** Required. Resource name of the taxonomy that the policy tag will belong to. */
@@ -169,12 +169,12 @@ export interface DeleteProjectsLocationsTaxonomiesPolicyTagsRequest {
   name: string;
 }
 export interface ExportProjectsLocationsTaxonomiesRequest {
-  /** Required. Resource name of the project that the exported taxonomies belong to. */
-  parent: string;
   /** Serialized export taxonomies that contain all the policy tags as nested protocol buffers. */
   serializedTaxonomies?: boolean | undefined;
   /** Required. Resource names of the taxonomies to export. */
   taxonomies?: StringList | undefined;
+  /** Required. Resource name of the project that the exported taxonomies belong to. */
+  parent: string;
 }
 export type GoogleCloudDatacatalogV1SerializedTaxonomyActivatedPolicyTypesItemEnum =
   | "POLICY_TYPE_UNSPECIFIED"
@@ -184,12 +184,12 @@ export type GoogleCloudDatacatalogV1SerializedTaxonomyActivatedPolicyTypesItemEn
 >;
 /** A nested protocol buffer that represents a policy tag and all its descendants. */
 export interface GoogleCloudDatacatalogV1SerializedPolicyTag {
-  /** Required. Display name of the policy tag. At most 200 bytes when encoded in UTF-8. */
-  displayName?: string | undefined;
   /** Resource name of the policy tag. This field is ignored when calling `ImportTaxonomies`. */
   policyTag?: string | undefined;
   /** Children of the policy tag, if any. */
   childPolicyTags?: GoogleCloudDatacatalogV1SerializedPolicyTagList | undefined;
+  /** Required. Display name of the policy tag. At most 200 bytes when encoded in UTF-8. */
+  displayName?: string | undefined;
   /** Description of the serialized policy tag. At most 2000 bytes when encoded in UTF-8. If not set, defaults to an empty description. */
   description?: string | undefined;
 }
@@ -197,12 +197,12 @@ export type GoogleCloudDatacatalogV1SerializedPolicyTagList =
   Array<GoogleCloudDatacatalogV1SerializedPolicyTag>;
 /** A nested protocol buffer that represents a taxonomy and the hierarchy of its policy tags. Used for taxonomy replacement, import, and export. */
 export interface GoogleCloudDatacatalogV1SerializedTaxonomy {
-  /** Required. Display name of the taxonomy. At most 200 bytes when encoded in UTF-8. */
-  displayName?: string | undefined;
   /** A list of policy types that are activated per taxonomy. */
   activatedPolicyTypes?:
     | GoogleCloudDatacatalogV1SerializedTaxonomyActivatedPolicyTypesItemEnumList
     | undefined;
+  /** Required. Display name of the taxonomy. At most 200 bytes when encoded in UTF-8. */
+  displayName?: string | undefined;
   /** Description of the serialized taxonomy. At most 2000 bytes when encoded in UTF-8. If not set, defaults to an empty description. */
   description?: string | undefined;
   /** Top level policy tags associated with the taxonomy, if any. */
@@ -219,24 +219,24 @@ export interface GetConfigOrganizationsLocationsRequest {
   /** Required. The organization whose config is being retrieved. */
   name: string;
 }
-export type GoogleCloudDatacatalogV1MigrationConfigTagTemplateMigrationEnum =
-  | "TAG_TEMPLATE_MIGRATION_UNSPECIFIED"
-  | "TAG_TEMPLATE_MIGRATION_ENABLED"
-  | "TAG_TEMPLATE_MIGRATION_DISABLED";
 export type GoogleCloudDatacatalogV1MigrationConfigCatalogUiExperienceEnum =
   | "CATALOG_UI_EXPERIENCE_UNSPECIFIED"
   | "CATALOG_UI_EXPERIENCE_ENABLED"
   | "CATALOG_UI_EXPERIENCE_DISABLED";
+export type GoogleCloudDatacatalogV1MigrationConfigTagTemplateMigrationEnum =
+  | "TAG_TEMPLATE_MIGRATION_UNSPECIFIED"
+  | "TAG_TEMPLATE_MIGRATION_ENABLED"
+  | "TAG_TEMPLATE_MIGRATION_DISABLED";
 /** The configuration related to the migration to Dataplex Universal Catalog applied to an organization or project. It is the response message for SetConfig and RetrieveEffectiveConfig. */
 export interface GoogleCloudDatacatalogV1MigrationConfig {
   /** The time when the Tag Template migration was enabled. If the Tag Template migration is not enabled, this field is not set. */
   templateMigrationEnabledTime?: string | undefined;
+  /** Opt-in status for the UI switch to Dataplex Universal Catalog. */
+  catalogUiExperience?: GoogleCloudDatacatalogV1MigrationConfigCatalogUiExperienceEnum | undefined;
   /** Opt-in status for the migration of Tag Templates to Dataplex Universal Catalog. */
   tagTemplateMigration?:
     | GoogleCloudDatacatalogV1MigrationConfigTagTemplateMigrationEnum
     | undefined;
-  /** Opt-in status for the UI switch to Dataplex Universal Catalog. */
-  catalogUiExperience?: GoogleCloudDatacatalogV1MigrationConfigCatalogUiExperienceEnum | undefined;
 }
 export type GoogleCloudDatacatalogV1MigrationConfigMap = {
   [key: string]: GoogleCloudDatacatalogV1MigrationConfig | undefined;
@@ -270,33 +270,33 @@ export interface GetIamPolicyProjectsLocationsTaxonomiesRequest extends GetIamPo
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
   expression?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList | undefined;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   condition?: Expr | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
   role?: string | undefined;
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList | undefined;
 }
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string | undefined;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList | undefined;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -310,25 +310,25 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsTaxonomiesRequest {
   /** Required. Resource name of the taxonomy to get. */
@@ -338,22 +338,22 @@ export interface GetProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** Required. Resource name of the policy tag. */
   name: string;
 }
-/** Cross-regional source used to import an existing taxonomy into a different region. */
-export interface GoogleCloudDatacatalogV1CrossRegionalSource {
-  /** Required. The resource name of the source taxonomy to import. */
-  taxonomy?: string | undefined;
-}
 /** Inline source containing taxonomies to import. */
 export interface GoogleCloudDatacatalogV1InlineSource {
   /** Required. Taxonomies to import. */
   taxonomies?: GoogleCloudDatacatalogV1SerializedTaxonomyList | undefined;
 }
+/** Cross-regional source used to import an existing taxonomy into a different region. */
+export interface GoogleCloudDatacatalogV1CrossRegionalSource {
+  /** Required. The resource name of the source taxonomy to import. */
+  taxonomy?: string | undefined;
+}
 /** Request message for ImportTaxonomies. */
 export interface GoogleCloudDatacatalogV1ImportTaxonomiesRequest {
-  /** Cross-regional source taxonomy to import. */
-  crossRegionalSource?: GoogleCloudDatacatalogV1CrossRegionalSource | undefined;
   /** Inline source taxonomy to import. */
   inlineSource?: GoogleCloudDatacatalogV1InlineSource | undefined;
+  /** Cross-regional source taxonomy to import. */
+  crossRegionalSource?: GoogleCloudDatacatalogV1CrossRegionalSource | undefined;
 }
 export interface ImportProjectsLocationsTaxonomiesRequest extends GoogleCloudDatacatalogV1ImportTaxonomiesRequest {
   /** Required. Resource name of project that the imported taxonomies will belong to. */
@@ -366,34 +366,34 @@ export interface GoogleCloudDatacatalogV1ImportTaxonomiesResponse {
   taxonomies?: GoogleCloudDatacatalogV1TaxonomyList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
   filter?: string | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsTaxonomiesRequest {
-  /** Required. Resource name of the project to list the taxonomies of. */
-  parent: string;
   /** Supported field for filter is 'service' and value is 'dataplex'. Eg: service=dataplex. */
   filter?: string | undefined;
   /** The maximum number of items to return. Must be a value between 1 and 1000 inclusively. If not set, defaults to 50. */
   pageSize?: number | undefined;
+  /** Required. Resource name of the project to list the taxonomies of. */
+  parent: string;
   /** The pagination token of the next results page. If not set, the first page is returned. The token is returned in the response to a previous list request. */
   pageToken?: string | undefined;
 }
@@ -424,10 +424,10 @@ export interface PatchProjectsLocationsTaxonomiesRequest extends Omit<
   GoogleCloudDatacatalogV1Taxonomy,
   "name"
 > {
-  /** Identifier. Resource name of this taxonomy in URL format. Note: Policy tag manager generates unique taxonomy IDs. */
-  name: string;
   /** Specifies fields to update. If not set, defaults to all fields you can update. For more information, see [FieldMask] (https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask). */
   updateMask?: string | undefined;
+  /** Identifier. Resource name of this taxonomy in URL format. Note: Policy tag manager generates unique taxonomy IDs. */
+  name: string;
 }
 export interface PatchProjectsLocationsTaxonomiesPolicyTagsRequest extends Omit<
   GoogleCloudDatacatalogV1PolicyTag,
@@ -449,33 +449,33 @@ export interface ReplaceProjectsLocationsTaxonomiesRequest extends GoogleCloudDa
 }
 /** The criteria that select the subspace used for query matching. */
 export interface GoogleCloudDatacatalogV1SearchCatalogRequestScope {
-  /** Optional. This field is deprecated. The search mechanism for public and private tag templates is the same. */
-  includePublicTagTemplates?: boolean | undefined;
-  /** The list of organization IDs to search within. To find your organization ID, follow the steps from [Creating and managing organizations] (/resource-manager/docs/creating-managing-organization). */
-  includeOrgIds?: StringList | undefined;
-  /** Optional. The list of locations to search within. If empty, all locations are searched. Returns an error if any location in the list isn't one of the [Supported regions](https://cloud.google.com/data-catalog/docs/concepts/regions#supported_regions). If a location is unreachable, its name is returned in the `SearchCatalogResponse.unreachable` field. To get additional information on the error, repeat the search request and set the location name as the value of this parameter. */
-  restrictedLocations?: StringList | undefined;
-  /** The list of project IDs to search within. For more information on the distinction between project names, IDs, and numbers, see [Projects](/docs/overview/#projects). */
-  includeProjectIds?: StringList | undefined;
   /** If `true`, include Google Cloud public datasets in search results. By default, they are excluded. See [Google Cloud Public Datasets](/public-datasets) for more information. */
   includeGcpPublicDatasets?: boolean | undefined;
+  /** Optional. The list of locations to search within. If empty, all locations are searched. Returns an error if any location in the list isn't one of the [Supported regions](https://cloud.google.com/data-catalog/docs/concepts/regions#supported_regions). If a location is unreachable, its name is returned in the `SearchCatalogResponse.unreachable` field. To get additional information on the error, repeat the search request and set the location name as the value of this parameter. */
+  restrictedLocations?: StringList | undefined;
+  /** The list of organization IDs to search within. To find your organization ID, follow the steps from [Creating and managing organizations] (/resource-manager/docs/creating-managing-organization). */
+  includeOrgIds?: StringList | undefined;
+  /** The list of project IDs to search within. For more information on the distinction between project names, IDs, and numbers, see [Projects](/docs/overview/#projects). */
+  includeProjectIds?: StringList | undefined;
+  /** Optional. This field is deprecated. The search mechanism for public and private tag templates is the same. */
+  includePublicTagTemplates?: boolean | undefined;
   /** Optional. If `true`, search only among starred entries. By default, all results are returned, starred or not. */
   starredOnly?: boolean | undefined;
 }
 /** Request message for SearchCatalog. */
 export interface GoogleCloudDatacatalogV1SearchCatalogRequest {
-  /** Required. The scope of this search request. The `scope` is invalid if `include_org_ids`, `include_project_ids` are empty AND `include_gcp_public_datasets` is set to `false`. In this case, the request returns an error. */
-  scope?: GoogleCloudDatacatalogV1SearchCatalogRequestScope | undefined;
-  /** Specifies the order of results. Currently supported case-sensitive values are: * `relevance` that can only be descending * `last_modified_timestamp [asc|desc]` with descending (`desc`) as default * `default` that can only be descending Search queries don't guarantee full recall. Results that match your query might not be returned, even in subsequent result pages. Additionally, returned (and not returned) results can vary if you repeat search queries. If you are experiencing recall issues and you don't have to fetch the results in any specific order, consider setting this parameter to `default`. If this parameter is omitted, it defaults to the descending `relevance`. */
-  orderBy?: string | undefined;
-  /** Upper bound on the number of results you can get in a single response. Can't be negative or 0, defaults to 10 in this case. The maximum number is 1000. If exceeded, throws an "invalid argument" exception. */
-  pageSize?: number | undefined;
-  /** Optional. If set, use searchAll permission granted on organizations from `include_org_ids` and projects from `include_project_ids` instead of the fine grained per resource permissions when filtering the search results. The only allowed `order_by` criteria for admin_search mode is `default`. Using this flags guarantees a full recall of the search results. */
-  adminSearch?: boolean | undefined;
   /** Optional. Pagination token that, if specified, returns the next page of search results. If empty, returns the first page. This token is returned in the SearchCatalogResponse.next_page_token field of the response to a previous SearchCatalogRequest call. */
   pageToken?: string | undefined;
+  /** Specifies the order of results. Currently supported case-sensitive values are: * `relevance` that can only be descending * `last_modified_timestamp [asc|desc]` with descending (`desc`) as default * `default` that can only be descending Search queries don't guarantee full recall. Results that match your query might not be returned, even in subsequent result pages. Additionally, returned (and not returned) results can vary if you repeat search queries. If you are experiencing recall issues and you don't have to fetch the results in any specific order, consider setting this parameter to `default`. If this parameter is omitted, it defaults to the descending `relevance`. */
+  orderBy?: string | undefined;
   /** Optional. The query string with a minimum of 3 characters and specific syntax. For more information, see [Data Catalog search syntax](https://cloud.google.com/data-catalog/docs/how-to/search-reference). An empty query string returns all data assets (in the specified scope) that you have access to. A query string can be a simple `xyz` or qualified by predicates: * `name:x` * `column:y` * `description:z` */
   query?: string | undefined;
+  /** Optional. If set, use searchAll permission granted on organizations from `include_org_ids` and projects from `include_project_ids` instead of the fine grained per resource permissions when filtering the search results. The only allowed `order_by` criteria for admin_search mode is `default`. Using this flags guarantees a full recall of the search results. */
+  adminSearch?: boolean | undefined;
+  /** Upper bound on the number of results you can get in a single response. Can't be negative or 0, defaults to 10 in this case. The maximum number is 1000. If exceeded, throws an "invalid argument" exception. */
+  pageSize?: number | undefined;
+  /** Required. The scope of this search request. The `scope` is invalid if `include_org_ids`, `include_project_ids` are empty AND `include_gcp_public_datasets` is set to `false`. In this case, the request returns an error. */
+  scope?: GoogleCloudDatacatalogV1SearchCatalogRequestScope | undefined;
 }
 export interface SearchCatalogRequest extends GoogleCloudDatacatalogV1SearchCatalogRequest {}
 export type GoogleCloudDatacatalogV1SearchCatalogResultIntegratedSystemEnum =
@@ -496,58 +496,58 @@ export type GoogleCloudDatacatalogV1SearchCatalogResultSearchResultTypeEnum =
   | "ENTRY_GROUP";
 /** Result in the response to a search request. Each result captures details of one entry that matches the search. */
 export interface GoogleCloudDatacatalogV1SearchCatalogResult {
-  /** Entry description that can consist of several sentences or paragraphs that describe entry contents. */
-  description?: string | undefined;
-  /** The full name of the Google Cloud resource the entry belongs to. For more information, see [Full Resource Name] (/apis/design/resource_names#full_resource_name). Example: `//bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID` */
-  linkedResource?: string | undefined;
-  /** The relative name of the resource in URL format. Examples: * `projects/{PROJECT_ID}/locations/{LOCATION_ID}/entryGroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}` * `projects/{PROJECT_ID}/tagTemplates/{TAG_TEMPLATE_ID}` */
-  relativeResourceName?: string | undefined;
-  /** Sub-type of the search result. A dot-delimited full type of the resource. The same type you specify in the `type` search predicate. Examples: `entry.table`, `entry.dataStream`, `tagTemplate`. */
-  searchResultSubtype?: string | undefined;
-  /** Output only. The source system that Data Catalog automatically integrates with, such as BigQuery, Cloud Pub/Sub, or Dataproc Metastore. */
-  integratedSystem?: GoogleCloudDatacatalogV1SearchCatalogResultIntegratedSystemEnum | undefined;
-  /** Type of the search result. You can use this field to determine which get method to call to fetch the full resource. */
-  searchResultType?: GoogleCloudDatacatalogV1SearchCatalogResultSearchResultTypeEnum | undefined;
-  /** The display name of the result. */
-  displayName?: string | undefined;
-  /** Custom source system that you can manually integrate Data Catalog with. */
-  userSpecifiedSystem?: string | undefined;
   /** Fully qualified name (FQN) of the resource. FQNs take two forms: * For non-regionalized resources: `{SYSTEM}:{PROJECT}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}` * For regionalized resources: `{SYSTEM}:{PROJECT}.{LOCATION_ID}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}` Example for a DPMS table: `dataproc_metastore:PROJECT_ID.LOCATION_ID.INSTANCE_ID.DATABASE_ID.TABLE_ID` */
   fullyQualifiedName?: string | undefined;
+  /** Output only. The source system that Data Catalog automatically integrates with, such as BigQuery, Cloud Pub/Sub, or Dataproc Metastore. */
+  integratedSystem?: GoogleCloudDatacatalogV1SearchCatalogResultIntegratedSystemEnum | undefined;
+  /** Sub-type of the search result. A dot-delimited full type of the resource. The same type you specify in the `type` search predicate. Examples: `entry.table`, `entry.dataStream`, `tagTemplate`. */
+  searchResultSubtype?: string | undefined;
+  /** Custom source system that you can manually integrate Data Catalog with. */
+  userSpecifiedSystem?: string | undefined;
+  /** Entry description that can consist of several sentences or paragraphs that describe entry contents. */
+  description?: string | undefined;
+  /** Type of the search result. You can use this field to determine which get method to call to fetch the full resource. */
+  searchResultType?: GoogleCloudDatacatalogV1SearchCatalogResultSearchResultTypeEnum | undefined;
   /** The last modification timestamp of the entry in the source system. */
   modifyTime?: string | undefined;
+  /** The relative name of the resource in URL format. Examples: * `projects/{PROJECT_ID}/locations/{LOCATION_ID}/entryGroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}` * `projects/{PROJECT_ID}/tagTemplates/{TAG_TEMPLATE_ID}` */
+  relativeResourceName?: string | undefined;
+  /** The full name of the Google Cloud resource the entry belongs to. For more information, see [Full Resource Name] (/apis/design/resource_names#full_resource_name). Example: `//bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID` */
+  linkedResource?: string | undefined;
+  /** The display name of the result. */
+  displayName?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1SearchCatalogResultList =
   Array<GoogleCloudDatacatalogV1SearchCatalogResult>;
 /** Response message for SearchCatalog. */
 export interface GoogleCloudDatacatalogV1SearchCatalogResponse {
-  /** Search results. */
-  results?: GoogleCloudDatacatalogV1SearchCatalogResultList | undefined;
-  /** Pagination token that can be used in subsequent calls to retrieve the next page of results. */
-  nextPageToken?: string | undefined;
   /** Unreachable locations. Search results don't include data from those locations. To get additional information on an error, repeat the search request and restrict it to specific locations by setting the `SearchCatalogRequest.scope.restricted_locations` parameter. */
   unreachable?: StringList | undefined;
+  /** Pagination token that can be used in subsequent calls to retrieve the next page of results. */
+  nextPageToken?: string | undefined;
   /** The approximate total number of entries matched by the query. */
   totalSize?: number | undefined;
+  /** Search results. */
+  results?: GoogleCloudDatacatalogV1SearchCatalogResultList | undefined;
 }
-export type GoogleCloudDatacatalogV1SetConfigRequestCatalogUiExperienceEnum =
-  | "CATALOG_UI_EXPERIENCE_UNSPECIFIED"
-  | "CATALOG_UI_EXPERIENCE_ENABLED"
-  | "CATALOG_UI_EXPERIENCE_DISABLED";
 export type GoogleCloudDatacatalogV1SetConfigRequestTagTemplateMigrationEnum =
   | "TAG_TEMPLATE_MIGRATION_UNSPECIFIED"
   | "TAG_TEMPLATE_MIGRATION_ENABLED"
   | "TAG_TEMPLATE_MIGRATION_DISABLED";
+export type GoogleCloudDatacatalogV1SetConfigRequestCatalogUiExperienceEnum =
+  | "CATALOG_UI_EXPERIENCE_UNSPECIFIED"
+  | "CATALOG_UI_EXPERIENCE_ENABLED"
+  | "CATALOG_UI_EXPERIENCE_DISABLED";
 /** Request message for SetConfig. */
 export interface GoogleCloudDatacatalogV1SetConfigRequest {
-  /** Opt-in status for the UI switch to Dataplex Universal Catalog. */
-  catalogUiExperience?:
-    | GoogleCloudDatacatalogV1SetConfigRequestCatalogUiExperienceEnum
-    | (string & {})
-    | undefined;
   /** Opt-in status for the migration of Tag Templates to Dataplex Universal Catalog. */
   tagTemplateMigration?:
     | GoogleCloudDatacatalogV1SetConfigRequestTagTemplateMigrationEnum
+    | (string & {})
+    | undefined;
+  /** Opt-in status for the UI switch to Dataplex Universal Catalog. */
+  catalogUiExperience?:
+    | GoogleCloudDatacatalogV1SetConfigRequestCatalogUiExperienceEnum
     | (string & {})
     | undefined;
 }
@@ -1201,9 +1201,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           serializedTaxonomies: S.optional(S.Boolean.pipe(T.Query())),
           taxonomies: S.optional(__S(312, __c39, 0).pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1231,9 +1231,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           policyTag: S.optional(S.String),
           childPolicyTags: S.optional(S.suspend(() => __S(17, __c2, 1))),
+          displayName: S.optional(S.String),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogV1SerializedPolicyTag" });
@@ -1242,8 +1242,8 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           activatedPolicyTypes: S.optional(__S(288, __c36, 0)),
+          displayName: S.optional(S.String),
           description: S.optional(S.String),
           policyTags: S.optional(__S(17, __c2, 1)),
         }),
@@ -1280,8 +1280,8 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           templateMigrationEnabledTime: S.optional(S.String),
-          tagTemplateMigration: S.optional(S.String),
           catalogUiExperience: S.optional(S.String),
+          tagTemplateMigration: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogV1MigrationConfig" });
   }
@@ -1358,18 +1358,18 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          title: S.optional(S.String),
           location: S.optional(S.String),
+          title: S.optional(S.String),
+          description: S.optional(S.String),
           expression: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          members: S.optional(__S(312, __c39, 0)),
           condition: S.optional(__S(72, __c9, 0)),
           role: S.optional(S.String),
-          members: S.optional(__S(312, __c39, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
@@ -1377,9 +1377,9 @@ function __c9(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
-          bindings: S.optional(__S(74, __c9, 2)),
           version: S.optional(S.Number),
+          bindings: S.optional(__S(74, __c9, 2)),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Policy" });
   }
@@ -1428,19 +1428,19 @@ function __c12(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(97, __c12, 1)),
-          code: S.optional(S.Number),
           message: S.optional(S.String),
+          code: S.optional(S.Number),
+          details: S.optional(__S(97, __c12, 1)),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(96, __c12, 0)),
-          name: S.optional(S.String),
-          response: S.optional(__S(96, __c12, 0)),
           done: S.optional(S.Boolean),
           error: S.optional(__S(98, __c12, 2)),
+          metadata: S.optional(__S(96, __c12, 0)),
+          response: S.optional(__S(96, __c12, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -1488,8 +1488,8 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          crossRegionalSource: S.optional(__S(120, __c15, 0)),
           inlineSource: S.optional(__S(9, __c1, 1)),
+          crossRegionalSource: S.optional(__S(120, __c15, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogV1ImportTaxonomiesRequest" });
     case 2:
@@ -1526,11 +1526,11 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1544,9 +1544,9 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(312, __c39, 0)),
           nextPageToken: S.optional(S.String),
           operations: S.optional(__S(137, __c17, 1)),
-          unreachable: S.optional(__S(312, __c39, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -1556,9 +1556,9 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1611,8 +1611,8 @@ function __c20(j: number): any {
         S.Extend(
           __S(298, __c37, 2),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1674,23 +1674,23 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          includePublicTagTemplates: S.optional(S.Boolean),
-          includeOrgIds: S.optional(__S(312, __c39, 0)),
-          restrictedLocations: S.optional(__S(312, __c39, 0)),
-          includeProjectIds: S.optional(__S(312, __c39, 0)),
           includeGcpPublicDatasets: S.optional(S.Boolean),
+          restrictedLocations: S.optional(__S(312, __c39, 0)),
+          includeOrgIds: S.optional(__S(312, __c39, 0)),
+          includeProjectIds: S.optional(__S(312, __c39, 0)),
+          includePublicTagTemplates: S.optional(S.Boolean),
           starredOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogV1SearchCatalogRequestScope" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          scope: S.optional(__S(184, __c23, 0)),
-          orderBy: S.optional(S.String),
-          pageSize: S.optional(S.Number),
-          adminSearch: S.optional(S.Boolean),
           pageToken: S.optional(S.String),
+          orderBy: S.optional(S.String),
           query: S.optional(S.String),
+          adminSearch: S.optional(S.Boolean),
+          pageSize: S.optional(S.Number),
+          scope: S.optional(__S(184, __c23, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogV1SearchCatalogRequest" });
     case 2:
@@ -1706,16 +1706,16 @@ function __c23(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          linkedResource: S.optional(S.String),
-          relativeResourceName: S.optional(S.String),
-          searchResultSubtype: S.optional(S.String),
-          integratedSystem: S.optional(S.String),
-          searchResultType: S.optional(S.String),
-          displayName: S.optional(S.String),
-          userSpecifiedSystem: S.optional(S.String),
           fullyQualifiedName: S.optional(S.String),
+          integratedSystem: S.optional(S.String),
+          searchResultSubtype: S.optional(S.String),
+          userSpecifiedSystem: S.optional(S.String),
+          description: S.optional(S.String),
+          searchResultType: S.optional(S.String),
           modifyTime: S.optional(S.String),
+          relativeResourceName: S.optional(S.String),
+          linkedResource: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogV1SearchCatalogResult" });
     case 4:
@@ -1723,10 +1723,10 @@ function __c23(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(188, __c23, 4)),
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(312, __c39, 0)),
+          nextPageToken: S.optional(S.String),
           totalSize: S.optional(S.Number),
+          results: S.optional(__S(188, __c23, 4)),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogV1SearchCatalogResponse" });
   }
@@ -1755,8 +1755,8 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          catalogUiExperience: S.optional(S.String),
           tagTemplateMigration: S.optional(S.String),
+          catalogUiExperience: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogV1SetConfigRequest" });
   }
@@ -1928,28 +1928,28 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudDatacatalogV1SystemTimestamps" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
           identity: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogV1TaxonomyService" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDatacatalogV1SystemTimestamps" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          activatedPolicyTypes: S.optional(__S(288, __c36, 0)),
-          description: S.optional(S.String),
-          service: S.optional(__S(296, __c37, 0)),
-          name: S.optional(S.String),
           displayName: S.optional(S.String),
+          description: S.optional(S.String),
+          taxonomyTimestamps: S.optional(__S(296, __c37, 0)),
+          activatedPolicyTypes: S.optional(__S(288, __c36, 0)),
+          name: S.optional(S.String),
+          service: S.optional(__S(297, __c37, 1)),
           policyTagCount: S.optional(S.Number),
-          taxonomyTimestamps: S.optional(__S(297, __c37, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogV1Taxonomy" });
   }
@@ -1984,11 +1984,11 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          childPolicyTags: S.optional(__S(312, __c39, 0)),
           displayName: S.optional(S.String),
-          name: S.optional(S.String),
           description: S.optional(S.String),
           parentPolicyTag: S.optional(S.String),
+          childPolicyTags: S.optional(__S(312, __c39, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogV1PolicyTag" });
   }

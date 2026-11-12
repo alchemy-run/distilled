@@ -59,23 +59,53 @@ export class NotFound
 
 export type StringList = Array<string>;
 export interface BatchGetHashListsRequest {
+  /** The maximum size in number of entries. The update will not contain more entries than this value, but it is possible that the update will contain fewer entries than this value. This MUST be at least 1024. If omitted or zero, no update size limit is set. */
+  "sizeConstraints.maxUpdateEntries"?: number | undefined;
+  /** Required. The names of the particular hash lists. The list MAY be a threat list, or it may be the Global Cache. The names MUST NOT contain duplicates; if they did, the client will get an error. */
+  names?: StringList | undefined;
   /** Sets the maximum number of entries that the client is willing to have in the local database for the list. (The server MAY cause the client to store less than this number of entries.) If omitted or zero, no database size limit is set. */
   "sizeConstraints.maxDatabaseEntries"?: number | undefined;
   /** The versions of the hash list that the client already has. If this is the first time the client is fetching the hash lists, the field should be left empty. Otherwise, the client should supply the versions previously received from the server. The client MUST NOT manipulate those bytes. The client need not send the versions in the same order as the corresponding list names. The client may send fewer or more versions in a request than there are names. However the client MUST NOT send multiple versions that correspond to the same name; if it did, the client will get an error. Historical note: in V4 of the API, this was called `states`; it is now renamed to `version` for clarity. */
   version?: StringList | undefined;
-  /** Required. The names of the particular hash lists. The list MAY be a threat list, or it may be the Global Cache. The names MUST NOT contain duplicates; if they did, the client will get an error. */
-  names?: StringList | undefined;
-  /** The maximum size in number of entries. The update will not contain more entries than this value, but it is possible that the update will contain fewer entries than this value. This MUST be at least 1024. If omitted or zero, no update size limit is set. */
-  "sizeConstraints.maxUpdateEntries"?: number | undefined;
 }
-/** Same as `RiceDeltaEncoded32Bit` except this encodes 64-bit numbers. */
-export interface GoogleSecuritySafebrowsingV5RiceDeltaEncoded64Bit {
+/** Same as `RiceDeltaEncoded32Bit` except this encodes 256-bit numbers. */
+export interface GoogleSecuritySafebrowsingV5RiceDeltaEncoded256Bit {
+  /** The number of entries that are delta encoded in the encoded data. If only a single integer was encoded, this will be zero and the single value will be stored in `first_value`. */
+  entriesCount?: number | undefined;
+  /** The 65 through 128th bits of the first entry in the encoded data (hashes). If the field is empty, the 65 through 128th bits are all zero. */
+  firstValueSecondPart?: string | undefined;
+  /** The last 64 bits of the first entry in the encoded data (hashes). If the field is empty, the last 64 bits are all zero. */
+  firstValueFourthPart?: string | undefined;
   /** The encoded deltas that are encoded using the Golomb-Rice coder. */
   encodedData?: string | undefined;
-  /** The Golomb-Rice parameter. This parameter is guaranteed to be between 35 and 62, inclusive. */
+  /** The first 64 bits of the first entry in the encoded data (hashes). If the field is empty, the first 64 bits are all zero. */
+  firstValueFirstPart?: string | undefined;
+  /** The 129 through 192th bits of the first entry in the encoded data (hashes). If the field is empty, the 129 through 192th bits are all zero. */
+  firstValueThirdPart?: string | undefined;
+  /** The Golomb-Rice parameter. This parameter is guaranteed to be between 227 and 254, inclusive. */
   riceParameter?: number | undefined;
-  /** The first entry in the encoded data (hashes), or, if only a single hash prefix was encoded, that entry's value. If the field is empty, the entry is zero. */
-  firstValue?: string | undefined;
+}
+/** The Rice-Golomb encoded data. Used for either hashes or removal indices. It is guaranteed that every hash or index here has the same length, and this length is exactly 32 bits. Generally speaking, if we sort all the entries lexicographically, we will find that the higher order bits tend not to change as frequently as lower order bits. This means that if we also take the adjacent difference between entries, the higher order bits have a high probability of being zero. This exploits this high probability of zero by essentially choosing a certain number of bits; all bits more significant than this are likely to be zero so we use unary encoding. See the `rice_parameter` field. Historical note: the Rice-delta encoding was first used in V4 of this API. In V5, two significant improvements were made: firstly, the Rice-delta encoding is now available with hash prefixes longer than 4 bytes; secondly, the encoded data are now treated as big-endian so as to avoid a costly sorting step. */
+export interface GoogleSecuritySafebrowsingV5RiceDeltaEncoded32Bit {
+  /** The Golomb-Rice parameter. This parameter is guaranteed to be between 3 and 30, inclusive. */
+  riceParameter?: number | undefined;
+  /** The first entry in the encoded data (hashes or indices), or, if only a single hash prefix or index was encoded, that entry's value. If the field is empty, the entry is zero. */
+  firstValue?: number | undefined;
+  /** The number of entries that are delta encoded in the encoded data. If only a single integer was encoded, this will be zero and the single value will be stored in `first_value`. */
+  entriesCount?: number | undefined;
+  /** The encoded deltas that are encoded using the Golomb-Rice coder. */
+  encodedData?: string | undefined;
+}
+/** Same as `RiceDeltaEncoded32Bit` except this encodes 128-bit numbers. */
+export interface GoogleSecuritySafebrowsingV5RiceDeltaEncoded128Bit {
+  /** The encoded deltas that are encoded using the Golomb-Rice coder. */
+  encodedData?: string | undefined;
+  /** The Golomb-Rice parameter. This parameter is guaranteed to be between 99 and 126, inclusive. */
+  riceParameter?: number | undefined;
+  /** The upper 64 bits of the first entry in the encoded data (hashes). If the field is empty, the upper 64 bits are all zero. */
+  firstValueHi?: string | undefined;
+  /** The lower 64 bits of the first entry in the encoded data (hashes). If the field is empty, the lower 64 bits are all zero. */
+  firstValueLo?: string | undefined;
   /** The number of entries that are delta encoded in the encoded data. If only a single integer was encoded, this will be zero and the single value will be stored in `first_value`. */
   entriesCount?: number | undefined;
 }
@@ -85,6 +115,13 @@ export type GoogleSecuritySafebrowsingV5HashListMetadataHashLengthEnum =
   | "EIGHT_BYTES"
   | "SIXTEEN_BYTES"
   | "THIRTY_TWO_BYTES";
+export type GoogleSecuritySafebrowsingV5HashListMetadataLikelySafeTypesItemEnum =
+  | "LIKELY_SAFE_TYPE_UNSPECIFIED"
+  | "GENERAL_BROWSING"
+  | "CSD"
+  | "DOWNLOAD";
+export type GoogleSecuritySafebrowsingV5HashListMetadataLikelySafeTypesItemEnumList =
+  Array<GoogleSecuritySafebrowsingV5HashListMetadataLikelySafeTypesItemEnum>;
 export type GoogleSecuritySafebrowsingV5HashListMetadataThreatTypesItemEnum =
   | "THREAT_TYPE_UNSPECIFIED"
   | "MALWARE"
@@ -93,89 +130,52 @@ export type GoogleSecuritySafebrowsingV5HashListMetadataThreatTypesItemEnum =
   | "POTENTIALLY_HARMFUL_APPLICATION";
 export type GoogleSecuritySafebrowsingV5HashListMetadataThreatTypesItemEnumList =
   Array<GoogleSecuritySafebrowsingV5HashListMetadataThreatTypesItemEnum>;
-export type GoogleSecuritySafebrowsingV5HashListMetadataLikelySafeTypesItemEnum =
-  | "LIKELY_SAFE_TYPE_UNSPECIFIED"
-  | "GENERAL_BROWSING"
-  | "CSD"
-  | "DOWNLOAD";
-export type GoogleSecuritySafebrowsingV5HashListMetadataLikelySafeTypesItemEnumList =
-  Array<GoogleSecuritySafebrowsingV5HashListMetadataLikelySafeTypesItemEnum>;
 /** Metadata about a particular hash list. */
 export interface GoogleSecuritySafebrowsingV5HashListMetadata {
-  /** The supported hash length for this hash list. Each hash list will support exactly one length. If a different hash length is introduced for the same set of threat types or safe types, it will be introduced as a separate list with a distinct name and respective hash length set. */
-  hashLength?: GoogleSecuritySafebrowsingV5HashListMetadataHashLengthEnum | undefined;
-  /** Unordered list. If not empty, this specifies that the hash list is a kind of threat list, and this enumerates the kind of threats associated with hashes or hash prefixes in this hash list. May be empty if the entry does not represent a threat, i.e. in the case that it represents a likely safe type. */
-  threatTypes?: GoogleSecuritySafebrowsingV5HashListMetadataThreatTypesItemEnumList | undefined;
   /** A human-readable description about this list. Written in English. */
   description?: string | undefined;
+  /** The supported hash length for this hash list. Each hash list will support exactly one length. If a different hash length is introduced for the same set of threat types or safe types, it will be introduced as a separate list with a distinct name and respective hash length set. */
+  hashLength?: GoogleSecuritySafebrowsingV5HashListMetadataHashLengthEnum | undefined;
   /** Unordered list. If not empty, this specifies that the hash list represents a list of likely safe hashes, and this enumerates the ways they are considered likely safe. This field is mutually exclusive with the threat_types field. */
   likelySafeTypes?:
     | GoogleSecuritySafebrowsingV5HashListMetadataLikelySafeTypesItemEnumList
     | undefined;
+  /** Unordered list. If not empty, this specifies that the hash list is a kind of threat list, and this enumerates the kind of threats associated with hashes or hash prefixes in this hash list. May be empty if the entry does not represent a threat, i.e. in the case that it represents a likely safe type. */
+  threatTypes?: GoogleSecuritySafebrowsingV5HashListMetadataThreatTypesItemEnumList | undefined;
 }
-/** Same as `RiceDeltaEncoded32Bit` except this encodes 128-bit numbers. */
-export interface GoogleSecuritySafebrowsingV5RiceDeltaEncoded128Bit {
-  /** The Golomb-Rice parameter. This parameter is guaranteed to be between 99 and 126, inclusive. */
-  riceParameter?: number | undefined;
-  /** The number of entries that are delta encoded in the encoded data. If only a single integer was encoded, this will be zero and the single value will be stored in `first_value`. */
-  entriesCount?: number | undefined;
-  /** The upper 64 bits of the first entry in the encoded data (hashes). If the field is empty, the upper 64 bits are all zero. */
-  firstValueHi?: string | undefined;
-  /** The lower 64 bits of the first entry in the encoded data (hashes). If the field is empty, the lower 64 bits are all zero. */
-  firstValueLo?: string | undefined;
+/** Same as `RiceDeltaEncoded32Bit` except this encodes 64-bit numbers. */
+export interface GoogleSecuritySafebrowsingV5RiceDeltaEncoded64Bit {
   /** The encoded deltas that are encoded using the Golomb-Rice coder. */
   encodedData?: string | undefined;
-}
-/** Same as `RiceDeltaEncoded32Bit` except this encodes 256-bit numbers. */
-export interface GoogleSecuritySafebrowsingV5RiceDeltaEncoded256Bit {
-  /** The 65 through 128th bits of the first entry in the encoded data (hashes). If the field is empty, the 65 through 128th bits are all zero. */
-  firstValueSecondPart?: string | undefined;
-  /** The encoded deltas that are encoded using the Golomb-Rice coder. */
-  encodedData?: string | undefined;
-  /** The Golomb-Rice parameter. This parameter is guaranteed to be between 227 and 254, inclusive. */
-  riceParameter?: number | undefined;
-  /** The last 64 bits of the first entry in the encoded data (hashes). If the field is empty, the last 64 bits are all zero. */
-  firstValueFourthPart?: string | undefined;
-  /** The 129 through 192th bits of the first entry in the encoded data (hashes). If the field is empty, the 129 through 192th bits are all zero. */
-  firstValueThirdPart?: string | undefined;
+  /** The first entry in the encoded data (hashes), or, if only a single hash prefix was encoded, that entry's value. If the field is empty, the entry is zero. */
+  firstValue?: string | undefined;
   /** The number of entries that are delta encoded in the encoded data. If only a single integer was encoded, this will be zero and the single value will be stored in `first_value`. */
   entriesCount?: number | undefined;
-  /** The first 64 bits of the first entry in the encoded data (hashes). If the field is empty, the first 64 bits are all zero. */
-  firstValueFirstPart?: string | undefined;
-}
-/** The Rice-Golomb encoded data. Used for either hashes or removal indices. It is guaranteed that every hash or index here has the same length, and this length is exactly 32 bits. Generally speaking, if we sort all the entries lexicographically, we will find that the higher order bits tend not to change as frequently as lower order bits. This means that if we also take the adjacent difference between entries, the higher order bits have a high probability of being zero. This exploits this high probability of zero by essentially choosing a certain number of bits; all bits more significant than this are likely to be zero so we use unary encoding. See the `rice_parameter` field. Historical note: the Rice-delta encoding was first used in V4 of this API. In V5, two significant improvements were made: firstly, the Rice-delta encoding is now available with hash prefixes longer than 4 bytes; secondly, the encoded data are now treated as big-endian so as to avoid a costly sorting step. */
-export interface GoogleSecuritySafebrowsingV5RiceDeltaEncoded32Bit {
-  /** The encoded deltas that are encoded using the Golomb-Rice coder. */
-  encodedData?: string | undefined;
-  /** The first entry in the encoded data (hashes or indices), or, if only a single hash prefix or index was encoded, that entry's value. If the field is empty, the entry is zero. */
-  firstValue?: number | undefined;
-  /** The Golomb-Rice parameter. This parameter is guaranteed to be between 3 and 30, inclusive. */
+  /** The Golomb-Rice parameter. This parameter is guaranteed to be between 35 and 62, inclusive. */
   riceParameter?: number | undefined;
-  /** The number of entries that are delta encoded in the encoded data. If only a single integer was encoded, this will be zero and the single value will be stored in `first_value`. */
-  entriesCount?: number | undefined;
 }
 /** A list of hashes identified by its name. */
 export interface GoogleSecuritySafebrowsingV5HashList {
+  /** The 32-byte additions. */
+  additionsThirtyTwoBytes?: GoogleSecuritySafebrowsingV5RiceDeltaEncoded256Bit | undefined;
+  /** The sorted list of all hashes, hashed again with SHA256. This is the checksum for the sorted list of all hashes present in the database after applying the provided update. In the case that no updates were provided, the server will omit this field to indicate that the client should use the existing checksum. */
+  sha256Checksum?: string | undefined;
+  /** Clients should wait at least this long to get the hash list again. If omitted or zero, clients SHOULD fetch immediately because it indicates that the server has an additional update to be sent to the client, but could not due to the client-specified constraints. */
+  minimumWaitDuration?: string | undefined;
+  /** When true, this is a partial diff containing additions and removals based on what the client already has. When false, this is the complete hash list. When false, the client MUST delete any locally stored version for this hash list. This means that either the version possessed by the client is seriously out-of-date or the client data is believed to be corrupt. The `compressed_removals` field will be empty. When true, the client MUST apply an incremental update by applying removals and then additions. */
+  partialUpdate?: boolean | undefined;
+  /** The 4-byte additions. */
+  additionsFourBytes?: GoogleSecuritySafebrowsingV5RiceDeltaEncoded32Bit | undefined;
+  /** The 16-byte additions. */
+  additionsSixteenBytes?: GoogleSecuritySafebrowsingV5RiceDeltaEncoded128Bit | undefined;
+  /** The version of the hash list. The client MUST NOT manipulate those bytes. */
+  version?: string | undefined;
+  /** Metadata about the hash list. This is not populated by the `GetHashList` method, but this is populated by the `ListHashLists` method. */
+  metadata?: GoogleSecuritySafebrowsingV5HashListMetadata | undefined;
   /** The 8-byte additions. */
   additionsEightBytes?: GoogleSecuritySafebrowsingV5RiceDeltaEncoded64Bit | undefined;
   /** The name of the hash list. Note that the Global Cache is also just a hash list and can be referred to here. */
   name?: string | undefined;
-  /** When true, this is a partial diff containing additions and removals based on what the client already has. When false, this is the complete hash list. When false, the client MUST delete any locally stored version for this hash list. This means that either the version possessed by the client is seriously out-of-date or the client data is believed to be corrupt. The `compressed_removals` field will be empty. When true, the client MUST apply an incremental update by applying removals and then additions. */
-  partialUpdate?: boolean | undefined;
-  /** Clients should wait at least this long to get the hash list again. If omitted or zero, clients SHOULD fetch immediately because it indicates that the server has an additional update to be sent to the client, but could not due to the client-specified constraints. */
-  minimumWaitDuration?: string | undefined;
-  /** Metadata about the hash list. This is not populated by the `GetHashList` method, but this is populated by the `ListHashLists` method. */
-  metadata?: GoogleSecuritySafebrowsingV5HashListMetadata | undefined;
-  /** The version of the hash list. The client MUST NOT manipulate those bytes. */
-  version?: string | undefined;
-  /** The sorted list of all hashes, hashed again with SHA256. This is the checksum for the sorted list of all hashes present in the database after applying the provided update. In the case that no updates were provided, the server will omit this field to indicate that the client should use the existing checksum. */
-  sha256Checksum?: string | undefined;
-  /** The 16-byte additions. */
-  additionsSixteenBytes?: GoogleSecuritySafebrowsingV5RiceDeltaEncoded128Bit | undefined;
-  /** The 32-byte additions. */
-  additionsThirtyTwoBytes?: GoogleSecuritySafebrowsingV5RiceDeltaEncoded256Bit | undefined;
-  /** The 4-byte additions. */
-  additionsFourBytes?: GoogleSecuritySafebrowsingV5RiceDeltaEncoded32Bit | undefined;
   /** The Rice-delta encoded version of removal indices. Since each hash list definitely has less than 2^32 entries, the indices are treated as 32-bit integers and encoded. */
   compressedRemovals?: GoogleSecuritySafebrowsingV5RiceDeltaEncoded32Bit | undefined;
 }
@@ -186,14 +186,14 @@ export interface GoogleSecuritySafebrowsingV5BatchGetHashListsResponse {
   hashLists?: GoogleSecuritySafebrowsingV5HashListList | undefined;
 }
 export interface GetHashListRequest {
-  /** The version of the hash list that the client already has. If this is the first time the client is fetching the hash list, this field MUST be left empty. Otherwise, the client SHOULD supply the version previously received from the server. The client MUST NOT manipulate those bytes. **What's new in V5**: in V4 of the API, this was called `states`; it is now renamed to `version` for clarity. */
-  version?: string | undefined;
-  /** Sets the maximum number of entries that the client is willing to have in the local database for the list. (The server MAY cause the client to store less than this number of entries.) If omitted or zero, no database size limit is set. */
-  "sizeConstraints.maxDatabaseEntries"?: number | undefined;
   /** The maximum size in number of entries. The update will not contain more entries than this value, but it is possible that the update will contain fewer entries than this value. This MUST be at least 1024. If omitted or zero, no update size limit is set. */
   "sizeConstraints.maxUpdateEntries"?: number | undefined;
   /** Required. The name of this particular hash list. It may be a threat list, or it may be the Global Cache. */
   name: string;
+  /** The version of the hash list that the client already has. If this is the first time the client is fetching the hash list, this field MUST be left empty. Otherwise, the client SHOULD supply the version previously received from the server. The client MUST NOT manipulate those bytes. **What's new in V5**: in V4 of the API, this was called `states`; it is now renamed to `version` for clarity. */
+  version?: string | undefined;
+  /** Sets the maximum number of entries that the client is willing to have in the local database for the list. (The server MAY cause the client to store less than this number of entries.) If omitted or zero, no database size limit is set. */
+  "sizeConstraints.maxDatabaseEntries"?: number | undefined;
 }
 export interface ListHashListsRequest {
   /** The maximum number of hash lists to return. The service may return fewer than this value. If unspecified, the server will choose a page size, which may be larger than the number of hash lists so that pagination is not necessary. */
@@ -203,42 +203,42 @@ export interface ListHashListsRequest {
 }
 /** The response containing metadata about hash lists. */
 export interface GoogleSecuritySafebrowsingV5ListHashListsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The hash lists in an arbitrary order. Only metadata about the hash lists will be included, not the contents. */
   hashLists?: GoogleSecuritySafebrowsingV5HashListList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface SearchHashesRequest {
   /** Required. The hash prefixes to be looked up. Clients MUST NOT send more than 1000 hash prefixes. However, following the URL processing procedure, clients SHOULD NOT need to send more than 30 hash prefixes. Currently each hash prefix is required to be exactly 4 bytes long. This MAY be relaxed in the future. */
   hashPrefixes?: StringList | undefined;
 }
-export type GoogleSecuritySafebrowsingV5FullHashFullHashDetailAttributesItemEnum =
-  | "THREAT_ATTRIBUTE_UNSPECIFIED"
-  | "CANARY"
-  | "FRAME_ONLY";
-export type GoogleSecuritySafebrowsingV5FullHashFullHashDetailAttributesItemEnumList =
-  Array<GoogleSecuritySafebrowsingV5FullHashFullHashDetailAttributesItemEnum>;
 export type GoogleSecuritySafebrowsingV5FullHashFullHashDetailThreatTypeEnum =
   | "THREAT_TYPE_UNSPECIFIED"
   | "MALWARE"
   | "SOCIAL_ENGINEERING"
   | "UNWANTED_SOFTWARE"
   | "POTENTIALLY_HARMFUL_APPLICATION";
+export type GoogleSecuritySafebrowsingV5FullHashFullHashDetailAttributesItemEnum =
+  | "THREAT_ATTRIBUTE_UNSPECIFIED"
+  | "CANARY"
+  | "FRAME_ONLY";
+export type GoogleSecuritySafebrowsingV5FullHashFullHashDetailAttributesItemEnumList =
+  Array<GoogleSecuritySafebrowsingV5FullHashFullHashDetailAttributesItemEnum>;
 /** Details about a matching full hash. An important note about forward compatibility: new threat types and threat attributes may be added by the server at any time; those additions are considered minor version changes. It is Google's policy not to expose minor version numbers in APIs (see https://cloud.google.com/apis/design/versioning for the versioning policy), so clients MUST be prepared to receive `FullHashDetail` messages containing `ThreatType` enum values or `ThreatAttribute` enum values that are considered invalid by the client. Therefore, it is the client's responsibility to check for the validity of all `ThreatType` and `ThreatAttribute` enum values; if any value is considered invalid, the client MUST disregard the entire `FullHashDetail` message. */
 export interface GoogleSecuritySafebrowsingV5FullHashFullHashDetail {
-  /** Unordered list. Additional attributes about those full hashes. This may be empty. */
-  attributes?: GoogleSecuritySafebrowsingV5FullHashFullHashDetailAttributesItemEnumList | undefined;
   /** The type of threat. This field will never be empty. */
   threatType?: GoogleSecuritySafebrowsingV5FullHashFullHashDetailThreatTypeEnum | undefined;
+  /** Unordered list. Additional attributes about those full hashes. This may be empty. */
+  attributes?: GoogleSecuritySafebrowsingV5FullHashFullHashDetailAttributesItemEnumList | undefined;
 }
 export type GoogleSecuritySafebrowsingV5FullHashFullHashDetailList =
   Array<GoogleSecuritySafebrowsingV5FullHashFullHashDetail>;
 /** The full hash identified with one or more matches. */
 export interface GoogleSecuritySafebrowsingV5FullHash {
-  /** Unordered list. A repeated field identifying the details relevant to this full hash. */
-  fullHashDetails?: GoogleSecuritySafebrowsingV5FullHashFullHashDetailList | undefined;
   /** The matching full hash. This is the SHA256 hash. The length will be exactly 32 bytes. */
   fullHash?: string | undefined;
+  /** Unordered list. A repeated field identifying the details relevant to this full hash. */
+  fullHashDetails?: GoogleSecuritySafebrowsingV5FullHashFullHashDetailList | undefined;
 }
 export type GoogleSecuritySafebrowsingV5FullHashList = Array<GoogleSecuritySafebrowsingV5FullHash>;
 /** The response returned after searching threat hashes. If nothing is found, the server will return an OK status (HTTP status code 200) with the `full_hashes` field empty, rather than returning a NOT_FOUND status (HTTP status code 404). **What's new in V5**: There is a separation between `FullHash` and `FullHashDetail`. In the case when a hash represents a site having multiple threats (e.g. both MALWARE and SOCIAL_ENGINEERING), the full hash does not need to be sent twice as in V4. Furthermore, the cache duration has been simplified into a single `cache_duration` field. */
@@ -369,10 +369,10 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          "sizeConstraints.maxUpdateEntries": S.optional(S.Number.pipe(T.Query())),
+          names: S.optional(__S(32, __c4, 0).pipe(T.Query())),
           "sizeConstraints.maxDatabaseEntries": S.optional(S.Number.pipe(T.Query())),
           version: S.optional(__S(32, __c4, 0).pipe(T.Query())),
-          names: S.optional(__S(32, __c4, 0).pipe(T.Query())),
-          "sizeConstraints.maxUpdateEntries": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -394,66 +394,66 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          encodedData: S.optional(S.String),
-          riceParameter: S.optional(S.Number),
-          firstValue: S.optional(S.String),
           entriesCount: S.optional(S.Number),
+          firstValueSecondPart: S.optional(S.String),
+          firstValueFourthPart: S.optional(S.String),
+          encodedData: S.optional(S.String),
+          firstValueFirstPart: S.optional(S.String),
+          firstValueThirdPart: S.optional(S.String),
+          riceParameter: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleSecuritySafebrowsingV5RiceDeltaEncoded64Bit" });
+      ).annotate({ identifier: "GoogleSecuritySafebrowsingV5RiceDeltaEncoded256Bit" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hashLength: S.optional(S.String),
-          threatTypes: S.optional(__S(16, __c2, 0)),
-          description: S.optional(S.String),
-          likelySafeTypes: S.optional(__S(16, __c2, 0)),
+          riceParameter: S.optional(S.Number),
+          firstValue: S.optional(S.Number),
+          entriesCount: S.optional(S.Number),
+          encodedData: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleSecuritySafebrowsingV5HashListMetadata" });
+      ).annotate({ identifier: "GoogleSecuritySafebrowsingV5RiceDeltaEncoded32Bit" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          encodedData: S.optional(S.String),
           riceParameter: S.optional(S.Number),
-          entriesCount: S.optional(S.Number),
           firstValueHi: S.optional(S.String),
           firstValueLo: S.optional(S.String),
-          encodedData: S.optional(S.String),
+          entriesCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleSecuritySafebrowsingV5RiceDeltaEncoded128Bit" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          firstValueSecondPart: S.optional(S.String),
-          encodedData: S.optional(S.String),
-          riceParameter: S.optional(S.Number),
-          firstValueFourthPart: S.optional(S.String),
-          firstValueThirdPart: S.optional(S.String),
-          entriesCount: S.optional(S.Number),
-          firstValueFirstPart: S.optional(S.String),
+          description: S.optional(S.String),
+          hashLength: S.optional(S.String),
+          likelySafeTypes: S.optional(__S(16, __c2, 0)),
+          threatTypes: S.optional(__S(16, __c2, 0)),
         }),
-      ).annotate({ identifier: "GoogleSecuritySafebrowsingV5RiceDeltaEncoded256Bit" });
+      ).annotate({ identifier: "GoogleSecuritySafebrowsingV5HashListMetadata" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           encodedData: S.optional(S.String),
-          firstValue: S.optional(S.Number),
-          riceParameter: S.optional(S.Number),
+          firstValue: S.optional(S.String),
           entriesCount: S.optional(S.Number),
+          riceParameter: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleSecuritySafebrowsingV5RiceDeltaEncoded32Bit" });
+      ).annotate({ identifier: "GoogleSecuritySafebrowsingV5RiceDeltaEncoded64Bit" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          additionsEightBytes: S.optional(__S(8, __c1, 0)),
-          name: S.optional(S.String),
-          partialUpdate: S.optional(S.Boolean),
-          minimumWaitDuration: S.optional(S.String),
-          metadata: S.optional(__S(9, __c1, 1)),
-          version: S.optional(S.String),
+          additionsThirtyTwoBytes: S.optional(__S(8, __c1, 0)),
           sha256Checksum: S.optional(S.String),
+          minimumWaitDuration: S.optional(S.String),
+          partialUpdate: S.optional(S.Boolean),
+          additionsFourBytes: S.optional(__S(9, __c1, 1)),
           additionsSixteenBytes: S.optional(__S(10, __c1, 2)),
-          additionsThirtyTwoBytes: S.optional(__S(11, __c1, 3)),
-          additionsFourBytes: S.optional(__S(12, __c1, 4)),
-          compressedRemovals: S.optional(__S(12, __c1, 4)),
+          version: S.optional(S.String),
+          metadata: S.optional(__S(11, __c1, 3)),
+          additionsEightBytes: S.optional(__S(12, __c1, 4)),
+          name: S.optional(S.String),
+          compressedRemovals: S.optional(__S(9, __c1, 1)),
         }),
       ).annotate({ identifier: "GoogleSecuritySafebrowsingV5HashList" });
   }
@@ -481,10 +481,10 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String.pipe(T.Query())),
-          "sizeConstraints.maxDatabaseEntries": S.optional(S.Number.pipe(T.Query())),
           "sizeConstraints.maxUpdateEntries": S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          version: S.optional(S.String.pipe(T.Query())),
+          "sizeConstraints.maxDatabaseEntries": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -513,8 +513,8 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           hashLists: S.optional(__S(24, __c3, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleSecuritySafebrowsingV5ListHashListsResponse" });
   }
@@ -536,8 +536,8 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(16, __c2, 0)),
           threatType: S.optional(S.String),
+          attributes: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "GoogleSecuritySafebrowsingV5FullHashFullHashDetail" });
     case 2:
@@ -545,8 +545,8 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          fullHashDetails: S.optional(__S(58, __c7, 2)),
           fullHash: S.optional(S.String),
+          fullHashDetails: S.optional(__S(58, __c7, 2)),
         }),
       ).annotate({ identifier: "GoogleSecuritySafebrowsingV5FullHash" });
     case 4:

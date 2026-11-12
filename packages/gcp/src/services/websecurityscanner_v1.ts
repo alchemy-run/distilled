@@ -97,15 +97,22 @@ export class StartingUrlIpNotReserved
     [{ status: 400, message: { includes: "reserved as static for this project" } }],
   ) {}
 
-/** Scan schedule configuration. */
-export interface Schedule {
-  /** A timestamp indicates when the next run will be scheduled. The value is refreshed by the server after each run. If unspecified, it will default to current server time, which means the scan will be scheduled to start immediately. */
-  scheduleTime?: string | undefined;
-  /** Required. The duration of time between executions in days. */
-  intervalDurationDays?: number | undefined;
+/** Describes authentication configuration that uses a custom account. */
+export interface CustomAccount {
+  /** Required. The user name of the custom account. */
+  username?: string | undefined;
+  /** Required. Input only. The password of the custom account. The credential is stored encrypted and not returned in any response nor included in audit logs. */
+  password?: string | undefined;
+  /** Required. The login form URL of the website. */
+  loginUrl?: string | undefined;
 }
-export type ScanConfigRiskLevelEnum = "RISK_LEVEL_UNSPECIFIED" | "NORMAL" | "LOW";
-export type StringList = Array<string>;
+/** Describes authentication configuration that uses a Google account. */
+export interface GoogleAccount {
+  /** Required. Input only. The password of the Google account. The credential is stored encrypted and not returned in any response nor included in audit logs. */
+  password?: string | undefined;
+  /** Required. The user name of the Google account. */
+  username?: string | undefined;
+}
 /** Describes authentication configuration when Web-Security-Scanner service account is added in Identity-Aware-Proxy (IAP) access policies. */
 export interface IapTestServiceAccountInfo {
   /** Required. Describes OAuth2 client id of resources protected by Identity-Aware-Proxy (IAP). */
@@ -116,45 +123,22 @@ export interface IapCredential {
   /** Authentication configuration when Web-Security-Scanner service account is added in Identity-Aware-Proxy (IAP) access policies. */
   iapTestServiceAccountInfo?: IapTestServiceAccountInfo | undefined;
 }
-/** Describes authentication configuration that uses a Google account. */
-export interface GoogleAccount {
-  /** Required. The user name of the Google account. */
-  username?: string | undefined;
-  /** Required. Input only. The password of the Google account. The credential is stored encrypted and not returned in any response nor included in audit logs. */
-  password?: string | undefined;
-}
-/** Describes authentication configuration that uses a custom account. */
-export interface CustomAccount {
-  /** Required. The user name of the custom account. */
-  username?: string | undefined;
-  /** Required. Input only. The password of the custom account. The credential is stored encrypted and not returned in any response nor included in audit logs. */
-  password?: string | undefined;
-  /** Required. The login form URL of the website. */
-  loginUrl?: string | undefined;
-}
 /** Scan authentication configuration. */
 export interface Authentication {
-  /** Authentication using Identity-Aware-Proxy (IAP). */
-  iapCredential?: IapCredential | undefined;
-  /** Authentication using a Google account. */
-  googleAccount?: GoogleAccount | undefined;
   /** Authentication using a custom account. */
   customAccount?: CustomAccount | undefined;
+  /** Authentication using a Google account. */
+  googleAccount?: GoogleAccount | undefined;
+  /** Authentication using Identity-Aware-Proxy (IAP). */
+  iapCredential?: IapCredential | undefined;
 }
-export type ScanConfigTargetPlatformsItemEnum =
-  | "TARGET_PLATFORM_UNSPECIFIED"
-  | "APP_ENGINE"
-  | "COMPUTE"
-  | "CLOUD_RUN"
-  | "CLOUD_FUNCTIONS";
-export type ScanConfigTargetPlatformsItemEnumList = Array<
-  ScanConfigTargetPlatformsItemEnum | (string & {})
->;
-export type ScanConfigUserAgentEnum =
-  | "USER_AGENT_UNSPECIFIED"
-  | "CHROME_LINUX"
-  | "CHROME_ANDROID"
-  | "SAFARI_IPHONE";
+/** Scan schedule configuration. */
+export interface Schedule {
+  /** A timestamp indicates when the next run will be scheduled. The value is refreshed by the server after each run. If unspecified, it will default to current server time, which means the scan will be scheduled to start immediately. */
+  scheduleTime?: string | undefined;
+  /** Required. The duration of time between executions in days. */
+  intervalDurationDays?: number | undefined;
+}
 export type ScanRunResultStateEnum = "RESULT_STATE_UNSPECIFIED" | "SUCCESS" | "ERROR" | "KILLED";
 export type ScanRunExecutionStateEnum =
   | "EXECUTION_STATE_UNSPECIFIED"
@@ -174,15 +158,6 @@ export interface ScanRunWarningTrace {
   code?: ScanRunWarningTraceCodeEnum | (string & {}) | undefined;
 }
 export type ScanRunWarningTraceList = Array<ScanRunWarningTrace>;
-export type ScanRunErrorTraceCodeEnum =
-  | "CODE_UNSPECIFIED"
-  | "INTERNAL_ERROR"
-  | "SCAN_CONFIG_ISSUE"
-  | "AUTHENTICATION_CONFIG_ISSUE"
-  | "TIMED_OUT_WHILE_SCANNING"
-  | "TOO_MANY_REDIRECTS"
-  | "TOO_MANY_HTTP_ERRORS"
-  | "STARTING_URLS_CRAWL_HTTP_ERRORS";
 export type ScanConfigErrorCodeEnum =
   | "CODE_UNSPECIFIED"
   | "OK"
@@ -234,78 +209,103 @@ export interface ScanConfigError {
   /** Output only. Indicates the full name of the ScanConfig field that triggers this error, for example "scan_config.max_qps". This field is provided for troubleshooting purposes only and its actual value can change in the future. */
   fieldName?: string | undefined;
 }
+export type ScanRunErrorTraceCodeEnum =
+  | "CODE_UNSPECIFIED"
+  | "INTERNAL_ERROR"
+  | "SCAN_CONFIG_ISSUE"
+  | "AUTHENTICATION_CONFIG_ISSUE"
+  | "TIMED_OUT_WHILE_SCANNING"
+  | "TOO_MANY_REDIRECTS"
+  | "TOO_MANY_HTTP_ERRORS"
+  | "STARTING_URLS_CRAWL_HTTP_ERRORS";
 /** Output only. Defines an error trace message for a ScanRun. */
 export interface ScanRunErrorTrace {
-  /** Output only. Indicates the error reason code. */
-  code?: ScanRunErrorTraceCodeEnum | (string & {}) | undefined;
-  /** Output only. If the scan encounters SCAN_CONFIG_ISSUE error, this field has the error message encountered during scan configuration validation that is performed before each scan run. */
-  scanConfigError?: ScanConfigError | undefined;
   /** Output only. If the scan encounters TOO_MANY_HTTP_ERRORS, this field indicates the most common HTTP error code, if such is available. For example, if this code is 404, the scan has encountered too many NOT_FOUND responses. */
   mostCommonHttpErrorCode?: number | undefined;
+  /** Output only. If the scan encounters SCAN_CONFIG_ISSUE error, this field has the error message encountered during scan configuration validation that is performed before each scan run. */
+  scanConfigError?: ScanConfigError | undefined;
+  /** Output only. Indicates the error reason code. */
+  code?: ScanRunErrorTraceCodeEnum | (string & {}) | undefined;
 }
 /** A ScanRun is a output-only resource representing an actual run of the scan. Next id: 12 */
 export interface ScanRun {
-  /** Output only. Whether the scan run has found any vulnerabilities. */
-  hasVulnerabilities?: boolean | undefined;
-  /** Output only. The result state of the ScanRun. This field is only available after the execution state reaches "FINISHED". */
-  resultState?: ScanRunResultStateEnum | (string & {}) | undefined;
-  /** Output only. The resource name of the ScanRun. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. The ScanRun IDs are generated by the system. */
-  name?: string | undefined;
-  /** Output only. The execution state of the ScanRun. */
-  executionState?: ScanRunExecutionStateEnum | (string & {}) | undefined;
-  /** Output only. The time at which the ScanRun started. */
-  startTime?: string | undefined;
-  /** Output only. A list of warnings, if such are encountered during this scan run. */
-  warningTraces?: ScanRunWarningTraceList | undefined;
-  /** Output only. The time at which the ScanRun reached termination state - that the ScanRun is either finished or stopped by user. */
-  endTime?: string | undefined;
   /** Output only. The percentage of total completion ranging from 0 to 100. If the scan is in queue, the value is 0. If the scan is running, the value ranges from 0 to 100. If the scan is finished, the value is 100. */
   progressPercent?: number | undefined;
-  /** Output only. The number of URLs crawled during this ScanRun. If the scan is in progress, the value represents the number of URLs crawled up to now. */
-  urlsCrawledCount?: string | undefined;
-  /** Output only. If result_state is an ERROR, this field provides the primary reason for scan's termination and more details, if such are available. */
-  errorTrace?: ScanRunErrorTrace | undefined;
   /** Output only. The number of URLs tested during this ScanRun. If the scan is in progress, the value represents the number of URLs tested up to now. The number of URLs tested is usually larger than the number URLS crawled because typically a crawled URL is tested with multiple test payloads. */
   urlsTestedCount?: string | undefined;
+  /** Output only. The time at which the ScanRun reached termination state - that the ScanRun is either finished or stopped by user. */
+  endTime?: string | undefined;
+  /** Output only. The result state of the ScanRun. This field is only available after the execution state reaches "FINISHED". */
+  resultState?: ScanRunResultStateEnum | (string & {}) | undefined;
+  /** Output only. The time at which the ScanRun started. */
+  startTime?: string | undefined;
+  /** Output only. Whether the scan run has found any vulnerabilities. */
+  hasVulnerabilities?: boolean | undefined;
+  /** Output only. The execution state of the ScanRun. */
+  executionState?: ScanRunExecutionStateEnum | (string & {}) | undefined;
+  /** Output only. A list of warnings, if such are encountered during this scan run. */
+  warningTraces?: ScanRunWarningTraceList | undefined;
+  /** Output only. If result_state is an ERROR, this field provides the primary reason for scan's termination and more details, if such are available. */
+  errorTrace?: ScanRunErrorTrace | undefined;
+  /** Output only. The resource name of the ScanRun. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. The ScanRun IDs are generated by the system. */
+  name?: string | undefined;
+  /** Output only. The number of URLs crawled during this ScanRun. If the scan is in progress, the value represents the number of URLs crawled up to now. */
+  urlsCrawledCount?: string | undefined;
 }
 export type ScanConfigExportToSecurityCommandCenterEnum =
   | "EXPORT_TO_SECURITY_COMMAND_CENTER_UNSPECIFIED"
   | "ENABLED"
   | "DISABLED";
+export type ScanConfigRiskLevelEnum = "RISK_LEVEL_UNSPECIFIED" | "NORMAL" | "LOW";
+export type ScanConfigUserAgentEnum =
+  | "USER_AGENT_UNSPECIFIED"
+  | "CHROME_LINUX"
+  | "CHROME_ANDROID"
+  | "SAFARI_IPHONE";
+export type ScanConfigTargetPlatformsItemEnum =
+  | "TARGET_PLATFORM_UNSPECIFIED"
+  | "APP_ENGINE"
+  | "COMPUTE"
+  | "CLOUD_RUN"
+  | "CLOUD_FUNCTIONS";
+export type ScanConfigTargetPlatformsItemEnumList = Array<
+  ScanConfigTargetPlatformsItemEnum | (string & {})
+>;
+export type StringList = Array<string>;
 /** A ScanConfig resource contains the configurations to launch a scan. */
 export interface ScanConfig {
-  /** The maximum QPS during scanning. A valid value ranges from 5 to 20 inclusively. If the field is unspecified or its value is set 0, server will default to 15. Other values outside of [5, 20] range will be rejected with INVALID_ARGUMENT error. */
-  maxQps?: number | undefined;
-  /** Whether the scan config is managed by Web Security Scanner, output only. */
-  managedScan?: boolean | undefined;
-  /** Whether the scan configuration has enabled static IP address scan feature. If enabled, the scanner will access applications from static IP addresses. */
-  staticIpScan?: boolean | undefined;
-  /** The schedule of the ScanConfig. */
-  schedule?: Schedule | undefined;
-  /** The risk level selected for the scan */
-  riskLevel?: ScanConfigRiskLevelEnum | (string & {}) | undefined;
-  /** Required. The starting URLs from which the scanner finds site pages. */
-  startingUrls?: StringList | undefined;
-  /** Identifier. The resource name of the ScanConfig. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}'. The ScanConfig IDs are generated by the system. */
-  name?: string | undefined;
-  /** Whether to keep scanning even if most requests return HTTP error codes. */
-  ignoreHttpStatusErrors?: boolean | undefined;
   /** The authentication configuration. If specified, service will use the authentication configuration during scanning. */
   authentication?: Authentication | undefined;
+  /** The schedule of the ScanConfig. */
+  schedule?: Schedule | undefined;
   /** Required. The user provided display name of the ScanConfig. */
   displayName?: string | undefined;
-  /** The excluded URL patterns as described in https://cloud.google.com/security-command-center/docs/how-to-use-web-security-scanner#excluding_urls */
-  blacklistPatterns?: StringList | undefined;
-  /** Set of Google Cloud platforms targeted by the scan. If empty, APP_ENGINE will be used as a default. */
-  targetPlatforms?: ScanConfigTargetPlatformsItemEnumList | undefined;
-  /** The user agent used during scanning. */
-  userAgent?: ScanConfigUserAgentEnum | (string & {}) | undefined;
   latestRun?: ScanRun | undefined;
   /** Controls export of scan configurations and results to Security Command Center. */
   exportToSecurityCommandCenter?:
     | ScanConfigExportToSecurityCommandCenterEnum
     | (string & {})
     | undefined;
+  /** The risk level selected for the scan */
+  riskLevel?: ScanConfigRiskLevelEnum | (string & {}) | undefined;
+  /** Whether to keep scanning even if most requests return HTTP error codes. */
+  ignoreHttpStatusErrors?: boolean | undefined;
+  /** The user agent used during scanning. */
+  userAgent?: ScanConfigUserAgentEnum | (string & {}) | undefined;
+  /** Set of Google Cloud platforms targeted by the scan. If empty, APP_ENGINE will be used as a default. */
+  targetPlatforms?: ScanConfigTargetPlatformsItemEnumList | undefined;
+  /** Required. The starting URLs from which the scanner finds site pages. */
+  startingUrls?: StringList | undefined;
+  /** Whether the scan configuration has enabled static IP address scan feature. If enabled, the scanner will access applications from static IP addresses. */
+  staticIpScan?: boolean | undefined;
+  /** Identifier. The resource name of the ScanConfig. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}'. The ScanConfig IDs are generated by the system. */
+  name?: string | undefined;
+  /** Whether the scan config is managed by Web Security Scanner, output only. */
+  managedScan?: boolean | undefined;
+  /** The maximum QPS during scanning. A valid value ranges from 5 to 20 inclusively. If the field is unspecified or its value is set 0, server will default to 15. Other values outside of [5, 20] range will be rejected with INVALID_ARGUMENT error. */
+  maxQps?: number | undefined;
+  /** The excluded URL patterns as described in https://cloud.google.com/security-command-center/docs/how-to-use-web-security-scanner#excluding_urls */
+  blacklistPatterns?: StringList | undefined;
 }
 export interface CreateProjectsScanConfigsRequest extends ScanConfig {
   /** Required. The parent resource name where the scan is created, which should be a project resource name in the format 'projects/{projectId}'. */
@@ -329,16 +329,6 @@ export interface GetProjectsScanConfigsScanRunsFindingsRequest {
   /** Required. The resource name of the Finding to be returned. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}/findings/{findingId}'. */
   name: string;
 }
-export type FindingSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
-/** Information reported for an outdated library. */
-export interface OutdatedLibrary {
-  /** The version number. */
-  version?: string | undefined;
-  /** The name of the outdated library. */
-  libraryName?: string | undefined;
-  /** URLs to learn more information about the vulnerabilities in the library. */
-  learnMoreUrls?: StringList | undefined;
-}
 export type XssAttackVectorEnum =
   | "ATTACK_VECTOR_UNSPECIFIED"
   | "LOCAL_STORAGE"
@@ -358,14 +348,26 @@ export type XssAttackVectorEnum =
   | "USER_CONTROLLABLE_URL";
 /** Information reported for an XSS. */
 export interface Xss {
-  /** Stack traces leading to the point where the XSS occurred. */
-  stackTraces?: StringList | undefined;
-  /** An error message generated by a javascript breakage. */
-  errorMessage?: string | undefined;
-  /** The attack vector of the payload triggering this XSS. */
-  attackVector?: XssAttackVectorEnum | undefined;
   /** The reproduction url for the seeding POST request of a Stored XSS. */
   storedXssSeedingUrl?: string | undefined;
+  /** The attack vector of the payload triggering this XSS. */
+  attackVector?: XssAttackVectorEnum | undefined;
+  /** An error message generated by a javascript breakage. */
+  errorMessage?: string | undefined;
+  /** Stack traces leading to the point where the XSS occurred. */
+  stackTraces?: StringList | undefined;
+}
+/** Information about vulnerable request parameters. */
+export interface VulnerableParameters {
+  /** The vulnerable parameter names. */
+  parameterNames?: StringList | undefined;
+}
+/** Information regarding any resource causing the vulnerability such as JavaScript sources, image, audio files, etc. */
+export interface ViolatingResource {
+  /** The MIME type of this resource. */
+  contentType?: string | undefined;
+  /** URL of this violating resource. */
+  resourceUrl?: string | undefined;
 }
 export type XxePayloadLocationEnum = "LOCATION_UNSPECIFIED" | "COMPLETE_REQUEST_BODY";
 /** Information reported for an XXE. */
@@ -392,77 +394,75 @@ export interface VulnerableHeaders {
 }
 /** ! Information about a vulnerability with an HTML. */
 export interface Form {
-  /** ! The URI where to send the form when it's submitted. */
-  actionUri?: string | undefined;
   /** ! The names of form fields related to the vulnerability. */
   fields?: StringList | undefined;
+  /** ! The URI where to send the form when it's submitted. */
+  actionUri?: string | undefined;
 }
-/** Information regarding any resource causing the vulnerability such as JavaScript sources, image, audio files, etc. */
-export interface ViolatingResource {
-  /** The MIME type of this resource. */
-  contentType?: string | undefined;
-  /** URL of this violating resource. */
-  resourceUrl?: string | undefined;
+/** Information reported for an outdated library. */
+export interface OutdatedLibrary {
+  /** URLs to learn more information about the vulnerabilities in the library. */
+  learnMoreUrls?: StringList | undefined;
+  /** The name of the outdated library. */
+  libraryName?: string | undefined;
+  /** The version number. */
+  version?: string | undefined;
 }
-/** Information about vulnerable request parameters. */
-export interface VulnerableParameters {
-  /** The vulnerable parameter names. */
-  parameterNames?: StringList | undefined;
-}
+export type FindingSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
 /** A Finding resource represents a vulnerability instance identified during a ScanRun. */
 export interface Finding {
-  /** Output only. The URL containing human-readable payload that user can leverage to reproduce the vulnerability. */
-  reproductionUrl?: string | undefined;
-  /** Output only. The http method of the request that triggered the vulnerability, in uppercase. */
-  httpMethod?: string | undefined;
-  /** Output only. The severity level of the reported vulnerability. */
-  severity?: FindingSeverityEnum | undefined;
-  /** Output only. An addon containing information about outdated libraries. */
-  outdatedLibrary?: OutdatedLibrary | undefined;
-  /** Output only. The URL where the browser lands when the vulnerability is detected. */
-  finalUrl?: string | undefined;
-  /** Output only. An addon containing information reported for an XSS, if any. */
-  xss?: Xss | undefined;
-  /** Output only. An addon containing information reported for an XXE, if any. */
-  xxe?: Xxe | undefined;
-  /** Output only. The tracking ID uniquely identifies a vulnerability instance across multiple ScanRuns. */
-  trackingId?: string | undefined;
   /** Output only. The URL produced by the server-side fuzzer and used in the request that triggered the vulnerability. */
   fuzzedUrl?: string | undefined;
-  /** Output only. An addon containing information about vulnerable or missing HTTP headers. */
-  vulnerableHeaders?: VulnerableHeaders | undefined;
-  /** Output only. The description of the vulnerability. */
-  description?: string | undefined;
   /** Output only. The body of the request that triggered the vulnerability. */
   body?: string | undefined;
-  /** Output only. If the vulnerability was originated from nested IFrame, the immediate parent IFrame is reported. */
-  frameUrl?: string | undefined;
-  /** Output only. An addon containing information reported for a vulnerability with an HTML form, if any. */
-  form?: Form | undefined;
-  /** Output only. An addon containing detailed information regarding any resource causing the vulnerability such as JavaScript sources, image, audio files, etc. */
-  violatingResource?: ViolatingResource | undefined;
+  /** Output only. The URL where the browser lands when the vulnerability is detected. */
+  finalUrl?: string | undefined;
   /** Output only. The type of the Finding. Detailed and up-to-date information on findings can be found here: https://cloud.google.com/security-command-center/docs/how-to-remediate-web-security-scanner-findings */
   findingType?: string | undefined;
+  /** Output only. An addon containing information reported for an XSS, if any. */
+  xss?: Xss | undefined;
   /** Output only. An addon containing information about request parameters which were found to be vulnerable. */
   vulnerableParameters?: VulnerableParameters | undefined;
+  /** Output only. An addon containing detailed information regarding any resource causing the vulnerability such as JavaScript sources, image, audio files, etc. */
+  violatingResource?: ViolatingResource | undefined;
+  /** Output only. An addon containing information reported for an XXE, if any. */
+  xxe?: Xxe | undefined;
+  /** Output only. An addon containing information about vulnerable or missing HTTP headers. */
+  vulnerableHeaders?: VulnerableHeaders | undefined;
+  /** Output only. If the vulnerability was originated from nested IFrame, the immediate parent IFrame is reported. */
+  frameUrl?: string | undefined;
+  /** Output only. The http method of the request that triggered the vulnerability, in uppercase. */
+  httpMethod?: string | undefined;
+  /** Output only. An addon containing information reported for a vulnerability with an HTML form, if any. */
+  form?: Form | undefined;
+  /** Output only. The description of the vulnerability. */
+  description?: string | undefined;
+  /** Output only. The tracking ID uniquely identifies a vulnerability instance across multiple ScanRuns. */
+  trackingId?: string | undefined;
+  /** Output only. An addon containing information about outdated libraries. */
+  outdatedLibrary?: OutdatedLibrary | undefined;
+  /** Output only. The URL containing human-readable payload that user can leverage to reproduce the vulnerability. */
+  reproductionUrl?: string | undefined;
+  /** Output only. The severity level of the reported vulnerability. */
+  severity?: FindingSeverityEnum | undefined;
   /** Output only. The resource name of the Finding. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}/scanruns/{scanRunId}/findings/{findingId}'. The finding IDs are generated by the system. */
   name?: string | undefined;
 }
 export interface ListProjectsScanConfigsRequest {
+  /** Required. The parent resource name, which should be a project resource name in the format 'projects/{projectId}'. */
+  parent: string;
   /** The maximum number of ScanConfigs to return, can be limited by server. If not specified or not positive, the implementation will select a reasonable value. */
   pageSize?: number | undefined;
   /** A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous List request. If unspecified, the first page of results is returned. */
   pageToken?: string | undefined;
-  /** Required. The parent resource name, which should be a project resource name in the format 'projects/{projectId}'. */
-  parent: string;
 }
 export type ScanConfigList = Array<ScanConfig>;
 /** Response for the `ListScanConfigs` method. */
 export interface ListScanConfigsResponse {
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string | undefined;
   /** The list of ScanConfigs returned. */
   scanConfigs?: ScanConfigList | undefined;
+  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsScanConfigsScanRunsRequest {
   /** Required. The parent resource name, which should be a scan resource name in the format 'projects/{projectId}/scanConfigs/{scanConfigId}'. */
@@ -481,47 +481,47 @@ export interface ListScanRunsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsScanConfigsScanRunsCrawledUrlsRequest {
+  /** Required. The parent resource name, which should be a scan run resource name in the format 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. */
+  parent: string;
   /** A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous List request. If unspecified, the first page of results is returned. */
   pageToken?: string | undefined;
   /** The maximum number of CrawledUrls to return, can be limited by server. If not specified or not positive, the implementation will select a reasonable value. */
   pageSize?: number | undefined;
-  /** Required. The parent resource name, which should be a scan run resource name in the format 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. */
-  parent: string;
 }
 /** A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web Security Scanner Service crawls the web applications, following all links within the scope of sites, to find the URLs to test against. */
 export interface CrawledUrl {
-  /** Output only. The http method of the request that was used to visit the URL, in uppercase. */
-  httpMethod?: string | undefined;
   /** Output only. The URL that was crawled. */
   url?: string | undefined;
+  /** Output only. The http method of the request that was used to visit the URL, in uppercase. */
+  httpMethod?: string | undefined;
   /** Output only. The body of the request that was used to visit the URL. */
   body?: string | undefined;
 }
 export type CrawledUrlList = Array<CrawledUrl>;
 /** Response for the `ListCrawledUrls` method. */
 export interface ListCrawledUrlsResponse {
-  /** The list of CrawledUrls returned. */
-  crawledUrls?: CrawledUrlList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
+  /** The list of CrawledUrls returned. */
+  crawledUrls?: CrawledUrlList | undefined;
 }
 export interface ListProjectsScanConfigsScanRunsFindingsRequest {
-  /** The filter expression. The expression must be in the format: . Supported field: 'finding_type'. Supported operator: '='. */
-  filter?: string | undefined;
-  /** A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous List request. If unspecified, the first page of results is returned. */
-  pageToken?: string | undefined;
-  /** The maximum number of Findings to return, can be limited by server. If not specified or not positive, the implementation will select a reasonable value. */
-  pageSize?: number | undefined;
   /** Required. The parent resource name, which should be a scan run resource name in the format 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. */
   parent: string;
+  /** The filter expression. The expression must be in the format: . Supported field: 'finding_type'. Supported operator: '='. */
+  filter?: string | undefined;
+  /** The maximum number of Findings to return, can be limited by server. If not specified or not positive, the implementation will select a reasonable value. */
+  pageSize?: number | undefined;
+  /** A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous List request. If unspecified, the first page of results is returned. */
+  pageToken?: string | undefined;
 }
 export type FindingList = Array<Finding>;
 /** Response for the `ListFindings` method. */
 export interface ListFindingsResponse {
-  /** The list of Findings returned. */
-  findings?: FindingList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
+  /** The list of Findings returned. */
+  findings?: FindingList | undefined;
 }
 export interface ListProjectsScanConfigsScanRunsFindingTypeStatsRequest {
   /** Required. The parent resource name, which should be a scan run resource name in the format 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. */
@@ -529,10 +529,10 @@ export interface ListProjectsScanConfigsScanRunsFindingTypeStatsRequest {
 }
 /** A FindingTypeStats resource represents stats regarding a specific FindingType of Findings under a given ScanRun. */
 export interface FindingTypeStats {
-  /** Output only. The count of findings belonging to this finding type. */
-  findingCount?: number | undefined;
   /** Output only. The finding type associated with the stats. */
   findingType?: string | undefined;
+  /** Output only. The count of findings belonging to this finding type. */
+  findingCount?: number | undefined;
 }
 export type FindingTypeStatsList = Array<FindingTypeStats>;
 /** Response for the `ListFindingTypeStats` method. */
@@ -831,9 +831,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -847,8 +847,8 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           scanConfigs: S.optional(__S(1, __c0, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListScanConfigsResponse" });
   }
@@ -885,9 +885,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -899,8 +899,8 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          httpMethod: S.optional(S.String),
           url: S.optional(S.String),
+          httpMethod: S.optional(S.String),
           body: S.optional(S.String),
         }),
       ).annotate({ identifier: "CrawledUrl" });
@@ -909,8 +909,8 @@ function __c2(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          crawledUrls: S.optional(__S(34, __c2, 2)),
           nextPageToken: S.optional(S.String),
+          crawledUrls: S.optional(__S(34, __c2, 2)),
         }),
       ).annotate({ identifier: "ListCrawledUrlsResponse" });
   }
@@ -920,10 +920,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -937,8 +937,8 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          findings: S.optional(__S(49, __c3, 1)),
           nextPageToken: S.optional(S.String),
+          findings: S.optional(__S(49, __c3, 1)),
         }),
       ).annotate({ identifier: "ListFindingsResponse" });
   }
@@ -960,8 +960,8 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          findingCount: S.optional(S.Number),
           findingType: S.optional(S.String),
+          findingCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FindingTypeStats" });
     case 2:
@@ -1052,65 +1052,65 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scheduleTime: S.optional(S.String),
-          intervalDurationDays: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Schedule" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          targetAudienceClientId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IapTestServiceAccountInfo" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          iapTestServiceAccountInfo: S.optional(__S(145, __c9, 1)),
-        }),
-      ).annotate({ identifier: "IapCredential" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.optional(S.String),
-          password: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAccount" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           username: S.optional(S.String),
           password: S.optional(S.String),
           loginUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomAccount" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          password: S.optional(S.String),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleAccount" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          targetAudienceClientId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IapTestServiceAccountInfo" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          iapTestServiceAccountInfo: S.optional(__S(146, __c9, 2)),
+        }),
+      ).annotate({ identifier: "IapCredential" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          customAccount: S.optional(__S(144, __c9, 0)),
+          googleAccount: S.optional(__S(145, __c9, 1)),
+          iapCredential: S.optional(__S(147, __c9, 3)),
+        }),
+      ).annotate({ identifier: "Authentication" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          iapCredential: S.optional(__S(146, __c9, 2)),
-          googleAccount: S.optional(__S(147, __c9, 3)),
-          customAccount: S.optional(__S(148, __c9, 4)),
+          scheduleTime: S.optional(S.String),
+          intervalDurationDays: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Authentication" });
+      ).annotate({ identifier: "Schedule" });
     case 6:
       return S.Array(S.String);
     case 7:
       return S.suspend(() =>
         S.Struct({
-          maxQps: S.optional(S.Number),
-          managedScan: S.optional(S.Boolean),
-          staticIpScan: S.optional(S.Boolean),
-          schedule: S.optional(__S(144, __c9, 0)),
-          riskLevel: S.optional(S.String),
-          startingUrls: S.optional(__S(176, __c11, 0)),
-          name: S.optional(S.String),
-          ignoreHttpStatusErrors: S.optional(S.Boolean),
-          authentication: S.optional(__S(149, __c9, 5)),
+          authentication: S.optional(__S(148, __c9, 4)),
+          schedule: S.optional(__S(149, __c9, 5)),
           displayName: S.optional(S.String),
-          blacklistPatterns: S.optional(__S(176, __c11, 0)),
-          targetPlatforms: S.optional(__S(150, __c9, 6)),
-          userAgent: S.optional(S.String),
           latestRun: S.optional(__S(164, __c10, 4)),
           exportToSecurityCommandCenter: S.optional(S.String),
+          riskLevel: S.optional(S.String),
+          ignoreHttpStatusErrors: S.optional(S.Boolean),
+          userAgent: S.optional(S.String),
+          targetPlatforms: S.optional(__S(150, __c9, 6)),
+          startingUrls: S.optional(__S(176, __c11, 0)),
+          staticIpScan: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          managedScan: S.optional(S.Boolean),
+          maxQps: S.optional(S.Number),
+          blacklistPatterns: S.optional(__S(176, __c11, 0)),
         }),
       ).annotate({ identifier: "ScanConfig" });
   }
@@ -1135,25 +1135,25 @@ function __c10(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.String),
-          scanConfigError: S.optional(__S(162, __c10, 2)),
           mostCommonHttpErrorCode: S.optional(S.Number),
+          scanConfigError: S.optional(__S(162, __c10, 2)),
+          code: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScanRunErrorTrace" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          hasVulnerabilities: S.optional(S.Boolean),
-          resultState: S.optional(S.String),
-          name: S.optional(S.String),
-          executionState: S.optional(S.String),
-          startTime: S.optional(S.String),
-          warningTraces: S.optional(__S(161, __c10, 1)),
-          endTime: S.optional(S.String),
           progressPercent: S.optional(S.Number),
-          urlsCrawledCount: S.optional(S.String),
-          errorTrace: S.optional(__S(163, __c10, 3)),
           urlsTestedCount: S.optional(S.String),
+          endTime: S.optional(S.String),
+          resultState: S.optional(S.String),
+          startTime: S.optional(S.String),
+          hasVulnerabilities: S.optional(S.Boolean),
+          executionState: S.optional(S.String),
+          warningTraces: S.optional(__S(161, __c10, 1)),
+          errorTrace: S.optional(__S(163, __c10, 3)),
+          name: S.optional(S.String),
+          urlsCrawledCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScanRun" });
   }
@@ -1239,83 +1239,83 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String),
-          libraryName: S.optional(S.String),
-          learnMoreUrls: S.optional(__S(176, __c11, 0)),
+          storedXssSeedingUrl: S.optional(S.String),
+          attackVector: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          stackTraces: S.optional(__S(176, __c11, 0)),
         }),
-      ).annotate({ identifier: "OutdatedLibrary" });
+      ).annotate({ identifier: "Xss" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          stackTraces: S.optional(__S(176, __c11, 0)),
-          errorMessage: S.optional(S.String),
-          attackVector: S.optional(S.String),
-          storedXssSeedingUrl: S.optional(S.String),
+          parameterNames: S.optional(__S(176, __c11, 0)),
         }),
-      ).annotate({ identifier: "Xss" });
+      ).annotate({ identifier: "VulnerableParameters" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          payloadLocation: S.optional(S.String),
-          payloadValue: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Xxe" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Header" });
-    case 4:
-      return S.Array(__S(275, __c17, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          headers: S.optional(__S(276, __c17, 4)),
-          missingHeaders: S.optional(__S(276, __c17, 4)),
-        }),
-      ).annotate({ identifier: "VulnerableHeaders" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          actionUri: S.optional(S.String),
-          fields: S.optional(__S(176, __c11, 0)),
-        }),
-      ).annotate({ identifier: "Form" });
-    case 7:
       return S.suspend(() =>
         S.Struct({
           contentType: S.optional(S.String),
           resourceUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "ViolatingResource" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          payloadLocation: S.optional(S.String),
+          payloadValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Xxe" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Header" });
+    case 5:
+      return S.Array(__S(276, __c17, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          headers: S.optional(__S(277, __c17, 5)),
+          missingHeaders: S.optional(__S(277, __c17, 5)),
+        }),
+      ).annotate({ identifier: "VulnerableHeaders" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          fields: S.optional(__S(176, __c11, 0)),
+          actionUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Form" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          parameterNames: S.optional(__S(176, __c11, 0)),
+          learnMoreUrls: S.optional(__S(176, __c11, 0)),
+          libraryName: S.optional(S.String),
+          version: S.optional(S.String),
         }),
-      ).annotate({ identifier: "VulnerableParameters" });
+      ).annotate({ identifier: "OutdatedLibrary" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          reproductionUrl: S.optional(S.String),
-          httpMethod: S.optional(S.String),
-          severity: S.optional(S.String),
-          outdatedLibrary: S.optional(__S(272, __c17, 0)),
-          finalUrl: S.optional(S.String),
-          xss: S.optional(__S(273, __c17, 1)),
-          xxe: S.optional(__S(274, __c17, 2)),
-          trackingId: S.optional(S.String),
           fuzzedUrl: S.optional(S.String),
-          vulnerableHeaders: S.optional(__S(277, __c17, 5)),
-          description: S.optional(S.String),
           body: S.optional(S.String),
-          frameUrl: S.optional(S.String),
-          form: S.optional(__S(278, __c17, 6)),
-          violatingResource: S.optional(__S(279, __c17, 7)),
+          finalUrl: S.optional(S.String),
           findingType: S.optional(S.String),
-          vulnerableParameters: S.optional(__S(280, __c17, 8)),
+          xss: S.optional(__S(272, __c17, 0)),
+          vulnerableParameters: S.optional(__S(273, __c17, 1)),
+          violatingResource: S.optional(__S(274, __c17, 2)),
+          xxe: S.optional(__S(275, __c17, 3)),
+          vulnerableHeaders: S.optional(__S(278, __c17, 6)),
+          frameUrl: S.optional(S.String),
+          httpMethod: S.optional(S.String),
+          form: S.optional(__S(279, __c17, 7)),
+          description: S.optional(S.String),
+          trackingId: S.optional(S.String),
+          outdatedLibrary: S.optional(__S(280, __c17, 8)),
+          reproductionUrl: S.optional(S.String),
+          severity: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Finding" });

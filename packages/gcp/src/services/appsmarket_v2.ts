@@ -65,26 +65,26 @@ export interface GetCustomerLicenseRequest {
 }
 export interface Editions {
   /** (Deprecated) */
-  seatCount?: number | undefined;
+  editionId?: string | undefined;
   /** (Deprecated) */
   assignedSeats?: number | undefined;
   /** (Deprecated) */
-  editionId?: string | undefined;
+  seatCount?: number | undefined;
 }
 export type EditionsList = Array<Editions>;
 export interface CustomerLicense {
-  /** (Deprecated) */
-  editions?: EditionsList | undefined;
+  /** The ID of the application corresponding to this license query. */
+  applicationId?: string | undefined;
+  /** The type of API resource. This is always `appsmarket#customerLicense`. */
+  kind?: string | undefined;
   /** The customer's license status. One of: - `ACTIVE`: The customer has a valid license. - `UNLICENSED`: There is no license. Either this customer has never installed your application or has deleted it. */
   state?: string | undefined;
   /** The domain name of the customer. */
   customerId?: string | undefined;
   /** The ID of the customer license. */
   id?: string | undefined;
-  /** The ID of the application corresponding to this license query. */
-  applicationId?: string | undefined;
-  /** The type of API resource. This is always `appsmarket#customerLicense`. */
-  kind?: string | undefined;
+  /** (Deprecated) */
+  editions?: EditionsList | undefined;
 }
 export interface GetUserLicenseRequest {
   /** The ID of the user. */
@@ -93,22 +93,22 @@ export interface GetUserLicenseRequest {
   applicationId: string;
 }
 export interface UserLicense {
-  /** The type of API resource. This is always `appsmarket#userLicense`. */
-  kind?: string | undefined;
   /** The domain name of the user. */
   customerId?: string | undefined;
-  /** The ID of the application corresponding to the license query. */
-  applicationId?: string | undefined;
-  /** The user's licensing status. One of: - `ACTIVE`: The user has a valid license and should be permitted to use the application. - `UNLICENSED`: The administrator of this user's domain never assigned a seat for the application to this user. - `EXPIRED`: The administrator assigned a seat to this user, but the license is expired. */
-  state?: string | undefined;
   /** The email address of the user. */
   userId?: string | undefined;
-  /** The domain administrator has activated the application for this domain. */
-  enabled?: boolean | undefined;
   /** The ID of the user license. */
   id?: string | undefined;
   /** (Deprecated) */
   editionId?: string | undefined;
+  /** The user's licensing status. One of: - `ACTIVE`: The user has a valid license and should be permitted to use the application. - `UNLICENSED`: The administrator of this user's domain never assigned a seat for the application to this user. - `EXPIRED`: The administrator assigned a seat to this user, but the license is expired. */
+  state?: string | undefined;
+  /** The domain administrator has activated the application for this domain. */
+  enabled?: boolean | undefined;
+  /** The ID of the application corresponding to the license query. */
+  applicationId?: string | undefined;
+  /** The type of API resource. This is always `appsmarket#userLicense`. */
+  kind?: string | undefined;
 }
 export type GetCustomerLicenseError = NotFound | Forbidden | GcpOpError;
 /** Gets the customer's licensing status to determine if they have access to a given app. For more information, see [Getting app installation and licensing details](https://developers.google.com/workspace/marketplace/example-calls-marketplace-api). */
@@ -163,9 +163,9 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          seatCount: S.optional(S.Number),
-          assignedSeats: S.optional(S.Number),
           editionId: S.optional(S.String),
+          assignedSeats: S.optional(S.Number),
+          seatCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Editions" });
     case 2:
@@ -173,12 +173,12 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          editions: S.optional(__S(2, __c0, 2)),
+          applicationId: S.optional(S.String),
+          kind: S.optional(S.String),
           state: S.optional(S.String),
           customerId: S.optional(S.String),
           id: S.optional(S.String),
-          applicationId: S.optional(S.String),
-          kind: S.optional(S.String),
+          editions: S.optional(__S(2, __c0, 2)),
         }),
       ).annotate({ identifier: "CustomerLicense" });
   }
@@ -201,14 +201,14 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           customerId: S.optional(S.String),
-          applicationId: S.optional(S.String),
-          state: S.optional(S.String),
           userId: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
           id: S.optional(S.String),
           editionId: S.optional(S.String),
+          state: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          applicationId: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserLicense" });
   }

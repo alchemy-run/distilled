@@ -86,94 +86,170 @@ export class NotFound
 export type StringList = Array<string>;
 /** Request message for the BatchDeleteRowAccessPoliciesRequest method. */
 export interface BatchDeleteRowAccessPoliciesRequest {
-  /** Required. Policy IDs of the row access policies. */
-  policyIds?: StringList | undefined;
   /** If set to true, it deletes the row access policy even if it's the last row access policy on the table and the deletion will widen the access rather narrowing it. */
   force?: boolean | undefined;
+  /** Required. Policy IDs of the row access policies. */
+  policyIds?: StringList | undefined;
 }
 export interface BatchDeleteRowAccessPoliciesRequest_ extends BatchDeleteRowAccessPoliciesRequest {
   /** Required. Project ID of the table to delete the row access policies. */
   projectId: string;
-  /** Required. Dataset ID of the table to delete the row access policies. */
-  datasetId: string;
   /** Required. Table ID of the table to delete the row access policies. */
   tableId: string;
+  /** Required. Dataset ID of the table to delete the row access policies. */
+  datasetId: string;
 }
 export interface BatchDeleteRowAccessPoliciesResponse {}
 export interface CancelJobsRequest {
-  /** Required. Job ID of the job to cancel */
-  jobId: string;
-  /** Required. Project ID of the job to cancel */
-  projectId: string;
   /** The geographic location of the job. You must [specify the location](https://cloud.google.com/bigquery/docs/locations#specify_locations) to run the job for the following scenarios: * If the location to run a job is not in the `us` or the `eu` multi-regional location * If the job's location is in a single region (for example, `us-central1`) */
   location?: string | undefined;
+  /** Required. Project ID of the job to cancel */
+  projectId: string;
+  /** Required. Job ID of the job to cancel */
+  jobId: string;
 }
-/** Options related to model extraction. */
-export interface ModelExtractOptions {
-  /** The 1-based ID of the trial to be exported from a hyperparameter tuning model. If not specified, the trial with id = [Model](https://cloud.google.com/bigquery/docs/reference/rest/v2/models#resource:-model).defaultTrialId is exported. This field is ignored for models not trained with hyperparameter tuning. */
-  trialId?: string | undefined;
+/** Error details. */
+export interface ErrorProto {
+  /** Specifies where the error occurred, if present. */
+  location?: string | undefined;
+  /** A short error code that summarizes the error. */
+  reason?: string | undefined;
+  /** A human-readable description of the error. */
+  message?: string | undefined;
+  /** Debugging information. This property is internal to Google and should not be used. */
+  debugInfo?: string | undefined;
+}
+export type ErrorProtoList = Array<ErrorProto>;
+export interface JobStatus {
+  /** Output only. Running state of the job. Valid states include 'PENDING', 'RUNNING', and 'DONE'. */
+  state?: string | undefined;
+  /** Output only. The first errors encountered during the running of the job. The final message includes the number of errors that caused the process to stop. Errors here do not necessarily mean that the job has not completed or was unsuccessful. */
+  errors?: ErrorProtoList | undefined;
+  /** Output only. Final error result of the job. If present, indicates that the job has completed and was unsuccessful. */
+  errorResult?: ErrorProto | undefined;
+}
+/** Configuration for Cloud KMS encryption settings. */
+export interface EncryptionConfiguration {
+  /** Optional. Describes the Cloud KMS encryption key that will be used to protect destination BigQuery table. The BigQuery Service Account associated with your project requires access to this encryption key. */
+  kmsKeyName?: string | undefined;
 }
 export interface TableReference {
-  /** Required. The ID of the dataset containing this table. */
-  datasetId?: string | undefined;
-  /** Required. The ID of the table. The ID can contain Unicode characters in category L (letter), M (mark), N (number), Pc (connector, including underscore), Pd (dash), and Zs (space). For more information, see [General Category](https://wikipedia.org/wiki/Unicode_character_property#General_Category). The maximum length is 1,024 characters. Certain operations allow suffixing of the table ID with a partition decorator, such as `sample_table$20190123`. */
-  tableId?: string | undefined;
   /** Required. The ID of the project containing this table. */
   projectId?: string | undefined;
-}
-/** Id path of a model. */
-export interface ModelReference {
-  /** Required. The ID of the dataset containing this model. */
+  /** Required. The ID of the table. The ID can contain Unicode characters in category L (letter), M (mark), N (number), Pc (connector, including underscore), Pd (dash), and Zs (space). For more information, see [General Category](https://wikipedia.org/wiki/Unicode_character_property#General_Category). The maximum length is 1,024 characters. Certain operations allow suffixing of the table ID with a partition decorator, such as `sample_table$20190123`. */
+  tableId?: string | undefined;
+  /** Required. The ID of the dataset containing this table. */
   datasetId?: string | undefined;
-  /** Required. The ID of the project containing this model. */
-  projectId?: string | undefined;
-  /** Required. The ID of the model. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 1,024 characters. */
-  modelId?: string | undefined;
 }
-export type DocumentMap = { [key: string]: unknown | undefined };
-/** A set of key-value pairs representing the secure context. */
-export interface SecureContext {
-  /** Optional. A set of key-value pairs representing the secure parameter values. They can be retrieved via the SECURE_CONTEXT() function and used to modify the run-time behavior of a query. */
-  secureParameterEntries?: DocumentMap | undefined;
-}
-/** JobConfigurationExtract configures a job that exports data from a BigQuery table into Google Cloud Storage. */
-export interface JobConfigurationExtract {
-  /** Optional. Model extract options only applicable when extracting models. */
-  modelExtractOptions?: ModelExtractOptions | undefined;
-  /** Whether to use logical types when extracting to AVRO format. Not applicable when extracting models. */
-  useAvroLogicalTypes?: boolean | undefined;
-  /** Optional. The compression type to use for exported files. Possible values include DEFLATE, GZIP, NONE, SNAPPY, and ZSTD. The default value is NONE. Not all compression formats are support for all file formats. DEFLATE is only supported for Avro. ZSTD is only supported for Parquet. Not applicable when extracting models. */
-  compression?: string | undefined;
-  /** A reference to the table being exported. */
+export type JobConfigurationTableCopyOperationTypeEnum =
+  | "OPERATION_TYPE_UNSPECIFIED"
+  | "COPY"
+  | "SNAPSHOT"
+  | "RESTORE"
+  | "CLONE";
+export type TableReferenceList = Array<TableReference>;
+/** JobConfigurationTableCopy configures a job that copies data from one table to another. For more information on copying tables, see [Copy a table](https://cloud.google.com/bigquery/docs/managing-tables#copy-table). */
+export interface JobConfigurationTableCopy {
+  /** Custom encryption configuration (e.g., Cloud KMS keys). */
+  destinationEncryptionConfiguration?: EncryptionConfiguration | undefined;
+  /** [Pick one] Source table to copy. */
   sourceTable?: TableReference | undefined;
-  /** A reference to the model being exported. */
-  sourceModel?: ModelReference | undefined;
-  /** Optional. The exported file format. Possible values include CSV, NEWLINE_DELIMITED_JSON, PARQUET, or AVRO for tables and ML_TF_SAVED_MODEL or ML_XGBOOST_BOOSTER for models. The default value for tables is CSV. Tables with nested or repeated fields cannot be exported as CSV. The default value for models is ML_TF_SAVED_MODEL. */
-  destinationFormat?: string | undefined;
-  /** [Pick one] DEPRECATED: Use destinationUris instead, passing only one URI as necessary. The fully-qualified Google Cloud Storage URI where the extracted table should be written. */
-  destinationUri?: string | undefined;
-  /** Optional. A set of key-value pairs representing the secure context. This can be used to pass sensitive or context-specific information. They can be retrieved via the SECURE_CONTEXT() function and used to modify the run-time behavior of an extract job on tables with row access policies. */
-  secureContext?: SecureContext | undefined;
-  /** Optional. When extracting data in CSV format, this defines the delimiter to use between fields in the exported data. Default is ','. Not applicable when extracting models. */
-  fieldDelimiter?: string | undefined;
-  /** [Pick one] A list of fully-qualified Google Cloud Storage URIs where the extracted table should be written. */
-  destinationUris?: StringList | undefined;
-  /** Optional. Applicable to formats: PARQUET. If enabled, BigQuery to Parquet export will write the native Parquet Geography type instead of the default GeoParquet type. */
-  nativeGeographyExportEnabled?: boolean | undefined;
-  /** Optional. Whether to print out a header row in the results. Default is true. Not applicable when extracting models. */
-  printHeader?: boolean | undefined;
+  /** Optional. Specifies whether the job is allowed to create new tables. The following values are supported: * CREATE_IF_NEEDED: If the table does not exist, BigQuery creates the table. * CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result. The default value is CREATE_IF_NEEDED. Creation, truncation and append actions occur as one atomic update upon job completion. */
+  createDisposition?: string | undefined;
+  /** Optional. The time when the destination table expires. Expired tables will be deleted and their storage reclaimed. */
+  destinationExpirationTime?: string | undefined;
+  /** Optional. Supported operation types in table copy job. */
+  operationType?: JobConfigurationTableCopyOperationTypeEnum | (string & {}) | undefined;
+  /** [Pick one] Source tables to copy. */
+  sourceTables?: TableReferenceList | undefined;
+  /** [Required] The destination table. */
+  destinationTable?: TableReference | undefined;
+  /** Optional. Specifies the action that occurs if the destination table already exists. The following values are supported: * WRITE_TRUNCATE: If the table already exists, BigQuery overwrites the table data and uses the schema and table constraints from the source table. * WRITE_APPEND: If the table already exists, BigQuery appends the data to the table. * WRITE_EMPTY: If the table already exists and contains data, a 'duplicate' error is returned in the job result. The default value is WRITE_EMPTY. Each action is atomic and only occurs if BigQuery is able to complete the job successfully. Creation, truncation and append actions occur as one atomic update upon job completion. */
+  writeDisposition?: string | undefined;
 }
+export type StringMap = { [key: string]: string | undefined };
+/** Configures table clustering. */
+export interface Clustering {
+  /** One or more fields on which data should be clustered. Only top-level, non-repeated, simple-type fields are supported. The ordering of the clustering fields should be prioritized from most to least important for filtering purposes. For additional information, see [Introduction to clustered tables](https://cloud.google.com/bigquery/docs/clustered-tables#limitations). */
+  fields?: StringList | undefined;
+}
+export type ParquetOptionsMapTargetTypeEnum = "MAP_TARGET_TYPE_UNSPECIFIED" | "ARRAY_OF_STRUCT";
+/** Parquet Options for load and make external tables. */
+export interface ParquetOptions {
+  /** Optional. Indicates whether to use schema inference specifically for Parquet LIST logical type. */
+  enableListInference?: boolean | undefined;
+  /** Optional. Indicates how to represent a Parquet map if present. */
+  mapTargetType?: ParquetOptionsMapTargetTypeEnum | (string & {}) | undefined;
+  /** Optional. Indicates whether to infer Parquet ENUM logical type as STRING instead of BYTES by default. */
+  enumAsString?: boolean | undefined;
+}
+export type JobConfigurationLoadDecimalTargetTypesItemEnum =
+  | "DECIMAL_TARGET_TYPE_UNSPECIFIED"
+  | "NUMERIC"
+  | "BIGNUMERIC"
+  | "STRING";
+export type JobConfigurationLoadDecimalTargetTypesItemEnumList = Array<
+  JobConfigurationLoadDecimalTargetTypesItemEnum | (string & {})
+>;
+export type JobConfigurationLoadColumnNameCharacterMapEnum =
+  | "COLUMN_NAME_CHARACTER_MAP_UNSPECIFIED"
+  | "STRICT"
+  | "V1"
+  | "V2";
 /** Options for configuring hive partitioning detect. */
 export interface HivePartitioningOptions {
-  /** Output only. For permanent external tables, this field is populated with the hive partition keys in the order they were inferred. The types of the partition keys can be deduced by checking the table schema (which will include the partition keys). Not every API will populate this field in the output. For example, Tables.Get will populate it, but Tables.List will not contain this field. */
-  fields?: StringList | undefined;
   /** Optional. When set, what mode of hive partitioning to use when reading data. The following modes are supported: * AUTO: automatically infer partition key name(s) and type(s). * STRINGS: automatically infer partition key name(s). All types are strings. * CUSTOM: partition key schema is encoded in the source URI prefix. Not all storage formats support hive partitioning. Requesting hive partitioning on an unsupported format will lead to an error. Currently supported formats are: JSON, CSV, ORC, Avro and Parquet. */
   mode?: string | undefined;
-  /** Optional. When hive partition detection is requested, a common prefix for all source uris must be required. The prefix must end immediately before the partition key encoding begins. For example, consider files following this data layout: gs://bucket/path_to_table/dt=2019-06-01/country=USA/id=7/file.avro gs://bucket/path_to_table/dt=2019-05-31/country=CA/id=3/file.avro When hive partitioning is requested with either AUTO or STRINGS detection, the common prefix can be either of gs://bucket/path_to_table or gs://bucket/path_to_table/. CUSTOM detection requires encoding the partitioning schema immediately after the common prefix. For CUSTOM, any of * gs://bucket/path_to_table/{dt:DATE}/{country:STRING}/{id:INTEGER} * gs://bucket/path_to_table/{dt:STRING}/{country:STRING}/{id:INTEGER} * gs://bucket/path_to_table/{dt:DATE}/{country:STRING}/{id:STRING} would all be valid source URI prefixes. */
-  sourceUriPrefix?: string | undefined;
   /** Optional. If set to true, queries over this table require a partition filter that can be used for partition elimination to be specified. Note that this field should only be true when creating a permanent external table or querying a temporary external table. Hive-partitioned loads with require_partition_filter explicitly set to true will fail. */
   requirePartitionFilter?: boolean | undefined;
+  /** Output only. For permanent external tables, this field is populated with the hive partition keys in the order they were inferred. The types of the partition keys can be deduced by checking the table schema (which will include the partition keys). Not every API will populate this field in the output. For example, Tables.Get will populate it, but Tables.List will not contain this field. */
+  fields?: StringList | undefined;
+  /** Optional. When hive partition detection is requested, a common prefix for all source uris must be required. The prefix must end immediately before the partition key encoding begins. For example, consider files following this data layout: gs://bucket/path_to_table/dt=2019-06-01/country=USA/id=7/file.avro gs://bucket/path_to_table/dt=2019-05-31/country=CA/id=3/file.avro When hive partitioning is requested with either AUTO or STRINGS detection, the common prefix can be either of gs://bucket/path_to_table or gs://bucket/path_to_table/. CUSTOM detection requires encoding the partitioning schema immediately after the common prefix. For CUSTOM, any of * gs://bucket/path_to_table/{dt:DATE}/{country:STRING}/{id:INTEGER} * gs://bucket/path_to_table/{dt:STRING}/{country:STRING}/{id:INTEGER} * gs://bucket/path_to_table/{dt:DATE}/{country:STRING}/{id:STRING} would all be valid source URI prefixes. */
+  sourceUriPrefix?: string | undefined;
 }
+export interface TimePartitioning {
+  /** Optional. If not set, the table is partitioned by pseudo column '_PARTITIONTIME'; if set, the table is partitioned by this field. The field must be a top-level TIMESTAMP or DATE field. Its mode must be NULLABLE or REQUIRED. A wrapper is used here because an empty string is an invalid value. */
+  field?: string | undefined;
+  /** If set to true, queries over this table require a partition filter that can be used for partition elimination to be specified. This field is deprecated; please set the field with the same name on the table itself instead. This field needs a wrapper because we want to output the default value, false, if the user explicitly set it. */
+  requirePartitionFilter?: boolean | undefined;
+  /** Required. The supported types are DAY, HOUR, MONTH, and YEAR, which will generate one partition per day, hour, month, and year, respectively. */
+  type?: string | undefined;
+  /** Optional. Number of milliseconds for which to keep the storage for a partition. A wrapper is used here because 0 is an invalid value. */
+  expirationMs?: string | undefined;
+}
+export type JobConfigurationLoadFileSetSpecTypeEnum =
+  | "FILE_SET_SPEC_TYPE_FILE_SYSTEM_MATCH"
+  | "FILE_SET_SPEC_TYPE_NEW_LINE_DELIMITED_MANIFEST";
+export interface RangePartitioningRange {
+  /** [Experimental] The start of range partitioning, inclusive. */
+  start?: string | undefined;
+  /** [Experimental] The width of each interval. */
+  interval?: string | undefined;
+  /** [Experimental] The end of range partitioning, exclusive. */
+  end?: string | undefined;
+}
+export interface RangePartitioning {
+  /** Required. The name of the column to partition the table on. It must be a top-level, INT64 column whose mode is NULLABLE or REQUIRED. */
+  field?: string | undefined;
+  /** [Experimental] Defines the ranges for range partitioning. */
+  range?: RangePartitioningRange | undefined;
+}
+export type JobConfigurationLoadSourceColumnMatchEnum =
+  | "SOURCE_COLUMN_MATCH_UNSPECIFIED"
+  | "POSITION"
+  | "NAME";
+/** Properties for the destination table. */
+export interface DestinationTableProperties {
+  /** Optional. The description for the destination table. This will only be used if the destination table is newly created. If the table already exists and a value different than the current description is provided, the job will fail. */
+  description?: string | undefined;
+  /** Optional. The labels associated with this table. You can use these to organize and group your tables. This will only be used if the destination table is newly created. If the table already exists and labels are different than the current labels are provided, the job will fail. */
+  labels?: StringMap | undefined;
+  /** Internal use only. */
+  expirationTime?: string | undefined;
+  /** Optional. Friendly name for the destination table. If the table already exists, it should be same as the existing friendly name. */
+  friendlyName?: string | undefined;
+}
+export type IntegerList = Array<number>;
 export type JobConfigurationLoadJsonExtensionEnum = "JSON_EXTENSION_UNSPECIFIED" | "GEOJSON";
 /** A connection-level property to customize query behavior. Under JDBC, these correspond directly to connection properties passed to the DriverManager. Under ODBC, these correspond to properties in the connection string. Currently supported connection properties: * **dataset_project_id**: represents the default project for datasets that are used in the query. Setting the system variable `@@dataset_project_id` achieves the same behavior. For more information about system variables, see: https://cloud.google.com/bigquery/docs/reference/system-variables * **time_zone**: represents the default timezone used to run the query. * **session_id**: associates the query with a given session. * **query_label**: associates the query with a given job label. If set, all subsequent queries in a script or session will have this label. For the format in which a you can specify a query label, see labels in the JobConfiguration resource type: https://cloud.google.com/bigquery/docs/reference/rest/v2/Job#jobconfiguration * **service_account**: indicates the service account to use to run a continuous query. If set, the query job uses the service account to access Google Cloud resources. Service account access is bounded by the IAM permissions that you have granted to the service account. Additional properties are allowed, but ignored. Specifying multiple connection properties with the same key returns an error. */
 export interface ConnectionProperty {
@@ -183,67 +259,11 @@ export interface ConnectionProperty {
   value?: string | undefined;
 }
 export type ConnectionPropertyList = Array<ConnectionProperty>;
-export type JobConfigurationLoadSourceColumnMatchEnum =
-  | "SOURCE_COLUMN_MATCH_UNSPECIFIED"
-  | "POSITION"
-  | "NAME";
-/** Configures table clustering. */
-export interface Clustering {
-  /** One or more fields on which data should be clustered. Only top-level, non-repeated, simple-type fields are supported. The ordering of the clustering fields should be prioritized from most to least important for filtering purposes. For additional information, see [Introduction to clustered tables](https://cloud.google.com/bigquery/docs/clustered-tables#limitations). */
-  fields?: StringList | undefined;
-}
-/** Configuration for Cloud KMS encryption settings. */
-export interface EncryptionConfiguration {
-  /** Optional. Describes the Cloud KMS encryption key that will be used to protect destination BigQuery table. The BigQuery Service Account associated with your project requires access to this encryption key. */
-  kmsKeyName?: string | undefined;
-}
-export type JobConfigurationLoadFileSetSpecTypeEnum =
-  | "FILE_SET_SPEC_TYPE_FILE_SYSTEM_MATCH"
-  | "FILE_SET_SPEC_TYPE_NEW_LINE_DELIMITED_MANIFEST";
-export type StringMap = { [key: string]: string | undefined };
-/** Properties for the destination table. */
-export interface DestinationTableProperties {
-  /** Optional. The description for the destination table. This will only be used if the destination table is newly created. If the table already exists and a value different than the current description is provided, the job will fail. */
-  description?: string | undefined;
-  /** Internal use only. */
-  expirationTime?: string | undefined;
-  /** Optional. Friendly name for the destination table. If the table already exists, it should be same as the existing friendly name. */
-  friendlyName?: string | undefined;
-  /** Optional. The labels associated with this table. You can use these to organize and group your tables. This will only be used if the destination table is newly created. If the table already exists and labels are different than the current labels are provided, the job will fail. */
-  labels?: StringMap | undefined;
-}
-export type JobConfigurationLoadColumnNameCharacterMapEnum =
-  | "COLUMN_NAME_CHARACTER_MAP_UNSPECIFIED"
-  | "STRICT"
-  | "V1"
-  | "V2";
-export interface TimePartitioning {
-  /** Required. The supported types are DAY, HOUR, MONTH, and YEAR, which will generate one partition per day, hour, month, and year, respectively. */
-  type?: string | undefined;
-  /** Optional. If not set, the table is partitioned by pseudo column '_PARTITIONTIME'; if set, the table is partitioned by this field. The field must be a top-level TIMESTAMP or DATE field. Its mode must be NULLABLE or REQUIRED. A wrapper is used here because an empty string is an invalid value. */
-  field?: string | undefined;
-  /** Optional. Number of milliseconds for which to keep the storage for a partition. A wrapper is used here because 0 is an invalid value. */
-  expirationMs?: string | undefined;
-  /** If set to true, queries over this table require a partition filter that can be used for partition elimination to be specified. This field is deprecated; please set the field with the same name on the table itself instead. This field needs a wrapper because we want to output the default value, false, if the user explicitly set it. */
-  requirePartitionFilter?: boolean | undefined;
-}
-export type ParquetOptionsMapTargetTypeEnum = "MAP_TARGET_TYPE_UNSPECIFIED" | "ARRAY_OF_STRUCT";
-/** Parquet Options for load and make external tables. */
-export interface ParquetOptions {
-  /** Optional. Indicates whether to infer Parquet ENUM logical type as STRING instead of BYTES by default. */
-  enumAsString?: boolean | undefined;
-  /** Optional. Indicates whether to use schema inference specifically for Parquet LIST logical type. */
-  enableListInference?: boolean | undefined;
-  /** Optional. Indicates how to represent a Parquet map if present. */
-  mapTargetType?: ParquetOptionsMapTargetTypeEnum | (string & {}) | undefined;
-}
-export interface TableFieldSchemaDataGovernanceTagsInfo {
-  /** Optional. The data governance tags added to this field are used for field-level access control. Only one data governance tag is currently supported on a field. Tag keys are globally unique. Tag key is expected to be in the namespaced format, for example "parent-id/pii" where parent-id is the ID of the parent organization or project resource for this tag key. Tag value is expected to be the short name, for example "sensitive". See [Tag definitions](https://cloud.google.com/iam/docs/tags-access-control#definitions) for more details. For example: "parent-id/pii": "sensitive", "myProject/cost_center": "sales" */
-  dataGovernanceTags?: StringMap | undefined;
-}
-export interface TableFieldSchemaPolicyTags {
-  /** A list of policy tag resource names. For example, "projects/1/locations/eu/taxonomies/2/policyTags/3". At most 1 policy tag is currently allowed. */
-  names?: StringList | undefined;
+export type ForeignTypeInfoTypeSystemEnum = "TYPE_SYSTEM_UNSPECIFIED" | "HIVE";
+/** Metadata about the foreign data type definition such as the system in which the type is defined. */
+export interface ForeignTypeInfo {
+  /** Required. Specifies the system which defines the foreign data type. */
+  typeSystem?: ForeignTypeInfoTypeSystemEnum | (string & {}) | undefined;
 }
 /** Data policy option. For more information, see [Mask data by applying data policies to a column](https://docs.cloud.google.com/bigquery/docs/column-data-masking#data-policies-on-column). */
 export interface DataPolicyOption {
@@ -260,164 +280,113 @@ export type TableFieldSchemaRoundingModeEnum =
   | "ROUNDING_MODE_UNSPECIFIED"
   | "ROUND_HALF_AWAY_FROM_ZERO"
   | "ROUND_HALF_EVEN";
-export interface TableFieldSchemaRangeElementType {
-  /** Required. The type of a field element. For more information, see TableFieldSchema.type. */
-  type?: string | undefined;
-}
-/** Definition of the expression used to generate the field. */
-export interface GeneratedExpressionInfo {
-  /** Optional. Whether the generated column is stored in the table. */
-  stored?: boolean | undefined;
-  /** Optional. Whether the column generation is done asynchronously. */
-  asynchronous?: boolean | undefined;
-  /** Optional. The generation expression (e.g. AI.EMBED(...)) used to generate the field. */
-  generationExpression?: string | undefined;
-}
 export type GeneratedColumnGeneratedModeEnum =
   | "GENERATED_MODE_UNSPECIFIED"
   | "GENERATED_ALWAYS"
   | "GENERATED_BY_DEFAULT";
+/** Definition of the expression used to generate the field. */
+export interface GeneratedExpressionInfo {
+  /** Optional. The generation expression (e.g. AI.EMBED(...)) used to generate the field. */
+  generationExpression?: string | undefined;
+  /** Optional. Whether the generated column is stored in the table. */
+  stored?: boolean | undefined;
+  /** Optional. Whether the column generation is done asynchronously. */
+  asynchronous?: boolean | undefined;
+}
 /** Optional. Definition of how values are generated for the field. Only valid for top-level schema fields (not nested fields). */
 export interface GeneratedColumn {
-  /** Definition of the expression used to generate the field. */
-  generatedExpressionInfo?: GeneratedExpressionInfo | undefined;
   /** Optional. Dictates when system generated values are used to populate the field. */
   generatedMode?: GeneratedColumnGeneratedModeEnum | (string & {}) | undefined;
+  /** Definition of the expression used to generate the field. */
+  generatedExpressionInfo?: GeneratedExpressionInfo | undefined;
+}
+export interface TableFieldSchemaDataGovernanceTagsInfo {
+  /** Optional. The data governance tags added to this field are used for field-level access control. Only one data governance tag is currently supported on a field. Tag keys are globally unique. Tag key is expected to be in the namespaced format, for example "parent-id/pii" where parent-id is the ID of the parent organization or project resource for this tag key. Tag value is expected to be the short name, for example "sensitive". See [Tag definitions](https://cloud.google.com/iam/docs/tags-access-control#definitions) for more details. For example: "parent-id/pii": "sensitive", "myProject/cost_center": "sales" */
+  dataGovernanceTags?: StringMap | undefined;
+}
+export interface TableFieldSchemaRangeElementType {
+  /** Required. The type of a field element. For more information, see TableFieldSchema.type. */
+  type?: string | undefined;
 }
 export interface TableFieldSchemaCategories {
   /** Deprecated. */
   names?: StringList | undefined;
 }
+export interface TableFieldSchemaPolicyTags {
+  /** A list of policy tag resource names. For example, "projects/1/locations/eu/taxonomies/2/policyTags/3". At most 1 policy tag is currently allowed. */
+  names?: StringList | undefined;
+}
 /** A field in TableSchema */
 export interface TableFieldSchema {
-  /** Optional. Field collation can be set only when the type of field is STRING. The following values are supported: * 'und:ci': undetermined locale, case insensitive. * '': empty string. Default to case-sensitive behavior. */
-  collation?: string | undefined;
-  /** Optional. Specifies the data governance tags on this field. This field works with other column-level security fields as follows: * **Precedence**: If a data governance tag is attached to a column, it takes precedence over the policy tag attached to the column. However, if a data policy is attached to a column, it takes precedence over the data governance tag. * **Patching behavior**: Describes how this field behaves during a `Table.patch` schema update: * **Unset**: If the `data_governance_tags_info` field is omitted from the update request, the existing tags on the column are preserved. * **Empty Field**: To clear data governance tags from a column, send the `data_governance_tags_info` field as an empty object. This removes all tags from the column. * **Updating tags**: To replace an existing tag, send the field with the new tag. */
-  dataGovernanceTagsInfo?: TableFieldSchemaDataGovernanceTagsInfo | undefined;
-  /** Optional. Precision (maximum number of total digits in base 10) and scale (maximum number of digits in the fractional part in base 10) constraints for values of this field for NUMERIC or BIGNUMERIC. It is invalid to set precision or scale if type != "NUMERIC" and != "BIGNUMERIC". If precision and scale are not specified, no value range constraint is imposed on this field insofar as values are permitted by the type. Values of this NUMERIC or BIGNUMERIC field must be in this range when: * Precision (P) and scale (S) are specified: [-10P-S + 10-S, 10P-S - 10-S] * Precision (P) is specified but not scale (and thus scale is interpreted to be equal to zero): [-10P + 1, 10P - 1]. Acceptable values for precision and scale if both are specified: * If type = "NUMERIC": 1 <= precision - scale <= 29 and 0 <= scale <= 9. * If type = "BIGNUMERIC": 1 <= precision - scale <= 38 and 0 <= scale <= 38. Acceptable values for precision if only precision is specified but not scale (and thus scale is interpreted to be equal to zero): * If type = "NUMERIC": 1 <= precision <= 29. * If type = "BIGNUMERIC": 1 <= precision <= 38. If scale is specified but not precision, then it is invalid. */
-  precision?: string | undefined;
-  /** Optional. See documentation for precision. */
-  scale?: string | undefined;
-  /** Optional. The policy tags attached to this field, used for field-level access control. If not set, defaults to empty policy_tags. */
-  policyTags?: TableFieldSchemaPolicyTags | undefined;
-  /** Optional. Definition of the foreign data type. Only valid for top-level schema fields (not nested fields). If the type is FOREIGN, this field is required. */
-  foreignTypeDefinition?: string | undefined;
-  /** Required. The field data type. Possible values include: * STRING * BYTES * INTEGER (or INT64) * FLOAT (or FLOAT64) * BOOLEAN (or BOOL) * TIMESTAMP * DATE * TIME * DATETIME * GEOGRAPHY * NUMERIC * BIGNUMERIC * JSON * RECORD (or STRUCT) * RANGE Use of RECORD/STRUCT indicates that the field contains a nested schema. */
-  type?: string | undefined;
-  /** Optional. Maximum length of values of this field for STRINGS or BYTES. If max_length is not specified, no maximum length constraint is imposed on this field. If type = "STRING", then max_length represents the maximum UTF-8 length of strings in this field. If type = "BYTES", then max_length represents the maximum number of bytes in this field. It is invalid to set this field if type != "STRING" and != "BYTES". */
-  maxLength?: string | undefined;
-  /** Optional. Precision (maximum number of total digits in base 10) for seconds of TIMESTAMP type. Possible values include: * 6 (Default, for TIMESTAMP type with microsecond precision) * 12 (For TIMESTAMP type with picosecond precision) */
-  timestampPrecision?: string | undefined;
-  /** Optional. Specifies data policies attached to this field, used for field-level access control. When set, this will be the source of truth for data policy information. */
-  dataPolicyList?: DataPolicyList | undefined;
   /** Optional. Data policies attached to this field, used for field-level access control. */
   dataPolicies?: DataPolicyOptionList | undefined;
-  /** Optional. Specifies the rounding mode to be used when storing values of NUMERIC and BIGNUMERIC type. */
-  roundingMode?: TableFieldSchemaRoundingModeEnum | (string & {}) | undefined;
+  /** Optional. Specifies data policies attached to this field, used for field-level access control. When set, this will be the source of truth for data policy information. */
+  dataPolicyList?: DataPolicyList | undefined;
+  /** Optional. Definition of the foreign data type. Only valid for top-level schema fields (not nested fields). If the type is FOREIGN, this field is required. */
+  foreignTypeDefinition?: string | undefined;
   /** Optional. The field mode. Possible values include NULLABLE, REQUIRED and REPEATED. The default value is NULLABLE. */
   mode?: string | undefined;
-  /** Optional. Describes the nested schema fields if the type property is set to RECORD. */
-  fields?: TableFieldSchemaList | undefined;
+  /** Required. The field data type. Possible values include: * STRING * BYTES * INTEGER (or INT64) * FLOAT (or FLOAT64) * BOOLEAN (or BOOL) * TIMESTAMP * DATE * TIME * DATETIME * GEOGRAPHY * NUMERIC * BIGNUMERIC * JSON * RECORD (or STRUCT) * RANGE Use of RECORD/STRUCT indicates that the field contains a nested schema. */
+  type?: string | undefined;
   /** Optional. A SQL expression to specify the [default value] (https://cloud.google.com/bigquery/docs/default-values) for this field. */
   defaultValueExpression?: string | undefined;
-  /** Represents the type of a field element. */
-  rangeElementType?: TableFieldSchemaRangeElementType | undefined;
-  /** Optional. Definition of how values are generated for the field. Only valid for top-level schema fields (not nested fields). */
-  generatedColumn?: GeneratedColumn | undefined;
-  /** Optional. The field description. The maximum length is 1,024 characters. */
-  description?: string | undefined;
+  /** Optional. See documentation for precision. */
+  scale?: string | undefined;
+  /** Optional. Specifies the rounding mode to be used when storing values of NUMERIC and BIGNUMERIC type. */
+  roundingMode?: TableFieldSchemaRoundingModeEnum | (string & {}) | undefined;
   /** Required. The field name. The name must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_), and must start with a letter or underscore. The maximum length is 300 characters. */
   name?: string | undefined;
+  /** Optional. Definition of how values are generated for the field. Only valid for top-level schema fields (not nested fields). */
+  generatedColumn?: GeneratedColumn | undefined;
+  /** Optional. Specifies the data governance tags on this field. This field works with other column-level security fields as follows: * **Precedence**: If a data governance tag is attached to a column, it takes precedence over the policy tag attached to the column. However, if a data policy is attached to a column, it takes precedence over the data governance tag. * **Patching behavior**: Describes how this field behaves during a `Table.patch` schema update: * **Unset**: If the `data_governance_tags_info` field is omitted from the update request, the existing tags on the column are preserved. * **Empty Field**: To clear data governance tags from a column, send the `data_governance_tags_info` field as an empty object. This removes all tags from the column. * **Updating tags**: To replace an existing tag, send the field with the new tag. */
+  dataGovernanceTagsInfo?: TableFieldSchemaDataGovernanceTagsInfo | undefined;
+  /** Represents the type of a field element. */
+  rangeElementType?: TableFieldSchemaRangeElementType | undefined;
+  /** Optional. Maximum length of values of this field for STRINGS or BYTES. If max_length is not specified, no maximum length constraint is imposed on this field. If type = "STRING", then max_length represents the maximum UTF-8 length of strings in this field. If type = "BYTES", then max_length represents the maximum number of bytes in this field. It is invalid to set this field if type != "STRING" and != "BYTES". */
+  maxLength?: string | undefined;
+  /** Optional. Describes the nested schema fields if the type property is set to RECORD. */
+  fields?: TableFieldSchemaList | undefined;
+  /** Optional. Precision (maximum number of total digits in base 10) for seconds of TIMESTAMP type. Possible values include: * 6 (Default, for TIMESTAMP type with microsecond precision) * 12 (For TIMESTAMP type with picosecond precision) */
+  timestampPrecision?: string | undefined;
+  /** Optional. The field description. The maximum length is 1,024 characters. */
+  description?: string | undefined;
+  /** Optional. Precision (maximum number of total digits in base 10) and scale (maximum number of digits in the fractional part in base 10) constraints for values of this field for NUMERIC or BIGNUMERIC. It is invalid to set precision or scale if type != "NUMERIC" and != "BIGNUMERIC". If precision and scale are not specified, no value range constraint is imposed on this field insofar as values are permitted by the type. Values of this NUMERIC or BIGNUMERIC field must be in this range when: * Precision (P) and scale (S) are specified: [-10P-S + 10-S, 10P-S - 10-S] * Precision (P) is specified but not scale (and thus scale is interpreted to be equal to zero): [-10P + 1, 10P - 1]. Acceptable values for precision and scale if both are specified: * If type = "NUMERIC": 1 <= precision - scale <= 29 and 0 <= scale <= 9. * If type = "BIGNUMERIC": 1 <= precision - scale <= 38 and 0 <= scale <= 38. Acceptable values for precision if only precision is specified but not scale (and thus scale is interpreted to be equal to zero): * If type = "NUMERIC": 1 <= precision <= 29. * If type = "BIGNUMERIC": 1 <= precision <= 38. If scale is specified but not precision, then it is invalid. */
+  precision?: string | undefined;
   /** Deprecated. */
   categories?: TableFieldSchemaCategories | undefined;
+  /** Optional. Field collation can be set only when the type of field is STRING. The following values are supported: * 'und:ci': undetermined locale, case insensitive. * '': empty string. Default to case-sensitive behavior. */
+  collation?: string | undefined;
+  /** Optional. The policy tags attached to this field, used for field-level access control. If not set, defaults to empty policy_tags. */
+  policyTags?: TableFieldSchemaPolicyTags | undefined;
 }
 export type TableFieldSchemaList = Array<TableFieldSchema>;
-export type ForeignTypeInfoTypeSystemEnum = "TYPE_SYSTEM_UNSPECIFIED" | "HIVE";
-/** Metadata about the foreign data type definition such as the system in which the type is defined. */
-export interface ForeignTypeInfo {
-  /** Required. Specifies the system which defines the foreign data type. */
-  typeSystem?: ForeignTypeInfoTypeSystemEnum | (string & {}) | undefined;
-}
 /** Schema of a table */
 export interface TableSchema {
-  /** Describes the fields in a table. */
-  fields?: TableFieldSchemaList | undefined;
   /** Optional. Specifies metadata of the foreign data type definition in field schema (TableFieldSchema.foreign_type_definition). */
   foreignTypeInfo?: ForeignTypeInfo | undefined;
+  /** Describes the fields in a table. */
+  fields?: TableFieldSchemaList | undefined;
 }
-export interface RangePartitioningRange {
-  /** [Experimental] The start of range partitioning, inclusive. */
-  start?: string | undefined;
-  /** [Experimental] The width of each interval. */
-  interval?: string | undefined;
-  /** [Experimental] The end of range partitioning, exclusive. */
-  end?: string | undefined;
-}
-export interface RangePartitioning {
-  /** Required. The name of the column to partition the table on. It must be a top-level, INT64 column whose mode is NULLABLE or REQUIRED. */
-  field?: string | undefined;
-  /** [Experimental] Defines the ranges for range partitioning. */
-  range?: RangePartitioningRange | undefined;
-}
-export type JobConfigurationLoadDecimalTargetTypesItemEnum =
-  | "DECIMAL_TARGET_TYPE_UNSPECIFIED"
-  | "NUMERIC"
-  | "BIGNUMERIC"
-  | "STRING";
-export type JobConfigurationLoadDecimalTargetTypesItemEnumList = Array<
-  JobConfigurationLoadDecimalTargetTypesItemEnum | (string & {})
->;
-export type IntegerList = Array<number>;
 /** JobConfigurationLoad contains the configuration properties for loading data into a destination table. */
 export interface JobConfigurationLoad {
-  /** Optional. Date format used for parsing TIMESTAMP values. */
-  timestampFormat?: string | undefined;
-  /** Optional. The format of the data files. For CSV files, specify "CSV". For datastore backups, specify "DATASTORE_BACKUP". For newline-delimited JSON, specify "NEWLINE_DELIMITED_JSON". For Avro, specify "AVRO". For parquet, specify "PARQUET". For orc, specify "ORC". The default value is CSV. */
-  sourceFormat?: string | undefined;
-  /** Optional. The character encoding of the data. The supported values are UTF-8, ISO-8859-1, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8. BigQuery decodes the data after the raw, binary data has been split using the values of the `quote` and `fieldDelimiter` properties. If you don't specify an encoding, or if you specify a UTF-8 encoding when the CSV file is not UTF-8 encoded, BigQuery attempts to convert the data to UTF-8. Generally, your data loads successfully, but it may not match byte-for-byte what you expect. To avoid this, specify the correct encoding by using the `--encoding` flag. If BigQuery can't convert a character other than the ASCII `0` character, BigQuery converts the character to the standard Unicode replacement character: U+FFFD. */
-  encoding?: string | undefined;
-  /** [Required] The destination table to load the data into. */
-  destinationTable?: TableReference | undefined;
-  /** Optional. When set, configures hive partitioning support. Not all storage formats support hive partitioning -- requesting hive partitioning on an unsupported format will lead to an error, as will providing an invalid specification. */
-  hivePartitioningOptions?: HivePartitioningOptions | undefined;
-  /** Optional. If sourceFormat is set to "AVRO", indicates whether to interpret logical types as the corresponding BigQuery data type (for example, TIMESTAMP), instead of using the raw type (for example, INTEGER). */
-  useAvroLogicalTypes?: boolean | undefined;
-  /** Optional. Load option to be used together with source_format newline-delimited JSON to indicate that a variant of JSON is being loaded. To load newline-delimited GeoJSON, specify GEOJSON (and source_format must be set to NEWLINE_DELIMITED_JSON). */
-  jsonExtension?: JobConfigurationLoadJsonExtensionEnum | (string & {}) | undefined;
-  /** Optional. Connection properties which can modify the load job behavior. Currently, only the 'session_id' connection property is supported, and is used to resolve _SESSION appearing as the dataset id. */
-  connectionProperties?: ConnectionPropertyList | undefined;
-  /** Optional. Date format used for parsing TIME values. */
-  timeFormat?: string | undefined;
-  /** Optional. When sourceFormat is set to "CSV", this indicates whether the embedded ASCII control characters (the first 32 characters in the ASCII-table, from '\x00' to '\x1F') are preserved. */
-  preserveAsciiControlCharacters?: boolean | undefined;
-  /** Optional. Default time zone that will apply when parsing timestamp values that have no specific time zone. */
-  timeZone?: string | undefined;
-  /** [Deprecated] The inline schema. For CSV schemas, specify as "Field1:Type1[,Field2:Type2]*". For example, "foo:STRING, bar:INTEGER, baz:FLOAT". */
-  schemaInline?: string | undefined;
-  /** Optional. Controls the strategy used to match loaded columns to the schema. If not set, a sensible default is chosen based on how the schema is provided. If autodetect is used, then columns are matched by name. Otherwise, columns are matched by position. This is done to keep the behavior backward-compatible. */
-  sourceColumnMatch?: JobConfigurationLoadSourceColumnMatchEnum | (string & {}) | undefined;
-  /** Optional. The separator character for fields in a CSV file. The separator is interpreted as a single byte. For files encoded in ISO-8859-1, any single character can be used as a separator. For files encoded in UTF-8, characters represented in decimal range 1-127 (U+0001-U+007F) can be used without any modification. UTF-8 characters encoded with multiple bytes (i.e. U+0080 and above) will have only the first byte used for separating fields. The remaining bytes will be treated as a part of the field. BigQuery also supports the escape sequence "\t" (U+0009) to specify a tab separator. The default value is comma (",", U+002C). */
-  fieldDelimiter?: string | undefined;
+  /** Optional. Specifies the action that occurs if the destination table already exists. The following values are supported: * WRITE_TRUNCATE: If the table already exists, BigQuery overwrites the data, removes the constraints and uses the schema from the load job. * WRITE_TRUNCATE_DATA: If the table already exists, BigQuery overwrites the data, but keeps the constraints and schema of the existing table. * WRITE_APPEND: If the table already exists, BigQuery appends the data to the table. * WRITE_EMPTY: If the table already exists and contains data, a 'duplicate' error is returned in the job result. The default value is WRITE_APPEND. Each action is atomic and only occurs if BigQuery is able to complete the job successfully. Creation, truncation and append actions occur as one atomic update upon job completion. */
+  writeDisposition?: string | undefined;
+  /** Optional. The value that is used to quote data sections in a CSV file. BigQuery converts the string to ISO-8859-1 encoding, and then uses the first byte of the encoded string to split the data in its raw, binary state. The default value is a double-quote ('"'). If your data does not contain quoted sections, set the property value to an empty string. If your data contains quoted newline characters, you must also set the allowQuotedNewlines property to true. To include the specific quote character within a quoted value, precede it with an additional matching quote character. For example, if you want to escape the default character ' " ', use ' "" '. @default " */
+  quote?: string | undefined;
   /** Clustering specification for the destination table. */
   clustering?: Clustering | undefined;
-  /** Optional. The maximum number of bad records that BigQuery can ignore when running the job. If the number of bad records exceeds this value, an invalid error is returned in the job result. The default value is 0, which requires that all records are valid. This is only supported for CSV and NEWLINE_DELIMITED_JSON file formats. */
-  maxBadRecords?: number | undefined;
   /** Optional. Accept rows that are missing trailing optional columns. The missing values are treated as nulls. If false, records with missing trailing columns are treated as bad records, and if there are too many bad records, an invalid error is returned in the job result. The default value is false. Only applicable to CSV, ignored for other formats. */
   allowJaggedRows?: boolean | undefined;
+  /** Optional. If sourceFormat is set to "AVRO", indicates whether to interpret logical types as the corresponding BigQuery data type (for example, TIMESTAMP), instead of using the raw type (for example, INTEGER). */
+  useAvroLogicalTypes?: boolean | undefined;
+  /** Optional. The separator character for fields in a CSV file. The separator is interpreted as a single byte. For files encoded in ISO-8859-1, any single character can be used as a separator. For files encoded in UTF-8, characters represented in decimal range 1-127 (U+0001-U+007F) can be used without any modification. UTF-8 characters encoded with multiple bytes (i.e. U+0080 and above) will have only the first byte used for separating fields. The remaining bytes will be treated as a part of the field. BigQuery also supports the escape sequence "\t" (U+0009) to specify a tab separator. The default value is comma (",", U+002C). */
+  fieldDelimiter?: string | undefined;
+  /** Optional. Additional properties to set if sourceFormat is set to PARQUET. */
+  parquetOptions?: ParquetOptions | undefined;
+  /** Defines the list of possible SQL data types to which the source decimal values are converted. This list and the precision and the scale parameters of the decimal field determine the target type. In the order of NUMERIC, BIGNUMERIC, and STRING, a type is picked if it is in the specified list and if it supports the precision and the scale. STRING supports all precision and scale values. If none of the listed types supports the precision and the scale, the type supporting the widest range in the specified list is picked, and if a value exceeds the supported range when reading the data, an error will be thrown. Example: Suppose the value of this field is ["NUMERIC", "BIGNUMERIC"]. If (precision,scale) is: * (38,9) -> NUMERIC; * (39,9) -> BIGNUMERIC (NUMERIC cannot hold 30 integer digits); * (38,10) -> BIGNUMERIC (NUMERIC cannot hold 10 fractional digits); * (76,38) -> BIGNUMERIC; * (77,38) -> BIGNUMERIC (error if value exceeds supported range). This field cannot contain duplicate types. The order of the types in this field is ignored. For example, ["BIGNUMERIC", "NUMERIC"] is the same as ["NUMERIC", "BIGNUMERIC"] and NUMERIC always takes precedence over BIGNUMERIC. Defaults to ["NUMERIC", "STRING"] for ORC and ["NUMERIC"] for the other file formats. */
+  decimalTargetTypes?: JobConfigurationLoadDecimalTargetTypesItemEnumList | undefined;
   /** Custom encryption configuration (e.g., Cloud KMS keys) */
   destinationEncryptionConfiguration?: EncryptionConfiguration | undefined;
-  /** Optional. The number of rows at the top of a CSV file that BigQuery will skip when loading the data. The default value is 0. This property is useful if you have header rows in the file that should be skipped. When autodetect is on, the behavior is the following: * skipLeadingRows unspecified - Autodetect tries to detect headers in the first row. If they are not detected, the row is read as data. Otherwise data is read starting from the second row. * skipLeadingRows is 0 - Instructs autodetect that there are no headers and data should be read starting from the first row. * skipLeadingRows = N > 0 - Autodetect skips N-1 rows and tries to detect headers in row N. If headers are not detected, row N is just skipped. Otherwise row N is used to extract column names for the detected schema. */
-  skipLeadingRows?: number | undefined;
-  /** Optional. Specifies how source URIs are interpreted for constructing the file set to load. By default, source URIs are expanded against the underlying storage. You can also specify manifest files to control how the file set is constructed. This option is only applicable to object storage systems. */
-  fileSetSpecType?: JobConfigurationLoadFileSetSpecTypeEnum | (string & {}) | undefined;
-  /** Optional. [Experimental] Properties with which to create the destination table if it is new. */
-  destinationTableProperties?: DestinationTableProperties | undefined;
-  /** If sourceFormat is set to "DATASTORE_BACKUP", indicates which entity properties to load into BigQuery from a Cloud Datastore backup. Property names are case sensitive and must be top-level properties. If no properties are specified, BigQuery loads all properties. If any named property isn't found in the Cloud Datastore backup, an invalid error is returned in the job result. */
-  projectionFields?: StringList | undefined;
-  /** Optional. Date format used for parsing DATETIME values. */
-  datetimeFormat?: string | undefined;
-  /** [Deprecated] The format of the schemaInline property. */
-  schemaInlineFormat?: string | undefined;
   /** Optional. Character map supported for column names in CSV/Parquet loads. Defaults to STRICT and can be overridden by Project Config Service. Using this option with unsupporting load formats will result in an error. */
   columnNameCharacterMap?:
     | JobConfigurationLoadColumnNameCharacterMapEnum
@@ -425,58 +394,130 @@ export interface JobConfigurationLoad {
     | undefined;
   /** Optional. If this property is true, the job creates a new session using a randomly generated session_id. To continue using a created session with subsequent queries, pass the existing session identifier as a `ConnectionProperty` value. The session identifier is returned as part of the `SessionInfo` message within the query statistics. The new session's location will be set to `Job.JobReference.location` if it is present, otherwise it's set to the default location based on existing routing logic. */
   createSession?: boolean | undefined;
-  /** Optional. A list of strings represented as SQL NULL value in a CSV file. null_marker and null_markers can't be set at the same time. If null_marker is set, null_markers has to be not set. If null_markers is set, null_marker has to be not set. If both null_marker and null_markers are set at the same time, a user error would be thrown. Any strings listed in null_markers, including empty string would be interpreted as SQL NULL. This applies to all column types. */
-  nullMarkers?: StringList | undefined;
-  /** Optional. Date format used for parsing DATE values. */
-  dateFormat?: string | undefined;
-  /** Allows the schema of the destination table to be updated as a side effect of the load job if a schema is autodetected or supplied in the job configuration. Schema update options are supported in three cases: when writeDisposition is WRITE_APPEND; when writeDisposition is WRITE_TRUNCATE_DATA; when writeDisposition is WRITE_TRUNCATE and the destination table is a partition of a table, specified by partition decorators. For normal tables, WRITE_TRUNCATE will always overwrite the schema. One or more of the following values are specified: * ALLOW_FIELD_ADDITION: allow adding a nullable field to the schema. * ALLOW_FIELD_RELAXATION: allow relaxing a required field in the original schema to nullable. */
-  schemaUpdateOptions?: StringList | undefined;
   /** Indicates if BigQuery should allow quoted data sections that contain newline characters in a CSV file. The default value is false. */
   allowQuotedNewlines?: boolean | undefined;
-  /** Time-based partitioning specification for the destination table. Only one of timePartitioning and rangePartitioning should be specified. */
-  timePartitioning?: TimePartitioning | undefined;
-  /** Optional. Additional properties to set if sourceFormat is set to PARQUET. */
-  parquetOptions?: ParquetOptions | undefined;
-  /** Optional. The user can provide a reference file with the reader schema. This file is only loaded if it is part of source URIs, but is not loaded otherwise. It is enabled for the following formats: AVRO, PARQUET, ORC. */
-  referenceFileSchemaUri?: string | undefined;
-  /** Optional. The schema for the destination table. The schema can be omitted if the destination table already exists, or if you're loading data from Google Cloud Datastore. */
-  schema?: TableSchema | undefined;
-  /** Optional. Specifies whether the job is allowed to create new tables. The following values are supported: * CREATE_IF_NEEDED: If the table does not exist, BigQuery creates the table. * CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result. The default value is CREATE_IF_NEEDED. Creation, truncation and append actions occur as one atomic update upon job completion. */
-  createDisposition?: string | undefined;
-  /** Optional. [Experimental] Configures the load job to copy files directly to the destination BigLake managed table, bypassing file content reading and rewriting. Copying files only is supported when all the following are true: * `source_uris` are located in the same Cloud Storage location as the destination table's `storage_uri` location. * `source_format` is `PARQUET`. * `destination_table` is an existing BigLake managed table. The table's schema does not have flexible column names. The table's columns do not have type parameters other than precision and scale. * No options other than the above are specified. */
-  copyFilesOnly?: boolean | undefined;
-  /** Optional. Specifies the action that occurs if the destination table already exists. The following values are supported: * WRITE_TRUNCATE: If the table already exists, BigQuery overwrites the data, removes the constraints and uses the schema from the load job. * WRITE_TRUNCATE_DATA: If the table already exists, BigQuery overwrites the data, but keeps the constraints and schema of the existing table. * WRITE_APPEND: If the table already exists, BigQuery appends the data to the table. * WRITE_EMPTY: If the table already exists and contains data, a 'duplicate' error is returned in the job result. The default value is WRITE_APPEND. Each action is atomic and only occurs if BigQuery is able to complete the job successfully. Creation, truncation and append actions occur as one atomic update upon job completion. */
-  writeDisposition?: string | undefined;
+  /** Optional. When set, configures hive partitioning support. Not all storage formats support hive partitioning -- requesting hive partitioning on an unsupported format will lead to an error, as will providing an invalid specification. */
+  hivePartitioningOptions?: HivePartitioningOptions | undefined;
+  /** Optional. Date format used for parsing TIME values. */
+  timeFormat?: string | undefined;
   /** Optional. Indicates if BigQuery should allow extra values that are not represented in the table schema. If true, the extra values are ignored. If false, records with extra columns are treated as bad records, and if there are too many bad records, an invalid error is returned in the job result. The default value is false. The sourceFormat property determines what BigQuery treats as an extra value: CSV: Trailing columns JSON: Named values that don't match any column names in the table schema Avro, Parquet, ORC: Fields in the file schema that don't exist in the table schema. */
   ignoreUnknownValues?: boolean | undefined;
-  /** [Required] The fully-qualified URIs that point to your data in Google Cloud. For Google Cloud Storage URIs: Each URI can contain one '*' wildcard character and it must come after the 'bucket' name. Size limits related to load jobs apply to external data sources. For Google Cloud Bigtable URIs: Exactly one URI can be specified and it has be a fully specified and valid HTTPS URL for a Google Cloud Bigtable table. For Google Cloud Datastore backups: Exactly one URI can be specified. Also, the '*' wildcard character is not allowed. */
-  sourceUris?: StringList | undefined;
+  /** Time-based partitioning specification for the destination table. Only one of timePartitioning and rangePartitioning should be specified. */
+  timePartitioning?: TimePartitioning | undefined;
+  /** Optional. Specifies how source URIs are interpreted for constructing the file set to load. By default, source URIs are expanded against the underlying storage. You can also specify manifest files to control how the file set is constructed. This option is only applicable to object storage systems. */
+  fileSetSpecType?: JobConfigurationLoadFileSetSpecTypeEnum | (string & {}) | undefined;
   /** Range partitioning specification for the destination table. Only one of timePartitioning and rangePartitioning should be specified. */
   rangePartitioning?: RangePartitioning | undefined;
-  /** Optional. Indicates if we should automatically infer the options and schema for CSV and JSON sources. */
-  autodetect?: boolean | undefined;
-  /** Optional. Specifies a string that represents a null value in a CSV file. For example, if you specify "\N", BigQuery interprets "\N" as a null value when loading a CSV file. The default value is the empty string. If you set this property to a custom value, BigQuery throws an error if an empty string is present for all data types except for STRING and BYTE. For STRING and BYTE columns, BigQuery interprets the empty string as an empty value. */
-  nullMarker?: string | undefined;
-  /** Defines the list of possible SQL data types to which the source decimal values are converted. This list and the precision and the scale parameters of the decimal field determine the target type. In the order of NUMERIC, BIGNUMERIC, and STRING, a type is picked if it is in the specified list and if it supports the precision and the scale. STRING supports all precision and scale values. If none of the listed types supports the precision and the scale, the type supporting the widest range in the specified list is picked, and if a value exceeds the supported range when reading the data, an error will be thrown. Example: Suppose the value of this field is ["NUMERIC", "BIGNUMERIC"]. If (precision,scale) is: * (38,9) -> NUMERIC; * (39,9) -> BIGNUMERIC (NUMERIC cannot hold 30 integer digits); * (38,10) -> BIGNUMERIC (NUMERIC cannot hold 10 fractional digits); * (76,38) -> BIGNUMERIC; * (77,38) -> BIGNUMERIC (error if value exceeds supported range). This field cannot contain duplicate types. The order of the types in this field is ignored. For example, ["BIGNUMERIC", "NUMERIC"] is the same as ["NUMERIC", "BIGNUMERIC"] and NUMERIC always takes precedence over BIGNUMERIC. Defaults to ["NUMERIC", "STRING"] for ORC and ["NUMERIC"] for the other file formats. */
-  decimalTargetTypes?: JobConfigurationLoadDecimalTargetTypesItemEnumList | undefined;
-  /** Optional. The value that is used to quote data sections in a CSV file. BigQuery converts the string to ISO-8859-1 encoding, and then uses the first byte of the encoded string to split the data in its raw, binary state. The default value is a double-quote ('"'). If your data does not contain quoted sections, set the property value to an empty string. If your data contains quoted newline characters, you must also set the allowQuotedNewlines property to true. To include the specific quote character within a quoted value, precede it with an additional matching quote character. For example, if you want to escape the default character ' " ', use ' "" '. @default " */
-  quote?: string | undefined;
+  /** Optional. The format of the data files. For CSV files, specify "CSV". For datastore backups, specify "DATASTORE_BACKUP". For newline-delimited JSON, specify "NEWLINE_DELIMITED_JSON". For Avro, specify "AVRO". For parquet, specify "PARQUET". For orc, specify "ORC". The default value is CSV. */
+  sourceFormat?: string | undefined;
+  /** Optional. The number of rows at the top of a CSV file that BigQuery will skip when loading the data. The default value is 0. This property is useful if you have header rows in the file that should be skipped. When autodetect is on, the behavior is the following: * skipLeadingRows unspecified - Autodetect tries to detect headers in the first row. If they are not detected, the row is read as data. Otherwise data is read starting from the second row. * skipLeadingRows is 0 - Instructs autodetect that there are no headers and data should be read starting from the first row. * skipLeadingRows = N > 0 - Autodetect skips N-1 rows and tries to detect headers in row N. If headers are not detected, row N is just skipped. Otherwise row N is used to extract column names for the detected schema. */
+  skipLeadingRows?: number | undefined;
+  /** Optional. Controls the strategy used to match loaded columns to the schema. If not set, a sensible default is chosen based on how the schema is provided. If autodetect is used, then columns are matched by name. Otherwise, columns are matched by position. This is done to keep the behavior backward-compatible. */
+  sourceColumnMatch?: JobConfigurationLoadSourceColumnMatchEnum | (string & {}) | undefined;
+  /** Optional. Date format used for parsing TIMESTAMP values. */
+  timestampFormat?: string | undefined;
+  /** Optional. The user can provide a reference file with the reader schema. This file is only loaded if it is part of source URIs, but is not loaded otherwise. It is enabled for the following formats: AVRO, PARQUET, ORC. */
+  referenceFileSchemaUri?: string | undefined;
+  /** Optional. [Experimental] Properties with which to create the destination table if it is new. */
+  destinationTableProperties?: DestinationTableProperties | undefined;
+  /** Optional. Date format used for parsing DATETIME values. */
+  datetimeFormat?: string | undefined;
+  /** Optional. Default time zone that will apply when parsing timestamp values that have no specific time zone. */
+  timeZone?: string | undefined;
   /** Precisions (maximum number of total digits in base 10) for seconds of TIMESTAMP types that are allowed to the destination table for autodetection mode. Available for the formats: CSV, PARQUET, AVRO, and Iceberg External Table. Possible values include: Not Specified, [], or [6]: timestamp(6) for all auto detected TIMESTAMP columns [6, 12]: timestamp(6) for all auto detected TIMESTAMP columns that have less than 6 digits of subseconds. timestamp(12) for all auto detected TIMESTAMP columns that have more than 6 digits of subseconds. [12]: timestamp(12) for all auto detected TIMESTAMP columns. The order of the elements in this array is ignored. Inputs that have higher precision than the highest target precision in this array will be truncated. */
   timestampTargetPrecision?: IntegerList | undefined;
+  /** Optional. A list of strings represented as SQL NULL value in a CSV file. null_marker and null_markers can't be set at the same time. If null_marker is set, null_markers has to be not set. If null_markers is set, null_marker has to be not set. If both null_marker and null_markers are set at the same time, a user error would be thrown. Any strings listed in null_markers, including empty string would be interpreted as SQL NULL. This applies to all column types. */
+  nullMarkers?: StringList | undefined;
+  /** Optional. Load option to be used together with source_format newline-delimited JSON to indicate that a variant of JSON is being loaded. To load newline-delimited GeoJSON, specify GEOJSON (and source_format must be set to NEWLINE_DELIMITED_JSON). */
+  jsonExtension?: JobConfigurationLoadJsonExtensionEnum | (string & {}) | undefined;
+  /** Optional. [Experimental] Configures the load job to copy files directly to the destination BigLake managed table, bypassing file content reading and rewriting. Copying files only is supported when all the following are true: * `source_uris` are located in the same Cloud Storage location as the destination table's `storage_uri` location. * `source_format` is `PARQUET`. * `destination_table` is an existing BigLake managed table. The table's schema does not have flexible column names. The table's columns do not have type parameters other than precision and scale. * No options other than the above are specified. */
+  copyFilesOnly?: boolean | undefined;
+  /** [Deprecated] The inline schema. For CSV schemas, specify as "Field1:Type1[,Field2:Type2]*". For example, "foo:STRING, bar:INTEGER, baz:FLOAT". */
+  schemaInline?: string | undefined;
+  /** [Required] The destination table to load the data into. */
+  destinationTable?: TableReference | undefined;
+  /** Optional. Indicates if we should automatically infer the options and schema for CSV and JSON sources. */
+  autodetect?: boolean | undefined;
+  /** Optional. Connection properties which can modify the load job behavior. Currently, only the 'session_id' connection property is supported, and is used to resolve _SESSION appearing as the dataset id. */
+  connectionProperties?: ConnectionPropertyList | undefined;
+  /** Optional. Date format used for parsing DATE values. */
+  dateFormat?: string | undefined;
+  /** Optional. Specifies a string that represents a null value in a CSV file. For example, if you specify "\N", BigQuery interprets "\N" as a null value when loading a CSV file. The default value is the empty string. If you set this property to a custom value, BigQuery throws an error if an empty string is present for all data types except for STRING and BYTE. For STRING and BYTE columns, BigQuery interprets the empty string as an empty value. */
+  nullMarker?: string | undefined;
+  /** Optional. Specifies whether the job is allowed to create new tables. The following values are supported: * CREATE_IF_NEEDED: If the table does not exist, BigQuery creates the table. * CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result. The default value is CREATE_IF_NEEDED. Creation, truncation and append actions occur as one atomic update upon job completion. */
+  createDisposition?: string | undefined;
+  /** Optional. The schema for the destination table. The schema can be omitted if the destination table already exists, or if you're loading data from Google Cloud Datastore. */
+  schema?: TableSchema | undefined;
+  /** Optional. The maximum number of bad records that BigQuery can ignore when running the job. If the number of bad records exceeds this value, an invalid error is returned in the job result. The default value is 0, which requires that all records are valid. This is only supported for CSV and NEWLINE_DELIMITED_JSON file formats. */
+  maxBadRecords?: number | undefined;
+  /** Allows the schema of the destination table to be updated as a side effect of the load job if a schema is autodetected or supplied in the job configuration. Schema update options are supported in three cases: when writeDisposition is WRITE_APPEND; when writeDisposition is WRITE_TRUNCATE_DATA; when writeDisposition is WRITE_TRUNCATE and the destination table is a partition of a table, specified by partition decorators. For normal tables, WRITE_TRUNCATE will always overwrite the schema. One or more of the following values are specified: * ALLOW_FIELD_ADDITION: allow adding a nullable field to the schema. * ALLOW_FIELD_RELAXATION: allow relaxing a required field in the original schema to nullable. */
+  schemaUpdateOptions?: StringList | undefined;
+  /** [Deprecated] The format of the schemaInline property. */
+  schemaInlineFormat?: string | undefined;
+  /** [Required] The fully-qualified URIs that point to your data in Google Cloud. For Google Cloud Storage URIs: Each URI can contain one '*' wildcard character and it must come after the 'bucket' name. Size limits related to load jobs apply to external data sources. For Google Cloud Bigtable URIs: Exactly one URI can be specified and it has be a fully specified and valid HTTPS URL for a Google Cloud Bigtable table. For Google Cloud Datastore backups: Exactly one URI can be specified. Also, the '*' wildcard character is not allowed. */
+  sourceUris?: StringList | undefined;
+  /** If sourceFormat is set to "DATASTORE_BACKUP", indicates which entity properties to load into BigQuery from a Cloud Datastore backup. Property names are case sensitive and must be top-level properties. If no properties are specified, BigQuery loads all properties. If any named property isn't found in the Cloud Datastore backup, an invalid error is returned in the job result. */
+  projectionFields?: StringList | undefined;
+  /** Optional. The character encoding of the data. The supported values are UTF-8, ISO-8859-1, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8. BigQuery decodes the data after the raw, binary data has been split using the values of the `quote` and `fieldDelimiter` properties. If you don't specify an encoding, or if you specify a UTF-8 encoding when the CSV file is not UTF-8 encoded, BigQuery attempts to convert the data to UTF-8. Generally, your data loads successfully, but it may not match byte-for-byte what you expect. To avoid this, specify the correct encoding by using the `--encoding` flag. If BigQuery can't convert a character other than the ASCII `0` character, BigQuery converts the character to the standard Unicode replacement character: U+FFFD. */
+  encoding?: string | undefined;
+  /** Optional. When sourceFormat is set to "CSV", this indicates whether the embedded ASCII control characters (the first 32 characters in the ASCII-table, from '\x00' to '\x1F') are preserved. */
+  preserveAsciiControlCharacters?: boolean | undefined;
 }
-/** A field or a column. */
-export interface StandardSqlField {
-  /** Optional. The name of this field. Can be absent for struct fields. */
-  name?: string | undefined;
-  /** Optional. The type of this parameter. Absent if not explicitly specified (e.g., CREATE FUNCTION statement can omit the return type; in this case the output parameter does not have this "type" field). */
-  type?: StandardSqlDataType | undefined;
+/** Options related to model extraction. */
+export interface ModelExtractOptions {
+  /** The 1-based ID of the trial to be exported from a hyperparameter tuning model. If not specified, the trial with id = [Model](https://cloud.google.com/bigquery/docs/reference/rest/v2/models#resource:-model).defaultTrialId is exported. This field is ignored for models not trained with hyperparameter tuning. */
+  trialId?: string | undefined;
 }
-export type StandardSqlFieldList = Array<StandardSqlField>;
-/** The representation of a SQL STRUCT type. */
-export interface StandardSqlStructType {
-  /** Fields within the struct. */
-  fields?: StandardSqlFieldList | undefined;
+export type DocumentMap = { [key: string]: unknown | undefined };
+/** A set of key-value pairs representing the secure context. */
+export interface SecureContext {
+  /** Optional. A set of key-value pairs representing the secure parameter values. They can be retrieved via the SECURE_CONTEXT() function and used to modify the run-time behavior of a query. */
+  secureParameterEntries?: DocumentMap | undefined;
 }
+/** Id path of a model. */
+export interface ModelReference {
+  /** Required. The ID of the dataset containing this model. */
+  datasetId?: string | undefined;
+  /** Required. The ID of the project containing this model. */
+  projectId?: string | undefined;
+  /** Required. The ID of the model. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 1,024 characters. */
+  modelId?: string | undefined;
+}
+/** JobConfigurationExtract configures a job that exports data from a BigQuery table into Google Cloud Storage. */
+export interface JobConfigurationExtract {
+  /** Optional. Applicable to formats: PARQUET. If enabled, BigQuery to Parquet export will write the native Parquet Geography type instead of the default GeoParquet type. */
+  nativeGeographyExportEnabled?: boolean | undefined;
+  /** Optional. The exported file format. Possible values include CSV, NEWLINE_DELIMITED_JSON, PARQUET, or AVRO for tables and ML_TF_SAVED_MODEL or ML_XGBOOST_BOOSTER for models. The default value for tables is CSV. Tables with nested or repeated fields cannot be exported as CSV. The default value for models is ML_TF_SAVED_MODEL. */
+  destinationFormat?: string | undefined;
+  /** Optional. Model extract options only applicable when extracting models. */
+  modelExtractOptions?: ModelExtractOptions | undefined;
+  /** Whether to use logical types when extracting to AVRO format. Not applicable when extracting models. */
+  useAvroLogicalTypes?: boolean | undefined;
+  /** Optional. Whether to print out a header row in the results. Default is true. Not applicable when extracting models. */
+  printHeader?: boolean | undefined;
+  /** [Pick one] A list of fully-qualified Google Cloud Storage URIs where the extracted table should be written. */
+  destinationUris?: StringList | undefined;
+  /** Optional. The compression type to use for exported files. Possible values include DEFLATE, GZIP, NONE, SNAPPY, and ZSTD. The default value is NONE. Not all compression formats are support for all file formats. DEFLATE is only supported for Avro. ZSTD is only supported for Parquet. Not applicable when extracting models. */
+  compression?: string | undefined;
+  /** A reference to the table being exported. */
+  sourceTable?: TableReference | undefined;
+  /** Optional. When extracting data in CSV format, this defines the delimiter to use between fields in the exported data. Default is ','. Not applicable when extracting models. */
+  fieldDelimiter?: string | undefined;
+  /** Optional. A set of key-value pairs representing the secure context. This can be used to pass sensitive or context-specific information. They can be retrieved via the SECURE_CONTEXT() function and used to modify the run-time behavior of an extract job on tables with row access policies. */
+  secureContext?: SecureContext | undefined;
+  /** A reference to the model being exported. */
+  sourceModel?: ModelReference | undefined;
+  /** [Pick one] DEPRECATED: Use destinationUris instead, passing only one URI as necessary. The fully-qualified Google Cloud Storage URI where the extracted table should be written. */
+  destinationUri?: string | undefined;
+}
+/** This is used for defining User Defined Function (UDF) resources only when using legacy SQL. Users of GoogleSQL should leverage either DDL (e.g. CREATE [TEMPORARY] FUNCTION ... ) or the Routines API to define UDF resources. For additional information on migrating, see: https://cloud.google.com/bigquery/docs/reference/standard-sql/migrating-from-legacy-sql#differences_in_user-defined_javascript_functions */
+export interface UserDefinedFunctionResource {
+  /** [Pick one] A code resource to load from a Google Cloud Storage URI (gs://bucket/path). */
+  resourceUri?: string | undefined;
+  /** [Pick one] An inline resource that contains code for a user-defined function (UDF). Providing a inline code resource is equivalent to providing a URI for a file containing the same code. */
+  inlineCode?: string | undefined;
+}
+export type UserDefinedFunctionResourceList = Array<UserDefinedFunctionResource>;
 export type StandardSqlDataTypeTypeKindEnum =
   | "TYPE_KIND_UNSPECIFIED"
   | "INT64"
@@ -497,16 +538,29 @@ export type StandardSqlDataTypeTypeKindEnum =
   | "STRUCT"
   | "RANGE"
   | "UUID";
+/** A field or a column. */
+export interface StandardSqlField {
+  /** Optional. The name of this field. Can be absent for struct fields. */
+  name?: string | undefined;
+  /** Optional. The type of this parameter. Absent if not explicitly specified (e.g., CREATE FUNCTION statement can omit the return type; in this case the output parameter does not have this "type" field). */
+  type?: StandardSqlDataType | undefined;
+}
+export type StandardSqlFieldList = Array<StandardSqlField>;
+/** The representation of a SQL STRUCT type. */
+export interface StandardSqlStructType {
+  /** Fields within the struct. */
+  fields?: StandardSqlFieldList | undefined;
+}
 /** The data type of a variable such as a function argument. Examples include: * INT64: `{"typeKind": "INT64"}` * ARRAY: { "typeKind": "ARRAY", "arrayElementType": {"typeKind": "STRING"} } * STRUCT>: { "typeKind": "STRUCT", "structType": { "fields": [ { "name": "x", "type": {"typeKind": "STRING"} }, { "name": "y", "type": { "typeKind": "ARRAY", "arrayElementType": {"typeKind": "DATE"} } } ] } } * RANGE: { "typeKind": "RANGE", "rangeElementType": {"typeKind": "DATE"} } */
 export interface StandardSqlDataType {
-  /** The type of the range's elements, if type_kind = "RANGE". */
-  rangeElementType?: StandardSqlDataType | undefined;
-  /** The fields of this struct, in order, if type_kind = "STRUCT". */
-  structType?: StandardSqlStructType | undefined;
   /** The type of the array's elements, if type_kind = "ARRAY". */
   arrayElementType?: StandardSqlDataType | undefined;
+  /** The type of the range's elements, if type_kind = "RANGE". */
+  rangeElementType?: StandardSqlDataType | undefined;
   /** Required. The top level type of this field. Can be any GoogleSQL data type (e.g., "INT64", "DATE", "ARRAY"). */
   typeKind?: StandardSqlDataTypeTypeKindEnum | (string & {}) | undefined;
+  /** The fields of this struct, in order, if type_kind = "STRUCT". */
+  structType?: StandardSqlStructType | undefined;
 }
 export type StandardSqlDataTypeMap = { [key: string]: StandardSqlDataType | undefined };
 /** System variables given to a query. */
@@ -516,6 +570,182 @@ export interface SystemVariables {
   /** Output only. Value for each system variable. */
   values?: DocumentMap | undefined;
 }
+/** Identifier for a dataset. */
+export interface DatasetReference {
+  /** Required. A unique ID for this dataset, without the project name. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 1,024 characters. */
+  datasetId?: string | undefined;
+  /** Optional. The ID of the project containing this dataset. */
+  projectId?: string | undefined;
+}
+export type ExternalDataConfigurationDecimalTargetTypesItemEnum =
+  | "DECIMAL_TARGET_TYPE_UNSPECIFIED"
+  | "NUMERIC"
+  | "BIGNUMERIC"
+  | "STRING";
+export type ExternalDataConfigurationDecimalTargetTypesItemEnumList = Array<
+  ExternalDataConfigurationDecimalTargetTypesItemEnum | (string & {})
+>;
+/** Json Options for load and make external tables. */
+export interface JsonOptions {
+  /** Optional. The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8. */
+  encoding?: string | undefined;
+}
+/** Information related to a Bigtable protobuf column. */
+export interface BigtableProtoConfig {
+  /** Optional. The ID of the Bigtable SchemaBundle resource associated with this protobuf. The ID should be referred to within the parent table, e.g., `foo` rather than `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/foo`. See [more details on Bigtable SchemaBundles](https://docs.cloud.google.com/bigtable/docs/create-manage-protobuf-schemas). */
+  schemaBundleId?: string | undefined;
+  /** Optional. The fully qualified proto message name of the protobuf. In the format of "foo.bar.Message". */
+  protoMessageName?: string | undefined;
+}
+/** Information related to a Bigtable column. */
+export interface BigtableColumn {
+  /** Optional. If this is set, only the latest version of value in this column are exposed. 'onlyReadLatest' can also be set at the column family level. However, the setting at this level takes precedence if 'onlyReadLatest' is set at both levels. */
+  onlyReadLatest?: boolean | undefined;
+  /** [Required] Qualifier of the column. Columns in the parent column family that has this exact qualifier are exposed as `.` field. If the qualifier is valid UTF-8 string, it can be specified in the qualifier_string field. Otherwise, a base-64 encoded value must be set to qualifier_encoded. The column field name is the same as the column qualifier. However, if the qualifier is not a valid BigQuery field identifier i.e. does not match a-zA-Z*, a valid identifier must be provided as field_name. */
+  qualifierEncoded?: string | undefined;
+  /** Optional. The encoding of the values when the type is not STRING. Acceptable encoding values are: TEXT - indicates values are alphanumeric text strings. BINARY - indicates values are encoded using HBase Bytes.toBytes family of functions. PROTO_BINARY - indicates values are encoded using serialized proto messages. This can only be used in combination with JSON type. 'encoding' can also be set at the column family level. However, the setting at this level takes precedence if 'encoding' is set at both levels. */
+  encoding?: string | undefined;
+  /** Optional. The type to convert the value in cells of this column. The values are expected to be encoded using HBase Bytes.toBytes function when using the BINARY encoding value. Following BigQuery types are allowed (case-sensitive): * BYTES * STRING * INTEGER * FLOAT * BOOLEAN * JSON Default type is BYTES. 'type' can also be set at the column family level. However, the setting at this level takes precedence if 'type' is set at both levels. */
+  type?: string | undefined;
+  /** Optional. Protobuf-specific configurations, only takes effect when the encoding is PROTO_BINARY. */
+  protoConfig?: BigtableProtoConfig | undefined;
+  /** Optional. If the qualifier is not a valid BigQuery field identifier i.e. does not match a-zA-Z*, a valid identifier must be provided as the column field name and is used as field name in queries. */
+  fieldName?: string | undefined;
+  /** Qualifier string. */
+  qualifierString?: string | undefined;
+}
+export type BigtableColumnList = Array<BigtableColumn>;
+/** Information related to a Bigtable column family. */
+export interface BigtableColumnFamily {
+  /** Optional. Protobuf-specific configurations, only takes effect when the encoding is PROTO_BINARY. */
+  protoConfig?: BigtableProtoConfig | undefined;
+  /** Identifier of the column family. */
+  familyId?: string | undefined;
+  /** Optional. The type to convert the value in cells of this column family. The values are expected to be encoded using HBase Bytes.toBytes function when using the BINARY encoding value. Following BigQuery types are allowed (case-sensitive): * BYTES * STRING * INTEGER * FLOAT * BOOLEAN * JSON Default type is BYTES. This can be overridden for a specific column by listing that column in 'columns' and specifying a type for it. */
+  type?: string | undefined;
+  /** Optional. If this is set only the latest version of value are exposed for all columns in this column family. This can be overridden for a specific column by listing that column in 'columns' and specifying a different setting for that column. */
+  onlyReadLatest?: boolean | undefined;
+  /** Optional. The encoding of the values when the type is not STRING. Acceptable encoding values are: TEXT - indicates values are alphanumeric text strings. BINARY - indicates values are encoded using HBase Bytes.toBytes family of functions. PROTO_BINARY - indicates values are encoded using serialized proto messages. This can only be used in combination with JSON type. This can be overridden for a specific column by listing that column in 'columns' and specifying an encoding for it. */
+  encoding?: string | undefined;
+  /** Optional. Lists of columns that should be exposed as individual fields as opposed to a list of (column name, value) pairs. All columns whose qualifier matches a qualifier in this list can be accessed as `.`. Other columns can be accessed as a list through the `.Column` field. */
+  columns?: BigtableColumnList | undefined;
+}
+export type BigtableColumnFamilyList = Array<BigtableColumnFamily>;
+/** Options specific to Google Cloud Bigtable data sources. */
+export interface BigtableOptions {
+  /** Optional. If field is true, then the column families that are not specified in columnFamilies list are not exposed in the table schema. Otherwise, they are read with BYTES type values. The default value is false. */
+  ignoreUnspecifiedColumnFamilies?: boolean | undefined;
+  /** Optional. If field is true, then each column family will be read as a single JSON column. Otherwise they are read as a repeated cell structure containing timestamp/value tuples. The default value is false. */
+  outputColumnFamiliesAsJson?: boolean | undefined;
+  /** Optional. List of column families to expose in the table schema along with their types. This list restricts the column families that can be referenced in queries and specifies their value types. You can use this list to do type conversions - see the 'type' field for more details. If you leave this list empty, all column families are present in the table schema and their values are read as BYTES. During a query only the column families referenced in that query are read from Bigtable. */
+  columnFamilies?: BigtableColumnFamilyList | undefined;
+  /** Optional. If field is true, then the rowkey column families will be read and converted to string. Otherwise they are read with BYTES type values and users need to manually cast them with CAST if necessary. The default value is false. */
+  readRowkeyAsString?: boolean | undefined;
+}
+export type ExternalDataConfigurationJsonExtensionEnum = "JSON_EXTENSION_UNSPECIFIED" | "GEOJSON";
+export type ExternalDataConfigurationMetadataCacheModeEnum =
+  | "METADATA_CACHE_MODE_UNSPECIFIED"
+  | "AUTOMATIC"
+  | "MANUAL";
+/** Information related to a CSV data source. */
+export interface CsvOptions {
+  /** Optional. Indicates if BigQuery should allow quoted data sections that contain newline characters in a CSV file. The default value is false. */
+  allowQuotedNewlines?: boolean | undefined;
+  /** Optional. Indicates if the embedded ASCII control characters (the first 32 characters in the ASCII-table, from '\x00' to '\x1F') are preserved. */
+  preserveAsciiControlCharacters?: boolean | undefined;
+  /** Optional. The character encoding of the data. The supported values are UTF-8, ISO-8859-1, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8. BigQuery decodes the data after the raw, binary data has been split using the values of the quote and fieldDelimiter properties. */
+  encoding?: string | undefined;
+  /** Optional. A list of strings represented as SQL NULL value in a CSV file. null_marker and null_markers can't be set at the same time. If null_marker is set, null_markers has to be not set. If null_markers is set, null_marker has to be not set. If both null_marker and null_markers are set at the same time, a user error would be thrown. Any strings listed in null_markers, including empty string would be interpreted as SQL NULL. This applies to all column types. */
+  nullMarkers?: StringList | undefined;
+  /** Optional. Specifies a string that represents a null value in a CSV file. For example, if you specify "\N", BigQuery interprets "\N" as a null value when querying a CSV file. The default value is the empty string. If you set this property to a custom value, BigQuery throws an error if an empty string is present for all data types except for STRING and BYTE. For STRING and BYTE columns, BigQuery interprets the empty string as an empty value. */
+  nullMarker?: string | undefined;
+  /** Optional. The separator character for fields in a CSV file. The separator is interpreted as a single byte. For files encoded in ISO-8859-1, any single character can be used as a separator. For files encoded in UTF-8, characters represented in decimal range 1-127 (U+0001-U+007F) can be used without any modification. UTF-8 characters encoded with multiple bytes (i.e. U+0080 and above) will have only the first byte used for separating fields. The remaining bytes will be treated as a part of the field. BigQuery also supports the escape sequence "\t" (U+0009) to specify a tab separator. The default value is comma (",", U+002C). */
+  fieldDelimiter?: string | undefined;
+  /** Optional. Indicates if BigQuery should accept rows that are missing trailing optional columns. If true, BigQuery treats missing trailing columns as null values. If false, records with missing trailing columns are treated as bad records, and if there are too many bad records, an invalid error is returned in the job result. The default value is false. */
+  allowJaggedRows?: boolean | undefined;
+  /** Optional. The value that is used to quote data sections in a CSV file. BigQuery converts the string to ISO-8859-1 encoding, and then uses the first byte of the encoded string to split the data in its raw, binary state. The default value is a double-quote ("). If your data does not contain quoted sections, set the property value to an empty string. If your data contains quoted newline characters, you must also set the allowQuotedNewlines property to true. To include the specific quote character within a quoted value, precede it with an additional matching quote character. For example, if you want to escape the default character ' " ', use ' "" '. */
+  quote?: string | undefined;
+  /** Optional. Controls the strategy used to match loaded columns to the schema. If not set, a sensible default is chosen based on how the schema is provided. If autodetect is used, then columns are matched by name. Otherwise, columns are matched by position. This is done to keep the behavior backward-compatible. Acceptable values are: POSITION - matches by position. This assumes that the columns are ordered the same way as the schema. NAME - matches by name. This reads the header row as column names and reorders columns to match the field names in the schema. */
+  sourceColumnMatch?: string | undefined;
+  /** Optional. The number of rows at the top of a CSV file that BigQuery will skip when reading the data. The default value is 0. This property is useful if you have header rows in the file that should be skipped. When autodetect is on, the behavior is the following: * skipLeadingRows unspecified - Autodetect tries to detect headers in the first row. If they are not detected, the row is read as data. Otherwise data is read starting from the second row. * skipLeadingRows is 0 - Instructs autodetect that there are no headers and data should be read starting from the first row. * skipLeadingRows = N > 0 - Autodetect skips N-1 rows and tries to detect headers in row N. If headers are not detected, row N is just skipped. Otherwise row N is used to extract column names for the detected schema. */
+  skipLeadingRows?: string | undefined;
+}
+export type ExternalDataConfigurationFileSetSpecTypeEnum =
+  | "FILE_SET_SPEC_TYPE_FILE_SYSTEM_MATCH"
+  | "FILE_SET_SPEC_TYPE_NEW_LINE_DELIMITED_MANIFEST";
+/** Options for external data sources. */
+export interface AvroOptions {
+  /** Optional. If sourceFormat is set to "AVRO", indicates whether to interpret logical types as the corresponding BigQuery data type (for example, TIMESTAMP), instead of using the raw type (for example, INTEGER). */
+  useAvroLogicalTypes?: boolean | undefined;
+}
+/** Options specific to Google Sheets data sources. */
+export interface GoogleSheetsOptions {
+  /** Optional. The number of rows at the top of a sheet that BigQuery will skip when reading the data. The default value is 0. This property is useful if you have header rows that should be skipped. When autodetect is on, the behavior is the following: * skipLeadingRows unspecified - Autodetect tries to detect headers in the first row. If they are not detected, the row is read as data. Otherwise data is read starting from the second row. * skipLeadingRows is 0 - Instructs autodetect that there are no headers and data should be read starting from the first row. * skipLeadingRows = N > 0 - Autodetect skips N-1 rows and tries to detect headers in row N. If headers are not detected, row N is just skipped. Otherwise row N is used to extract column names for the detected schema. */
+  skipLeadingRows?: string | undefined;
+  /** Optional. Range of a sheet to query from. Only used when non-empty. Typical format: sheet_name!top_left_cell_id:bottom_right_cell_id For example: sheet1!A1:B20 */
+  range?: string | undefined;
+}
+export type ExternalDataConfigurationObjectMetadataEnum =
+  | "OBJECT_METADATA_UNSPECIFIED"
+  | "DIRECTORY"
+  | "SIMPLE";
+export interface ExternalDataConfiguration {
+  /** Defines the list of possible SQL data types to which the source decimal values are converted. This list and the precision and the scale parameters of the decimal field determine the target type. In the order of NUMERIC, BIGNUMERIC, and STRING, a type is picked if it is in the specified list and if it supports the precision and the scale. STRING supports all precision and scale values. If none of the listed types supports the precision and the scale, the type supporting the widest range in the specified list is picked, and if a value exceeds the supported range when reading the data, an error will be thrown. Example: Suppose the value of this field is ["NUMERIC", "BIGNUMERIC"]. If (precision,scale) is: * (38,9) -> NUMERIC; * (39,9) -> BIGNUMERIC (NUMERIC cannot hold 30 integer digits); * (38,10) -> BIGNUMERIC (NUMERIC cannot hold 10 fractional digits); * (76,38) -> BIGNUMERIC; * (77,38) -> BIGNUMERIC (error if value exceeds supported range). This field cannot contain duplicate types. The order of the types in this field is ignored. For example, ["BIGNUMERIC", "NUMERIC"] is the same as ["NUMERIC", "BIGNUMERIC"] and NUMERIC always takes precedence over BIGNUMERIC. Defaults to ["NUMERIC", "STRING"] for ORC and ["NUMERIC"] for the other file formats. */
+  decimalTargetTypes?: ExternalDataConfigurationDecimalTargetTypesItemEnumList | undefined;
+  /** Optional. Additional properties to set if sourceFormat is set to JSON. */
+  jsonOptions?: JsonOptions | undefined;
+  /** Optional. When set, configures hive partitioning support. Not all storage formats support hive partitioning -- requesting hive partitioning on an unsupported format will lead to an error, as will providing an invalid specification. */
+  hivePartitioningOptions?: HivePartitioningOptions | undefined;
+  /** Optional. Additional options if sourceFormat is set to BIGTABLE. */
+  bigtableOptions?: BigtableOptions | undefined;
+  /** [Required] The fully-qualified URIs that point to your data in Google Cloud. For Google Cloud Storage URIs: Each URI can contain one '*' wildcard character and it must come after the 'bucket' name. Size limits related to load jobs apply to external data sources. For Google Cloud Bigtable URIs: Exactly one URI can be specified and it has be a fully specified and valid HTTPS URL for a Google Cloud Bigtable table. For Google Cloud Datastore backups, exactly one URI can be specified. Also, the '*' wildcard character is not allowed. */
+  sourceUris?: StringList | undefined;
+  /** Optional. When creating an external table, the user can provide a reference file with the table schema. This is enabled for the following formats: AVRO, PARQUET, ORC. */
+  referenceFileSchemaUri?: string | undefined;
+  /** Optional. Format used to parse DATE values. Supports C-style and SQL-style values. */
+  dateFormat?: string | undefined;
+  /** Optional. The schema for the data. Schema is required for CSV and JSON formats if autodetect is not on. Schema is disallowed for Google Cloud Bigtable, Cloud Datastore backups, Avro, ORC and Parquet formats. */
+  schema?: TableSchema | undefined;
+  /** Optional. Load option to be used together with source_format newline-delimited JSON to indicate that a variant of JSON is being loaded. To load newline-delimited GeoJSON, specify GEOJSON (and source_format must be set to NEWLINE_DELIMITED_JSON). */
+  jsonExtension?: ExternalDataConfigurationJsonExtensionEnum | (string & {}) | undefined;
+  /** Precisions (maximum number of total digits in base 10) for seconds of TIMESTAMP types that are allowed to the destination table for autodetection mode. Available for the formats: CSV, PARQUET, AVRO, and Iceberg External Table. Possible values include: Not Specified, [], or [6]: timestamp(6) for all auto detected TIMESTAMP columns [6, 12]: timestamp(6) for all auto detected TIMESTAMP columns that have less than 6 digits of subseconds. timestamp(12) for all auto detected TIMESTAMP columns that have more than 6 digits of subseconds. [12]: timestamp(12) for all auto detected TIMESTAMP columns. The order of the elements in this array is ignored. Inputs that have higher precision than the highest target precision in this array will be truncated. */
+  timestampTargetPrecision?: IntegerList | undefined;
+  /** Optional. The compression type of the data source. Possible values include GZIP and NONE. The default value is NONE. This setting is ignored for Google Cloud Bigtable, Google Cloud Datastore backups, Avro, ORC and Parquet formats. An empty string is an invalid value. */
+  compression?: string | undefined;
+  /** Try to detect schema and format options automatically. Any option specified explicitly will be honored. */
+  autodetect?: boolean | undefined;
+  /** Optional. Format used to parse DATETIME values. Supports C-style and SQL-style values. */
+  datetimeFormat?: string | undefined;
+  /** Optional. The connection specifying the credentials to be used to read external storage, such as Azure Blob, Cloud Storage, or S3. The connection_id can have the form `{project_id}.{location_id};{connection_id}` or `projects/{project_id}/locations/{location_id}/connections/{connection_id}`. */
+  connectionId?: string | undefined;
+  /** [Required] The data format. For CSV files, specify "CSV". For Google sheets, specify "GOOGLE_SHEETS". For newline-delimited JSON, specify "NEWLINE_DELIMITED_JSON". For Avro files, specify "AVRO". For Google Cloud Datastore backups, specify "DATASTORE_BACKUP". For Apache Iceberg tables, specify "ICEBERG". For ORC files, specify "ORC". For Parquet files, specify "PARQUET". [Beta] For Google Cloud Bigtable, specify "BIGTABLE". */
+  sourceFormat?: string | undefined;
+  /** Optional. The maximum number of bad records that BigQuery can ignore when reading data. If the number of bad records exceeds this value, an invalid error is returned in the job result. The default value is 0, which requires that all records are valid. This setting is ignored for Google Cloud Bigtable, Google Cloud Datastore backups, Avro, ORC and Parquet formats. */
+  maxBadRecords?: number | undefined;
+  /** Optional. Metadata Cache Mode for the table. Set this to enable caching of metadata from external data source. */
+  metadataCacheMode?: ExternalDataConfigurationMetadataCacheModeEnum | (string & {}) | undefined;
+  /** Optional. Additional properties to set if sourceFormat is set to CSV. */
+  csvOptions?: CsvOptions | undefined;
+  /** Optional. Specifies how source URIs are interpreted for constructing the file set to load. By default source URIs are expanded against the underlying storage. Other options include specifying manifest files. Only applicable to object storage systems. */
+  fileSetSpecType?: ExternalDataConfigurationFileSetSpecTypeEnum | (string & {}) | undefined;
+  /** Optional. Additional properties to set if sourceFormat is set to AVRO. */
+  avroOptions?: AvroOptions | undefined;
+  /** Optional. Format used to parse TIMESTAMP values. Supports C-style and SQL-style values. */
+  timestampFormat?: string | undefined;
+  /** Optional. Time zone used when parsing timestamp values that do not have specific time zone information (e.g. 2024-04-20 12:34:56). The expected format is a IANA timezone string (e.g. America/Los_Angeles). */
+  timeZone?: string | undefined;
+  /** Optional. Additional options if sourceFormat is set to GOOGLE_SHEETS. */
+  googleSheetsOptions?: GoogleSheetsOptions | undefined;
+  /** Optional. Format used to parse TIME values. Supports C-style and SQL-style values. */
+  timeFormat?: string | undefined;
+  /** Optional. ObjectMetadata is used to create Object Tables. Object Tables contain a listing of objects (with their metadata) found at the source_uris. If ObjectMetadata is set, source_format should be omitted. Currently SIMPLE is the only supported Object Metadata type. */
+  objectMetadata?: ExternalDataConfigurationObjectMetadataEnum | (string & {}) | undefined;
+  /** Optional. Indicates if BigQuery should allow extra values that are not represented in the table schema. If true, the extra values are ignored. If false, records with extra columns are treated as bad records, and if there are too many bad records, an invalid error is returned in the job result. The default value is false. The sourceFormat property determines what BigQuery treats as an extra value: CSV: Trailing columns JSON: Named values that don't match any column names Google Cloud Bigtable: This setting is ignored. Google Cloud Datastore backups: This setting is ignored. Avro: This setting is ignored. ORC: This setting is ignored. Parquet: This setting is ignored. */
+  ignoreUnknownValues?: boolean | undefined;
+  /** Optional. Additional properties to set if sourceFormat is set to PARQUET. */
+  parquetOptions?: ParquetOptions | undefined;
+}
+export type ExternalDataConfigurationMap = { [key: string]: ExternalDataConfiguration | undefined };
 export type ScriptOptionsKeyResultStatementEnum =
   | "KEY_RESULT_STATEMENT_KIND_UNSPECIFIED"
   | "LAST"
@@ -529,576 +759,251 @@ export interface ScriptOptions {
   /** Determines which statement in the script represents the "key result", used to populate the schema and query results of the script job. Default is LAST. */
   keyResultStatement?: ScriptOptionsKeyResultStatementEnum | (string & {}) | undefined;
 }
-/** This is used for defining User Defined Function (UDF) resources only when using legacy SQL. Users of GoogleSQL should leverage either DDL (e.g. CREATE [TEMPORARY] FUNCTION ... ) or the Routines API to define UDF resources. For additional information on migrating, see: https://cloud.google.com/bigquery/docs/reference/standard-sql/migrating-from-legacy-sql#differences_in_user-defined_javascript_functions */
-export interface UserDefinedFunctionResource {
-  /** [Pick one] An inline resource that contains code for a user-defined function (UDF). Providing a inline code resource is equivalent to providing a URI for a file containing the same code. */
-  inlineCode?: string | undefined;
-  /** [Pick one] A code resource to load from a Google Cloud Storage URI (gs://bucket/path). */
-  resourceUri?: string | undefined;
-}
-export type UserDefinedFunctionResourceList = Array<UserDefinedFunctionResource>;
-/** Information related to a CSV data source. */
-export interface CsvOptions {
-  /** Optional. The character encoding of the data. The supported values are UTF-8, ISO-8859-1, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8. BigQuery decodes the data after the raw, binary data has been split using the values of the quote and fieldDelimiter properties. */
-  encoding?: string | undefined;
-  /** Optional. Indicates if BigQuery should accept rows that are missing trailing optional columns. If true, BigQuery treats missing trailing columns as null values. If false, records with missing trailing columns are treated as bad records, and if there are too many bad records, an invalid error is returned in the job result. The default value is false. */
-  allowJaggedRows?: boolean | undefined;
-  /** Optional. A list of strings represented as SQL NULL value in a CSV file. null_marker and null_markers can't be set at the same time. If null_marker is set, null_markers has to be not set. If null_markers is set, null_marker has to be not set. If both null_marker and null_markers are set at the same time, a user error would be thrown. Any strings listed in null_markers, including empty string would be interpreted as SQL NULL. This applies to all column types. */
-  nullMarkers?: StringList | undefined;
-  /** Optional. Controls the strategy used to match loaded columns to the schema. If not set, a sensible default is chosen based on how the schema is provided. If autodetect is used, then columns are matched by name. Otherwise, columns are matched by position. This is done to keep the behavior backward-compatible. Acceptable values are: POSITION - matches by position. This assumes that the columns are ordered the same way as the schema. NAME - matches by name. This reads the header row as column names and reorders columns to match the field names in the schema. */
-  sourceColumnMatch?: string | undefined;
-  /** Optional. The value that is used to quote data sections in a CSV file. BigQuery converts the string to ISO-8859-1 encoding, and then uses the first byte of the encoded string to split the data in its raw, binary state. The default value is a double-quote ("). If your data does not contain quoted sections, set the property value to an empty string. If your data contains quoted newline characters, you must also set the allowQuotedNewlines property to true. To include the specific quote character within a quoted value, precede it with an additional matching quote character. For example, if you want to escape the default character ' " ', use ' "" '. */
-  quote?: string | undefined;
-  /** Optional. Indicates if the embedded ASCII control characters (the first 32 characters in the ASCII-table, from '\x00' to '\x1F') are preserved. */
-  preserveAsciiControlCharacters?: boolean | undefined;
-  /** Optional. Indicates if BigQuery should allow quoted data sections that contain newline characters in a CSV file. The default value is false. */
-  allowQuotedNewlines?: boolean | undefined;
-  /** Optional. Specifies a string that represents a null value in a CSV file. For example, if you specify "\N", BigQuery interprets "\N" as a null value when querying a CSV file. The default value is the empty string. If you set this property to a custom value, BigQuery throws an error if an empty string is present for all data types except for STRING and BYTE. For STRING and BYTE columns, BigQuery interprets the empty string as an empty value. */
-  nullMarker?: string | undefined;
-  /** Optional. The separator character for fields in a CSV file. The separator is interpreted as a single byte. For files encoded in ISO-8859-1, any single character can be used as a separator. For files encoded in UTF-8, characters represented in decimal range 1-127 (U+0001-U+007F) can be used without any modification. UTF-8 characters encoded with multiple bytes (i.e. U+0080 and above) will have only the first byte used for separating fields. The remaining bytes will be treated as a part of the field. BigQuery also supports the escape sequence "\t" (U+0009) to specify a tab separator. The default value is comma (",", U+002C). */
-  fieldDelimiter?: string | undefined;
-  /** Optional. The number of rows at the top of a CSV file that BigQuery will skip when reading the data. The default value is 0. This property is useful if you have header rows in the file that should be skipped. When autodetect is on, the behavior is the following: * skipLeadingRows unspecified - Autodetect tries to detect headers in the first row. If they are not detected, the row is read as data. Otherwise data is read starting from the second row. * skipLeadingRows is 0 - Instructs autodetect that there are no headers and data should be read starting from the first row. * skipLeadingRows = N > 0 - Autodetect skips N-1 rows and tries to detect headers in row N. If headers are not detected, row N is just skipped. Otherwise row N is used to extract column names for the detected schema. */
-  skipLeadingRows?: string | undefined;
-}
-export type ExternalDataConfigurationFileSetSpecTypeEnum =
-  | "FILE_SET_SPEC_TYPE_FILE_SYSTEM_MATCH"
-  | "FILE_SET_SPEC_TYPE_NEW_LINE_DELIMITED_MANIFEST";
-/** Json Options for load and make external tables. */
-export interface JsonOptions {
-  /** Optional. The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8. */
-  encoding?: string | undefined;
-}
-export type ExternalDataConfigurationMetadataCacheModeEnum =
-  | "METADATA_CACHE_MODE_UNSPECIFIED"
-  | "AUTOMATIC"
-  | "MANUAL";
-export type ExternalDataConfigurationJsonExtensionEnum = "JSON_EXTENSION_UNSPECIFIED" | "GEOJSON";
-/** Options for external data sources. */
-export interface AvroOptions {
-  /** Optional. If sourceFormat is set to "AVRO", indicates whether to interpret logical types as the corresponding BigQuery data type (for example, TIMESTAMP), instead of using the raw type (for example, INTEGER). */
-  useAvroLogicalTypes?: boolean | undefined;
-}
-export type ExternalDataConfigurationObjectMetadataEnum =
-  | "OBJECT_METADATA_UNSPECIFIED"
-  | "DIRECTORY"
-  | "SIMPLE";
-/** Information related to a Bigtable protobuf column. */
-export interface BigtableProtoConfig {
-  /** Optional. The ID of the Bigtable SchemaBundle resource associated with this protobuf. The ID should be referred to within the parent table, e.g., `foo` rather than `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/foo`. See [more details on Bigtable SchemaBundles](https://docs.cloud.google.com/bigtable/docs/create-manage-protobuf-schemas). */
-  schemaBundleId?: string | undefined;
-  /** Optional. The fully qualified proto message name of the protobuf. In the format of "foo.bar.Message". */
-  protoMessageName?: string | undefined;
-}
-/** Information related to a Bigtable column. */
-export interface BigtableColumn {
-  /** Optional. If this is set, only the latest version of value in this column are exposed. 'onlyReadLatest' can also be set at the column family level. However, the setting at this level takes precedence if 'onlyReadLatest' is set at both levels. */
-  onlyReadLatest?: boolean | undefined;
-  /** Optional. If the qualifier is not a valid BigQuery field identifier i.e. does not match a-zA-Z*, a valid identifier must be provided as the column field name and is used as field name in queries. */
-  fieldName?: string | undefined;
-  /** Optional. The type to convert the value in cells of this column. The values are expected to be encoded using HBase Bytes.toBytes function when using the BINARY encoding value. Following BigQuery types are allowed (case-sensitive): * BYTES * STRING * INTEGER * FLOAT * BOOLEAN * JSON Default type is BYTES. 'type' can also be set at the column family level. However, the setting at this level takes precedence if 'type' is set at both levels. */
-  type?: string | undefined;
-  /** [Required] Qualifier of the column. Columns in the parent column family that has this exact qualifier are exposed as `.` field. If the qualifier is valid UTF-8 string, it can be specified in the qualifier_string field. Otherwise, a base-64 encoded value must be set to qualifier_encoded. The column field name is the same as the column qualifier. However, if the qualifier is not a valid BigQuery field identifier i.e. does not match a-zA-Z*, a valid identifier must be provided as field_name. */
-  qualifierEncoded?: string | undefined;
-  /** Optional. The encoding of the values when the type is not STRING. Acceptable encoding values are: TEXT - indicates values are alphanumeric text strings. BINARY - indicates values are encoded using HBase Bytes.toBytes family of functions. PROTO_BINARY - indicates values are encoded using serialized proto messages. This can only be used in combination with JSON type. 'encoding' can also be set at the column family level. However, the setting at this level takes precedence if 'encoding' is set at both levels. */
-  encoding?: string | undefined;
-  /** Optional. Protobuf-specific configurations, only takes effect when the encoding is PROTO_BINARY. */
-  protoConfig?: BigtableProtoConfig | undefined;
-  /** Qualifier string. */
-  qualifierString?: string | undefined;
-}
-export type BigtableColumnList = Array<BigtableColumn>;
-/** Information related to a Bigtable column family. */
-export interface BigtableColumnFamily {
-  /** Identifier of the column family. */
-  familyId?: string | undefined;
-  /** Optional. Protobuf-specific configurations, only takes effect when the encoding is PROTO_BINARY. */
-  protoConfig?: BigtableProtoConfig | undefined;
-  /** Optional. Lists of columns that should be exposed as individual fields as opposed to a list of (column name, value) pairs. All columns whose qualifier matches a qualifier in this list can be accessed as `.`. Other columns can be accessed as a list through the `.Column` field. */
-  columns?: BigtableColumnList | undefined;
-  /** Optional. If this is set only the latest version of value are exposed for all columns in this column family. This can be overridden for a specific column by listing that column in 'columns' and specifying a different setting for that column. */
-  onlyReadLatest?: boolean | undefined;
-  /** Optional. The type to convert the value in cells of this column family. The values are expected to be encoded using HBase Bytes.toBytes function when using the BINARY encoding value. Following BigQuery types are allowed (case-sensitive): * BYTES * STRING * INTEGER * FLOAT * BOOLEAN * JSON Default type is BYTES. This can be overridden for a specific column by listing that column in 'columns' and specifying a type for it. */
-  type?: string | undefined;
-  /** Optional. The encoding of the values when the type is not STRING. Acceptable encoding values are: TEXT - indicates values are alphanumeric text strings. BINARY - indicates values are encoded using HBase Bytes.toBytes family of functions. PROTO_BINARY - indicates values are encoded using serialized proto messages. This can only be used in combination with JSON type. This can be overridden for a specific column by listing that column in 'columns' and specifying an encoding for it. */
-  encoding?: string | undefined;
-}
-export type BigtableColumnFamilyList = Array<BigtableColumnFamily>;
-/** Options specific to Google Cloud Bigtable data sources. */
-export interface BigtableOptions {
-  /** Optional. If field is true, then the rowkey column families will be read and converted to string. Otherwise they are read with BYTES type values and users need to manually cast them with CAST if necessary. The default value is false. */
-  readRowkeyAsString?: boolean | undefined;
-  /** Optional. List of column families to expose in the table schema along with their types. This list restricts the column families that can be referenced in queries and specifies their value types. You can use this list to do type conversions - see the 'type' field for more details. If you leave this list empty, all column families are present in the table schema and their values are read as BYTES. During a query only the column families referenced in that query are read from Bigtable. */
-  columnFamilies?: BigtableColumnFamilyList | undefined;
-  /** Optional. If field is true, then the column families that are not specified in columnFamilies list are not exposed in the table schema. Otherwise, they are read with BYTES type values. The default value is false. */
-  ignoreUnspecifiedColumnFamilies?: boolean | undefined;
-  /** Optional. If field is true, then each column family will be read as a single JSON column. Otherwise they are read as a repeated cell structure containing timestamp/value tuples. The default value is false. */
-  outputColumnFamiliesAsJson?: boolean | undefined;
-}
-export type ExternalDataConfigurationDecimalTargetTypesItemEnum =
-  | "DECIMAL_TARGET_TYPE_UNSPECIFIED"
-  | "NUMERIC"
-  | "BIGNUMERIC"
-  | "STRING";
-export type ExternalDataConfigurationDecimalTargetTypesItemEnumList = Array<
-  ExternalDataConfigurationDecimalTargetTypesItemEnum | (string & {})
->;
-/** Options specific to Google Sheets data sources. */
-export interface GoogleSheetsOptions {
-  /** Optional. Range of a sheet to query from. Only used when non-empty. Typical format: sheet_name!top_left_cell_id:bottom_right_cell_id For example: sheet1!A1:B20 */
-  range?: string | undefined;
-  /** Optional. The number of rows at the top of a sheet that BigQuery will skip when reading the data. The default value is 0. This property is useful if you have header rows that should be skipped. When autodetect is on, the behavior is the following: * skipLeadingRows unspecified - Autodetect tries to detect headers in the first row. If they are not detected, the row is read as data. Otherwise data is read starting from the second row. * skipLeadingRows is 0 - Instructs autodetect that there are no headers and data should be read starting from the first row. * skipLeadingRows = N > 0 - Autodetect skips N-1 rows and tries to detect headers in row N. If headers are not detected, row N is just skipped. Otherwise row N is used to extract column names for the detected schema. */
-  skipLeadingRows?: string | undefined;
-}
-export interface ExternalDataConfiguration {
-  /** Optional. Time zone used when parsing timestamp values that do not have specific time zone information (e.g. 2024-04-20 12:34:56). The expected format is a IANA timezone string (e.g. America/Los_Angeles). */
-  timeZone?: string | undefined;
-  /** Optional. Additional properties to set if sourceFormat is set to CSV. */
-  csvOptions?: CsvOptions | undefined;
-  /** Optional. Format used to parse DATE values. Supports C-style and SQL-style values. */
-  dateFormat?: string | undefined;
-  /** Optional. Specifies how source URIs are interpreted for constructing the file set to load. By default source URIs are expanded against the underlying storage. Other options include specifying manifest files. Only applicable to object storage systems. */
-  fileSetSpecType?: ExternalDataConfigurationFileSetSpecTypeEnum | (string & {}) | undefined;
-  /** Optional. The compression type of the data source. Possible values include GZIP and NONE. The default value is NONE. This setting is ignored for Google Cloud Bigtable, Google Cloud Datastore backups, Avro, ORC and Parquet formats. An empty string is an invalid value. */
-  compression?: string | undefined;
-  /** Optional. Indicates if BigQuery should allow extra values that are not represented in the table schema. If true, the extra values are ignored. If false, records with extra columns are treated as bad records, and if there are too many bad records, an invalid error is returned in the job result. The default value is false. The sourceFormat property determines what BigQuery treats as an extra value: CSV: Trailing columns JSON: Named values that don't match any column names Google Cloud Bigtable: This setting is ignored. Google Cloud Datastore backups: This setting is ignored. Avro: This setting is ignored. ORC: This setting is ignored. Parquet: This setting is ignored. */
-  ignoreUnknownValues?: boolean | undefined;
-  /** Optional. Format used to parse DATETIME values. Supports C-style and SQL-style values. */
-  datetimeFormat?: string | undefined;
-  /** Optional. The connection specifying the credentials to be used to read external storage, such as Azure Blob, Cloud Storage, or S3. The connection_id can have the form `{project_id}.{location_id};{connection_id}` or `projects/{project_id}/locations/{location_id}/connections/{connection_id}`. */
-  connectionId?: string | undefined;
-  /** Optional. Format used to parse TIMESTAMP values. Supports C-style and SQL-style values. */
-  timestampFormat?: string | undefined;
-  /** Optional. Format used to parse TIME values. Supports C-style and SQL-style values. */
-  timeFormat?: string | undefined;
-  /** Optional. Additional properties to set if sourceFormat is set to JSON. */
-  jsonOptions?: JsonOptions | undefined;
-  /** Optional. When set, configures hive partitioning support. Not all storage formats support hive partitioning -- requesting hive partitioning on an unsupported format will lead to an error, as will providing an invalid specification. */
-  hivePartitioningOptions?: HivePartitioningOptions | undefined;
-  /** Optional. When creating an external table, the user can provide a reference file with the table schema. This is enabled for the following formats: AVRO, PARQUET, ORC. */
-  referenceFileSchemaUri?: string | undefined;
-  /** Optional. The maximum number of bad records that BigQuery can ignore when reading data. If the number of bad records exceeds this value, an invalid error is returned in the job result. The default value is 0, which requires that all records are valid. This setting is ignored for Google Cloud Bigtable, Google Cloud Datastore backups, Avro, ORC and Parquet formats. */
-  maxBadRecords?: number | undefined;
-  /** Try to detect schema and format options automatically. Any option specified explicitly will be honored. */
-  autodetect?: boolean | undefined;
-  /** [Required] The fully-qualified URIs that point to your data in Google Cloud. For Google Cloud Storage URIs: Each URI can contain one '*' wildcard character and it must come after the 'bucket' name. Size limits related to load jobs apply to external data sources. For Google Cloud Bigtable URIs: Exactly one URI can be specified and it has be a fully specified and valid HTTPS URL for a Google Cloud Bigtable table. For Google Cloud Datastore backups, exactly one URI can be specified. Also, the '*' wildcard character is not allowed. */
-  sourceUris?: StringList | undefined;
-  /** Optional. Metadata Cache Mode for the table. Set this to enable caching of metadata from external data source. */
-  metadataCacheMode?: ExternalDataConfigurationMetadataCacheModeEnum | (string & {}) | undefined;
-  /** Optional. Load option to be used together with source_format newline-delimited JSON to indicate that a variant of JSON is being loaded. To load newline-delimited GeoJSON, specify GEOJSON (and source_format must be set to NEWLINE_DELIMITED_JSON). */
-  jsonExtension?: ExternalDataConfigurationJsonExtensionEnum | (string & {}) | undefined;
-  /** Optional. Additional properties to set if sourceFormat is set to AVRO. */
-  avroOptions?: AvroOptions | undefined;
-  /** [Required] The data format. For CSV files, specify "CSV". For Google sheets, specify "GOOGLE_SHEETS". For newline-delimited JSON, specify "NEWLINE_DELIMITED_JSON". For Avro files, specify "AVRO". For Google Cloud Datastore backups, specify "DATASTORE_BACKUP". For Apache Iceberg tables, specify "ICEBERG". For ORC files, specify "ORC". For Parquet files, specify "PARQUET". [Beta] For Google Cloud Bigtable, specify "BIGTABLE". */
-  sourceFormat?: string | undefined;
-  /** Precisions (maximum number of total digits in base 10) for seconds of TIMESTAMP types that are allowed to the destination table for autodetection mode. Available for the formats: CSV, PARQUET, AVRO, and Iceberg External Table. Possible values include: Not Specified, [], or [6]: timestamp(6) for all auto detected TIMESTAMP columns [6, 12]: timestamp(6) for all auto detected TIMESTAMP columns that have less than 6 digits of subseconds. timestamp(12) for all auto detected TIMESTAMP columns that have more than 6 digits of subseconds. [12]: timestamp(12) for all auto detected TIMESTAMP columns. The order of the elements in this array is ignored. Inputs that have higher precision than the highest target precision in this array will be truncated. */
-  timestampTargetPrecision?: IntegerList | undefined;
-  /** Optional. ObjectMetadata is used to create Object Tables. Object Tables contain a listing of objects (with their metadata) found at the source_uris. If ObjectMetadata is set, source_format should be omitted. Currently SIMPLE is the only supported Object Metadata type. */
-  objectMetadata?: ExternalDataConfigurationObjectMetadataEnum | (string & {}) | undefined;
-  /** Optional. The schema for the data. Schema is required for CSV and JSON formats if autodetect is not on. Schema is disallowed for Google Cloud Bigtable, Cloud Datastore backups, Avro, ORC and Parquet formats. */
-  schema?: TableSchema | undefined;
-  /** Optional. Additional options if sourceFormat is set to BIGTABLE. */
-  bigtableOptions?: BigtableOptions | undefined;
-  /** Optional. Additional properties to set if sourceFormat is set to PARQUET. */
-  parquetOptions?: ParquetOptions | undefined;
-  /** Defines the list of possible SQL data types to which the source decimal values are converted. This list and the precision and the scale parameters of the decimal field determine the target type. In the order of NUMERIC, BIGNUMERIC, and STRING, a type is picked if it is in the specified list and if it supports the precision and the scale. STRING supports all precision and scale values. If none of the listed types supports the precision and the scale, the type supporting the widest range in the specified list is picked, and if a value exceeds the supported range when reading the data, an error will be thrown. Example: Suppose the value of this field is ["NUMERIC", "BIGNUMERIC"]. If (precision,scale) is: * (38,9) -> NUMERIC; * (39,9) -> BIGNUMERIC (NUMERIC cannot hold 30 integer digits); * (38,10) -> BIGNUMERIC (NUMERIC cannot hold 10 fractional digits); * (76,38) -> BIGNUMERIC; * (77,38) -> BIGNUMERIC (error if value exceeds supported range). This field cannot contain duplicate types. The order of the types in this field is ignored. For example, ["BIGNUMERIC", "NUMERIC"] is the same as ["NUMERIC", "BIGNUMERIC"] and NUMERIC always takes precedence over BIGNUMERIC. Defaults to ["NUMERIC", "STRING"] for ORC and ["NUMERIC"] for the other file formats. */
-  decimalTargetTypes?: ExternalDataConfigurationDecimalTargetTypesItemEnumList | undefined;
-  /** Optional. Additional options if sourceFormat is set to GOOGLE_SHEETS. */
-  googleSheetsOptions?: GoogleSheetsOptions | undefined;
-}
-export type ExternalDataConfigurationMap = { [key: string]: ExternalDataConfiguration | undefined };
-export type QueryParameterValueMap = { [key: string]: QueryParameterValue | undefined };
+export type QueryParameterValueList = Array<QueryParameterValue>;
 /** Represents the value of a range. */
 export interface RangeValue {
-  /** Optional. The end value of the range. A missing value represents an unbounded end. */
-  end?: QueryParameterValue | undefined;
   /** Optional. The start value of the range. A missing value represents an unbounded start. */
   start?: QueryParameterValue | undefined;
+  /** Optional. The end value of the range. A missing value represents an unbounded end. */
+  end?: QueryParameterValue | undefined;
 }
-export type QueryParameterValueList = Array<QueryParameterValue>;
+export type QueryParameterValueMap = { [key: string]: QueryParameterValue | undefined };
 /** The value of a query parameter. */
 export interface QueryParameterValue {
-  /** Optional. The value of this value, if a simple scalar type. */
-  value?: string | undefined;
-  /** The struct field values. */
-  structValues?: QueryParameterValueMap | undefined;
-  /** Optional. The range value, if this is a range type. */
-  rangeValue?: RangeValue | undefined;
   /** Optional. The array values, if this is an array type. */
   arrayValues?: QueryParameterValueList | undefined;
+  /** Optional. The value of this value, if a simple scalar type. */
+  value?: string | undefined;
+  /** Optional. The range value, if this is a range type. */
+  rangeValue?: RangeValue | undefined;
+  /** The struct field values. */
+  structValues?: QueryParameterValueMap | undefined;
 }
 export interface QueryParameterTypeStructTypesItem {
-  /** Optional. Human-oriented description of the field. */
-  description?: string | undefined;
-  /** Required. The type of this field. */
-  type?: QueryParameterType | undefined;
   /** Optional. The name of this field. */
   name?: string | undefined;
+  /** Required. The type of this field. */
+  type?: QueryParameterType | undefined;
+  /** Optional. Human-oriented description of the field. */
+  description?: string | undefined;
 }
 export type QueryParameterTypeStructTypesItemList = Array<QueryParameterTypeStructTypesItem>;
 /** The type of a query parameter. */
 export interface QueryParameterType {
-  /** Optional. The element type of the range, if this is a range. */
-  rangeElementType?: QueryParameterType | undefined;
-  /** Required. The top level type of this field. */
-  type?: string | undefined;
-  /** Optional. The type of the array's elements, if this is an array. */
-  arrayType?: QueryParameterType | undefined;
   /** Optional. Precision (maximum number of total digits in base 10) for seconds of TIMESTAMP type. Possible values include: * 6 (Default, for TIMESTAMP type with microsecond precision) * 12 (For TIMESTAMP type with picosecond precision) */
   timestampPrecision?: string | undefined;
   /** Optional. The types of the fields of this struct, in order, if this is a struct. */
   structTypes?: QueryParameterTypeStructTypesItemList | undefined;
+  /** Optional. The type of the array's elements, if this is an array. */
+  arrayType?: QueryParameterType | undefined;
+  /** Required. The top level type of this field. */
+  type?: string | undefined;
+  /** Optional. The element type of the range, if this is a range. */
+  rangeElementType?: QueryParameterType | undefined;
 }
 /** A parameter given to a query. */
 export interface QueryParameter {
-  /** Optional. If unset, this is a positional parameter. Otherwise, should be unique within a query. */
-  name?: string | undefined;
   /** Required. The value of this parameter. */
   parameterValue?: QueryParameterValue | undefined;
   /** Required. The type of this parameter. */
   parameterType?: QueryParameterType | undefined;
+  /** Optional. If unset, this is a positional parameter. Otherwise, should be unique within a query. */
+  name?: string | undefined;
 }
 export type QueryParameterList = Array<QueryParameter>;
-/** Identifier for a dataset. */
-export interface DatasetReference {
-  /** Required. A unique ID for this dataset, without the project name. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 1,024 characters. */
-  datasetId?: string | undefined;
-  /** Optional. The ID of the project containing this dataset. */
-  projectId?: string | undefined;
-}
 /** JobConfigurationQuery configures a BigQuery query job. */
 export interface JobConfigurationQuery {
-  /** Optional. If true and query uses legacy SQL dialect, allows the query to produce arbitrarily large result tables at a slight cost in performance. Requires destinationTable to be set. For GoogleSQL queries, this flag is ignored and large results are always allowed. However, you must still set destinationTable when result size exceeds the allowed maximum response size. */
-  allowLargeResults?: boolean | undefined;
-  /** Optional. Specifies whether to use BigQuery's legacy SQL dialect for this query. The default value is true. If set to false, the query uses BigQuery's [GoogleSQL](https://docs.cloud.google.com/bigquery/docs/introduction-sql). When useLegacySql is set to false, the value of flattenResults is ignored; query will be run as if flattenResults is false. */
-  useLegacySql?: boolean | undefined;
-  /** Range partitioning specification for the destination table. Only one of timePartitioning and rangePartitioning should be specified. */
-  rangePartitioning?: RangePartitioning | undefined;
-  /** Optional. Specifies the action that occurs if the destination table already exists. The following values are supported: * WRITE_TRUNCATE: If the table already exists, BigQuery overwrites the data, removes the constraints, and uses the schema from the query result. * WRITE_TRUNCATE_DATA: If the table already exists, BigQuery overwrites the data, but keeps the constraints and schema of the existing table. * WRITE_APPEND: If the table already exists, BigQuery appends the data to the table. * WRITE_EMPTY: If the table already exists and contains data, a 'duplicate' error is returned in the job result. The default value is WRITE_EMPTY. Each action is atomic and only occurs if BigQuery is able to complete the job successfully. Creation, truncation and append actions occur as one atomic update upon job completion. */
-  writeDisposition?: string | undefined;
-  /** Optional. Specifies a priority for the query. Possible values include INTERACTIVE and BATCH. The default value is INTERACTIVE. */
-  priority?: string | undefined;
+  /** [Required] SQL query text to execute. The useLegacySql field can be used to indicate whether the query uses legacy SQL or GoogleSQL. */
+  query?: string | undefined;
+  /** Clustering specification for the destination table. */
+  clustering?: Clustering | undefined;
   /** If this property is true, the job creates a new session using a randomly generated session_id. To continue using a created session with subsequent queries, pass the existing session identifier as a `ConnectionProperty` value. The session identifier is returned as part of the `SessionInfo` message within the query statistics. The new session's location will be set to `Job.JobReference.location` if it is present, otherwise it's set to the default location based on existing routing logic. */
   createSession?: boolean | undefined;
+  /** Optional. A set of key-value pairs representing the secure context. This can be used to pass sensitive or context-specific information. They can be retrieved via the SECURE_CONTEXT() function and used to modify the run-time behavior of a query. */
+  secureContext?: SecureContext | undefined;
+  /** Range partitioning specification for the destination table. Only one of timePartitioning and rangePartitioning should be specified. */
+  rangePartitioning?: RangePartitioning | undefined;
   /** Optional. If true and query uses legacy SQL dialect, flattens all nested and repeated fields in the query results. allowLargeResults must be true if this is set to false. For GoogleSQL queries, this flag is ignored and results are never flattened. */
   flattenResults?: boolean | undefined;
+  /** Custom encryption configuration (e.g., Cloud KMS keys) */
+  destinationEncryptionConfiguration?: EncryptionConfiguration | undefined;
+  /** Time-based partitioning specification for the destination table. Only one of timePartitioning and rangePartitioning should be specified. */
+  timePartitioning?: TimePartitioning | undefined;
+  /** Describes user-defined function resources used in the query. */
+  userDefinedFunctionResources?: UserDefinedFunctionResourceList | undefined;
+  /** [Deprecated] This property is deprecated. */
+  preserveNulls?: boolean | undefined;
   /** Output only. System variables for GoogleSQL queries. A system variable is output if the variable is settable and its value differs from the system default. "@@" prefix is not included in the name of the System variables. */
   systemVariables?: SystemVariables | undefined;
   /** Optional. Whether to look for the result in the query cache. The query cache is a best-effort cache that will be flushed whenever tables in the query are modified. Moreover, the query cache is only available when a query does not have a destination table specified. The default value is true. */
   useQueryCache?: boolean | undefined;
-  /** Options controlling the execution of scripts. */
-  scriptOptions?: ScriptOptions | undefined;
   /** Optional. This is only supported for a SELECT query using a temporary table. If set, the query is allowed to write results incrementally to the temporary result table. This may incur a performance penalty. This option cannot be used with Legacy SQL. This feature is not yet available. */
   writeIncrementalResults?: boolean | undefined;
-  /** Optional. Specifies whether the job is allowed to create new tables. The following values are supported: * CREATE_IF_NEEDED: If the table does not exist, BigQuery creates the table. * CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result. The default value is CREATE_IF_NEEDED. Creation, truncation and append actions occur as one atomic update upon job completion. */
-  createDisposition?: string | undefined;
+  /** Optional. Specifies a priority for the query. Possible values include INTERACTIVE and BATCH. The default value is INTERACTIVE. */
+  priority?: string | undefined;
   /** Optional. [Deprecated] Maximum billing tier allowed for this query. The billing tier controls the amount of compute resources allotted to the query, and multiplies the on-demand cost of the query accordingly. A query that runs within its allotted resources will succeed and indicate its billing tier in statistics.query.billingTier, but if the query exceeds its allotted resources, it will fail with billingTierLimitExceeded. WARNING: The billed byte amount can be multiplied by an amount up to this number! Most users should not need to alter this setting, and we recommend that you avoid introducing new uses of it. */
   maximumBillingTier?: number | undefined;
   /** Limits the bytes billed for this job. Queries that will have bytes billed beyond this limit will fail (without incurring a charge). If unspecified, this will be set to your project default. */
   maximumBytesBilled?: string | undefined;
   /** GoogleSQL only. Set to POSITIONAL to use positional (?) query parameters or to NAMED to use named (@myparam) query parameters in this query. */
   parameterMode?: string | undefined;
+  /** Optional. Specifies the action that occurs if the destination table already exists. The following values are supported: * WRITE_TRUNCATE: If the table already exists, BigQuery overwrites the data, removes the constraints, and uses the schema from the query result. * WRITE_TRUNCATE_DATA: If the table already exists, BigQuery overwrites the data, but keeps the constraints and schema of the existing table. * WRITE_APPEND: If the table already exists, BigQuery appends the data to the table. * WRITE_EMPTY: If the table already exists and contains data, a 'duplicate' error is returned in the job result. The default value is WRITE_EMPTY. Each action is atomic and only occurs if BigQuery is able to complete the job successfully. Creation, truncation and append actions occur as one atomic update upon job completion. */
+  writeDisposition?: string | undefined;
+  /** Optional. Specifies whether to use BigQuery's legacy SQL dialect for this query. The default value is true. If set to false, the query uses BigQuery's [GoogleSQL](https://docs.cloud.google.com/bigquery/docs/introduction-sql). When useLegacySql is set to false, the value of flattenResults is ignored; query will be run as if flattenResults is false. */
+  useLegacySql?: boolean | undefined;
   /** Connection properties which can modify the query behavior. */
   connectionProperties?: ConnectionPropertyList | undefined;
-  /** Clustering specification for the destination table. */
-  clustering?: Clustering | undefined;
-  /** Describes user-defined function resources used in the query. */
-  userDefinedFunctionResources?: UserDefinedFunctionResourceList | undefined;
-  /** Optional. You can specify external table definitions, which operate as ephemeral tables that can be queried. These definitions are configured using a JSON map, where the string key represents the table identifier, and the value is the corresponding external data configuration object. */
-  tableDefinitions?: ExternalDataConfigurationMap | undefined;
-  /** Optional. A set of key-value pairs representing the secure context. This can be used to pass sensitive or context-specific information. They can be retrieved via the SECURE_CONTEXT() function and used to modify the run-time behavior of a query. */
-  secureContext?: SecureContext | undefined;
-  /** Custom encryption configuration (e.g., Cloud KMS keys) */
-  destinationEncryptionConfiguration?: EncryptionConfiguration | undefined;
-  /** Query parameters for GoogleSQL queries. */
-  queryParameters?: QueryParameterList | undefined;
-  /** Optional. Describes the table where the query results should be stored. This property must be set for large results that exceed the maximum response size. For queries that produce anonymous (cached) results, this field will be populated by BigQuery. */
-  destinationTable?: TableReference | undefined;
-  /** Time-based partitioning specification for the destination table. Only one of timePartitioning and rangePartitioning should be specified. */
-  timePartitioning?: TimePartitioning | undefined;
-  /** [Optional] Specifies whether the query should be executed as a continuous query. The default value is false. */
-  continuous?: boolean | undefined;
-  /** [Required] SQL query text to execute. The useLegacySql field can be used to indicate whether the query uses legacy SQL or GoogleSQL. */
-  query?: string | undefined;
   /** Optional. Specifies the default dataset to use for unqualified table names in the query. This setting does not alter behavior of unqualified dataset names. Setting the system variable `@@dataset_id` achieves the same behavior. See https://cloud.google.com/bigquery/docs/reference/system-variables for more information on system variables. */
   defaultDataset?: DatasetReference | undefined;
-  /** [Deprecated] This property is deprecated. */
-  preserveNulls?: boolean | undefined;
+  /** Optional. If true and query uses legacy SQL dialect, allows the query to produce arbitrarily large result tables at a slight cost in performance. Requires destinationTable to be set. For GoogleSQL queries, this flag is ignored and large results are always allowed. However, you must still set destinationTable when result size exceeds the allowed maximum response size. */
+  allowLargeResults?: boolean | undefined;
+  /** Optional. You can specify external table definitions, which operate as ephemeral tables that can be queried. These definitions are configured using a JSON map, where the string key represents the table identifier, and the value is the corresponding external data configuration object. */
+  tableDefinitions?: ExternalDataConfigurationMap | undefined;
   /** Allows the schema of the destination table to be updated as a side effect of the query job. Schema update options are supported in three cases: when writeDisposition is WRITE_APPEND; when writeDisposition is WRITE_TRUNCATE_DATA; when writeDisposition is WRITE_TRUNCATE and the destination table is a partition of a table, specified by partition decorators. For normal tables, WRITE_TRUNCATE will always overwrite the schema. One or more of the following values are specified: * ALLOW_FIELD_ADDITION: allow adding a nullable field to the schema. * ALLOW_FIELD_RELAXATION: allow relaxing a required field in the original schema to nullable. */
   schemaUpdateOptions?: StringList | undefined;
-}
-export type TableReferenceList = Array<TableReference>;
-export type JobConfigurationTableCopyOperationTypeEnum =
-  | "OPERATION_TYPE_UNSPECIFIED"
-  | "COPY"
-  | "SNAPSHOT"
-  | "RESTORE"
-  | "CLONE";
-/** JobConfigurationTableCopy configures a job that copies data from one table to another. For more information on copying tables, see [Copy a table](https://cloud.google.com/bigquery/docs/managing-tables#copy-table). */
-export interface JobConfigurationTableCopy {
-  /** Custom encryption configuration (e.g., Cloud KMS keys). */
-  destinationEncryptionConfiguration?: EncryptionConfiguration | undefined;
-  /** [Required] The destination table. */
-  destinationTable?: TableReference | undefined;
-  /** Optional. Specifies the action that occurs if the destination table already exists. The following values are supported: * WRITE_TRUNCATE: If the table already exists, BigQuery overwrites the table data and uses the schema and table constraints from the source table. * WRITE_APPEND: If the table already exists, BigQuery appends the data to the table. * WRITE_EMPTY: If the table already exists and contains data, a 'duplicate' error is returned in the job result. The default value is WRITE_EMPTY. Each action is atomic and only occurs if BigQuery is able to complete the job successfully. Creation, truncation and append actions occur as one atomic update upon job completion. */
-  writeDisposition?: string | undefined;
-  /** [Pick one] Source table to copy. */
-  sourceTable?: TableReference | undefined;
-  /** [Pick one] Source tables to copy. */
-  sourceTables?: TableReferenceList | undefined;
-  /** Optional. The time when the destination table expires. Expired tables will be deleted and their storage reclaimed. */
-  destinationExpirationTime?: string | undefined;
+  /** Options controlling the execution of scripts. */
+  scriptOptions?: ScriptOptions | undefined;
   /** Optional. Specifies whether the job is allowed to create new tables. The following values are supported: * CREATE_IF_NEEDED: If the table does not exist, BigQuery creates the table. * CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result. The default value is CREATE_IF_NEEDED. Creation, truncation and append actions occur as one atomic update upon job completion. */
   createDisposition?: string | undefined;
-  /** Optional. Supported operation types in table copy job. */
-  operationType?: JobConfigurationTableCopyOperationTypeEnum | (string & {}) | undefined;
+  /** Optional. Describes the table where the query results should be stored. This property must be set for large results that exceed the maximum response size. For queries that produce anonymous (cached) results, this field will be populated by BigQuery. */
+  destinationTable?: TableReference | undefined;
+  /** [Optional] Specifies whether the query should be executed as a continuous query. The default value is false. */
+  continuous?: boolean | undefined;
+  /** Query parameters for GoogleSQL queries. */
+  queryParameters?: QueryParameterList | undefined;
 }
 export interface JobConfiguration {
-  /** [Pick one] Configures an extract job. */
-  extract?: JobConfigurationExtract | undefined;
-  /** [Pick one] Configures a load job. */
-  load?: JobConfigurationLoad | undefined;
-  /** [Pick one] Configures a query job. */
-  query?: JobConfigurationQuery | undefined;
-  /** Output only. The type of the job. Can be QUERY, LOAD, EXTRACT, COPY or UNKNOWN. */
-  jobType?: string | undefined;
-  /** Optional. If set, don't actually run this job. A valid query will return a mostly empty response with some processing statistics, while an invalid query will return the same error it would if it wasn't a dry run. Behavior of non-query jobs is undefined. */
-  dryRun?: boolean | undefined;
-  /** [Pick one] Copies a table. */
-  copy?: JobConfigurationTableCopy | undefined;
-  /** Optional. Job timeout in milliseconds relative to the job creation time. If this time limit is exceeded, BigQuery attempts to stop the job, but might not always succeed in canceling it before the job completes. For example, a job that takes more than 60 seconds to complete has a better chance of being stopped than a job that takes 10 seconds to complete. */
-  jobTimeoutMs?: string | undefined;
   /** Optional. The reservation that job would use. User can specify a reservation to execute the job. If reservation is not set, reservation is determined based on the rules defined by the reservation assignments. The expected format is `projects/{project}/locations/{location}/reservations/{reservation}`. Forces the query to use on-demand billing when set to `none`, which requires the project or organization to have `reservation_override_mode` set to `ALLOW_ANY_OVERRIDE`. */
   reservation?: string | undefined;
+  /** Output only. The type of the job. Can be QUERY, LOAD, EXTRACT, COPY or UNKNOWN. */
+  jobType?: string | undefined;
+  /** [Pick one] Copies a table. */
+  copy?: JobConfigurationTableCopy | undefined;
   /** The labels associated with this job. You can use these to organize and group your jobs. Label keys and values can be no longer than 63 characters, can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter and each label in the list must have a different key. */
   labels?: StringMap | undefined;
+  /** [Pick one] Configures a load job. */
+  load?: JobConfigurationLoad | undefined;
+  /** [Pick one] Configures an extract job. */
+  extract?: JobConfigurationExtract | undefined;
+  /** [Pick one] Configures a query job. */
+  query?: JobConfigurationQuery | undefined;
   /** Optional. A target limit on the rate of slot consumption by this job. If set to a value > 0, BigQuery will attempt to limit the rate of slot consumption by this job to keep it below the configured limit, even if the job is eligible for more slots based on fair scheduling. The unused slots will be available for other jobs and queries to use. Note: This feature is not yet generally available. */
   maxSlots?: number | undefined;
+  /** Optional. Job timeout in milliseconds relative to the job creation time. If this time limit is exceeded, BigQuery attempts to stop the job, but might not always succeed in canceling it before the job completes. For example, a job that takes more than 60 seconds to complete has a better chance of being stopped than a job that takes 10 seconds to complete. */
+  jobTimeoutMs?: string | undefined;
+  /** Optional. If set, don't actually run this job. A valid query will return a mostly empty response with some processing statistics, while an invalid query will return the same error it would if it wasn't a dry run. Behavior of non-query jobs is undefined. */
+  dryRun?: boolean | undefined;
 }
-export type JobCreationReasonCodeEnum =
-  | "CODE_UNSPECIFIED"
-  | "REQUESTED"
-  | "LONG_RUNNING"
-  | "LARGE_RESULTS"
-  | "OTHER";
-/** Reason about why a Job was created from a [`jobs.query`](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query) method when used with `JOB_CREATION_OPTIONAL` Job creation mode. For [`jobs.insert`](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/insert) method calls it will always be `REQUESTED`. */
-export interface JobCreationReason {
-  /** Output only. Specifies the high level reason why a Job was created. */
-  code?: JobCreationReasonCodeEnum | (string & {}) | undefined;
+/** Statistics for a copy job. */
+export interface JobStatistics5 {
+  /** Output only. Destination region for a cross-region copy job. Not set for in-region copy jobs. */
+  remoteDestinationRegion?: string | undefined;
+  /** Output only. Number of rows copied to the destination table. */
+  copiedRows?: string | undefined;
+  /** Output only. Number of logical bytes copied to the destination table. */
+  copiedLogicalBytes?: string | undefined;
 }
 /** Summary of the state of query execution at a given time. */
 export interface QueryTimelineSample {
-  /** Total units of work remaining for the query. This number can be revised (increased or decreased) while the query is running. */
-  pendingUnits?: string | undefined;
-  /** Total number of active workers. This does not correspond directly to slot usage. This is the largest value observed since the last sample. */
-  activeUnits?: string | undefined;
-  /** Units of work that can be scheduled immediately. Providing additional slots for these units of work will accelerate the query, if no other query in the reservation needs additional slots. */
-  estimatedRunnableUnits?: string | undefined;
-  /** Total parallel units of work completed by this query. */
-  completedUnits?: string | undefined;
   /** Milliseconds elapsed since the start of query execution. */
   elapsedMs?: string | undefined;
+  /** Units of work that can be scheduled immediately. Providing additional slots for these units of work will accelerate the query, if no other query in the reservation needs additional slots. */
+  estimatedRunnableUnits?: string | undefined;
+  /** Total number of active workers. This does not correspond directly to slot usage. This is the largest value observed since the last sample. */
+  activeUnits?: string | undefined;
+  /** Total parallel units of work completed by this query. */
+  completedUnits?: string | undefined;
   /** Total shuffle usage ratio in shuffle RAM per reservation of this query. This will be provided for reservation customers only. */
   shuffleRamUsageRatio?: number | undefined;
   /** Cumulative slot-ms consumed by the query. */
   totalSlotMs?: string | undefined;
+  /** Total units of work remaining for the query. This number can be revised (increased or decreased) while the query is running. */
+  pendingUnits?: string | undefined;
 }
 export type QueryTimelineSampleList = Array<QueryTimelineSample>;
-/** Statistics for a load job. */
-export interface JobStatistics3 {
-  /** Output only. Number of rows imported in a load job. Note that while an import job is in the running state, this value may change. */
-  outputRows?: string | undefined;
-  /** Output only. Number of bytes of source data in a load job. */
-  inputFileBytes?: string | undefined;
-  /** Output only. The number of bad records encountered. Note that if the job has failed because of more bad records encountered than the maximum allowed in the load job configuration, then this number can be less than the total number of bad records present in the input data. */
-  badRecords?: string | undefined;
-  /** Output only. Size of the loaded data in bytes. Note that while a load job is in the running state, this value may change. */
-  outputBytes?: string | undefined;
+/** Statistics for an extract job. */
+export interface JobStatistics4 {
   /** Output only. Describes a timeline of job execution. */
   timeline?: QueryTimelineSampleList | undefined;
-  /** Output only. Number of source files in a load job. */
-  inputFiles?: string | undefined;
+  /** Output only. Number of files per destination URI or URI pattern specified in the extract configuration. These values will be in the same order as the URIs specified in the 'destinationUris' field. */
+  destinationUriFileCounts?: StringList | undefined;
+  /** Output only. Number of user bytes extracted into the result. This is the byte count as computed by BigQuery for billing purposes and doesn't have any relationship with the number of actual result bytes extracted in the desired format. */
+  inputBytes?: string | undefined;
 }
-export type JobStatisticsEditionEnum =
-  | "RESERVATION_EDITION_UNSPECIFIED"
-  | "STANDARD"
-  | "ENTERPRISE"
-  | "ENTERPRISE_PLUS";
-/** Statistics for data-masking. */
-export interface DataMaskingStatistics {
-  /** Whether any accessed data was protected by the data masking. */
-  dataMaskingApplied?: boolean | undefined;
-}
-export type ScriptStatisticsEvaluationKindEnum =
-  | "EVALUATION_KIND_UNSPECIFIED"
-  | "STATEMENT"
-  | "EXPRESSION";
-/** Represents the location of the statement/expression being evaluated. Line and column numbers are defined as follows: - Line and column numbers start with one. That is, line 1 column 1 denotes the start of the script. - When inside a stored procedure, all line/column numbers are relative to the procedure body, not the script in which the procedure was defined. - Start/end positions exclude leading/trailing comments and whitespace. The end position always ends with a ";", when present. - Multi-byte Unicode characters are treated as just one column. - If the original script (or procedure definition) contains TAB characters, a tab "snaps" the indentation forward to the nearest multiple of 8 characters, plus 1. For example, a TAB on column 1, 2, 3, 4, 5, 6 , or 8 will advance the next character to column 9. A TAB on column 9, 10, 11, 12, 13, 14, 15, or 16 will advance the next character to column 17. */
-export interface ScriptStackFrame {
-  /** Output only. One-based end column. */
-  endColumn?: number | undefined;
-  /** Output only. Name of the active procedure, empty if in a top-level script. */
-  procedureId?: string | undefined;
-  /** Output only. One-based end line. */
-  endLine?: number | undefined;
-  /** Output only. One-based start column. */
-  startColumn?: number | undefined;
-  /** Output only. Text of the current statement/expression. */
-  text?: string | undefined;
-  /** Output only. One-based start line. */
-  startLine?: number | undefined;
-}
-export type ScriptStackFrameList = Array<ScriptStackFrame>;
-/** Job statistics specific to the child job of a script. */
-export interface ScriptStatistics {
-  /** Whether this child job was a statement or expression. */
-  evaluationKind?: ScriptStatisticsEvaluationKindEnum | (string & {}) | undefined;
-  /** Stack trace showing the line/column/procedure name of each frame on the stack at the point where the current evaluation happened. The leaf frame is first, the primary script is last. Never empty. */
-  stackFrames?: ScriptStackFrameList | undefined;
-}
-export interface BigQueryModelTraining {
-  /** Deprecated. */
-  expectedTotalIterations?: string | undefined;
-  /** Deprecated. */
-  currentIteration?: number | undefined;
-}
-/** Id path of a row access policy. */
-export interface RowAccessPolicyReference {
-  /** Required. The ID of the table containing this row access policy. */
-  tableId?: string | undefined;
-  /** Required. The ID of the project containing this row access policy. */
-  projectId?: string | undefined;
-  /** Required. The ID of the row access policy. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 256 characters. */
-  policyId?: string | undefined;
-  /** Required. The ID of the dataset containing this row access policy. */
-  datasetId?: string | undefined;
-}
-/** The column metadata index pruning statistics. */
-export interface PruningStats {
-  /** The number of partitions matched. */
-  postCmetaPruningPartitionCount?: string | undefined;
-  /** The number of parallel inputs scanned. */
-  preCmetaPruningParallelInputCount?: string | undefined;
-  /** The number of parallel inputs matched. */
-  postCmetaPruningParallelInputCount?: string | undefined;
-}
-export type TableMetadataCacheUsageUnusedReasonEnum =
-  | "UNUSED_REASON_UNSPECIFIED"
-  | "EXCEEDED_MAX_STALENESS"
-  | "METADATA_CACHING_NOT_ENABLED"
-  | "OTHER_REASON";
-/** Table level detail on the usage of metadata caching. Only set for Metadata caching eligible tables referenced in the query. */
-export interface TableMetadataCacheUsage {
-  /** Free form human-readable reason metadata caching was unused for the job. */
-  explanation?: string | undefined;
-  /** Metadata caching eligible table referenced in the query. */
-  tableReference?: TableReference | undefined;
-  /** The column metadata index pruning statistics. */
-  pruningStats?: PruningStats | undefined;
-  /** [Table type](https://cloud.google.com/bigquery/docs/reference/rest/v2/tables#Table.FIELDS.type). */
-  tableType?: string | undefined;
-  /** Reason for not using metadata caching for the table. */
-  unusedReason?: TableMetadataCacheUsageUnusedReasonEnum | (string & {}) | undefined;
-  /** Duration since last refresh as of this job for managed tables (indicates metadata cache staleness as seen by this job). */
-  staleness?: string | undefined;
-}
-export type TableMetadataCacheUsageList = Array<TableMetadataCacheUsage>;
-/** Statistics for metadata caching in queried tables. */
-export interface MetadataCacheStatistics {
-  /** Set for the Metadata caching eligible tables referenced in the query. */
-  tableMetadataCacheUsage?: TableMetadataCacheUsageList | undefined;
-}
-/** Spark job logs can be filtered by these fields in Cloud Logging. */
-export interface SparkLoggingInfo {
-  /** Output only. Project ID where the Spark logs were written. */
-  projectId?: string | undefined;
-  /** Output only. Resource type used for logging. */
-  resourceType?: string | undefined;
-}
-/** Statistics for a BigSpark query. Populated as part of JobStatistics2 */
-export interface SparkStatistics {
-  /** Output only. The Cloud KMS encryption key that is used to protect the resources created by the Spark job. If the Spark procedure uses the invoker security mode, the Cloud KMS encryption key is either inferred from the provided system variable, `@@spark_proc_properties.kms_key_name`, or the default key of the BigQuery job's project (if the CMEK organization policy is enforced). Otherwise, the Cloud KMS key is either inferred from the Spark connection associated with the procedure (if it is provided), or from the default key of the Spark connection's project if the CMEK organization policy is enforced. Example: * `projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]` */
-  kmsKeyName?: string | undefined;
-  /** Output only. Endpoints returned from Dataproc. Key list: - history_server_endpoint: A link to Spark job UI. */
-  endpoints?: StringMap | undefined;
-  /** Output only. Location where the Spark job is executed. A location is selected by BigQueury for jobs configured to run in a multi-region. */
-  sparkJobLocation?: string | undefined;
-  /** Output only. Spark job ID if a Spark job is created successfully. */
-  sparkJobId?: string | undefined;
-  /** Output only. The Google Cloud Storage bucket that is used as the default file system by the Spark application. This field is only filled when the Spark procedure uses the invoker security mode. The `gcsStagingBucket` bucket is inferred from the `@@spark_proc_properties.staging_bucket` system variable (if it is provided). Otherwise, BigQuery creates a default staging bucket for the job and returns the bucket name in this field. Example: * `gs://[bucket_name]` */
-  gcsStagingBucket?: string | undefined;
-  /** Output only. Logging info is used to generate a link to Cloud Logging. */
-  loggingInfo?: SparkLoggingInfo | undefined;
-}
-export interface JobStatistics2ReservationUsageItem {
-  /** Total slot milliseconds used by the reservation for a particular job. */
-  slotMs?: string | undefined;
-  /** Reservation name or "unreserved" for on-demand resource usage and multi-statement queries. */
-  name?: string | undefined;
-}
-export type JobStatistics2ReservationUsageItemList = Array<JobStatistics2ReservationUsageItem>;
-/** The external service cost is a portion of the total cost, these costs are not additive with total_bytes_billed. Moreover, this field only track external service costs that will show up as BigQuery costs (e.g. training BigQuery ML job with google cloud CAIP or Automl Tables services), not other costs which may be accrued by running the query (e.g. reading from Bigtable or Cloud Storage). The external service costs with different billing sku (e.g. CAIP job is charged based on VM usage) are converted to BigQuery billed_bytes and slot_ms with equivalent amount of US dollars. Services may not directly correlate to these metrics, but these are the equivalents for billing purposes. Output only. */
-export interface ExternalServiceCost {
-  /** External service cost in terms of bigquery slot milliseconds. */
-  slotMs?: string | undefined;
-  /** External service cost in terms of bigquery bytes billed. */
-  bytesBilled?: string | undefined;
-  /** External service name. */
-  externalService?: string | undefined;
-  /** The billing method used for the external job. This field, set to `SERVICES_SKU`, is only used when billing under the services SKU. Otherwise, it is unspecified for backward compatibility. */
-  billingMethod?: string | undefined;
-  /** Non-preemptable reserved slots used for external job. For example, reserved slots for Cloua AI Platform job are the VM usages converted to BigQuery slot with equivalent mount of price. */
-  reservedSlotCount?: string | undefined;
-  /** External service cost in terms of bigquery bytes processed. */
-  bytesProcessed?: string | undefined;
-}
-export type ExternalServiceCostList = Array<ExternalServiceCost>;
-/** Provides error statistics for the query job across all AI function calls. */
-export interface GenAiErrorStats {
-  /** A list of unique errors at query level (up to 5, truncated to 100 chars) */
-  errors?: StringList | undefined;
+/** Statistics for the EXPORT DATA statement as part of Query Job. EXTRACT JOB statistics are populated in JobStatistics4. */
+export interface ExportDataStatistics {
+  /** Number of destination files generated in case of EXPORT DATA statement only. */
+  fileCount?: string | undefined;
+  /** [Alpha] Number of destination rows generated in case of EXPORT DATA statement only. */
+  rowCount?: string | undefined;
 }
 /** Provides cache statistics for a GenAi function call. */
 export interface GenAiFunctionCacheStats {
   /** Number of rows served from cache. */
   numCacheHitRows?: string | undefined;
 }
-/** Provides cost optimization statistics for a GenAi function call. */
-export interface GenAiFunctionCostOptimizationStats {
-  /** System generated message to provide insights into cost optimization state. */
-  message?: string | undefined;
-  /** Number of rows inferred via cost optimized workflow. */
-  numCostOptimizedRows?: string | undefined;
-}
 /** Provides error statistics for a GenAi function call. */
 export interface GenAiFunctionErrorStats {
-  /** Number of failed rows processed by the function */
-  numFailedRows?: string | undefined;
   /** A list of unique errors at function level (up to 5, truncated to 100 chars). */
   errors?: StringList | undefined;
+  /** Number of failed rows processed by the function */
+  numFailedRows?: string | undefined;
+}
+/** Provides cost optimization statistics for a GenAi function call. */
+export interface GenAiFunctionCostOptimizationStats {
+  /** Number of rows inferred via cost optimized workflow. */
+  numCostOptimizedRows?: string | undefined;
+  /** System generated message to provide insights into cost optimization state. */
+  message?: string | undefined;
 }
 /** Provides statistics for each Ai function call within a query. */
 export interface GenAiFunctionStats {
   /** Cache stats for the function. */
   cacheStats?: GenAiFunctionCacheStats | undefined;
-  /** Cost optimization stats if applied on the rows processed by the function. */
-  costOptimizationStats?: GenAiFunctionCostOptimizationStats | undefined;
   /** Error stats for the function. */
   errorStats?: GenAiFunctionErrorStats | undefined;
-  /** User input prompt of the function (truncated to 20 chars). */
-  prompt?: string | undefined;
-  /** Name of the function. */
-  functionName?: string | undefined;
   /** Number of rows processed by this GenAi function. This includes all cost_optimized, llm_inferred and failed_rows. */
   numProcessedRows?: string | undefined;
+  /** Name of the function. */
+  functionName?: string | undefined;
+  /** Cost optimization stats if applied on the rows processed by the function. */
+  costOptimizationStats?: GenAiFunctionCostOptimizationStats | undefined;
+  /** User input prompt of the function (truncated to 20 chars). */
+  prompt?: string | undefined;
 }
 export type GenAiFunctionStatsList = Array<GenAiFunctionStats>;
+/** Provides error statistics for the query job across all AI function calls. */
+export interface GenAiErrorStats {
+  /** A list of unique errors at query level (up to 5, truncated to 100 chars) */
+  errors?: StringList | undefined;
+}
 /** GenAi stats for the query job. */
 export interface GenAiStats {
-  /** Job level error stats across all GenAi functions */
-  errorStats?: GenAiErrorStats | undefined;
   /** Function level stats for GenAI Functions. For more information, see [Generative AI overview](https://docs.cloud.google.com/bigquery/docs/generative-ai-overview). */
   functionStats?: GenAiFunctionStatsList | undefined;
+  /** Job level error stats across all GenAi functions */
+  errorStats?: GenAiErrorStats | undefined;
 }
+export type ObjectStorageStatsCloudProviderEnum =
+  | "CLOUD_PROVIDER_UNSPECIFIED"
+  | "GCP"
+  | "AWS"
+  | "AZURE";
+/** Storage and caching statistics for object storage. */
+export interface ObjectStorageStats {
+  /** Total bytes read directly from the cloud provider's storage. */
+  objectStorageBytesRead?: string | undefined;
+  /** The cloud provider for this block of statistics. */
+  cloudProvider?: ObjectStorageStatsCloudProviderEnum | (string & {}) | undefined;
+  /** Total bytes read from the GCP Lakehouse-internal cache, avoiding an object storage read. */
+  cacheBytesRead?: string | undefined;
+}
+export type ObjectStorageStatsList = Array<ObjectStorageStats>;
+export type BiEngineStatisticsBiEngineModeEnum =
+  | "ACCELERATION_MODE_UNSPECIFIED"
+  | "DISABLED"
+  | "PARTIAL"
+  | "FULL";
 export type BiEngineReasonCodeEnum =
   | "CODE_UNSPECIFIED"
   | "NO_RESERVATION"
@@ -1109,145 +1014,225 @@ export type BiEngineReasonCodeEnum =
   | "TABLE_EXCLUDED";
 /** Reason why BI Engine didn't accelerate the query (or sub-query). */
 export interface BiEngineReason {
-  /** Output only. Free form human-readable reason for partial or disabled acceleration. */
-  message?: string | undefined;
   /** Output only. High-level BI Engine reason for partial or disabled acceleration */
   code?: BiEngineReasonCodeEnum | (string & {}) | undefined;
+  /** Output only. Free form human-readable reason for partial or disabled acceleration. */
+  message?: string | undefined;
 }
 export type BiEngineReasonList = Array<BiEngineReason>;
-/** Details about source stages which produce skewed data. */
-export interface SkewSource {
-  /** Output only. Max partition output size (in bytes) for this stage. */
-  outputBytesMax?: string | undefined;
-  /** Output only. 95-th percentile of partition output size (in bytes) for this stage. */
-  outputBytesP95?: string | undefined;
-  /** Output only. Median partition output size (in bytes) for this stage. */
-  outputBytesMedian?: string | undefined;
-  /** Output only. Stage id of the skew source stage. */
-  stageId?: string | undefined;
-}
-export type SkewSourceList = Array<SkewSource>;
-/** Partition skew detailed information. */
-export interface PartitionSkew {
-  /** Output only. Source stages which produce skewed data. */
-  skewSources?: SkewSourceList | undefined;
-}
-/** High cardinality join detailed information. */
-export interface HighCardinalityJoin {
-  /** Output only. Count of left input rows. */
-  leftRows?: string | undefined;
-  /** Output only. Count of right input rows. */
-  rightRows?: string | undefined;
-  /** Output only. The index of the join operator in the ExplainQueryStep lists. */
-  stepIndex?: number | undefined;
-  /** Output only. Count of the output rows. */
-  outputRows?: string | undefined;
-}
-export type HighCardinalityJoinList = Array<HighCardinalityJoin>;
-/** Standalone performance insights for a specific stage. */
-export interface StagePerformanceStandaloneInsight {
-  /** Output only. If present, the stage had the following reasons for being disqualified from BI Engine execution. */
+export type BiEngineStatisticsAccelerationModeEnum =
+  | "BI_ENGINE_ACCELERATION_MODE_UNSPECIFIED"
+  | "BI_ENGINE_DISABLED"
+  | "PARTIAL_INPUT"
+  | "FULL_INPUT"
+  | "FULL_QUERY";
+/** Statistics for a BI Engine specific query. Populated as part of JobStatistics2 */
+export interface BiEngineStatistics {
+  /** Output only. Specifies which mode of BI Engine acceleration was performed (if any). */
+  biEngineMode?: BiEngineStatisticsBiEngineModeEnum | (string & {}) | undefined;
+  /** In case of DISABLED or PARTIAL bi_engine_mode, these contain the explanatory reasons as to why BI Engine could not accelerate. In case the full query was accelerated, this field is not populated. */
   biEngineReasons?: BiEngineReasonList | undefined;
-  /** Output only. Partition skew in the stage. */
-  partitionSkew?: PartitionSkew | undefined;
-  /** Output only. High cardinality joins in the stage. */
-  highCardinalityJoins?: HighCardinalityJoinList | undefined;
-  /** Output only. The stage id that the insight mapped to. */
-  stageId?: string | undefined;
-  /** Output only. True if the stage has a slot contention issue. */
-  slotContention?: boolean | undefined;
-  /** Output only. True if the stage has insufficient shuffle quota. */
-  insufficientShuffleQuota?: boolean | undefined;
+  /** Output only. Specifies which mode of BI Engine acceleration was performed (if any). */
+  accelerationMode?: BiEngineStatisticsAccelerationModeEnum | (string & {}) | undefined;
 }
-export type StagePerformanceStandaloneInsightList = Array<StagePerformanceStandaloneInsight>;
-/** Column Metadata Index staleness detailed infnormation. */
-export interface MetadataCacheStalenessInsight {
-  /** Output only. The percent increase in staleness between the current job and the average staleness of previous jobs with the same query hash. */
-  stalenessPercentageIncrease?: number | undefined;
-  /** Output only. Average column metadata index staleness of previous runs with the same query hash. */
-  avgPreviousStalenessMs?: string | undefined;
+/** The external service cost is a portion of the total cost, these costs are not additive with total_bytes_billed. Moreover, this field only track external service costs that will show up as BigQuery costs (e.g. training BigQuery ML job with google cloud CAIP or Automl Tables services), not other costs which may be accrued by running the query (e.g. reading from Bigtable or Cloud Storage). The external service costs with different billing sku (e.g. CAIP job is charged based on VM usage) are converted to BigQuery billed_bytes and slot_ms with equivalent amount of US dollars. Services may not directly correlate to these metrics, but these are the equivalents for billing purposes. Output only. */
+export interface ExternalServiceCost {
+  /** External service cost in terms of bigquery slot milliseconds. */
+  slotMs?: string | undefined;
+  /** External service cost in terms of bigquery bytes processed. */
+  bytesProcessed?: string | undefined;
+  /** Non-preemptable reserved slots used for external job. For example, reserved slots for Cloua AI Platform job are the VM usages converted to BigQuery slot with equivalent mount of price. */
+  reservedSlotCount?: string | undefined;
+  /** External service cost in terms of bigquery bytes billed. */
+  bytesBilled?: string | undefined;
+  /** External service name. */
+  externalService?: string | undefined;
+  /** The billing method used for the external job. This field, set to `SERVICES_SKU`, is only used when billing under the services SKU. Otherwise, it is unspecified for backward compatibility. */
+  billingMethod?: string | undefined;
 }
-/** Table-level performance insights compared to previous runs. These insights don't apply to specific query stages, rather they apply to the whole table. */
-export interface TableChangeInsight {
-  /** Output only. True if the table's column metadata index was not used in the current job, but was used in a previous job with the same query hash. */
-  metadataCacheNotUsedButUsedPreviously?: boolean | undefined;
-  /** Output only. The table that was queried. */
-  tableReference?: TableReference | undefined;
-  /** Output only. If present, indicates that the table's metadata column index staleness has increased significantly compared to previous jobs with the same query hash. */
-  metadataCacheStalenessInsight?: MetadataCacheStalenessInsight | undefined;
-}
-export type TableChangeInsightList = Array<TableChangeInsight>;
-/** Details about the input data change insight. */
-export interface InputDataChange {
-  /** Output only. Records read difference percentage compared to a previous run. */
-  recordsReadDiffPercentage?: number | undefined;
-}
-/** Performance insights compared to the previous executions for a specific stage. */
-export interface StagePerformanceChangeInsight {
-  /** Output only. The stage id that the insight mapped to. */
-  stageId?: string | undefined;
-  /** Output only. Input data change insight of the query stage. */
-  inputDataChange?: InputDataChange | undefined;
-}
-export type StagePerformanceChangeInsightList = Array<StagePerformanceChangeInsight>;
-/** Performance insights for the job. */
-export interface PerformanceInsights {
-  /** Output only. Standalone query stage performance insights, for exploring potential improvements. */
-  stagePerformanceStandaloneInsights?: StagePerformanceStandaloneInsightList | undefined;
-  /** Output only. Average execution ms of previous runs. Indicates the job ran slow compared to previous executions. To find previous executions, use INFORMATION_SCHEMA tables and filter jobs with same query hash. */
-  avgPreviousExecutionMs?: string | undefined;
-  /** Output only. Performance insights for table-level attributes that changed compared to previous runs. */
-  tableChangeInsights?: TableChangeInsightList | undefined;
-  /** Output only. Query stage performance insights compared to previous runs, for diagnosing performance regression. */
-  stagePerformanceChangeInsights?: StagePerformanceChangeInsightList | undefined;
-}
-export type ObjectStorageStatsCloudProviderEnum =
-  | "CLOUD_PROVIDER_UNSPECIFIED"
-  | "GCP"
-  | "AWS"
-  | "AZURE";
-/** Storage and caching statistics for object storage. */
-export interface ObjectStorageStats {
-  /** Total bytes read from the GCP Lakehouse-internal cache, avoiding an object storage read. */
-  cacheBytesRead?: string | undefined;
-  /** The cloud provider for this block of statistics. */
-  cloudProvider?: ObjectStorageStatsCloudProviderEnum | (string & {}) | undefined;
-  /** Total bytes read directly from the cloud provider's storage. */
-  objectStorageBytesRead?: string | undefined;
-}
-export type ObjectStorageStatsList = Array<ObjectStorageStats>;
-/** Statistics for the EXPORT DATA statement as part of Query Job. EXTRACT JOB statistics are populated in JobStatistics4. */
-export interface ExportDataStatistics {
-  /** [Alpha] Number of destination rows generated in case of EXPORT DATA statement only. */
-  rowCount?: string | undefined;
-  /** Number of destination files generated in case of EXPORT DATA statement only. */
-  fileCount?: string | undefined;
-}
+export type ExternalServiceCostList = Array<ExternalServiceCost>;
 export type IncrementalResultStatsDisabledReasonEnum =
   | "DISABLED_REASON_UNSPECIFIED"
   | "OTHER"
   | "UNSUPPORTED_OPERATOR";
 /** Statistics related to Incremental Query Results. Populated as part of JobStatistics2. This feature is not yet available. */
 export interface IncrementalResultStats {
-  /** Output only. The time at which the result table's contents were modified. May be absent if no results have been written or the query has completed. */
-  resultSetLastModifyTime?: string | undefined;
-  /** Output only. Number of rows that were in the latest result set before query completion. */
-  incrementalRowCount?: string | undefined;
-  /** Output only. Reason why incremental query results are/were not written by the query. */
-  disabledReason?: IncrementalResultStatsDisabledReasonEnum | (string & {}) | undefined;
   /** Output only. Additional human-readable clarification, if available, for DisabledReason. */
   disabledReasonDetails?: string | undefined;
+  /** Output only. Number of rows that were in the latest result set before query completion. */
+  incrementalRowCount?: string | undefined;
   /** Output only. The time at which the first incremental result was written. If the query needed to restart internally, this only describes the final attempt. */
   firstIncrementalRowTime?: string | undefined;
-  /** Output only. The time at which the last incremental result was written. Does not include the final result written after query completion. */
-  lastIncrementalRowTime?: string | undefined;
   /** Output only. The time at which the result table's contents were completely replaced. May be absent if no results have been written or the query has completed. */
   resultSetLastReplaceTime?: string | undefined;
+  /** Output only. Reason why incremental query results are/were not written by the query. */
+  disabledReason?: IncrementalResultStatsDisabledReasonEnum | (string & {}) | undefined;
+  /** Output only. The time at which the result table's contents were modified. May be absent if no results have been written or the query has completed. */
+  resultSetLastModifyTime?: string | undefined;
+  /** Output only. The time at which the last incremental result was written. Does not include the final result written after query completion. */
+  lastIncrementalRowTime?: string | undefined;
 }
-export type MlStatisticsTrainingTypeEnum =
-  | "TRAINING_TYPE_UNSPECIFIED"
-  | "SINGLE_TRAINING"
-  | "HPARAM_TUNING";
+/** Id path of a row access policy. */
+export interface RowAccessPolicyReference {
+  /** Required. The ID of the table containing this row access policy. */
+  tableId?: string | undefined;
+  /** Required. The ID of the dataset containing this row access policy. */
+  datasetId?: string | undefined;
+  /** Required. The ID of the row access policy. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 256 characters. */
+  policyId?: string | undefined;
+  /** Required. The ID of the project containing this row access policy. */
+  projectId?: string | undefined;
+}
+/** Id path of a property graph. */
+export interface PropertyGraphReference {
+  /** Required. The ID of the dataset containing this property graph. */
+  datasetId?: string | undefined;
+  /** Required. The ID of the property graph. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 256 characters. */
+  propertyGraphId?: string | undefined;
+  /** Required. The ID of the project containing this property graph. */
+  projectId?: string | undefined;
+}
+export type PropertyGraphReferenceList = Array<PropertyGraphReference>;
+/** Spark job logs can be filtered by these fields in Cloud Logging. */
+export interface SparkLoggingInfo {
+  /** Output only. Resource type used for logging. */
+  resourceType?: string | undefined;
+  /** Output only. Project ID where the Spark logs were written. */
+  projectId?: string | undefined;
+}
+/** Statistics for a BigSpark query. Populated as part of JobStatistics2 */
+export interface SparkStatistics {
+  /** Output only. Logging info is used to generate a link to Cloud Logging. */
+  loggingInfo?: SparkLoggingInfo | undefined;
+  /** Output only. The Cloud KMS encryption key that is used to protect the resources created by the Spark job. If the Spark procedure uses the invoker security mode, the Cloud KMS encryption key is either inferred from the provided system variable, `@@spark_proc_properties.kms_key_name`, or the default key of the BigQuery job's project (if the CMEK organization policy is enforced). Otherwise, the Cloud KMS key is either inferred from the Spark connection associated with the procedure (if it is provided), or from the default key of the Spark connection's project if the CMEK organization policy is enforced. Example: * `projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]` */
+  kmsKeyName?: string | undefined;
+  /** Output only. Spark job ID if a Spark job is created successfully. */
+  sparkJobId?: string | undefined;
+  /** Output only. The Google Cloud Storage bucket that is used as the default file system by the Spark application. This field is only filled when the Spark procedure uses the invoker security mode. The `gcsStagingBucket` bucket is inferred from the `@@spark_proc_properties.staging_bucket` system variable (if it is provided). Otherwise, BigQuery creates a default staging bucket for the job and returns the bucket name in this field. Example: * `gs://[bucket_name]` */
+  gcsStagingBucket?: string | undefined;
+  /** Output only. Location where the Spark job is executed. A location is selected by BigQueury for jobs configured to run in a multi-region. */
+  sparkJobLocation?: string | undefined;
+  /** Output only. Endpoints returned from Dataproc. Key list: - history_server_endpoint: A link to Spark job UI. */
+  endpoints?: StringMap | undefined;
+}
+/** Statistics for a vector search indexing job. Populated as part of JobStatistics2. */
+export interface VectorSearchIndexingStats {
+  /** Output only. The base table for which the vector index is being created or refreshed. */
+  baseTable?: TableReference | undefined;
+  /** Output only. The name of the vector index. */
+  indexName?: string | undefined;
+}
+/** An operation within a stage. */
+export interface ExplainQueryStep {
+  /** Machine-readable operation type. */
+  kind?: string | undefined;
+  /** Human-readable description of the step(s). */
+  substeps?: StringList | undefined;
+}
+export type ExplainQueryStepList = Array<ExplainQueryStep>;
+export type ExplainQueryStageComputeModeEnum =
+  | "COMPUTE_MODE_UNSPECIFIED"
+  | "BIGQUERY"
+  | "BI_ENGINE";
+/** A single stage of query execution. */
+export interface ExplainQueryStage {
+  /** Relative amount of time the slowest shard spent on writing output. */
+  writeRatioMax?: number | undefined;
+  /** Current status for this stage. */
+  status?: string | undefined;
+  /** Relative amount of time the slowest shard spent waiting to be scheduled. */
+  waitRatioMax?: number | undefined;
+  /** Stage end time represented as milliseconds since the epoch. */
+  endMs?: string | undefined;
+  /** Relative amount of time the average shard spent waiting to be scheduled. */
+  waitRatioAvg?: number | undefined;
+  /** Relative amount of time the average shard spent on writing output. */
+  writeRatioAvg?: number | undefined;
+  /** Total number of bytes written to shuffle. */
+  shuffleOutputBytes?: string | undefined;
+  /** Relative amount of time the slowest shard spent reading input. */
+  readRatioMax?: number | undefined;
+  /** Stage start time represented as milliseconds since the epoch. */
+  startMs?: string | undefined;
+  /** Relative amount of time the average shard spent on CPU-bound tasks. */
+  computeRatioAvg?: number | undefined;
+  /** Milliseconds the average shard spent on CPU-bound tasks. */
+  computeMsAvg?: string | undefined;
+  /** Unique ID for the stage within the plan. */
+  id?: string | undefined;
+  /** Milliseconds the average shard spent waiting to be scheduled. */
+  waitMsAvg?: string | undefined;
+  /** Milliseconds the slowest shard spent waiting to be scheduled. */
+  waitMsMax?: string | undefined;
+  /** Slot-milliseconds used by the stage. */
+  slotMs?: string | undefined;
+  /** Milliseconds the slowest shard spent reading input. */
+  readMsMax?: string | undefined;
+  /** List of operations within the stage in dependency order (approximately chronological). */
+  steps?: ExplainQueryStepList | undefined;
+  /** Number of parallel input segments completed. */
+  completedParallelInputs?: string | undefined;
+  /** Relative amount of time the average shard spent reading input. */
+  readRatioAvg?: number | undefined;
+  /** Milliseconds the slowest shard spent on writing output. */
+  writeMsMax?: string | undefined;
+  /** Number of records written by the stage. */
+  recordsWritten?: string | undefined;
+  /** IDs for stages that are inputs to this stage. */
+  inputStages?: StringList | undefined;
+  /** Relative amount of time the slowest shard spent on CPU-bound tasks. */
+  computeRatioMax?: number | undefined;
+  /** Milliseconds the slowest shard spent on CPU-bound tasks. */
+  computeMsMax?: string | undefined;
+  /** Human-readable name for the stage. */
+  name?: string | undefined;
+  /** Number of parallel input segments to be processed */
+  parallelInputs?: string | undefined;
+  /** Total number of bytes written to shuffle and spilled to disk. */
+  shuffleOutputBytesSpilled?: string | undefined;
+  /** Output only. Compute mode for this stage. */
+  computeMode?: ExplainQueryStageComputeModeEnum | (string & {}) | undefined;
+  /** Number of records read into the stage. */
+  recordsRead?: string | undefined;
+  /** Milliseconds the average shard spent on writing output. */
+  writeMsAvg?: string | undefined;
+  /** Milliseconds the average shard spent reading input. */
+  readMsAvg?: string | undefined;
+}
+export type ExplainQueryStageList = Array<ExplainQueryStage>;
+export interface BigQueryModelTraining {
+  /** Deprecated. */
+  expectedTotalIterations?: string | undefined;
+  /** Deprecated. */
+  currentIteration?: number | undefined;
+}
+export type MlStatisticsModelTypeEnum =
+  | "MODEL_TYPE_UNSPECIFIED"
+  | "LINEAR_REGRESSION"
+  | "LOGISTIC_REGRESSION"
+  | "KMEANS"
+  | "MATRIX_FACTORIZATION"
+  | "DNN_CLASSIFIER"
+  | "TENSORFLOW"
+  | "DNN_REGRESSOR"
+  | "XGBOOST"
+  | "BOOSTED_TREE_REGRESSOR"
+  | "BOOSTED_TREE_CLASSIFIER"
+  | "ARIMA"
+  | "AUTOML_REGRESSOR"
+  | "AUTOML_CLASSIFIER"
+  | "PCA"
+  | "DNN_LINEAR_COMBINED_CLASSIFIER"
+  | "DNN_LINEAR_COMBINED_REGRESSOR"
+  | "AUTOENCODER"
+  | "ARIMA_PLUS"
+  | "ARIMA_PLUS_XREG"
+  | "RANDOM_FOREST_REGRESSOR"
+  | "RANDOM_FOREST_CLASSIFIER"
+  | "TENSORFLOW_LITE"
+  | "ONNX"
+  | "TRANSFORM_ONLY"
+  | "CONTRIBUTION_ANALYSIS";
 export type HparamTuningTrialStatusEnum =
   | "TRIAL_STATUS_UNSPECIFIED"
   | "NOT_STARTED"
@@ -1256,105 +1241,6 @@ export type HparamTuningTrialStatusEnum =
   | "FAILED"
   | "INFEASIBLE"
   | "STOPPED_EARLY";
-/** Model evaluation metrics for dimensionality reduction models. */
-export interface DimensionalityReductionMetrics {
-  /** Total percentage of variance explained by the selected principal components. */
-  totalExplainedVarianceRatio?: number | undefined;
-}
-/** Evaluation metrics for regression and explicit feedback type matrix factorization models. */
-export interface RegressionMetrics {
-  /** Mean squared log error. */
-  meanSquaredLogError?: number | undefined;
-  /** Median absolute error. */
-  medianAbsoluteError?: number | undefined;
-  /** Mean squared error. */
-  meanSquaredError?: number | undefined;
-  /** Mean absolute error. */
-  meanAbsoluteError?: number | undefined;
-  /** R^2 score. This corresponds to r2_score in ML.EVALUATE. */
-  rSquared?: number | undefined;
-}
-/** Aggregate metrics for classification/classifier models. For multi-class models, the metrics are either macro-averaged or micro-averaged. When macro-averaged, the metrics are calculated for each label and then an unweighted average is taken of those values. When micro-averaged, the metric is calculated globally by counting the total number of correctly predicted rows. */
-export interface AggregateClassificationMetrics {
-  /** Logarithmic Loss. For multiclass this is a macro-averaged metric. */
-  logLoss?: number | undefined;
-  /** Area Under a ROC Curve. For multiclass this is a macro-averaged metric. */
-  rocAuc?: number | undefined;
-  /** Recall is the fraction of actual positive labels that were given a positive prediction. For multiclass this is a macro-averaged metric. */
-  recall?: number | undefined;
-  /** The F1 score is an average of recall and precision. For multiclass this is a macro-averaged metric. */
-  f1Score?: number | undefined;
-  /** Accuracy is the fraction of predictions given the correct label. For multiclass this is a micro-averaged metric. */
-  accuracy?: number | undefined;
-  /** Precision is the fraction of actual positive predictions that had positive actual labels. For multiclass this is a macro-averaged metric treating each class as a binary classifier. */
-  precision?: number | undefined;
-  /** Threshold at which the metrics are computed. For binary classification models this is the positive class threshold. For multi-class classification models this is the confidence threshold. */
-  threshold?: number | undefined;
-}
-/** Confusion matrix for binary classification models. */
-export interface BinaryConfusionMatrix {
-  /** Number of false samples predicted as true. */
-  falsePositives?: string | undefined;
-  /** The equally weighted average of recall and precision. */
-  f1Score?: number | undefined;
-  /** The fraction of actual positive labels that were given a positive prediction. */
-  recall?: number | undefined;
-  /** The fraction of actual positive predictions that had positive actual labels. */
-  precision?: number | undefined;
-  /** Number of true samples predicted as true. */
-  truePositives?: string | undefined;
-  /** The fraction of predictions given the correct label. */
-  accuracy?: number | undefined;
-  /** Threshold value used when computing each of the following metric. */
-  positiveClassThreshold?: number | undefined;
-  /** Number of true samples predicted as false. */
-  trueNegatives?: string | undefined;
-  /** Number of false samples predicted as false. */
-  falseNegatives?: string | undefined;
-}
-export type BinaryConfusionMatrixList = Array<BinaryConfusionMatrix>;
-/** Evaluation metrics for binary classification/classifier models. */
-export interface BinaryClassificationMetrics {
-  /** Aggregate classification metrics. */
-  aggregateClassificationMetrics?: AggregateClassificationMetrics | undefined;
-  /** Label representing the negative class. */
-  negativeLabel?: string | undefined;
-  /** Label representing the positive class. */
-  positiveLabel?: string | undefined;
-  /** Binary confusion matrix at multiple thresholds. */
-  binaryConfusionMatrixList?: BinaryConfusionMatrixList | undefined;
-}
-/** A single entry in the confusion matrix. */
-export interface Entry {
-  /** The predicted label. For confidence_threshold > 0, we will also add an entry indicating the number of items under the confidence threshold. */
-  predictedLabel?: string | undefined;
-  /** Number of items being predicted as this label. */
-  itemCount?: string | undefined;
-}
-export type EntryList = Array<Entry>;
-/** A single row in the confusion matrix. */
-export interface Row {
-  /** The original label of this row. */
-  actualLabel?: string | undefined;
-  /** Info describing predicted label distribution. */
-  entries?: EntryList | undefined;
-}
-export type RowList = Array<Row>;
-/** Confusion matrix for multi-class classification models. */
-export interface ConfusionMatrix {
-  /** Confidence threshold used when computing the entries of the confusion matrix. */
-  confidenceThreshold?: number | undefined;
-  /** One row per actual label. */
-  rows?: RowList | undefined;
-}
-export type ConfusionMatrixList = Array<ConfusionMatrix>;
-/** Evaluation metrics for multi-class classification/classifier models. */
-export interface MultiClassClassificationMetrics {
-  /** Aggregate classification metrics. */
-  aggregateClassificationMetrics?: AggregateClassificationMetrics | undefined;
-  /** Confusion matrix at different thresholds. */
-  confusionMatrixList?: ConfusionMatrixList | undefined;
-}
 /** Evaluation metrics used by weighted-ALS models specified by feedback_type=implicit. */
 export interface RankingMetrics {
   /** Similar to the mean squared error computed in regression and explicit recommendation models except instead of computing the rating directly, the output from evaluate is computed against a preference which is 1 or 0 depending on if the rating exists or not. */
@@ -1381,32 +1267,131 @@ export interface CategoricalValue {
 }
 /** Representative value of a single feature within the cluster. */
 export interface FeatureValue {
-  /** The numerical feature value. This is the centroid value for this feature. */
-  numericalValue?: number | undefined;
   /** The categorical feature value. */
   categoricalValue?: CategoricalValue | undefined;
+  /** The numerical feature value. This is the centroid value for this feature. */
+  numericalValue?: number | undefined;
   /** The feature column name. */
   featureColumn?: string | undefined;
 }
 export type FeatureValueList = Array<FeatureValue>;
 /** Message containing the information about one cluster. */
 export interface Cluster {
+  /** Values of highly variant features for this cluster. */
+  featureValues?: FeatureValueList | undefined;
   /** Centroid id. */
   centroidId?: string | undefined;
   /** Count of training data rows that were assigned to this cluster. */
   count?: string | undefined;
-  /** Values of highly variant features for this cluster. */
-  featureValues?: FeatureValueList | undefined;
 }
 export type ClusterList = Array<Cluster>;
 /** Evaluation metrics for clustering models. */
 export interface ClusteringMetrics {
   /** Information for all clusters. */
   clusters?: ClusterList | undefined;
-  /** Mean of squared distances between each sample to its cluster centroid. */
-  meanSquaredDistance?: number | undefined;
   /** Davies-Bouldin index. */
   daviesBouldinIndex?: number | undefined;
+  /** Mean of squared distances between each sample to its cluster centroid. */
+  meanSquaredDistance?: number | undefined;
+}
+/** Evaluation metrics for regression and explicit feedback type matrix factorization models. */
+export interface RegressionMetrics {
+  /** Mean squared log error. */
+  meanSquaredLogError?: number | undefined;
+  /** R^2 score. This corresponds to r2_score in ML.EVALUATE. */
+  rSquared?: number | undefined;
+  /** Mean absolute error. */
+  meanAbsoluteError?: number | undefined;
+  /** Mean squared error. */
+  meanSquaredError?: number | undefined;
+  /** Median absolute error. */
+  medianAbsoluteError?: number | undefined;
+}
+/** A single entry in the confusion matrix. */
+export interface Entry {
+  /** Number of items being predicted as this label. */
+  itemCount?: string | undefined;
+  /** The predicted label. For confidence_threshold > 0, we will also add an entry indicating the number of items under the confidence threshold. */
+  predictedLabel?: string | undefined;
+}
+export type EntryList = Array<Entry>;
+/** A single row in the confusion matrix. */
+export interface Row {
+  /** Info describing predicted label distribution. */
+  entries?: EntryList | undefined;
+  /** The original label of this row. */
+  actualLabel?: string | undefined;
+}
+export type RowList = Array<Row>;
+/** Confusion matrix for multi-class classification models. */
+export interface ConfusionMatrix {
+  /** One row per actual label. */
+  rows?: RowList | undefined;
+  /** Confidence threshold used when computing the entries of the confusion matrix. */
+  confidenceThreshold?: number | undefined;
+}
+export type ConfusionMatrixList = Array<ConfusionMatrix>;
+/** Aggregate metrics for classification/classifier models. For multi-class models, the metrics are either macro-averaged or micro-averaged. When macro-averaged, the metrics are calculated for each label and then an unweighted average is taken of those values. When micro-averaged, the metric is calculated globally by counting the total number of correctly predicted rows. */
+export interface AggregateClassificationMetrics {
+  /** Precision is the fraction of actual positive predictions that had positive actual labels. For multiclass this is a macro-averaged metric treating each class as a binary classifier. */
+  precision?: number | undefined;
+  /** Area Under a ROC Curve. For multiclass this is a macro-averaged metric. */
+  rocAuc?: number | undefined;
+  /** Threshold at which the metrics are computed. For binary classification models this is the positive class threshold. For multi-class classification models this is the confidence threshold. */
+  threshold?: number | undefined;
+  /** Accuracy is the fraction of predictions given the correct label. For multiclass this is a micro-averaged metric. */
+  accuracy?: number | undefined;
+  /** Recall is the fraction of actual positive labels that were given a positive prediction. For multiclass this is a macro-averaged metric. */
+  recall?: number | undefined;
+  /** The F1 score is an average of recall and precision. For multiclass this is a macro-averaged metric. */
+  f1Score?: number | undefined;
+  /** Logarithmic Loss. For multiclass this is a macro-averaged metric. */
+  logLoss?: number | undefined;
+}
+/** Evaluation metrics for multi-class classification/classifier models. */
+export interface MultiClassClassificationMetrics {
+  /** Confusion matrix at different thresholds. */
+  confusionMatrixList?: ConfusionMatrixList | undefined;
+  /** Aggregate classification metrics. */
+  aggregateClassificationMetrics?: AggregateClassificationMetrics | undefined;
+}
+/** Model evaluation metrics for dimensionality reduction models. */
+export interface DimensionalityReductionMetrics {
+  /** Total percentage of variance explained by the selected principal components. */
+  totalExplainedVarianceRatio?: number | undefined;
+}
+/** Confusion matrix for binary classification models. */
+export interface BinaryConfusionMatrix {
+  /** The equally weighted average of recall and precision. */
+  f1Score?: number | undefined;
+  /** The fraction of actual positive labels that were given a positive prediction. */
+  recall?: number | undefined;
+  /** The fraction of predictions given the correct label. */
+  accuracy?: number | undefined;
+  /** Number of false samples predicted as true. */
+  falsePositives?: string | undefined;
+  /** Number of true samples predicted as false. */
+  trueNegatives?: string | undefined;
+  /** Number of true samples predicted as true. */
+  truePositives?: string | undefined;
+  /** Threshold value used when computing each of the following metric. */
+  positiveClassThreshold?: number | undefined;
+  /** The fraction of actual positive predictions that had positive actual labels. */
+  precision?: number | undefined;
+  /** Number of false samples predicted as false. */
+  falseNegatives?: string | undefined;
+}
+export type BinaryConfusionMatrixList = Array<BinaryConfusionMatrix>;
+/** Evaluation metrics for binary classification/classifier models. */
+export interface BinaryClassificationMetrics {
+  /** Aggregate classification metrics. */
+  aggregateClassificationMetrics?: AggregateClassificationMetrics | undefined;
+  /** Binary confusion matrix at multiple thresholds. */
+  binaryConfusionMatrixList?: BinaryConfusionMatrixList | undefined;
+  /** Label representing the negative class. */
+  negativeLabel?: string | undefined;
+  /** Label representing the positive class. */
+  positiveLabel?: string | undefined;
 }
 export type ArimaForecastingMetricsSeasonalPeriodsItemEnum =
   | "SEASONAL_PERIOD_TYPE_UNSPECIFIED"
@@ -1422,22 +1407,25 @@ export type ArimaForecastingMetricsSeasonalPeriodsItemEnumList = Array<
 >;
 /** ARIMA model fitting metrics. */
 export interface ArimaFittingMetrics {
+  /** AIC. */
+  aic?: number | undefined;
   /** Log-likelihood. */
   logLikelihood?: number | undefined;
   /** Variance. */
   variance?: number | undefined;
-  /** AIC. */
-  aic?: number | undefined;
 }
+export type ArimaFittingMetricsList = Array<ArimaFittingMetrics>;
 /** Arima order, can be used for both non-seasonal and seasonal parts. */
 export interface ArimaOrder {
-  /** Order of the differencing part. */
-  d?: string | undefined;
-  /** Order of the autoregressive part. */
-  p?: string | undefined;
   /** Order of the moving-average part. */
   q?: string | undefined;
+  /** Order of the autoregressive part. */
+  p?: string | undefined;
+  /** Order of the differencing part. */
+  d?: string | undefined;
 }
+export type ArimaOrderList = Array<ArimaOrder>;
+export type BooleanList = Array<boolean>;
 export type ArimaSingleModelForecastingMetricsSeasonalPeriodsItemEnum =
   | "SEASONAL_PERIOD_TYPE_UNSPECIFIED"
   | "NO_SEASONALITY"
@@ -1452,61 +1440,87 @@ export type ArimaSingleModelForecastingMetricsSeasonalPeriodsItemEnumList = Arra
 >;
 /** Model evaluation metrics for a single ARIMA forecasting model. */
 export interface ArimaSingleModelForecastingMetrics {
-  /** If true, spikes_and_dips is a part of time series decomposition result. */
-  hasSpikesAndDips?: boolean | undefined;
-  /** If true, step_changes is a part of time series decomposition result. */
-  hasStepChanges?: boolean | undefined;
-  /** Arima fitting metrics. */
-  arimaFittingMetrics?: ArimaFittingMetrics | undefined;
-  /** Non-seasonal order. */
-  nonSeasonalOrder?: ArimaOrder | undefined;
   /** Is arima model fitted with drift or not. It is always false when d is not 1. */
   hasDrift?: boolean | undefined;
   /** The tuple of time_series_ids identifying this time series. It will be one of the unique tuples of values present in the time_series_id_columns specified during ARIMA model training. Only present when time_series_id_columns training option was used and the order of values here are same as the order of time_series_id_columns. */
   timeSeriesIds?: StringList | undefined;
   /** Seasonal periods. Repeated because multiple periods are supported for one time series. */
   seasonalPeriods?: ArimaSingleModelForecastingMetricsSeasonalPeriodsItemEnumList | undefined;
+  /** If true, spikes_and_dips is a part of time series decomposition result. */
+  hasSpikesAndDips?: boolean | undefined;
   /** If true, holiday_effect is a part of time series decomposition result. */
   hasHolidayEffect?: boolean | undefined;
   /** The time_series_id value for this time series. It will be one of the unique values from the time_series_id_column specified during ARIMA model training. Only present when time_series_id_column training option was used. */
   timeSeriesId?: string | undefined;
+  /** If true, step_changes is a part of time series decomposition result. */
+  hasStepChanges?: boolean | undefined;
+  /** Non-seasonal order. */
+  nonSeasonalOrder?: ArimaOrder | undefined;
+  /** Arima fitting metrics. */
+  arimaFittingMetrics?: ArimaFittingMetrics | undefined;
 }
 export type ArimaSingleModelForecastingMetricsList = Array<ArimaSingleModelForecastingMetrics>;
-export type ArimaFittingMetricsList = Array<ArimaFittingMetrics>;
-export type ArimaOrderList = Array<ArimaOrder>;
-export type BooleanList = Array<boolean>;
 /** Model evaluation metrics for ARIMA forecasting models. */
 export interface ArimaForecastingMetrics {
-  /** Id to differentiate different time series for the large-scale case. */
-  timeSeriesId?: StringList | undefined;
   /** Seasonal periods. Repeated because multiple periods are supported for one time series. */
   seasonalPeriods?: ArimaForecastingMetricsSeasonalPeriodsItemEnumList | undefined;
-  /** Repeated as there can be many metric sets (one for each model) in auto-arima and the large-scale case. */
-  arimaSingleModelForecastingMetrics?: ArimaSingleModelForecastingMetricsList | undefined;
   /** Arima model fitting metrics. */
   arimaFittingMetrics?: ArimaFittingMetricsList | undefined;
   /** Non-seasonal order. */
   nonSeasonalOrder?: ArimaOrderList | undefined;
+  /** Id to differentiate different time series for the large-scale case. */
+  timeSeriesId?: StringList | undefined;
   /** Whether Arima model fitted with drift or not. It is always false when d is not 1. */
   hasDrift?: BooleanList | undefined;
+  /** Repeated as there can be many metric sets (one for each model) in auto-arima and the large-scale case. */
+  arimaSingleModelForecastingMetrics?: ArimaSingleModelForecastingMetricsList | undefined;
 }
 /** Evaluation metrics of a model. These are either computed on all training data or just the eval data based on whether eval data was used during training. These are not present for imported models. */
 export interface EvaluationMetrics {
-  /** Evaluation metrics when the model is a dimensionality reduction model, which currently includes PCA. */
-  dimensionalityReductionMetrics?: DimensionalityReductionMetrics | undefined;
-  /** Populated for regression models and explicit feedback type matrix factorization models. */
-  regressionMetrics?: RegressionMetrics | undefined;
-  /** Populated for binary classification/classifier models. */
-  binaryClassificationMetrics?: BinaryClassificationMetrics | undefined;
-  /** Populated for multi-class classification/classifier models. */
-  multiClassClassificationMetrics?: MultiClassClassificationMetrics | undefined;
   /** Populated for implicit feedback type matrix factorization models. */
   rankingMetrics?: RankingMetrics | undefined;
   /** Populated for clustering models. */
   clusteringMetrics?: ClusteringMetrics | undefined;
+  /** Populated for regression models and explicit feedback type matrix factorization models. */
+  regressionMetrics?: RegressionMetrics | undefined;
+  /** Populated for multi-class classification/classifier models. */
+  multiClassClassificationMetrics?: MultiClassClassificationMetrics | undefined;
+  /** Evaluation metrics when the model is a dimensionality reduction model, which currently includes PCA. */
+  dimensionalityReductionMetrics?: DimensionalityReductionMetrics | undefined;
+  /** Populated for binary classification/classifier models. */
+  binaryClassificationMetrics?: BinaryClassificationMetrics | undefined;
   /** Populated for ARIMA models. */
   arimaForecastingMetrics?: ArimaForecastingMetrics | undefined;
 }
+export type TrainingOptionsFeedbackTypeEnum = "FEEDBACK_TYPE_UNSPECIFIED" | "IMPLICIT" | "EXPLICIT";
+export type TrainingOptionsColorSpaceEnum =
+  | "COLOR_SPACE_UNSPECIFIED"
+  | "RGB"
+  | "HSV"
+  | "YIQ"
+  | "YUV"
+  | "GRAYSCALE";
+export type TrainingOptionsDataSplitMethodEnum =
+  | "DATA_SPLIT_METHOD_UNSPECIFIED"
+  | "RANDOM"
+  | "CUSTOM"
+  | "SEQUENTIAL"
+  | "NO_SPLIT"
+  | "AUTO_SPLIT";
+export type TrainingOptionsDartNormalizeTypeEnum =
+  | "DART_NORMALIZE_TYPE_UNSPECIFIED"
+  | "TREE"
+  | "FOREST";
+export type TrainingOptionsDataFrequencyEnum =
+  | "DATA_FREQUENCY_UNSPECIFIED"
+  | "AUTO_FREQUENCY"
+  | "YEARLY"
+  | "QUARTERLY"
+  | "MONTHLY"
+  | "WEEKLY"
+  | "DAILY"
+  | "HOURLY"
+  | "PER_MINUTE";
 export type TrainingOptionsHolidayRegionEnum =
   | "HOLIDAY_REGION_UNSPECIFIED"
   | "GLOBAL"
@@ -1577,86 +1591,15 @@ export type TrainingOptionsHolidayRegionEnum =
   | "VE"
   | "VN"
   | "ZA";
-export type TrainingOptionsDataSplitMethodEnum =
-  | "DATA_SPLIT_METHOD_UNSPECIFIED"
-  | "RANDOM"
-  | "CUSTOM"
-  | "SEQUENTIAL"
-  | "NO_SPLIT"
-  | "AUTO_SPLIT";
-export type TrainingOptionsFeedbackTypeEnum = "FEEDBACK_TYPE_UNSPECIFIED" | "IMPLICIT" | "EXPLICIT";
-export type TrainingOptionsModelRegistryEnum = "MODEL_REGISTRY_UNSPECIFIED" | "VERTEX_AI";
-export type TrainingOptionsBoosterTypeEnum = "BOOSTER_TYPE_UNSPECIFIED" | "GBTREE" | "DART";
-export type TrainingOptionsDistanceTypeEnum = "DISTANCE_TYPE_UNSPECIFIED" | "EUCLIDEAN" | "COSINE";
-export type TrainingOptionsLearnRateStrategyEnum =
-  | "LEARN_RATE_STRATEGY_UNSPECIFIED"
-  | "LINE_SEARCH"
-  | "CONSTANT";
-export type TrainingOptionsHparamTuningObjectivesItemEnum =
-  | "HPARAM_TUNING_OBJECTIVE_UNSPECIFIED"
-  | "MEAN_ABSOLUTE_ERROR"
-  | "MEAN_SQUARED_ERROR"
-  | "MEAN_SQUARED_LOG_ERROR"
-  | "MEDIAN_ABSOLUTE_ERROR"
-  | "R_SQUARED"
-  | "EXPLAINED_VARIANCE"
-  | "PRECISION"
-  | "RECALL"
-  | "ACCURACY"
-  | "F1_SCORE"
-  | "LOG_LOSS"
-  | "ROC_AUC"
-  | "DAVIES_BOULDIN_INDEX"
-  | "MEAN_AVERAGE_PRECISION"
-  | "NORMALIZED_DISCOUNTED_CUMULATIVE_GAIN"
-  | "AVERAGE_RANK";
-export type TrainingOptionsHparamTuningObjectivesItemEnumList = Array<
-  TrainingOptionsHparamTuningObjectivesItemEnum | (string & {})
->;
-export type TrainingOptionsCategoryEncodingMethodEnum =
-  | "ENCODING_METHOD_UNSPECIFIED"
-  | "ONE_HOT_ENCODING"
-  | "LABEL_ENCODING"
-  | "DUMMY_ENCODING";
-export type TrainingOptionsDataFrequencyEnum =
-  | "DATA_FREQUENCY_UNSPECIFIED"
-  | "AUTO_FREQUENCY"
-  | "YEARLY"
-  | "QUARTERLY"
-  | "MONTHLY"
-  | "WEEKLY"
-  | "DAILY"
-  | "HOURLY"
-  | "PER_MINUTE";
-export type TrainingOptionsTreeMethodEnum =
-  | "TREE_METHOD_UNSPECIFIED"
-  | "AUTO"
-  | "EXACT"
-  | "APPROX"
-  | "HIST";
-export type TrainingOptionsDartNormalizeTypeEnum =
-  | "DART_NORMALIZE_TYPE_UNSPECIFIED"
-  | "TREE"
-  | "FOREST";
-export type TrainingOptionsReservationAffinityTypeEnum =
-  | "RESERVATION_AFFINITY_TYPE_UNSPECIFIED"
-  | "NO_RESERVATION"
-  | "ANY_RESERVATION"
-  | "SPECIFIC_RESERVATION";
-export type TrainingOptionsKmeansInitializationMethodEnum =
-  | "KMEANS_INITIALIZATION_METHOD_UNSPECIFIED"
-  | "RANDOM"
-  | "CUSTOM"
-  | "KMEANS_PLUS_PLUS";
-export type TrainingOptionsPcaSolverEnum = "UNSPECIFIED" | "FULL" | "RANDOMIZED" | "AUTO";
-export type TrainingOptionsOptimizationStrategyEnum =
-  | "OPTIMIZATION_STRATEGY_UNSPECIFIED"
-  | "BATCH_GRADIENT_DESCENT"
-  | "NORMAL_EQUATION";
 export type TrainingOptionsLossTypeEnum =
   | "LOSS_TYPE_UNSPECIFIED"
   | "MEAN_SQUARED_LOSS"
   | "MEAN_LOG_LOSS";
+export type TrainingOptionsModelRegistryEnum = "MODEL_REGISTRY_UNSPECIFIED" | "VERTEX_AI";
+export type TrainingOptionsLearnRateStrategyEnum =
+  | "LEARN_RATE_STRATEGY_UNSPECIFIED"
+  | "LINE_SEARCH"
+  | "CONSTANT";
 export type TrainingOptionsHolidayRegionsItemEnum =
   | "HOLIDAY_REGION_UNSPECIFIED"
   | "GLOBAL"
@@ -1730,174 +1673,196 @@ export type TrainingOptionsHolidayRegionsItemEnum =
 export type TrainingOptionsHolidayRegionsItemEnumList = Array<
   TrainingOptionsHolidayRegionsItemEnum | (string & {})
 >;
+export type TrainingOptionsBoosterTypeEnum = "BOOSTER_TYPE_UNSPECIFIED" | "GBTREE" | "DART";
+export type TrainingOptionsKmeansInitializationMethodEnum =
+  | "KMEANS_INITIALIZATION_METHOD_UNSPECIFIED"
+  | "RANDOM"
+  | "CUSTOM"
+  | "KMEANS_PLUS_PLUS";
+export type TrainingOptionsPcaSolverEnum = "UNSPECIFIED" | "FULL" | "RANDOMIZED" | "AUTO";
+export type TrainingOptionsReservationAffinityTypeEnum =
+  | "RESERVATION_AFFINITY_TYPE_UNSPECIFIED"
+  | "NO_RESERVATION"
+  | "ANY_RESERVATION"
+  | "SPECIFIC_RESERVATION";
+export type TrainingOptionsOptimizationStrategyEnum =
+  | "OPTIMIZATION_STRATEGY_UNSPECIFIED"
+  | "BATCH_GRADIENT_DESCENT"
+  | "NORMAL_EQUATION";
+export type TrainingOptionsDistanceTypeEnum = "DISTANCE_TYPE_UNSPECIFIED" | "EUCLIDEAN" | "COSINE";
+export type TrainingOptionsCategoryEncodingMethodEnum =
+  | "ENCODING_METHOD_UNSPECIFIED"
+  | "ONE_HOT_ENCODING"
+  | "LABEL_ENCODING"
+  | "DUMMY_ENCODING";
+export type TrainingOptionsTreeMethodEnum =
+  | "TREE_METHOD_UNSPECIFIED"
+  | "AUTO"
+  | "EXACT"
+  | "APPROX"
+  | "HIST";
 export type DoubleMap = { [key: string]: number | undefined };
-export type TrainingOptionsColorSpaceEnum =
-  | "COLOR_SPACE_UNSPECIFIED"
-  | "RGB"
-  | "HSV"
-  | "YIQ"
-  | "YUV"
-  | "GRAYSCALE";
+export type TrainingOptionsHparamTuningObjectivesItemEnum =
+  | "HPARAM_TUNING_OBJECTIVE_UNSPECIFIED"
+  | "MEAN_ABSOLUTE_ERROR"
+  | "MEAN_SQUARED_ERROR"
+  | "MEAN_SQUARED_LOG_ERROR"
+  | "MEDIAN_ABSOLUTE_ERROR"
+  | "R_SQUARED"
+  | "EXPLAINED_VARIANCE"
+  | "PRECISION"
+  | "RECALL"
+  | "ACCURACY"
+  | "F1_SCORE"
+  | "LOG_LOSS"
+  | "ROC_AUC"
+  | "DAVIES_BOULDIN_INDEX"
+  | "MEAN_AVERAGE_PRECISION"
+  | "NORMALIZED_DISCOUNTED_CUMULATIVE_GAIN"
+  | "AVERAGE_RANK";
+export type TrainingOptionsHparamTuningObjectivesItemEnumList = Array<
+  TrainingOptionsHparamTuningObjectivesItemEnum | (string & {})
+>;
 /** Options used in model training. */
 export interface TrainingOptions {
-  /** The geographical region based on which the holidays are considered in time series modeling. If a valid value is specified, then holiday effects modeling is enabled. */
-  holidayRegion?: TrainingOptionsHolidayRegionEnum | (string & {}) | undefined;
-  /** Activation function of the neural nets. */
-  activationFn?: string | undefined;
-  /** The data split type for training and evaluation, e.g. RANDOM. */
-  dataSplitMethod?: TrainingOptionsDataSplitMethodEnum | (string & {}) | undefined;
-  /** The maximum number of machine replicas that will be deployed on an endpoint. The default value is equal to min_replica_count. */
-  maxReplicaCount?: string | undefined;
-  /** L2 regularization coefficient. */
-  l2Regularization?: number | undefined;
-  /** The fraction of the interpolated length of the time series that's used to model the time series trend component. All of the time points of the time series are used to model the non-trend component. This training option accelerates modeling training without sacrificing much forecasting accuracy. You can use this option with `minTimeSeriesLength` but not with `maxTimeSeriesLength`. */
-  timeSeriesLengthFraction?: number | undefined;
-  /** The max value of the sum of non-seasonal p and q. */
-  autoArimaMaxOrder?: string | undefined;
-  /** The forecast limit lower bound that was used during ARIMA model training with limits. To see more details of the algorithm: https://otexts.com/fpp2/limits.html */
-  forecastLimitLowerBound?: number | undefined;
-  /** Whether to enable auto ARIMA or not. */
-  autoArima?: boolean | undefined;
-  /** Number of clusters for clustering models. */
-  numClusters?: string | undefined;
-  /** Whether or not p-value test should be computed for this model. Only available for linear and logistic regression models. */
-  calculatePValues?: boolean | undefined;
-  /** Subsample fraction of the training data to grow tree to prevent overfitting for boosted tree models. */
-  subsample?: number | undefined;
-  /** L1 regularization coefficient to activations. */
-  l1RegActivation?: number | undefined;
-  /** The maximum number of time points in a time series that can be used in modeling the trend component of the time series. Don't use this option with the `timeSeriesLengthFraction` or `minTimeSeriesLength` options. */
-  maxTimeSeriesLength?: string | undefined;
-  /** If true, enable global explanation during training. */
-  enableGlobalExplain?: boolean | undefined;
-  /** Whether to stop early when the loss doesn't improve significantly any more (compared to min_relative_progress). Used only for iterative training algorithms. */
-  earlyStop?: boolean | undefined;
-  /** The minimum number of machine replicas that will be always deployed on an endpoint. This value must be greater than or equal to 1. The default value is 1. */
-  minReplicaCount?: string | undefined;
-  /** Item column specified for matrix factorization models. */
-  itemColumn?: string | undefined;
-  /** The minimum number of time points in a time series that are used in modeling the trend component of the time series. If you use this option you must also set the `timeSeriesLengthFraction` option. This training option ensures that enough time points are available when you use `timeSeriesLengthFraction` in trend modeling. This is particularly important when forecasting multiple time series in a single query using `timeSeriesIdColumn`. If the total number of time points is less than the `minTimeSeriesLength` value, then the query uses all available time points. */
-  minTimeSeriesLength?: string | undefined;
-  /** Number of parallel trees constructed during each iteration for boosted tree models. */
-  numParallelTree?: string | undefined;
-  /** Num factors specified for matrix factorization models. */
-  numFactors?: string | undefined;
-  /** Optimizer used for training the neural nets. */
-  optimizer?: string | undefined;
-  /** Feedback type that specifies which algorithm to run for matrix factorization. */
-  feedbackType?: TrainingOptionsFeedbackTypeEnum | (string & {}) | undefined;
-  /** Maximum depth of a tree for boosted tree models. */
-  maxTreeDepth?: string | undefined;
-  /** The minimum ratio of cumulative explained variance that needs to be given by the PCA model. */
-  pcaExplainedVarianceRatio?: number | undefined;
-  /** The model registry. */
-  modelRegistry?: TrainingOptionsModelRegistryEnum | (string & {}) | undefined;
-  /** If true, scale the feature values by dividing the feature standard deviation. Currently only apply to PCA. */
-  scaleFeatures?: boolean | undefined;
-  /** Booster type for boosted tree models. */
-  boosterType?: TrainingOptionsBoosterTypeEnum | (string & {}) | undefined;
-  /** Whether the model should include intercept during model training. */
-  fitIntercept?: boolean | undefined;
-  /** Distance type for clustering models. */
-  distanceType?: TrainingOptionsDistanceTypeEnum | (string & {}) | undefined;
-  /** Number of paths for the sampled Shapley explain method. */
-  sampledShapleyNumPaths?: string | undefined;
-  /** A specification of the non-seasonal part of the ARIMA model: the three components (p, d, q) are the AR order, the degree of differencing, and the MA order. */
-  nonSeasonalOrder?: ArimaOrder | undefined;
-  /** User-selected XGBoost versions for training of XGBoost models. */
-  xgboostVersion?: string | undefined;
-  /** The time series id columns that were used during ARIMA model training. */
-  timeSeriesIdColumns?: StringList | undefined;
-  /** Dropout probability for dnn models. */
-  dropout?: number | undefined;
-  /** The name of a Vertex model garden publisher model. Format is `publishers/{publisher}/models/{model}@{optional_version_id}`. */
-  modelGardenModelName?: string | undefined;
-  /** The strategy to determine learn rate for the current iteration. */
-  learnRateStrategy?: TrainingOptionsLearnRateStrategyEnum | (string & {}) | undefined;
-  /** The apriori support minimum. Applies to contribution analysis models. */
-  minAprioriSupport?: number | undefined;
-  /** L1 regularization coefficient. */
-  l1Regularization?: number | undefined;
-  /** The target evaluation metrics to optimize the hyperparameters for. */
-  hparamTuningObjectives?: TrainingOptionsHparamTuningObjectivesItemEnumList | undefined;
-  /** Categorical feature encoding method. */
-  categoryEncodingMethod?: TrainingOptionsCategoryEncodingMethodEnum | (string & {}) | undefined;
-  /** User column specified for matrix factorization models. */
-  userColumn?: string | undefined;
-  /** Corresponds to the label values of a reservation resource used by Vertex AI. This must be the full resource name of the reservation or reservation block. */
-  reservationAffinityValues?: StringList | undefined;
-  /** Optional. Names of the columns to slice on. Applies to contribution analysis models. */
-  dimensionIdColumns?: StringList | undefined;
-  /** Name of input label columns in training data. */
-  inputLabelColumns?: StringList | undefined;
-  /** Subsample ratio of columns for each level for boosted tree models. */
-  colsampleBylevel?: number | undefined;
-  /** Minimum split loss for boosted tree models. */
-  minSplitLoss?: number | undefined;
-  /** The fraction of evaluation data over the whole input data. The rest of data will be used as training data. The format should be double. Accurate to two decimal places. Default value is 0.2. */
-  dataSplitEvalFraction?: number | undefined;
-  /** The type of the machine used to deploy and serve the model. */
-  machineType?: string | undefined;
-  /** If true, perform decompose time series and save the results. */
-  decomposeTimeSeries?: boolean | undefined;
-  /** Subsample ratio of columns for each node(split) for boosted tree models. */
-  colsampleBynode?: number | undefined;
-  /** The maximum number of iterations in training. Used only for iterative training algorithms. */
-  maxIterations?: string | undefined;
-  /** Number of integral steps for the integrated gradients explain method. */
-  integratedGradientsNumSteps?: string | undefined;
-  /** The min value of the sum of non-seasonal p and q. */
-  autoArimaMinOrder?: string | undefined;
-  /** The data frequency of a time series. */
-  dataFrequency?: TrainingOptionsDataFrequencyEnum | (string & {}) | undefined;
-  /** Minimum sum of instance weight needed in a child for boosted tree models. */
-  minTreeChildWeight?: string | undefined;
-  /** The time series id column that was used during ARIMA model training. */
-  timeSeriesIdColumn?: string | undefined;
-  /** Budget in hours for AutoML training. */
-  budgetHours?: number | undefined;
-  /** Whether to train a model from the last checkpoint. */
-  warmStart?: boolean | undefined;
-  /** Learning rate in training. Used only for iterative training algorithms. */
-  learnRate?: number | undefined;
-  /** Tree construction algorithm for boosted tree models. */
-  treeMethod?: TrainingOptionsTreeMethodEnum | (string & {}) | undefined;
-  /** Column to be designated as time series timestamp for ARIMA model. */
-  timeSeriesTimestampColumn?: string | undefined;
-  /** Number of principal components to keep in the PCA model. Must be <= the number of features. */
-  numPrincipalComponents?: string | undefined;
-  /** The idle TTL of the endpoint before the resources get destroyed. The default value is 6.5 hours. */
-  endpointIdleTtl?: string | undefined;
-  /** Specifies the initial learning rate for the line search learn rate strategy. */
-  initialLearnRate?: number | undefined;
-  /** Smoothing window size for the trend component. When a positive value is specified, a center moving average smoothing is applied on the history trend. When the smoothing window is out of the boundary at the beginning or the end of the trend, the first element or the last element is padded to fill the smoothing window before the average is applied. */
-  trendSmoothingWindowSize?: string | undefined;
-  /** Whether to calculate class weights automatically based on the popularity of each label. */
-  autoClassWeights?: boolean | undefined;
-  /** The column used to provide the initial centroids for kmeans algorithm when kmeans_initialization_method is CUSTOM. */
-  kmeansInitializationColumn?: string | undefined;
-  /** Include drift when fitting an ARIMA model. */
-  includeDrift?: boolean | undefined;
-  /** Type of normalization algorithm for boosted tree models using dart booster. */
-  dartNormalizeType?: TrainingOptionsDartNormalizeTypeEnum | (string & {}) | undefined;
-  /** The forecast limit upper bound that was used during ARIMA model training with limits. */
-  forecastLimitUpperBound?: number | undefined;
-  /** The version aliases to apply in Vertex AI model registry. Always overwrite if the version aliases exists in a existing model. */
-  vertexAiModelVersionAliases?: StringList | undefined;
-  /** Hyperparameter for matrix factoration when implicit feedback type is specified. */
-  walsAlpha?: number | undefined;
-  /** If true, detect step changes and make data adjustment in the input time series. */
-  adjustStepChanges?: boolean | undefined;
-  /** Column to be designated as time series data for ARIMA model. */
-  timeSeriesDataColumn?: string | undefined;
-  /** Specifies the reservation affinity type used to configure a Vertex AI resource. The default value is `NO_RESERVATION`. */
-  reservationAffinityType?: TrainingOptionsReservationAffinityTypeEnum | (string & {}) | undefined;
-  /** Whether to standardize numerical features. Default to true. */
-  standardizeFeatures?: boolean | undefined;
   /** Number of trials to run this hyperparameter tuning job. */
   numTrials?: string | undefined;
+  /** Feedback type that specifies which algorithm to run for matrix factorization. */
+  feedbackType?: TrainingOptionsFeedbackTypeEnum | (string & {}) | undefined;
+  /** L2 regularization coefficient. */
+  l2Regularization?: number | undefined;
+  /** If true, scale the feature values by dividing the feature standard deviation. Currently only apply to PCA. */
+  scaleFeatures?: boolean | undefined;
+  /** Column to be designated as time series timestamp for ARIMA model. */
+  timeSeriesTimestampColumn?: string | undefined;
+  /** The maximum number of machine replicas that will be deployed on an endpoint. The default value is equal to min_replica_count. */
+  maxReplicaCount?: string | undefined;
+  /** Whether to calculate class weights automatically based on the popularity of each label. */
+  autoClassWeights?: boolean | undefined;
+  /** The idle TTL of the endpoint before the resources get destroyed. The default value is 6.5 hours. */
+  endpointIdleTtl?: string | undefined;
+  /** Enums for color space, used for processing images in Object Table. See more details at https://www.tensorflow.org/io/tutorials/colorspace. */
+  colorSpace?: TrainingOptionsColorSpaceEnum | (string & {}) | undefined;
+  /** Whether to standardize numerical features. Default to true. */
+  standardizeFeatures?: boolean | undefined;
+  /** The forecast limit lower bound that was used during ARIMA model training with limits. To see more details of the algorithm: https://otexts.com/fpp2/limits.html */
+  forecastLimitLowerBound?: number | undefined;
+  /** The data split type for training and evaluation, e.g. RANDOM. */
+  dataSplitMethod?: TrainingOptionsDataSplitMethodEnum | (string & {}) | undefined;
+  /** Maximum depth of a tree for boosted tree models. */
+  maxTreeDepth?: string | undefined;
+  /** Dropout probability for dnn models. */
+  dropout?: number | undefined;
+  /** Type of normalization algorithm for boosted tree models using dart booster. */
+  dartNormalizeType?: TrainingOptionsDartNormalizeTypeEnum | (string & {}) | undefined;
+  /** Activation function of the neural nets. */
+  activationFn?: string | undefined;
+  /** If true, enable global explanation during training. */
+  enableGlobalExplain?: boolean | undefined;
+  /** The fraction of the interpolated length of the time series that's used to model the time series trend component. All of the time points of the time series are used to model the non-trend component. This training option accelerates modeling training without sacrificing much forecasting accuracy. You can use this option with `minTimeSeriesLength` but not with `maxTimeSeriesLength`. */
+  timeSeriesLengthFraction?: number | undefined;
+  /** Minimum split loss for boosted tree models. */
+  minSplitLoss?: number | undefined;
+  /** Name of the column used to determine the rows corresponding to control and test. Applies to contribution analysis models. */
+  isTestColumn?: string | undefined;
+  /** L1 regularization coefficient. */
+  l1Regularization?: number | undefined;
+  /** Corresponds to the label key of a reservation resource used by Vertex AI. To target a SPECIFIC_RESERVATION by name, use `compute.googleapis.com/reservation-name` as the key and specify the name of your reservation as its value. */
+  reservationAffinityKey?: string | undefined;
+  /** Subsample ratio of columns when constructing each tree for boosted tree models. */
+  colsampleBytree?: number | undefined;
+  /** The minimum number of machine replicas that will be always deployed on an endpoint. This value must be greater than or equal to 1. The default value is 1. */
+  minReplicaCount?: string | undefined;
+  /** The min value of the sum of non-seasonal p and q. */
+  autoArimaMinOrder?: string | undefined;
+  /** The number of periods ahead that need to be forecasted. */
+  horizon?: string | undefined;
+  /** Optimizer used for training the neural nets. */
+  optimizer?: string | undefined;
+  /** Number of integral steps for the integrated gradients explain method. */
+  integratedGradientsNumSteps?: string | undefined;
+  /** The max value of the sum of non-seasonal p and q. */
+  autoArimaMaxOrder?: string | undefined;
+  /** The data frequency of a time series. */
+  dataFrequency?: TrainingOptionsDataFrequencyEnum | (string & {}) | undefined;
+  /** The minimum ratio of cumulative explained variance that needs to be given by the PCA model. */
+  pcaExplainedVarianceRatio?: number | undefined;
+  /** Optional. Names of the columns to slice on. Applies to contribution analysis models. */
+  dimensionIdColumns?: StringList | undefined;
+  /** The geographical region based on which the holidays are considered in time series modeling. If a valid value is specified, then holiday effects modeling is enabled. */
+  holidayRegion?: TrainingOptionsHolidayRegionEnum | (string & {}) | undefined;
+  /** Type of loss function used during training run. */
+  lossType?: TrainingOptionsLossTypeEnum | (string & {}) | undefined;
+  /** Name of input label columns in training data. */
+  inputLabelColumns?: StringList | undefined;
+  /** User-selected XGBoost versions for training of XGBoost models. */
+  xgboostVersion?: string | undefined;
+  /** Number of paths for the sampled Shapley explain method. */
+  sampledShapleyNumPaths?: string | undefined;
+  /** Subsample ratio of columns for each level for boosted tree models. */
+  colsampleBylevel?: number | undefined;
+  /** The model registry. */
+  modelRegistry?: TrainingOptionsModelRegistryEnum | (string & {}) | undefined;
+  /** Whether to train a model from the last checkpoint. */
+  warmStart?: boolean | undefined;
+  /** When early_stop is true, stops training when accuracy improvement is less than 'min_relative_progress'. Used only for iterative training algorithms. */
+  minRelativeProgress?: number | undefined;
+  /** The column used to provide the initial centroids for kmeans algorithm when kmeans_initialization_method is CUSTOM. */
+  kmeansInitializationColumn?: string | undefined;
+  /** Minimum sum of instance weight needed in a child for boosted tree models. */
+  minTreeChildWeight?: string | undefined;
+  /** If true, clean spikes and dips in the input time series. */
+  cleanSpikesAndDips?: boolean | undefined;
+  /** If true, detect step changes and make data adjustment in the input time series. */
+  adjustStepChanges?: boolean | undefined;
+  /** The strategy to determine learn rate for the current iteration. */
+  learnRateStrategy?: TrainingOptionsLearnRateStrategyEnum | (string & {}) | undefined;
   /** Maximum number of trials to run in parallel. */
   maxParallelTrials?: string | undefined;
+  /** The name of a Vertex model garden publisher model. Format is `publishers/{publisher}/models/{model}@{optional_version_id}`. */
+  modelGardenModelName?: string | undefined;
+  /** The minimum number of time points in a time series that are used in modeling the trend component of the time series. If you use this option you must also set the `timeSeriesLengthFraction` option. This training option ensures that enough time points are available when you use `timeSeriesLengthFraction` in trend modeling. This is particularly important when forecasting multiple time series in a single query using `timeSeriesIdColumn`. If the total number of time points is less than the `minTimeSeriesLength` value, then the query uses all available time points. */
+  minTimeSeriesLength?: string | undefined;
+  /** Number of principal components to keep in the PCA model. Must be <= the number of features. */
+  numPrincipalComponents?: string | undefined;
+  /** Hidden units for dnn models. */
+  hiddenUnits?: StringList | undefined;
+  /** The maximum number of iterations in training. Used only for iterative training algorithms. */
+  maxIterations?: string | undefined;
+  /** The type of the machine used to deploy and serve the model. */
+  machineType?: string | undefined;
+  /** A list of geographical regions that are used for time series modeling. */
+  holidayRegions?: TrainingOptionsHolidayRegionsItemEnumList | undefined;
+  /** Name of the instance weight column for training data. This column isn't be used as a feature. */
+  instanceWeightColumn?: string | undefined;
+  /** Batch size for dnn models. */
+  batchSize?: string | undefined;
+  /** The id of a Hugging Face model. For example, `google/gemma-2-2b-it`. */
+  huggingFaceModelId?: string | undefined;
+  /** Subsample ratio of columns for each node(split) for boosted tree models. */
+  colsampleBynode?: number | undefined;
+  /** Whether to stop early when the loss doesn't improve significantly any more (compared to min_relative_progress). Used only for iterative training algorithms. */
+  earlyStop?: boolean | undefined;
+  /** Learning rate in training. Used only for iterative training algorithms. */
+  learnRate?: number | undefined;
+  /** Budget in hours for AutoML training. */
+  budgetHours?: number | undefined;
+  /** A specification of the non-seasonal part of the ARIMA model: the three components (p, d, q) are the AR order, the degree of differencing, and the MA order. */
+  nonSeasonalOrder?: ArimaOrder | undefined;
+  /** Whether to enable auto ARIMA or not. */
+  autoArima?: boolean | undefined;
+  /** Number of parallel trees constructed during each iteration for boosted tree models. */
+  numParallelTree?: string | undefined;
+  /** Booster type for boosted tree models. */
+  boosterType?: TrainingOptionsBoosterTypeEnum | (string & {}) | undefined;
+  /** User column specified for matrix factorization models. */
+  userColumn?: string | undefined;
+  /** The version aliases to apply in Vertex AI model registry. Always overwrite if the version aliases exists in a existing model. */
+  vertexAiModelVersionAliases?: StringList | undefined;
+  /** Number of clusters for clustering models. */
+  numClusters?: string | undefined;
+  /** Item column specified for matrix factorization models. */
+  itemColumn?: string | undefined;
   /** The method used to initialize the centroids for kmeans algorithm. */
   kmeansInitializationMethod?:
     | TrainingOptionsKmeansInitializationMethodEnum
@@ -1905,108 +1870,103 @@ export interface TrainingOptions {
     | undefined;
   /** The solver for PCA. */
   pcaSolver?: TrainingOptionsPcaSolverEnum | (string & {}) | undefined;
+  /** If true, perform decompose time series and save the results. */
+  decomposeTimeSeries?: boolean | undefined;
+  /** Specifies the initial learning rate for the line search learn rate strategy. */
+  initialLearnRate?: number | undefined;
   /** The column to split data with. This column won't be used as a feature. 1. When data_split_method is CUSTOM, the corresponding column should be boolean. The rows with true value tag are eval data, and the false are training data. 2. When data_split_method is SEQ, the first DATA_SPLIT_EVAL_FRACTION rows (from smallest to largest) in the corresponding column are used as training data, and the rest are eval data. It respects the order in Orderable data types: https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types#data_type_properties */
   dataSplitColumn?: string | undefined;
-  /** Based on the selected TF version, the corresponding docker image is used to train external models. */
-  tfVersion?: string | undefined;
-  /** The number of periods ahead that need to be forecasted. */
-  horizon?: string | undefined;
-  /** Hidden units for dnn models. */
-  hiddenUnits?: StringList | undefined;
-  /** Optimization strategy for training linear regression models. */
-  optimizationStrategy?: TrainingOptionsOptimizationStrategyEnum | (string & {}) | undefined;
-  /** Batch size for dnn models. */
-  batchSize?: string | undefined;
-  /** Type of loss function used during training run. */
-  lossType?: TrainingOptionsLossTypeEnum | (string & {}) | undefined;
-  /** The contribution metric. Applies to contribution analysis models. Allowed formats supported are for summable and summable ratio contribution metrics. These include expressions such as `SUM(x)` or `SUM(x)/SUM(y)`, where x and y are column names from the base table. */
-  contributionMetric?: string | undefined;
-  /** If true, clean spikes and dips in the input time series. */
-  cleanSpikesAndDips?: boolean | undefined;
-  /** Whether to use approximate feature contribution method in XGBoost model explanation for global explain. */
-  approxGlobalFeatureContrib?: boolean | undefined;
-  /** Subsample ratio of columns when constructing each tree for boosted tree models. */
-  colsampleBytree?: number | undefined;
-  /** Name of the instance weight column for training data. This column isn't be used as a feature. */
-  instanceWeightColumn?: string | undefined;
+  /** The maximum number of time points in a time series that can be used in modeling the trend component of the time series. Don't use this option with the `timeSeriesLengthFraction` or `minTimeSeriesLength` options. */
+  maxTimeSeriesLength?: string | undefined;
   /** Google Cloud Storage URI from which the model was imported. Only applicable for imported models. */
   modelUri?: string | undefined;
-  /** A list of geographical regions that are used for time series modeling. */
-  holidayRegions?: TrainingOptionsHolidayRegionsItemEnumList | undefined;
-  /** Name of the column used to determine the rows corresponding to control and test. Applies to contribution analysis models. */
-  isTestColumn?: string | undefined;
+  /** Specifies the reservation affinity type used to configure a Vertex AI resource. The default value is `NO_RESERVATION`. */
+  reservationAffinityType?: TrainingOptionsReservationAffinityTypeEnum | (string & {}) | undefined;
+  /** Optimization strategy for training linear regression models. */
+  optimizationStrategy?: TrainingOptionsOptimizationStrategyEnum | (string & {}) | undefined;
+  /** The apriori support minimum. Applies to contribution analysis models. */
+  minAprioriSupport?: number | undefined;
+  /** Hyperparameter for matrix factoration when implicit feedback type is specified. */
+  walsAlpha?: number | undefined;
+  /** The fraction of evaluation data over the whole input data. The rest of data will be used as training data. The format should be double. Accurate to two decimal places. Default value is 0.2. */
+  dataSplitEvalFraction?: number | undefined;
+  /** The contribution metric. Applies to contribution analysis models. Allowed formats supported are for summable and summable ratio contribution metrics. These include expressions such as `SUM(x)` or `SUM(x)/SUM(y)`, where x and y are column names from the base table. */
+  contributionMetric?: string | undefined;
+  /** Num factors specified for matrix factorization models. */
+  numFactors?: string | undefined;
+  /** Include drift when fitting an ARIMA model. */
+  includeDrift?: boolean | undefined;
+  /** Whether to use approximate feature contribution method in XGBoost model explanation for global explain. */
+  approxGlobalFeatureContrib?: boolean | undefined;
+  /** Distance type for clustering models. */
+  distanceType?: TrainingOptionsDistanceTypeEnum | (string & {}) | undefined;
+  /** L1 regularization coefficient to activations. */
+  l1RegActivation?: number | undefined;
+  /** Whether or not p-value test should be computed for this model. Only available for linear and logistic regression models. */
+  calculatePValues?: boolean | undefined;
+  /** Column to be designated as time series data for ARIMA model. */
+  timeSeriesDataColumn?: string | undefined;
+  /** The time series id columns that were used during ARIMA model training. */
+  timeSeriesIdColumns?: StringList | undefined;
+  /** Based on the selected TF version, the corresponding docker image is used to train external models. */
+  tfVersion?: string | undefined;
+  /** Whether the model should include intercept during model training. */
+  fitIntercept?: boolean | undefined;
+  /** Smoothing window size for the trend component. When a positive value is specified, a center moving average smoothing is applied on the history trend. When the smoothing window is out of the boundary at the beginning or the end of the trend, the first element or the last element is padded to fill the smoothing window before the average is applied. */
+  trendSmoothingWindowSize?: string | undefined;
+  /** The time series id column that was used during ARIMA model training. */
+  timeSeriesIdColumn?: string | undefined;
+  /** Categorical feature encoding method. */
+  categoryEncodingMethod?: TrainingOptionsCategoryEncodingMethodEnum | (string & {}) | undefined;
+  /** Corresponds to the label values of a reservation resource used by Vertex AI. This must be the full resource name of the reservation or reservation block. */
+  reservationAffinityValues?: StringList | undefined;
+  /** Tree construction algorithm for boosted tree models. */
+  treeMethod?: TrainingOptionsTreeMethodEnum | (string & {}) | undefined;
   /** Weights associated with each label class, for rebalancing the training data. Only applicable for classification models. */
   labelClassWeights?: DoubleMap | undefined;
-  /** The id of a Hugging Face model. For example, `google/gemma-2-2b-it`. */
-  huggingFaceModelId?: string | undefined;
-  /** When early_stop is true, stops training when accuracy improvement is less than 'min_relative_progress'. Used only for iterative training algorithms. */
-  minRelativeProgress?: number | undefined;
-  /** Enums for color space, used for processing images in Object Table. See more details at https://www.tensorflow.org/io/tutorials/colorspace. */
-  colorSpace?: TrainingOptionsColorSpaceEnum | (string & {}) | undefined;
-  /** Corresponds to the label key of a reservation resource used by Vertex AI. To target a SPECIFIC_RESERVATION by name, use `compute.googleapis.com/reservation-name` as the key and specify the name of your reservation as its value. */
-  reservationAffinityKey?: string | undefined;
+  /** The target evaluation metrics to optimize the hyperparameters for. */
+  hparamTuningObjectives?: TrainingOptionsHparamTuningObjectivesItemEnumList | undefined;
+  /** Subsample fraction of the training data to grow tree to prevent overfitting for boosted tree models. */
+  subsample?: number | undefined;
+  /** The forecast limit upper bound that was used during ARIMA model training with limits. */
+  forecastLimitUpperBound?: number | undefined;
 }
 /** Training info of a trial in [hyperparameter tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) models. */
 export interface HparamTuningTrial {
-  /** Starting time of the trial. */
-  startTimeMs?: string | undefined;
   /** Ending time of the trial. */
   endTimeMs?: string | undefined;
-  /** Loss computed on the eval data at the end of trial. */
-  evalLoss?: number | undefined;
+  /** Starting time of the trial. */
+  startTimeMs?: string | undefined;
   /** 1-based index of the trial. */
   trialId?: string | undefined;
   /** Loss computed on the training data at the end of trial. */
   trainingLoss?: number | undefined;
+  /** Loss computed on the eval data at the end of trial. */
+  evalLoss?: number | undefined;
   /** The status of the trial. */
   status?: HparamTuningTrialStatusEnum | (string & {}) | undefined;
   /** Hyperparameter tuning evaluation metrics of this trial calculated on the eval data. Unlike evaluation_metrics, only the fields corresponding to the hparam_tuning_objectives are set. */
   hparamTuningEvaluationMetrics?: EvaluationMetrics | undefined;
-  /** The hyperprameters selected for this trial. */
-  hparams?: TrainingOptions | undefined;
-  /** Error message for FAILED and INFEASIBLE trial. */
-  errorMessage?: string | undefined;
   /** Evaluation metrics of this trial calculated on the test data. Empty in Job API. */
   evaluationMetrics?: EvaluationMetrics | undefined;
+  /** Error message for FAILED and INFEASIBLE trial. */
+  errorMessage?: string | undefined;
+  /** The hyperprameters selected for this trial. */
+  hparams?: TrainingOptions | undefined;
 }
 export type HparamTuningTrialList = Array<HparamTuningTrial>;
-export type MlStatisticsModelTypeEnum =
-  | "MODEL_TYPE_UNSPECIFIED"
-  | "LINEAR_REGRESSION"
-  | "LOGISTIC_REGRESSION"
-  | "KMEANS"
-  | "MATRIX_FACTORIZATION"
-  | "DNN_CLASSIFIER"
-  | "TENSORFLOW"
-  | "DNN_REGRESSOR"
-  | "XGBOOST"
-  | "BOOSTED_TREE_REGRESSOR"
-  | "BOOSTED_TREE_CLASSIFIER"
-  | "ARIMA"
-  | "AUTOML_REGRESSOR"
-  | "AUTOML_CLASSIFIER"
-  | "PCA"
-  | "DNN_LINEAR_COMBINED_CLASSIFIER"
-  | "DNN_LINEAR_COMBINED_REGRESSOR"
-  | "AUTOENCODER"
-  | "ARIMA_PLUS"
-  | "ARIMA_PLUS_XREG"
-  | "RANDOM_FOREST_REGRESSOR"
-  | "RANDOM_FOREST_CLASSIFIER"
-  | "TENSORFLOW_LITE"
-  | "ONNX"
-  | "TRANSFORM_ONLY"
-  | "CONTRIBUTION_ANALYSIS";
-/** Information about a single cluster for clustering model. */
-export interface ClusterInfo {
-  /** Centroid id. */
-  centroidId?: string | undefined;
-  /** Cluster radius, the average distance from centroid to each point assigned to the cluster. */
-  clusterRadius?: number | undefined;
-  /** Cluster size, the total number of points assigned to the cluster. */
-  clusterSize?: string | undefined;
-}
-export type ClusterInfoList = Array<ClusterInfo>;
+export type ArimaResultSeasonalPeriodsItemEnum =
+  | "SEASONAL_PERIOD_TYPE_UNSPECIFIED"
+  | "NO_SEASONALITY"
+  | "DAILY"
+  | "WEEKLY"
+  | "MONTHLY"
+  | "QUARTERLY"
+  | "YEARLY"
+  | "HOURLY";
+export type ArimaResultSeasonalPeriodsItemEnumList = Array<
+  ArimaResultSeasonalPeriodsItemEnum | (string & {})
+>;
 export type ArimaModelInfoSeasonalPeriodsItemEnum =
   | "SEASONAL_PERIOD_TYPE_UNSPECIFIED"
   | "NO_SEASONALITY"
@@ -2022,55 +1982,43 @@ export type ArimaModelInfoSeasonalPeriodsItemEnumList = Array<
 export type DoubleList = Array<number>;
 /** Arima coefficients. */
 export interface ArimaCoefficients {
-  /** Auto-regressive coefficients, an array of double. */
-  autoRegressiveCoefficients?: DoubleList | undefined;
-  /** Moving-average coefficients, an array of double. */
-  movingAverageCoefficients?: DoubleList | undefined;
   /** Intercept coefficient, just a double not an array. */
   interceptCoefficient?: number | undefined;
+  /** Moving-average coefficients, an array of double. */
+  movingAverageCoefficients?: DoubleList | undefined;
+  /** Auto-regressive coefficients, an array of double. */
+  autoRegressiveCoefficients?: DoubleList | undefined;
 }
 /** Arima model information. */
 export interface ArimaModelInfo {
-  /** If true, step_changes is a part of time series decomposition result. */
-  hasStepChanges?: boolean | undefined;
-  /** If true, spikes_and_dips is a part of time series decomposition result. */
-  hasSpikesAndDips?: boolean | undefined;
-  /** Non-seasonal order. */
-  nonSeasonalOrder?: ArimaOrder | undefined;
-  /** Whether Arima model fitted with drift or not. It is always false when d is not 1. */
-  hasDrift?: boolean | undefined;
-  /** The tuple of time_series_ids identifying this time series. It will be one of the unique tuples of values present in the time_series_id_columns specified during ARIMA model training. Only present when time_series_id_columns training option was used and the order of values here are same as the order of time_series_id_columns. */
-  timeSeriesIds?: StringList | undefined;
-  /** Seasonal periods. Repeated because multiple periods are supported for one time series. */
-  seasonalPeriods?: ArimaModelInfoSeasonalPeriodsItemEnumList | undefined;
-  /** Arima fitting metrics. */
-  arimaFittingMetrics?: ArimaFittingMetrics | undefined;
   /** The time_series_id value for this time series. It will be one of the unique values from the time_series_id_column specified during ARIMA model training. Only present when time_series_id_column training option was used. */
   timeSeriesId?: string | undefined;
+  /** Seasonal periods. Repeated because multiple periods are supported for one time series. */
+  seasonalPeriods?: ArimaModelInfoSeasonalPeriodsItemEnumList | undefined;
+  /** Whether Arima model fitted with drift or not. It is always false when d is not 1. */
+  hasDrift?: boolean | undefined;
+  /** If true, spikes_and_dips is a part of time series decomposition result. */
+  hasSpikesAndDips?: boolean | undefined;
+  /** If true, step_changes is a part of time series decomposition result. */
+  hasStepChanges?: boolean | undefined;
+  /** Non-seasonal order. */
+  nonSeasonalOrder?: ArimaOrder | undefined;
+  /** Arima fitting metrics. */
+  arimaFittingMetrics?: ArimaFittingMetrics | undefined;
   /** If true, holiday_effect is a part of time series decomposition result. */
   hasHolidayEffect?: boolean | undefined;
+  /** The tuple of time_series_ids identifying this time series. It will be one of the unique tuples of values present in the time_series_id_columns specified during ARIMA model training. Only present when time_series_id_columns training option was used and the order of values here are same as the order of time_series_id_columns. */
+  timeSeriesIds?: StringList | undefined;
   /** Arima coefficients. */
   arimaCoefficients?: ArimaCoefficients | undefined;
 }
 export type ArimaModelInfoList = Array<ArimaModelInfo>;
-export type ArimaResultSeasonalPeriodsItemEnum =
-  | "SEASONAL_PERIOD_TYPE_UNSPECIFIED"
-  | "NO_SEASONALITY"
-  | "DAILY"
-  | "WEEKLY"
-  | "MONTHLY"
-  | "QUARTERLY"
-  | "YEARLY"
-  | "HOURLY";
-export type ArimaResultSeasonalPeriodsItemEnumList = Array<
-  ArimaResultSeasonalPeriodsItemEnum | (string & {})
->;
 /** (Auto-)arima fitting result. Wrap everything in ArimaResult for easier refactoring if we want to use model-specific iteration results. */
 export interface ArimaResult {
-  /** This message is repeated because there are multiple arima models fitted in auto-arima. For non-auto-arima model, its size is one. */
-  arimaModelInfo?: ArimaModelInfoList | undefined;
   /** Seasonal periods. Repeated because multiple periods are supported for one time series. */
   seasonalPeriods?: ArimaResultSeasonalPeriodsItemEnumList | undefined;
+  /** This message is repeated because there are multiple arima models fitted in auto-arima. For non-auto-arima model, its size is one. */
+  arimaModelInfo?: ArimaModelInfoList | undefined;
 }
 /** Principal component infos, used only for eigen decomposition based models, e.g., PCA. Ordered by explained_variance in the descending order. */
 export interface PrincipalComponentInfo {
@@ -2084,76 +2032,148 @@ export interface PrincipalComponentInfo {
   principalComponentId?: string | undefined;
 }
 export type PrincipalComponentInfoList = Array<PrincipalComponentInfo>;
+/** Information about a single cluster for clustering model. */
+export interface ClusterInfo {
+  /** Cluster size, the total number of points assigned to the cluster. */
+  clusterSize?: string | undefined;
+  /** Centroid id. */
+  centroidId?: string | undefined;
+  /** Cluster radius, the average distance from centroid to each point assigned to the cluster. */
+  clusterRadius?: number | undefined;
+}
+export type ClusterInfoList = Array<ClusterInfo>;
 /** Information about a single iteration of the training run. */
 export interface IterationResult {
-  /** Information about top clusters for clustering models. */
-  clusterInfos?: ClusterInfoList | undefined;
   /** Loss computed on the training data at the end of iteration. */
   trainingLoss?: number | undefined;
-  /** Index of the iteration, 0 based. */
-  index?: number | undefined;
   /** Learn rate used for this iteration. */
   learnRate?: number | undefined;
-  /** Time taken to run the iteration in milliseconds. */
-  durationMs?: string | undefined;
   /** Arima result. */
   arimaResult?: ArimaResult | undefined;
+  /** Index of the iteration, 0 based. */
+  index?: number | undefined;
+  /** Time taken to run the iteration in milliseconds. */
+  durationMs?: string | undefined;
   /** Loss computed on the eval data at the end of iteration. */
   evalLoss?: number | undefined;
   /** The information of the principal components. */
   principalComponentInfos?: PrincipalComponentInfoList | undefined;
+  /** Information about top clusters for clustering models. */
+  clusterInfos?: ClusterInfoList | undefined;
 }
 export type IterationResultList = Array<IterationResult>;
+export type MlStatisticsTrainingTypeEnum =
+  | "TRAINING_TYPE_UNSPECIFIED"
+  | "SINGLE_TRAINING"
+  | "HPARAM_TUNING";
 /** Job statistics specific to a BigQuery ML training job. */
 export interface MlStatistics {
-  /** Output only. Training type of the job. */
-  trainingType?: MlStatisticsTrainingTypeEnum | (string & {}) | undefined;
-  /** Output only. Maximum number of iterations specified as max_iterations in the 'CREATE MODEL' query. The actual number of iterations may be less than this number due to early stop. */
-  maxIterations?: string | undefined;
-  /** Output only. Trials of a [hyperparameter tuning job](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) sorted by trial_id. */
-  hparamTrials?: HparamTuningTrialList | undefined;
   /** Output only. The type of the model that is being trained. */
   modelType?: MlStatisticsModelTypeEnum | (string & {}) | undefined;
+  /** Output only. Trials of a [hyperparameter tuning job](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) sorted by trial_id. */
+  hparamTrials?: HparamTuningTrialList | undefined;
   /** Results for all completed iterations. Empty for [hyperparameter tuning jobs](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview). */
   iterationResults?: IterationResultList | undefined;
+  /** Output only. Maximum number of iterations specified as max_iterations in the 'CREATE MODEL' query. The actual number of iterations may be less than this number due to early stop. */
+  maxIterations?: string | undefined;
+  /** Output only. Training type of the job. */
+  trainingType?: MlStatisticsTrainingTypeEnum | (string & {}) | undefined;
 }
-export type BiEngineStatisticsAccelerationModeEnum =
-  | "BI_ENGINE_ACCELERATION_MODE_UNSPECIFIED"
-  | "BI_ENGINE_DISABLED"
-  | "PARTIAL_INPUT"
-  | "FULL_INPUT"
-  | "FULL_QUERY";
-export type BiEngineStatisticsBiEngineModeEnum =
-  | "ACCELERATION_MODE_UNSPECIFIED"
-  | "DISABLED"
-  | "PARTIAL"
-  | "FULL";
-/** Statistics for a BI Engine specific query. Populated as part of JobStatistics2 */
-export interface BiEngineStatistics {
-  /** Output only. Specifies which mode of BI Engine acceleration was performed (if any). */
-  accelerationMode?: BiEngineStatisticsAccelerationModeEnum | (string & {}) | undefined;
-  /** In case of DISABLED or PARTIAL bi_engine_mode, these contain the explanatory reasons as to why BI Engine could not accelerate. In case the full query was accelerated, this field is not populated. */
-  biEngineReasons?: BiEngineReasonList | undefined;
-  /** Output only. Specifies which mode of BI Engine acceleration was performed (if any). */
-  biEngineMode?: BiEngineStatisticsBiEngineModeEnum | (string & {}) | undefined;
+/** Id path of a routine. */
+export interface RoutineReference {
+  /** Required. The ID of the project containing this routine. */
+  projectId?: string | undefined;
+  /** Required. The ID of the routine. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 256 characters. */
+  routineId?: string | undefined;
+  /** Required. The ID of the dataset containing this routine. */
+  datasetId?: string | undefined;
 }
-export type SearchStatisticsIndexUsageModeEnum =
+export type RoutineReferenceList = Array<RoutineReference>;
+/** Statistics for a search indexing job. Populated as part of JobStatistics2. */
+export interface SearchIndexingStats {
+  /** Output only. The name of the search index. */
+  indexName?: string | undefined;
+  /** Output only. The base table for which the search index is being created or refreshed. */
+  baseTable?: TableReference | undefined;
+}
+/** Statistics for a LOAD query. */
+export interface LoadQueryStatistics {
+  /** Output only. Size of the loaded data in bytes. Note that while a LOAD query is in the running state, this value may change. */
+  outputBytes?: string | undefined;
+  /** Output only. Number of source files in a LOAD query. */
+  inputFiles?: string | undefined;
+  /** Output only. Number of rows imported in a LOAD query. Note that while a LOAD query is in the running state, this value may change. */
+  outputRows?: string | undefined;
+  /** Output only. This field is deprecated. The number of bytes of source data copied over the network for a `LOAD` query. `transferred_bytes` has the canonical value for physical transferred bytes, which is used for BigQuery Omni billing. */
+  bytesTransferred?: string | undefined;
+  /** Output only. The number of bad records encountered while processing a LOAD query. Note that if the job has failed because of more bad records encountered than the maximum allowed in the load job configuration, then this number can be less than the total number of bad records present in the input data. */
+  badRecords?: string | undefined;
+  /** Output only. Number of bytes of source data in a LOAD query. */
+  inputFileBytes?: string | undefined;
+}
+/** Query optimization information for a QUERY job. */
+export interface QueryInfo {
+  /** Output only. Information about query optimizations. */
+  optimizationDetails?: DocumentMap | undefined;
+}
+export type DmlStatisticsFineGrainedDmlUnusedReasonEnum =
+  | "FINE_GRAINED_DML_UNUSED_REASON_UNSPECIFIED"
+  | "MAX_PARTITION_SIZE_EXCEEDED"
+  | "TABLE_NOT_ENROLLED"
+  | "DML_IN_MULTI_STATEMENT_TRANSACTION";
+export type DmlStatisticsDmlModeEnum =
+  | "DML_MODE_UNSPECIFIED"
+  | "COARSE_GRAINED_DML"
+  | "FINE_GRAINED_DML";
+/** Detailed statistics for DML statements */
+export interface DmlStatistics {
+  /** Output only. Number of inserted Rows. Populated by DML INSERT and MERGE statements */
+  insertedRowCount?: string | undefined;
+  /** Output only. Number of updated Rows. Populated by DML UPDATE and MERGE statements. */
+  updatedRowCount?: string | undefined;
+  /** Output only. Reason for disabling fine-grained DML if applicable. */
+  fineGrainedDmlUnusedReason?:
+    | DmlStatisticsFineGrainedDmlUnusedReasonEnum
+    | (string & {})
+    | undefined;
+  /** Output only. DML mode used. */
+  dmlMode?: DmlStatisticsDmlModeEnum | (string & {}) | undefined;
+  /** Output only. Number of deleted Rows. populated by DML DELETE, MERGE and TRUNCATE statements. */
+  deletedRowCount?: string | undefined;
+}
+export type StoredColumnsUnusedReasonCodeEnum =
+  | "CODE_UNSPECIFIED"
+  | "STORED_COLUMNS_COVER_INSUFFICIENT"
+  | "BASE_TABLE_HAS_RLS"
+  | "BASE_TABLE_HAS_CLS"
+  | "UNSUPPORTED_PREFILTER"
+  | "INTERNAL_ERROR"
+  | "OTHER_REASON";
+/** If the stored column was not used, explain why. */
+export interface StoredColumnsUnusedReason {
+  /** Specifies the high-level reason for the unused scenario, each reason must have a code associated. */
+  code?: StoredColumnsUnusedReasonCodeEnum | (string & {}) | undefined;
+  /** Specifies the detailed description for the scenario. */
+  message?: string | undefined;
+  /** Specifies which columns were not covered by the stored columns for the specified code up to 20 columns. This is populated when the code is STORED_COLUMNS_COVER_INSUFFICIENT and BASE_TABLE_HAS_CLS. */
+  uncoveredColumns?: StringList | undefined;
+}
+export type StoredColumnsUnusedReasonList = Array<StoredColumnsUnusedReason>;
+/** Indicates the stored columns usage in the query. */
+export interface StoredColumnsUsage {
+  /** Specifies whether the query was accelerated with stored columns. */
+  isQueryAccelerated?: boolean | undefined;
+  /** If stored columns were not used, explain why. */
+  storedColumnsUnusedReasons?: StoredColumnsUnusedReasonList | undefined;
+  /** Specifies the base table. */
+  baseTable?: TableReference | undefined;
+}
+export type StoredColumnsUsageList = Array<StoredColumnsUsage>;
+export type VectorSearchStatisticsIndexUsageModeEnum =
   | "INDEX_USAGE_MODE_UNSPECIFIED"
   | "UNUSED"
   | "PARTIALLY_USED"
   | "FULLY_USED";
-/** Statistics for index pruning. */
-export interface IndexPruningStats {
-  /** The base table reference. */
-  baseTable?: TableReference | undefined;
-  /** The number of parallel inputs after index pruning. */
-  postIndexPruningParallelInputCount?: string | undefined;
-  /** The number of parallel inputs before index pruning. */
-  preIndexPruningParallelInputCount?: string | undefined;
-  /** The index id. */
-  indexId?: string | undefined;
-}
-export type IndexPruningStatsList = Array<IndexPruningStats>;
 export type IndexUnusedReasonCodeEnum =
   | "CODE_UNSPECIFIED"
   | "INDEX_CONFIG_NOT_AVAILABLE"
@@ -2181,208 +2201,23 @@ export type IndexUnusedReasonCodeEnum =
 export interface IndexUnusedReason {
   /** Specifies the high-level reason for the scenario when no search index was used. */
   code?: IndexUnusedReasonCodeEnum | (string & {}) | undefined;
-  /** Free form human-readable reason for the scenario when no search index was used. */
-  message?: string | undefined;
   /** Specifies the base table involved in the reason that no search index was used. */
   baseTable?: TableReference | undefined;
+  /** Free form human-readable reason for the scenario when no search index was used. */
+  message?: string | undefined;
   /** Specifies the name of the unused search index, if available. */
   indexName?: string | undefined;
 }
 export type IndexUnusedReasonList = Array<IndexUnusedReason>;
-/** Statistics for a search query. Populated as part of JobStatistics2. */
-export interface SearchStatistics {
-  /** Specifies the index usage mode for the query. */
-  indexUsageMode?: SearchStatisticsIndexUsageModeEnum | (string & {}) | undefined;
-  /** Search index pruning statistics, one for each base table that has a search index. If a base table does not have a search index or the index does not help with pruning on the base table, then there is no pruning statistics for that table. */
-  indexPruningStats?: IndexPruningStatsList | undefined;
-  /** When `indexUsageMode` is `UNUSED` or `PARTIALLY_USED`, this field explains why indexes were not used in all or part of the search query. If `indexUsageMode` is `FULLY_USED`, this field is not populated. */
-  indexUnusedReasons?: IndexUnusedReasonList | undefined;
-}
-export type VectorSearchStatisticsIndexUsageModeEnum =
-  | "INDEX_USAGE_MODE_UNSPECIFIED"
-  | "UNUSED"
-  | "PARTIALLY_USED"
-  | "FULLY_USED";
-export type StoredColumnsUnusedReasonCodeEnum =
-  | "CODE_UNSPECIFIED"
-  | "STORED_COLUMNS_COVER_INSUFFICIENT"
-  | "BASE_TABLE_HAS_RLS"
-  | "BASE_TABLE_HAS_CLS"
-  | "UNSUPPORTED_PREFILTER"
-  | "INTERNAL_ERROR"
-  | "OTHER_REASON";
-/** If the stored column was not used, explain why. */
-export interface StoredColumnsUnusedReason {
-  /** Specifies the detailed description for the scenario. */
-  message?: string | undefined;
-  /** Specifies which columns were not covered by the stored columns for the specified code up to 20 columns. This is populated when the code is STORED_COLUMNS_COVER_INSUFFICIENT and BASE_TABLE_HAS_CLS. */
-  uncoveredColumns?: StringList | undefined;
-  /** Specifies the high-level reason for the unused scenario, each reason must have a code associated. */
-  code?: StoredColumnsUnusedReasonCodeEnum | (string & {}) | undefined;
-}
-export type StoredColumnsUnusedReasonList = Array<StoredColumnsUnusedReason>;
-/** Indicates the stored columns usage in the query. */
-export interface StoredColumnsUsage {
-  /** If stored columns were not used, explain why. */
-  storedColumnsUnusedReasons?: StoredColumnsUnusedReasonList | undefined;
-  /** Specifies the base table. */
-  baseTable?: TableReference | undefined;
-  /** Specifies whether the query was accelerated with stored columns. */
-  isQueryAccelerated?: boolean | undefined;
-}
-export type StoredColumnsUsageList = Array<StoredColumnsUsage>;
 /** Statistics for a vector search query. Populated as part of JobStatistics2. */
 export interface VectorSearchStatistics {
+  /** Specifies the usage of stored columns in the query when stored columns are used in the query. */
+  storedColumnsUsages?: StoredColumnsUsageList | undefined;
   /** Specifies the index usage mode for the query. */
   indexUsageMode?: VectorSearchStatisticsIndexUsageModeEnum | (string & {}) | undefined;
   /** When `indexUsageMode` is `UNUSED` or `PARTIALLY_USED`, this field explains why indexes were not used in all or part of the vector search query. If `indexUsageMode` is `FULLY_USED`, this field is not populated. */
   indexUnusedReasons?: IndexUnusedReasonList | undefined;
-  /** Specifies the usage of stored columns in the query when stored columns are used in the query. */
-  storedColumnsUsages?: StoredColumnsUsageList | undefined;
 }
-/** Id path of a routine. */
-export interface RoutineReference {
-  /** Required. The ID of the dataset containing this routine. */
-  datasetId?: string | undefined;
-  /** Required. The ID of the routine. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 256 characters. */
-  routineId?: string | undefined;
-  /** Required. The ID of the project containing this routine. */
-  projectId?: string | undefined;
-}
-export type DmlStatisticsFineGrainedDmlUnusedReasonEnum =
-  | "FINE_GRAINED_DML_UNUSED_REASON_UNSPECIFIED"
-  | "MAX_PARTITION_SIZE_EXCEEDED"
-  | "TABLE_NOT_ENROLLED"
-  | "DML_IN_MULTI_STATEMENT_TRANSACTION";
-export type DmlStatisticsDmlModeEnum =
-  | "DML_MODE_UNSPECIFIED"
-  | "COARSE_GRAINED_DML"
-  | "FINE_GRAINED_DML";
-/** Detailed statistics for DML statements */
-export interface DmlStatistics {
-  /** Output only. Reason for disabling fine-grained DML if applicable. */
-  fineGrainedDmlUnusedReason?:
-    | DmlStatisticsFineGrainedDmlUnusedReasonEnum
-    | (string & {})
-    | undefined;
-  /** Output only. Number of deleted Rows. populated by DML DELETE, MERGE and TRUNCATE statements. */
-  deletedRowCount?: string | undefined;
-  /** Output only. Number of inserted Rows. Populated by DML INSERT and MERGE statements */
-  insertedRowCount?: string | undefined;
-  /** Output only. DML mode used. */
-  dmlMode?: DmlStatisticsDmlModeEnum | (string & {}) | undefined;
-  /** Output only. Number of updated Rows. Populated by DML UPDATE and MERGE statements. */
-  updatedRowCount?: string | undefined;
-}
-/** Statistics for a LOAD query. */
-export interface LoadQueryStatistics {
-  /** Output only. The number of bad records encountered while processing a LOAD query. Note that if the job has failed because of more bad records encountered than the maximum allowed in the load job configuration, then this number can be less than the total number of bad records present in the input data. */
-  badRecords?: string | undefined;
-  /** Output only. Number of rows imported in a LOAD query. Note that while a LOAD query is in the running state, this value may change. */
-  outputRows?: string | undefined;
-  /** Output only. Size of the loaded data in bytes. Note that while a LOAD query is in the running state, this value may change. */
-  outputBytes?: string | undefined;
-  /** Output only. Number of bytes of source data in a LOAD query. */
-  inputFileBytes?: string | undefined;
-  /** Output only. This field is deprecated. The number of bytes of source data copied over the network for a `LOAD` query. `transferred_bytes` has the canonical value for physical transferred bytes, which is used for BigQuery Omni billing. */
-  bytesTransferred?: string | undefined;
-  /** Output only. Number of source files in a LOAD query. */
-  inputFiles?: string | undefined;
-}
-export type RoutineReferenceList = Array<RoutineReference>;
-/** Query optimization information for a QUERY job. */
-export interface QueryInfo {
-  /** Output only. Information about query optimizations. */
-  optimizationDetails?: DocumentMap | undefined;
-}
-/** Id path of a property graph. */
-export interface PropertyGraphReference {
-  /** Required. The ID of the dataset containing this property graph. */
-  datasetId?: string | undefined;
-  /** Required. The ID of the project containing this property graph. */
-  projectId?: string | undefined;
-  /** Required. The ID of the property graph. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 256 characters. */
-  propertyGraphId?: string | undefined;
-}
-export type PropertyGraphReferenceList = Array<PropertyGraphReference>;
-export type ExplainQueryStageComputeModeEnum =
-  | "COMPUTE_MODE_UNSPECIFIED"
-  | "BIGQUERY"
-  | "BI_ENGINE";
-/** An operation within a stage. */
-export interface ExplainQueryStep {
-  /** Machine-readable operation type. */
-  kind?: string | undefined;
-  /** Human-readable description of the step(s). */
-  substeps?: StringList | undefined;
-}
-export type ExplainQueryStepList = Array<ExplainQueryStep>;
-/** A single stage of query execution. */
-export interface ExplainQueryStage {
-  /** Relative amount of time the slowest shard spent waiting to be scheduled. */
-  waitRatioMax?: number | undefined;
-  /** Current status for this stage. */
-  status?: string | undefined;
-  /** Output only. Compute mode for this stage. */
-  computeMode?: ExplainQueryStageComputeModeEnum | (string & {}) | undefined;
-  /** Total number of bytes written to shuffle. */
-  shuffleOutputBytes?: string | undefined;
-  /** Relative amount of time the slowest shard spent on CPU-bound tasks. */
-  computeRatioMax?: number | undefined;
-  /** Stage end time represented as milliseconds since the epoch. */
-  endMs?: string | undefined;
-  /** Relative amount of time the average shard spent on writing output. */
-  writeRatioAvg?: number | undefined;
-  /** Slot-milliseconds used by the stage. */
-  slotMs?: string | undefined;
-  /** Milliseconds the slowest shard spent on writing output. */
-  writeMsMax?: string | undefined;
-  /** Stage start time represented as milliseconds since the epoch. */
-  startMs?: string | undefined;
-  /** Relative amount of time the average shard spent on CPU-bound tasks. */
-  computeRatioAvg?: number | undefined;
-  /** Relative amount of time the average shard spent waiting to be scheduled. */
-  waitRatioAvg?: number | undefined;
-  /** Milliseconds the average shard spent reading input. */
-  readMsAvg?: string | undefined;
-  /** Relative amount of time the slowest shard spent on writing output. */
-  writeRatioMax?: number | undefined;
-  /** Number of parallel input segments completed. */
-  completedParallelInputs?: string | undefined;
-  /** Number of parallel input segments to be processed */
-  parallelInputs?: string | undefined;
-  /** Milliseconds the average shard spent on CPU-bound tasks. */
-  computeMsAvg?: string | undefined;
-  /** IDs for stages that are inputs to this stage. */
-  inputStages?: StringList | undefined;
-  /** Relative amount of time the average shard spent reading input. */
-  readRatioAvg?: number | undefined;
-  /** Milliseconds the slowest shard spent reading input. */
-  readMsMax?: string | undefined;
-  /** Milliseconds the average shard spent on writing output. */
-  writeMsAvg?: string | undefined;
-  /** Relative amount of time the slowest shard spent reading input. */
-  readRatioMax?: number | undefined;
-  /** Number of records read into the stage. */
-  recordsRead?: string | undefined;
-  /** Milliseconds the average shard spent waiting to be scheduled. */
-  waitMsAvg?: string | undefined;
-  /** Total number of bytes written to shuffle and spilled to disk. */
-  shuffleOutputBytesSpilled?: string | undefined;
-  /** Milliseconds the slowest shard spent waiting to be scheduled. */
-  waitMsMax?: string | undefined;
-  /** List of operations within the stage in dependency order (approximately chronological). */
-  steps?: ExplainQueryStepList | undefined;
-  /** Unique ID for the stage within the plan. */
-  id?: string | undefined;
-  /** Number of records written by the stage. */
-  recordsWritten?: string | undefined;
-  /** Milliseconds the slowest shard spent on CPU-bound tasks. */
-  computeMsMax?: string | undefined;
-  /** Human-readable name for the stage. */
-  name?: string | undefined;
-}
-export type ExplainQueryStageList = Array<ExplainQueryStage>;
 export type MaterializedViewRejectedReasonEnum =
   | "REJECTED_REASON_UNSPECIFIED"
   | "NO_DATA"
@@ -2398,12 +2233,12 @@ export type MaterializedViewRejectedReasonEnum =
   | "BASE_TABLE_TOO_STALE";
 /** A materialized view considered for a query job. */
 export interface MaterializedView {
-  /** If present, specifies a best-effort estimation of the bytes saved by using the materialized view rather than its base tables. */
-  estimatedBytesSaved?: string | undefined;
-  /** Whether the materialized view is chosen for the query. A materialized view can be chosen to rewrite multiple parts of the same query. If a materialized view is chosen to rewrite any part of the query, then this field is true, even if the materialized view was not chosen to rewrite others parts. */
-  chosen?: boolean | undefined;
   /** If present, specifies the reason why the materialized view was not chosen for the query. */
   rejectedReason?: MaterializedViewRejectedReasonEnum | (string & {}) | undefined;
+  /** Whether the materialized view is chosen for the query. A materialized view can be chosen to rewrite multiple parts of the same query. If a materialized view is chosen to rewrite any part of the query, then this field is true, even if the materialized view was not chosen to rewrite others parts. */
+  chosen?: boolean | undefined;
+  /** If present, specifies a best-effort estimation of the bytes saved by using the materialized view rather than its base tables. */
+  estimatedBytesSaved?: string | undefined;
   /** The candidate materialized view. */
   tableReference?: TableReference | undefined;
 }
@@ -2413,109 +2248,294 @@ export interface MaterializedViewStatistics {
   /** Materialized views considered for the query job. Only certain materialized views are used. For a detailed list, see the child message. If many materialized views are considered, then the list might be incomplete. */
   materializedView?: MaterializedViewList | undefined;
 }
+/** Details about source stages which produce skewed data. */
+export interface SkewSource {
+  /** Output only. Max partition output size (in bytes) for this stage. */
+  outputBytesMax?: string | undefined;
+  /** Output only. Median partition output size (in bytes) for this stage. */
+  outputBytesMedian?: string | undefined;
+  /** Output only. Stage id of the skew source stage. */
+  stageId?: string | undefined;
+  /** Output only. 95-th percentile of partition output size (in bytes) for this stage. */
+  outputBytesP95?: string | undefined;
+}
+export type SkewSourceList = Array<SkewSource>;
+/** Partition skew detailed information. */
+export interface PartitionSkew {
+  /** Output only. Source stages which produce skewed data. */
+  skewSources?: SkewSourceList | undefined;
+}
+/** High cardinality join detailed information. */
+export interface HighCardinalityJoin {
+  /** Output only. Count of the output rows. */
+  outputRows?: string | undefined;
+  /** Output only. Count of right input rows. */
+  rightRows?: string | undefined;
+  /** Output only. The index of the join operator in the ExplainQueryStep lists. */
+  stepIndex?: number | undefined;
+  /** Output only. Count of left input rows. */
+  leftRows?: string | undefined;
+}
+export type HighCardinalityJoinList = Array<HighCardinalityJoin>;
+/** Standalone performance insights for a specific stage. */
+export interface StagePerformanceStandaloneInsight {
+  /** Output only. If present, the stage had the following reasons for being disqualified from BI Engine execution. */
+  biEngineReasons?: BiEngineReasonList | undefined;
+  /** Output only. Partition skew in the stage. */
+  partitionSkew?: PartitionSkew | undefined;
+  /** Output only. High cardinality joins in the stage. */
+  highCardinalityJoins?: HighCardinalityJoinList | undefined;
+  /** Output only. True if the stage has insufficient shuffle quota. */
+  insufficientShuffleQuota?: boolean | undefined;
+  /** Output only. True if the stage has a slot contention issue. */
+  slotContention?: boolean | undefined;
+  /** Output only. The stage id that the insight mapped to. */
+  stageId?: string | undefined;
+}
+export type StagePerformanceStandaloneInsightList = Array<StagePerformanceStandaloneInsight>;
+/** Details about the input data change insight. */
+export interface InputDataChange {
+  /** Output only. Records read difference percentage compared to a previous run. */
+  recordsReadDiffPercentage?: number | undefined;
+}
+/** Performance insights compared to the previous executions for a specific stage. */
+export interface StagePerformanceChangeInsight {
+  /** Output only. Input data change insight of the query stage. */
+  inputDataChange?: InputDataChange | undefined;
+  /** Output only. The stage id that the insight mapped to. */
+  stageId?: string | undefined;
+}
+export type StagePerformanceChangeInsightList = Array<StagePerformanceChangeInsight>;
+/** Column Metadata Index staleness detailed infnormation. */
+export interface MetadataCacheStalenessInsight {
+  /** Output only. The percent increase in staleness between the current job and the average staleness of previous jobs with the same query hash. */
+  stalenessPercentageIncrease?: number | undefined;
+  /** Output only. Average column metadata index staleness of previous runs with the same query hash. */
+  avgPreviousStalenessMs?: string | undefined;
+}
+/** Table-level performance insights compared to previous runs. These insights don't apply to specific query stages, rather they apply to the whole table. */
+export interface TableChangeInsight {
+  /** Output only. True if the table's column metadata index was not used in the current job, but was used in a previous job with the same query hash. */
+  metadataCacheNotUsedButUsedPreviously?: boolean | undefined;
+  /** Output only. The table that was queried. */
+  tableReference?: TableReference | undefined;
+  /** Output only. If present, indicates that the table's metadata column index staleness has increased significantly compared to previous jobs with the same query hash. */
+  metadataCacheStalenessInsight?: MetadataCacheStalenessInsight | undefined;
+}
+export type TableChangeInsightList = Array<TableChangeInsight>;
+/** Performance insights for the job. */
+export interface PerformanceInsights {
+  /** Output only. Standalone query stage performance insights, for exploring potential improvements. */
+  stagePerformanceStandaloneInsights?: StagePerformanceStandaloneInsightList | undefined;
+  /** Output only. Query stage performance insights compared to previous runs, for diagnosing performance regression. */
+  stagePerformanceChangeInsights?: StagePerformanceChangeInsightList | undefined;
+  /** Output only. Performance insights for table-level attributes that changed compared to previous runs. */
+  tableChangeInsights?: TableChangeInsightList | undefined;
+  /** Output only. Average execution ms of previous runs. Indicates the job ran slow compared to previous executions. To find previous executions, use INFORMATION_SCHEMA tables and filter jobs with same query hash. */
+  avgPreviousExecutionMs?: string | undefined;
+}
+/** The column metadata index pruning statistics. */
+export interface PruningStats {
+  /** The number of parallel inputs scanned. */
+  preCmetaPruningParallelInputCount?: string | undefined;
+  /** The number of parallel inputs matched. */
+  postCmetaPruningParallelInputCount?: string | undefined;
+  /** The number of partitions matched. */
+  postCmetaPruningPartitionCount?: string | undefined;
+}
+export type TableMetadataCacheUsageUnusedReasonEnum =
+  | "UNUSED_REASON_UNSPECIFIED"
+  | "EXCEEDED_MAX_STALENESS"
+  | "METADATA_CACHING_NOT_ENABLED"
+  | "OTHER_REASON";
+/** Table level detail on the usage of metadata caching. Only set for Metadata caching eligible tables referenced in the query. */
+export interface TableMetadataCacheUsage {
+  /** Metadata caching eligible table referenced in the query. */
+  tableReference?: TableReference | undefined;
+  /** The column metadata index pruning statistics. */
+  pruningStats?: PruningStats | undefined;
+  /** [Table type](https://cloud.google.com/bigquery/docs/reference/rest/v2/tables#Table.FIELDS.type). */
+  tableType?: string | undefined;
+  /** Free form human-readable reason metadata caching was unused for the job. */
+  explanation?: string | undefined;
+  /** Duration since last refresh as of this job for managed tables (indicates metadata cache staleness as seen by this job). */
+  staleness?: string | undefined;
+  /** Reason for not using metadata caching for the table. */
+  unusedReason?: TableMetadataCacheUsageUnusedReasonEnum | (string & {}) | undefined;
+}
+export type TableMetadataCacheUsageList = Array<TableMetadataCacheUsage>;
+/** Statistics for metadata caching in queried tables. */
+export interface MetadataCacheStatistics {
+  /** Set for the Metadata caching eligible tables referenced in the query. */
+  tableMetadataCacheUsage?: TableMetadataCacheUsageList | undefined;
+}
+/** Statistics for index pruning. */
+export interface IndexPruningStats {
+  /** The number of parallel inputs after index pruning. */
+  postIndexPruningParallelInputCount?: string | undefined;
+  /** The base table reference. */
+  baseTable?: TableReference | undefined;
+  /** The number of parallel inputs before index pruning. */
+  preIndexPruningParallelInputCount?: string | undefined;
+  /** The index id. */
+  indexId?: string | undefined;
+}
+export type IndexPruningStatsList = Array<IndexPruningStats>;
+export type SearchStatisticsIndexUsageModeEnum =
+  | "INDEX_USAGE_MODE_UNSPECIFIED"
+  | "UNUSED"
+  | "PARTIALLY_USED"
+  | "FULLY_USED";
+/** Statistics for a search query. Populated as part of JobStatistics2. */
+export interface SearchStatistics {
+  /** When `indexUsageMode` is `UNUSED` or `PARTIALLY_USED`, this field explains why indexes were not used in all or part of the search query. If `indexUsageMode` is `FULLY_USED`, this field is not populated. */
+  indexUnusedReasons?: IndexUnusedReasonList | undefined;
+  /** Search index pruning statistics, one for each base table that has a search index. If a base table does not have a search index or the index does not help with pruning on the base table, then there is no pruning statistics for that table. */
+  indexPruningStats?: IndexPruningStatsList | undefined;
+  /** Specifies the index usage mode for the query. */
+  indexUsageMode?: SearchStatisticsIndexUsageModeEnum | (string & {}) | undefined;
+}
+export interface JobStatistics2ReservationUsageItem {
+  /** Reservation name or "unreserved" for on-demand resource usage and multi-statement queries. */
+  name?: string | undefined;
+  /** Total slot milliseconds used by the reservation for a particular job. */
+  slotMs?: string | undefined;
+}
+export type JobStatistics2ReservationUsageItemList = Array<JobStatistics2ReservationUsageItem>;
 /** Statistics for a query job. */
 export interface JobStatistics2 {
-  /** Deprecated. */
-  modelTraining?: BigQueryModelTraining | undefined;
-  /** Output only. The number of rows affected by a DML statement. Present only for DML statements INSERT, UPDATE or DELETE. */
-  numDmlAffectedRows?: string | undefined;
-  /** Output only. The DDL target row access policy. Present only for CREATE/DROP ROW ACCESS POLICY queries. */
-  ddlTargetRowAccessPolicy?: RowAccessPolicyReference | undefined;
-  /** Deprecated. */
-  modelTrainingExpectedTotalIteration?: string | undefined;
-  /** Output only. Referenced dataset for DCL statement. */
-  dclTargetDataset?: DatasetReference | undefined;
-  /** Output only. Referenced table for DCL statement. */
-  dclTargetTable?: TableReference | undefined;
-  /** Output only. Statistics of metadata cache usage in a query for BigLake tables. */
-  metadataCacheStatistics?: MetadataCacheStatistics | undefined;
-  /** Output only. Statistics of a Spark procedure job. */
-  sparkStatistics?: SparkStatistics | undefined;
-  /** Output only. Job resource usage breakdown by reservation. This field reported misleading information and will no longer be populated. */
-  reservationUsage?: JobStatistics2ReservationUsageItemList | undefined;
-  /** Output only. Total bytes transferred for BigQuery Omni queries from the remote cloud back to Google Cloud. This tracks data movement over Google-managed connections (like query results). It doesn't include input data read from the external data lake (for example, S3) because that data stays within the remote cloud. */
-  transferredBytes?: string | undefined;
-  /** Output only. Referenced logical views for the job. */
-  referencedLogicalViews?: TableReferenceList | undefined;
-  /** Output only. GoogleSQL only: list of undeclared query parameters detected during a dry run validation. */
-  undeclaredQueryParameters?: QueryParameterList | undefined;
-  /** Output only. Job cost breakdown as bigquery internal cost and external service costs. */
-  externalServiceCosts?: ExternalServiceCostList | undefined;
-  /** Output only. Billing tier for the job. This is a BigQuery-specific concept which is not related to the Google Cloud notion of "free tier". The value here is a measure of the query's resource consumption relative to the amount of data scanned. For on-demand queries, the limit is 100, and all queries within this limit are billed at the standard on-demand rates. On-demand queries that exceed this limit will fail with a billingTierLimitExceeded error. */
-  billingTier?: number | undefined;
-  /** Output only. The schema of the results. Present only for successful dry run of non-legacy SQL queries. */
-  schema?: TableSchema | undefined;
-  /** Output only. Statistics related to GenAI usage in the query. */
-  genAiStats?: GenAiStats | undefined;
-  /** Output only. Performance insights. */
-  performanceInsights?: PerformanceInsights | undefined;
-  /** Output only. Storage and caching statistics per cloud provider for queries over object storage. */
-  objectStorageStats?: ObjectStorageStatsList | undefined;
-  /** Output only. Stats for EXPORT DATA statement. */
-  exportDataStatistics?: ExportDataStatistics | undefined;
-  /** Output only. Statistics related to incremental query results, if enabled for the query. This feature is not yet available. */
-  incrementalResultStats?: IncrementalResultStats | undefined;
-  /** Output only. The DDL target dataset. Present only for CREATE/ALTER/DROP SCHEMA(dataset) queries. */
-  ddlTargetDataset?: DatasetReference | undefined;
-  /** Output only. Total slot milliseconds for the job that ran on external services and billed on the services SKU. This field is only populated for jobs that have external service costs, and is the total of the usage for costs whose billing method is `"SERVICES_SKU"`. */
-  totalServicesSkuSlotMs?: string | undefined;
-  /** Output only. Statistics of a BigQuery ML training job. */
-  mlStatistics?: MlStatistics | undefined;
-  /** Output only. BI Engine specific Statistics. */
-  biEngineStatistics?: BiEngineStatistics | undefined;
-  /** Output only. Search query specific statistics. */
-  searchStatistics?: SearchStatistics | undefined;
-  /** Output only. Whether the query result was fetched from the query cache. */
-  cacheHit?: boolean | undefined;
-  /** Output only. Vector Search query specific statistics. */
-  vectorSearchStatistics?: VectorSearchStatistics | undefined;
-  /** Output only. [Beta] The DDL target routine. Present only for CREATE/DROP FUNCTION/PROCEDURE queries. */
-  ddlTargetRoutine?: RoutineReference | undefined;
-  /** Output only. Describes a timeline of job execution. */
-  timeline?: QueryTimelineSampleList | undefined;
-  /** Output only. Detailed statistics for DML statements INSERT, UPDATE, DELETE, MERGE or TRUNCATE. */
-  dmlStats?: DmlStatistics | undefined;
-  /** Output only. The DDL target table. Present only for CREATE/DROP TABLE/VIEW and DROP ALL ROW ACCESS POLICIES queries. */
-  ddlTargetTable?: TableReference | undefined;
-  /** Output only. Total bytes processed for the job. */
-  totalBytesProcessed?: string | undefined;
-  /** Output only. Statistics for a LOAD query. */
-  loadQueryStatistics?: LoadQueryStatistics | undefined;
-  /** Output only. Referenced routines for the job. */
-  referencedRoutines?: RoutineReferenceList | undefined;
   /** Output only. The type of query statement, if valid. Possible values: * `SELECT`: [`SELECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#select_list) statement. * `ASSERT`: [`ASSERT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/debugging-statements#assert) statement. * `INSERT`: [`INSERT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#insert_statement) statement. * `UPDATE`: [`UPDATE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#update_statement) statement. * `DELETE`: [`DELETE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-manipulation-language) statement. * `MERGE`: [`MERGE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-manipulation-language) statement. * `TRUNCATE_TABLE`: [`TRUNCATE TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#truncate_table_statement) statement. * `CREATE_TABLE`: [`CREATE TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_statement) statement, without `AS SELECT`. * `CREATE_TABLE_AS_SELECT`: [`CREATE TABLE AS SELECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_statement) statement. * `CREATE_VIEW`: [`CREATE VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_view_statement) statement. * `CREATE_MODEL`: [`CREATE MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-create#create_model_statement) statement. * `CREATE_MATERIALIZED_VIEW`: [`CREATE MATERIALIZED VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_materialized_view_statement) statement. * `CREATE_FUNCTION`: [`CREATE FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_function_statement) statement. * `CREATE_TABLE_FUNCTION`: [`CREATE TABLE FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_function_statement) statement. * `CREATE_PROCEDURE`: [`CREATE PROCEDURE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_procedure) statement. * `CREATE_ROW_ACCESS_POLICY`: [`CREATE ROW ACCESS POLICY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_row_access_policy_statement) statement. * `CREATE_SCHEMA`: [`CREATE SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_schema_statement) statement. * `CREATE_EXTERNAL_SCHEMA`: [`CREATE EXTERNAL SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_external_schema_statement) statement. * `CREATE_EXTERNAL_TABLE`: [`CREATE EXTERNAL TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_external_table_statement) statement. * `CREATE_SNAPSHOT_TABLE`: [`CREATE SNAPSHOT TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_snapshot_table_statement) statement. * `CREATE_SEARCH_INDEX`: [`CREATE SEARCH INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_search_index_statement) statement. * `CREATE_VECTOR_INDEX`: [`CREATE VECTOR INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_vector_index_statement) statement. * `CREATE_CONNECTION`: [`CREATE CONNECTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_connection_statement) statement. * `CREATE_DATA_POLICY`: [`CREATE DATA_POLICY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_data_policy_statement) statement. * `CREATE_PROPERTY_GRAPH`: [`CREATE PROPERTY GRAPH`](https://cloud.google.com/bigquery/docs/reference/standard-sql/graph-schema-statements#gql_create_graph) statement. * `CREATE_CAPACITY`: [`CREATE CAPACITY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_capacity_statement) statement. * `CREATE_RESERVATION`: [`CREATE RESERVATION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_reservation_statement) statement. * `CREATE_ASSIGNMENT`: [`CREATE ASSIGNMENT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_assignment_statement) statement. * `DROP_TABLE`: [`DROP TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_table_statement) statement. * `DROP_EXTERNAL_TABLE`: [`DROP EXTERNAL TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_external_table_statement) statement. * `DROP_VIEW`: [`DROP VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_view_statement) statement. * `DROP_MODEL`: [`DROP MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-drop-model) statement. * `DROP_MATERIALIZED_VIEW`: [`DROP MATERIALIZED VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_materialized_view_statement) statement. * `DROP_FUNCTION`: [`DROP FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_function_statement) statement. * `DROP_TABLE_FUNCTION`: [`DROP TABLE FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_table_function) statement. * `DROP_PROCEDURE`: [`DROP PROCEDURE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_procedure_statement) statement. * `DROP_SEARCH_INDEX`: [`DROP SEARCH INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_search_index) statement. * `DROP_VECTOR_INDEX`: [`DROP VECTOR INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_vector_index) statement. * `DROP_SCHEMA`: [`DROP SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_schema_statement) statement. * `UNDROP_SCHEMA`: [`UNDROP SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#undrop_schema_statement) statement. * `DROP_SNAPSHOT_TABLE`: [`DROP SNAPSHOT TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_snapshot_table_statement) statement. * `DROP_ROW_ACCESS_POLICY`: [`DROP [ALL] ROW ACCESS POLICY|POLICIES`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_row_access_policy_statement) statement. * `DROP_CONNECTION`: [`DROP CONNECTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_connection_statement) statement. * `DROP_DATA_POLICY`: [`DROP DATA_POLICY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_data_policy) statement. * `DROP_PROPERTY_GRAPH`: [`DROP PROPERTY GRAPH`](https://cloud.google.com/bigquery/docs/reference/standard-sql/graph-schema-statements#gql_drop_graph) statement. * `DROP_CAPACITY`: [`DROP CAPACITY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_capacity_statement) statement. * `DROP_RESERVATION`: [`DROP RESERVATION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_reservation_statement) statement. * `DROP_ASSIGNMENT`: [`DROP ASSIGNMENT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_assignment_statement) statement. * `ALTER_TABLE`: [`ALTER TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_table_set_options_statement) statement. * `ALTER_VIEW`: [`ALTER VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_view_set_options_statement) statement. * `ALTER_MATERIALIZED_VIEW`: [`ALTER MATERIALIZED VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_materialized_view_set_options_statement) statement. * `ALTER_SCHEMA`: [`ALTER SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_schema_set_options_statement) statement. * `ALTER_MODEL`: [`ALTER MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-alter-model) statement. * `ALTER_SEARCH_INDEX`: [`ALTER SEARCH INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_search_index_statement) statement. * `ALTER_VECTOR_INDEX`: [`ALTER VECTOR INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_vector_index_rebuild_statement) statement. * `ALTER_CONNECTION`: [`ALTER CONNECTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_connection_set_options_statement) statement. * `ALTER_DATA_POLICY`: [`ALTER DATA_POLICY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_data_policy_statement) statement. * `ALTER_PROJECT`: [`ALTER PROJECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_project_set_options_statement) statement. * `ALTER_ORGANIZATION`: [`ALTER ORGANIZATION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_organization_set_options_statement) statement. * `ALTER_BI_CAPACITY`: [`ALTER BI_CAPACITY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_bi_capacity_set_options_statement) statement. * `ALTER_CAPACITY`: [`ALTER CAPACITY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_capacity_set_options_statement) statement. * `ALTER_RESERVATION`: [`ALTER RESERVATION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_reservation_set_options_statement) statement. * `SCRIPT`: [`SCRIPT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language) statement. * `CALL`: [`CALL`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language#call) statement. * `BEGIN_TRANSACTION`: [`BEGIN TRANSACTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language#begin_transaction) statement. * `COMMIT_TRANSACTION`: [`COMMIT TRANSACTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language#commit_transaction) statement. * `ROLLBACK_TRANSACTION`: [`ROLLBACK TRANSACTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language#rollback_transaction) statement. * `EXPORT_DATA`: [`EXPORT DATA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/export-statements#export_data_statement) statement. * `EXPORT_MODEL`: [`EXPORT MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-export-model) statement. * `EXPORT_METADATA`: [`EXPORT TABLE METADATA`](https://cloud.google.com/bigquery/docs/biglake-iceberg-tables-in-bigquery) statement, for BigLake Iceberg tables. * `LOAD_DATA`: [`LOAD DATA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/load-statements#load_data_statement) statement. * `GRANT_ON_SCHEMA`: [`GRANT ... ON SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#grant_statement) statement. * `GRANT_ON_TABLE`: [`GRANT ... ON TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#grant_statement) statement. Also used for `GRANT ... ON EXTERNAL TABLE`. * `GRANT_ON_VIEW`: [`GRANT ... ON VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#grant_statement) statement. * `GRANT_ON_PROJECT`: [`GRANT ... ON PROJECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#grant_statement) statement. * `REVOKE_ON_SCHEMA`: [`REVOKE ... ON SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#revoke_statement) statement. * `REVOKE_ON_TABLE`: [`REVOKE ... ON TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#revoke_statement) statement. Also used for `REVOKE ... ON EXTERNAL TABLE`. * `REVOKE_ON_VIEW`: [`REVOKE ... ON VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#revoke_statement) statement. * `REVOKE_ON_PROJECT`: [`REVOKE ... ON PROJECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#revoke_statement) statement. */
   statementType?: string | undefined;
-  /** Output only. Slot-milliseconds for the job. */
-  totalSlotMs?: string | undefined;
-  /** Output only. The original estimate of bytes processed for the job. */
-  estimatedBytesProcessed?: string | undefined;
-  /** Output only. Query optimization information for a QUERY job. */
-  queryInfo?: QueryInfo | undefined;
+  /** Output only. Stats for EXPORT DATA statement. */
+  exportDataStatistics?: ExportDataStatistics | undefined;
+  /** Output only. Billing tier for the job. This is a BigQuery-specific concept which is not related to the Google Cloud notion of "free tier". The value here is a measure of the query's resource consumption relative to the amount of data scanned. For on-demand queries, the limit is 100, and all queries within this limit are billed at the standard on-demand rates. On-demand queries that exceed this limit will fail with a billingTierLimitExceeded error. */
+  billingTier?: number | undefined;
+  /** Output only. The DDL operation performed, possibly dependent on the pre-existence of the DDL target. */
+  ddlOperationPerformed?: string | undefined;
+  /** Output only. Statistics related to GenAI usage in the query. */
+  genAiStats?: GenAiStats | undefined;
+  /** Output only. Referenced tables for the job. */
+  referencedTables?: TableReferenceList | undefined;
+  /** Output only. Describes a timeline of job execution. */
+  timeline?: QueryTimelineSampleList | undefined;
+  /** Output only. Storage and caching statistics per cloud provider for queries over object storage. */
+  objectStorageStats?: ObjectStorageStatsList | undefined;
+  /** Output only. Referenced table for DCL statement. */
+  dclTargetTable?: TableReference | undefined;
   /** Output only. The table after rename. Present only for ALTER TABLE RENAME TO query. */
   ddlDestinationTable?: TableReference | undefined;
+  /** Output only. Referenced dataset for DCL statement. */
+  dclTargetDataset?: DatasetReference | undefined;
+  /** Output only. The number of row access policies affected by a DDL statement. Present only for DROP ALL ROW ACCESS POLICIES queries. */
+  ddlAffectedRowAccessPolicyCount?: string | undefined;
+  /** Output only. BI Engine specific Statistics. */
+  biEngineStatistics?: BiEngineStatistics | undefined;
+  /** Output only. Job cost breakdown as bigquery internal cost and external service costs. */
+  externalServiceCosts?: ExternalServiceCostList | undefined;
+  /** Output only. Whether the query result was fetched from the query cache. */
+  cacheHit?: boolean | undefined;
+  /** Output only. Statistics related to incremental query results, if enabled for the query. This feature is not yet available. */
+  incrementalResultStats?: IncrementalResultStats | undefined;
+  /** Output only. The DDL target row access policy. Present only for CREATE/DROP ROW ACCESS POLICY queries. */
+  ddlTargetRowAccessPolicy?: RowAccessPolicyReference | undefined;
   /** Output only. If the project is configured to use on-demand pricing, then this field contains the total bytes billed for the job. If the project is configured to use flat-rate pricing, then you are not billed for bytes and this field is informational only. */
   totalBytesBilled?: string | undefined;
   /** Output only. Referenced property graphs for the job. Queries that reference more than 50 property graphs will not have a complete list. */
   referencedPropertyGraphs?: PropertyGraphReferenceList | undefined;
+  /** Output only. Total bytes transferred for BigQuery Omni queries from the remote cloud back to Google Cloud. This tracks data movement over Google-managed connections (like query results). It doesn't include input data read from the external data lake (for example, S3) because that data stays within the remote cloud. */
+  transferredBytes?: string | undefined;
+  /** Output only. Statistics of a Spark procedure job. */
+  sparkStatistics?: SparkStatistics | undefined;
+  /** Output only. Vector Search indexing specific statistics. */
+  vectorSearchIndexingStats?: VectorSearchIndexingStats | undefined;
   /** Output only. Describes execution plan for the query. */
   queryPlan?: ExplainQueryStageList | undefined;
+  /** Output only. Referenced logical views for the job. */
+  referencedLogicalViews?: TableReferenceList | undefined;
   /** Deprecated. */
-  modelTrainingCurrentIteration?: number | undefined;
-  /** Output only. Referenced tables for the job. */
-  referencedTables?: TableReferenceList | undefined;
-  /** Output only. The number of row access policies affected by a DDL statement. Present only for DROP ALL ROW ACCESS POLICIES queries. */
-  ddlAffectedRowAccessPolicyCount?: string | undefined;
+  modelTraining?: BigQueryModelTraining | undefined;
+  /** Output only. The original estimate of bytes processed for the job. */
+  estimatedBytesProcessed?: string | undefined;
+  /** Output only. Statistics of a BigQuery ML training job. */
+  mlStatistics?: MlStatistics | undefined;
+  /** Output only. The number of rows affected by a DML statement. Present only for DML statements INSERT, UPDATE or DELETE. */
+  numDmlAffectedRows?: string | undefined;
+  /** Output only. Referenced routines for the job. */
+  referencedRoutines?: RoutineReferenceList | undefined;
+  /** Output only. Total bytes processed for the job. */
+  totalBytesProcessed?: string | undefined;
   /** Output only. Referenced view for DCL statement. */
   dclTargetView?: TableReference | undefined;
-  /** Output only. Total number of partitions processed from all partitioned tables referenced in the job. */
-  totalPartitionsProcessed?: string | undefined;
+  /** Output only. [Beta] The DDL target routine. Present only for CREATE/DROP FUNCTION/PROCEDURE queries. */
+  ddlTargetRoutine?: RoutineReference | undefined;
+  /** Deprecated. */
+  modelTrainingCurrentIteration?: number | undefined;
+  /** Output only. Search indexing specific statistics. */
+  searchIndexingStats?: SearchIndexingStats | undefined;
+  /** Output only. Statistics for a LOAD query. */
+  loadQueryStatistics?: LoadQueryStatistics | undefined;
+  /** Output only. Query optimization information for a QUERY job. */
+  queryInfo?: QueryInfo | undefined;
+  /** Output only. The DDL target table. Present only for CREATE/DROP TABLE/VIEW and DROP ALL ROW ACCESS POLICIES queries. */
+  ddlTargetTable?: TableReference | undefined;
+  /** Output only. Total slot milliseconds for the job that ran on external services and billed on the services SKU. This field is only populated for jobs that have external service costs, and is the total of the usage for costs whose billing method is `"SERVICES_SKU"`. */
+  totalServicesSkuSlotMs?: string | undefined;
+  /** Deprecated. */
+  modelTrainingExpectedTotalIteration?: string | undefined;
+  /** Output only. The DDL target dataset. Present only for CREATE/ALTER/DROP SCHEMA(dataset) queries. */
+  ddlTargetDataset?: DatasetReference | undefined;
+  /** Output only. Detailed statistics for DML statements INSERT, UPDATE, DELETE, MERGE or TRUNCATE. */
+  dmlStats?: DmlStatistics | undefined;
+  /** Output only. Vector Search query specific statistics. */
+  vectorSearchStatistics?: VectorSearchStatistics | undefined;
+  /** Output only. GoogleSQL only: list of undeclared query parameters detected during a dry run validation. */
+  undeclaredQueryParameters?: QueryParameterList | undefined;
   /** Output only. Statistics of materialized views of a query job. */
   materializedViewStatistics?: MaterializedViewStatistics | undefined;
-  /** Output only. The DDL operation performed, possibly dependent on the pre-existence of the DDL target. */
-  ddlOperationPerformed?: string | undefined;
+  /** Output only. Performance insights. */
+  performanceInsights?: PerformanceInsights | undefined;
+  /** Output only. Statistics of metadata cache usage in a query for BigLake tables. */
+  metadataCacheStatistics?: MetadataCacheStatistics | undefined;
+  /** Output only. Total number of partitions processed from all partitioned tables referenced in the job. */
+  totalPartitionsProcessed?: string | undefined;
+  /** Output only. The schema of the results. Present only for successful dry run of non-legacy SQL queries. */
+  schema?: TableSchema | undefined;
   /** Output only. For dry-run jobs, totalBytesProcessed is an estimate and this field specifies the accuracy of the estimate. Possible values can be: UNKNOWN: accuracy of the estimate is unknown. PRECISE: estimate is precise. LOWER_BOUND: estimate is lower bound of what the query would cost. UPPER_BOUND: estimate is upper bound of what the query would cost. */
   totalBytesProcessedAccuracy?: string | undefined;
+  /** Output only. Search query specific statistics. */
+  searchStatistics?: SearchStatistics | undefined;
+  /** Output only. Slot-milliseconds for the job. */
+  totalSlotMs?: string | undefined;
+  /** Output only. Job resource usage breakdown by reservation. This field reported misleading information and will no longer be populated. */
+  reservationUsage?: JobStatistics2ReservationUsageItemList | undefined;
 }
+/** [Alpha] Information of a multi-statement transaction. */
+export interface TransactionInfo {
+  /** Output only. [Alpha] Id of the transaction. */
+  transactionId?: string | undefined;
+}
+/** Statistics for a load job. */
+export interface JobStatistics3 {
+  /** Output only. Number of bytes of source data in a load job. */
+  inputFileBytes?: string | undefined;
+  /** Output only. The number of bad records encountered. Note that if the job has failed because of more bad records encountered than the maximum allowed in the load job configuration, then this number can be less than the total number of bad records present in the input data. */
+  badRecords?: string | undefined;
+  /** Output only. Number of source files in a load job. */
+  inputFiles?: string | undefined;
+  /** Output only. Number of rows imported in a load job. Note that while an import job is in the running state, this value may change. */
+  outputRows?: string | undefined;
+  /** Output only. Describes a timeline of job execution. */
+  timeline?: QueryTimelineSampleList | undefined;
+  /** Output only. Size of the loaded data in bytes. Note that while a load job is in the running state, this value may change. */
+  outputBytes?: string | undefined;
+}
+export type JobStatisticsEditionEnum =
+  | "RESERVATION_EDITION_UNSPECIFIED"
+  | "STANDARD"
+  | "ENTERPRISE"
+  | "ENTERPRISE_PLUS";
+export type JobStatisticsReservationUsageItem = JobStatistics2ReservationUsageItem;
+export type JobStatisticsReservationUsageItemList = Array<JobStatistics2ReservationUsageItem>;
 /** [Preview] Information related to sessions. */
 export interface SessionInfo {
   /** Output only. The id of the session. */
@@ -2525,137 +2545,135 @@ export interface SessionInfo {
 export interface JobReference {
   /** Required. The ID of the project containing this job. */
   projectId?: string | undefined;
-  /** Required. The ID of the job. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). The maximum length is 1,024 characters. */
-  jobId?: string | undefined;
   /** Optional. The geographic location of the job. The default value is US. For more information about BigQuery locations, see: https://cloud.google.com/bigquery/docs/locations */
   location?: string | undefined;
+  /** Required. The ID of the job. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). The maximum length is 1,024 characters. */
+  jobId?: string | undefined;
 }
-/** Statistics for a copy job. */
-export interface JobStatistics5 {
-  /** Output only. Destination region for a cross-region copy job. Not set for in-region copy jobs. */
-  remoteDestinationRegion?: string | undefined;
-  /** Output only. Number of rows copied to the destination table. */
-  copiedRows?: string | undefined;
-  /** Output only. Number of logical bytes copied to the destination table. */
-  copiedLogicalBytes?: string | undefined;
-}
-export type JobStatisticsReservationUsageItem = JobStatistics2ReservationUsageItem;
-export type JobStatisticsReservationUsageItemList = Array<JobStatistics2ReservationUsageItem>;
 /** Statistics for row-level security. */
 export interface RowLevelSecurityStatistics {
   /** Whether any accessed data was protected by row access policies. */
   rowLevelSecurityApplied?: boolean | undefined;
 }
-/** [Alpha] Information of a multi-statement transaction. */
-export interface TransactionInfo {
-  /** Output only. [Alpha] Id of the transaction. */
-  transactionId?: string | undefined;
+/** Statistics for data-masking. */
+export interface DataMaskingStatistics {
+  /** Whether any accessed data was protected by the data masking. */
+  dataMaskingApplied?: boolean | undefined;
 }
-/** Statistics for an extract job. */
-export interface JobStatistics4 {
-  /** Output only. Number of files per destination URI or URI pattern specified in the extract configuration. These values will be in the same order as the URIs specified in the 'destinationUris' field. */
-  destinationUriFileCounts?: StringList | undefined;
-  /** Output only. Number of user bytes extracted into the result. This is the byte count as computed by BigQuery for billing purposes and doesn't have any relationship with the number of actual result bytes extracted in the desired format. */
-  inputBytes?: string | undefined;
-  /** Output only. Describes a timeline of job execution. */
-  timeline?: QueryTimelineSampleList | undefined;
+export type ScriptStatisticsEvaluationKindEnum =
+  | "EVALUATION_KIND_UNSPECIFIED"
+  | "STATEMENT"
+  | "EXPRESSION";
+/** Represents the location of the statement/expression being evaluated. Line and column numbers are defined as follows: - Line and column numbers start with one. That is, line 1 column 1 denotes the start of the script. - When inside a stored procedure, all line/column numbers are relative to the procedure body, not the script in which the procedure was defined. - Start/end positions exclude leading/trailing comments and whitespace. The end position always ends with a ";", when present. - Multi-byte Unicode characters are treated as just one column. - If the original script (or procedure definition) contains TAB characters, a tab "snaps" the indentation forward to the nearest multiple of 8 characters, plus 1. For example, a TAB on column 1, 2, 3, 4, 5, 6 , or 8 will advance the next character to column 9. A TAB on column 9, 10, 11, 12, 13, 14, 15, or 16 will advance the next character to column 17. */
+export interface ScriptStackFrame {
+  /** Output only. One-based end column. */
+  endColumn?: number | undefined;
+  /** Output only. Name of the active procedure, empty if in a top-level script. */
+  procedureId?: string | undefined;
+  /** Output only. Text of the current statement/expression. */
+  text?: string | undefined;
+  /** Output only. One-based end line. */
+  endLine?: number | undefined;
+  /** Output only. One-based start line. */
+  startLine?: number | undefined;
+  /** Output only. One-based start column. */
+  startColumn?: number | undefined;
+}
+export type ScriptStackFrameList = Array<ScriptStackFrame>;
+/** Job statistics specific to the child job of a script. */
+export interface ScriptStatistics {
+  /** Whether this child job was a statement or expression. */
+  evaluationKind?: ScriptStatisticsEvaluationKindEnum | (string & {}) | undefined;
+  /** Stack trace showing the line/column/procedure name of each frame on the stack at the point where the current evaluation happened. The leaf frame is first, the primary script is last. Never empty. */
+  stackFrames?: ScriptStackFrameList | undefined;
 }
 /** Statistics for a single job execution. */
 export interface JobStatistics {
+  /** Output only. Statistics for a copy job. */
+  copy?: JobStatistics5 | undefined;
+  /** Output only. The list of remote regions from which a global query accesses data. This field is populated only for parent global query jobs in the primary execution region. It is empty for child global query jobs and single-region queries. For more information, see [Global queries](https://cloud.google.com/bigquery/docs/global-queries). */
+  globalQueryRemoteRegions?: StringList | undefined;
+  /** Output only. Statistics for an extract job. */
+  extract?: JobStatistics4 | undefined;
+  /** Output only. Total bytes processed for the job. */
+  totalBytesProcessed?: string | undefined;
+  /** Output only. End time of this job, in milliseconds since the epoch. This field will be present whenever a job is in the DONE state. */
+  endTime?: string | undefined;
+  /** Output only. Quotas which delayed this job's start time. */
+  quotaDeferments?: StringList | undefined;
+  /** Output only. Slot-milliseconds for the job. */
+  totalSlotMs?: string | undefined;
+  /** Output only. Statistics for a query job. */
+  query?: JobStatistics2 | undefined;
+  /** Output only. [Alpha] Information of the multi-statement transaction if this job is part of one. This property is only expected on a child job or a job that is in a session. A script parent job is not part of the transaction started in the script. */
+  transactionInfo?: TransactionInfo | undefined;
   /** Output only. Statistics for a load job. */
   load?: JobStatistics3 | undefined;
   /** Output only. Name of edition corresponding to the reservation for this job at the time of this update. */
   edition?: JobStatisticsEditionEnum | (string & {}) | undefined;
-  /** Output only. The reservation group path of the reservation assigned to this job. This field has a limit of 10 nested reservation groups. This is to maintain consistency between reservations info schema and jobs info schema. The first reservation group is the root reservation group and the last is the leaf or lowest level reservation group. */
-  reservationGroupPath?: StringList | undefined;
-  /** Output only. Slot-milliseconds for the job. */
-  totalSlotMs?: string | undefined;
-  /** Output only. Statistics for data-masking. Present only for query and extract jobs. */
-  dataMaskingStatistics?: DataMaskingStatistics | undefined;
-  /** Output only. [TrustedTester] Job progress (0.0 -> 1.0) for LOAD and EXTRACT jobs. */
-  completionRatio?: number | undefined;
+  /** Output only. Creation time of this job, in milliseconds since the epoch. This field will be present on all jobs. */
+  creationTime?: string | undefined;
+  /** Output only. Job resource usage breakdown by reservation. This field reported misleading information and will no longer be populated. */
+  reservationUsage?: JobStatisticsReservationUsageItemList | undefined;
   /** Output only. If this is a child job, specifies the job ID of the parent. */
   parentJobId?: string | undefined;
-  /** Output only. Total bytes processed for the job. */
-  totalBytesProcessed?: string | undefined;
-  /** Output only. If this a child job of a script, specifies information about the context of this job within the script. */
-  scriptStatistics?: ScriptStatistics | undefined;
-  /** Output only. Statistics for a query job. */
-  query?: JobStatistics2 | undefined;
+  /** Output only. The duration in milliseconds of the execution of the final attempt of this job, as BigQuery may internally re-attempt to execute the job. */
+  finalExecutionDurationMs?: string | undefined;
+  /** Output only. The reservation group path of the reservation assigned to this job. This field has a limit of 10 nested reservation groups. This is to maintain consistency between reservations info schema and jobs info schema. The first reservation group is the root reservation group and the last is the leaf or lowest level reservation group. */
+  reservationGroupPath?: StringList | undefined;
   /** Output only. Information of the session if this job is part of one. */
   sessionInfo?: SessionInfo | undefined;
   /** Output only. Reference to the parent global query job, if this is a child global query job. This field is populated only for child global query jobs (remote subqueries or cross-region table copy jobs) executed in remote regions on behalf of a global query. It contains the project ID, job ID, and location of the parent global query job. It is unset for parent global query jobs and single-region queries. For more information, see [Global queries](https://cloud.google.com/bigquery/docs/global-queries). */
   parentGlobalQueryJob?: JobReference | undefined;
-  /** Output only. Statistics for a copy job. */
-  copy?: JobStatistics5 | undefined;
+  /** Output only. Statistics for row-level security. Present only for query and extract jobs. */
+  rowLevelSecurityStatistics?: RowLevelSecurityStatistics | undefined;
   /** Output only. Name of the primary reservation assigned to this job. Note that this could be different than reservations reported in the reservation usage field if parent reservations were used to execute this job. */
   reservation_id?: string | undefined;
   /** Output only. Start time of this job, in milliseconds since the epoch. This field will be present when the job transitions from the PENDING state to either RUNNING or DONE. */
   startTime?: string | undefined;
-  /** Output only. Job resource usage breakdown by reservation. This field reported misleading information and will no longer be populated. */
-  reservationUsage?: JobStatisticsReservationUsageItemList | undefined;
-  /** Output only. Statistics for row-level security. Present only for query and extract jobs. */
-  rowLevelSecurityStatistics?: RowLevelSecurityStatistics | undefined;
-  /** Output only. Quotas which delayed this job's start time. */
-  quotaDeferments?: StringList | undefined;
-  /** Output only. The duration in milliseconds of the execution of the final attempt of this job, as BigQuery may internally re-attempt to execute the job. */
-  finalExecutionDurationMs?: string | undefined;
   /** Output only. Number of child jobs executed. */
   numChildJobs?: string | undefined;
-  /** Output only. [Alpha] Information of the multi-statement transaction if this job is part of one. This property is only expected on a child job or a job that is in a session. A script parent job is not part of the transaction started in the script. */
-  transactionInfo?: TransactionInfo | undefined;
-  /** Output only. Creation time of this job, in milliseconds since the epoch. This field will be present on all jobs. */
-  creationTime?: string | undefined;
-  /** Output only. Statistics for an extract job. */
-  extract?: JobStatistics4 | undefined;
-  /** Output only. The list of remote regions from which a global query accesses data. This field is populated only for parent global query jobs in the primary execution region. It is empty for child global query jobs and single-region queries. For more information, see [Global queries](https://cloud.google.com/bigquery/docs/global-queries). */
-  globalQueryRemoteRegions?: StringList | undefined;
-  /** Output only. End time of this job, in milliseconds since the epoch. This field will be present whenever a job is in the DONE state. */
-  endTime?: string | undefined;
+  /** Output only. Statistics for data-masking. Present only for query and extract jobs. */
+  dataMaskingStatistics?: DataMaskingStatistics | undefined;
+  /** Output only. [TrustedTester] Job progress (0.0 -> 1.0) for LOAD and EXTRACT jobs. */
+  completionRatio?: number | undefined;
+  /** Output only. If this a child job of a script, specifies information about the context of this job within the script. */
+  scriptStatistics?: ScriptStatistics | undefined;
 }
-/** Error details. */
-export interface ErrorProto {
-  /** A human-readable description of the error. */
-  message?: string | undefined;
-  /** A short error code that summarizes the error. */
-  reason?: string | undefined;
-  /** Specifies where the error occurred, if present. */
-  location?: string | undefined;
-  /** Debugging information. This property is internal to Google and should not be used. */
-  debugInfo?: string | undefined;
-}
-export type ErrorProtoList = Array<ErrorProto>;
-export interface JobStatus {
-  /** Output only. The first errors encountered during the running of the job. The final message includes the number of errors that caused the process to stop. Errors here do not necessarily mean that the job has not completed or was unsuccessful. */
-  errors?: ErrorProtoList | undefined;
-  /** Output only. Final error result of the job. If present, indicates that the job has completed and was unsuccessful. */
-  errorResult?: ErrorProto | undefined;
-  /** Output only. Running state of the job. Valid states include 'PENDING', 'RUNNING', and 'DONE'. */
-  state?: string | undefined;
+export type JobCreationReasonCodeEnum =
+  | "CODE_UNSPECIFIED"
+  | "REQUESTED"
+  | "LONG_RUNNING"
+  | "LARGE_RESULTS"
+  | "OTHER";
+/** Reason about why a Job was created from a [`jobs.query`](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query) method when used with `JOB_CREATION_OPTIONAL` Job creation mode. For [`jobs.insert`](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/insert) method calls it will always be `REQUESTED`. */
+export interface JobCreationReason {
+  /** Output only. Specifies the high level reason why a Job was created. */
+  code?: JobCreationReasonCodeEnum | (string & {}) | undefined;
 }
 export interface Job {
-  /** Required. Describes the job configuration. */
-  configuration?: JobConfiguration | undefined;
-  /** Output only. The reason why a Job was created. */
-  jobCreationReason?: JobCreationReason | undefined;
-  /** Output only. A URL that can be used to access the resource again. */
-  selfLink?: string | undefined;
-  /** Output only. A hash of this resource. */
-  etag?: string | undefined;
-  /** Output only. The type of the resource. */
-  kind?: string | undefined;
-  /** Output only. Information about the job, including starting time and ending time of the job. */
-  statistics?: JobStatistics | undefined;
   /** Output only. Email address of the user who ran the job. */
   user_email?: string | undefined;
-  /** Output only. [Full-projection-only] String representation of identity of requesting party. Populated for both first- and third-party identities. Only present for APIs that support third-party identities. */
-  principal_subject?: string | undefined;
   /** Output only. The status of this job. Examine this value when polling an asynchronous job to see if the job is complete. */
   status?: JobStatus | undefined;
-  /** Optional. Reference describing the unique-per-user name of the job. */
-  jobReference?: JobReference | undefined;
+  /** Required. Describes the job configuration. */
+  configuration?: JobConfiguration | undefined;
+  /** Output only. A hash of this resource. */
+  etag?: string | undefined;
   /** Output only. Opaque ID field of the job. */
   id?: string | undefined;
+  /** Output only. Information about the job, including starting time and ending time of the job. */
+  statistics?: JobStatistics | undefined;
+  /** Optional. Reference describing the unique-per-user name of the job. */
+  jobReference?: JobReference | undefined;
+  /** Output only. The type of the resource. */
+  kind?: string | undefined;
+  /** Output only. The reason why a Job was created. */
+  jobCreationReason?: JobCreationReason | undefined;
+  /** Output only. [Full-projection-only] String representation of identity of requesting party. Populated for both first- and third-party identities. Only present for APIs that support third-party identities. */
+  principal_subject?: string | undefined;
+  /** Output only. A URL that can be used to access the resource again. */
+  selfLink?: string | undefined;
 }
 /** Describes format of a jobs cancellation response. */
 export interface JobCancelResponse {
@@ -2665,28 +2683,28 @@ export interface JobCancelResponse {
   kind?: string | undefined;
 }
 export interface DeleteDatasetsRequest {
+  /** Required. Project ID of the dataset being deleted */
+  projectId: string;
   /** If True, delete all the tables in the dataset. If False and the dataset contains tables, the request will fail. Default is False */
   deleteContents?: boolean | undefined;
   /** Required. Dataset ID of dataset being deleted */
   datasetId: string;
-  /** Required. Project ID of the dataset being deleted */
-  projectId: string;
 }
 export interface DeleteDatasetsResponse {}
 export interface DeleteJobsRequest {
   /** Required. Project ID of the job for which metadata is to be deleted. */
   projectId: string;
-  /** Required. Job ID of the job for which metadata is to be deleted. If this is a parent job which has child jobs, the metadata from all child jobs will be deleted as well. Direct deletion of the metadata of child jobs is not allowed. */
-  jobId: string;
   /** The geographic location of the job. Required. For more information, see how to [specify locations](https://cloud.google.com/bigquery/docs/locations#specify_locations). */
   location?: string | undefined;
+  /** Required. Job ID of the job for which metadata is to be deleted. If this is a parent job which has child jobs, the metadata from all child jobs will be deleted as well. Direct deletion of the metadata of child jobs is not allowed. */
+  jobId: string;
 }
 export interface DeleteJobsResponse {}
 export interface DeleteModelsRequest {
-  /** Required. Project ID of the model to delete. */
-  projectId: string;
   /** Required. Dataset ID of the model to delete. */
   datasetId: string;
+  /** Required. Project ID of the model to delete. */
+  projectId: string;
   /** Required. Model ID of the model to delete. */
   modelId: string;
 }
@@ -2694,59 +2712,135 @@ export interface DeleteModelsResponse {}
 export interface DeleteRoutinesRequest {
   /** Required. Dataset ID of the routine to delete */
   datasetId: string;
-  /** Required. Routine ID of the routine to delete */
-  routineId: string;
   /** Required. Project ID of the routine to delete */
   projectId: string;
+  /** Required. Routine ID of the routine to delete */
+  routineId: string;
 }
 export interface DeleteRoutinesResponse {}
 export interface DeleteRowAccessPoliciesRequest {
-  /** Required. Dataset ID of the table to delete the row access policy. */
-  datasetId: string;
-  /** Required. Policy ID of the row access policy. */
-  policyId: string;
   /** If set to true, it deletes the row access policy even if it's the last row access policy on the table and the deletion will widen the access rather narrowing it. */
   force?: boolean | undefined;
-  /** Required. Table ID of the table to delete the row access policy. */
-  tableId: string;
   /** Required. Project ID of the table to delete the row access policy. */
   projectId: string;
+  /** Required. Table ID of the table to delete the row access policy. */
+  tableId: string;
+  /** Required. Policy ID of the row access policy. */
+  policyId: string;
+  /** Required. Dataset ID of the table to delete the row access policy. */
+  datasetId: string;
 }
 export interface DeleteRowAccessPoliciesResponse {}
 export interface DeleteTablesRequest {
   /** Required. Project ID of the table to delete */
   projectId: string;
-  /** Required. Table ID of the table to delete */
-  tableId: string;
   /** Required. Dataset ID of the table to delete */
   datasetId: string;
+  /** Required. Table ID of the table to delete */
+  tableId: string;
 }
 export interface DeleteTablesResponse {}
-export type GetDatasetsDatasetViewEnum = "DATASET_VIEW_UNSPECIFIED" | "METADATA" | "ACL" | "FULL";
+export type GetDatasetsDatasetViewEnum =
+  | "DATASET_VIEW_UNSPECIFIED"
+  | "METADATA"
+  | "ACL"
+  | "FULL"
+  | "BASIC"
+  | "BASIC_REPLICA_METADATA_VIEW";
 export interface GetDatasetsRequest {
-  /** Optional. Specifies the view that determines which dataset information is returned. By default, metadata and ACL information are returned. */
-  datasetView?: GetDatasetsDatasetViewEnum | (string & {}) | undefined;
-  /** Required. Dataset ID of the requested dataset */
-  datasetId: string;
-  /** Required. Project ID of the requested dataset */
-  projectId: string;
   /** Optional. The version of the access policy schema to fetch. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for conditional access policy binding in datasets must specify version 3. Dataset with no conditional role bindings in access policy may specify any valid value or leave the field unset. This field will be mapped to [IAM Policy version] (https://cloud.google.com/iam/docs/policies#versions) and will be used to fetch policy from IAM. If unset or if 0 or 1 value is used for dataset with conditional bindings, access entry with condition will have role string appended by 'withcond' string followed by a hash value. For example : { "access": [ { "role": "roles/bigquery.dataViewer_with_conditionalbinding_7a34awqsda", "userByEmail": "user@example.com", } ] } Please refer https://cloud.google.com/iam/docs/troubleshooting-withcond for more details. */
   accessPolicyVersion?: number | undefined;
+  /** Optional. Specifies the view that determines which dataset information is returned. By default, metadata and ACL information are returned. */
+  datasetView?: GetDatasetsDatasetViewEnum | (string & {}) | undefined;
+  /** Required. Project ID of the requested dataset */
+  projectId: string;
+  /** Required. Dataset ID of the requested dataset */
+  datasetId: string;
 }
+export interface DatasetTagsItem {
+  /** Required. The friendly short name of the tag value, e.g. "production". */
+  tagValue?: string | undefined;
+  /** Required. The namespaced friendly name of the tag key, e.g. "12345/environment" where 12345 is org id. */
+  tagKey?: string | undefined;
+}
+export type DatasetTagsItemList = Array<DatasetTagsItem>;
 export type DatasetStorageBillingModelEnum =
   | "STORAGE_BILLING_MODEL_UNSPECIFIED"
   | "LOGICAL"
   | "PHYSICAL";
+/** Options defining open source compatible datasets living in the BigQuery catalog. Contains metadata of open source database, schema, or namespace represented by the current dataset. */
+export interface ExternalCatalogDatasetOptions {
+  /** Optional. The storage location URI for all tables in the dataset. Equivalent to hive metastore's database locationUri. Maximum length of 1024 characters. */
+  defaultStorageLocationUri?: string | undefined;
+  /** Optional. A map of key value pairs defining the parameters and properties of the open source schema. Maximum size of 2MiB. */
+  parameters?: StringMap | undefined;
+}
+export type LinkedDatasetMetadataLinkStateEnum = "LINK_STATE_UNSPECIFIED" | "LINKED" | "UNLINKED";
+/** Metadata about the Linked Dataset. */
+export interface LinkedDatasetMetadata {
+  /** Output only. Specifies whether Linked Dataset is currently in a linked state or not. */
+  linkState?: LinkedDatasetMetadataLinkStateEnum | (string & {}) | undefined;
+}
+export type DatasetDefaultRoundingModeEnum =
+  | "ROUNDING_MODE_UNSPECIFIED"
+  | "ROUND_HALF_AWAY_FROM_ZERO"
+  | "ROUND_HALF_EVEN";
+/** A dataset source type which refers to another BigQuery dataset. */
+export interface LinkedDatasetSource {
+  /** The source dataset reference contains project numbers and not project ids. */
+  sourceDataset?: DatasetReference | undefined;
+}
+/** Options set by the user when creating the replica. These include region-specific dataset values, for example default KMS key name. When a resource is replicated, the destination region's replica contains values that should be overwritten in the destination region. */
+export interface ReplicaOptions {
+  /** Optional. Default KMS encryption key name. */
+  defaultKmsKeyName?: string | undefined;
+}
+export type ReplicaReplicaStateEnum =
+  | "REPLICA_STATE_UNSPECIFIED"
+  | "PRIMARY"
+  | "SECONDARY"
+  | "ASSIGNED_PRIMARY"
+  | "PREVIOUSLY_ASSIGNED_PRIMARY"
+  | "BACKFILLING";
+/** The replica metadata of the dataset. If the dataset has two or more replicas, it's considered a cross region replicated (CRR) dataset. */
+export interface Replica {
+  /** Output only. Failover reservation ID for the replica's region if this replica is used for DR. Fully-qualified format, e.g. "projects/some-project/locations/US/reservations/some-reservation" The location portion of the format is upper case if "US" or "EU", otherwise a lower case cloud region like "asia-northeast1". */
+  failoverReservationUri?: string | undefined;
+  /** Output only. The timestamp when the replica was created. For any dataset's first replica, this should be set to the dataset's creation_time. */
+  creationTime?: string | undefined;
+  /** Optional. Contains modify options on the replica such as set a kms key on the replica. */
+  replicaOptions?: ReplicaOptions | undefined;
+  /** Required. The logical bigquery region where this replica is located. This is upper case if "US" or "EU", otherwise a lower case cloud region like "asia-northeast1". */
+  location?: string | undefined;
+  /** Output only. The time at which the replica was assigned primary. Only one replica will have this field populated at any point. */
+  primaryAssignmentTime?: string | undefined;
+  /** Required. The user-visible string identifier for this dataset replica. This is generally named after the region. */
+  id?: string | undefined;
+  /** Output only. The time when the backfill was completed and replica is ready to use. */
+  backfillCompletionTime?: string | undefined;
+  /** Output only. After a new primary assignment is made, this is the time that the dataset's data has been fully replicated to the replica, and after which the system will use current reads in the new primary replica. */
+  primaryAssignmentCompletionTime?: string | undefined;
+  /** Output only. Gives an explicit indicator of the replica primary state. */
+  replicaState?: ReplicaReplicaStateEnum | (string & {}) | undefined;
+}
+export type ReplicaList = Array<Replica>;
+/** Configures the access a dataset defined in an external metadata storage. */
+export interface ExternalDatasetReference {
+  /** Required. External source that backs this dataset. */
+  externalSource?: string | undefined;
+  /** Required. The connection id that is used to access the external_source. Format: projects/{project_id}/locations/{location_id}/connections/{connection_id} */
+  connection?: string | undefined;
+}
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string | undefined;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
 }
 export type DatasetAccessEntryTargetTypesItemEnum =
   | "TARGET_TYPE_UNSPECIFIED"
@@ -2757,139 +2851,107 @@ export type DatasetAccessEntryTargetTypesItemEnumList = Array<
 >;
 /** Grants all resources of particular types in a particular dataset read access to the current dataset. Similar to how individually authorized views work, updates to any resource granted through its dataset (including creation of new resources) requires read permission to referenced resources, plus write permission to the authorizing dataset. */
 export interface DatasetAccessEntry {
-  /** Which resources in the dataset this entry applies to. Currently, only views are supported, but additional target types may be added in the future. */
-  targetTypes?: DatasetAccessEntryTargetTypesItemEnumList | undefined;
   /** The dataset this entry applies to */
   dataset?: DatasetReference | undefined;
+  /** Which resources in the dataset this entry applies to. Currently, only views are supported, but additional target types may be added in the future. */
+  targetTypes?: DatasetAccessEntryTargetTypesItemEnumList | undefined;
 }
 export interface DatasetAccessItem {
   /** [Pick one] A special group to grant access to. Possible values include: * projectOwners: Owners of the enclosing project. * projectReaders: Readers of the enclosing project. * projectWriters: Writers of the enclosing project. * allAuthenticatedUsers: All authenticated BigQuery users. Maps to similarly-named IAM members. */
   specialGroup?: string | undefined;
+  /** [Pick one] A view from a different dataset to grant access to. Queries executed against that view will have read access to views/tables/routines in this dataset. The role field is not required when this field is set. If that view is updated by any user, access to the view needs to be granted again via an update operation. */
+  view?: TableReference | undefined;
   /** Optional. condition for the binding. If CEL expression in this field is true, this access binding will be considered */
   condition?: Expr | undefined;
+  /** [Pick one] A routine from a different dataset to grant access to. Queries executed against that routine will have read access to views/tables/routines in this dataset. Only UDF is supported for now. The role field is not required when this field is set. If that routine is updated by any user, access to the routine needs to be granted again via an update operation. */
+  routine?: RoutineReference | undefined;
   /** [Pick one] A grant authorizing all resources of a particular type in a particular dataset access to this dataset. Only views are supported for now. The role field is not required when this field is set. If that dataset is deleted and re-created, its access needs to be granted again via an update operation. */
   dataset?: DatasetAccessEntry | undefined;
   /** [Pick one] A domain to grant access to. Any users signed in with the domain specified will be granted the specified access. Example: "example.com". Maps to IAM policy member "domain:DOMAIN". */
   domain?: string | undefined;
-  /** [Pick one] An email address of a user to grant access to. For example: fred@example.com. Maps to IAM policy member "user:EMAIL" or "serviceAccount:EMAIL". */
-  userByEmail?: string | undefined;
-  /** [Pick one] A view from a different dataset to grant access to. Queries executed against that view will have read access to views/tables/routines in this dataset. The role field is not required when this field is set. If that view is updated by any user, access to the view needs to be granted again via an update operation. */
-  view?: TableReference | undefined;
-  /** [Pick one] Some other type of member that appears in the IAM Policy but isn't a user, group, domain, or special group. */
-  iamMember?: string | undefined;
-  /** [Pick one] A routine from a different dataset to grant access to. Queries executed against that routine will have read access to views/tables/routines in this dataset. Only UDF is supported for now. The role field is not required when this field is set. If that routine is updated by any user, access to the routine needs to be granted again via an update operation. */
-  routine?: RoutineReference | undefined;
   /** [Pick one] An email address of a Google Group to grant access to. Maps to IAM policy member "group:GROUP". */
   groupByEmail?: string | undefined;
   /** An IAM role ID that should be granted to the user, group, or domain specified in this access entry. The following legacy mappings will be applied: * `OWNER`: `roles/bigquery.dataOwner` * `WRITER`: `roles/bigquery.dataEditor` * `READER`: `roles/bigquery.dataViewer` This field will accept any of the above formats, but will return only the legacy format. For example, if you set this field to "roles/bigquery.dataOwner", it will be returned back as "OWNER". */
   role?: string | undefined;
+  /** [Pick one] An email address of a user to grant access to. For example: fred@example.com. Maps to IAM policy member "user:EMAIL" or "serviceAccount:EMAIL". */
+  userByEmail?: string | undefined;
+  /** [Pick one] Some other type of member that appears in the IAM Policy but isn't a user, group, domain, or special group. */
+  iamMember?: string | undefined;
 }
 export type DatasetAccessItemList = Array<DatasetAccessItem>;
-/** Options defining open source compatible datasets living in the BigQuery catalog. Contains metadata of open source database, schema, or namespace represented by the current dataset. */
-export interface ExternalCatalogDatasetOptions {
-  /** Optional. The storage location URI for all tables in the dataset. Equivalent to hive metastore's database locationUri. Maximum length of 1024 characters. */
-  defaultStorageLocationUri?: string | undefined;
-  /** Optional. A map of key value pairs defining the parameters and properties of the open source schema. Maximum size of 2MiB. */
-  parameters?: StringMap | undefined;
-}
-export interface DatasetTagsItem {
-  /** Required. The namespaced friendly name of the tag key, e.g. "12345/environment" where 12345 is org id. */
-  tagKey?: string | undefined;
-  /** Required. The friendly short name of the tag value, e.g. "production". */
-  tagValue?: string | undefined;
-}
-export type DatasetTagsItemList = Array<DatasetTagsItem>;
-export type LinkedDatasetMetadataLinkStateEnum = "LINK_STATE_UNSPECIFIED" | "LINKED" | "UNLINKED";
-/** Metadata about the Linked Dataset. */
-export interface LinkedDatasetMetadata {
-  /** Output only. Specifies whether Linked Dataset is currently in a linked state or not. */
-  linkState?: LinkedDatasetMetadataLinkStateEnum | (string & {}) | undefined;
-}
-/** A dataset source type which refers to another BigQuery dataset. */
-export interface LinkedDatasetSource {
-  /** The source dataset reference contains project numbers and not project ids. */
-  sourceDataset?: DatasetReference | undefined;
-}
 export type RestrictionConfigTypeEnum = "RESTRICTION_TYPE_UNSPECIFIED" | "RESTRICTED_DATA_EGRESS";
 export interface RestrictionConfig {
   /** Output only. Specifies the type of dataset/table restriction. */
   type?: RestrictionConfigTypeEnum | (string & {}) | undefined;
 }
-/** Configures the access a dataset defined in an external metadata storage. */
-export interface ExternalDatasetReference {
-  /** Required. The connection id that is used to access the external_source. Format: projects/{project_id}/locations/{location_id}/connections/{connection_id} */
-  connection?: string | undefined;
-  /** Required. External source that backs this dataset. */
-  externalSource?: string | undefined;
-}
-export type DatasetDefaultRoundingModeEnum =
-  | "ROUNDING_MODE_UNSPECIFIED"
-  | "ROUND_HALF_AWAY_FROM_ZERO"
-  | "ROUND_HALF_EVEN";
 /** Represents a BigQuery dataset. */
 export interface Dataset {
-  /** The labels associated with this dataset. You can use these to organize and group your datasets. You can set this property when inserting or updating a dataset. See [Creating and Updating Dataset Labels](https://cloud.google.com/bigquery/docs/creating-managing-labels#creating_and_updating_dataset_labels) for more information. */
-  labels?: StringMap | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Optional. The [tags](https://cloud.google.com/bigquery/docs/tags) attached to this dataset. Tag keys are globally unique. Tag key is expected to be in the namespaced format, for example "123456789012/environment" where 123456789012 is the ID of the parent organization or project resource for this tag key. Tag value is expected to be the short name, for example "Production". See [Tag definitions](https://cloud.google.com/iam/docs/tags-access-control#definitions) for more details. */
-  resourceTags?: StringMap | undefined;
-  /** Optional. Updates storage_billing_model for the dataset. */
-  storageBillingModel?: DatasetStorageBillingModelEnum | (string & {}) | undefined;
-  /** Optional. An array of objects that define dataset access for one or more entities. You can set this property when inserting or updating a dataset in order to control who is allowed to access the data. If unspecified at dataset creation time, BigQuery adds default dataset access for the following entities: access.specialGroup: projectReaders; access.role: READER; access.specialGroup: projectWriters; access.role: WRITER; access.specialGroup: projectOwners; access.role: OWNER; access.userByEmail: [dataset creator email]; access.role: OWNER; If you patch a dataset, then this field is overwritten by the patched dataset's access field. To add entities, you must supply the entire existing access array in addition to any new entities that you want to add. */
-  access?: DatasetAccessItemList | undefined;
-  /** Optional. The default lifetime of all tables in the dataset, in milliseconds. The minimum lifetime value is 3600000 milliseconds (one hour). To clear an existing default expiration with a PATCH request, set to 0. Once this property is set, all newly-created tables in the dataset will have an expirationTime property set to the creation time plus the value in this property, and changing the value will only affect new tables, not existing ones. When the expirationTime for a given table is reached, that table will be deleted automatically. If a table's expirationTime is modified or removed before the table expires, or if you provide an explicit expirationTime when creating a table, that value takes precedence over the default expiration time indicated by this property. */
-  defaultTableExpirationMs?: string | undefined;
-  /** Output only. Same as `type` in `ListFormatDataset`. The type of the dataset, one of: * DEFAULT - only accessible by owner and authorized accounts, * PUBLIC - accessible by everyone, * LINKED - linked dataset, * EXTERNAL - dataset with definition in external metadata catalog, * BIGLAKE_ICEBERG - a Biglake dataset accessible through the Iceberg API, * BIGLAKE_HIVE - a Biglake dataset accessible through the Hive API. */
-  type?: string | undefined;
-  /** Optional. Options defining open source compatible datasets living in the BigQuery catalog. Contains metadata of open source database, schema or namespace represented by the current dataset. */
-  externalCatalogDatasetOptions?: ExternalCatalogDatasetOptions | undefined;
-  /** Output only. The resource type. */
-  kind?: string | undefined;
-  /** Required. A reference that identifies the dataset. */
-  datasetReference?: DatasetReference | undefined;
-  /** The default encryption key for all tables in the dataset. After this property is set, the encryption key of all newly-created tables in the dataset is set to this value unless the table creation request or query explicitly overrides the key. */
-  defaultEncryptionConfiguration?: EncryptionConfiguration | undefined;
-  /** Output only. A URL that can be used to access the resource again. You can use this URL in Get or Update requests to the resource. */
-  selfLink?: string | undefined;
-  /** This default partition expiration, expressed in milliseconds. When new time-partitioned tables are created in a dataset where this property is set, the table will inherit this value, propagated as the `TimePartitioning.expirationMs` property on the new table. If you set `TimePartitioning.expirationMs` explicitly when creating a table, the `defaultPartitionExpirationMs` of the containing dataset is ignored. When creating a partitioned table, if `defaultPartitionExpirationMs` is set, the `defaultTableExpirationMs` value is ignored and the table will not be inherit a table expiration deadline. */
-  defaultPartitionExpirationMs?: string | undefined;
   /** Output only. Tags for the dataset. To provide tags as inputs, use the `resourceTags` field. */
   tags?: DatasetTagsItemList | undefined;
+  /** Optional. Updates storage_billing_model for the dataset. */
+  storageBillingModel?: DatasetStorageBillingModelEnum | (string & {}) | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. Same as `type` in `ListFormatDataset`. The type of the dataset, one of: * DEFAULT - only accessible by owner and authorized accounts, * PUBLIC - accessible by everyone, * LINKED - linked dataset, * EXTERNAL - dataset with definition in external metadata catalog, * BIGLAKE_ICEBERG - a Biglake dataset accessible through the Iceberg API, * BIGLAKE_HIVE - a Biglake dataset accessible through the Hive API. */
+  type?: string | undefined;
+  /** Optional. Defines the default collation specification of future tables created in the dataset. If a table is created in this dataset without table-level default collation, then the table inherits the dataset default collation, which is applied to the string fields that do not have explicit collation specified. A change to this field affects only tables created afterwards, and does not alter the existing tables. The following values are supported: * 'und:ci': undetermined locale, case insensitive. * '': empty string. Default to case-sensitive behavior. */
+  defaultCollation?: string | undefined;
+  /** Optional. Options defining open source compatible datasets living in the BigQuery catalog. Contains metadata of open source database, schema or namespace represented by the current dataset. */
+  externalCatalogDatasetOptions?: ExternalCatalogDatasetOptions | undefined;
   /** Optional. A descriptive name for the dataset. */
   friendlyName?: string | undefined;
-  /** Optional. TRUE if the dataset and its table names are case-insensitive, otherwise FALSE. By default, this is FALSE, which means the dataset and its table names are case-sensitive. This field does not affect routine references. */
-  isCaseInsensitive?: boolean | undefined;
-  /** Output only. The time when this dataset was created, in milliseconds since the epoch. */
-  creationTime?: string | undefined;
   /** Output only. Metadata about the LinkedDataset. Filled out when the dataset type is LINKED. */
   linkedDatasetMetadata?: LinkedDatasetMetadata | undefined;
+  /** Output only. The resource type. */
+  kind?: string | undefined;
+  /** Optional. Defines the time travel window in hours. The value can be from 48 to 168 hours (2 to 7 days). The default value is 168 hours if this is not set. */
+  maxTimeTravelHours?: string | undefined;
+  /** Optional. A user-friendly description of the dataset. */
+  description?: string | undefined;
+  /** Optional. Defines the default rounding mode specification of new tables created within this dataset. During table creation, if this field is specified, the table within this dataset will inherit the default rounding mode of the dataset. Setting the default rounding mode on a table overrides this option. Existing tables in the dataset are unaffected. If columns are defined during that table creation, they will immediately inherit the table's default rounding mode, unless otherwise specified. */
+  defaultRoundingMode?: DatasetDefaultRoundingModeEnum | (string & {}) | undefined;
+  /** Optional. TRUE if the dataset and its table names are case-insensitive, otherwise FALSE. By default, this is FALSE, which means the dataset and its table names are case-sensitive. This field does not affect routine references. */
+  isCaseInsensitive?: boolean | undefined;
+  /** Output only. The fully-qualified unique name of the dataset in the format projectId:datasetId. The dataset name without the project name is given in the datasetId field. When creating a new dataset, leave this field blank, and instead specify the datasetId field. */
+  id?: string | undefined;
+  /** Output only. A URL that can be used to access the resource again. You can use this URL in Get or Update requests to the resource. */
+  selfLink?: string | undefined;
   /** The geographic location where the dataset should reside. See https://cloud.google.com/bigquery/docs/locations for supported locations. */
   location?: string | undefined;
+  /** Optional. The default lifetime of all tables in the dataset, in milliseconds. The minimum lifetime value is 3600000 milliseconds (one hour). To clear an existing default expiration with a PATCH request, set to 0. Once this property is set, all newly-created tables in the dataset will have an expirationTime property set to the creation time plus the value in this property, and changing the value will only affect new tables, not existing ones. When the expirationTime for a given table is reached, that table will be deleted automatically. If a table's expirationTime is modified or removed before the table expires, or if you provide an explicit expirationTime when creating a table, that value takes precedence over the default expiration time indicated by this property. */
+  defaultTableExpirationMs?: string | undefined;
+  /** Output only. The time when this dataset was created, in milliseconds since the epoch. */
+  creationTime?: string | undefined;
+  /** The default encryption key for all tables in the dataset. After this property is set, the encryption key of all newly-created tables in the dataset is set to this value unless the table creation request or query explicitly overrides the key. */
+  defaultEncryptionConfiguration?: EncryptionConfiguration | undefined;
+  /** Output only. The date when this dataset was last modified, in milliseconds since the epoch. */
+  lastModifiedTime?: string | undefined;
+  /** Output only. A hash of the resource. */
+  etag?: string | undefined;
   /** Output only. Reserved for future use. */
   satisfiesPzi?: boolean | undefined;
   /** Optional. The source dataset reference when the dataset is of type LINKED. For all other dataset types it is not set. This field cannot be updated once it is set. Any attempt to update this field using Update and Patch API Operations will be ignored. */
   linkedDatasetSource?: LinkedDatasetSource | undefined;
-  /** Optional. Output only. Restriction config for all tables and dataset. If set, restrict certain accesses on the dataset and all its tables based on the config. See [Data egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress) for more details. */
-  restrictions?: RestrictionConfig | undefined;
-  /** Output only. The date when this dataset was last modified, in milliseconds since the epoch. */
-  lastModifiedTime?: string | undefined;
+  /** Optional. The failover reservation associated with the dataset in the regionless format. Example: .. To learn about about failover reservations see: https://docs.cloud.google.com/bigquery/docs/managed-disaster-recovery#overview */
+  failoverReservationId?: string | undefined;
   /** Output only. The origin of the dataset, one of: * (Unset) - Native BigQuery Dataset * BIGLAKE - Dataset is backed by a namespace stored natively in Biglake */
   catalogSource?: string | undefined;
+  /** Optional. The [tags](https://cloud.google.com/bigquery/docs/tags) attached to this dataset. Tag keys are globally unique. Tag key is expected to be in the namespaced format, for example "123456789012/environment" where 123456789012 is the ID of the parent organization or project resource for this tag key. Tag value is expected to be the short name, for example "Production". See [Tag definitions](https://cloud.google.com/iam/docs/tags-access-control#definitions) for more details. */
+  resourceTags?: StringMap | undefined;
+  /** Required. A reference that identifies the dataset. */
+  datasetReference?: DatasetReference | undefined;
+  /** Optional. The list of replicas in a cross region replicated or disaster recovery dataset. */
+  replicas?: ReplicaList | undefined;
   /** Optional. Reference to a read-only external dataset defined in data catalogs outside of BigQuery. Filled out when the dataset type is EXTERNAL. */
   externalDatasetReference?: ExternalDatasetReference | undefined;
-  /** Output only. A hash of the resource. */
-  etag?: string | undefined;
-  /** Optional. A user-friendly description of the dataset. */
-  description?: string | undefined;
-  /** Optional. Defines the default collation specification of future tables created in the dataset. If a table is created in this dataset without table-level default collation, then the table inherits the dataset default collation, which is applied to the string fields that do not have explicit collation specified. A change to this field affects only tables created afterwards, and does not alter the existing tables. The following values are supported: * 'und:ci': undetermined locale, case insensitive. * '': empty string. Default to case-sensitive behavior. */
-  defaultCollation?: string | undefined;
-  /** Optional. Defines the default rounding mode specification of new tables created within this dataset. During table creation, if this field is specified, the table within this dataset will inherit the default rounding mode of the dataset. Setting the default rounding mode on a table overrides this option. Existing tables in the dataset are unaffected. If columns are defined during that table creation, they will immediately inherit the table's default rounding mode, unless otherwise specified. */
-  defaultRoundingMode?: DatasetDefaultRoundingModeEnum | (string & {}) | undefined;
-  /** Optional. Defines the time travel window in hours. The value can be from 48 to 168 hours (2 to 7 days). The default value is 168 hours if this is not set. */
-  maxTimeTravelHours?: string | undefined;
-  /** Output only. The fully-qualified unique name of the dataset in the format projectId:datasetId. The dataset name without the project name is given in the datasetId field. When creating a new dataset, leave this field blank, and instead specify the datasetId field. */
-  id?: string | undefined;
+  /** Optional. An array of objects that define dataset access for one or more entities. You can set this property when inserting or updating a dataset in order to control who is allowed to access the data. If unspecified at dataset creation time, BigQuery adds default dataset access for the following entities: access.specialGroup: projectReaders; access.role: READER; access.specialGroup: projectWriters; access.role: WRITER; access.specialGroup: projectOwners; access.role: OWNER; access.userByEmail: [dataset creator email]; access.role: OWNER; If you patch a dataset, then this field is overwritten by the patched dataset's access field. To add entities, you must supply the entire existing access array in addition to any new entities that you want to add. */
+  access?: DatasetAccessItemList | undefined;
+  /** Optional. Output only. Restriction config for all tables and dataset. If set, restrict certain accesses on the dataset and all its tables based on the config. See [Data egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress) for more details. */
+  restrictions?: RestrictionConfig | undefined;
+  /** This default partition expiration, expressed in milliseconds. When new time-partitioned tables are created in a dataset where this property is set, the table will inherit this value, propagated as the `TimePartitioning.expirationMs` property on the new table. If you set `TimePartitioning.expirationMs` explicitly when creating a table, the `defaultPartitionExpirationMs` of the containing dataset is ignored. When creating a partitioned table, if `defaultPartitionExpirationMs` is set, the `defaultTableExpirationMs` value is ignored and the table will not be inherit a table expiration deadline. */
+  defaultPartitionExpirationMs?: string | undefined;
+  /** The labels associated with this dataset. You can use these to organize and group your datasets. You can set this property when inserting or updating a dataset. See [Creating and Updating Dataset Labels](https://cloud.google.com/bigquery/docs/creating-managing-labels#creating_and_updating_dataset_labels) for more information. */
+  labels?: StringMap | undefined;
 }
 /** Encapsulates settings provided to GetIamPolicy. */
 export interface GetPolicyOptions {
@@ -2912,10 +2974,10 @@ export type AuditLogConfigLogTypeEnum =
   | "DATA_READ";
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList | undefined;
   /** The log type that this config enables. */
   logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
@@ -2928,10 +2990,10 @@ export interface AuditConfig {
 export type AuditConfigList = Array<AuditConfig>;
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
   members?: StringList | undefined;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
   role?: string | undefined;
 }
@@ -2956,12 +3018,12 @@ export interface GetIamPolicyTablesRequest extends GetIamPolicyRequest {
   resource: string;
 }
 export interface GetJobsRequest {
-  /** The geographic location of the job. You must specify the location to run the job for the following scenarios: * If the location to run a job is not in the `us` or the `eu` multi-regional location * If the job's location is in a single region (for example, `us-central1`) For more information, see how to [specify locations](https://cloud.google.com/bigquery/docs/locations#specify_locations). */
-  location?: string | undefined;
-  /** Required. Job ID of the requested job. */
-  jobId: string;
   /** Required. Project ID of the requested job. */
   projectId: string;
+  /** Required. Job ID of the requested job. */
+  jobId: string;
+  /** The geographic location of the job. You must specify the location to run the job for the following scenarios: * If the location to run a job is not in the `us` or the `eu` multi-regional location * If the job's location is in a single region (for example, `us-central1`) For more information, see how to [specify locations](https://cloud.google.com/bigquery/docs/locations#specify_locations). */
+  location?: string | undefined;
 }
 export interface GetModelsRequest {
   /** Required. Project ID of the requested model. */
@@ -2971,107 +3033,65 @@ export interface GetModelsRequest {
   /** Required. Dataset ID of the requested model. */
   datasetId: string;
 }
-/** Search space for string and enum. */
-export interface StringHparamSearchSpace {
-  /** Canididates for the string or enum parameter in lower case. */
-  candidates?: StringList | undefined;
+/** Information about a single transform column. */
+export interface TransformColumn {
+  /** Output only. The SQL expression used in the column transform. */
+  transformSql?: string | undefined;
+  /** Output only. Data type of the column after the transform. */
+  type?: StandardSqlDataType | undefined;
+  /** Output only. Name of the column. */
+  name?: string | undefined;
 }
-/** Discrete candidates of an int hyperparameter. */
-export interface IntCandidates {
-  /** Candidates for the int parameter in increasing order. */
-  candidates?: StringList | undefined;
+export type TransformColumnList = Array<TransformColumn>;
+/** Data split result. This contains references to the training and evaluation data tables that were used to train the model. */
+export interface DataSplitResult {
+  /** Table reference of the training data after split. */
+  trainingTable?: TableReference | undefined;
+  /** Table reference of the evaluation data after split. */
+  evaluationTable?: TableReference | undefined;
+  /** Table reference of the test data after split. */
+  testTable?: TableReference | undefined;
 }
-/** Range of an int hyperparameter. */
-export interface IntRange {
-  /** Max value of the int parameter. */
-  max?: string | undefined;
-  /** Min value of the int parameter. */
-  min?: string | undefined;
+/** Explanation for a single feature. */
+export interface Explanation {
+  /** Attribution of feature. */
+  attribution?: number | undefined;
+  /** The full feature name. For non-numerical features, will be formatted like `.`. Overall size of feature name will always be truncated to first 120 characters. */
+  featureName?: string | undefined;
 }
-/** Search space for an int hyperparameter. */
-export interface IntHparamSearchSpace {
-  /** Candidates of the int hyperparameter. */
-  candidates?: IntCandidates | undefined;
-  /** Range of the int hyperparameter. */
-  range?: IntRange | undefined;
+export type ExplanationList = Array<Explanation>;
+/** Global explanations containing the top most important features after training. */
+export interface GlobalExplanation {
+  /** Class label for this set of global explanations. Will be empty/null for binary logistic and linear regression models. Sorted alphabetically in descending order. */
+  classLabel?: string | undefined;
+  /** A list of the top global explanations. Sorted by absolute value of attribution in descending order. */
+  explanations?: ExplanationList | undefined;
 }
-/** Discrete candidates of a double hyperparameter. */
-export interface DoubleCandidates {
-  /** Candidates for the double parameter in increasing order. */
-  candidates?: DoubleList | undefined;
+export type GlobalExplanationList = Array<GlobalExplanation>;
+/** Information about a single training query run for the model. */
+export interface TrainingRun {
+  /** Output only. Data split result of the training run. Only set when the input data is actually split. */
+  dataSplitResult?: DataSplitResult | undefined;
+  /** Output only. Output of each iteration run, results.size() <= max_iterations. */
+  results?: IterationResultList | undefined;
+  /** Output only. The model version in the [Vertex AI Model Registry](https://cloud.google.com/vertex-ai/docs/model-registry/introduction) for this training run. */
+  vertexAiModelVersion?: string | undefined;
+  /** The model id in the [Vertex AI Model Registry](https://cloud.google.com/vertex-ai/docs/model-registry/introduction) for this training run. */
+  vertexAiModelId?: string | undefined;
+  /** Output only. Options that were used for this training run, includes user specified and default options that were used. */
+  trainingOptions?: TrainingOptions | undefined;
+  /** Output only. The start time of this training run. */
+  startTime?: string | undefined;
+  /** Output only. The start time of this training run, in milliseconds since epoch. */
+  trainingStartTime?: string | undefined;
+  /** Output only. Global explanation contains the explanation of top features on the class level. Applies to classification models only. */
+  classLevelGlobalExplanations?: GlobalExplanationList | undefined;
+  /** Output only. The evaluation metrics over training/eval data that were computed at the end of training. */
+  evaluationMetrics?: EvaluationMetrics | undefined;
+  /** Output only. Global explanation contains the explanation of top features on the model level. Applies to both regression and classification models. */
+  modelLevelGlobalExplanation?: GlobalExplanation | undefined;
 }
-/** Range of a double hyperparameter. */
-export interface DoubleRange {
-  /** Max value of the double parameter. */
-  max?: number | undefined;
-  /** Min value of the double parameter. */
-  min?: number | undefined;
-}
-/** Search space for a double hyperparameter. */
-export interface DoubleHparamSearchSpace {
-  /** Candidates of the double hyperparameter. */
-  candidates?: DoubleCandidates | undefined;
-  /** Range of the double hyperparameter. */
-  range?: DoubleRange | undefined;
-}
-/** An array of int. */
-export interface IntArray {
-  /** Elements in the int array. */
-  elements?: StringList | undefined;
-}
-export type IntArrayList = Array<IntArray>;
-/** Search space for int array. */
-export interface IntArrayHparamSearchSpace {
-  /** Candidates for the int array parameter. */
-  candidates?: IntArrayList | undefined;
-}
-/** Hyperparameter search spaces. These should be a subset of training_options. */
-export interface HparamSearchSpaces {
-  /** Tree construction algorithm for boosted tree models. */
-  treeMethod?: StringHparamSearchSpace | undefined;
-  /** Minimum sum of instance weight needed in a child for boosted tree models. */
-  minTreeChildWeight?: IntHparamSearchSpace | undefined;
-  /** Activation functions of neural network models. */
-  activationFn?: StringHparamSearchSpace | undefined;
-  /** Learning rate of training jobs. */
-  learnRate?: DoubleHparamSearchSpace | undefined;
-  /** Number of parallel trees for boosted tree models. */
-  numParallelTree?: IntHparamSearchSpace | undefined;
-  /** Number of clusters for k-means. */
-  numClusters?: IntHparamSearchSpace | undefined;
-  /** Subsample ratio of columns for each node(split) for boosted tree models. */
-  colsampleBynode?: DoubleHparamSearchSpace | undefined;
-  /** Minimum split loss for boosted tree models. */
-  minSplitLoss?: DoubleHparamSearchSpace | undefined;
-  /** L1 regularization coefficient. */
-  l1Reg?: DoubleHparamSearchSpace | undefined;
-  /** Mini batch sample size. */
-  batchSize?: IntHparamSearchSpace | undefined;
-  /** Hyperparameter for matrix factoration when implicit feedback type is specified. */
-  walsAlpha?: DoubleHparamSearchSpace | undefined;
-  /** Subsample ratio of columns when constructing each tree for boosted tree models. */
-  colsampleBytree?: DoubleHparamSearchSpace | undefined;
-  /** Dart normalization type for boosted tree models. */
-  dartNormalizeType?: StringHparamSearchSpace | undefined;
-  /** Maximum depth of a tree for boosted tree models. */
-  maxTreeDepth?: IntHparamSearchSpace | undefined;
-  /** Number of latent factors to train on. */
-  numFactors?: IntHparamSearchSpace | undefined;
-  /** Optimizer of TF models. */
-  optimizer?: StringHparamSearchSpace | undefined;
-  /** Booster type for boosted tree models. */
-  boosterType?: StringHparamSearchSpace | undefined;
-  /** Dropout probability for dnn model training and boosted tree models using dart booster. */
-  dropout?: DoubleHparamSearchSpace | undefined;
-  /** Hidden units for neural network models. */
-  hiddenUnits?: IntArrayHparamSearchSpace | undefined;
-  /** L2 regularization coefficient. */
-  l2Reg?: DoubleHparamSearchSpace | undefined;
-  /** Subsample the training data to grow tree to prevent overfitting for boosted tree models. */
-  subsample?: DoubleHparamSearchSpace | undefined;
-  /** Subsample ratio of columns for each level for boosted tree models. */
-  colsampleBylevel?: DoubleHparamSearchSpace | undefined;
-}
+export type TrainingRunList = Array<TrainingRun>;
 export type ModelModelTypeEnum =
   | "MODEL_TYPE_UNSPECIFIED"
   | "LINEAR_REGRESSION"
@@ -3099,6 +3119,107 @@ export type ModelModelTypeEnum =
   | "ONNX"
   | "TRANSFORM_ONLY"
   | "CONTRIBUTION_ANALYSIS";
+/** Search space for string and enum. */
+export interface StringHparamSearchSpace {
+  /** Canididates for the string or enum parameter in lower case. */
+  candidates?: StringList | undefined;
+}
+/** Range of a double hyperparameter. */
+export interface DoubleRange {
+  /** Max value of the double parameter. */
+  max?: number | undefined;
+  /** Min value of the double parameter. */
+  min?: number | undefined;
+}
+/** Discrete candidates of a double hyperparameter. */
+export interface DoubleCandidates {
+  /** Candidates for the double parameter in increasing order. */
+  candidates?: DoubleList | undefined;
+}
+/** Search space for a double hyperparameter. */
+export interface DoubleHparamSearchSpace {
+  /** Range of the double hyperparameter. */
+  range?: DoubleRange | undefined;
+  /** Candidates of the double hyperparameter. */
+  candidates?: DoubleCandidates | undefined;
+}
+/** Discrete candidates of an int hyperparameter. */
+export interface IntCandidates {
+  /** Candidates for the int parameter in increasing order. */
+  candidates?: StringList | undefined;
+}
+/** Range of an int hyperparameter. */
+export interface IntRange {
+  /** Min value of the int parameter. */
+  min?: string | undefined;
+  /** Max value of the int parameter. */
+  max?: string | undefined;
+}
+/** Search space for an int hyperparameter. */
+export interface IntHparamSearchSpace {
+  /** Candidates of the int hyperparameter. */
+  candidates?: IntCandidates | undefined;
+  /** Range of the int hyperparameter. */
+  range?: IntRange | undefined;
+}
+/** An array of int. */
+export interface IntArray {
+  /** Elements in the int array. */
+  elements?: StringList | undefined;
+}
+export type IntArrayList = Array<IntArray>;
+/** Search space for int array. */
+export interface IntArrayHparamSearchSpace {
+  /** Candidates for the int array parameter. */
+  candidates?: IntArrayList | undefined;
+}
+/** Hyperparameter search spaces. These should be a subset of training_options. */
+export interface HparamSearchSpaces {
+  /** Activation functions of neural network models. */
+  activationFn?: StringHparamSearchSpace | undefined;
+  /** Optimizer of TF models. */
+  optimizer?: StringHparamSearchSpace | undefined;
+  /** Minimum split loss for boosted tree models. */
+  minSplitLoss?: DoubleHparamSearchSpace | undefined;
+  /** Subsample ratio of columns when constructing each tree for boosted tree models. */
+  colsampleBytree?: DoubleHparamSearchSpace | undefined;
+  /** Number of clusters for k-means. */
+  numClusters?: IntHparamSearchSpace | undefined;
+  /** Dropout probability for dnn model training and boosted tree models using dart booster. */
+  dropout?: DoubleHparamSearchSpace | undefined;
+  /** Subsample ratio of columns for each level for boosted tree models. */
+  colsampleBylevel?: DoubleHparamSearchSpace | undefined;
+  /** Hidden units for neural network models. */
+  hiddenUnits?: IntArrayHparamSearchSpace | undefined;
+  /** L1 regularization coefficient. */
+  l1Reg?: DoubleHparamSearchSpace | undefined;
+  /** Booster type for boosted tree models. */
+  boosterType?: StringHparamSearchSpace | undefined;
+  /** Number of parallel trees for boosted tree models. */
+  numParallelTree?: IntHparamSearchSpace | undefined;
+  /** Learning rate of training jobs. */
+  learnRate?: DoubleHparamSearchSpace | undefined;
+  /** Subsample the training data to grow tree to prevent overfitting for boosted tree models. */
+  subsample?: DoubleHparamSearchSpace | undefined;
+  /** Dart normalization type for boosted tree models. */
+  dartNormalizeType?: StringHparamSearchSpace | undefined;
+  /** Minimum sum of instance weight needed in a child for boosted tree models. */
+  minTreeChildWeight?: IntHparamSearchSpace | undefined;
+  /** L2 regularization coefficient. */
+  l2Reg?: DoubleHparamSearchSpace | undefined;
+  /** Mini batch sample size. */
+  batchSize?: IntHparamSearchSpace | undefined;
+  /** Subsample ratio of columns for each node(split) for boosted tree models. */
+  colsampleBynode?: DoubleHparamSearchSpace | undefined;
+  /** Hyperparameter for matrix factoration when implicit feedback type is specified. */
+  walsAlpha?: DoubleHparamSearchSpace | undefined;
+  /** Tree construction algorithm for boosted tree models. */
+  treeMethod?: StringHparamSearchSpace | undefined;
+  /** Maximum depth of a tree for boosted tree models. */
+  maxTreeDepth?: IntHparamSearchSpace | undefined;
+  /** Number of latent factors to train on. */
+  numFactors?: IntHparamSearchSpace | undefined;
+}
 export type RemoteModelInfoRemoteServiceTypeEnum =
   | "REMOTE_SERVICE_TYPE_UNSPECIFIED"
   | "CLOUD_AI_TRANSLATE_V3"
@@ -3107,121 +3228,62 @@ export type RemoteModelInfoRemoteServiceTypeEnum =
   | "CLOUD_AI_SPEECH_TO_TEXT_V2";
 /** Remote Model Info */
 export interface RemoteModelInfo {
-  /** Output only. Fully qualified name of the user-provided connection object of the remote model. Format: ```"projects/{project_id}/locations/{location_id}/connections/{connection_id}"``` */
-  connection?: string | undefined;
-  /** Output only. The endpoint for remote model. */
-  endpoint?: string | undefined;
   /** Output only. Max number of rows in each batch sent to the remote service. If unset, the number of rows in each batch is set dynamically. */
   maxBatchingRows?: string | undefined;
-  /** Output only. The remote service type for remote model. */
-  remoteServiceType?: RemoteModelInfoRemoteServiceTypeEnum | (string & {}) | undefined;
+  /** Output only. Fully qualified name of the user-provided connection object of the remote model. Format: ```"projects/{project_id}/locations/{location_id}/connections/{connection_id}"``` */
+  connection?: string | undefined;
   /** Output only. The name of the speech recognizer to use for speech recognition. The expected format is `projects/{project}/locations/{location}/recognizers/{recognizer}`. Customers can specify this field at model creation. If not specified, a default recognizer `projects/{model project}/locations/global/recognizers/_` will be used. See more details at [recognizers](https://cloud.google.com/speech-to-text/v2/docs/reference/rest/v2/projects.locations.recognizers) */
   speechRecognizer?: string | undefined;
+  /** Output only. The remote service type for remote model. */
+  remoteServiceType?: RemoteModelInfoRemoteServiceTypeEnum | (string & {}) | undefined;
   /** Output only. The model version for LLM. */
   remoteModelVersion?: string | undefined;
+  /** Output only. The endpoint for remote model. */
+  endpoint?: string | undefined;
 }
-/** Data split result. This contains references to the training and evaluation data tables that were used to train the model. */
-export interface DataSplitResult {
-  /** Table reference of the evaluation data after split. */
-  evaluationTable?: TableReference | undefined;
-  /** Table reference of the training data after split. */
-  trainingTable?: TableReference | undefined;
-  /** Table reference of the test data after split. */
-  testTable?: TableReference | undefined;
-}
-/** Explanation for a single feature. */
-export interface Explanation {
-  /** The full feature name. For non-numerical features, will be formatted like `.`. Overall size of feature name will always be truncated to first 120 characters. */
-  featureName?: string | undefined;
-  /** Attribution of feature. */
-  attribution?: number | undefined;
-}
-export type ExplanationList = Array<Explanation>;
-/** Global explanations containing the top most important features after training. */
-export interface GlobalExplanation {
-  /** Class label for this set of global explanations. Will be empty/null for binary logistic and linear regression models. Sorted alphabetically in descending order. */
-  classLabel?: string | undefined;
-  /** A list of the top global explanations. Sorted by absolute value of attribution in descending order. */
-  explanations?: ExplanationList | undefined;
-}
-export type GlobalExplanationList = Array<GlobalExplanation>;
-/** Information about a single training query run for the model. */
-export interface TrainingRun {
-  /** Output only. Options that were used for this training run, includes user specified and default options that were used. */
-  trainingOptions?: TrainingOptions | undefined;
-  /** Output only. The start time of this training run. */
-  startTime?: string | undefined;
-  /** The model id in the [Vertex AI Model Registry](https://cloud.google.com/vertex-ai/docs/model-registry/introduction) for this training run. */
-  vertexAiModelId?: string | undefined;
-  /** Output only. The evaluation metrics over training/eval data that were computed at the end of training. */
-  evaluationMetrics?: EvaluationMetrics | undefined;
-  /** Output only. The start time of this training run, in milliseconds since epoch. */
-  trainingStartTime?: string | undefined;
-  /** Output only. Output of each iteration run, results.size() <= max_iterations. */
-  results?: IterationResultList | undefined;
-  /** Output only. The model version in the [Vertex AI Model Registry](https://cloud.google.com/vertex-ai/docs/model-registry/introduction) for this training run. */
-  vertexAiModelVersion?: string | undefined;
-  /** Output only. Data split result of the training run. Only set when the input data is actually split. */
-  dataSplitResult?: DataSplitResult | undefined;
-  /** Output only. Global explanation contains the explanation of top features on the class level. Applies to classification models only. */
-  classLevelGlobalExplanations?: GlobalExplanationList | undefined;
-  /** Output only. Global explanation contains the explanation of top features on the model level. Applies to both regression and classification models. */
-  modelLevelGlobalExplanation?: GlobalExplanation | undefined;
-}
-export type TrainingRunList = Array<TrainingRun>;
-/** Information about a single transform column. */
-export interface TransformColumn {
-  /** Output only. Data type of the column after the transform. */
-  type?: StandardSqlDataType | undefined;
-  /** Output only. Name of the column. */
-  name?: string | undefined;
-  /** Output only. The SQL expression used in the column transform. */
-  transformSql?: string | undefined;
-}
-export type TransformColumnList = Array<TransformColumn>;
 export interface Model {
-  /** Required. Unique identifier for this model. */
-  modelReference?: ModelReference | undefined;
-  /** Output only. All hyperparameter search spaces in this model. */
-  hparamSearchSpaces?: HparamSearchSpaces | undefined;
+  /** Output only. Trials of a [hyperparameter tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) model sorted by trial_id. */
+  hparamTrials?: HparamTuningTrialList | undefined;
+  /** Output only. The time when this model was created, in millisecs since the epoch. */
+  creationTime?: string | undefined;
+  /** Output only. Label columns that were used to train this model. The output of the model will have a "predicted_" prefix to these columns. */
+  labelColumns?: StandardSqlFieldList | undefined;
+  /** Custom encryption configuration (e.g., Cloud KMS keys). This shows the encryption configuration of the model data while stored in BigQuery storage. This field can be used with PatchModel to update encryption key for an already encrypted model. */
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  /** Output only. This field will be populated if a TRANSFORM clause was used to train a model. TRANSFORM clause (if used) takes feature_columns as input and outputs transform_columns. transform_columns then are used to train the model. */
+  transformColumns?: TransformColumnList | undefined;
+  /** Information for all training runs in increasing order of start_time. */
+  trainingRuns?: TrainingRunList | undefined;
   /** Output only. For single-objective [hyperparameter tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) models, it only contains the best trial. For multi-objective [hyperparameter tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) models, it contains all Pareto optimal trials sorted by trial_id. */
   optimalTrialIds?: StringList | undefined;
   /** Output only. The time when this model was last modified, in millisecs since the epoch. */
   lastModifiedTime?: string | undefined;
-  /** The best trial_id across all training runs. */
-  bestTrialId?: string | undefined;
-  /** Output only. Label columns that were used to train this model. The output of the model will have a "predicted_" prefix to these columns. */
-  labelColumns?: StandardSqlFieldList | undefined;
-  /** Output only. A hash of this resource. */
-  etag?: string | undefined;
   /** Output only. Type of the model resource. */
   modelType?: ModelModelTypeEnum | (string & {}) | undefined;
-  /** Output only. Trials of a [hyperparameter tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) model sorted by trial_id. */
-  hparamTrials?: HparamTuningTrialList | undefined;
   /** Output only. The geographic location where the model resides. This value is inherited from the dataset. */
   location?: string | undefined;
-  /** Optional. A descriptive name for this model. */
-  friendlyName?: string | undefined;
-  /** Output only. Remote model info */
-  remoteModelInfo?: RemoteModelInfo | undefined;
-  /** Optional. A user-friendly description of this model. */
-  description?: string | undefined;
-  /** Information for all training runs in increasing order of start_time. */
-  trainingRuns?: TrainingRunList | undefined;
-  /** Custom encryption configuration (e.g., Cloud KMS keys). This shows the encryption configuration of the model data while stored in BigQuery storage. This field can be used with PatchModel to update encryption key for an already encrypted model. */
-  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  /** Output only. A hash of this resource. */
+  etag?: string | undefined;
+  /** Output only. All hyperparameter search spaces in this model. */
+  hparamSearchSpaces?: HparamSearchSpaces | undefined;
   /** Optional. The time when this model expires, in milliseconds since the epoch. If not present, the model will persist indefinitely. Expired models will be deleted and their storage reclaimed. The defaultTableExpirationMs property of the encapsulating dataset can be used to set a default expirationTime on newly created models. */
   expirationTime?: string | undefined;
   /** Output only. Input feature columns for the model inference. If the model is trained with TRANSFORM clause, these are the input of the TRANSFORM clause. */
   featureColumns?: StandardSqlFieldList | undefined;
-  /** Output only. The time when this model was created, in millisecs since the epoch. */
-  creationTime?: string | undefined;
-  /** Output only. This field will be populated if a TRANSFORM clause was used to train a model. TRANSFORM clause (if used) takes feature_columns as input and outputs transform_columns. transform_columns then are used to train the model. */
-  transformColumns?: TransformColumnList | undefined;
+  /** Output only. Remote model info */
+  remoteModelInfo?: RemoteModelInfo | undefined;
+  /** Required. Unique identifier for this model. */
+  modelReference?: ModelReference | undefined;
   /** The labels associated with this model. You can use these to organize and group your models. Label keys and values can be no longer than 63 characters, can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter and each label in the list must have a different key. */
   labels?: StringMap | undefined;
+  /** Optional. A descriptive name for this model. */
+  friendlyName?: string | undefined;
+  /** The best trial_id across all training runs. */
+  bestTrialId?: string | undefined;
   /** Output only. The default trial_id to use in TVFs when the trial_id is not passed in. For single-objective [hyperparameter tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) models, this is the best trial ID. For multi-objective [hyperparameter tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) models, this is the smallest trial ID among all Pareto optimal trials. */
   defaultTrialId?: string | undefined;
+  /** Optional. A user-friendly description of this model. */
+  description?: string | undefined;
 }
 export type GetQueryResultsJobsFormatOptions_timestampOutputFormatEnum =
   | "TIMESTAMP_OUTPUT_FORMAT_UNSPECIFIED"
@@ -3231,16 +3293,6 @@ export type GetQueryResultsJobsFormatOptions_timestampOutputFormatEnum =
 export interface GetQueryResultsJobsRequest {
   /** Maximum number of results to read. */
   maxResults?: number | undefined;
-  /** Optional. Output timestamp as usec int64. Default is false. */
-  "formatOptions.useInt64Timestamp"?: boolean | undefined;
-  /** Zero-based index of the starting row. */
-  startIndex?: string | undefined;
-  /** The geographic location of the job. You must specify the location to run the job for the following scenarios: * If the location to run a job is not in the `us` or the `eu` multi-regional location * If the job's location is in a single region (for example, `us-central1`) For more information, see how to [specify locations](https://cloud.google.com/bigquery/docs/locations#specify_locations). */
-  location?: string | undefined;
-  /** Required. Project ID of the query job. */
-  projectId: string;
-  /** Required. Job ID of the query job. */
-  jobId: string;
   /** Optional. The API output format for a timestamp. This offers more explicit control over the timestamp output format as compared to the existing `use_int64_timestamp` option. */
   "formatOptions.timestampOutputFormat"?:
     | GetQueryResultsJobsFormatOptions_timestampOutputFormatEnum
@@ -3248,8 +3300,18 @@ export interface GetQueryResultsJobsRequest {
     | undefined;
   /** Page token, returned by a previous call, to request the next page of results. */
   pageToken?: string | undefined;
+  /** Required. Job ID of the query job. */
+  jobId: string;
+  /** Required. Project ID of the query job. */
+  projectId: string;
+  /** Zero-based index of the starting row. */
+  startIndex?: string | undefined;
   /** Optional: Specifies the maximum amount of time, in milliseconds, that the client is willing to wait for the query to complete. By default, this limit is 10 seconds (10,000 milliseconds). If the query is complete, the jobComplete field in the response is true. If the query has not yet completed, jobComplete is false. You can request a longer timeout period in the timeoutMs field. However, the call is not guaranteed to wait for the specified timeout; it typically returns after around 200 seconds (200,000 milliseconds), even if the query is not complete. If jobComplete is false, you can continue to wait for the query to complete by calling the getQueryResults method until the jobComplete field in the getQueryResults response is true. */
   timeoutMs?: number | undefined;
+  /** The geographic location of the job. You must specify the location to run the job for the following scenarios: * If the location to run a job is not in the `us` or the `eu` multi-regional location * If the job's location is in a single region (for example, `us-central1`) For more information, see how to [specify locations](https://cloud.google.com/bigquery/docs/locations#specify_locations). */
+  location?: string | undefined;
+  /** Optional. Output timestamp as usec int64. Default is false. */
+  "formatOptions.useInt64Timestamp"?: boolean | undefined;
 }
 export interface TableCell {
   v?: unknown | undefined;
@@ -3262,73 +3324,56 @@ export interface TableRow {
 export type TableRowList = Array<TableRow>;
 /** Response object of GetQueryResults. */
 export interface GetQueryResultsResponse {
-  /** Reference to the BigQuery Job that was created to run the query. This field will be present even if the original request timed out, in which case GetQueryResults can be used to read the results once the query has completed. Since this API only returns the first page of results, subsequent pages can be fetched via the same mechanism (GetQueryResults). */
-  jobReference?: JobReference | undefined;
-  /** Output only. The first errors or warnings encountered during the running of the job. The final message includes the number of errors that caused the process to stop. Errors here do not necessarily mean that the job has completed or was unsuccessful. For more information about error messages, see [Error messages](https://cloud.google.com/bigquery/docs/error-messages). */
-  errors?: ErrorProtoList | undefined;
-  /** An object with as many results as can be contained within the maximum permitted reply size. To get any additional rows, you can call GetQueryResults and specify the jobReference returned above. Present only when the query completes successfully. The REST-based representation of this data leverages a series of JSON f,v objects for indicating fields and values. */
-  rows?: TableRowList | undefined;
-  /** A hash of this response. */
-  etag?: string | undefined;
-  /** The resource type of the response. */
-  kind?: string | undefined;
-  /** The schema of the results. Present only when the query completes successfully. */
-  schema?: TableSchema | undefined;
-  /** A token used for paging results. When this token is non-empty, it indicates additional results are available. */
-  pageToken?: string | undefined;
-  /** The total number of bytes processed for this query. */
-  totalBytesProcessed?: string | undefined;
-  /** The total number of rows in the complete query result set, which can be more than the number of rows in this single page of results. Present only when the query completes successfully. */
-  totalRows?: string | undefined;
-  /** Output only. The number of rows affected by a DML statement. Present only for DML statements INSERT, UPDATE or DELETE. */
-  numDmlAffectedRows?: string | undefined;
   /** Whether the query has completed or not. If rows or totalRows are present, this will always be true. If this is false, totalRows will not be available. */
   jobComplete?: boolean | undefined;
+  /** A hash of this response. */
+  etag?: string | undefined;
+  /** The total number of bytes processed for this query. */
+  totalBytesProcessed?: string | undefined;
+  /** Reference to the BigQuery Job that was created to run the query. This field will be present even if the original request timed out, in which case GetQueryResults can be used to read the results once the query has completed. Since this API only returns the first page of results, subsequent pages can be fetched via the same mechanism (GetQueryResults). */
+  jobReference?: JobReference | undefined;
+  /** An object with as many results as can be contained within the maximum permitted reply size. To get any additional rows, you can call GetQueryResults and specify the jobReference returned above. Present only when the query completes successfully. The REST-based representation of this data leverages a series of JSON f,v objects for indicating fields and values. */
+  rows?: TableRowList | undefined;
+  /** A token used for paging results. When this token is non-empty, it indicates additional results are available. */
+  pageToken?: string | undefined;
+  /** The total number of rows in the complete query result set, which can be more than the number of rows in this single page of results. Present only when the query completes successfully. */
+  totalRows?: string | undefined;
   /** Whether the query result was fetched from the query cache. */
   cacheHit?: boolean | undefined;
+  /** The schema of the results. Present only when the query completes successfully. */
+  schema?: TableSchema | undefined;
+  /** Output only. The first errors or warnings encountered during the running of the job. The final message includes the number of errors that caused the process to stop. Errors here do not necessarily mean that the job has completed or was unsuccessful. For more information about error messages, see [Error messages](https://cloud.google.com/bigquery/docs/error-messages). */
+  errors?: ErrorProtoList | undefined;
+  /** The resource type of the response. */
+  kind?: string | undefined;
+  /** Output only. The number of rows affected by a DML statement. Present only for DML statements INSERT, UPDATE or DELETE. */
+  numDmlAffectedRows?: string | undefined;
 }
 export interface GetRoutinesRequest {
-  /** Required. Project ID of the requested routine */
-  projectId: string;
   /** Required. Dataset ID of the requested routine */
   datasetId: string;
-  /** Required. Routine ID of the requested routine */
-  routineId: string;
   /** If set, only the Routine fields in the field mask are returned in the response. If unset, all Routine fields are returned. */
   readMask?: string | undefined;
+  /** Required. Project ID of the requested routine */
+  projectId: string;
+  /** Required. Routine ID of the requested routine */
+  routineId: string;
 }
-export type RoutineDeterminismLevelEnum =
-  | "DETERMINISM_LEVEL_UNSPECIFIED"
-  | "DETERMINISTIC"
-  | "NOT_DETERMINISTIC";
-export type ArgumentModeEnum = "MODE_UNSPECIFIED" | "IN" | "OUT" | "INOUT";
-export type ArgumentArgumentKindEnum =
-  | "ARGUMENT_KIND_UNSPECIFIED"
-  | "FIXED_TYPE"
-  | "ANY_TYPE"
-  | "FIXED_TABLE"
-  | "ANY_TABLE";
 /** A table type */
 export interface StandardSqlTableType {
   /** The columns in this table type */
   columns?: StandardSqlFieldList | undefined;
 }
-/** Input/output argument of a function or a stored procedure. */
-export interface Argument {
-  /** Optional. Specifies whether the argument is input or output. Can be set for procedures only. */
-  mode?: ArgumentModeEnum | (string & {}) | undefined;
-  /** Optional. The name of this argument. Can be absent for function return argument. */
-  name?: string | undefined;
-  /** Optional. Whether the argument is an aggregate function parameter. Must be Unset for routine types other than AGGREGATE_FUNCTION. For AGGREGATE_FUNCTION, if set to false, it is equivalent to adding "NOT AGGREGATE" clause in DDL; Otherwise, it is equivalent to omitting "NOT AGGREGATE" clause in DDL. */
-  isAggregate?: boolean | undefined;
-  /** Optional. Defaults to FIXED_TYPE. */
-  argumentKind?: ArgumentArgumentKindEnum | (string & {}) | undefined;
-  /** Set if argument_kind == FIXED_TYPE. */
-  dataType?: StandardSqlDataType | undefined;
-  /** Optional. Set if argument_kind == FIXED_TABLE. */
-  tableType?: StandardSqlTableType | undefined;
-}
-export type ArgumentList = Array<Argument>;
+export type RoutineRoutineTypeEnum =
+  | "ROUTINE_TYPE_UNSPECIFIED"
+  | "SCALAR_FUNCTION"
+  | "PROCEDURE"
+  | "TABLE_VALUED_FUNCTION"
+  | "AGGREGATE_FUNCTION";
+export type RoutineDeterminismLevelEnum =
+  | "DETERMINISM_LEVEL_UNSPECIFIED"
+  | "DETERMINISTIC"
+  | "NOT_DETERMINISTIC";
 export type RoutineLanguageEnum =
   | "LANGUAGE_UNSPECIFIED"
   | "SQL"
@@ -3336,6 +3381,27 @@ export type RoutineLanguageEnum =
   | "PYTHON"
   | "JAVA"
   | "SCALA";
+/** Options for a user-defined Python function. */
+export interface PythonOptions {
+  /** Required. The name of the function defined in Python code as the entry point when the Python UDF is invoked. */
+  entryPoint?: string | undefined;
+  /** Optional. The list of additional package repositories to search when resolving Python packages. These repositories are searched in addition to the default public PyPI. Only repositories hosted in Artifact Registry (.pkg.dev) are supported. Only pre-compiled Wheel (.whl) packages are supported from these repositories. E.g. ['https://my-region-python.pkg.dev/my-project/my-repo/simple'] */
+  extraPackageRepositories?: StringList | undefined;
+  /** Optional. A list of Python package names along with versions to be installed. Example: ["pandas>=2.1", "google-cloud-translate==3.11"]. For more information, see [Use third-party packages](https://cloud.google.com/bigquery/docs/user-defined-functions-python#third-party-packages). */
+  packages?: StringList | undefined;
+  /** Optional. Fully qualified name of the connection whose service account will be used to authenticate to private package repositories during build-time. Format: "projects/{project_id}/locations/{location_id}/connections/{connection_id}" */
+  buildConnection?: string | undefined;
+}
+/** Information about a package installed in the routine execution environment. */
+export interface InstalledPackage {
+  /** Output only. The source repository from which this package was installed. Populated only when the package was installed from an additional package repository. E.g. 'https://my-region-python.pkg.dev/my-project/my-repo/simple' */
+  sourceRepository?: string | undefined;
+  /** Output only. The name of the installed package. */
+  name?: string | undefined;
+  /** Output only. The version of the installed package. */
+  version?: string | undefined;
+}
+export type InstalledPackageList = Array<InstalledPackage>;
 export type RoutineBuildStatusBuildStateEnum =
   | "BUILD_STATE_UNSPECIFIED"
   | "IN_PROGRESS"
@@ -3343,40 +3409,43 @@ export type RoutineBuildStatusBuildStateEnum =
   | "FAILED";
 /** The status of a routine build. */
 export interface RoutineBuildStatus {
-  /** Output only. The size of the image in bytes. Populated only after the build succeeds. */
-  imageSizeBytes?: string | undefined;
+  /** Output only. The list of installed packages in the routine's execution environment. Populated only after the build succeeds. */
+  installedPackages?: InstalledPackageList | undefined;
   /** Output only. The time taken for the image build. Populated only after the build succeeds or fails. */
   buildDuration?: string | undefined;
   /** Output only. The current build state of the routine. */
   buildState?: RoutineBuildStatusBuildStateEnum | (string & {}) | undefined;
   /** Output only. A result object that will be present only if the build has failed. */
   errorResult?: ErrorProto | undefined;
+  /** Output only. The size of the image in bytes. Populated only after the build succeeds. */
+  imageSizeBytes?: string | undefined;
   /** Output only. The time when the build state was updated last. */
   buildStateUpdateTime?: string | undefined;
 }
-/** Options for a user-defined Spark routine. */
-export interface SparkOptions {
-  /** Fully qualified name of the user-provided Spark connection object. Format: ```"projects/{project_id}/locations/{location_id}/connections/{connection_id}"``` */
-  connection?: string | undefined;
-  /** JARs to include on the driver and executor CLASSPATH. For more information about Apache Spark, see [Apache Spark](https://spark.apache.org/docs/latest/index.html). */
-  jarUris?: StringList | undefined;
-  /** Configuration properties as a set of key/value pairs, which will be passed on to the Spark application. For more information, see [Apache Spark](https://spark.apache.org/docs/latest/index.html) and the [procedure option list](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#procedure_option_list). */
-  properties?: StringMap | undefined;
-  /** The main file/jar URI of the Spark application. Exactly one of the definition_body field and the main_file_uri field must be set for Python. Exactly one of main_class and main_file_uri field should be set for Java/Scala language type. */
-  mainFileUri?: string | undefined;
-  /** Runtime version. If not specified, the default runtime version is used. */
-  runtimeVersion?: string | undefined;
-  /** Files to be placed in the working directory of each executor. For more information about Apache Spark, see [Apache Spark](https://spark.apache.org/docs/latest/index.html). */
-  fileUris?: StringList | undefined;
-  /** Archive files to be extracted into the working directory of each executor. For more information about Apache Spark, see [Apache Spark](https://spark.apache.org/docs/latest/index.html). */
-  archiveUris?: StringList | undefined;
-  /** Custom container image for the runtime environment. */
-  containerImage?: string | undefined;
-  /** The fully qualified name of a class in jar_uris, for example, com.example.wordcount. Exactly one of main_class and main_jar_uri field should be set for Java/Scala language type. */
-  mainClass?: string | undefined;
-  /** Python files to be placed on the PYTHONPATH for PySpark application. Supported file types: `.py`, `.egg`, and `.zip`. For more information about Apache Spark, see [Apache Spark](https://spark.apache.org/docs/latest/index.html). */
-  pyFileUris?: StringList | undefined;
+export type ArgumentArgumentKindEnum =
+  | "ARGUMENT_KIND_UNSPECIFIED"
+  | "FIXED_TYPE"
+  | "ANY_TYPE"
+  | "FIXED_TABLE"
+  | "ANY_TABLE";
+export type ArgumentModeEnum = "MODE_UNSPECIFIED" | "IN" | "OUT" | "INOUT";
+/** Input/output argument of a function or a stored procedure. */
+export interface Argument {
+  /** Optional. Defaults to FIXED_TYPE. */
+  argumentKind?: ArgumentArgumentKindEnum | (string & {}) | undefined;
+  /** Optional. Specifies whether the argument is input or output. Can be set for procedures only. */
+  mode?: ArgumentModeEnum | (string & {}) | undefined;
+  /** Optional. Whether the argument is an aggregate function parameter. Must be Unset for routine types other than AGGREGATE_FUNCTION. For AGGREGATE_FUNCTION, if set to false, it is equivalent to adding "NOT AGGREGATE" clause in DDL; Otherwise, it is equivalent to omitting "NOT AGGREGATE" clause in DDL. */
+  isAggregate?: boolean | undefined;
+  /** Set if argument_kind == FIXED_TYPE. */
+  dataType?: StandardSqlDataType | undefined;
+  /** Optional. The name of this argument. Can be absent for function return argument. */
+  name?: string | undefined;
+  /** Optional. Set if argument_kind == FIXED_TABLE. */
+  tableType?: StandardSqlTableType | undefined;
 }
+export type ArgumentList = Array<Argument>;
+export type RoutineDataGovernanceTypeEnum = "DATA_GOVERNANCE_TYPE_UNSPECIFIED" | "DATA_MASKING";
 /** Configuration of a volume mount for the Python UDF container that executes the managed function. */
 export interface ExternalVolumeMount {
   /** Optional. The absolute path of the source to be mounted, only support Google Cloud Storage bucket or folder now. Eg: gs://bucket-xxx for Google Cloud Storage bucket, gs://bucket-xxx/folder1/folder2 for Google Cloud Storage folder. */
@@ -3387,114 +3456,123 @@ export interface ExternalVolumeMount {
 export type ExternalVolumeMountList = Array<ExternalVolumeMount>;
 /** Options for the runtime of the external system. */
 export interface ExternalRuntimeOptions {
-  /** Optional. Language runtime version. Example: `python-3.11`. */
-  runtimeVersion?: string | undefined;
-  /** Optional. Amount of memory provisioned for a Python UDF container instance. Format: {number}{unit} where unit is one of "M", "G", "Mi" and "Gi" (e.g. 1G, 512Mi). If not specified, the default value is 512Mi. For more information, see [Configure container limits for Python UDFs](https://cloud.google.com/bigquery/docs/user-defined-functions-python#configure-container-limits) */
-  containerMemory?: string | undefined;
-  /** Optional. Fully qualified name of the connection whose service account will be used to execute the code in the container. Format: ```"projects/{project_id}/locations/{location_id}/connections/{connection_id}"``` */
-  runtimeConnection?: string | undefined;
-  /** Optional. List of volume mounts for the Python UDF container that executes the managed function. */
-  volumeMounts?: ExternalVolumeMountList | undefined;
   /** Optional. Amount of CPU provisioned for a Python UDF container instance. For more information, see [Configure container limits for Python UDFs](https://cloud.google.com/bigquery/docs/user-defined-functions-python#configure-container-limits) */
   containerCpu?: number | undefined;
+  /** Optional. Fully qualified name of the connection whose service account will be used to execute the code in the container. Format: ```"projects/{project_id}/locations/{location_id}/connections/{connection_id}"``` */
+  runtimeConnection?: string | undefined;
+  /** Optional. Language runtime version. Example: `python-3.11`. */
+  runtimeVersion?: string | undefined;
   /** Optional. Maximum number of rows in each batch sent to the external runtime. If absent or if 0, BigQuery dynamically decides the number of rows in a batch. */
   maxBatchingRows?: string | undefined;
+  /** Optional. List of volume mounts for the Python UDF container that executes the managed function. */
+  volumeMounts?: ExternalVolumeMountList | undefined;
   /** Optional. Maximum number of requests that a Python UDF instance can handle concurrently. If absent or if `0`, the default concurrency value is used. For more information, see [Configure container limits for Python UDFs](https://cloud.google.com/bigquery/docs/user-defined-functions-python#configure-container-limits). */
   containerRequestConcurrency?: string | undefined;
+  /** Optional. Amount of memory provisioned for a Python UDF container instance. Format: {number}{unit} where unit is one of "M", "G", "Mi" and "Gi" (e.g. 1G, 512Mi). If not specified, the default value is 512Mi. For more information, see [Configure container limits for Python UDFs](https://cloud.google.com/bigquery/docs/user-defined-functions-python#configure-container-limits) */
+  containerMemory?: string | undefined;
 }
-export type RoutineSecurityModeEnum = "SECURITY_MODE_UNSPECIFIED" | "DEFINER" | "INVOKER";
-/** Options for a user-defined Python function. */
-export interface PythonOptions {
-  /** Required. The name of the function defined in Python code as the entry point when the Python UDF is invoked. */
-  entryPoint?: string | undefined;
-  /** Optional. A list of Python package names along with versions to be installed. Example: ["pandas>=2.1", "google-cloud-translate==3.11"]. For more information, see [Use third-party packages](https://cloud.google.com/bigquery/docs/user-defined-functions-python#third-party-packages). */
-  packages?: StringList | undefined;
+/** Options for a user-defined Spark routine. */
+export interface SparkOptions {
+  /** JARs to include on the driver and executor CLASSPATH. For more information about Apache Spark, see [Apache Spark](https://spark.apache.org/docs/latest/index.html). */
+  jarUris?: StringList | undefined;
+  /** Configuration properties as a set of key/value pairs, which will be passed on to the Spark application. For more information, see [Apache Spark](https://spark.apache.org/docs/latest/index.html) and the [procedure option list](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#procedure_option_list). */
+  properties?: StringMap | undefined;
+  /** Python files to be placed on the PYTHONPATH for PySpark application. Supported file types: `.py`, `.egg`, and `.zip`. For more information about Apache Spark, see [Apache Spark](https://spark.apache.org/docs/latest/index.html). */
+  pyFileUris?: StringList | undefined;
+  /** The fully qualified name of a class in jar_uris, for example, com.example.wordcount. Exactly one of main_class and main_jar_uri field should be set for Java/Scala language type. */
+  mainClass?: string | undefined;
+  /** Archive files to be extracted into the working directory of each executor. For more information about Apache Spark, see [Apache Spark](https://spark.apache.org/docs/latest/index.html). */
+  archiveUris?: StringList | undefined;
+  /** Custom container image for the runtime environment. */
+  containerImage?: string | undefined;
+  /** Files to be placed in the working directory of each executor. For more information about Apache Spark, see [Apache Spark](https://spark.apache.org/docs/latest/index.html). */
+  fileUris?: StringList | undefined;
+  /** Fully qualified name of the user-provided Spark connection object. Format: ```"projects/{project_id}/locations/{location_id}/connections/{connection_id}"``` */
+  connection?: string | undefined;
+  /** Runtime version. If not specified, the default runtime version is used. */
+  runtimeVersion?: string | undefined;
+  /** The main file/jar URI of the Spark application. Exactly one of the definition_body field and the main_file_uri field must be set for Python. Exactly one of main_class and main_file_uri field should be set for Java/Scala language type. */
+  mainFileUri?: string | undefined;
 }
-export type RoutineRoutineTypeEnum =
-  | "ROUTINE_TYPE_UNSPECIFIED"
-  | "SCALAR_FUNCTION"
-  | "PROCEDURE"
-  | "TABLE_VALUED_FUNCTION"
-  | "AGGREGATE_FUNCTION";
-export type RoutineDataGovernanceTypeEnum = "DATA_GOVERNANCE_TYPE_UNSPECIFIED" | "DATA_MASKING";
 /** Options for a remote user-defined function. */
 export interface RemoteFunctionOptions {
-  /** Endpoint of the user-provided remote service, e.g. ```https://us-east1-my_gcf_project.cloudfunctions.net/remote_add``` */
-  endpoint?: string | undefined;
   /** User-defined context as a set of key/value pairs, which will be sent as function invocation context together with batched arguments in the requests to the remote service. The total number of bytes of keys and values must be less than 8KB. */
   userDefinedContext?: StringMap | undefined;
-  /** Fully qualified name of the user-provided connection object which holds the authentication information to send requests to the remote service. Format: ```"projects/{projectId}/locations/{locationId}/connections/{connectionId}"``` */
-  connection?: string | undefined;
+  /** Endpoint of the user-provided remote service, e.g. ```https://us-east1-my_gcf_project.cloudfunctions.net/remote_add``` */
+  endpoint?: string | undefined;
   /** Max number of rows in each batch sent to the remote service. If absent or if 0, BigQuery dynamically decides the number of rows in a batch. */
   maxBatchingRows?: string | undefined;
+  /** Fully qualified name of the user-provided connection object which holds the authentication information to send requests to the remote service. Format: ```"projects/{projectId}/locations/{locationId}/connections/{connectionId}"``` */
+  connection?: string | undefined;
 }
+export type RoutineSecurityModeEnum = "SECURITY_MODE_UNSPECIFIED" | "DEFINER" | "INVOKER";
 /** A user-defined function or a stored procedure. */
 export interface Routine {
-  /** Optional. The determinism level of the JavaScript UDF, if defined. */
-  determinismLevel?: RoutineDeterminismLevelEnum | (string & {}) | undefined;
-  /** Output only. A hash of this resource. */
-  etag?: string | undefined;
-  /** Optional. */
-  arguments?: ArgumentList | undefined;
-  /** Output only. The time when this routine was last modified, in milliseconds since the epoch. */
-  lastModifiedTime?: string | undefined;
-  /** Optional if language = "SQL"; required otherwise. Cannot be set if routine_type = "TABLE_VALUED_FUNCTION". If absent, the return type is inferred from definition_body at query time in each query that references this routine. If present, then the evaluated result will be cast to the specified returned type at query time. For example, for the functions created with the following statements: * `CREATE FUNCTION Add(x FLOAT64, y FLOAT64) RETURNS FLOAT64 AS (x + y);` * `CREATE FUNCTION Increment(x FLOAT64) AS (Add(x, 1));` * `CREATE FUNCTION Decrement(x FLOAT64) RETURNS FLOAT64 AS (Add(x, -1));` The return_type is `{type_kind: "FLOAT64"}` for `Add` and `Decrement`, and is absent for `Increment` (inferred as FLOAT64 at query time). Suppose the function `Add` is replaced by `CREATE OR REPLACE FUNCTION Add(x INT64, y INT64) AS (x + y);` Then the inferred return type of `Increment` is automatically changed to INT64 at query time, while the return type of `Decrement` remains FLOAT64. */
-  returnType?: StandardSqlDataType | undefined;
-  /** Optional. The description of the routine, if defined. */
-  description?: string | undefined;
-  /** Optional. Defaults to "SQL" if remote_function_options field is absent, not set otherwise. */
-  language?: RoutineLanguageEnum | (string & {}) | undefined;
-  /** Output only. The time when this routine was created, in milliseconds since the epoch. */
-  creationTime?: string | undefined;
-  /** Output only. The build status of the routine. This field is only applicable to Python UDFs. [Preview](https://cloud.google.com/products/#product-launch-stages) */
-  buildStatus?: RoutineBuildStatus | undefined;
-  /** Optional. If language = "JAVASCRIPT", this field stores the path of the imported JAVASCRIPT libraries. */
-  importedLibraries?: StringList | undefined;
-  /** Optional. Spark specific options. */
-  sparkOptions?: SparkOptions | undefined;
-  /** Optional. Options for the runtime of the external system executing the routine. This field is only applicable for Python UDFs. [Preview](https://cloud.google.com/products/#product-launch-stages) */
-  externalRuntimeOptions?: ExternalRuntimeOptions | undefined;
   /** Optional. Can be set only if routine_type = "TABLE_VALUED_FUNCTION". If absent, the return table type is inferred from definition_body at query time in each query that references this routine. If present, then the columns in the evaluated table result will be cast to match the column types specified in return table type, at query time. */
   returnTableType?: StandardSqlTableType | undefined;
-  /** Optional. Use this option to catch many common errors. Error checking is not exhaustive, and successfully creating a procedure doesn't guarantee that the procedure will successfully execute at runtime. If `strictMode` is set to `TRUE`, the procedure body is further checked for errors such as non-existent tables or columns. The `CREATE PROCEDURE` statement fails if the body fails any of these checks. If `strictMode` is set to `FALSE`, the procedure body is checked only for syntax. For procedures that invoke themselves recursively, specify `strictMode=FALSE` to avoid non-existent procedure errors during validation. Default value is `TRUE`. */
-  strictMode?: boolean | undefined;
-  /** Optional. The security mode of the routine, if defined. If not defined, the security mode is automatically determined from the routine's configuration. */
-  securityMode?: RoutineSecurityModeEnum | (string & {}) | undefined;
-  /** Optional. Options for the Python UDF. [Preview](https://cloud.google.com/products/#product-launch-stages) */
-  pythonOptions?: PythonOptions | undefined;
-  /** Required. The body of the routine. For functions, this is the expression in the AS clause. If `language = "SQL"`, it is the substring inside (but excluding) the parentheses. For example, for the function created with the following statement: `CREATE FUNCTION JoinLines(x string, y string) as (concat(x, "\n", y))` The definition_body is `concat(x, "\n", y)` (\n is not replaced with linebreak). If `language="JAVASCRIPT"`, it is the evaluated string in the AS clause. For example, for the function created with the following statement: `CREATE FUNCTION f() RETURNS STRING LANGUAGE js AS 'return "\n";\n'` The definition_body is `return "\n";\n` Note that both \n are replaced with linebreaks. If `definition_body` references another routine, then that routine must be fully qualified with its project ID. */
-  definitionBody?: string | undefined;
+  /** Output only. The time when this routine was created, in milliseconds since the epoch. */
+  creationTime?: string | undefined;
+  /** Output only. The time when this routine was last modified, in milliseconds since the epoch. */
+  lastModifiedTime?: string | undefined;
+  /** Optional. The description of the routine, if defined. */
+  description?: string | undefined;
   /** Required. The type of routine. */
   routineType?: RoutineRoutineTypeEnum | (string & {}) | undefined;
+  /** Optional. The determinism level of the JavaScript UDF, if defined. */
+  determinismLevel?: RoutineDeterminismLevelEnum | (string & {}) | undefined;
+  /** Optional. Defaults to "SQL" if remote_function_options field is absent, not set otherwise. */
+  language?: RoutineLanguageEnum | (string & {}) | undefined;
+  /** Optional. Options for the Python UDF. [Preview](https://cloud.google.com/products/#product-launch-stages) */
+  pythonOptions?: PythonOptions | undefined;
+  /** Output only. The build status of the routine. This field is only applicable to Python UDFs. [Preview](https://cloud.google.com/products/#product-launch-stages) */
+  buildStatus?: RoutineBuildStatus | undefined;
+  /** Optional. */
+  arguments?: ArgumentList | undefined;
   /** Optional. If set to `DATA_MASKING`, the function is validated and made available as a masking function. For more information, see [Create custom masking routines](https://cloud.google.com/bigquery/docs/user-defined-functions#custom-mask). */
   dataGovernanceType?: RoutineDataGovernanceTypeEnum | (string & {}) | undefined;
-  /** Optional. Remote function specific options. */
-  remoteFunctionOptions?: RemoteFunctionOptions | undefined;
+  /** Output only. A hash of this resource. */
+  etag?: string | undefined;
+  /** Optional. If language = "JAVASCRIPT", this field stores the path of the imported JAVASCRIPT libraries. */
+  importedLibraries?: StringList | undefined;
+  /** Required. The body of the routine. For functions, this is the expression in the AS clause. If `language = "SQL"`, it is the substring inside (but excluding) the parentheses. For example, for the function created with the following statement: `CREATE FUNCTION JoinLines(x string, y string) as (concat(x, "\n", y))` The definition_body is `concat(x, "\n", y)` (\n is not replaced with linebreak). If `language="JAVASCRIPT"`, it is the evaluated string in the AS clause. For example, for the function created with the following statement: `CREATE FUNCTION f() RETURNS STRING LANGUAGE js AS 'return "\n";\n'` The definition_body is `return "\n";\n` Note that both \n are replaced with linebreaks. If `definition_body` references another routine, then that routine must be fully qualified with its project ID. */
+  definitionBody?: string | undefined;
+  /** Optional. Use this option to catch many common errors. Error checking is not exhaustive, and successfully creating a procedure doesn't guarantee that the procedure will successfully execute at runtime. If `strictMode` is set to `TRUE`, the procedure body is further checked for errors such as non-existent tables or columns. The `CREATE PROCEDURE` statement fails if the body fails any of these checks. If `strictMode` is set to `FALSE`, the procedure body is checked only for syntax. For procedures that invoke themselves recursively, specify `strictMode=FALSE` to avoid non-existent procedure errors during validation. Default value is `TRUE`. */
+  strictMode?: boolean | undefined;
+  /** Optional. Options for the runtime of the external system executing the routine. This field is only applicable for Python UDFs. [Preview](https://cloud.google.com/products/#product-launch-stages) */
+  externalRuntimeOptions?: ExternalRuntimeOptions | undefined;
+  /** Optional. Spark specific options. */
+  sparkOptions?: SparkOptions | undefined;
   /** Required. Reference describing the ID of this routine. */
   routineReference?: RoutineReference | undefined;
+  /** Optional. Remote function specific options. */
+  remoteFunctionOptions?: RemoteFunctionOptions | undefined;
+  /** Optional if language = "SQL"; required otherwise. Cannot be set if routine_type = "TABLE_VALUED_FUNCTION". If absent, the return type is inferred from definition_body at query time in each query that references this routine. If present, then the evaluated result will be cast to the specified returned type at query time. For example, for the functions created with the following statements: * `CREATE FUNCTION Add(x FLOAT64, y FLOAT64) RETURNS FLOAT64 AS (x + y);` * `CREATE FUNCTION Increment(x FLOAT64) AS (Add(x, 1));` * `CREATE FUNCTION Decrement(x FLOAT64) RETURNS FLOAT64 AS (Add(x, -1));` The return_type is `{type_kind: "FLOAT64"}` for `Add` and `Decrement`, and is absent for `Increment` (inferred as FLOAT64 at query time). Suppose the function `Add` is replaced by `CREATE OR REPLACE FUNCTION Add(x INT64, y INT64) AS (x + y);` Then the inferred return type of `Increment` is automatically changed to INT64 at query time, while the return type of `Decrement` remains FLOAT64. */
+  returnType?: StandardSqlDataType | undefined;
+  /** Optional. The security mode of the routine, if defined. If not defined, the security mode is automatically determined from the routine's configuration. */
+  securityMode?: RoutineSecurityModeEnum | (string & {}) | undefined;
 }
 export interface GetRowAccessPoliciesRequest {
-  /** Required. Policy ID of the row access policy. */
-  policyId: string;
   /** Required. Dataset ID of the table to get the row access policy. */
   datasetId: string;
-  /** Required. Project ID of the table to get the row access policy. */
-  projectId: string;
   /** Required. Table ID of the table to get the row access policy. */
   tableId: string;
+  /** Required. Policy ID of the row access policy. */
+  policyId: string;
+  /** Required. Project ID of the table to get the row access policy. */
+  projectId: string;
 }
 /** Represents access on a subset of rows on the specified table, defined by its filter predicate. Access to the subset of rows is controlled by its IAM policy. */
 export interface RowAccessPolicy {
+  /** Optional. Input only. The optional list of iam_member users or groups that specifies the initial members that the row-level access policy should be created with. grantees types: - "user:alice@example.com": An email address that represents a specific Google account. - "serviceAccount:my-other-app@appspot.gserviceaccount.com": An email address that represents a service account. - "group:admins@example.com": An email address that represents a Google group. - "domain:example.com":The Google Workspace domain (primary) that represents all the users of that domain. - "allAuthenticatedUsers": A special identifier that represents all service accounts and all users on the internet who have authenticated with a Google Account. This identifier includes accounts that aren't connected to a Google Workspace or Cloud Identity domain, such as personal Gmail accounts. Users who aren't authenticated, such as anonymous visitors, aren't included. - "allUsers":A special identifier that represents anyone who is on the internet, including authenticated and unauthenticated users. Because BigQuery requires authentication before a user can access the service, allUsers includes only authenticated users. */
+  grantees?: StringList | undefined;
+  /** Output only. The time when this row access policy was last modified, in milliseconds since the epoch. */
+  lastModifiedTime?: string | undefined;
   /** Output only. A hash of this resource. */
   etag?: string | undefined;
   /** Required. Reference describing the ID of this row access policy. */
   rowAccessPolicyReference?: RowAccessPolicyReference | undefined;
-  /** Optional. Input only. The optional list of iam_member users or groups that specifies the initial members that the row-level access policy should be created with. grantees types: - "user:alice@example.com": An email address that represents a specific Google account. - "serviceAccount:my-other-app@appspot.gserviceaccount.com": An email address that represents a service account. - "group:admins@example.com": An email address that represents a Google group. - "domain:example.com":The Google Workspace domain (primary) that represents all the users of that domain. - "allAuthenticatedUsers": A special identifier that represents all service accounts and all users on the internet who have authenticated with a Google Account. This identifier includes accounts that aren't connected to a Google Workspace or Cloud Identity domain, such as personal Gmail accounts. Users who aren't authenticated, such as anonymous visitors, aren't included. - "allUsers":A special identifier that represents anyone who is on the internet, including authenticated and unauthenticated users. Because BigQuery requires authentication before a user can access the service, allUsers includes only authenticated users. */
-  grantees?: StringList | undefined;
   /** Required. A SQL boolean expression that represents the rows defined by this row access policy, similar to the boolean expression in a WHERE clause of a SELECT query on a table. References to other tables, routines, and temporary functions are not supported. Examples: region="EU" date_field = CAST('2019-9-27' as DATE) nullable_field is not NULL numeric_field BETWEEN 1.0 AND 5.0 */
   filterPredicate?: string | undefined;
-  /** Output only. The time when this row access policy was last modified, in milliseconds since the epoch. */
-  lastModifiedTime?: string | undefined;
   /** Output only. The time when this row access policy was created, in milliseconds since the epoch. */
   creationTime?: string | undefined;
 }
@@ -3504,10 +3582,10 @@ export interface GetServiceAccountProjectsRequest {
 }
 /** Response object of GetServiceAccount */
 export interface GetServiceAccountResponse {
-  /** The service account email address. */
-  email?: string | undefined;
   /** The resource type of the response. */
   kind?: string | undefined;
+  /** The service account email address. */
+  email?: string | undefined;
 }
 export type GetTablesViewEnum =
   | "TABLE_METADATA_VIEW_UNSPECIFIED"
@@ -3515,145 +3593,66 @@ export type GetTablesViewEnum =
   | "STORAGE_STATS"
   | "FULL";
 export interface GetTablesRequest {
-  /** Optional. Specifies the view that determines which table information is returned. By default, basic table information and storage statistics (STORAGE_STATS) are returned. */
-  view?: GetTablesViewEnum | (string & {}) | undefined;
-  /** Required. Project ID of the requested table */
-  projectId: string;
-  /** Required. Table ID of the requested table */
-  tableId: string;
   /** Required. Dataset ID of the requested table */
   datasetId: string;
   /** List of table schema fields to return (comma-separated). If unspecified, all fields are returned. A fieldMask cannot be used here because the fields will automatically be converted from camelCase to snake_case and the conversion will fail if there are underscores. Since these are fields in BigQuery table schemas, underscores are allowed. */
   selectedFields?: string | undefined;
+  /** Required. Table ID of the requested table */
+  tableId: string;
+  /** Required. Project ID of the requested table */
+  projectId: string;
+  /** Optional. Specifies the view that determines which table information is returned. By default, basic table information and storage statistics (STORAGE_STATS) are returned. */
+  view?: GetTablesViewEnum | (string & {}) | undefined;
 }
-export interface Streamingbuffer {
-  /** Output only. A lower-bound estimate of the number of rows currently in the streaming buffer. */
-  estimatedRows?: string | undefined;
-  /** Output only. A lower-bound estimate of the number of bytes currently in the streaming buffer. */
-  estimatedBytes?: string | undefined;
-  /** Output only. Contains the timestamp of the oldest entry in the streaming buffer, in milliseconds since the epoch, if the streaming buffer is available. */
-  oldestEntryTime?: string | undefined;
+/** Serializer and deserializer information. */
+export interface SerDeInfo {
+  /** Optional. Name of the SerDe. The maximum length is 256 characters. */
+  name?: string | undefined;
+  /** Required. Specifies a fully-qualified class name of the serialization library that is responsible for the translation of data between table representation and the underlying low-level input and output format structures. The maximum length is 256 characters. */
+  serializationLibrary?: string | undefined;
+  /** Optional. Key-value pairs that define the initialization parameters for the serialization library. Maximum size 10 Kib. */
+  parameters?: StringMap | undefined;
 }
-/** A view can be represented in multiple ways. Each representation has its own dialect. This message stores the metadata required for these representations. */
-export interface ForeignViewDefinition {
-  /** Optional. Represents the dialect of the query. */
-  dialect?: string | undefined;
-  /** Required. The query that defines the view. */
-  query?: string | undefined;
+/** Contains information about how a table's data is stored and accessed by open source query engines. */
+export interface StorageDescriptor {
+  /** Optional. Specifies the fully qualified class name of the OutputFormat (e.g. "org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat"). The maximum length is 128 characters. */
+  outputFormat?: string | undefined;
+  /** Optional. Serializer and deserializer information. */
+  serdeInfo?: SerDeInfo | undefined;
+  /** Optional. The physical location of the table (e.g. `gs://spark-dataproc-data/pangea-data/case_sensitive/` or `gs://spark-dataproc-data/pangea-data/*`). The maximum length is 2056 bytes. */
+  locationUri?: string | undefined;
+  /** Optional. Specifies the fully qualified class name of the InputFormat (e.g. "org.apache.hadoop.hive.ql.io.orc.OrcInputFormat"). The maximum length is 128 characters. */
+  inputFormat?: string | undefined;
 }
-export type ForeignViewDefinitionList = Array<ForeignViewDefinition>;
-/** Represents privacy policy associated with "aggregation threshold" method. */
-export interface AggregationThresholdPolicy {
-  /** Optional. The threshold for the "aggregation threshold" policy. */
-  threshold?: string | undefined;
-  /** Optional. The privacy unit column(s) associated with this policy. For now, only one column per data source object (table, view) is allowed as a privacy unit column. Representing as a repeated field in metadata for extensibility to multiple columns in future. Duplicates and Repeated struct fields are not allowed. For nested fields, use dot notation ("outer.inner") */
-  privacyUnitColumns?: StringList | undefined;
+/** Metadata about open source compatible table. The fields contained in these options correspond to Hive metastore's table-level properties. */
+export interface ExternalCatalogTableOptions {
+  /** Optional. A connection ID that specifies the credentials to be used to read external storage, such as Azure Blob, Cloud Storage, or Amazon S3. This connection is needed to read the open source table from BigQuery. The connection_id format must be either `..` or `projects//locations//connections/`. */
+  connectionId?: string | undefined;
+  /** Optional. A storage descriptor containing information about the physical storage of this table. */
+  storageDescriptor?: StorageDescriptor | undefined;
+  /** Optional. A map of the key-value pairs defining the parameters and properties of the open source table. Corresponds with Hive metastore table parameters. Maximum size of 4MiB. */
+  parameters?: StringMap | undefined;
 }
-/** Represents privacy policy associated with "differential privacy" method. */
-export interface DifferentialPrivacyPolicy {
-  /** Optional. The privacy unit column associated with this policy. Differential privacy policies can only have one privacy unit column per data source object (table, view). */
-  privacyUnitColumn?: string | undefined;
-  /** Optional. The maximum epsilon value that a query can consume. If the subscriber specifies epsilon as a parameter in a SELECT query, it must be less than or equal to this value. The epsilon parameter controls the amount of noise that is added to the groups -- a higher epsilon means less noise. */
-  maxEpsilonPerQuery?: number | undefined;
-  /** Optional. The maximum groups contributed value that is used per query. Represents the maximum number of groups to which each protected entity can contribute. Changing this value does not improve or worsen privacy. The best value for accuracy and utility depends on the query and data. */
-  maxGroupsContributed?: string | undefined;
-  /** Output only. The delta budget remaining. If budget is exhausted, no more queries are allowed. Note that the budget for queries that are in progress is deducted before the query executes. If the query fails or is cancelled then the budget is refunded. In this case the amount of budget remaining can increase. */
-  deltaBudgetRemaining?: number | undefined;
-  /** Optional. The delta value that is used per query. Delta represents the probability that any row will fail to be epsilon differentially private. Indicates the risk associated with exposing aggregate rows in the result of a query. */
-  deltaPerQuery?: number | undefined;
-  /** Optional. The total epsilon budget for all queries against the privacy-protected view. Each subscriber query against this view charges the amount of epsilon they request in their query. If there is sufficient budget, then the subscriber query attempts to complete. It might still fail due to other reasons, in which case the charge is refunded. If there is insufficient budget the query is rejected. There might be multiple charge attempts if a single query references multiple views. In this case there must be sufficient budget for all charges or the query is rejected and charges are refunded in best effort. The budget does not have a refresh policy and can only be updated via ALTER VIEW or circumvented by creating a new view that can be queried with a fresh budget. */
-  epsilonBudget?: number | undefined;
-  /** Output only. The epsilon budget remaining. If budget is exhausted, no more queries are allowed. Note that the budget for queries that are in progress is deducted before the query executes. If the query fails or is cancelled then the budget is refunded. In this case the amount of budget remaining can increase. */
-  epsilonBudgetRemaining?: number | undefined;
-  /** Optional. The total delta budget for all queries against the privacy-protected view. Each subscriber query against this view charges the amount of delta that is pre-defined by the contributor through the privacy policy delta_per_query field. If there is sufficient budget, then the subscriber query attempts to complete. It might still fail due to other reasons, in which case the charge is refunded. If there is insufficient budget the query is rejected. There might be multiple charge attempts if a single query references multiple views. In this case there must be sufficient budget for all charges or the query is rejected and charges are refunded in best effort. The budget does not have a refresh policy and can only be updated via ALTER VIEW or circumvented by creating a new view that can be queried with a fresh budget. */
-  deltaBudget?: number | undefined;
-}
-export type JoinRestrictionPolicyJoinConditionEnum =
-  | "JOIN_CONDITION_UNSPECIFIED"
-  | "JOIN_ANY"
-  | "JOIN_ALL"
-  | "JOIN_NOT_REQUIRED"
-  | "JOIN_BLOCKED";
-/** Represents privacy policy associated with "join restrictions". Join restriction gives data providers the ability to enforce joins on the 'join_allowed_columns' when data is queried from a privacy protected view. */
-export interface JoinRestrictionPolicy {
-  /** Optional. Specifies if a join is required or not on queries for the view. Default is JOIN_CONDITION_UNSPECIFIED. */
-  joinCondition?: JoinRestrictionPolicyJoinConditionEnum | (string & {}) | undefined;
-  /** Optional. The only columns that joins are allowed on. This field is must be specified for join_conditions JOIN_ANY and JOIN_ALL and it cannot be set for JOIN_BLOCKED. */
-  joinAllowedColumns?: StringList | undefined;
-}
-/** Represents privacy policy that contains the privacy requirements specified by the data owner. Currently, this is only supported on views. */
-export interface PrivacyPolicy {
-  /** Optional. Policy used for aggregation thresholds. */
-  aggregationThresholdPolicy?: AggregationThresholdPolicy | undefined;
-  /** Optional. Policy used for differential privacy. */
-  differentialPrivacyPolicy?: DifferentialPrivacyPolicy | undefined;
-  /** Optional. Join restriction policy is outside of the one of policies, since this policy can be set along with other policies. This policy gives data providers the ability to enforce joins on the 'join_allowed_columns' when data is queried from a privacy protected view. */
-  joinRestrictionPolicy?: JoinRestrictionPolicy | undefined;
-}
-/** Describes the definition of a logical view. */
-export interface ViewDefinition {
-  /** Describes user-defined function resources used in the query. */
-  userDefinedFunctionResources?: UserDefinedFunctionResourceList | undefined;
-  /** True if the column names are explicitly specified. For example by using the 'CREATE VIEW v(c1, c2) AS ...' syntax. Can only be set for GoogleSQL views. */
-  useExplicitColumnNames?: boolean | undefined;
-  /** Optional. Foreign view representations. */
-  foreignDefinitions?: ForeignViewDefinitionList | undefined;
-  /** Optional. Specifies the privacy policy for the view. */
-  privacyPolicy?: PrivacyPolicy | undefined;
-  /** Specifies whether to use BigQuery's legacy SQL for this view. The default value is true. If set to false, the view uses BigQuery's [GoogleSQL](https://docs.cloud.google.com/bigquery/docs/introduction-sql). Queries and views that reference this view must use the same flag value. A wrapper is used here because the default value is True. */
-  useLegacySql?: boolean | undefined;
-  /** Required. A query that BigQuery executes when the view is referenced. */
-  query?: string | undefined;
-}
-export type TableReplicationInfoReplicationStatusEnum =
-  | "REPLICATION_STATUS_UNSPECIFIED"
-  | "ACTIVE"
-  | "SOURCE_DELETED"
-  | "PERMISSION_DENIED"
-  | "UNSUPPORTED_CONFIGURATION";
-/** Replication info of a table created using `AS REPLICA` DDL like: `CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv` */
-export interface TableReplicationInfo {
-  /** Optional. Specifies the interval at which the source table is polled for updates. It's Optional. If not specified, default replication interval would be applied. */
-  replicationIntervalMs?: string | undefined;
-  /** Required. Source table reference that is replicated. */
-  sourceTable?: TableReference | undefined;
-  /** Optional. Output only. Replication error that will permanently stopped table replication. */
-  replicationError?: ErrorProto | undefined;
-  /** Optional. Output only. Replication status of configured replication. */
-  replicationStatus?: TableReplicationInfoReplicationStatusEnum | (string & {}) | undefined;
-  /** Optional. Output only. If source is a materialized view, this field signifies the last refresh time of the source. */
-  replicatedSourceLastRefreshTime?: string | undefined;
-}
-/** The partitioning column information. */
-export interface PartitionedColumn {
-  /** Required. The name of the partition column. */
-  field?: string | undefined;
-}
-export type PartitionedColumnList = Array<PartitionedColumn>;
-/** The partitioning information, which includes managed table, external table and metastore partitioned table partition information. */
-export interface PartitioningDefinition {
-  /** Optional. Details about each partitioning column. This field is output only for all partitioning types other than metastore partitioned tables. BigQuery native tables only support 1 partitioning column. Other table types may support 0, 1 or more partitioning columns. For metastore partitioned tables, the order must match the definition order in the Hive Metastore, where it must match the physical layout of the table. For example, CREATE TABLE a_table(id BIGINT, name STRING) PARTITIONED BY (city STRING, state STRING). In this case the values must be ['city', 'state'] in that order. */
-  partitionedColumn?: PartitionedColumnList | undefined;
-}
+export type TableManagedTableTypeEnum = "MANAGED_TABLE_TYPE_UNSPECIFIED" | "NATIVE" | "BIGLAKE";
 export interface TableConstraintsForeignKeysItemReferencedTable {
-  projectId?: string | undefined;
   tableId?: string | undefined;
+  projectId?: string | undefined;
   datasetId?: string | undefined;
 }
 export interface TableConstraintsForeignKeysItemColumnReferencesItem {
-  /** Required. The column that composes the foreign key. */
-  referencingColumn?: string | undefined;
   /** Required. The column in the primary key that are referenced by the referencing_column. */
   referencedColumn?: string | undefined;
+  /** Required. The column that composes the foreign key. */
+  referencingColumn?: string | undefined;
 }
 export type TableConstraintsForeignKeysItemColumnReferencesItemList =
   Array<TableConstraintsForeignKeysItemColumnReferencesItem>;
 export interface TableConstraintsForeignKeysItem {
-  /** Optional. Set only if the foreign key constraint is named. */
-  name?: string | undefined;
   referencedTable?: TableConstraintsForeignKeysItemReferencedTable | undefined;
   /** Required. The columns that compose the foreign key. */
   columnReferences?: TableConstraintsForeignKeysItemColumnReferencesItemList | undefined;
+  /** Optional. Set only if the foreign key constraint is named. */
+  name?: string | undefined;
 }
 export type TableConstraintsForeignKeysItemList = Array<TableConstraintsForeignKeysItem>;
 export interface TableConstraintsPrimaryKey {
@@ -3667,50 +3666,176 @@ export interface TableConstraints {
   /** Represents the primary key constraint on a table's columns. */
   primaryKey?: TableConstraintsPrimaryKey | undefined;
 }
-export type TableManagedTableTypeEnum = "MANAGED_TABLE_TYPE_UNSPECIFIED" | "NATIVE" | "BIGLAKE";
-/** Information about base table and clone time of a table clone. */
-export interface CloneDefinition {
-  /** Required. Reference describing the ID of the table that was cloned. */
-  baseTableReference?: TableReference | undefined;
-  /** Required. The time at which the base table was cloned. This value is reported in the JSON response using RFC3339 format. */
-  cloneTime?: string | undefined;
+/** A view can be represented in multiple ways. Each representation has its own dialect. This message stores the metadata required for these representations. */
+export interface ForeignViewDefinition {
+  /** Required. The query that defines the view. */
+  query?: string | undefined;
+  /** Optional. Represents the dialect of the query. */
+  dialect?: string | undefined;
 }
+export type ForeignViewDefinitionList = Array<ForeignViewDefinition>;
+export type JoinRestrictionPolicyJoinConditionEnum =
+  | "JOIN_CONDITION_UNSPECIFIED"
+  | "JOIN_ANY"
+  | "JOIN_ALL"
+  | "JOIN_NOT_REQUIRED"
+  | "JOIN_BLOCKED";
+/** Represents privacy policy associated with "join restrictions". Join restriction gives data providers the ability to enforce joins on the 'join_allowed_columns' when data is queried from a privacy protected view. */
+export interface JoinRestrictionPolicy {
+  /** Optional. Specifies if a join is required or not on queries for the view. Default is JOIN_CONDITION_UNSPECIFIED. */
+  joinCondition?: JoinRestrictionPolicyJoinConditionEnum | (string & {}) | undefined;
+  /** Optional. The only columns that joins are allowed on. This field is must be specified for join_conditions JOIN_ANY and JOIN_ALL and it cannot be set for JOIN_BLOCKED. */
+  joinAllowedColumns?: StringList | undefined;
+}
+/** Represents privacy policy associated with "aggregation threshold" method. */
+export interface AggregationThresholdPolicy {
+  /** Optional. The threshold for the "aggregation threshold" policy. */
+  threshold?: string | undefined;
+  /** Optional. The privacy unit column(s) associated with this policy. For now, only one column per data source object (table, view) is allowed as a privacy unit column. Representing as a repeated field in metadata for extensibility to multiple columns in future. Duplicates and Repeated struct fields are not allowed. For nested fields, use dot notation ("outer.inner") */
+  privacyUnitColumns?: StringList | undefined;
+}
+/** Represents privacy policy associated with "differential privacy" method. */
+export interface DifferentialPrivacyPolicy {
+  /** Output only. The delta budget remaining. If budget is exhausted, no more queries are allowed. Note that the budget for queries that are in progress is deducted before the query executes. If the query fails or is cancelled then the budget is refunded. In this case the amount of budget remaining can increase. */
+  deltaBudgetRemaining?: number | undefined;
+  /** Optional. The total delta budget for all queries against the privacy-protected view. Each subscriber query against this view charges the amount of delta that is pre-defined by the contributor through the privacy policy delta_per_query field. If there is sufficient budget, then the subscriber query attempts to complete. It might still fail due to other reasons, in which case the charge is refunded. If there is insufficient budget the query is rejected. There might be multiple charge attempts if a single query references multiple views. In this case there must be sufficient budget for all charges or the query is rejected and charges are refunded in best effort. The budget does not have a refresh policy and can only be updated via ALTER VIEW or circumvented by creating a new view that can be queried with a fresh budget. */
+  deltaBudget?: number | undefined;
+  /** Optional. The delta value that is used per query. Delta represents the probability that any row will fail to be epsilon differentially private. Indicates the risk associated with exposing aggregate rows in the result of a query. */
+  deltaPerQuery?: number | undefined;
+  /** Optional. The maximum groups contributed value that is used per query. Represents the maximum number of groups to which each protected entity can contribute. Changing this value does not improve or worsen privacy. The best value for accuracy and utility depends on the query and data. */
+  maxGroupsContributed?: string | undefined;
+  /** Output only. The epsilon budget remaining. If budget is exhausted, no more queries are allowed. Note that the budget for queries that are in progress is deducted before the query executes. If the query fails or is cancelled then the budget is refunded. In this case the amount of budget remaining can increase. */
+  epsilonBudgetRemaining?: number | undefined;
+  /** Optional. The total epsilon budget for all queries against the privacy-protected view. Each subscriber query against this view charges the amount of epsilon they request in their query. If there is sufficient budget, then the subscriber query attempts to complete. It might still fail due to other reasons, in which case the charge is refunded. If there is insufficient budget the query is rejected. There might be multiple charge attempts if a single query references multiple views. In this case there must be sufficient budget for all charges or the query is rejected and charges are refunded in best effort. The budget does not have a refresh policy and can only be updated via ALTER VIEW or circumvented by creating a new view that can be queried with a fresh budget. */
+  epsilonBudget?: number | undefined;
+  /** Optional. The privacy unit column associated with this policy. Differential privacy policies can only have one privacy unit column per data source object (table, view). */
+  privacyUnitColumn?: string | undefined;
+  /** Optional. The maximum epsilon value that a query can consume. If the subscriber specifies epsilon as a parameter in a SELECT query, it must be less than or equal to this value. The epsilon parameter controls the amount of noise that is added to the groups -- a higher epsilon means less noise. */
+  maxEpsilonPerQuery?: number | undefined;
+}
+/** Represents privacy policy that contains the privacy requirements specified by the data owner. Currently, this is only supported on views. */
+export interface PrivacyPolicy {
+  /** Optional. Join restriction policy is outside of the one of policies, since this policy can be set along with other policies. This policy gives data providers the ability to enforce joins on the 'join_allowed_columns' when data is queried from a privacy protected view. */
+  joinRestrictionPolicy?: JoinRestrictionPolicy | undefined;
+  /** Optional. Policy used for aggregation thresholds. */
+  aggregationThresholdPolicy?: AggregationThresholdPolicy | undefined;
+  /** Optional. Policy used for differential privacy. */
+  differentialPrivacyPolicy?: DifferentialPrivacyPolicy | undefined;
+}
+/** Describes the definition of a logical view. */
+export interface ViewDefinition {
+  /** True if the column names are explicitly specified. For example by using the 'CREATE VIEW v(c1, c2) AS ...' syntax. Can only be set for GoogleSQL views. */
+  useExplicitColumnNames?: boolean | undefined;
+  /** Optional. Foreign view representations. */
+  foreignDefinitions?: ForeignViewDefinitionList | undefined;
+  /** Specifies whether to use BigQuery's legacy SQL for this view. The default value is true. If set to false, the view uses BigQuery's [GoogleSQL](https://docs.cloud.google.com/bigquery/docs/introduction-sql). Queries and views that reference this view must use the same flag value. A wrapper is used here because the default value is True. */
+  useLegacySql?: boolean | undefined;
+  /** Describes user-defined function resources used in the query. */
+  userDefinedFunctionResources?: UserDefinedFunctionResourceList | undefined;
+  /** Required. A query that BigQuery executes when the view is referenced. */
+  query?: string | undefined;
+  /** Optional. Specifies the privacy policy for the view. */
+  privacyPolicy?: PrivacyPolicy | undefined;
+}
+/** The partitioning column information. */
+export interface PartitionedColumn {
+  /** Required. The name of the partition column. */
+  field?: string | undefined;
+}
+export type PartitionedColumnList = Array<PartitionedColumn>;
+/** The partitioning information, which includes managed table, external table and metastore partitioned table partition information. */
+export interface PartitioningDefinition {
+  /** Optional. Details about each partitioning column. This field is output only for all partitioning types other than metastore partitioned tables. BigQuery native tables only support 1 partitioning column. Other table types may support 0, 1 or more partitioning columns. For metastore partitioned tables, the order must match the definition order in the Hive Metastore, where it must match the physical layout of the table. For example, CREATE TABLE a_table(id BIGINT, name STRING) PARTITIONED BY (city STRING, state STRING). In this case the values must be ['city', 'state'] in that order. */
+  partitionedColumn?: PartitionedColumnList | undefined;
+}
+export type BigLakeConfigurationTableFormatEnum = "TABLE_FORMAT_UNSPECIFIED" | "ICEBERG";
+export type BigLakeConfigurationMetadataExportModeEnum =
+  | "METADATA_EXPORT_MODE_UNSPECIFIED"
+  | "ASYNC"
+  | "MANUAL";
+export type BigLakeConfigurationFileFormatEnum = "FILE_FORMAT_UNSPECIFIED" | "PARQUET";
+/** Configuration for BigQuery tables for Apache Iceberg (formerly BigLake managed tables.) */
+export interface BigLakeConfiguration {
+  /** Optional. The table format the metadata only snapshots are stored in. */
+  tableFormat?: BigLakeConfigurationTableFormatEnum | (string & {}) | undefined;
+  /** Optional. The connection specifying the credentials to be used to read and write to external storage, such as Cloud Storage. The connection_id can have the form `{project}.{location}.{connection_id}` or `projects/{project}/locations/{location}/connections/{connection_id}". */
+  connectionId?: string | undefined;
+  /** Optional. The type of Metadata Export for BigLake Managed Tables. */
+  metadataExportMode?: BigLakeConfigurationMetadataExportModeEnum | (string & {}) | undefined;
+  /** Optional. The file format the table data is stored in. */
+  fileFormat?: BigLakeConfigurationFileFormatEnum | (string & {}) | undefined;
+  /** Optional. The fully qualified location prefix of the external folder where table data is stored. The '*' wildcard character is not allowed. The URI should be in the format `gs://bucket/path_to_table/` */
+  storageUri?: string | undefined;
+}
+/** Status of a materialized view. The last refresh timestamp status is omitted here, but is present in the MaterializedViewDefinition message. */
+export interface MaterializedViewStatus {
+  /** Output only. Refresh watermark of materialized view. The base tables' data were collected into the materialized view cache until this time. */
+  refreshWatermark?: string | undefined;
+  /** Output only. Error result of the last automatic refresh. If present, indicates that the last automatic refresh was unsuccessful. */
+  lastRefreshStatus?: ErrorProto | undefined;
+}
+/** Output-only policy member strings of a Google Cloud resource's built-in identity. */
+export interface ResourcePolicyMember {
+  /** Output only. IAM policy binding member referring to a Google Cloud resource by system-assigned unique identifier (https://google.aip.dev/148#uid). If a resource is deleted and recreated with the same name, the binding will not be applicable to the new resource Example: `principal://parametermanager.googleapis.com/projects/12345/uid/locations/us-central1-a/parameters/a918fed5` */
+  iamPolicyUidPrincipal?: string | undefined;
+  /** Output only. IAM policy binding member referring to a Google Cloud resource by user-assigned name (https://google.aip.dev/122). If a resource is deleted and recreated with the same name, the binding will be applicable to the new resource. Example: `principal://parametermanager.googleapis.com/projects/12345/name/locations/us-central1-a/parameters/my-parameter` */
+  iamPolicyNamePrincipal?: string | undefined;
+}
+export interface Streamingbuffer {
+  /** Output only. Contains the timestamp of the oldest entry in the streaming buffer, in milliseconds since the epoch, if the streaming buffer is available. */
+  oldestEntryTime?: string | undefined;
+  /** Output only. A lower-bound estimate of the number of rows currently in the streaming buffer. */
+  estimatedRows?: string | undefined;
+  /** Output only. A lower-bound estimate of the number of bytes currently in the streaming buffer. */
+  estimatedBytes?: string | undefined;
+}
+/** Information about base table and snapshot time of the snapshot. */
+export interface SnapshotDefinition {
+  /** Required. Reference describing the ID of the table that was snapshot. */
+  baseTableReference?: TableReference | undefined;
+  /** Required. The time at which the base table was snapshot. This value is reported in the JSON response using RFC3339 format. */
+  snapshotTime?: string | undefined;
+}
+export type TableDefaultRoundingModeEnum =
+  | "ROUNDING_MODE_UNSPECIFIED"
+  | "ROUND_HALF_AWAY_FROM_ZERO"
+  | "ROUND_HALF_EVEN";
 export interface ModelDefinitionModelOptions {
-  modelType?: string | undefined;
   labels?: StringList | undefined;
   lossType?: string | undefined;
+  modelType?: string | undefined;
 }
 export interface BqmlTrainingRunTrainingOptions {
-  lineSearchInitLearnRate?: number | undefined;
-  learnRateStrategy?: string | undefined;
   warmStart?: boolean | undefined;
-  maxIteration?: string | undefined;
-  l1Reg?: number | undefined;
-  learnRate?: number | undefined;
   l2Reg?: number | undefined;
   earlyStop?: boolean | undefined;
+  learnRate?: number | undefined;
+  learnRateStrategy?: string | undefined;
+  l1Reg?: number | undefined;
+  lineSearchInitLearnRate?: number | undefined;
   minRelProgress?: number | undefined;
+  maxIteration?: string | undefined;
 }
 export interface BqmlIterationResult {
   /** Deprecated. */
+  trainingLoss?: number | undefined;
+  /** Deprecated. */
   learnRate?: number | undefined;
   /** Deprecated. */
-  durationMs?: string | undefined;
-  /** Deprecated. */
-  trainingLoss?: number | undefined;
+  index?: number | undefined;
   /** Deprecated. */
   evalLoss?: number | undefined;
   /** Deprecated. */
-  index?: number | undefined;
+  durationMs?: string | undefined;
 }
 export type BqmlIterationResultList = Array<BqmlIterationResult>;
 export interface BqmlTrainingRun {
   /** Deprecated. */
-  startTime?: string | undefined;
+  trainingOptions?: BqmlTrainingRunTrainingOptions | undefined;
   /** Deprecated. */
   state?: string | undefined;
   /** Deprecated. */
-  trainingOptions?: BqmlTrainingRunTrainingOptions | undefined;
+  startTime?: string | undefined;
   /** Deprecated. */
   iterationResults?: BqmlIterationResultList | undefined;
 }
@@ -3721,186 +3846,154 @@ export interface ModelDefinition {
   /** Deprecated. */
   trainingRuns?: BqmlTrainingRunList | undefined;
 }
-/** Status of a materialized view. The last refresh timestamp status is omitted here, but is present in the MaterializedViewDefinition message. */
-export interface MaterializedViewStatus {
-  /** Output only. Refresh watermark of materialized view. The base tables' data were collected into the materialized view cache until this time. */
-  refreshWatermark?: string | undefined;
-  /** Output only. Error result of the last automatic refresh. If present, indicates that the last automatic refresh was unsuccessful. */
-  lastRefreshStatus?: ErrorProto | undefined;
-}
-export type BigLakeConfigurationFileFormatEnum = "FILE_FORMAT_UNSPECIFIED" | "PARQUET";
-export type BigLakeConfigurationTableFormatEnum = "TABLE_FORMAT_UNSPECIFIED" | "ICEBERG";
-/** Configuration for BigQuery tables for Apache Iceberg (formerly BigLake managed tables.) */
-export interface BigLakeConfiguration {
-  /** Optional. The file format the table data is stored in. */
-  fileFormat?: BigLakeConfigurationFileFormatEnum | (string & {}) | undefined;
-  /** Optional. The fully qualified location prefix of the external folder where table data is stored. The '*' wildcard character is not allowed. The URI should be in the format `gs://bucket/path_to_table/` */
-  storageUri?: string | undefined;
-  /** Optional. The connection specifying the credentials to be used to read and write to external storage, such as Cloud Storage. The connection_id can have the form `{project}.{location}.{connection_id}` or `projects/{project}/locations/{location}/connections/{connection_id}". */
-  connectionId?: string | undefined;
-  /** Optional. The table format the metadata only snapshots are stored in. */
-  tableFormat?: BigLakeConfigurationTableFormatEnum | (string & {}) | undefined;
-}
-/** Serializer and deserializer information. */
-export interface SerDeInfo {
-  /** Required. Specifies a fully-qualified class name of the serialization library that is responsible for the translation of data between table representation and the underlying low-level input and output format structures. The maximum length is 256 characters. */
-  serializationLibrary?: string | undefined;
-  /** Optional. Key-value pairs that define the initialization parameters for the serialization library. Maximum size 10 Kib. */
-  parameters?: StringMap | undefined;
-  /** Optional. Name of the SerDe. The maximum length is 256 characters. */
-  name?: string | undefined;
-}
-/** Contains information about how a table's data is stored and accessed by open source query engines. */
-export interface StorageDescriptor {
-  /** Optional. Serializer and deserializer information. */
-  serdeInfo?: SerDeInfo | undefined;
-  /** Optional. Specifies the fully qualified class name of the OutputFormat (e.g. "org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat"). The maximum length is 128 characters. */
-  outputFormat?: string | undefined;
-  /** Optional. Specifies the fully qualified class name of the InputFormat (e.g. "org.apache.hadoop.hive.ql.io.orc.OrcInputFormat"). The maximum length is 128 characters. */
-  inputFormat?: string | undefined;
-  /** Optional. The physical location of the table (e.g. `gs://spark-dataproc-data/pangea-data/case_sensitive/` or `gs://spark-dataproc-data/pangea-data/*`). The maximum length is 2056 bytes. */
-  locationUri?: string | undefined;
-}
-/** Metadata about open source compatible table. The fields contained in these options correspond to Hive metastore's table-level properties. */
-export interface ExternalCatalogTableOptions {
-  /** Optional. A storage descriptor containing information about the physical storage of this table. */
-  storageDescriptor?: StorageDescriptor | undefined;
-  /** Optional. A connection ID that specifies the credentials to be used to read external storage, such as Azure Blob, Cloud Storage, or Amazon S3. This connection is needed to read the open source table from BigQuery. The connection_id format must be either `..` or `projects//locations//connections/`. */
-  connectionId?: string | undefined;
-  /** Optional. A map of the key-value pairs defining the parameters and properties of the open source table. Corresponds with Hive metastore table parameters. Maximum size of 4MiB. */
-  parameters?: StringMap | undefined;
-}
-/** Information about base table and snapshot time of the snapshot. */
-export interface SnapshotDefinition {
-  /** Required. Reference describing the ID of the table that was snapshot. */
-  baseTableReference?: TableReference | undefined;
-  /** Required. The time at which the base table was snapshot. This value is reported in the JSON response using RFC3339 format. */
-  snapshotTime?: string | undefined;
-}
 /** Definition and configuration of a materialized view. */
 export interface MaterializedViewDefinition {
-  /** Optional. This option declares the intention to construct a materialized view that isn't refreshed incrementally. Non-incremental materialized views support an expanded range of SQL queries. The `allow_non_incremental_definition` option can't be changed after the materialized view is created. */
-  allowNonIncrementalDefinition?: boolean | undefined;
-  /** Optional. The maximum frequency at which this materialized view will be refreshed. The default value is "1800000" (30 minutes). */
-  refreshIntervalMs?: string | undefined;
-  /** Output only. The time when this materialized view was last refreshed, in milliseconds since the epoch. */
-  lastRefreshTime?: string | undefined;
   /** Required. A query whose results are persisted. */
   query?: string | undefined;
+  /** Optional. The maximum frequency at which this materialized view will be refreshed. The default value is "1800000" (30 minutes). */
+  refreshIntervalMs?: string | undefined;
+  /** Optional. This option declares the intention to construct a materialized view that isn't refreshed incrementally. Non-incremental materialized views support an expanded range of SQL queries. The `allow_non_incremental_definition` option can't be changed after the materialized view is created. */
+  allowNonIncrementalDefinition?: boolean | undefined;
   /** Optional. Enable automatic refresh of the materialized view when the base table is updated. The default value is "true". */
   enableRefresh?: boolean | undefined;
   /** [Optional] Max staleness of data that could be returned when materizlized view is queried (formatted as Google SQL Interval type). */
   maxStaleness?: string | undefined;
+  /** Output only. The time when this materialized view was last refreshed, in milliseconds since the epoch. */
+  lastRefreshTime?: string | undefined;
 }
-export type TableDefaultRoundingModeEnum =
-  | "ROUNDING_MODE_UNSPECIFIED"
-  | "ROUND_HALF_AWAY_FROM_ZERO"
-  | "ROUND_HALF_EVEN";
+/** Information about base table and clone time of a table clone. */
+export interface CloneDefinition {
+  /** Required. The time at which the base table was cloned. This value is reported in the JSON response using RFC3339 format. */
+  cloneTime?: string | undefined;
+  /** Required. Reference describing the ID of the table that was cloned. */
+  baseTableReference?: TableReference | undefined;
+}
+export type TableReplicationInfoReplicationStatusEnum =
+  | "REPLICATION_STATUS_UNSPECIFIED"
+  | "ACTIVE"
+  | "SOURCE_DELETED"
+  | "PERMISSION_DENIED"
+  | "UNSUPPORTED_CONFIGURATION";
+/** Replication info of a table created using `AS REPLICA` DDL like: `CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv` */
+export interface TableReplicationInfo {
+  /** Optional. Output only. Replication error that will permanently stopped table replication. */
+  replicationError?: ErrorProto | undefined;
+  /** Optional. Output only. Replication status of configured replication. */
+  replicationStatus?: TableReplicationInfoReplicationStatusEnum | (string & {}) | undefined;
+  /** Required. Source table reference that is replicated. */
+  sourceTable?: TableReference | undefined;
+  /** Optional. Output only. If source is a materialized view, this field signifies the last refresh time of the source. */
+  replicatedSourceLastRefreshTime?: string | undefined;
+  /** Optional. Specifies the interval at which the source table is polled for updates. It's Optional. If not specified, default replication interval would be applied. */
+  replicationIntervalMs?: string | undefined;
+}
 export interface Table {
-  /** Output only. Contains information regarding this table's streaming buffer, if one is present. This field will be absent if the table is not being streamed to or if there is no data in the streaming buffer. */
-  streamingBuffer?: Streamingbuffer | undefined;
-  /** Optional. The view definition. */
-  view?: ViewDefinition | undefined;
-  /** Output only. Number of physical bytes more than 90 days old. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numLongTermPhysicalBytes?: string | undefined;
-  /** Optional. A user-friendly description of this table. */
-  description?: string | undefined;
-  /** Output only. The physical size of this table in bytes. This also includes storage used for time travel. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numTotalPhysicalBytes?: string | undefined;
-  /** Output only. Total number of logical bytes in the table or materialized view. */
-  numTotalLogicalBytes?: string | undefined;
-  /** Output only. The number of rows of data in this table, excluding any data in the streaming buffer. */
-  numRows?: string | undefined;
-  /** Output only. Number of logical bytes that are more than 90 days old. */
-  numLongTermLogicalBytes?: string | undefined;
-  /** Optional. Describes the data format, location, and other properties of a table stored outside of BigQuery. By defining these properties, the data source can then be queried as if it were a standard BigQuery table. */
-  externalDataConfiguration?: ExternalDataConfiguration | undefined;
-  /** Optional. If set to true, queries over this table require a partition filter that can be used for partition elimination to be specified. */
-  requirePartitionFilter?: boolean | undefined;
-  /** Output only. Number of physical bytes used by current live data storage. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numCurrentPhysicalBytes?: string | undefined;
-  /** Optional. Table replication info for table created `AS REPLICA` DDL like: `CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv` */
-  tableReplicationInfo?: TableReplicationInfo | undefined;
-  /** Optional. The partition information for all table formats, including managed partitioned tables, hive partitioned tables, iceberg partitioned, and metastore partitioned tables. This field is only populated for metastore partitioned tables. For other table formats, this is an output only field. */
-  partitionDefinition?: PartitioningDefinition | undefined;
-  /** Output only. The number of logical bytes in the table that are considered "long-term storage". */
-  numLongTermBytes?: string | undefined;
-  /** [Optional] The tags associated with this table. Tag keys are globally unique. See additional information on [tags](https://cloud.google.com/iam/docs/tags-access-control#definitions). An object containing a list of "key": value pairs. The key is the namespaced friendly name of the tag key, e.g. "12345/environment" where 12345 is parent id. The value is the friendly short name of the tag value, e.g. "production". */
-  resourceTags?: StringMap | undefined;
-  /** Output only. The physical size of this table in bytes. This includes storage used for time travel. */
-  numPhysicalBytes?: string | undefined;
+  /** Optional. Options defining open source compatible table. */
+  externalCatalogTableOptions?: ExternalCatalogTableOptions | undefined;
   /** Output only. Number of physical bytes less than 90 days old. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
   numActivePhysicalBytes?: string | undefined;
-  /** Optional. Defines the default collation specification of new STRING fields in the table. During table creation or update, if a STRING field is added to this table without explicit collation specified, then the table inherits the table default collation. A change to this field affects only fields added afterwards, and does not alter the existing fields. The following values are supported: * 'und:ci': undetermined locale, case insensitive. * '': empty string. Default to case-sensitive behavior. */
-  defaultCollation?: string | undefined;
-  /** Output only. Describes the table type. The following values are supported: * `TABLE`: A normal BigQuery table. * `VIEW`: A virtual table defined by a SQL query. * `EXTERNAL`: A table that references data stored in an external storage system, such as Google Cloud Storage. * `MATERIALIZED_VIEW`: A precomputed view defined by a SQL query. * `SNAPSHOT`: An immutable BigQuery table that preserves the contents of a base table at a particular time. See additional information on [table snapshots](https://cloud.google.com/bigquery/docs/table-snapshots-intro). The default value is `TABLE`. */
-  type?: string | undefined;
-  /** Clustering specification for the table. Must be specified with time-based partitioning, data in the table will be first partitioned and subsequently clustered. */
-  clustering?: Clustering | undefined;
-  /** Output only. The number of partitions present in the table or materialized view. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numPartitions?: string | undefined;
-  /** Optional. Tables Primary Key and Foreign Key information */
-  tableConstraints?: TableConstraints | undefined;
-  /** Output only. The time when this table was created, in milliseconds since the epoch. */
-  creationTime?: string | undefined;
+  /** Optional. If set, overrides the default managed table type configured in the dataset. */
+  managedTableType?: TableManagedTableTypeEnum | (string & {}) | undefined;
   /** Optional. The maximum staleness of data that could be returned when the table (or stale MV) is queried. Staleness encoded as a string encoding of sql IntervalValue type. */
   maxStaleness?: string | undefined;
+  /** Optional. Tables Primary Key and Foreign Key information */
+  tableConstraints?: TableConstraints | undefined;
+  /** Optional. Defines the default collation specification of new STRING fields in the table. During table creation or update, if a STRING field is added to this table without explicit collation specified, then the table inherits the table default collation. A change to this field affects only fields added afterwards, and does not alter the existing fields. The following values are supported: * 'und:ci': undetermined locale, case insensitive. * '': empty string. Default to case-sensitive behavior. */
+  defaultCollation?: string | undefined;
+  /** If specified, configures range partitioning for this table. */
+  rangePartitioning?: RangePartitioning | undefined;
+  /** Optional. The view definition. */
+  view?: ViewDefinition | undefined;
+  /** Output only. Total number of logical bytes in the table or materialized view. */
+  numTotalLogicalBytes?: string | undefined;
+  /** Optional. The partition information for all table formats, including managed partitioned tables, hive partitioned tables, iceberg partitioned, and metastore partitioned tables. This field is only populated for metastore partitioned tables. For other table formats, this is an output only field. */
+  partitionDefinition?: PartitioningDefinition | undefined;
+  /** Optional. Specifies the configuration of a BigQuery table for Apache Iceberg. */
+  biglakeConfiguration?: BigLakeConfiguration | undefined;
+  /** Optional. The time when this table expires, in milliseconds since the epoch. If not present, the table will persist indefinitely. Expired tables will be deleted and their storage reclaimed. The defaultTableExpirationMs property of the encapsulating dataset can be used to set a default expirationTime on newly created tables. */
+  expirationTime?: string | undefined;
+  /** Optional. A descriptive name for this table. */
+  friendlyName?: string | undefined;
+  /** Output only. The materialized view status. */
+  materializedViewStatus?: MaterializedViewStatus | undefined;
+  /** Output only. Contains the resource identity token of the view that users can use to include in their policy bindings for authorization. This should be set only for views. */
+  policyMember?: ResourcePolicyMember | undefined;
+  /** Output only. Number of physical bytes used by current live data storage. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
+  numCurrentPhysicalBytes?: string | undefined;
+  /** Output only. A URL that can be used to access this resource again. */
+  selfLink?: string | undefined;
+  /** Custom encryption configuration (e.g., Cloud KMS keys). */
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  /** Output only. The number of rows of data in this table, excluding any data in the streaming buffer. */
+  numRows?: string | undefined;
+  /** Clustering specification for the table. Must be specified with time-based partitioning, data in the table will be first partitioned and subsequently clustered. */
+  clustering?: Clustering | undefined;
+  /** Output only. The size of this table in logical bytes, excluding any data in the streaming buffer. */
+  numBytes?: string | undefined;
+  /** Output only. Contains information regarding this table's streaming buffer, if one is present. This field will be absent if the table is not being streamed to or if there is no data in the streaming buffer. */
+  streamingBuffer?: Streamingbuffer | undefined;
+  /** Optional. Output only. Table references of all replicas currently active on the table. */
+  replicas?: TableReferenceList | undefined;
+  /** If specified, configures time-based partitioning for this table. */
+  timePartitioning?: TimePartitioning | undefined;
+  /** Output only. Contains information about the snapshot. This value is set via snapshot creation. */
+  snapshotDefinition?: SnapshotDefinition | undefined;
+  /** Optional. Output only. Restriction config for table. If set, restrict certain accesses on the table based on the config. See [Data egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress) for more details. */
+  restrictions?: RestrictionConfig | undefined;
+  /** Optional. Describes the schema of this table. */
+  schema?: TableSchema | undefined;
   /** The labels associated with this table. You can use these to organize and group your tables. Label keys and values can be no longer than 63 characters, can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter and each label in the list must have a different key. */
   labels?: StringMap | undefined;
   /** Output only. An opaque ID uniquely identifying the table. */
   id?: string | undefined;
-  /** Optional. If set, overrides the default managed table type configured in the dataset. */
-  managedTableType?: TableManagedTableTypeEnum | (string & {}) | undefined;
-  /** Optional. Output only. Restriction config for table. If set, restrict certain accesses on the table based on the config. See [Data egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress) for more details. */
-  restrictions?: RestrictionConfig | undefined;
-  /** Output only. Contains information about the clone. This value is set via the clone operation. */
-  cloneDefinition?: CloneDefinition | undefined;
-  /** Deprecated. */
-  model?: ModelDefinition | undefined;
-  /** If specified, configures time-based partitioning for this table. */
-  timePartitioning?: TimePartitioning | undefined;
-  /** Output only. The materialized view status. */
-  materializedViewStatus?: MaterializedViewStatus | undefined;
-  /** Optional. Describes the schema of this table. */
-  schema?: TableSchema | undefined;
-  /** Optional. Specifies the configuration of a BigQuery table for Apache Iceberg. */
-  biglakeConfiguration?: BigLakeConfiguration | undefined;
-  /** Output only. A hash of this resource. */
-  etag?: string | undefined;
-  /** Output only. The geographic location where the table resides. This value is inherited from the dataset. */
-  location?: string | undefined;
-  /** Optional. Options defining open source compatible table. */
-  externalCatalogTableOptions?: ExternalCatalogTableOptions | undefined;
-  /** If specified, configures range partitioning for this table. */
-  rangePartitioning?: RangePartitioning | undefined;
-  /** Output only. Contains information about the snapshot. This value is set via snapshot creation. */
-  snapshotDefinition?: SnapshotDefinition | undefined;
-  /** Output only. The time when this table was last modified, in milliseconds since the epoch. */
-  lastModifiedTime?: string | undefined;
-  /** Optional. Output only. Table references of all replicas currently active on the table. */
-  replicas?: TableReferenceList | undefined;
-  /** Output only. A URL that can be used to access this resource again. */
-  selfLink?: string | undefined;
-  /** The type of resource ID. */
-  kind?: string | undefined;
-  /** Optional. The time when this table expires, in milliseconds since the epoch. If not present, the table will persist indefinitely. Expired tables will be deleted and their storage reclaimed. The defaultTableExpirationMs property of the encapsulating dataset can be used to set a default expirationTime on newly created tables. */
-  expirationTime?: string | undefined;
-  /** Required. Reference describing the ID of this table. */
-  tableReference?: TableReference | undefined;
-  /** Output only. Number of physical bytes used by time travel storage (deleted or changed data). This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numTimeTravelPhysicalBytes?: string | undefined;
   /** Output only. Number of logical bytes that are less than 90 days old. */
   numActiveLogicalBytes?: string | undefined;
-  /** Optional. The materialized view definition. */
-  materializedView?: MaterializedViewDefinition | undefined;
-  /** Output only. The size of this table in logical bytes, excluding any data in the streaming buffer. */
-  numBytes?: string | undefined;
-  /** Custom encryption configuration (e.g., Cloud KMS keys). */
-  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  /** Output only. The number of logical bytes in the table that are considered "long-term storage". */
+  numLongTermBytes?: string | undefined;
   /** Optional. Defines the default rounding mode specification of new decimal fields (NUMERIC OR BIGNUMERIC) in the table. During table creation or update, if a decimal field is added to this table without an explicit rounding mode specified, then the field inherits the table default rounding mode. Changing this field doesn't affect existing fields. */
   defaultRoundingMode?: TableDefaultRoundingModeEnum | (string & {}) | undefined;
-  /** Optional. A descriptive name for this table. */
-  friendlyName?: string | undefined;
+  /** Optional. If set to true, queries over this table require a partition filter that can be used for partition elimination to be specified. */
+  requirePartitionFilter?: boolean | undefined;
+  /** Output only. A hash of this resource. */
+  etag?: string | undefined;
+  /** Output only. The time when this table was created, in milliseconds since the epoch. */
+  creationTime?: string | undefined;
+  /** Deprecated. */
+  model?: ModelDefinition | undefined;
+  /** Output only. Number of physical bytes more than 90 days old. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
+  numLongTermPhysicalBytes?: string | undefined;
+  /** [Optional] The tags associated with this table. Tag keys are globally unique. See additional information on [tags](https://cloud.google.com/iam/docs/tags-access-control#definitions). An object containing a list of "key": value pairs. The key is the namespaced friendly name of the tag key, e.g. "12345/environment" where 12345 is parent id. The value is the friendly short name of the tag value, e.g. "production". */
+  resourceTags?: StringMap | undefined;
+  /** Required. Reference describing the ID of this table. */
+  tableReference?: TableReference | undefined;
+  /** Output only. Number of logical bytes that are more than 90 days old. */
+  numLongTermLogicalBytes?: string | undefined;
+  /** Optional. Describes the data format, location, and other properties of a table stored outside of BigQuery. By defining these properties, the data source can then be queried as if it were a standard BigQuery table. */
+  externalDataConfiguration?: ExternalDataConfiguration | undefined;
+  /** Output only. The physical size of this table in bytes. This also includes storage used for time travel. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
+  numTotalPhysicalBytes?: string | undefined;
+  /** Output only. The number of partitions present in the table or materialized view. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
+  numPartitions?: string | undefined;
+  /** Optional. The materialized view definition. */
+  materializedView?: MaterializedViewDefinition | undefined;
+  /** Output only. The geographic location where the table resides. This value is inherited from the dataset. */
+  location?: string | undefined;
+  /** The type of resource ID. */
+  kind?: string | undefined;
+  /** Output only. Number of physical bytes used by time travel storage (deleted or changed data). This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
+  numTimeTravelPhysicalBytes?: string | undefined;
+  /** Output only. Describes the table type. The following values are supported: * `TABLE`: A normal BigQuery table. * `VIEW`: A virtual table defined by a SQL query. * `EXTERNAL`: A table that references data stored in an external storage system, such as Google Cloud Storage. * `MATERIALIZED_VIEW`: A precomputed view defined by a SQL query. * `SNAPSHOT`: An immutable BigQuery table that preserves the contents of a base table at a particular time. See additional information on [table snapshots](https://cloud.google.com/bigquery/docs/table-snapshots-intro). The default value is `TABLE`. */
+  type?: string | undefined;
+  /** Output only. The time when this table was last modified, in milliseconds since the epoch. */
+  lastModifiedTime?: string | undefined;
+  /** Output only. Contains information about the clone. This value is set via the clone operation. */
+  cloneDefinition?: CloneDefinition | undefined;
+  /** Optional. Table replication info for table created `AS REPLICA` DDL like: `CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv` */
+  tableReplicationInfo?: TableReplicationInfo | undefined;
+  /** Optional. A user-friendly description of this table. */
+  description?: string | undefined;
+  /** Output only. The physical size of this table in bytes. This includes storage used for time travel. */
+  numPhysicalBytes?: string | undefined;
 }
 export type JsonValue = unknown;
 /** Represents a single JSON object. */
@@ -3918,27 +4011,27 @@ export interface TableDataInsertAllRequest {
   ignoreUnknownValues?: boolean | undefined;
   /** Optional. Unique request trace id. Used for debugging purposes only. It is case-sensitive, limited to up to 36 ASCII characters. A UUID is recommended. */
   traceId?: string | undefined;
-  /** Optional. The resource type of the response. The value is not checked at the backend. Historically, it has been set to "bigquery#tableDataInsertAllRequest" but you are not required to set it. */
-  kind?: string | undefined;
-  /** Optional. If specified, treats the destination table as a base template, and inserts the rows into an instance table named "{destination}{templateSuffix}". BigQuery will manage creation of the instance table, using the schema of the base template table. See https://cloud.google.com/bigquery/streaming-data-into-bigquery#template-tables for considerations when working with templates tables. */
-  templateSuffix?: string | undefined;
+  rows?: TableDataInsertAllRequestRowsItemList | undefined;
   /** Optional. Insert all valid rows of a request, even if invalid rows exist. The default value is false, which causes the entire request to fail if any invalid rows exist. */
   skipInvalidRows?: boolean | undefined;
-  rows?: TableDataInsertAllRequestRowsItemList | undefined;
+  /** Optional. If specified, treats the destination table as a base template, and inserts the rows into an instance table named "{destination}{templateSuffix}". BigQuery will manage creation of the instance table, using the schema of the base template table. See https://cloud.google.com/bigquery/streaming-data-into-bigquery#template-tables for considerations when working with templates tables. */
+  templateSuffix?: string | undefined;
+  /** Optional. The resource type of the response. The value is not checked at the backend. Historically, it has been set to "bigquery#tableDataInsertAllRequest" but you are not required to set it. */
+  kind?: string | undefined;
 }
 export interface InsertAllTabledataRequest extends TableDataInsertAllRequest {
-  /** Required. Dataset ID of the destination. */
-  datasetId: string;
   /** Required. Table ID of the destination. */
   tableId: string;
   /** Required. Project ID of the destination. */
   projectId: string;
+  /** Required. Dataset ID of the destination. */
+  datasetId: string;
 }
 export interface TableDataInsertAllResponseInsertErrorsItem {
-  /** Error information for the row indicated by the index property. */
-  errors?: ErrorProtoList | undefined;
   /** The index of the row that error applies to. */
   index?: number | undefined;
+  /** Error information for the row indicated by the index property. */
+  errors?: ErrorProtoList | undefined;
 }
 export type TableDataInsertAllResponseInsertErrorsItemList =
   Array<TableDataInsertAllResponseInsertErrorsItem>;
@@ -3966,12 +4059,12 @@ export interface InsertRoutinesRequest extends Routine {
   projectId: string;
 }
 export interface InsertRowAccessPoliciesRequest extends RowAccessPolicy {
+  /** Required. Project ID of the table to get the row access policy. */
+  projectId: string;
   /** Required. Dataset ID of the table to get the row access policy. */
   datasetId: string;
   /** Required. Table ID of the table to get the row access policy. */
   tableId: string;
-  /** Required. Project ID of the table to get the row access policy. */
-  projectId: string;
 }
 export interface InsertTablesRequest extends Table {
   /** Required. Dataset ID of the new table */
@@ -3980,95 +4073,95 @@ export interface InsertTablesRequest extends Table {
   projectId: string;
 }
 export interface ListDatasetsRequest {
-  /** Page token, returned by a previous call, to request the next page of results */
-  pageToken?: string | undefined;
-  /** An expression for filtering the results of the request by label. The syntax is `labels.[:]`. Multiple filters can be AND-ed together by connecting with a space. Example: `labels.department:receiving labels.active`. See [Filtering datasets using labels](https://cloud.google.com/bigquery/docs/filtering-labels#filtering_datasets_using_labels) for details. */
-  filter?: string | undefined;
+  /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
+  maxResults?: number | undefined;
   /** Required. Project ID of the datasets to be listed */
   projectId: string;
   /** Whether to list all datasets, including hidden ones */
   all?: boolean | undefined;
-  /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
-  maxResults?: number | undefined;
+  /** Page token, returned by a previous call, to request the next page of results */
+  pageToken?: string | undefined;
+  /** An expression for filtering the results of the request by label. The syntax is `labels.[:]`. Multiple filters can be AND-ed together by connecting with a space. Example: `labels.department:receiving labels.active`. See [Filtering datasets using labels](https://cloud.google.com/bigquery/docs/filtering-labels#filtering_datasets_using_labels) for details. */
+  filter?: string | undefined;
 }
 export interface DatasetListDatasetsItem {
-  /** The geographic location where the dataset resides. */
-  location?: string | undefined;
   /** An alternate name for the dataset. The friendly name is purely decorative in nature. */
   friendlyName?: string | undefined;
   /** The resource type. This property always returns the value "bigquery#dataset" */
   kind?: string | undefined;
   /** The labels associated with this dataset. You can use these to organize and group your datasets. */
   labels?: StringMap | undefined;
-  /** Output only. Same as `type` in `Dataset`. The type of the dataset, one of: * DEFAULT - only accessible by owner and authorized accounts, * PUBLIC - accessible by everyone, * LINKED - linked dataset, * EXTERNAL - dataset with definition in external metadata catalog, * BIGLAKE_ICEBERG - a Biglake dataset accessible through the Iceberg API, * BIGLAKE_HIVE - a Biglake dataset accessible through the Hive API. */
-  type?: string | undefined;
-  /** The fully-qualified, unique, opaque ID of the dataset. */
-  id?: string | undefined;
-  /** The dataset reference. Use this property to access specific parts of the dataset's ID, such as project ID or dataset ID. */
-  datasetReference?: DatasetReference | undefined;
-  /** Output only. The origin of the dataset, one of: * (Unset) - Native BigQuery Dataset. * BIGLAKE - Dataset is backed by a namespace stored natively in Biglake. */
-  catalogSource?: string | undefined;
   /** Output only. Reference to a read-only external dataset defined in data catalogs outside of BigQuery. Filled out when the dataset type is EXTERNAL. */
   externalDatasetReference?: ExternalDatasetReference | undefined;
+  /** The geographic location where the dataset resides. */
+  location?: string | undefined;
+  /** The fully-qualified, unique, opaque ID of the dataset. */
+  id?: string | undefined;
+  /** Output only. Same as `type` in `Dataset`. The type of the dataset, one of: * DEFAULT - only accessible by owner and authorized accounts, * PUBLIC - accessible by everyone, * LINKED - linked dataset, * EXTERNAL - dataset with definition in external metadata catalog, * BIGLAKE_ICEBERG - a Biglake dataset accessible through the Iceberg API, * BIGLAKE_HIVE - a Biglake dataset accessible through the Hive API. */
+  type?: string | undefined;
+  /** Output only. The origin of the dataset, one of: * (Unset) - Native BigQuery Dataset. * BIGLAKE - Dataset is backed by a namespace stored natively in Biglake. */
+  catalogSource?: string | undefined;
+  /** The dataset reference. Use this property to access specific parts of the dataset's ID, such as project ID or dataset ID. */
+  datasetReference?: DatasetReference | undefined;
 }
 export type DatasetListDatasetsItemList = Array<DatasetListDatasetsItem>;
 /** Response format for a page of results when listing datasets. */
 export interface DatasetList {
+  /** An array of the dataset resources in the project. Each resource contains basic information. For full information about a particular dataset resource, use the Datasets: get method. This property is omitted when there are no datasets in the project. */
+  datasets?: DatasetListDatasetsItemList | undefined;
+  /** A token that can be used to request the next results page. This property is omitted on the final results page. */
+  nextPageToken?: string | undefined;
+  /** A list of skipped locations that were unreachable. For more information about BigQuery locations, see: https://cloud.google.com/bigquery/docs/locations. Example: "europe-west5" */
+  unreachable?: StringList | undefined;
   /** Output only. A hash value of the results page. You can use this property to determine if the page has changed since the last request. */
   etag?: string | undefined;
   /** Output only. The resource type. This property always returns the value "bigquery#datasetList" */
   kind?: string | undefined;
-  /** An array of the dataset resources in the project. Each resource contains basic information. For full information about a particular dataset resource, use the Datasets: get method. This property is omitted when there are no datasets in the project. */
-  datasets?: DatasetListDatasetsItemList | undefined;
-  /** A list of skipped locations that were unreachable. For more information about BigQuery locations, see: https://cloud.google.com/bigquery/docs/locations. Example: "europe-west5" */
-  unreachable?: StringList | undefined;
-  /** A token that can be used to request the next results page. This property is omitted on the final results page. */
-  nextPageToken?: string | undefined;
 }
 export type ListJobsProjectionEnum = "full" | "minimal";
 export type ListJobsStateFilterEnum = "done" | "pending" | "running";
 export type ListJobsStateFilterEnumList = Array<ListJobsStateFilterEnum | (string & {})>;
 export interface ListJobsRequest {
-  /** If set, show only child jobs of the specified parent. Otherwise, show all top-level jobs. */
-  parentJobId?: string | undefined;
-  /** Whether to display jobs owned by all users in the project. Default False. */
-  allUsers?: boolean | undefined;
-  /** Restrict information returned to a set of selected fields */
-  projection?: ListJobsProjectionEnum | (string & {}) | undefined;
-  /** Filter for job state */
-  stateFilter?: ListJobsStateFilterEnumList | undefined;
-  /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
-  maxResults?: number | undefined;
   /** Page token, returned by a previous call, to request the next page of results. */
   pageToken?: string | undefined;
-  /** Max value for job creation time, in milliseconds since the POSIX epoch. If set, only jobs created before or at this timestamp are returned. */
-  maxCreationTime?: string | undefined;
-  /** Project ID of the jobs to list. */
-  projectId: string;
+  /** If set, show only child jobs of the specified parent. Otherwise, show all top-level jobs. */
+  parentJobId?: string | undefined;
   /** Min value for job creation time, in milliseconds since the POSIX epoch. If set, only jobs created after or at this timestamp are returned. */
   minCreationTime?: string | undefined;
+  /** Max value for job creation time, in milliseconds since the POSIX epoch. If set, only jobs created before or at this timestamp are returned. */
+  maxCreationTime?: string | undefined;
+  /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
+  maxResults?: number | undefined;
+  /** Restrict information returned to a set of selected fields */
+  projection?: ListJobsProjectionEnum | (string & {}) | undefined;
+  /** Whether to display jobs owned by all users in the project. Default False. */
+  allUsers?: boolean | undefined;
+  /** Filter for job state */
+  stateFilter?: ListJobsStateFilterEnumList | undefined;
+  /** Project ID of the jobs to list. */
+  projectId: string;
 }
 export interface JobListJobsItem {
-  /** Unique opaque ID of the job. */
-  jobReference?: JobReference | undefined;
-  /** Unique opaque ID of the job. */
-  id?: string | undefined;
-  /** Running state of the job. When the state is DONE, errorResult can be checked to determine whether the job succeeded or failed. */
-  state?: string | undefined;
-  /** A result object that will be present only if the job has failed. */
-  errorResult?: ErrorProto | undefined;
-  /** The resource type. */
-  kind?: string | undefined;
   /** [Full-projection-only] Describes the status of this job. */
   status?: JobStatus | undefined;
+  /** Running state of the job. When the state is DONE, errorResult can be checked to determine whether the job succeeded or failed. */
+  state?: string | undefined;
+  /** Required. Describes the job configuration. */
+  configuration?: JobConfiguration | undefined;
+  /** The resource type. */
+  kind?: string | undefined;
+  /** A result object that will be present only if the job has failed. */
+  errorResult?: ErrorProto | undefined;
   /** Output only. Information about the job, including starting time and ending time of the job. */
   statistics?: JobStatistics | undefined;
   /** [Full-projection-only] Email address of the user who ran the job. */
   user_email?: string | undefined;
-  /** Required. Describes the job configuration. */
-  configuration?: JobConfiguration | undefined;
   /** [Full-projection-only] String representation of identity of requesting party. Populated for both first- and third-party identities. Only present for APIs that support third-party identities. */
   principal_subject?: string | undefined;
+  /** Unique opaque ID of the job. */
+  jobReference?: JobReference | undefined;
+  /** Unique opaque ID of the job. */
+  id?: string | undefined;
 }
 export type JobListJobsItemList = Array<JobListJobsItem>;
 /** JobList is the response format for a jobs.list call. */
@@ -4077,30 +4170,30 @@ export interface JobList {
   etag?: string | undefined;
   /** The resource type of the response. */
   kind?: string | undefined;
+  /** A list of skipped locations that were unreachable. For more information about BigQuery locations, see: https://cloud.google.com/bigquery/docs/locations. Example: "europe-west5" */
+  unreachable?: StringList | undefined;
   /** A token to request the next page of results. */
   nextPageToken?: string | undefined;
   /** List of jobs that were requested. */
   jobs?: JobListJobsItemList | undefined;
-  /** A list of skipped locations that were unreachable. For more information about BigQuery locations, see: https://cloud.google.com/bigquery/docs/locations. Example: "europe-west5" */
-  unreachable?: StringList | undefined;
 }
 export interface ListModelsRequest {
-  /** Required. Project ID of the models to list. */
-  projectId: string;
-  /** Page token, returned by a previous call to request the next page of results */
-  pageToken?: string | undefined;
   /** Required. Dataset ID of the models to list. */
   datasetId: string;
   /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
   maxResults?: number | undefined;
+  /** Page token, returned by a previous call to request the next page of results */
+  pageToken?: string | undefined;
+  /** Required. Project ID of the models to list. */
+  projectId: string;
 }
 export type ModelList = Array<Model>;
 /** Response format for a single page when listing BigQuery ML models. */
 export interface ListModelsResponse {
-  /** A token to request the next page of results. */
-  nextPageToken?: string | undefined;
   /** Models in the requested dataset. Only the following fields are populated: model_reference, model_type, creation_time, last_modified_time and labels. */
   models?: ModelList | undefined;
+  /** A token to request the next page of results. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsRequest {
   /** Page token, returned by a previous call, to request the next page of results. If not present, no further pages are present. */
@@ -4114,12 +4207,12 @@ export interface ProjectReference {
   projectId?: string | undefined;
 }
 export interface ProjectListProjectsItem {
+  /** A unique reference to this project. */
+  projectReference?: ProjectReference | undefined;
   /** The resource type. */
   kind?: string | undefined;
   /** A descriptive name for this project. A wrapper is used here because friendlyName can be set to the empty string. */
   friendlyName?: string | undefined;
-  /** A unique reference to this project. */
-  projectReference?: ProjectReference | undefined;
   /** An opaque ID of this project. */
   id?: string | undefined;
   /** The numeric ID of this project. */
@@ -4140,18 +4233,18 @@ export interface ProjectList {
   totalItems?: number | undefined;
 }
 export interface ListRoutinesRequest {
-  /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
-  maxResults?: number | undefined;
-  /** If set, then only the Routine fields in the field mask, as well as project_id, dataset_id and routine_id, are returned in the response. If unset, then the following Routine fields are returned: etag, project_id, dataset_id, routine_id, routine_type, creation_time, last_modified_time, and language. */
-  readMask?: string | undefined;
+  /** If set, then only the Routines matching this filter are returned. The supported format is `routineType:{RoutineType}`, where `{RoutineType}` is a RoutineType enum. For example: `routineType:SCALAR_FUNCTION`. */
+  filter?: string | undefined;
   /** Required. Project ID of the routines to list */
   projectId: string;
   /** Required. Dataset ID of the routines to list */
   datasetId: string;
-  /** If set, then only the Routines matching this filter are returned. The supported format is `routineType:{RoutineType}`, where `{RoutineType}` is a RoutineType enum. For example: `routineType:SCALAR_FUNCTION`. */
-  filter?: string | undefined;
+  /** If set, then only the Routine fields in the field mask, as well as project_id, dataset_id and routine_id, are returned in the response. If unset, then the following Routine fields are returned: etag, project_id, dataset_id, routine_id, routine_type, creation_time, last_modified_time, and language. */
+  readMask?: string | undefined;
   /** Page token, returned by a previous call, to request the next page of results */
   pageToken?: string | undefined;
+  /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
+  maxResults?: number | undefined;
 }
 export type RoutineList = Array<Routine>;
 /** Describes the format of a single result page when listing routines. */
@@ -4162,14 +4255,14 @@ export interface ListRoutinesResponse {
   routines?: RoutineList | undefined;
 }
 export interface ListRowAccessPoliciesRequest {
+  /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
+  pageSize?: number | undefined;
   /** Required. Dataset ID of row access policies to list. */
   datasetId: string;
   /** Page token, returned by a previous call, to request the next page of results. */
   pageToken?: string | undefined;
   /** Required. Table ID of the table to list row access policies. */
   tableId: string;
-  /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
-  pageSize?: number | undefined;
   /** Required. Project ID of the row access policies to list. */
   projectId: string;
 }
@@ -4187,27 +4280,27 @@ export type ListTabledataFormatOptions_timestampOutputFormatEnum =
   | "INT64"
   | "ISO8601_STRING";
 export interface ListTabledataRequest {
+  /** To retrieve the next page of table data, set this field to the string provided in the pageToken field of the response body from your previous call to tabledata.list. */
+  pageToken?: string | undefined;
+  /** Required. Dataset id of the table to list. */
+  datasetId: string;
+  /** Required. Table id of the table to list. */
+  tableId: string;
+  /** Row limit of the table. */
+  maxResults?: number | undefined;
+  /** Optional. Output timestamp as usec int64. Default is false. */
+  "formatOptions.useInt64Timestamp"?: boolean | undefined;
   /** Optional. The API output format for a timestamp. This offers more explicit control over the timestamp output format as compared to the existing `use_int64_timestamp` option. */
   "formatOptions.timestampOutputFormat"?:
     | ListTabledataFormatOptions_timestampOutputFormatEnum
     | (string & {})
     | undefined;
+  /** Start row index of the table. */
+  startIndex?: string | undefined;
   /** Required. Project id of the table to list. */
   projectId: string;
   /** Subset of fields to return, supports select into sub fields. Example: selected_fields = "a,e.d.f"; */
   selectedFields?: string | undefined;
-  /** To retrieve the next page of table data, set this field to the string provided in the pageToken field of the response body from your previous call to tabledata.list. */
-  pageToken?: string | undefined;
-  /** Row limit of the table. */
-  maxResults?: number | undefined;
-  /** Required. Table id of the table to list. */
-  tableId: string;
-  /** Optional. Output timestamp as usec int64. Default is false. */
-  "formatOptions.useInt64Timestamp"?: boolean | undefined;
-  /** Required. Dataset id of the table to list. */
-  datasetId: string;
-  /** Start row index of the table. */
-  startIndex?: string | undefined;
 }
 export interface TableDataList {
   /** Rows of results. */
@@ -4216,20 +4309,20 @@ export interface TableDataList {
   etag?: string | undefined;
   /** The resource type of the response. */
   kind?: string | undefined;
-  /** Total rows of the entire table. In order to show default value 0 we have to present it as string. */
-  totalRows?: string | undefined;
   /** A token used for paging results. Providing this token instead of the startIndex parameter can help you retrieve stable results when an underlying table is changing. */
   pageToken?: string | undefined;
+  /** Total rows of the entire table. In order to show default value 0 we have to present it as string. */
+  totalRows?: string | undefined;
 }
 export interface ListTablesRequest {
-  /** Page token, returned by a previous call, to request the next page of results */
-  pageToken?: string | undefined;
-  /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
-  maxResults?: number | undefined;
-  /** Required. Project ID of the tables to list */
-  projectId: string;
   /** Required. Dataset ID of the tables to list */
   datasetId: string;
+  /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
+  maxResults?: number | undefined;
+  /** Page token, returned by a previous call, to request the next page of results */
+  pageToken?: string | undefined;
+  /** Required. Project ID of the tables to list */
+  projectId: string;
 }
 export interface TableListTablesItemView {
   /** True if view is defined in legacy SQL dialect, false if in GoogleSQL. */
@@ -4238,46 +4331,46 @@ export interface TableListTablesItemView {
   privacyPolicy?: PrivacyPolicy | undefined;
 }
 export interface TableListTablesItem {
-  /** The user-friendly name for this table. */
-  friendlyName?: string | undefined;
   /** The range partitioning for this table. */
   rangePartitioning?: RangePartitioning | undefined;
   /** Information about a logical view. */
   view?: TableListTablesItemView | undefined;
+  /** The labels associated with this table. You can use these to organize and group your tables. */
+  labels?: StringMap | undefined;
   /** Output only. The time when this table was created, in milliseconds since the epoch. */
   creationTime?: string | undefined;
+  /** The type of table. */
+  type?: string | undefined;
+  /** The time-based partitioning for this table. */
+  timePartitioning?: TimePartitioning | undefined;
+  /** Clustering specification for this table, if configured. */
+  clustering?: Clustering | undefined;
+  /** The resource type. */
+  kind?: string | undefined;
+  /** The time when this table expires, in milliseconds since the epoch. If not present, the table will persist indefinitely. Expired tables will be deleted and their storage reclaimed. */
+  expirationTime?: string | undefined;
   /** A reference uniquely identifying table. */
   tableReference?: TableReference | undefined;
   /** An opaque ID of the table. */
   id?: string | undefined;
-  /** The resource type. */
-  kind?: string | undefined;
-  /** The labels associated with this table. You can use these to organize and group your tables. */
-  labels?: StringMap | undefined;
-  /** The type of table. */
-  type?: string | undefined;
   /** Optional. If set to true, queries including this table must specify a partition filter. This filter is used for partition elimination. */
   requirePartitionFilter?: boolean | undefined;
-  /** Clustering specification for this table, if configured. */
-  clustering?: Clustering | undefined;
-  /** The time when this table expires, in milliseconds since the epoch. If not present, the table will persist indefinitely. Expired tables will be deleted and their storage reclaimed. */
-  expirationTime?: string | undefined;
-  /** The time-based partitioning for this table. */
-  timePartitioning?: TimePartitioning | undefined;
+  /** The user-friendly name for this table. */
+  friendlyName?: string | undefined;
 }
 export type TableListTablesItemList = Array<TableListTablesItem>;
 /** Partial projection of the metadata for a given table in a list response. */
 export interface TableList {
-  /** A token to request the next page of results. */
-  nextPageToken?: string | undefined;
-  /** The total number of tables in the dataset. */
-  totalItems?: number | undefined;
   /** Tables in the requested dataset. */
   tables?: TableListTablesItemList | undefined;
+  /** A token to request the next page of results. */
+  nextPageToken?: string | undefined;
   /** A hash of this page of results. */
   etag?: string | undefined;
   /** The type of list. */
   kind?: string | undefined;
+  /** The total number of tables in the dataset. */
+  totalItems?: number | undefined;
 }
 export type PatchDatasetsUpdateModeEnum =
   | "UPDATE_MODE_UNSPECIFIED"
@@ -4287,31 +4380,35 @@ export type PatchDatasetsUpdateModeEnum =
 export interface PatchDatasetsRequest extends Dataset {
   /** Required. Project ID of the dataset being updated */
   projectId: string;
-  /** Optional. The version of the provided access policy schema. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. This version refers to the schema version of the access policy and not the version of access policy. This field's value can be equal or more than the access policy schema provided in the request. For example, * Operations updating conditional access policy binding in datasets must specify version 3. Some of the operations are : - Adding a new access policy entry with condition. - Removing an access policy entry with condition. - Updating an access policy entry with condition. * But dataset with no conditional role bindings in access policy may specify any valid value or leave the field unset. If unset or if 0 or 1 value is used for dataset with conditional bindings, request will be rejected. This field will be mapped to IAM Policy version (https://cloud.google.com/iam/docs/policies#versions) and will be used to set policy in IAM. */
-  accessPolicyVersion?: number | undefined;
   /** Optional. Specifies the fields of dataset that update/patch operation is targeting By default, both metadata and ACL fields are updated. */
   updateMode?: PatchDatasetsUpdateModeEnum | (string & {}) | undefined;
+  /** Optional. The version of the provided access policy schema. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. This version refers to the schema version of the access policy and not the version of access policy. This field's value can be equal or more than the access policy schema provided in the request. For example, * Operations updating conditional access policy binding in datasets must specify version 3. Some of the operations are : - Adding a new access policy entry with condition. - Removing an access policy entry with condition. - Updating an access policy entry with condition. * But dataset with no conditional role bindings in access policy may specify any valid value or leave the field unset. If unset or if 0 or 1 value is used for dataset with conditional bindings, request will be rejected. This field will be mapped to IAM Policy version (https://cloud.google.com/iam/docs/policies#versions) and will be used to set policy in IAM. */
+  accessPolicyVersion?: number | undefined;
   /** Required. Dataset ID of the dataset being updated */
   datasetId: string;
 }
 export interface PatchModelsRequest extends Model {
   /** Required. Dataset ID of the model to patch. */
   datasetId: string;
-  /** Required. Model ID of the model to patch. */
-  modelId: string;
   /** Required. Project ID of the model to patch. */
   projectId: string;
+  /** Required. Model ID of the model to patch. */
+  modelId: string;
 }
 export interface PatchTablesRequest extends Table {
-  /** Required. Project ID of the table to update */
-  projectId: string;
-  /** Required. Table ID of the table to update */
-  tableId: string;
-  /** Optional. When true will autodetect schema, else will keep original schema */
-  autodetect_schema?: boolean | undefined;
   /** Required. Dataset ID of the table to update */
   datasetId: string;
+  /** Required. Table ID of the table to update */
+  tableId: string;
+  /** Required. Project ID of the table to update */
+  projectId: string;
+  /** Optional. When true will autodetect schema, else will keep original schema */
+  autodetect_schema?: boolean | undefined;
 }
+export type QueryRequestQueryResultsFormatEnum =
+  | "QUERY_RESULTS_FORMAT_UNSPECIFIED"
+  | "STRUCT_ENCODING"
+  | "ARROW";
 export type ArrowSerializationOptionsPicosTimestampPrecisionEnum =
   | "PICOS_TIMESTAMP_PRECISION_UNSPECIFIED"
   | "TIMESTAMP_PRECISION_MICROS"
@@ -4321,7 +4418,7 @@ export type ArrowSerializationOptionsBufferCompressionEnum =
   | "COMPRESSION_UNSPECIFIED"
   | "LZ4_FRAME"
   | "ZSTD";
-/** Contains options specific to Arrow Serialization. This feature is not yet available. */
+/** Contains options specific to Arrow Serialization. [Preview](https://cloud.google.com/products/#product-launch-stages) */
 export interface ArrowSerializationOptions {
   /** Optional. Set timestamp precision option. If not set, the default precision is microseconds. */
   picosTimestampPrecision?:
@@ -4335,10 +4432,6 @@ export type QueryRequestJobCreationModeEnum =
   | "JOB_CREATION_MODE_UNSPECIFIED"
   | "JOB_CREATION_REQUIRED"
   | "JOB_CREATION_OPTIONAL";
-export type QueryRequestQueryResultsFormatEnum =
-  | "QUERY_RESULTS_FORMAT_UNSPECIFIED"
-  | "STRUCT_ENCODING"
-  | "ARROW";
 export type DataFormatOptionsTimestampOutputFormatEnum =
   | "TIMESTAMP_OUTPUT_FORMAT_UNSPECIFIED"
   | "FLOAT64"
@@ -4346,135 +4439,135 @@ export type DataFormatOptionsTimestampOutputFormatEnum =
   | "ISO8601_STRING";
 /** Options for data format adjustments. */
 export interface DataFormatOptions {
-  /** Optional. The API output format for a timestamp. This offers more explicit control over the timestamp output format as compared to the existing `use_int64_timestamp` option. */
-  timestampOutputFormat?: DataFormatOptionsTimestampOutputFormatEnum | (string & {}) | undefined;
   /** Optional. Output timestamp as usec int64. Default is false. */
   useInt64Timestamp?: boolean | undefined;
+  /** Optional. The API output format for a timestamp. This offers more explicit control over the timestamp output format as compared to the existing `use_int64_timestamp` option. */
+  timestampOutputFormat?: DataFormatOptionsTimestampOutputFormatEnum | (string & {}) | undefined;
 }
 /** Describes the format of the jobs.query request. */
 export interface QueryRequest {
-  /** Query parameters for GoogleSQL queries. */
-  queryParameters?: QueryParameterList | undefined;
-  /** Optional. A set of key-value pairs representing the secure context. This can be used to pass sensitive or context-specific information. They can be retrieved via the SECURE_CONTEXT() function and used to modify the run-time behavior of a query. */
-  secureContext?: SecureContext | undefined;
-  /** Optional. Options specific to the Apache Arrow output format. */
-  arrowSerializationOptions?: ArrowSerializationOptions | undefined;
-  /** Optional. Connection properties which can modify the query behavior. */
-  connectionProperties?: ConnectionPropertyList | undefined;
-  /** Optional. If set to true, BigQuery doesn't run the job. Instead, if the query is valid, BigQuery returns statistics about the job such as how many bytes would be processed. If the query is invalid, an error returns. The default value is false. */
-  dryRun?: boolean | undefined;
-  /** Optional. Job timeout in milliseconds. If this time limit is exceeded, BigQuery will attempt to stop a longer job, but may not always succeed in canceling it before the job completes. For example, a job that takes more than 60 seconds to complete has a better chance of being stopped than a job that takes 10 seconds to complete. This timeout applies to the query even if a job does not need to be created. */
-  jobTimeoutMs?: string | undefined;
-  /** Optional. This is only supported for SELECT query. If set, the query is allowed to write results incrementally to the temporary result table. This may incur a performance penalty. This option cannot be used with Legacy SQL. This feature is not yet available. */
-  writeIncrementalResults?: boolean | undefined;
-  /** This property is deprecated. */
-  preserveNulls?: boolean | undefined;
-  /** The geographic location where the job should run. For more information, see how to [specify locations](https://cloud.google.com/bigquery/docs/locations#specify_locations). */
-  location?: string | undefined;
+  /** Optional. The query results format. If the value is anything other than `STRUCT_ENCODING` or unspecified: * The schema of the results is provided in the `QueryResponse.results_schema` field. * The results of the first page are provided in the `QueryResponse.results` field. * The `QueryResponse.rows` is not populated. * The `QueryResponse.schema` for `QueryResponse.rows` is not populated since it is the schema of the `QueryResponse.rows`. [Preview](https://cloud.google.com/products/#product-launch-stages) */
+  queryResultsFormat?: QueryRequestQueryResultsFormatEnum | (string & {}) | undefined;
   /** Optional. Custom encryption configuration (e.g., Cloud KMS keys) */
   destinationEncryptionConfiguration?: EncryptionConfiguration | undefined;
-  /** Optional. A unique user provided identifier to ensure idempotent behavior for queries. Note that this is different from the job_id. It has the following properties: 1. It is case-sensitive, limited to up to 36 ASCII characters. A UUID is recommended. 2. Read only queries can ignore this token since they are nullipotent by definition. 3. For the purposes of idempotency ensured by the request_id, a request is considered duplicate of another only if they have the same request_id and are actually duplicates. When determining whether a request is a duplicate of another request, all parameters in the request that may affect the result are considered. For example, query, connection_properties, query_parameters, use_legacy_sql are parameters that affect the result and are considered when determining whether a request is a duplicate, but properties like timeout_ms don't affect the result and are thus not considered. Dry run query requests are never considered duplicate of another request. 4. When a duplicate mutating query request is detected, it returns: a. the results of the mutation if it completes successfully within the timeout. b. the running operation if it is still in progress at the end of the timeout. 5. Its lifetime is limited to 15 minutes. In other words, if two requests are sent with the same request_id, but more than 15 minutes apart, idempotency is not guaranteed. */
-  requestId?: string | undefined;
-  /** Optional. If not set, jobs are always required. If set, the query request will follow the behavior described JobCreationMode. */
-  jobCreationMode?: QueryRequestJobCreationModeEnum | (string & {}) | undefined;
-  /** Optional. Optional: Specifies the maximum amount of time, in milliseconds, that the client is willing to wait for the query to complete. By default, this limit is 10 seconds (10,000 milliseconds). If the query is complete, the jobComplete field in the response is true. If the query has not yet completed, jobComplete is false. You can request a longer timeout period in the timeoutMs field. However, the call is not guaranteed to wait for the specified timeout; it typically returns after around 200 seconds (200,000 milliseconds), even if the query is not complete. If jobComplete is false, you can continue to wait for the query to complete by calling the getQueryResults method until the jobComplete field in the getQueryResults response is true. */
-  timeoutMs?: number | undefined;
-  /** Optional. The maximum number of rows of data to return per page of results. Setting this flag to a small value such as 1000 and then paging through results might improve reliability when the query result set is large. In addition to this limit, responses are also limited to 10 MB. By default, there is no maximum row count, and only the byte limit applies. */
-  maxResults?: number | undefined;
-  /** Optional. Specifies the default datasetId and projectId to assume for any unqualified table names in the query. If not set, all table names in the query string must be qualified in the format 'datasetId.tableId'. */
-  defaultDataset?: DatasetReference | undefined;
-  /** Optional. The query results format. If the value is anything other than `STRUCT_ENCODING` or unspecified: * The schema of the results will be provided in `QueryResponse.results_schema` field. * The results of the first page will be provided in `QueryResponse.results` field. * The `QueryResponse.rows` will not be populated. * The `QueryResponse.schema` for `QueryResponse.rows` will also not be populated since it is the schema of the `QueryResponse.rows`. This feature is not yet available. */
-  queryResultsFormat?: QueryRequestQueryResultsFormatEnum | (string & {}) | undefined;
-  /** Optional. The labels associated with this query. Labels can be used to organize and group query jobs. Label keys and values can be no longer than 63 characters, can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label keys must start with a letter and each label in the list must have a different key. */
-  labels?: StringMap | undefined;
-  /** [Optional] Specifies whether the query should be executed as a continuous query. The default value is false. */
-  continuous?: boolean | undefined;
-  /** Optional. If true, creates a new session using a randomly generated session_id. If false, runs query with an existing session_id passed in ConnectionProperty, otherwise runs query in non-session mode. The session location will be set to QueryRequest.location if it is present, otherwise it's set to the default location based on existing routing logic. */
-  createSession?: boolean | undefined;
-  /** Optional. Whether to look for the result in the query cache. The query cache is a best-effort cache that will be flushed whenever tables in the query are modified. The default value is true. */
-  useQueryCache?: boolean | undefined;
-  /** Specifies whether to use BigQuery's legacy SQL dialect for this query. The default value is true. If set to false, the query uses BigQuery's [GoogleSQL](https://docs.cloud.google.com/bigquery/docs/introduction-sql). When useLegacySql is set to false, the value of flattenResults is ignored; query will be run as if flattenResults is false. */
-  useLegacySql?: boolean | undefined;
-  /** Optional. Output format adjustments. */
-  formatOptions?: DataFormatOptions | undefined;
-  /** GoogleSQL only. Set to POSITIONAL to use positional (?) query parameters or to NAMED to use named (@myparam) query parameters in this query. */
-  parameterMode?: string | undefined;
-  /** Optional. Limits the bytes billed for this query. Queries with bytes billed above this limit will fail (without incurring a charge). If unspecified, the project default is used. */
-  maximumBytesBilled?: string | undefined;
+  /** Optional. This is only supported for SELECT query. If set, the query is allowed to write results incrementally to the temporary result table. This may incur a performance penalty. This option cannot be used with Legacy SQL. This feature is not yet available. */
+  writeIncrementalResults?: boolean | undefined;
   /** Optional. The reservation that jobs.query request would use. User can specify a reservation to execute the job.query. The expected format is `projects/{project}/locations/{location}/reservations/{reservation}`. Forces the query to use on-demand billing when set to `none`. This requires the project or organization to have `reservation_override_mode` set to `ALLOW_ANY_OVERRIDE`. */
   reservation?: string | undefined;
+  /** Optional. Optional: Specifies the maximum amount of time, in milliseconds, that the client is willing to wait for the query to complete. By default, this limit is 10 seconds (10,000 milliseconds). If the query is complete, the jobComplete field in the response is true. If the query has not yet completed, jobComplete is false. You can request a longer timeout period in the timeoutMs field. However, the call is not guaranteed to wait for the specified timeout; it typically returns after around 200 seconds (200,000 milliseconds), even if the query is not complete. If jobComplete is false, you can continue to wait for the query to complete by calling the getQueryResults method until the jobComplete field in the getQueryResults response is true. */
+  timeoutMs?: number | undefined;
+  /** Optional. Specifies the default datasetId and projectId to assume for any unqualified table names in the query. If not set, all table names in the query string must be qualified in the format 'datasetId.tableId'. */
+  defaultDataset?: DatasetReference | undefined;
+  /** Query parameters for GoogleSQL queries. */
+  queryParameters?: QueryParameterList | undefined;
+  /** [Optional] Specifies whether the query should be executed as a continuous query. The default value is false. */
+  continuous?: boolean | undefined;
+  /** The geographic location where the job should run. For more information, see how to [specify locations](https://cloud.google.com/bigquery/docs/locations#specify_locations). */
+  location?: string | undefined;
   /** Required. A query string to execute, using Google Standard SQL or legacy SQL syntax. Example: "SELECT COUNT(f1) FROM myProjectId.myDatasetId.myTableId". */
   query?: string | undefined;
+  /** Optional. Job timeout in milliseconds. If this time limit is exceeded, BigQuery will attempt to stop a longer job, but may not always succeed in canceling it before the job completes. For example, a job that takes more than 60 seconds to complete has a better chance of being stopped than a job that takes 10 seconds to complete. This timeout applies to the query even if a job does not need to be created. */
+  jobTimeoutMs?: string | undefined;
+  /** Optional. The maximum number of rows of data to return per page of results. Setting this flag to a small value such as 1000 and then paging through results might improve reliability when the query result set is large. In addition to this limit, responses are also limited to 10 MB. By default, there is no maximum row count, and only the byte limit applies. */
+  maxResults?: number | undefined;
+  /** Optional. A set of key-value pairs representing the secure context. This can be used to pass sensitive or context-specific information. They can be retrieved via the SECURE_CONTEXT() function and used to modify the run-time behavior of a query. */
+  secureContext?: SecureContext | undefined;
+  /** Optional. If true, creates a new session using a randomly generated session_id. If false, runs query with an existing session_id passed in ConnectionProperty, otherwise runs query in non-session mode. The session location will be set to QueryRequest.location if it is present, otherwise it's set to the default location based on existing routing logic. */
+  createSession?: boolean | undefined;
   /** The resource type of the request. */
   kind?: string | undefined;
+  /** Optional. Options specific to the Apache Arrow output format. */
+  arrowSerializationOptions?: ArrowSerializationOptions | undefined;
+  /** Specifies whether to use BigQuery's legacy SQL dialect for this query. The default value is true. If set to false, the query uses BigQuery's [GoogleSQL](https://docs.cloud.google.com/bigquery/docs/introduction-sql). When useLegacySql is set to false, the value of flattenResults is ignored; query will be run as if flattenResults is false. */
+  useLegacySql?: boolean | undefined;
+  /** Optional. If not set, jobs are always required. If set, the query request will follow the behavior described JobCreationMode. */
+  jobCreationMode?: QueryRequestJobCreationModeEnum | (string & {}) | undefined;
   /** Optional. A target limit on the rate of slot consumption by this query. If set to a value > 0, BigQuery will attempt to limit the rate of slot consumption by this query to keep it below the configured limit, even if the query is eligible for more slots based on fair scheduling. The unused slots will be available for other jobs and queries to use. Note: This feature is not yet generally available. */
   maxSlots?: number | undefined;
+  /** Optional. The labels associated with this query. Labels can be used to organize and group query jobs. Label keys and values can be no longer than 63 characters, can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label keys must start with a letter and each label in the list must have a different key. */
+  labels?: StringMap | undefined;
+  /** Optional. Limits the bytes billed for this query. Queries with bytes billed above this limit will fail (without incurring a charge). If unspecified, the project default is used. */
+  maximumBytesBilled?: string | undefined;
+  /** Optional. Whether to look for the result in the query cache. The query cache is a best-effort cache that will be flushed whenever tables in the query are modified. The default value is true. */
+  useQueryCache?: boolean | undefined;
+  /** Optional. If set to true, BigQuery doesn't run the job. Instead, if the query is valid, BigQuery returns statistics about the job such as how many bytes would be processed. If the query is invalid, an error returns. The default value is false. */
+  dryRun?: boolean | undefined;
+  /** This property is deprecated. */
+  preserveNulls?: boolean | undefined;
+  /** Optional. Output format adjustments. */
+  formatOptions?: DataFormatOptions | undefined;
+  /** Optional. Connection properties which can modify the query behavior. */
+  connectionProperties?: ConnectionPropertyList | undefined;
+  /** GoogleSQL only. Set to POSITIONAL to use positional (?) query parameters or to NAMED to use named (@myparam) query parameters in this query. */
+  parameterMode?: string | undefined;
+  /** Optional. A unique user provided identifier to ensure idempotent behavior for queries. Note that this is different from the job_id. It has the following properties: 1. It is case-sensitive, limited to up to 36 ASCII characters. A UUID is recommended. 2. Read only queries can ignore this token since they are nullipotent by definition. 3. For the purposes of idempotency ensured by the request_id, a request is considered duplicate of another only if they have the same request_id and are actually duplicates. When determining whether a request is a duplicate of another request, all parameters in the request that may affect the result are considered. For example, query, connection_properties, query_parameters, use_legacy_sql are parameters that affect the result and are considered when determining whether a request is a duplicate, but properties like timeout_ms don't affect the result and are thus not considered. Dry run query requests are never considered duplicate of another request. 4. When a duplicate mutating query request is detected, it returns: a. the results of the mutation if it completes successfully within the timeout. b. the running operation if it is still in progress at the end of the timeout. 5. Its lifetime is limited to 15 minutes. In other words, if two requests are sent with the same request_id, but more than 15 minutes apart, idempotency is not guaranteed. */
+  requestId?: string | undefined;
 }
 export interface QueryJobsRequest extends QueryRequest {
   /** Required. Project ID of the query request. */
   projectId: string;
 }
-/** Arrow RecordBatch. This feature is not yet available. */
-export interface ArrowRecordBatch {
-  /** IPC-serialized Arrow RecordBatch. */
-  serializedRecordBatch?: string | undefined;
-}
-/** Arrow schema as specified in https://arrow.apache.org/docs/python/api/datatypes.html and serialized to bytes using IPC: https://arrow.apache.org/docs/format/Columnar.html#serialization-and-interprocess-communication-ipc See code samples on how this message can be deserialized. This feature is not yet available. */
+/** Arrow schema as specified in https://arrow.apache.org/docs/python/api/datatypes.html and serialized to bytes using IPC: https://arrow.apache.org/docs/format/Columnar.html#serialization-and-interprocess-communication-ipc See code samples on how this message can be deserialized. [Preview](https://cloud.google.com/products/#product-launch-stages) */
 export interface ArrowSchema {
   /** IPC serialized Arrow schema. */
   serializedSchema?: string | undefined;
 }
+/** Arrow RecordBatch. [Preview](https://cloud.google.com/products/#product-launch-stages) */
+export interface ArrowRecordBatch {
+  /** IPC-serialized Arrow RecordBatch. */
+  serializedRecordBatch?: string | undefined;
+}
 export interface QueryResponse {
-  /** Output only. Creation time of this query, in milliseconds since the epoch. This field will be present on all queries. */
-  creationTime?: string | undefined;
-  /** Output only. The type of query statement, if valid. Possible values: * `SELECT`: [`SELECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#select_list) statement. * `ASSERT`: [`ASSERT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/debugging-statements#assert) statement. * `INSERT`: [`INSERT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#insert_statement) statement. * `UPDATE`: [`UPDATE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#update_statement) statement. * `DELETE`: [`DELETE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-manipulation-language) statement. * `MERGE`: [`MERGE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-manipulation-language) statement. * `TRUNCATE_TABLE`: [`TRUNCATE TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#truncate_table_statement) statement. * `CREATE_TABLE`: [`CREATE TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_statement) statement, without `AS SELECT`. * `CREATE_TABLE_AS_SELECT`: [`CREATE TABLE AS SELECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_statement) statement. * `CREATE_VIEW`: [`CREATE VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_view_statement) statement. * `CREATE_MODEL`: [`CREATE MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-create#create_model_statement) statement. * `CREATE_MATERIALIZED_VIEW`: [`CREATE MATERIALIZED VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_materialized_view_statement) statement. * `CREATE_FUNCTION`: [`CREATE FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_function_statement) statement. * `CREATE_TABLE_FUNCTION`: [`CREATE TABLE FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_function_statement) statement. * `CREATE_PROCEDURE`: [`CREATE PROCEDURE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_procedure) statement. * `CREATE_ROW_ACCESS_POLICY`: [`CREATE ROW ACCESS POLICY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_row_access_policy_statement) statement. * `CREATE_SCHEMA`: [`CREATE SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_schema_statement) statement. * `CREATE_EXTERNAL_SCHEMA`: [`CREATE EXTERNAL SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_external_schema_statement) statement. * `CREATE_EXTERNAL_TABLE`: [`CREATE EXTERNAL TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_external_table_statement) statement. * `CREATE_SNAPSHOT_TABLE`: [`CREATE SNAPSHOT TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_snapshot_table_statement) statement. * `CREATE_SEARCH_INDEX`: [`CREATE SEARCH INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_search_index_statement) statement. * `CREATE_VECTOR_INDEX`: [`CREATE VECTOR INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_vector_index_statement) statement. * `CREATE_CONNECTION`: [`CREATE CONNECTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_connection_statement) statement. * `CREATE_DATA_POLICY`: [`CREATE DATA_POLICY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_data_policy_statement) statement. * `CREATE_PROPERTY_GRAPH`: [`CREATE PROPERTY GRAPH`](https://cloud.google.com/bigquery/docs/reference/standard-sql/graph-schema-statements#gql_create_graph) statement. * `CREATE_CAPACITY`: [`CREATE CAPACITY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_capacity_statement) statement. * `CREATE_RESERVATION`: [`CREATE RESERVATION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_reservation_statement) statement. * `CREATE_ASSIGNMENT`: [`CREATE ASSIGNMENT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_assignment_statement) statement. * `DROP_TABLE`: [`DROP TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_table_statement) statement. * `DROP_EXTERNAL_TABLE`: [`DROP EXTERNAL TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_external_table_statement) statement. * `DROP_VIEW`: [`DROP VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_view_statement) statement. * `DROP_MODEL`: [`DROP MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-drop-model) statement. * `DROP_MATERIALIZED_VIEW`: [`DROP MATERIALIZED VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_materialized_view_statement) statement. * `DROP_FUNCTION`: [`DROP FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_function_statement) statement. * `DROP_TABLE_FUNCTION`: [`DROP TABLE FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_table_function) statement. * `DROP_PROCEDURE`: [`DROP PROCEDURE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_procedure_statement) statement. * `DROP_SEARCH_INDEX`: [`DROP SEARCH INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_search_index) statement. * `DROP_VECTOR_INDEX`: [`DROP VECTOR INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_vector_index) statement. * `DROP_SCHEMA`: [`DROP SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_schema_statement) statement. * `UNDROP_SCHEMA`: [`UNDROP SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#undrop_schema_statement) statement. * `DROP_SNAPSHOT_TABLE`: [`DROP SNAPSHOT TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_snapshot_table_statement) statement. * `DROP_ROW_ACCESS_POLICY`: [`DROP [ALL] ROW ACCESS POLICY|POLICIES`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_row_access_policy_statement) statement. * `DROP_CONNECTION`: [`DROP CONNECTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_connection_statement) statement. * `DROP_DATA_POLICY`: [`DROP DATA_POLICY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_data_policy) statement. * `DROP_PROPERTY_GRAPH`: [`DROP PROPERTY GRAPH`](https://cloud.google.com/bigquery/docs/reference/standard-sql/graph-schema-statements#gql_drop_graph) statement. * `DROP_CAPACITY`: [`DROP CAPACITY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_capacity_statement) statement. * `DROP_RESERVATION`: [`DROP RESERVATION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_reservation_statement) statement. * `DROP_ASSIGNMENT`: [`DROP ASSIGNMENT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_assignment_statement) statement. * `ALTER_TABLE`: [`ALTER TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_table_set_options_statement) statement. * `ALTER_VIEW`: [`ALTER VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_view_set_options_statement) statement. * `ALTER_MATERIALIZED_VIEW`: [`ALTER MATERIALIZED VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_materialized_view_set_options_statement) statement. * `ALTER_SCHEMA`: [`ALTER SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_schema_set_options_statement) statement. * `ALTER_MODEL`: [`ALTER MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-alter-model) statement. * `ALTER_SEARCH_INDEX`: [`ALTER SEARCH INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_search_index_statement) statement. * `ALTER_VECTOR_INDEX`: [`ALTER VECTOR INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_vector_index_rebuild_statement) statement. * `ALTER_CONNECTION`: [`ALTER CONNECTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_connection_set_options_statement) statement. * `ALTER_DATA_POLICY`: [`ALTER DATA_POLICY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_data_policy_statement) statement. * `ALTER_PROJECT`: [`ALTER PROJECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_project_set_options_statement) statement. * `ALTER_ORGANIZATION`: [`ALTER ORGANIZATION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_organization_set_options_statement) statement. * `ALTER_BI_CAPACITY`: [`ALTER BI_CAPACITY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_bi_capacity_set_options_statement) statement. * `ALTER_CAPACITY`: [`ALTER CAPACITY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_capacity_set_options_statement) statement. * `ALTER_RESERVATION`: [`ALTER RESERVATION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_reservation_set_options_statement) statement. * `SCRIPT`: [`SCRIPT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language) statement. * `CALL`: [`CALL`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language#call) statement. * `BEGIN_TRANSACTION`: [`BEGIN TRANSACTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language#begin_transaction) statement. * `COMMIT_TRANSACTION`: [`COMMIT TRANSACTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language#commit_transaction) statement. * `ROLLBACK_TRANSACTION`: [`ROLLBACK TRANSACTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language#rollback_transaction) statement. * `EXPORT_DATA`: [`EXPORT DATA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/export-statements#export_data_statement) statement. * `EXPORT_MODEL`: [`EXPORT MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-export-model) statement. * `EXPORT_METADATA`: [`EXPORT TABLE METADATA`](https://cloud.google.com/bigquery/docs/biglake-iceberg-tables-in-bigquery) statement, for BigLake Iceberg tables. * `LOAD_DATA`: [`LOAD DATA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/load-statements#load_data_statement) statement. * `GRANT_ON_SCHEMA`: [`GRANT ... ON SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#grant_statement) statement. * `GRANT_ON_TABLE`: [`GRANT ... ON TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#grant_statement) statement. Also used for `GRANT ... ON EXTERNAL TABLE`. * `GRANT_ON_VIEW`: [`GRANT ... ON VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#grant_statement) statement. * `GRANT_ON_PROJECT`: [`GRANT ... ON PROJECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#grant_statement) statement. * `REVOKE_ON_SCHEMA`: [`REVOKE ... ON SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#revoke_statement) statement. * `REVOKE_ON_TABLE`: [`REVOKE ... ON TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#revoke_statement) statement. Also used for `REVOKE ... ON EXTERNAL TABLE`. * `REVOKE_ON_VIEW`: [`REVOKE ... ON VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#revoke_statement) statement. * `REVOKE_ON_PROJECT`: [`REVOKE ... ON PROJECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#revoke_statement) statement. */
-  statementType?: string | undefined;
-  /** Output only. Serialized row data in Arrow RecordBatch format. */
-  arrowRecordBatch?: ArrowRecordBatch | undefined;
-  /** Auto-generated ID for the query. */
-  queryId?: string | undefined;
-  /** Output only. Information of the session if this job is part of one. */
-  sessionInfo?: SessionInfo | undefined;
   /** The schema of the results. Present only when the query completes successfully. */
   schema?: TableSchema | undefined;
-  /** A token used for paging results. A non-empty token indicates that additional results are available. To see additional results, query the [`jobs.getQueryResults`](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/getQueryResults) method. For more information, see [Paging through table data](https://cloud.google.com/bigquery/docs/paging-results). */
-  pageToken?: string | undefined;
-  /** The total number of rows in the complete query result set, which can be more than the number of rows in this single page of results. */
-  totalRows?: string | undefined;
-  /** Optional. The reason why a Job was created. Only relevant when a job_reference is present in the response. If job_reference is not present it will always be unset. */
-  jobCreationReason?: JobCreationReason | undefined;
-  /** Output only. If the project is configured to use on-demand pricing, then this field contains the total bytes billed for the job. If the project is configured to use flat-rate pricing, then you are not billed for bytes and this field is informational only. */
-  totalBytesBilled?: string | undefined;
-  /** The resource type. */
-  kind?: string | undefined;
-  /** The total number of bytes processed for this query. If this query was a dry run, this is the number of bytes that would be processed if the query were run. */
-  totalBytesProcessed?: string | undefined;
-  /** Output only. Number of slot ms the user is actually billed for. */
-  totalSlotMs?: string | undefined;
-  /** Output only. Start time of this query, in milliseconds since the epoch. This field will be present when the query job transitions from the PENDING state to either RUNNING or DONE. */
-  startTime?: string | undefined;
-  /** Output only. The number of rows out of `total_rows` returned in this response. This feature is not yet available. */
-  pageRowCount?: string | undefined;
-  /** Output only. Detailed statistics for DML statements INSERT, UPDATE, DELETE, MERGE or TRUNCATE. */
-  dmlStats?: DmlStatistics | undefined;
-  /** Whether the query result was fetched from the query cache. */
-  cacheHit?: boolean | undefined;
-  /** An object with as many results as can be contained within the maximum permitted reply size. To get any additional rows, you can call GetQueryResults and specify the jobReference returned above. */
-  rows?: TableRowList | undefined;
-  /** Output only. The number of rows affected by a DML statement. Present only for DML statements INSERT, UPDATE or DELETE. */
-  numDmlAffectedRows?: string | undefined;
-  /** Output only. The first errors or warnings encountered during the running of the job. The final message includes the number of errors that caused the process to stop. Errors here do not necessarily mean that the job has completed or was unsuccessful. For more information about error messages, see [Error messages](https://cloud.google.com/bigquery/docs/error-messages). */
-  errors?: ErrorProtoList | undefined;
+  /** Output only. Creation time of this query, in milliseconds since the epoch. This field will be present on all queries. */
+  creationTime?: string | undefined;
+  /** Reference to the Job that was created to run the query. This field will be present even if the original request timed out, in which case GetQueryResults can be used to read the results once the query has completed. Since this API only returns the first page of results, subsequent pages can be fetched via the same mechanism (GetQueryResults). If job_creation_mode was set to `JOB_CREATION_OPTIONAL` and the query completes without creating a job, this field will be empty. */
+  jobReference?: JobReference | undefined;
+  /** Output only. Information of the session if this job is part of one. */
+  sessionInfo?: SessionInfo | undefined;
   /** Output only. End time of this query, in milliseconds since the epoch. This field will be present whenever a query job is in the DONE state. */
   endTime?: string | undefined;
   /** Whether the query has completed or not. If rows or totalRows are present, this will always be true. If this is false, totalRows will not be available. */
   jobComplete?: boolean | undefined;
-  /** Output only. The geographic location of the query. For more information about BigQuery locations, see: https://cloud.google.com/bigquery/docs/locations */
-  location?: string | undefined;
-  /** Reference to the Job that was created to run the query. This field will be present even if the original request timed out, in which case GetQueryResults can be used to read the results once the query has completed. Since this API only returns the first page of results, subsequent pages can be fetched via the same mechanism (GetQueryResults). If job_creation_mode was set to `JOB_CREATION_OPTIONAL` and the query completes without creating a job, this field will be empty. */
-  jobReference?: JobReference | undefined;
+  /** An object with as many results as can be contained within the maximum permitted reply size. To get any additional rows, you can call GetQueryResults and specify the jobReference returned above. */
+  rows?: TableRowList | undefined;
+  /** The resource type. */
+  kind?: string | undefined;
   /** Output only. Arrow schema */
   arrowSchema?: ArrowSchema | undefined;
+  /** A token used for paging results. A non-empty token indicates that additional results are available. To see additional results, query the [`jobs.getQueryResults`](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/getQueryResults) method. For more information, see [Paging through table data](https://cloud.google.com/bigquery/docs/paging-results). */
+  pageToken?: string | undefined;
+  /** Output only. The geographic location of the query. For more information about BigQuery locations, see: https://cloud.google.com/bigquery/docs/locations */
+  location?: string | undefined;
+  /** Output only. Start time of this query, in milliseconds since the epoch. This field will be present when the query job transitions from the PENDING state to either RUNNING or DONE. */
+  startTime?: string | undefined;
+  /** Output only. The first errors or warnings encountered during the running of the job. The final message includes the number of errors that caused the process to stop. Errors here do not necessarily mean that the job has completed or was unsuccessful. For more information about error messages, see [Error messages](https://cloud.google.com/bigquery/docs/error-messages). */
+  errors?: ErrorProtoList | undefined;
+  /** Output only. The number of rows out of `total_rows` returned in this response. [Preview](https://cloud.google.com/products/#product-launch-stages) */
+  pageRowCount?: string | undefined;
+  /** Output only. Detailed statistics for DML statements INSERT, UPDATE, DELETE, MERGE or TRUNCATE. */
+  dmlStats?: DmlStatistics | undefined;
+  /** Output only. Serialized row data in Arrow RecordBatch format. */
+  arrowRecordBatch?: ArrowRecordBatch | undefined;
+  /** Output only. The type of query statement, if valid. Possible values: * `SELECT`: [`SELECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#select_list) statement. * `ASSERT`: [`ASSERT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/debugging-statements#assert) statement. * `INSERT`: [`INSERT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#insert_statement) statement. * `UPDATE`: [`UPDATE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#update_statement) statement. * `DELETE`: [`DELETE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-manipulation-language) statement. * `MERGE`: [`MERGE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-manipulation-language) statement. * `TRUNCATE_TABLE`: [`TRUNCATE TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#truncate_table_statement) statement. * `CREATE_TABLE`: [`CREATE TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_statement) statement, without `AS SELECT`. * `CREATE_TABLE_AS_SELECT`: [`CREATE TABLE AS SELECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_statement) statement. * `CREATE_VIEW`: [`CREATE VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_view_statement) statement. * `CREATE_MODEL`: [`CREATE MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-create#create_model_statement) statement. * `CREATE_MATERIALIZED_VIEW`: [`CREATE MATERIALIZED VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_materialized_view_statement) statement. * `CREATE_FUNCTION`: [`CREATE FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_function_statement) statement. * `CREATE_TABLE_FUNCTION`: [`CREATE TABLE FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_function_statement) statement. * `CREATE_PROCEDURE`: [`CREATE PROCEDURE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_procedure) statement. * `CREATE_ROW_ACCESS_POLICY`: [`CREATE ROW ACCESS POLICY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_row_access_policy_statement) statement. * `CREATE_SCHEMA`: [`CREATE SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_schema_statement) statement. * `CREATE_EXTERNAL_SCHEMA`: [`CREATE EXTERNAL SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_external_schema_statement) statement. * `CREATE_EXTERNAL_TABLE`: [`CREATE EXTERNAL TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_external_table_statement) statement. * `CREATE_SNAPSHOT_TABLE`: [`CREATE SNAPSHOT TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_snapshot_table_statement) statement. * `CREATE_SEARCH_INDEX`: [`CREATE SEARCH INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_search_index_statement) statement. * `CREATE_VECTOR_INDEX`: [`CREATE VECTOR INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_vector_index_statement) statement. * `CREATE_CONNECTION`: [`CREATE CONNECTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_connection_statement) statement. * `CREATE_DATA_POLICY`: [`CREATE DATA_POLICY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_data_policy_statement) statement. * `CREATE_PROPERTY_GRAPH`: [`CREATE PROPERTY GRAPH`](https://cloud.google.com/bigquery/docs/reference/standard-sql/graph-schema-statements#gql_create_graph) statement. * `CREATE_CAPACITY`: [`CREATE CAPACITY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_capacity_statement) statement. * `CREATE_RESERVATION`: [`CREATE RESERVATION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_reservation_statement) statement. * `CREATE_ASSIGNMENT`: [`CREATE ASSIGNMENT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_assignment_statement) statement. * `DROP_TABLE`: [`DROP TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_table_statement) statement. * `DROP_EXTERNAL_TABLE`: [`DROP EXTERNAL TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_external_table_statement) statement. * `DROP_VIEW`: [`DROP VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_view_statement) statement. * `DROP_MODEL`: [`DROP MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-drop-model) statement. * `DROP_MATERIALIZED_VIEW`: [`DROP MATERIALIZED VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_materialized_view_statement) statement. * `DROP_FUNCTION`: [`DROP FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_function_statement) statement. * `DROP_TABLE_FUNCTION`: [`DROP TABLE FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_table_function) statement. * `DROP_PROCEDURE`: [`DROP PROCEDURE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_procedure_statement) statement. * `DROP_SEARCH_INDEX`: [`DROP SEARCH INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_search_index) statement. * `DROP_VECTOR_INDEX`: [`DROP VECTOR INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_vector_index) statement. * `DROP_SCHEMA`: [`DROP SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_schema_statement) statement. * `UNDROP_SCHEMA`: [`UNDROP SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#undrop_schema_statement) statement. * `DROP_SNAPSHOT_TABLE`: [`DROP SNAPSHOT TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_snapshot_table_statement) statement. * `DROP_ROW_ACCESS_POLICY`: [`DROP [ALL] ROW ACCESS POLICY|POLICIES`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_row_access_policy_statement) statement. * `DROP_CONNECTION`: [`DROP CONNECTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_connection_statement) statement. * `DROP_DATA_POLICY`: [`DROP DATA_POLICY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_data_policy) statement. * `DROP_PROPERTY_GRAPH`: [`DROP PROPERTY GRAPH`](https://cloud.google.com/bigquery/docs/reference/standard-sql/graph-schema-statements#gql_drop_graph) statement. * `DROP_CAPACITY`: [`DROP CAPACITY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_capacity_statement) statement. * `DROP_RESERVATION`: [`DROP RESERVATION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_reservation_statement) statement. * `DROP_ASSIGNMENT`: [`DROP ASSIGNMENT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_assignment_statement) statement. * `ALTER_TABLE`: [`ALTER TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_table_set_options_statement) statement. * `ALTER_VIEW`: [`ALTER VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_view_set_options_statement) statement. * `ALTER_MATERIALIZED_VIEW`: [`ALTER MATERIALIZED VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_materialized_view_set_options_statement) statement. * `ALTER_SCHEMA`: [`ALTER SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_schema_set_options_statement) statement. * `ALTER_MODEL`: [`ALTER MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-alter-model) statement. * `ALTER_SEARCH_INDEX`: [`ALTER SEARCH INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_search_index_statement) statement. * `ALTER_VECTOR_INDEX`: [`ALTER VECTOR INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_vector_index_rebuild_statement) statement. * `ALTER_CONNECTION`: [`ALTER CONNECTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_connection_set_options_statement) statement. * `ALTER_DATA_POLICY`: [`ALTER DATA_POLICY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_data_policy_statement) statement. * `ALTER_PROJECT`: [`ALTER PROJECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_project_set_options_statement) statement. * `ALTER_ORGANIZATION`: [`ALTER ORGANIZATION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_organization_set_options_statement) statement. * `ALTER_BI_CAPACITY`: [`ALTER BI_CAPACITY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_bi_capacity_set_options_statement) statement. * `ALTER_CAPACITY`: [`ALTER CAPACITY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_capacity_set_options_statement) statement. * `ALTER_RESERVATION`: [`ALTER RESERVATION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_reservation_set_options_statement) statement. * `SCRIPT`: [`SCRIPT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language) statement. * `CALL`: [`CALL`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language#call) statement. * `BEGIN_TRANSACTION`: [`BEGIN TRANSACTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language#begin_transaction) statement. * `COMMIT_TRANSACTION`: [`COMMIT TRANSACTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language#commit_transaction) statement. * `ROLLBACK_TRANSACTION`: [`ROLLBACK TRANSACTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language#rollback_transaction) statement. * `EXPORT_DATA`: [`EXPORT DATA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/export-statements#export_data_statement) statement. * `EXPORT_MODEL`: [`EXPORT MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-export-model) statement. * `EXPORT_METADATA`: [`EXPORT TABLE METADATA`](https://cloud.google.com/bigquery/docs/biglake-iceberg-tables-in-bigquery) statement, for BigLake Iceberg tables. * `LOAD_DATA`: [`LOAD DATA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/load-statements#load_data_statement) statement. * `GRANT_ON_SCHEMA`: [`GRANT ... ON SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#grant_statement) statement. * `GRANT_ON_TABLE`: [`GRANT ... ON TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#grant_statement) statement. Also used for `GRANT ... ON EXTERNAL TABLE`. * `GRANT_ON_VIEW`: [`GRANT ... ON VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#grant_statement) statement. * `GRANT_ON_PROJECT`: [`GRANT ... ON PROJECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#grant_statement) statement. * `REVOKE_ON_SCHEMA`: [`REVOKE ... ON SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#revoke_statement) statement. * `REVOKE_ON_TABLE`: [`REVOKE ... ON TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#revoke_statement) statement. Also used for `REVOKE ... ON EXTERNAL TABLE`. * `REVOKE_ON_VIEW`: [`REVOKE ... ON VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#revoke_statement) statement. * `REVOKE_ON_PROJECT`: [`REVOKE ... ON PROJECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-control-language#revoke_statement) statement. */
+  statementType?: string | undefined;
+  /** Optional. The reason why a Job was created. Only relevant when a job_reference is present in the response. If job_reference is not present it will always be unset. */
+  jobCreationReason?: JobCreationReason | undefined;
+  /** The total number of bytes processed for this query. If this query was a dry run, this is the number of bytes that would be processed if the query were run. */
+  totalBytesProcessed?: string | undefined;
+  /** Whether the query result was fetched from the query cache. */
+  cacheHit?: boolean | undefined;
+  /** Output only. The number of rows affected by a DML statement. Present only for DML statements INSERT, UPDATE or DELETE. */
+  numDmlAffectedRows?: string | undefined;
+  /** Output only. Number of slot ms the user is actually billed for. */
+  totalSlotMs?: string | undefined;
+  /** Output only. If the project is configured to use on-demand pricing, then this field contains the total bytes billed for the job. If the project is configured to use flat-rate pricing, then you are not billed for bytes and this field is informational only. */
+  totalBytesBilled?: string | undefined;
+  /** Auto-generated ID for the query. */
+  queryId?: string | undefined;
+  /** The total number of rows in the complete query result set, which can be more than the number of rows in this single page of results. */
+  totalRows?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -4530,42 +4623,42 @@ export type UpdateDatasetsUpdateModeEnum =
   | "UPDATE_ACL"
   | "UPDATE_FULL";
 export interface UpdateDatasetsRequest extends Dataset {
-  /** Required. Project ID of the dataset being updated */
-  projectId: string;
-  /** Optional. The version of the provided access policy schema. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. This version refers to the schema version of the access policy and not the version of access policy. This field's value can be equal or more than the access policy schema provided in the request. For example, * Operations updating conditional access policy binding in datasets must specify version 3. Some of the operations are : - Adding a new access policy entry with condition. - Removing an access policy entry with condition. - Updating an access policy entry with condition. * But dataset with no conditional role bindings in access policy may specify any valid value or leave the field unset. If unset or if 0 or 1 value is used for dataset with conditional bindings, request will be rejected. This field will be mapped to IAM Policy version (https://cloud.google.com/iam/docs/policies#versions) and will be used to set policy in IAM. */
-  accessPolicyVersion?: number | undefined;
   /** Required. Dataset ID of the dataset being updated */
   datasetId: string;
+  /** Optional. The version of the provided access policy schema. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. This version refers to the schema version of the access policy and not the version of access policy. This field's value can be equal or more than the access policy schema provided in the request. For example, * Operations updating conditional access policy binding in datasets must specify version 3. Some of the operations are : - Adding a new access policy entry with condition. - Removing an access policy entry with condition. - Updating an access policy entry with condition. * But dataset with no conditional role bindings in access policy may specify any valid value or leave the field unset. If unset or if 0 or 1 value is used for dataset with conditional bindings, request will be rejected. This field will be mapped to IAM Policy version (https://cloud.google.com/iam/docs/policies#versions) and will be used to set policy in IAM. */
+  accessPolicyVersion?: number | undefined;
+  /** Required. Project ID of the dataset being updated */
+  projectId: string;
   /** Optional. Specifies the fields of dataset that update/patch operation is targeting By default, both metadata and ACL fields are updated. */
   updateMode?: UpdateDatasetsUpdateModeEnum | (string & {}) | undefined;
 }
 export interface UpdateRoutinesRequest extends Routine {
   /** Required. Dataset ID of the routine to update */
   datasetId: string;
-  /** Required. Routine ID of the routine to update */
-  routineId: string;
   /** Required. Project ID of the routine to update */
   projectId: string;
+  /** Required. Routine ID of the routine to update */
+  routineId: string;
 }
 export interface UpdateRowAccessPoliciesRequest extends RowAccessPolicy {
   /** Required. Project ID of the table to get the row access policy. */
   projectId: string;
   /** Required. Table ID of the table to get the row access policy. */
   tableId: string;
-  /** Required. Policy ID of the row access policy. */
-  policyId: string;
   /** Required. Dataset ID of the table to get the row access policy. */
   datasetId: string;
+  /** Required. Policy ID of the row access policy. */
+  policyId: string;
 }
 export interface UpdateTablesRequest extends Table {
-  /** Required. Project ID of the table to update */
-  projectId: string;
-  /** Required. Table ID of the table to update */
-  tableId: string;
   /** Optional. When true will autodetect schema, else will keep original schema */
   autodetect_schema?: boolean | undefined;
   /** Required. Dataset ID of the table to update */
   datasetId: string;
+  /** Required. Table ID of the table to update */
+  tableId: string;
+  /** Required. Project ID of the table to update */
+  projectId: string;
 }
 export type BatchDeleteRowAccessPoliciesError =
   | NotFound
@@ -4722,7 +4815,7 @@ export const getDatasets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<GetDatasetsRequest>,
-  output: __S(200, __c6, 8) as any as S.Schema<Dataset>,
+  output: __S(203, __c6, 11) as any as S.Schema<Dataset>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4838,7 +4931,7 @@ export const getRoutines: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetRoutinesRequest>,
-  output: __S(586, __c18, 10) as any as S.Schema<Routine>,
+  output: __S(588, __c18, 12) as any as S.Schema<Routine>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4885,7 +4978,7 @@ export type GetTablesError = NotFound | Forbidden | GcpOpError;
 export const getTables: API.OperationMethod<GetTablesRequest, Table, GetTablesError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(704, __c22, 0) as any as S.Schema<GetTablesRequest>,
-    output: __S(798, __c24, 30) as any as S.Schema<Table>,
+    output: __S(799, __c24, 31) as any as S.Schema<Table>,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
@@ -4919,7 +5012,7 @@ export const insertDatasets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<InsertDatasetsRequest>,
-  output: __S(200, __c6, 8) as any as S.Schema<Dataset>,
+  output: __S(203, __c6, 11) as any as S.Schema<Dataset>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4953,7 +5046,7 @@ export const insertRoutines: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<InsertRoutinesRequest>,
-  output: __S(586, __c18, 10) as any as S.Schema<Routine>,
+  output: __S(588, __c18, 12) as any as S.Schema<Routine>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4992,7 +5085,7 @@ export const insertTables: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<InsertTablesRequest>,
-  output: __S(798, __c24, 30) as any as S.Schema<Table>,
+  output: __S(799, __c24, 31) as any as S.Schema<Table>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5159,7 +5252,7 @@ export const patchDatasets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<PatchDatasetsRequest>,
-  output: __S(200, __c6, 8) as any as S.Schema<Dataset>,
+  output: __S(203, __c6, 11) as any as S.Schema<Dataset>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5193,7 +5286,7 @@ export const patchTables: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<PatchTablesRequest>,
-  output: __S(798, __c24, 30) as any as S.Schema<Table>,
+  output: __S(799, __c24, 31) as any as S.Schema<Table>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5327,7 +5420,7 @@ export const undeleteDatasets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1697, __c53, 1) as any as S.Schema<UndeleteDatasetsRequest>,
-  output: __S(200, __c6, 8) as any as S.Schema<Dataset>,
+  output: __S(203, __c6, 11) as any as S.Schema<Dataset>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5344,7 +5437,7 @@ export const updateDatasets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<UpdateDatasetsRequest>,
-  output: __S(200, __c6, 8) as any as S.Schema<Dataset>,
+  output: __S(203, __c6, 11) as any as S.Schema<Dataset>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5361,7 +5454,7 @@ export const updateRoutines: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<UpdateRoutinesRequest>,
-  output: __S(586, __c18, 10) as any as S.Schema<Routine>,
+  output: __S(588, __c18, 12) as any as S.Schema<Routine>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5400,7 +5493,7 @@ export const updateTables: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<UpdateTablesRequest>,
-  output: __S(798, __c24, 30) as any as S.Schema<Table>,
+  output: __S(799, __c24, 31) as any as S.Schema<Table>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5414,11 +5507,11 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          policyId: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
-          tableId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
+          tableId: S.String.pipe(T.Label()),
+          policyId: S.String.pipe(T.Label()),
+          datasetId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5435,8 +5528,8 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          tableId: S.String.pipe(T.Label()),
           datasetId: S.String.pipe(T.Label()),
+          tableId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5452,10 +5545,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasetView: S.optional(S.String.pipe(T.Query())),
-          datasetId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
           accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
+          datasetView: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
+          datasetId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5471,10 +5564,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          expression: S.optional(S.String),
           location: S.optional(S.String),
           title: S.optional(S.String),
           description: S.optional(S.String),
-          expression: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
   }
@@ -5494,8 +5587,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          connection: S.optional(S.String),
           externalSource: S.optional(S.String),
+          connection: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExternalDatasetReference" });
   }
@@ -5505,89 +5598,113 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targetTypes: S.optional(__S(1952, __c61, 0)),
-          dataset: S.optional(__S(2016, __c63, 0)),
+          tagValue: S.optional(S.String),
+          tagKey: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DatasetAccessEntry" });
+      ).annotate({ identifier: "DatasetTagsItem" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          specialGroup: S.optional(S.String),
-          condition: S.optional(__S(96, __c3, 0)),
-          dataset: S.optional(__S(192, __c6, 0)),
-          domain: S.optional(S.String),
-          userByEmail: S.optional(S.String),
-          view: S.optional(__S(1888, __c59, 0)),
-          iamMember: S.optional(S.String),
-          routine: S.optional(__S(1984, __c62, 0)),
-          groupByEmail: S.optional(S.String),
-          role: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DatasetAccessItem" });
+      return S.Array(__S(192, __c6, 0));
     case 2:
-      return S.Array(__S(193, __c6, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           defaultStorageLocationUri: S.optional(S.String),
           parameters: S.optional(__S(1856, __c58, 0)),
         }),
       ).annotate({ identifier: "ExternalCatalogDatasetOptions" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          tagKey: S.optional(S.String),
-          tagValue: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DatasetTagsItem" });
-    case 5:
-      return S.Array(__S(196, __c6, 4));
-    case 6:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           linkState: S.optional(S.String),
         }),
       ).annotate({ identifier: "LinkedDatasetMetadata" });
-    case 7:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           sourceDataset: S.optional(__S(2016, __c63, 0)),
         }),
       ).annotate({ identifier: "LinkedDatasetSource" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          defaultKmsKeyName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReplicaOptions" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          failoverReservationUri: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          replicaOptions: S.optional(__S(197, __c6, 5)),
+          location: S.optional(S.String),
+          primaryAssignmentTime: S.optional(S.String),
+          id: S.optional(S.String),
+          backfillCompletionTime: S.optional(S.String),
+          primaryAssignmentCompletionTime: S.optional(S.String),
+          replicaState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Replica" });
+    case 7:
+      return S.Array(__S(198, __c6, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1856, __c58, 0)),
-          satisfiesPzs: S.optional(S.Boolean),
-          resourceTags: S.optional(__S(1856, __c58, 0)),
+          dataset: S.optional(__S(2016, __c63, 0)),
+          targetTypes: S.optional(__S(1952, __c61, 0)),
+        }),
+      ).annotate({ identifier: "DatasetAccessEntry" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          specialGroup: S.optional(S.String),
+          view: S.optional(__S(1888, __c59, 0)),
+          condition: S.optional(__S(96, __c3, 0)),
+          routine: S.optional(__S(1984, __c62, 0)),
+          dataset: S.optional(__S(200, __c6, 8)),
+          domain: S.optional(S.String),
+          groupByEmail: S.optional(S.String),
+          role: S.optional(S.String),
+          userByEmail: S.optional(S.String),
+          iamMember: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatasetAccessItem" });
+    case 10:
+      return S.Array(__S(201, __c6, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          tags: S.optional(__S(193, __c6, 1)),
           storageBillingModel: S.optional(S.String),
-          access: S.optional(__S(194, __c6, 2)),
-          defaultTableExpirationMs: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
           type: S.optional(S.String),
-          externalCatalogDatasetOptions: S.optional(__S(195, __c6, 3)),
-          kind: S.optional(S.String),
-          datasetReference: S.optional(__S(2016, __c63, 0)),
-          defaultEncryptionConfiguration: S.optional(__S(1920, __c60, 0)),
-          selfLink: S.optional(S.String),
-          defaultPartitionExpirationMs: S.optional(S.String),
-          tags: S.optional(__S(197, __c6, 5)),
-          friendlyName: S.optional(S.String),
-          isCaseInsensitive: S.optional(S.Boolean),
-          creationTime: S.optional(S.String),
-          linkedDatasetMetadata: S.optional(__S(198, __c6, 6)),
-          location: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          linkedDatasetSource: S.optional(__S(199, __c6, 7)),
-          restrictions: S.optional(__S(128, __c4, 0)),
-          lastModifiedTime: S.optional(S.String),
-          catalogSource: S.optional(S.String),
-          externalDatasetReference: S.optional(__S(160, __c5, 0)),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
           defaultCollation: S.optional(S.String),
-          defaultRoundingMode: S.optional(S.String),
+          externalCatalogDatasetOptions: S.optional(__S(194, __c6, 2)),
+          friendlyName: S.optional(S.String),
+          linkedDatasetMetadata: S.optional(__S(195, __c6, 3)),
+          kind: S.optional(S.String),
           maxTimeTravelHours: S.optional(S.String),
+          description: S.optional(S.String),
+          defaultRoundingMode: S.optional(S.String),
+          isCaseInsensitive: S.optional(S.Boolean),
           id: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          location: S.optional(S.String),
+          defaultTableExpirationMs: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          defaultEncryptionConfiguration: S.optional(__S(1920, __c60, 0)),
+          lastModifiedTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          linkedDatasetSource: S.optional(__S(196, __c6, 4)),
+          failoverReservationId: S.optional(S.String),
+          catalogSource: S.optional(S.String),
+          resourceTags: S.optional(__S(1856, __c58, 0)),
+          datasetReference: S.optional(__S(2016, __c63, 0)),
+          replicas: S.optional(__S(199, __c6, 7)),
+          externalDatasetReference: S.optional(__S(160, __c5, 0)),
+          access: S.optional(__S(202, __c6, 10)),
+          restrictions: S.optional(__S(128, __c4, 0)),
+          defaultPartitionExpirationMs: S.optional(S.String),
+          labels: S.optional(__S(1856, __c58, 0)),
         }),
       ).annotate({ identifier: "Dataset" });
   }
@@ -5632,8 +5749,8 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(1376, __c43, 0)),
           logType: S.optional(S.String),
+          exemptedMembers: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
@@ -5650,8 +5767,8 @@ function __c9(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(96, __c3, 0)),
           members: S.optional(__S(1376, __c43, 0)),
+          condition: S.optional(__S(96, __c3, 0)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "Binding" });
@@ -5711,9 +5828,9 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(S.String.pipe(T.Query())),
-          jobId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
+          jobId: S.String.pipe(T.Label()),
+          location: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5747,172 +5864,172 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          candidates: S.optional(__S(1376, __c43, 0)),
+          transformSql: S.optional(S.String),
+          type: S.optional(__S(2051, __c64, 3)),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "StringHparamSearchSpace" });
+      ).annotate({ identifier: "TransformColumn" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          max: S.optional(S.String),
-          min: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IntRange" });
+      return S.Array(__S(448, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          candidates: S.optional(__S(448, __c14, 0)),
-          range: S.optional(__S(449, __c14, 1)),
+          trainingTable: S.optional(__S(1888, __c59, 0)),
+          evaluationTable: S.optional(__S(1888, __c59, 0)),
+          testTable: S.optional(__S(1888, __c59, 0)),
         }),
-      ).annotate({ identifier: "IntHparamSearchSpace" });
+      ).annotate({ identifier: "DataSplitResult" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          candidates: S.optional(__S(2080, __c65, 0)),
+          attribution: S.optional(S.Number),
+          featureName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DoubleCandidates" });
+      ).annotate({ identifier: "Explanation" });
     case 4:
+      return S.Array(__S(451, __c14, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          classLabel: S.optional(S.String),
+          explanations: S.optional(__S(452, __c14, 4)),
+        }),
+      ).annotate({ identifier: "GlobalExplanation" });
+    case 6:
+      return S.Array(__S(453, __c14, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          dataSplitResult: S.optional(__S(450, __c14, 2)),
+          results: S.optional(__S(2157, __c67, 13)),
+          vertexAiModelVersion: S.optional(S.String),
+          vertexAiModelId: S.optional(S.String),
+          trainingOptions: S.optional(__S(2145, __c67, 1)),
+          startTime: S.optional(S.String),
+          trainingStartTime: S.optional(S.String),
+          classLevelGlobalExplanations: S.optional(__S(454, __c14, 6)),
+          evaluationMetrics: S.optional(__S(2143, __c66, 31)),
+          modelLevelGlobalExplanation: S.optional(__S(453, __c14, 5)),
+        }),
+      ).annotate({ identifier: "TrainingRun" });
+    case 8:
+      return S.Array(__S(455, __c14, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          candidates: S.optional(__S(1376, __c43, 0)),
+        }),
+      ).annotate({ identifier: "StringHparamSearchSpace" });
+    case 10:
       return S.suspend(() =>
         S.Struct({
           max: S.optional(S.Number),
           min: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DoubleRange" });
-    case 5:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          candidates: S.optional(__S(451, __c14, 3)),
-          range: S.optional(__S(452, __c14, 4)),
+          candidates: S.optional(__S(2080, __c65, 0)),
+        }),
+      ).annotate({ identifier: "DoubleCandidates" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          range: S.optional(__S(458, __c14, 10)),
+          candidates: S.optional(__S(459, __c14, 11)),
         }),
       ).annotate({ identifier: "DoubleHparamSearchSpace" });
-    case 6:
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          min: S.optional(S.String),
+          max: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IntRange" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          candidates: S.optional(__S(457, __c14, 9)),
+          range: S.optional(__S(461, __c14, 13)),
+        }),
+      ).annotate({ identifier: "IntHparamSearchSpace" });
+    case 15:
       return S.suspend(() =>
         S.Struct({
           elements: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "IntArray" });
-    case 7:
-      return S.Array(__S(454, __c14, 6));
-    case 8:
+    case 16:
+      return S.Array(__S(463, __c14, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          candidates: S.optional(__S(455, __c14, 7)),
+          candidates: S.optional(__S(464, __c14, 16)),
         }),
       ).annotate({ identifier: "IntArrayHparamSearchSpace" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          treeMethod: S.optional(__S(448, __c14, 0)),
-          minTreeChildWeight: S.optional(__S(450, __c14, 2)),
-          activationFn: S.optional(__S(448, __c14, 0)),
-          learnRate: S.optional(__S(453, __c14, 5)),
-          numParallelTree: S.optional(__S(450, __c14, 2)),
-          numClusters: S.optional(__S(450, __c14, 2)),
-          colsampleBynode: S.optional(__S(453, __c14, 5)),
-          minSplitLoss: S.optional(__S(453, __c14, 5)),
-          l1Reg: S.optional(__S(453, __c14, 5)),
-          batchSize: S.optional(__S(450, __c14, 2)),
-          walsAlpha: S.optional(__S(453, __c14, 5)),
-          colsampleBytree: S.optional(__S(453, __c14, 5)),
-          dartNormalizeType: S.optional(__S(448, __c14, 0)),
-          maxTreeDepth: S.optional(__S(450, __c14, 2)),
-          numFactors: S.optional(__S(450, __c14, 2)),
-          optimizer: S.optional(__S(448, __c14, 0)),
-          boosterType: S.optional(__S(448, __c14, 0)),
-          dropout: S.optional(__S(453, __c14, 5)),
-          hiddenUnits: S.optional(__S(456, __c14, 8)),
-          l2Reg: S.optional(__S(453, __c14, 5)),
-          subsample: S.optional(__S(453, __c14, 5)),
-          colsampleBylevel: S.optional(__S(453, __c14, 5)),
-        }),
-      ).annotate({ identifier: "HparamSearchSpaces" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          connection: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          maxBatchingRows: S.optional(S.String),
-          remoteServiceType: S.optional(S.String),
-          speechRecognizer: S.optional(S.String),
-          remoteModelVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RemoteModelInfo" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          evaluationTable: S.optional(__S(1888, __c59, 0)),
-          trainingTable: S.optional(__S(1888, __c59, 0)),
-          testTable: S.optional(__S(1888, __c59, 0)),
-        }),
-      ).annotate({ identifier: "DataSplitResult" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          featureName: S.optional(S.String),
-          attribution: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Explanation" });
-    case 13:
-      return S.Array(__S(460, __c14, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          classLabel: S.optional(S.String),
-          explanations: S.optional(__S(461, __c14, 13)),
-        }),
-      ).annotate({ identifier: "GlobalExplanation" });
-    case 15:
-      return S.Array(__S(462, __c14, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          trainingOptions: S.optional(__S(2145, __c67, 1)),
-          startTime: S.optional(S.String),
-          vertexAiModelId: S.optional(S.String),
-          evaluationMetrics: S.optional(__S(2143, __c66, 31)),
-          trainingStartTime: S.optional(S.String),
-          results: S.optional(__S(2157, __c67, 13)),
-          vertexAiModelVersion: S.optional(S.String),
-          dataSplitResult: S.optional(__S(459, __c14, 11)),
-          classLevelGlobalExplanations: S.optional(__S(463, __c14, 15)),
-          modelLevelGlobalExplanation: S.optional(__S(462, __c14, 14)),
-        }),
-      ).annotate({ identifier: "TrainingRun" });
-    case 17:
-      return S.Array(__S(464, __c14, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(__S(2051, __c64, 3)),
-          name: S.optional(S.String),
-          transformSql: S.optional(S.String),
+          activationFn: S.optional(__S(457, __c14, 9)),
+          optimizer: S.optional(__S(457, __c14, 9)),
+          minSplitLoss: S.optional(__S(460, __c14, 12)),
+          colsampleBytree: S.optional(__S(460, __c14, 12)),
+          numClusters: S.optional(__S(462, __c14, 14)),
+          dropout: S.optional(__S(460, __c14, 12)),
+          colsampleBylevel: S.optional(__S(460, __c14, 12)),
+          hiddenUnits: S.optional(__S(465, __c14, 17)),
+          l1Reg: S.optional(__S(460, __c14, 12)),
+          boosterType: S.optional(__S(457, __c14, 9)),
+          numParallelTree: S.optional(__S(462, __c14, 14)),
+          learnRate: S.optional(__S(460, __c14, 12)),
+          subsample: S.optional(__S(460, __c14, 12)),
+          dartNormalizeType: S.optional(__S(457, __c14, 9)),
+          minTreeChildWeight: S.optional(__S(462, __c14, 14)),
+          l2Reg: S.optional(__S(460, __c14, 12)),
+          batchSize: S.optional(__S(462, __c14, 14)),
+          colsampleBynode: S.optional(__S(460, __c14, 12)),
+          walsAlpha: S.optional(__S(460, __c14, 12)),
+          treeMethod: S.optional(__S(457, __c14, 9)),
+          maxTreeDepth: S.optional(__S(462, __c14, 14)),
+          numFactors: S.optional(__S(462, __c14, 14)),
         }),
-      ).annotate({ identifier: "TransformColumn" });
+      ).annotate({ identifier: "HparamSearchSpaces" });
     case 19:
-      return S.Array(__S(466, __c14, 18));
+      return S.suspend(() =>
+        S.Struct({
+          maxBatchingRows: S.optional(S.String),
+          connection: S.optional(S.String),
+          speechRecognizer: S.optional(S.String),
+          remoteServiceType: S.optional(S.String),
+          remoteModelVersion: S.optional(S.String),
+          endpoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RemoteModelInfo" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          modelReference: S.optional(__S(2112, __c66, 0)),
-          hparamSearchSpaces: S.optional(__S(457, __c14, 9)),
+          hparamTrials: S.optional(__S(2147, __c67, 3)),
+          creationTime: S.optional(S.String),
+          labelColumns: S.optional(__S(2049, __c64, 1)),
+          encryptionConfiguration: S.optional(__S(1920, __c60, 0)),
+          transformColumns: S.optional(__S(449, __c14, 1)),
+          trainingRuns: S.optional(__S(456, __c14, 8)),
           optimalTrialIds: S.optional(__S(1376, __c43, 0)),
           lastModifiedTime: S.optional(S.String),
-          bestTrialId: S.optional(S.String),
-          labelColumns: S.optional(__S(2049, __c64, 1)),
-          etag: S.optional(S.String),
           modelType: S.optional(S.String),
-          hparamTrials: S.optional(__S(2147, __c67, 3)),
           location: S.optional(S.String),
-          friendlyName: S.optional(S.String),
-          remoteModelInfo: S.optional(__S(458, __c14, 10)),
-          description: S.optional(S.String),
-          trainingRuns: S.optional(__S(465, __c14, 17)),
-          encryptionConfiguration: S.optional(__S(1920, __c60, 0)),
+          etag: S.optional(S.String),
+          hparamSearchSpaces: S.optional(__S(466, __c14, 18)),
           expirationTime: S.optional(S.String),
           featureColumns: S.optional(__S(2049, __c64, 1)),
-          creationTime: S.optional(S.String),
-          transformColumns: S.optional(__S(467, __c14, 19)),
+          remoteModelInfo: S.optional(__S(467, __c14, 19)),
+          modelReference: S.optional(__S(2112, __c66, 0)),
           labels: S.optional(__S(1856, __c58, 0)),
+          friendlyName: S.optional(S.String),
+          bestTrialId: S.optional(S.String),
           defaultTrialId: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Model" });
   }
@@ -5923,14 +6040,14 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           maxResults: S.optional(S.Number.pipe(T.Query())),
-          "formatOptions.useInt64Timestamp": S.optional(S.Boolean.pipe(T.Query())),
-          startIndex: S.optional(S.String.pipe(T.Query())),
-          location: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          jobId: S.String.pipe(T.Label()),
           "formatOptions.timestampOutputFormat": S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          jobId: S.String.pipe(T.Label()),
+          projectId: S.String.pipe(T.Label()),
+          startIndex: S.optional(S.String.pipe(T.Query())),
           timeoutMs: S.optional(S.Number.pipe(T.Query())),
+          location: S.optional(S.String.pipe(T.Query())),
+          "formatOptions.useInt64Timestamp": S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5942,18 +6059,18 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          jobReference: S.optional(__S(2272, __c71, 0)),
-          errors: S.optional(__S(2240, __c70, 0)),
-          rows: S.optional(__S(515, __c16, 3)),
-          etag: S.optional(S.String),
-          kind: S.optional(S.String),
-          schema: S.optional(__S(2219, __c69, 11)),
-          pageToken: S.optional(S.String),
-          totalBytesProcessed: S.optional(S.String),
-          totalRows: S.optional(S.String),
-          numDmlAffectedRows: S.optional(S.String),
           jobComplete: S.optional(S.Boolean),
+          etag: S.optional(S.String),
+          totalBytesProcessed: S.optional(S.String),
+          jobReference: S.optional(__S(2272, __c71, 0)),
+          rows: S.optional(__S(515, __c16, 3)),
+          pageToken: S.optional(S.String),
+          totalRows: S.optional(S.String),
           cacheHit: S.optional(S.Boolean),
+          schema: S.optional(__S(2219, __c69, 11)),
+          errors: S.optional(__S(2240, __c70, 0)),
+          kind: S.optional(S.String),
+          numDmlAffectedRows: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetQueryResultsResponse" });
   }
@@ -5983,10 +6100,10 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
           datasetId: S.String.pipe(T.Label()),
-          routineId: S.String.pipe(T.Label()),
           readMask: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
+          routineId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6008,102 +6125,115 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          mode: S.optional(S.String),
-          name: S.optional(S.String),
-          isAggregate: S.optional(S.Boolean),
-          argumentKind: S.optional(S.String),
-          dataType: S.optional(__S(2051, __c64, 3)),
-          tableType: S.optional(__S(576, __c18, 0)),
+          entryPoint: S.optional(S.String),
+          extraPackageRepositories: S.optional(__S(1376, __c43, 0)),
+          packages: S.optional(__S(1376, __c43, 0)),
+          buildConnection: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Argument" });
+      ).annotate({ identifier: "PythonOptions" });
     case 2:
-      return S.Array(__S(577, __c18, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          imageSizeBytes: S.optional(S.String),
-          buildDuration: S.optional(S.String),
-          buildState: S.optional(S.String),
-          errorResult: S.optional(__S(2176, __c68, 0)),
-          buildStateUpdateTime: S.optional(S.String),
+          sourceRepository: S.optional(S.String),
+          name: S.optional(S.String),
+          version: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RoutineBuildStatus" });
+      ).annotate({ identifier: "InstalledPackage" });
+    case 3:
+      return S.Array(__S(578, __c18, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          connection: S.optional(S.String),
-          jarUris: S.optional(__S(1376, __c43, 0)),
-          properties: S.optional(__S(1856, __c58, 0)),
-          mainFileUri: S.optional(S.String),
-          runtimeVersion: S.optional(S.String),
-          fileUris: S.optional(__S(1376, __c43, 0)),
-          archiveUris: S.optional(__S(1376, __c43, 0)),
-          containerImage: S.optional(S.String),
-          mainClass: S.optional(S.String),
-          pyFileUris: S.optional(__S(1376, __c43, 0)),
+          installedPackages: S.optional(__S(579, __c18, 3)),
+          buildDuration: S.optional(S.String),
+          buildState: S.optional(S.String),
+          errorResult: S.optional(__S(2176, __c68, 0)),
+          imageSizeBytes: S.optional(S.String),
+          buildStateUpdateTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SparkOptions" });
+      ).annotate({ identifier: "RoutineBuildStatus" });
     case 5:
+      return S.suspend(() =>
+        S.Struct({
+          argumentKind: S.optional(S.String),
+          mode: S.optional(S.String),
+          isAggregate: S.optional(S.Boolean),
+          dataType: S.optional(__S(2051, __c64, 3)),
+          name: S.optional(S.String),
+          tableType: S.optional(__S(576, __c18, 0)),
+        }),
+      ).annotate({ identifier: "Argument" });
+    case 6:
+      return S.Array(__S(581, __c18, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           sourcePath: S.optional(S.String),
           mountPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExternalVolumeMount" });
-    case 6:
-      return S.Array(__S(581, __c18, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          runtimeVersion: S.optional(S.String),
-          containerMemory: S.optional(S.String),
-          runtimeConnection: S.optional(S.String),
-          volumeMounts: S.optional(__S(582, __c18, 6)),
-          containerCpu: S.optional(S.Number),
-          maxBatchingRows: S.optional(S.String),
-          containerRequestConcurrency: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExternalRuntimeOptions" });
     case 8:
-      return S.suspend(() =>
-        S.Struct({
-          entryPoint: S.optional(S.String),
-          packages: S.optional(__S(1376, __c43, 0)),
-        }),
-      ).annotate({ identifier: "PythonOptions" });
+      return S.Array(__S(583, __c18, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          endpoint: S.optional(S.String),
-          userDefinedContext: S.optional(__S(1856, __c58, 0)),
-          connection: S.optional(S.String),
+          containerCpu: S.optional(S.Number),
+          runtimeConnection: S.optional(S.String),
+          runtimeVersion: S.optional(S.String),
           maxBatchingRows: S.optional(S.String),
+          volumeMounts: S.optional(__S(584, __c18, 8)),
+          containerRequestConcurrency: S.optional(S.String),
+          containerMemory: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RemoteFunctionOptions" });
+      ).annotate({ identifier: "ExternalRuntimeOptions" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          determinismLevel: S.optional(S.String),
-          etag: S.optional(S.String),
-          arguments: S.optional(__S(578, __c18, 2)),
-          lastModifiedTime: S.optional(S.String),
-          returnType: S.optional(__S(2051, __c64, 3)),
-          description: S.optional(S.String),
-          language: S.optional(S.String),
-          creationTime: S.optional(S.String),
-          buildStatus: S.optional(__S(579, __c18, 3)),
-          importedLibraries: S.optional(__S(1376, __c43, 0)),
-          sparkOptions: S.optional(__S(580, __c18, 4)),
-          externalRuntimeOptions: S.optional(__S(583, __c18, 7)),
+          jarUris: S.optional(__S(1376, __c43, 0)),
+          properties: S.optional(__S(1856, __c58, 0)),
+          pyFileUris: S.optional(__S(1376, __c43, 0)),
+          mainClass: S.optional(S.String),
+          archiveUris: S.optional(__S(1376, __c43, 0)),
+          containerImage: S.optional(S.String),
+          fileUris: S.optional(__S(1376, __c43, 0)),
+          connection: S.optional(S.String),
+          runtimeVersion: S.optional(S.String),
+          mainFileUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SparkOptions" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          userDefinedContext: S.optional(__S(1856, __c58, 0)),
+          endpoint: S.optional(S.String),
+          maxBatchingRows: S.optional(S.String),
+          connection: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RemoteFunctionOptions" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
           returnTableType: S.optional(__S(576, __c18, 0)),
-          strictMode: S.optional(S.Boolean),
-          securityMode: S.optional(S.String),
-          pythonOptions: S.optional(__S(584, __c18, 8)),
-          definitionBody: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          lastModifiedTime: S.optional(S.String),
+          description: S.optional(S.String),
           routineType: S.optional(S.String),
+          determinismLevel: S.optional(S.String),
+          language: S.optional(S.String),
+          pythonOptions: S.optional(__S(577, __c18, 1)),
+          buildStatus: S.optional(__S(580, __c18, 4)),
+          arguments: S.optional(__S(582, __c18, 6)),
           dataGovernanceType: S.optional(S.String),
-          remoteFunctionOptions: S.optional(__S(585, __c18, 9)),
+          etag: S.optional(S.String),
+          importedLibraries: S.optional(__S(1376, __c43, 0)),
+          definitionBody: S.optional(S.String),
+          strictMode: S.optional(S.Boolean),
+          externalRuntimeOptions: S.optional(__S(585, __c18, 9)),
+          sparkOptions: S.optional(__S(586, __c18, 10)),
           routineReference: S.optional(__S(1984, __c62, 0)),
+          remoteFunctionOptions: S.optional(__S(587, __c18, 11)),
+          returnType: S.optional(__S(2051, __c64, 3)),
+          securityMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Routine" });
   }
@@ -6113,10 +6243,10 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policyId: S.String.pipe(T.Label()),
           datasetId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
           tableId: S.String.pipe(T.Label()),
+          policyId: S.String.pipe(T.Label()),
+          projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6132,11 +6262,11 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          grantees: S.optional(__S(1376, __c43, 0)),
+          lastModifiedTime: S.optional(S.String),
           etag: S.optional(S.String),
           rowAccessPolicyReference: S.optional(__S(2304, __c72, 0)),
-          grantees: S.optional(__S(1376, __c43, 0)),
           filterPredicate: S.optional(S.String),
-          lastModifiedTime: S.optional(S.String),
           creationTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "RowAccessPolicy" });
@@ -6159,8 +6289,8 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          email: S.optional(S.String),
           kind: S.optional(S.String),
+          email: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetServiceAccountResponse" });
   }
@@ -6170,11 +6300,11 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          tableId: S.String.pipe(T.Label()),
           datasetId: S.String.pipe(T.Label()),
           selectedFields: S.optional(S.String.pipe(T.Query())),
+          tableId: S.String.pipe(T.Label()),
+          projectId: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6190,36 +6320,36 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          threshold: S.optional(S.String),
-          privacyUnitColumns: S.optional(__S(1376, __c43, 0)),
-        }),
-      ).annotate({ identifier: "AggregationThresholdPolicy" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          privacyUnitColumn: S.optional(S.String),
-          maxEpsilonPerQuery: S.optional(S.Number),
-          maxGroupsContributed: S.optional(S.String),
-          deltaBudgetRemaining: S.optional(S.Number),
-          deltaPerQuery: S.optional(S.Number),
-          epsilonBudget: S.optional(S.Number),
-          epsilonBudgetRemaining: S.optional(S.Number),
-          deltaBudget: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "DifferentialPrivacyPolicy" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           joinCondition: S.optional(S.String),
           joinAllowedColumns: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "JoinRestrictionPolicy" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          threshold: S.optional(S.String),
+          privacyUnitColumns: S.optional(__S(1376, __c43, 0)),
+        }),
+      ).annotate({ identifier: "AggregationThresholdPolicy" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          deltaBudgetRemaining: S.optional(S.Number),
+          deltaBudget: S.optional(S.Number),
+          deltaPerQuery: S.optional(S.Number),
+          maxGroupsContributed: S.optional(S.String),
+          epsilonBudgetRemaining: S.optional(S.Number),
+          epsilonBudget: S.optional(S.Number),
+          privacyUnitColumn: S.optional(S.String),
+          maxEpsilonPerQuery: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DifferentialPrivacyPolicy" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          aggregationThresholdPolicy: S.optional(__S(736, __c23, 0)),
-          differentialPrivacyPolicy: S.optional(__S(737, __c23, 1)),
-          joinRestrictionPolicy: S.optional(__S(738, __c23, 2)),
+          joinRestrictionPolicy: S.optional(__S(736, __c23, 0)),
+          aggregationThresholdPolicy: S.optional(__S(737, __c23, 1)),
+          differentialPrivacyPolicy: S.optional(__S(738, __c23, 2)),
         }),
       ).annotate({ identifier: "PrivacyPolicy" });
   }
@@ -6229,268 +6359,277 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          estimatedRows: S.optional(S.String),
-          estimatedBytes: S.optional(S.String),
-          oldestEntryTime: S.optional(S.String),
+          name: S.optional(S.String),
+          serializationLibrary: S.optional(S.String),
+          parameters: S.optional(__S(1856, __c58, 0)),
         }),
-      ).annotate({ identifier: "Streamingbuffer" });
+      ).annotate({ identifier: "SerDeInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dialect: S.optional(S.String),
-          query: S.optional(S.String),
+          outputFormat: S.optional(S.String),
+          serdeInfo: S.optional(__S(768, __c24, 0)),
+          locationUri: S.optional(S.String),
+          inputFormat: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ForeignViewDefinition" });
+      ).annotate({ identifier: "StorageDescriptor" });
     case 2:
-      return S.Array(__S(769, __c24, 1));
+      return S.suspend(() =>
+        S.Struct({
+          connectionId: S.optional(S.String),
+          storageDescriptor: S.optional(__S(769, __c24, 1)),
+          parameters: S.optional(__S(1856, __c58, 0)),
+        }),
+      ).annotate({ identifier: "ExternalCatalogTableOptions" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          userDefinedFunctionResources: S.optional(__S(2371, __c74, 3)),
-          useExplicitColumnNames: S.optional(S.Boolean),
-          foreignDefinitions: S.optional(__S(770, __c24, 2)),
-          privacyPolicy: S.optional(__S(739, __c23, 3)),
-          useLegacySql: S.optional(S.Boolean),
-          query: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ViewDefinition" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          replicationIntervalMs: S.optional(S.String),
-          sourceTable: S.optional(__S(1888, __c59, 0)),
-          replicationError: S.optional(__S(2176, __c68, 0)),
-          replicationStatus: S.optional(S.String),
-          replicatedSourceLastRefreshTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TableReplicationInfo" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PartitionedColumn" });
-    case 6:
-      return S.Array(__S(773, __c24, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          partitionedColumn: S.optional(__S(774, __c24, 6)),
-        }),
-      ).annotate({ identifier: "PartitioningDefinition" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.optional(S.String),
           tableId: S.optional(S.String),
+          projectId: S.optional(S.String),
           datasetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableConstraintsForeignKeysItemReferencedTable" });
-    case 9:
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          referencingColumn: S.optional(S.String),
           referencedColumn: S.optional(S.String),
+          referencingColumn: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableConstraintsForeignKeysItemColumnReferencesItem" });
-    case 10:
-      return S.Array(__S(777, __c24, 9));
-    case 11:
+    case 5:
+      return S.Array(__S(772, __c24, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
+          referencedTable: S.optional(__S(771, __c24, 3)),
+          columnReferences: S.optional(__S(773, __c24, 5)),
           name: S.optional(S.String),
-          referencedTable: S.optional(__S(776, __c24, 8)),
-          columnReferences: S.optional(__S(778, __c24, 10)),
         }),
       ).annotate({ identifier: "TableConstraintsForeignKeysItem" });
-    case 12:
-      return S.Array(__S(779, __c24, 11));
-    case 13:
+    case 7:
+      return S.Array(__S(774, __c24, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           columns: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "TableConstraintsPrimaryKey" });
-    case 14:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          foreignKeys: S.optional(__S(780, __c24, 12)),
-          primaryKey: S.optional(__S(781, __c24, 13)),
+          foreignKeys: S.optional(__S(775, __c24, 7)),
+          primaryKey: S.optional(__S(776, __c24, 8)),
         }),
       ).annotate({ identifier: "TableConstraints" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.optional(S.String),
+          dialect: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ForeignViewDefinition" });
+    case 11:
+      return S.Array(__S(778, __c24, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          useExplicitColumnNames: S.optional(S.Boolean),
+          foreignDefinitions: S.optional(__S(779, __c24, 11)),
+          useLegacySql: S.optional(S.Boolean),
+          userDefinedFunctionResources: S.optional(__S(2372, __c74, 4)),
+          query: S.optional(S.String),
+          privacyPolicy: S.optional(__S(739, __c23, 3)),
+        }),
+      ).annotate({ identifier: "ViewDefinition" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PartitionedColumn" });
+    case 14:
+      return S.Array(__S(781, __c24, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          baseTableReference: S.optional(__S(1888, __c59, 0)),
-          cloneTime: S.optional(S.String),
+          partitionedColumn: S.optional(__S(782, __c24, 14)),
         }),
-      ).annotate({ identifier: "CloneDefinition" });
+      ).annotate({ identifier: "PartitioningDefinition" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          modelType: S.optional(S.String),
-          labels: S.optional(__S(1376, __c43, 0)),
-          lossType: S.optional(S.String),
+          tableFormat: S.optional(S.String),
+          connectionId: S.optional(S.String),
+          metadataExportMode: S.optional(S.String),
+          fileFormat: S.optional(S.String),
+          storageUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ModelDefinitionModelOptions" });
+      ).annotate({ identifier: "BigLakeConfiguration" });
     case 17:
-      return S.suspend(() =>
-        S.Struct({
-          lineSearchInitLearnRate: S.optional(S.Number),
-          learnRateStrategy: S.optional(S.String),
-          warmStart: S.optional(S.Boolean),
-          maxIteration: S.optional(S.String),
-          l1Reg: S.optional(S.Number),
-          learnRate: S.optional(S.Number),
-          l2Reg: S.optional(S.Number),
-          earlyStop: S.optional(S.Boolean),
-          minRelProgress: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "BqmlTrainingRunTrainingOptions" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          learnRate: S.optional(S.Number),
-          durationMs: S.optional(S.String),
-          trainingLoss: S.optional(S.Number),
-          evalLoss: S.optional(S.Number),
-          index: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "BqmlIterationResult" });
-    case 19:
-      return S.Array(__S(786, __c24, 18));
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String),
-          state: S.optional(S.String),
-          trainingOptions: S.optional(__S(785, __c24, 17)),
-          iterationResults: S.optional(__S(787, __c24, 19)),
-        }),
-      ).annotate({ identifier: "BqmlTrainingRun" });
-    case 21:
-      return S.Array(__S(788, __c24, 20));
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          modelOptions: S.optional(__S(784, __c24, 16)),
-          trainingRuns: S.optional(__S(789, __c24, 21)),
-        }),
-      ).annotate({ identifier: "ModelDefinition" });
-    case 23:
       return S.suspend(() =>
         S.Struct({
           refreshWatermark: S.optional(S.String),
           lastRefreshStatus: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "MaterializedViewStatus" });
-    case 24:
+    case 18:
       return S.suspend(() =>
         S.Struct({
-          fileFormat: S.optional(S.String),
-          storageUri: S.optional(S.String),
-          connectionId: S.optional(S.String),
-          tableFormat: S.optional(S.String),
+          iamPolicyUidPrincipal: S.optional(S.String),
+          iamPolicyNamePrincipal: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BigLakeConfiguration" });
-    case 25:
+      ).annotate({ identifier: "ResourcePolicyMember" });
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          serializationLibrary: S.optional(S.String),
-          parameters: S.optional(__S(1856, __c58, 0)),
-          name: S.optional(S.String),
+          oldestEntryTime: S.optional(S.String),
+          estimatedRows: S.optional(S.String),
+          estimatedBytes: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SerDeInfo" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          serdeInfo: S.optional(__S(793, __c24, 25)),
-          outputFormat: S.optional(S.String),
-          inputFormat: S.optional(S.String),
-          locationUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StorageDescriptor" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          storageDescriptor: S.optional(__S(794, __c24, 26)),
-          connectionId: S.optional(S.String),
-          parameters: S.optional(__S(1856, __c58, 0)),
-        }),
-      ).annotate({ identifier: "ExternalCatalogTableOptions" });
-    case 28:
+      ).annotate({ identifier: "Streamingbuffer" });
+    case 20:
       return S.suspend(() =>
         S.Struct({
           baseTableReference: S.optional(__S(1888, __c59, 0)),
           snapshotTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "SnapshotDefinition" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(1376, __c43, 0)),
+          lossType: S.optional(S.String),
+          modelType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ModelDefinitionModelOptions" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          warmStart: S.optional(S.Boolean),
+          l2Reg: S.optional(S.Number),
+          earlyStop: S.optional(S.Boolean),
+          learnRate: S.optional(S.Number),
+          learnRateStrategy: S.optional(S.String),
+          l1Reg: S.optional(S.Number),
+          lineSearchInitLearnRate: S.optional(S.Number),
+          minRelProgress: S.optional(S.Number),
+          maxIteration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BqmlTrainingRunTrainingOptions" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          trainingLoss: S.optional(S.Number),
+          learnRate: S.optional(S.Number),
+          index: S.optional(S.Number),
+          evalLoss: S.optional(S.Number),
+          durationMs: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BqmlIterationResult" });
+    case 24:
+      return S.Array(__S(791, __c24, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          trainingOptions: S.optional(__S(790, __c24, 22)),
+          state: S.optional(S.String),
+          startTime: S.optional(S.String),
+          iterationResults: S.optional(__S(792, __c24, 24)),
+        }),
+      ).annotate({ identifier: "BqmlTrainingRun" });
+    case 26:
+      return S.Array(__S(793, __c24, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          modelOptions: S.optional(__S(789, __c24, 21)),
+          trainingRuns: S.optional(__S(794, __c24, 26)),
+        }),
+      ).annotate({ identifier: "ModelDefinition" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.optional(S.String),
+          refreshIntervalMs: S.optional(S.String),
+          allowNonIncrementalDefinition: S.optional(S.Boolean),
+          enableRefresh: S.optional(S.Boolean),
+          maxStaleness: S.optional(S.String),
+          lastRefreshTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MaterializedViewDefinition" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          allowNonIncrementalDefinition: S.optional(S.Boolean),
-          refreshIntervalMs: S.optional(S.String),
-          lastRefreshTime: S.optional(S.String),
-          query: S.optional(S.String),
-          enableRefresh: S.optional(S.Boolean),
-          maxStaleness: S.optional(S.String),
+          cloneTime: S.optional(S.String),
+          baseTableReference: S.optional(__S(1888, __c59, 0)),
         }),
-      ).annotate({ identifier: "MaterializedViewDefinition" });
+      ).annotate({ identifier: "CloneDefinition" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          streamingBuffer: S.optional(__S(768, __c24, 0)),
-          view: S.optional(__S(771, __c24, 3)),
-          numLongTermPhysicalBytes: S.optional(S.String),
-          description: S.optional(S.String),
-          numTotalPhysicalBytes: S.optional(S.String),
-          numTotalLogicalBytes: S.optional(S.String),
-          numRows: S.optional(S.String),
-          numLongTermLogicalBytes: S.optional(S.String),
-          externalDataConfiguration: S.optional(__S(2382, __c74, 14)),
-          requirePartitionFilter: S.optional(S.Boolean),
-          numCurrentPhysicalBytes: S.optional(S.String),
-          tableReplicationInfo: S.optional(__S(772, __c24, 4)),
-          partitionDefinition: S.optional(__S(775, __c24, 7)),
-          numLongTermBytes: S.optional(S.String),
-          resourceTags: S.optional(__S(1856, __c58, 0)),
-          numPhysicalBytes: S.optional(S.String),
+          replicationError: S.optional(__S(2176, __c68, 0)),
+          replicationStatus: S.optional(S.String),
+          sourceTable: S.optional(__S(1888, __c59, 0)),
+          replicatedSourceLastRefreshTime: S.optional(S.String),
+          replicationIntervalMs: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TableReplicationInfo" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          externalCatalogTableOptions: S.optional(__S(770, __c24, 2)),
           numActivePhysicalBytes: S.optional(S.String),
-          defaultCollation: S.optional(S.String),
-          type: S.optional(S.String),
-          clustering: S.optional(__S(2336, __c73, 0)),
-          numPartitions: S.optional(S.String),
-          tableConstraints: S.optional(__S(782, __c24, 14)),
-          creationTime: S.optional(S.String),
+          managedTableType: S.optional(S.String),
           maxStaleness: S.optional(S.String),
+          tableConstraints: S.optional(__S(777, __c24, 9)),
+          defaultCollation: S.optional(S.String),
+          rangePartitioning: S.optional(__S(2339, __c73, 3)),
+          view: S.optional(__S(780, __c24, 12)),
+          numTotalLogicalBytes: S.optional(S.String),
+          partitionDefinition: S.optional(__S(783, __c24, 15)),
+          biglakeConfiguration: S.optional(__S(784, __c24, 16)),
+          expirationTime: S.optional(S.String),
+          friendlyName: S.optional(S.String),
+          materializedViewStatus: S.optional(__S(785, __c24, 17)),
+          policyMember: S.optional(__S(786, __c24, 18)),
+          numCurrentPhysicalBytes: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          encryptionConfiguration: S.optional(__S(1920, __c60, 0)),
+          numRows: S.optional(S.String),
+          clustering: S.optional(__S(2336, __c73, 0)),
+          numBytes: S.optional(S.String),
+          streamingBuffer: S.optional(__S(787, __c24, 19)),
+          replicas: S.optional(__S(2368, __c74, 0)),
+          timePartitioning: S.optional(__S(2337, __c73, 1)),
+          snapshotDefinition: S.optional(__S(788, __c24, 20)),
+          restrictions: S.optional(__S(128, __c4, 0)),
+          schema: S.optional(__S(2219, __c69, 11)),
           labels: S.optional(__S(1856, __c58, 0)),
           id: S.optional(S.String),
-          managedTableType: S.optional(S.String),
-          restrictions: S.optional(__S(128, __c4, 0)),
-          cloneDefinition: S.optional(__S(783, __c24, 15)),
-          model: S.optional(__S(790, __c24, 22)),
-          timePartitioning: S.optional(__S(2337, __c73, 1)),
-          materializedViewStatus: S.optional(__S(791, __c24, 23)),
-          schema: S.optional(__S(2219, __c69, 11)),
-          biglakeConfiguration: S.optional(__S(792, __c24, 24)),
-          etag: S.optional(S.String),
-          location: S.optional(S.String),
-          externalCatalogTableOptions: S.optional(__S(795, __c24, 27)),
-          rangePartitioning: S.optional(__S(2339, __c73, 3)),
-          snapshotDefinition: S.optional(__S(796, __c24, 28)),
-          lastModifiedTime: S.optional(S.String),
-          replicas: S.optional(__S(2383, __c74, 15)),
-          selfLink: S.optional(S.String),
-          kind: S.optional(S.String),
-          expirationTime: S.optional(S.String),
-          tableReference: S.optional(__S(1888, __c59, 0)),
-          numTimeTravelPhysicalBytes: S.optional(S.String),
           numActiveLogicalBytes: S.optional(S.String),
-          materializedView: S.optional(__S(797, __c24, 29)),
-          numBytes: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(1920, __c60, 0)),
+          numLongTermBytes: S.optional(S.String),
           defaultRoundingMode: S.optional(S.String),
-          friendlyName: S.optional(S.String),
+          requirePartitionFilter: S.optional(S.Boolean),
+          etag: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          model: S.optional(__S(795, __c24, 27)),
+          numLongTermPhysicalBytes: S.optional(S.String),
+          resourceTags: S.optional(__S(1856, __c58, 0)),
+          tableReference: S.optional(__S(1888, __c59, 0)),
+          numLongTermLogicalBytes: S.optional(S.String),
+          externalDataConfiguration: S.optional(__S(2383, __c74, 15)),
+          numTotalPhysicalBytes: S.optional(S.String),
+          numPartitions: S.optional(S.String),
+          materializedView: S.optional(__S(796, __c24, 28)),
+          location: S.optional(S.String),
+          kind: S.optional(S.String),
+          numTimeTravelPhysicalBytes: S.optional(S.String),
+          type: S.optional(S.String),
+          lastModifiedTime: S.optional(S.String),
+          cloneDefinition: S.optional(__S(797, __c24, 29)),
+          tableReplicationInfo: S.optional(__S(798, __c24, 30)),
+          description: S.optional(S.String),
+          numPhysicalBytes: S.optional(S.String),
         }),
       ).annotate({ identifier: "Table" });
   }
@@ -6513,10 +6652,10 @@ function __c25(j: number): any {
         S.Struct({
           ignoreUnknownValues: S.optional(S.Boolean),
           traceId: S.optional(S.String),
-          kind: S.optional(S.String),
-          templateSuffix: S.optional(S.String),
-          skipInvalidRows: S.optional(S.Boolean),
           rows: S.optional(__S(802, __c25, 2)),
+          skipInvalidRows: S.optional(S.Boolean),
+          templateSuffix: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableDataInsertAllRequest" });
     case 4:
@@ -6524,9 +6663,9 @@ function __c25(j: number): any {
         S.Extend(
           __S(803, __c25, 3),
           S.Struct({
-            datasetId: S.String.pipe(T.Label()),
             tableId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
+            datasetId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -6539,8 +6678,8 @@ function __c25(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(2240, __c70, 0)),
           index: S.optional(S.Number),
+          errors: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "TableDataInsertAllResponseInsertErrorsItem" });
     case 6:
@@ -6559,7 +6698,7 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(200, __c6, 8),
+          __S(203, __c6, 11),
           S.Struct({
             accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
             projectId: S.String.pipe(T.Label()),
@@ -6598,7 +6737,7 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(586, __c18, 10),
+          __S(588, __c18, 12),
           S.Struct({
             datasetId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
@@ -6620,9 +6759,9 @@ function __c29(j: number): any {
         S.Extend(
           __S(640, __c20, 0),
           S.Struct({
+            projectId: S.String.pipe(T.Label()),
             datasetId: S.String.pipe(T.Label()),
             tableId: S.String.pipe(T.Label()),
-            projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -6639,7 +6778,7 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(798, __c24, 30),
+          __S(799, __c24, 31),
           S.Struct({
             datasetId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
@@ -6659,11 +6798,11 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
           all: S.optional(S.Boolean.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6675,15 +6814,15 @@ function __c31(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(S.String),
           friendlyName: S.optional(S.String),
           kind: S.optional(S.String),
           labels: S.optional(__S(1856, __c58, 0)),
-          type: S.optional(S.String),
-          id: S.optional(S.String),
-          datasetReference: S.optional(__S(2016, __c63, 0)),
-          catalogSource: S.optional(S.String),
           externalDatasetReference: S.optional(__S(160, __c5, 0)),
+          location: S.optional(S.String),
+          id: S.optional(S.String),
+          type: S.optional(S.String),
+          catalogSource: S.optional(S.String),
+          datasetReference: S.optional(__S(2016, __c63, 0)),
         }),
       ).annotate({ identifier: "DatasetListDatasetsItem" });
     case 2:
@@ -6691,11 +6830,11 @@ function __c31(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          datasets: S.optional(__S(994, __c31, 2)),
+          nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(1376, __c43, 0)),
           etag: S.optional(S.String),
           kind: S.optional(S.String),
-          datasets: S.optional(__S(994, __c31, 2)),
-          unreachable: S.optional(__S(1376, __c43, 0)),
-          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatasetList" });
   }
@@ -6705,15 +6844,15 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parentJobId: S.optional(S.String.pipe(T.Query())),
-          allUsers: S.optional(S.Boolean.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          stateFilter: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          maxCreationTime: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
+          parentJobId: S.optional(S.String.pipe(T.Query())),
           minCreationTime: S.optional(S.String.pipe(T.Query())),
+          maxCreationTime: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          projection: S.optional(S.String.pipe(T.Query())),
+          allUsers: S.optional(S.Boolean.pipe(T.Query())),
+          stateFilter: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6725,16 +6864,16 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          status: S.optional(__S(2432, __c76, 0)),
+          state: S.optional(S.String),
+          configuration: S.optional(__S(2443, __c76, 11)),
+          kind: S.optional(S.String),
+          errorResult: S.optional(__S(2176, __c68, 0)),
+          statistics: S.optional(__S(2520, __c78, 24)),
+          user_email: S.optional(S.String),
+          principal_subject: S.optional(S.String),
           jobReference: S.optional(__S(2272, __c71, 0)),
           id: S.optional(S.String),
-          state: S.optional(S.String),
-          errorResult: S.optional(__S(2176, __c68, 0)),
-          kind: S.optional(S.String),
-          status: S.optional(__S(2518, __c78, 22)),
-          statistics: S.optional(__S(2517, __c78, 21)),
-          user_email: S.optional(S.String),
-          configuration: S.optional(__S(2442, __c76, 10)),
-          principal_subject: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobListJobsItem" });
     case 2:
@@ -6744,9 +6883,9 @@ function __c32(j: number): any {
         S.Struct({
           etag: S.optional(S.String),
           kind: S.optional(S.String),
+          unreachable: S.optional(__S(1376, __c43, 0)),
           nextPageToken: S.optional(S.String),
           jobs: S.optional(__S(1026, __c32, 2)),
-          unreachable: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "JobList" });
   }
@@ -6756,10 +6895,10 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           datasetId: S.String.pipe(T.Label()),
           maxResults: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6773,8 +6912,8 @@ function __c33(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           models: S.optional(__S(1057, __c33, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListModelsResponse" });
   }
@@ -6803,9 +6942,9 @@ function __c34(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          projectReference: S.optional(__S(1089, __c34, 1)),
           kind: S.optional(S.String),
           friendlyName: S.optional(S.String),
-          projectReference: S.optional(__S(1089, __c34, 1)),
           id: S.optional(S.String),
           numericId: S.optional(S.String),
         }),
@@ -6829,12 +6968,12 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          readMask: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
           datasetId: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
+          readMask: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6844,7 +6983,7 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "ListRoutinesRequest" });
     case 1:
-      return S.Array(__S(586, __c18, 10));
+      return S.Array(__S(588, __c18, 12));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6859,10 +6998,10 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           datasetId: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           tableId: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -6888,15 +7027,15 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          datasetId: S.String.pipe(T.Label()),
+          tableId: S.String.pipe(T.Label()),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          "formatOptions.useInt64Timestamp": S.optional(S.Boolean.pipe(T.Query())),
           "formatOptions.timestampOutputFormat": S.optional(S.String.pipe(T.Query())),
+          startIndex: S.optional(S.String.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
           selectedFields: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          tableId: S.String.pipe(T.Label()),
-          "formatOptions.useInt64Timestamp": S.optional(S.Boolean.pipe(T.Query())),
-          datasetId: S.String.pipe(T.Label()),
-          startIndex: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6911,8 +7050,8 @@ function __c37(j: number): any {
           rows: S.optional(__S(515, __c16, 3)),
           etag: S.optional(S.String),
           kind: S.optional(S.String),
-          totalRows: S.optional(S.String),
           pageToken: S.optional(S.String),
+          totalRows: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableDataList" });
   }
@@ -6922,10 +7061,10 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
           datasetId: S.String.pipe(T.Label()),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6944,19 +7083,19 @@ function __c38(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          friendlyName: S.optional(S.String),
           rangePartitioning: S.optional(__S(2339, __c73, 3)),
           view: S.optional(__S(1217, __c38, 1)),
+          labels: S.optional(__S(1856, __c58, 0)),
           creationTime: S.optional(S.String),
+          type: S.optional(S.String),
+          timePartitioning: S.optional(__S(2337, __c73, 1)),
+          clustering: S.optional(__S(2336, __c73, 0)),
+          kind: S.optional(S.String),
+          expirationTime: S.optional(S.String),
           tableReference: S.optional(__S(1888, __c59, 0)),
           id: S.optional(S.String),
-          kind: S.optional(S.String),
-          labels: S.optional(__S(1856, __c58, 0)),
-          type: S.optional(S.String),
           requirePartitionFilter: S.optional(S.Boolean),
-          clustering: S.optional(__S(2336, __c73, 0)),
-          expirationTime: S.optional(S.String),
-          timePartitioning: S.optional(__S(2337, __c73, 1)),
+          friendlyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableListTablesItem" });
     case 3:
@@ -6964,11 +7103,11 @@ function __c38(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
-          totalItems: S.optional(S.Number),
           tables: S.optional(__S(1219, __c38, 3)),
+          nextPageToken: S.optional(S.String),
           etag: S.optional(S.String),
           kind: S.optional(S.String),
+          totalItems: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TableList" });
   }
@@ -6978,11 +7117,11 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(200, __c6, 8),
+          __S(203, __c6, 11),
           S.Struct({
             projectId: S.String.pipe(T.Label()),
-            accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
             updateMode: S.optional(S.String.pipe(T.Query())),
+            accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
             datasetId: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -7003,8 +7142,8 @@ function __c40(j: number): any {
           __S(468, __c14, 20),
           S.Struct({
             datasetId: S.String.pipe(T.Label()),
-            modelId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
+            modelId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7021,12 +7160,12 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(798, __c24, 30),
+          __S(799, __c24, 31),
           S.Struct({
-            projectId: S.String.pipe(T.Label()),
-            tableId: S.String.pipe(T.Label()),
-            autodetect_schema: S.optional(S.Boolean.pipe(T.Query())),
             datasetId: S.String.pipe(T.Label()),
+            tableId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            autodetect_schema: S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -7043,8 +7182,8 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policyIds: S.optional(__S(1376, __c43, 0)),
           force: S.optional(S.Boolean),
+          policyIds: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "BatchDeleteRowAccessPoliciesRequest" });
     case 1:
@@ -7053,8 +7192,8 @@ function __c42(j: number): any {
           __S(1344, __c42, 0),
           S.Struct({
             projectId: S.String.pipe(T.Label()),
-            datasetId: S.String.pipe(T.Label()),
             tableId: S.String.pipe(T.Label()),
+            datasetId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7092,41 +7231,41 @@ function __c45(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          timestampOutputFormat: S.optional(S.String),
           useInt64Timestamp: S.optional(S.Boolean),
+          timestampOutputFormat: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataFormatOptions" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          queryParameters: S.optional(__S(2540, __c79, 12)),
-          secureContext: S.optional(__S(2529, __c79, 1)),
-          arrowSerializationOptions: S.optional(__S(1440, __c45, 0)),
-          connectionProperties: S.optional(__S(2531, __c79, 3)),
-          dryRun: S.optional(S.Boolean),
-          jobTimeoutMs: S.optional(S.String),
-          writeIncrementalResults: S.optional(S.Boolean),
-          preserveNulls: S.optional(S.Boolean),
-          location: S.optional(S.String),
-          destinationEncryptionConfiguration: S.optional(__S(1920, __c60, 0)),
-          requestId: S.optional(S.String),
-          jobCreationMode: S.optional(S.String),
-          timeoutMs: S.optional(S.Number),
-          maxResults: S.optional(S.Number),
-          defaultDataset: S.optional(__S(2016, __c63, 0)),
           queryResultsFormat: S.optional(S.String),
-          labels: S.optional(__S(1856, __c58, 0)),
-          continuous: S.optional(S.Boolean),
-          createSession: S.optional(S.Boolean),
-          useQueryCache: S.optional(S.Boolean),
-          useLegacySql: S.optional(S.Boolean),
-          formatOptions: S.optional(__S(1441, __c45, 1)),
-          parameterMode: S.optional(S.String),
-          maximumBytesBilled: S.optional(S.String),
+          destinationEncryptionConfiguration: S.optional(__S(1920, __c60, 0)),
+          writeIncrementalResults: S.optional(S.Boolean),
           reservation: S.optional(S.String),
+          timeoutMs: S.optional(S.Number),
+          defaultDataset: S.optional(__S(2016, __c63, 0)),
+          queryParameters: S.optional(__S(2540, __c79, 12)),
+          continuous: S.optional(S.Boolean),
+          location: S.optional(S.String),
           query: S.optional(S.String),
+          jobTimeoutMs: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+          secureContext: S.optional(__S(2531, __c79, 3)),
+          createSession: S.optional(S.Boolean),
           kind: S.optional(S.String),
+          arrowSerializationOptions: S.optional(__S(1440, __c45, 0)),
+          useLegacySql: S.optional(S.Boolean),
+          jobCreationMode: S.optional(S.String),
           maxSlots: S.optional(S.Number),
+          labels: S.optional(__S(1856, __c58, 0)),
+          maximumBytesBilled: S.optional(S.String),
+          useQueryCache: S.optional(S.Boolean),
+          dryRun: S.optional(S.Boolean),
+          preserveNulls: S.optional(S.Boolean),
+          formatOptions: S.optional(__S(1441, __c45, 1)),
+          connectionProperties: S.optional(__S(2529, __c79, 1)),
+          parameterMode: S.optional(S.String),
+          requestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryRequest" });
     case 3:
@@ -7147,43 +7286,43 @@ function __c45(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          serializedRecordBatch: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ArrowRecordBatch" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           serializedSchema: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArrowSchema" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          serializedRecordBatch: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ArrowRecordBatch" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          creationTime: S.optional(S.String),
-          statementType: S.optional(S.String),
-          arrowRecordBatch: S.optional(__S(1444, __c45, 4)),
-          queryId: S.optional(S.String),
-          sessionInfo: S.optional(__S(2542, __c79, 14)),
           schema: S.optional(__S(2219, __c69, 11)),
-          pageToken: S.optional(S.String),
-          totalRows: S.optional(S.String),
-          jobCreationReason: S.optional(__S(2560, __c80, 0)),
-          totalBytesBilled: S.optional(S.String),
-          kind: S.optional(S.String),
-          totalBytesProcessed: S.optional(S.String),
-          totalSlotMs: S.optional(S.String),
-          startTime: S.optional(S.String),
-          pageRowCount: S.optional(S.String),
-          dmlStats: S.optional(__S(2541, __c79, 13)),
-          cacheHit: S.optional(S.Boolean),
-          rows: S.optional(__S(515, __c16, 3)),
-          numDmlAffectedRows: S.optional(S.String),
-          errors: S.optional(__S(2240, __c70, 0)),
+          creationTime: S.optional(S.String),
+          jobReference: S.optional(__S(2272, __c71, 0)),
+          sessionInfo: S.optional(__S(2542, __c79, 14)),
           endTime: S.optional(S.String),
           jobComplete: S.optional(S.Boolean),
+          rows: S.optional(__S(515, __c16, 3)),
+          kind: S.optional(S.String),
+          arrowSchema: S.optional(__S(1444, __c45, 4)),
+          pageToken: S.optional(S.String),
           location: S.optional(S.String),
-          jobReference: S.optional(__S(2272, __c71, 0)),
-          arrowSchema: S.optional(__S(1445, __c45, 5)),
+          startTime: S.optional(S.String),
+          errors: S.optional(__S(2240, __c70, 0)),
+          pageRowCount: S.optional(S.String),
+          dmlStats: S.optional(__S(2541, __c79, 13)),
+          arrowRecordBatch: S.optional(__S(1445, __c45, 5)),
+          statementType: S.optional(S.String),
+          jobCreationReason: S.optional(__S(2560, __c80, 0)),
+          totalBytesProcessed: S.optional(S.String),
+          cacheHit: S.optional(S.Boolean),
+          numDmlAffectedRows: S.optional(S.String),
+          totalSlotMs: S.optional(S.String),
+          totalBytesBilled: S.optional(S.String),
+          queryId: S.optional(S.String),
+          totalRows: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryResponse" });
   }
@@ -7335,11 +7474,11 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(200, __c6, 8),
+          __S(203, __c6, 11),
           S.Struct({
-            projectId: S.String.pipe(T.Label()),
-            accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
             datasetId: S.String.pipe(T.Label()),
+            accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
             updateMode: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -7357,11 +7496,11 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(586, __c18, 10),
+          __S(588, __c18, 12),
           S.Struct({
             datasetId: S.String.pipe(T.Label()),
-            routineId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
+            routineId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7382,8 +7521,8 @@ function __c56(j: number): any {
           S.Struct({
             projectId: S.String.pipe(T.Label()),
             tableId: S.String.pipe(T.Label()),
-            policyId: S.String.pipe(T.Label()),
             datasetId: S.String.pipe(T.Label()),
+            policyId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7400,9 +7539,9 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          jobId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
           location: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
+          jobId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7431,9 +7570,9 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasetId: S.optional(S.String),
-          tableId: S.optional(S.String),
           projectId: S.optional(S.String),
+          tableId: S.optional(S.String),
+          datasetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableReference" });
   }
@@ -7459,9 +7598,9 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasetId: S.optional(S.String),
-          routineId: S.optional(S.String),
           projectId: S.optional(S.String),
+          routineId: S.optional(S.String),
+          datasetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RoutineReference" });
   }
@@ -7497,10 +7636,10 @@ function __c64(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rangeElementType: S.optional(__S(2051, __c64, 3)),
-          structType: S.optional(__S(2050, __c64, 2)),
           arrayElementType: S.optional(__S(2051, __c64, 3)),
+          rangeElementType: S.optional(__S(2051, __c64, 3)),
           typeKind: S.optional(S.String),
+          structType: S.optional(__S(2050, __c64, 2)),
         }),
       ).annotate({ identifier: "StandardSqlDataType" });
   }
@@ -7524,200 +7663,200 @@ function __c66(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          totalExplainedVarianceRatio: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "DimensionalityReductionMetrics" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          meanSquaredLogError: S.optional(S.Number),
-          medianAbsoluteError: S.optional(S.Number),
-          meanSquaredError: S.optional(S.Number),
-          meanAbsoluteError: S.optional(S.Number),
-          rSquared: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "RegressionMetrics" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          logLoss: S.optional(S.Number),
-          rocAuc: S.optional(S.Number),
-          recall: S.optional(S.Number),
-          f1Score: S.optional(S.Number),
-          accuracy: S.optional(S.Number),
-          precision: S.optional(S.Number),
-          threshold: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "AggregateClassificationMetrics" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          falsePositives: S.optional(S.String),
-          f1Score: S.optional(S.Number),
-          recall: S.optional(S.Number),
-          precision: S.optional(S.Number),
-          truePositives: S.optional(S.String),
-          accuracy: S.optional(S.Number),
-          positiveClassThreshold: S.optional(S.Number),
-          trueNegatives: S.optional(S.String),
-          falseNegatives: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BinaryConfusionMatrix" });
-    case 5:
-      return S.Array(__S(2116, __c66, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          aggregateClassificationMetrics: S.optional(__S(2115, __c66, 3)),
-          negativeLabel: S.optional(S.String),
-          positiveLabel: S.optional(S.String),
-          binaryConfusionMatrixList: S.optional(__S(2117, __c66, 5)),
-        }),
-      ).annotate({ identifier: "BinaryClassificationMetrics" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          predictedLabel: S.optional(S.String),
-          itemCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Entry" });
-    case 8:
-      return S.Array(__S(2119, __c66, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          actualLabel: S.optional(S.String),
-          entries: S.optional(__S(2120, __c66, 8)),
-        }),
-      ).annotate({ identifier: "Row" });
-    case 10:
-      return S.Array(__S(2121, __c66, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          confidenceThreshold: S.optional(S.Number),
-          rows: S.optional(__S(2122, __c66, 10)),
-        }),
-      ).annotate({ identifier: "ConfusionMatrix" });
-    case 12:
-      return S.Array(__S(2123, __c66, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          aggregateClassificationMetrics: S.optional(__S(2115, __c66, 3)),
-          confusionMatrixList: S.optional(__S(2124, __c66, 12)),
-        }),
-      ).annotate({ identifier: "MultiClassClassificationMetrics" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
           meanSquaredError: S.optional(S.Number),
           meanAveragePrecision: S.optional(S.Number),
           normalizedDiscountedCumulativeGain: S.optional(S.Number),
           averageRank: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RankingMetrics" });
-    case 15:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           category: S.optional(S.String),
           count: S.optional(S.String),
         }),
       ).annotate({ identifier: "CategoryCount" });
+    case 3:
+      return S.Array(__S(2114, __c66, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          categoryCounts: S.optional(__S(2115, __c66, 3)),
+        }),
+      ).annotate({ identifier: "CategoricalValue" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          categoricalValue: S.optional(__S(2116, __c66, 4)),
+          numericalValue: S.optional(S.Number),
+          featureColumn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FeatureValue" });
+    case 6:
+      return S.Array(__S(2117, __c66, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          featureValues: S.optional(__S(2118, __c66, 6)),
+          centroidId: S.optional(S.String),
+          count: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Cluster" });
+    case 8:
+      return S.Array(__S(2119, __c66, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          clusters: S.optional(__S(2120, __c66, 8)),
+          daviesBouldinIndex: S.optional(S.Number),
+          meanSquaredDistance: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ClusteringMetrics" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          meanSquaredLogError: S.optional(S.Number),
+          rSquared: S.optional(S.Number),
+          meanAbsoluteError: S.optional(S.Number),
+          meanSquaredError: S.optional(S.Number),
+          medianAbsoluteError: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RegressionMetrics" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          itemCount: S.optional(S.String),
+          predictedLabel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Entry" });
+    case 12:
+      return S.Array(__S(2123, __c66, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          entries: S.optional(__S(2124, __c66, 12)),
+          actualLabel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Row" });
+    case 14:
+      return S.Array(__S(2125, __c66, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          rows: S.optional(__S(2126, __c66, 14)),
+          confidenceThreshold: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ConfusionMatrix" });
     case 16:
       return S.Array(__S(2127, __c66, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          categoryCounts: S.optional(__S(2128, __c66, 16)),
+          precision: S.optional(S.Number),
+          rocAuc: S.optional(S.Number),
+          threshold: S.optional(S.Number),
+          accuracy: S.optional(S.Number),
+          recall: S.optional(S.Number),
+          f1Score: S.optional(S.Number),
+          logLoss: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "CategoricalValue" });
+      ).annotate({ identifier: "AggregateClassificationMetrics" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          numericalValue: S.optional(S.Number),
-          categoricalValue: S.optional(__S(2129, __c66, 17)),
-          featureColumn: S.optional(S.String),
+          confusionMatrixList: S.optional(__S(2128, __c66, 16)),
+          aggregateClassificationMetrics: S.optional(__S(2129, __c66, 17)),
         }),
-      ).annotate({ identifier: "FeatureValue" });
+      ).annotate({ identifier: "MultiClassClassificationMetrics" });
     case 19:
-      return S.Array(__S(2130, __c66, 18));
+      return S.suspend(() =>
+        S.Struct({
+          totalExplainedVarianceRatio: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DimensionalityReductionMetrics" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          centroidId: S.optional(S.String),
-          count: S.optional(S.String),
-          featureValues: S.optional(__S(2131, __c66, 19)),
+          f1Score: S.optional(S.Number),
+          recall: S.optional(S.Number),
+          accuracy: S.optional(S.Number),
+          falsePositives: S.optional(S.String),
+          trueNegatives: S.optional(S.String),
+          truePositives: S.optional(S.String),
+          positiveClassThreshold: S.optional(S.Number),
+          precision: S.optional(S.Number),
+          falseNegatives: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Cluster" });
+      ).annotate({ identifier: "BinaryConfusionMatrix" });
     case 21:
       return S.Array(__S(2132, __c66, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          clusters: S.optional(__S(2133, __c66, 21)),
-          meanSquaredDistance: S.optional(S.Number),
-          daviesBouldinIndex: S.optional(S.Number),
+          aggregateClassificationMetrics: S.optional(__S(2129, __c66, 17)),
+          binaryConfusionMatrixList: S.optional(__S(2133, __c66, 21)),
+          negativeLabel: S.optional(S.String),
+          positiveLabel: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ClusteringMetrics" });
+      ).annotate({ identifier: "BinaryClassificationMetrics" });
     case 23:
       return S.suspend(() =>
         S.Struct({
+          aic: S.optional(S.Number),
           logLikelihood: S.optional(S.Number),
           variance: S.optional(S.Number),
-          aic: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ArimaFittingMetrics" });
     case 24:
-      return S.suspend(() =>
-        S.Struct({
-          d: S.optional(S.String),
-          p: S.optional(S.String),
-          q: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ArimaOrder" });
+      return S.Array(__S(2135, __c66, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          hasSpikesAndDips: S.optional(S.Boolean),
-          hasStepChanges: S.optional(S.Boolean),
-          arimaFittingMetrics: S.optional(__S(2135, __c66, 23)),
-          nonSeasonalOrder: S.optional(__S(2136, __c66, 24)),
-          hasDrift: S.optional(S.Boolean),
-          timeSeriesIds: S.optional(__S(1376, __c43, 0)),
-          seasonalPeriods: S.optional(__S(1952, __c61, 0)),
-          hasHolidayEffect: S.optional(S.Boolean),
-          timeSeriesId: S.optional(S.String),
+          q: S.optional(S.String),
+          p: S.optional(S.String),
+          d: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ArimaSingleModelForecastingMetrics" });
+      ).annotate({ identifier: "ArimaOrder" });
     case 26:
       return S.Array(__S(2137, __c66, 25));
     case 27:
-      return S.Array(__S(2135, __c66, 23));
-    case 28:
-      return S.Array(__S(2136, __c66, 24));
-    case 29:
       return S.Array(S.Boolean);
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          hasDrift: S.optional(S.Boolean),
+          timeSeriesIds: S.optional(__S(1376, __c43, 0)),
+          seasonalPeriods: S.optional(__S(1952, __c61, 0)),
+          hasSpikesAndDips: S.optional(S.Boolean),
+          hasHolidayEffect: S.optional(S.Boolean),
+          timeSeriesId: S.optional(S.String),
+          hasStepChanges: S.optional(S.Boolean),
+          nonSeasonalOrder: S.optional(__S(2137, __c66, 25)),
+          arimaFittingMetrics: S.optional(__S(2135, __c66, 23)),
+        }),
+      ).annotate({ identifier: "ArimaSingleModelForecastingMetrics" });
+    case 29:
+      return S.Array(__S(2140, __c66, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
-          timeSeriesId: S.optional(__S(1376, __c43, 0)),
           seasonalPeriods: S.optional(__S(1952, __c61, 0)),
-          arimaSingleModelForecastingMetrics: S.optional(__S(2138, __c66, 26)),
-          arimaFittingMetrics: S.optional(__S(2139, __c66, 27)),
-          nonSeasonalOrder: S.optional(__S(2140, __c66, 28)),
-          hasDrift: S.optional(__S(2141, __c66, 29)),
+          arimaFittingMetrics: S.optional(__S(2136, __c66, 24)),
+          nonSeasonalOrder: S.optional(__S(2138, __c66, 26)),
+          timeSeriesId: S.optional(__S(1376, __c43, 0)),
+          hasDrift: S.optional(__S(2139, __c66, 27)),
+          arimaSingleModelForecastingMetrics: S.optional(__S(2141, __c66, 29)),
         }),
       ).annotate({ identifier: "ArimaForecastingMetrics" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          dimensionalityReductionMetrics: S.optional(__S(2113, __c66, 1)),
-          regressionMetrics: S.optional(__S(2114, __c66, 2)),
-          binaryClassificationMetrics: S.optional(__S(2118, __c66, 6)),
-          multiClassClassificationMetrics: S.optional(__S(2125, __c66, 13)),
-          rankingMetrics: S.optional(__S(2126, __c66, 14)),
-          clusteringMetrics: S.optional(__S(2134, __c66, 22)),
+          rankingMetrics: S.optional(__S(2113, __c66, 1)),
+          clusteringMetrics: S.optional(__S(2121, __c66, 9)),
+          regressionMetrics: S.optional(__S(2122, __c66, 10)),
+          multiClassClassificationMetrics: S.optional(__S(2130, __c66, 18)),
+          dimensionalityReductionMetrics: S.optional(__S(2131, __c66, 19)),
+          binaryClassificationMetrics: S.optional(__S(2134, __c66, 22)),
           arimaForecastingMetrics: S.optional(__S(2142, __c66, 30)),
         }),
       ).annotate({ identifier: "EvaluationMetrics" });
@@ -7730,122 +7869,122 @@ function __c67(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          holidayRegion: S.optional(S.String),
-          activationFn: S.optional(S.String),
-          dataSplitMethod: S.optional(S.String),
-          maxReplicaCount: S.optional(S.String),
-          l2Regularization: S.optional(S.Number),
-          timeSeriesLengthFraction: S.optional(S.Number),
-          autoArimaMaxOrder: S.optional(S.String),
-          forecastLimitLowerBound: S.optional(S.Number),
-          autoArima: S.optional(S.Boolean),
-          numClusters: S.optional(S.String),
-          calculatePValues: S.optional(S.Boolean),
-          subsample: S.optional(S.Number),
-          l1RegActivation: S.optional(S.Number),
-          maxTimeSeriesLength: S.optional(S.String),
-          enableGlobalExplain: S.optional(S.Boolean),
-          earlyStop: S.optional(S.Boolean),
-          minReplicaCount: S.optional(S.String),
-          itemColumn: S.optional(S.String),
-          minTimeSeriesLength: S.optional(S.String),
-          numParallelTree: S.optional(S.String),
-          numFactors: S.optional(S.String),
-          optimizer: S.optional(S.String),
-          feedbackType: S.optional(S.String),
-          maxTreeDepth: S.optional(S.String),
-          pcaExplainedVarianceRatio: S.optional(S.Number),
-          modelRegistry: S.optional(S.String),
-          scaleFeatures: S.optional(S.Boolean),
-          boosterType: S.optional(S.String),
-          fitIntercept: S.optional(S.Boolean),
-          distanceType: S.optional(S.String),
-          sampledShapleyNumPaths: S.optional(S.String),
-          nonSeasonalOrder: S.optional(__S(2136, __c66, 24)),
-          xgboostVersion: S.optional(S.String),
-          timeSeriesIdColumns: S.optional(__S(1376, __c43, 0)),
-          dropout: S.optional(S.Number),
-          modelGardenModelName: S.optional(S.String),
-          learnRateStrategy: S.optional(S.String),
-          minAprioriSupport: S.optional(S.Number),
-          l1Regularization: S.optional(S.Number),
-          hparamTuningObjectives: S.optional(__S(1952, __c61, 0)),
-          categoryEncodingMethod: S.optional(S.String),
-          userColumn: S.optional(S.String),
-          reservationAffinityValues: S.optional(__S(1376, __c43, 0)),
-          dimensionIdColumns: S.optional(__S(1376, __c43, 0)),
-          inputLabelColumns: S.optional(__S(1376, __c43, 0)),
-          colsampleBylevel: S.optional(S.Number),
-          minSplitLoss: S.optional(S.Number),
-          dataSplitEvalFraction: S.optional(S.Number),
-          machineType: S.optional(S.String),
-          decomposeTimeSeries: S.optional(S.Boolean),
-          colsampleBynode: S.optional(S.Number),
-          maxIterations: S.optional(S.String),
-          integratedGradientsNumSteps: S.optional(S.String),
-          autoArimaMinOrder: S.optional(S.String),
-          dataFrequency: S.optional(S.String),
-          minTreeChildWeight: S.optional(S.String),
-          timeSeriesIdColumn: S.optional(S.String),
-          budgetHours: S.optional(S.Number),
-          warmStart: S.optional(S.Boolean),
-          learnRate: S.optional(S.Number),
-          treeMethod: S.optional(S.String),
-          timeSeriesTimestampColumn: S.optional(S.String),
-          numPrincipalComponents: S.optional(S.String),
-          endpointIdleTtl: S.optional(S.String),
-          initialLearnRate: S.optional(S.Number),
-          trendSmoothingWindowSize: S.optional(S.String),
-          autoClassWeights: S.optional(S.Boolean),
-          kmeansInitializationColumn: S.optional(S.String),
-          includeDrift: S.optional(S.Boolean),
-          dartNormalizeType: S.optional(S.String),
-          forecastLimitUpperBound: S.optional(S.Number),
-          vertexAiModelVersionAliases: S.optional(__S(1376, __c43, 0)),
-          walsAlpha: S.optional(S.Number),
-          adjustStepChanges: S.optional(S.Boolean),
-          timeSeriesDataColumn: S.optional(S.String),
-          reservationAffinityType: S.optional(S.String),
-          standardizeFeatures: S.optional(S.Boolean),
           numTrials: S.optional(S.String),
+          feedbackType: S.optional(S.String),
+          l2Regularization: S.optional(S.Number),
+          scaleFeatures: S.optional(S.Boolean),
+          timeSeriesTimestampColumn: S.optional(S.String),
+          maxReplicaCount: S.optional(S.String),
+          autoClassWeights: S.optional(S.Boolean),
+          endpointIdleTtl: S.optional(S.String),
+          colorSpace: S.optional(S.String),
+          standardizeFeatures: S.optional(S.Boolean),
+          forecastLimitLowerBound: S.optional(S.Number),
+          dataSplitMethod: S.optional(S.String),
+          maxTreeDepth: S.optional(S.String),
+          dropout: S.optional(S.Number),
+          dartNormalizeType: S.optional(S.String),
+          activationFn: S.optional(S.String),
+          enableGlobalExplain: S.optional(S.Boolean),
+          timeSeriesLengthFraction: S.optional(S.Number),
+          minSplitLoss: S.optional(S.Number),
+          isTestColumn: S.optional(S.String),
+          l1Regularization: S.optional(S.Number),
+          reservationAffinityKey: S.optional(S.String),
+          colsampleBytree: S.optional(S.Number),
+          minReplicaCount: S.optional(S.String),
+          autoArimaMinOrder: S.optional(S.String),
+          horizon: S.optional(S.String),
+          optimizer: S.optional(S.String),
+          integratedGradientsNumSteps: S.optional(S.String),
+          autoArimaMaxOrder: S.optional(S.String),
+          dataFrequency: S.optional(S.String),
+          pcaExplainedVarianceRatio: S.optional(S.Number),
+          dimensionIdColumns: S.optional(__S(1376, __c43, 0)),
+          holidayRegion: S.optional(S.String),
+          lossType: S.optional(S.String),
+          inputLabelColumns: S.optional(__S(1376, __c43, 0)),
+          xgboostVersion: S.optional(S.String),
+          sampledShapleyNumPaths: S.optional(S.String),
+          colsampleBylevel: S.optional(S.Number),
+          modelRegistry: S.optional(S.String),
+          warmStart: S.optional(S.Boolean),
+          minRelativeProgress: S.optional(S.Number),
+          kmeansInitializationColumn: S.optional(S.String),
+          minTreeChildWeight: S.optional(S.String),
+          cleanSpikesAndDips: S.optional(S.Boolean),
+          adjustStepChanges: S.optional(S.Boolean),
+          learnRateStrategy: S.optional(S.String),
           maxParallelTrials: S.optional(S.String),
+          modelGardenModelName: S.optional(S.String),
+          minTimeSeriesLength: S.optional(S.String),
+          numPrincipalComponents: S.optional(S.String),
+          hiddenUnits: S.optional(__S(1376, __c43, 0)),
+          maxIterations: S.optional(S.String),
+          machineType: S.optional(S.String),
+          holidayRegions: S.optional(__S(1952, __c61, 0)),
+          instanceWeightColumn: S.optional(S.String),
+          batchSize: S.optional(S.String),
+          huggingFaceModelId: S.optional(S.String),
+          colsampleBynode: S.optional(S.Number),
+          earlyStop: S.optional(S.Boolean),
+          learnRate: S.optional(S.Number),
+          budgetHours: S.optional(S.Number),
+          nonSeasonalOrder: S.optional(__S(2137, __c66, 25)),
+          autoArima: S.optional(S.Boolean),
+          numParallelTree: S.optional(S.String),
+          boosterType: S.optional(S.String),
+          userColumn: S.optional(S.String),
+          vertexAiModelVersionAliases: S.optional(__S(1376, __c43, 0)),
+          numClusters: S.optional(S.String),
+          itemColumn: S.optional(S.String),
           kmeansInitializationMethod: S.optional(S.String),
           pcaSolver: S.optional(S.String),
+          decomposeTimeSeries: S.optional(S.Boolean),
+          initialLearnRate: S.optional(S.Number),
           dataSplitColumn: S.optional(S.String),
-          tfVersion: S.optional(S.String),
-          horizon: S.optional(S.String),
-          hiddenUnits: S.optional(__S(1376, __c43, 0)),
-          optimizationStrategy: S.optional(S.String),
-          batchSize: S.optional(S.String),
-          lossType: S.optional(S.String),
-          contributionMetric: S.optional(S.String),
-          cleanSpikesAndDips: S.optional(S.Boolean),
-          approxGlobalFeatureContrib: S.optional(S.Boolean),
-          colsampleBytree: S.optional(S.Number),
-          instanceWeightColumn: S.optional(S.String),
+          maxTimeSeriesLength: S.optional(S.String),
           modelUri: S.optional(S.String),
-          holidayRegions: S.optional(__S(1952, __c61, 0)),
-          isTestColumn: S.optional(S.String),
+          reservationAffinityType: S.optional(S.String),
+          optimizationStrategy: S.optional(S.String),
+          minAprioriSupport: S.optional(S.Number),
+          walsAlpha: S.optional(S.Number),
+          dataSplitEvalFraction: S.optional(S.Number),
+          contributionMetric: S.optional(S.String),
+          numFactors: S.optional(S.String),
+          includeDrift: S.optional(S.Boolean),
+          approxGlobalFeatureContrib: S.optional(S.Boolean),
+          distanceType: S.optional(S.String),
+          l1RegActivation: S.optional(S.Number),
+          calculatePValues: S.optional(S.Boolean),
+          timeSeriesDataColumn: S.optional(S.String),
+          timeSeriesIdColumns: S.optional(__S(1376, __c43, 0)),
+          tfVersion: S.optional(S.String),
+          fitIntercept: S.optional(S.Boolean),
+          trendSmoothingWindowSize: S.optional(S.String),
+          timeSeriesIdColumn: S.optional(S.String),
+          categoryEncodingMethod: S.optional(S.String),
+          reservationAffinityValues: S.optional(__S(1376, __c43, 0)),
+          treeMethod: S.optional(S.String),
           labelClassWeights: S.optional(__S(2144, __c67, 0)),
-          huggingFaceModelId: S.optional(S.String),
-          minRelativeProgress: S.optional(S.Number),
-          colorSpace: S.optional(S.String),
-          reservationAffinityKey: S.optional(S.String),
+          hparamTuningObjectives: S.optional(__S(1952, __c61, 0)),
+          subsample: S.optional(S.Number),
+          forecastLimitUpperBound: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TrainingOptions" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          startTimeMs: S.optional(S.String),
           endTimeMs: S.optional(S.String),
-          evalLoss: S.optional(S.Number),
+          startTimeMs: S.optional(S.String),
           trialId: S.optional(S.String),
           trainingLoss: S.optional(S.Number),
+          evalLoss: S.optional(S.Number),
           status: S.optional(S.String),
           hparamTuningEvaluationMetrics: S.optional(__S(2143, __c66, 31)),
-          hparams: S.optional(__S(2145, __c67, 1)),
-          errorMessage: S.optional(S.String),
           evaluationMetrics: S.optional(__S(2143, __c66, 31)),
+          errorMessage: S.optional(S.String),
+          hparams: S.optional(__S(2145, __c67, 1)),
         }),
       ).annotate({ identifier: "HparamTuningTrial" });
     case 3:
@@ -7853,46 +7992,36 @@ function __c67(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          centroidId: S.optional(S.String),
-          clusterRadius: S.optional(S.Number),
-          clusterSize: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ClusterInfo" });
-    case 5:
-      return S.Array(__S(2148, __c67, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          autoRegressiveCoefficients: S.optional(__S(2080, __c65, 0)),
-          movingAverageCoefficients: S.optional(__S(2080, __c65, 0)),
           interceptCoefficient: S.optional(S.Number),
+          movingAverageCoefficients: S.optional(__S(2080, __c65, 0)),
+          autoRegressiveCoefficients: S.optional(__S(2080, __c65, 0)),
         }),
       ).annotate({ identifier: "ArimaCoefficients" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          timeSeriesId: S.optional(S.String),
+          seasonalPeriods: S.optional(__S(1952, __c61, 0)),
+          hasDrift: S.optional(S.Boolean),
+          hasSpikesAndDips: S.optional(S.Boolean),
+          hasStepChanges: S.optional(S.Boolean),
+          nonSeasonalOrder: S.optional(__S(2137, __c66, 25)),
+          arimaFittingMetrics: S.optional(__S(2135, __c66, 23)),
+          hasHolidayEffect: S.optional(S.Boolean),
+          timeSeriesIds: S.optional(__S(1376, __c43, 0)),
+          arimaCoefficients: S.optional(__S(2148, __c67, 4)),
+        }),
+      ).annotate({ identifier: "ArimaModelInfo" });
+    case 6:
+      return S.Array(__S(2149, __c67, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          hasStepChanges: S.optional(S.Boolean),
-          hasSpikesAndDips: S.optional(S.Boolean),
-          nonSeasonalOrder: S.optional(__S(2136, __c66, 24)),
-          hasDrift: S.optional(S.Boolean),
-          timeSeriesIds: S.optional(__S(1376, __c43, 0)),
           seasonalPeriods: S.optional(__S(1952, __c61, 0)),
-          arimaFittingMetrics: S.optional(__S(2135, __c66, 23)),
-          timeSeriesId: S.optional(S.String),
-          hasHolidayEffect: S.optional(S.Boolean),
-          arimaCoefficients: S.optional(__S(2150, __c67, 6)),
-        }),
-      ).annotate({ identifier: "ArimaModelInfo" });
-    case 8:
-      return S.Array(__S(2151, __c67, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          arimaModelInfo: S.optional(__S(2152, __c67, 8)),
-          seasonalPeriods: S.optional(__S(1952, __c61, 0)),
+          arimaModelInfo: S.optional(__S(2150, __c67, 6)),
         }),
       ).annotate({ identifier: "ArimaResult" });
-    case 10:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           cumulativeExplainedVarianceRatio: S.optional(S.Number),
@@ -7901,19 +8030,29 @@ function __c67(j: number): any {
           principalComponentId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrincipalComponentInfo" });
+    case 9:
+      return S.Array(__S(2152, __c67, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          clusterSize: S.optional(S.String),
+          centroidId: S.optional(S.String),
+          clusterRadius: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ClusterInfo" });
     case 11:
       return S.Array(__S(2154, __c67, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          clusterInfos: S.optional(__S(2149, __c67, 5)),
           trainingLoss: S.optional(S.Number),
-          index: S.optional(S.Number),
           learnRate: S.optional(S.Number),
+          arimaResult: S.optional(__S(2151, __c67, 7)),
+          index: S.optional(S.Number),
           durationMs: S.optional(S.String),
-          arimaResult: S.optional(__S(2153, __c67, 9)),
           evalLoss: S.optional(S.Number),
-          principalComponentInfos: S.optional(__S(2155, __c67, 11)),
+          principalComponentInfos: S.optional(__S(2153, __c67, 9)),
+          clusterInfos: S.optional(__S(2155, __c67, 11)),
         }),
       ).annotate({ identifier: "IterationResult" });
     case 13:
@@ -7925,9 +8064,9 @@ function __c68(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
-          reason: S.optional(S.String),
           location: S.optional(S.String),
+          reason: S.optional(S.String),
+          message: S.optional(S.String),
           debugInfo: S.optional(S.String),
         }),
       ).annotate({ identifier: "ErrorProto" });
@@ -7938,88 +8077,88 @@ function __c69(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataGovernanceTags: S.optional(__S(1856, __c58, 0)),
+          typeSystem: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TableFieldSchemaDataGovernanceTagsInfo" });
+      ).annotate({ identifier: "ForeignTypeInfo" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          names: S.optional(__S(1376, __c43, 0)),
-        }),
-      ).annotate({ identifier: "TableFieldSchemaPolicyTags" });
-    case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataPolicyOption" });
+    case 2:
+      return S.Array(__S(2209, __c69, 1));
     case 3:
-      return S.Array(__S(2210, __c69, 2));
+      return S.suspend(() =>
+        S.Struct({
+          dataPolicies: S.optional(__S(2210, __c69, 2)),
+        }),
+      ).annotate({ identifier: "DataPolicyList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dataPolicies: S.optional(__S(2211, __c69, 3)),
+          generationExpression: S.optional(S.String),
+          stored: S.optional(S.Boolean),
+          asynchronous: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "DataPolicyList" });
+      ).annotate({ identifier: "GeneratedExpressionInfo" });
     case 5:
+      return S.suspend(() =>
+        S.Struct({
+          generatedMode: S.optional(S.String),
+          generatedExpressionInfo: S.optional(__S(2212, __c69, 4)),
+        }),
+      ).annotate({ identifier: "GeneratedColumn" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          dataGovernanceTags: S.optional(__S(1856, __c58, 0)),
+        }),
+      ).annotate({ identifier: "TableFieldSchemaDataGovernanceTagsInfo" });
+    case 7:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableFieldSchemaRangeElementType" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          stored: S.optional(S.Boolean),
-          asynchronous: S.optional(S.Boolean),
-          generationExpression: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GeneratedExpressionInfo" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          generatedExpressionInfo: S.optional(__S(2214, __c69, 6)),
-          generatedMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GeneratedColumn" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          collation: S.optional(S.String),
-          dataGovernanceTagsInfo: S.optional(__S(2208, __c69, 0)),
-          precision: S.optional(S.String),
-          scale: S.optional(S.String),
-          policyTags: S.optional(__S(2209, __c69, 1)),
-          foreignTypeDefinition: S.optional(S.String),
-          type: S.optional(S.String),
-          maxLength: S.optional(S.String),
-          timestampPrecision: S.optional(S.String),
-          dataPolicyList: S.optional(__S(2212, __c69, 4)),
-          dataPolicies: S.optional(__S(2211, __c69, 3)),
-          roundingMode: S.optional(S.String),
-          mode: S.optional(S.String),
-          fields: S.optional(S.suspend(() => __S(2217, __c69, 9))),
-          defaultValueExpression: S.optional(S.String),
-          rangeElementType: S.optional(__S(2213, __c69, 5)),
-          generatedColumn: S.optional(__S(2215, __c69, 7)),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          categories: S.optional(__S(2209, __c69, 1)),
+          names: S.optional(__S(1376, __c43, 0)),
         }),
-      ).annotate({ identifier: "TableFieldSchema" });
+      ).annotate({ identifier: "TableFieldSchemaCategories" });
     case 9:
-      return S.Array(__S(2216, __c69, 8));
-    case 10:
       return S.suspend(() =>
         S.Struct({
-          typeSystem: S.optional(S.String),
+          dataPolicies: S.optional(__S(2210, __c69, 2)),
+          dataPolicyList: S.optional(__S(2211, __c69, 3)),
+          foreignTypeDefinition: S.optional(S.String),
+          mode: S.optional(S.String),
+          type: S.optional(S.String),
+          defaultValueExpression: S.optional(S.String),
+          scale: S.optional(S.String),
+          roundingMode: S.optional(S.String),
+          name: S.optional(S.String),
+          generatedColumn: S.optional(__S(2213, __c69, 5)),
+          dataGovernanceTagsInfo: S.optional(__S(2214, __c69, 6)),
+          rangeElementType: S.optional(__S(2215, __c69, 7)),
+          maxLength: S.optional(S.String),
+          fields: S.optional(S.suspend(() => __S(2218, __c69, 10))),
+          timestampPrecision: S.optional(S.String),
+          description: S.optional(S.String),
+          precision: S.optional(S.String),
+          categories: S.optional(__S(2216, __c69, 8)),
+          collation: S.optional(S.String),
+          policyTags: S.optional(__S(2216, __c69, 8)),
         }),
-      ).annotate({ identifier: "ForeignTypeInfo" });
+      ).annotate({ identifier: "TableFieldSchema" });
+    case 10:
+      return S.Array(__S(2217, __c69, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(2217, __c69, 9)),
-          foreignTypeInfo: S.optional(__S(2218, __c69, 10)),
+          foreignTypeInfo: S.optional(__S(2208, __c69, 0)),
+          fields: S.optional(__S(2218, __c69, 10)),
         }),
       ).annotate({ identifier: "TableSchema" });
   }
@@ -8036,8 +8175,8 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectId: S.optional(S.String),
-          jobId: S.optional(S.String),
           location: S.optional(S.String),
+          jobId: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobReference" });
   }
@@ -8048,9 +8187,9 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           tableId: S.optional(S.String),
-          projectId: S.optional(S.String),
-          policyId: S.optional(S.String),
           datasetId: S.optional(S.String),
+          policyId: S.optional(S.String),
+          projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RowAccessPolicyReference" });
   }
@@ -8066,10 +8205,10 @@ function __c73(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
           field: S.optional(S.String),
-          expirationMs: S.optional(S.String),
           requirePartitionFilter: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          expirationMs: S.optional(S.String),
         }),
       ).annotate({ identifier: "TimePartitioning" });
     case 2:
@@ -8092,46 +8231,33 @@ function __c73(j: number): any {
 function __c74(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          fields: S.optional(__S(1376, __c43, 0)),
-          mode: S.optional(S.String),
-          sourceUriPrefix: S.optional(S.String),
-          requirePartitionFilter: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "HivePartitioningOptions" });
+      return S.Array(__S(1888, __c59, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          enumAsString: S.optional(S.Boolean),
           enableListInference: S.optional(S.Boolean),
           mapTargetType: S.optional(S.String),
+          enumAsString: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ParquetOptions" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          inlineCode: S.optional(S.String),
-          resourceUri: S.optional(S.String),
+          mode: S.optional(S.String),
+          requirePartitionFilter: S.optional(S.Boolean),
+          fields: S.optional(__S(1376, __c43, 0)),
+          sourceUriPrefix: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UserDefinedFunctionResource" });
+      ).annotate({ identifier: "HivePartitioningOptions" });
     case 3:
-      return S.Array(__S(2370, __c74, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          encoding: S.optional(S.String),
-          allowJaggedRows: S.optional(S.Boolean),
-          nullMarkers: S.optional(__S(1376, __c43, 0)),
-          sourceColumnMatch: S.optional(S.String),
-          quote: S.optional(S.String),
-          preserveAsciiControlCharacters: S.optional(S.Boolean),
-          allowQuotedNewlines: S.optional(S.Boolean),
-          nullMarker: S.optional(S.String),
-          fieldDelimiter: S.optional(S.String),
-          skipLeadingRows: S.optional(S.String),
+          resourceUri: S.optional(S.String),
+          inlineCode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CsvOptions" });
+      ).annotate({ identifier: "UserDefinedFunctionResource" });
+    case 4:
+      return S.Array(__S(2371, __c74, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -8141,93 +8267,106 @@ function __c74(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          useAvroLogicalTypes: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "AvroOptions" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
           schemaBundleId: S.optional(S.String),
           protoMessageName: S.optional(S.String),
         }),
       ).annotate({ identifier: "BigtableProtoConfig" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           onlyReadLatest: S.optional(S.Boolean),
-          fieldName: S.optional(S.String),
-          type: S.optional(S.String),
           qualifierEncoded: S.optional(S.String),
           encoding: S.optional(S.String),
-          protoConfig: S.optional(__S(2375, __c74, 7)),
+          type: S.optional(S.String),
+          protoConfig: S.optional(__S(2374, __c74, 6)),
+          fieldName: S.optional(S.String),
           qualifierString: S.optional(S.String),
         }),
       ).annotate({ identifier: "BigtableColumn" });
+    case 8:
+      return S.Array(__S(2375, __c74, 7));
     case 9:
-      return S.Array(__S(2376, __c74, 8));
-    case 10:
       return S.suspend(() =>
         S.Struct({
+          protoConfig: S.optional(__S(2374, __c74, 6)),
           familyId: S.optional(S.String),
-          protoConfig: S.optional(__S(2375, __c74, 7)),
-          columns: S.optional(__S(2377, __c74, 9)),
-          onlyReadLatest: S.optional(S.Boolean),
           type: S.optional(S.String),
+          onlyReadLatest: S.optional(S.Boolean),
           encoding: S.optional(S.String),
+          columns: S.optional(__S(2376, __c74, 8)),
         }),
       ).annotate({ identifier: "BigtableColumnFamily" });
+    case 10:
+      return S.Array(__S(2377, __c74, 9));
     case 11:
-      return S.Array(__S(2378, __c74, 10));
+      return S.suspend(() =>
+        S.Struct({
+          ignoreUnspecifiedColumnFamilies: S.optional(S.Boolean),
+          outputColumnFamiliesAsJson: S.optional(S.Boolean),
+          columnFamilies: S.optional(__S(2378, __c74, 10)),
+          readRowkeyAsString: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "BigtableOptions" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          readRowkeyAsString: S.optional(S.Boolean),
-          columnFamilies: S.optional(__S(2379, __c74, 11)),
-          ignoreUnspecifiedColumnFamilies: S.optional(S.Boolean),
-          outputColumnFamiliesAsJson: S.optional(S.Boolean),
+          allowQuotedNewlines: S.optional(S.Boolean),
+          preserveAsciiControlCharacters: S.optional(S.Boolean),
+          encoding: S.optional(S.String),
+          nullMarkers: S.optional(__S(1376, __c43, 0)),
+          nullMarker: S.optional(S.String),
+          fieldDelimiter: S.optional(S.String),
+          allowJaggedRows: S.optional(S.Boolean),
+          quote: S.optional(S.String),
+          sourceColumnMatch: S.optional(S.String),
+          skipLeadingRows: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BigtableOptions" });
+      ).annotate({ identifier: "CsvOptions" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(S.String),
-          skipLeadingRows: S.optional(S.String),
+          useAvroLogicalTypes: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "GoogleSheetsOptions" });
+      ).annotate({ identifier: "AvroOptions" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          timeZone: S.optional(S.String),
-          csvOptions: S.optional(__S(2372, __c74, 4)),
+          skipLeadingRows: S.optional(S.String),
+          range: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleSheetsOptions" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          decimalTargetTypes: S.optional(__S(1952, __c61, 0)),
+          jsonOptions: S.optional(__S(2373, __c74, 5)),
+          hivePartitioningOptions: S.optional(__S(2370, __c74, 2)),
+          bigtableOptions: S.optional(__S(2379, __c74, 11)),
+          sourceUris: S.optional(__S(1376, __c43, 0)),
+          referenceFileSchemaUri: S.optional(S.String),
           dateFormat: S.optional(S.String),
-          fileSetSpecType: S.optional(S.String),
+          schema: S.optional(__S(2219, __c69, 11)),
+          jsonExtension: S.optional(S.String),
+          timestampTargetPrecision: S.optional(__S(2080, __c65, 0)),
           compression: S.optional(S.String),
-          ignoreUnknownValues: S.optional(S.Boolean),
+          autodetect: S.optional(S.Boolean),
           datetimeFormat: S.optional(S.String),
           connectionId: S.optional(S.String),
-          timestampFormat: S.optional(S.String),
-          timeFormat: S.optional(S.String),
-          jsonOptions: S.optional(__S(2373, __c74, 5)),
-          hivePartitioningOptions: S.optional(__S(2368, __c74, 0)),
-          referenceFileSchemaUri: S.optional(S.String),
-          maxBadRecords: S.optional(S.Number),
-          autodetect: S.optional(S.Boolean),
-          sourceUris: S.optional(__S(1376, __c43, 0)),
-          metadataCacheMode: S.optional(S.String),
-          jsonExtension: S.optional(S.String),
-          avroOptions: S.optional(__S(2374, __c74, 6)),
           sourceFormat: S.optional(S.String),
-          timestampTargetPrecision: S.optional(__S(2080, __c65, 0)),
+          maxBadRecords: S.optional(S.Number),
+          metadataCacheMode: S.optional(S.String),
+          csvOptions: S.optional(__S(2380, __c74, 12)),
+          fileSetSpecType: S.optional(S.String),
+          avroOptions: S.optional(__S(2381, __c74, 13)),
+          timestampFormat: S.optional(S.String),
+          timeZone: S.optional(S.String),
+          googleSheetsOptions: S.optional(__S(2382, __c74, 14)),
+          timeFormat: S.optional(S.String),
           objectMetadata: S.optional(S.String),
-          schema: S.optional(__S(2219, __c69, 11)),
-          bigtableOptions: S.optional(__S(2380, __c74, 12)),
+          ignoreUnknownValues: S.optional(S.Boolean),
           parquetOptions: S.optional(__S(2369, __c74, 1)),
-          decimalTargetTypes: S.optional(__S(1952, __c61, 0)),
-          googleSheetsOptions: S.optional(__S(2381, __c74, 13)),
         }),
       ).annotate({ identifier: "ExternalDataConfiguration" });
-    case 15:
-      return S.Array(__S(1888, __c59, 0));
   }
 }
 function __c75(j: number): any {
@@ -8235,17 +8374,17 @@ function __c75(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          configuration: S.optional(__S(2442, __c76, 10)),
-          jobCreationReason: S.optional(__S(2560, __c80, 0)),
-          selfLink: S.optional(S.String),
-          etag: S.optional(S.String),
-          kind: S.optional(S.String),
-          statistics: S.optional(__S(2517, __c78, 21)),
           user_email: S.optional(S.String),
-          principal_subject: S.optional(S.String),
-          status: S.optional(__S(2518, __c78, 22)),
-          jobReference: S.optional(__S(2272, __c71, 0)),
+          status: S.optional(__S(2432, __c76, 0)),
+          configuration: S.optional(__S(2443, __c76, 11)),
+          etag: S.optional(S.String),
           id: S.optional(S.String),
+          statistics: S.optional(__S(2520, __c78, 24)),
+          jobReference: S.optional(__S(2272, __c71, 0)),
+          kind: S.optional(S.String),
+          jobCreationReason: S.optional(__S(2560, __c80, 0)),
+          principal_subject: S.optional(S.String),
+          selfLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "Job" });
   }
@@ -8255,95 +8394,118 @@ function __c76(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          trialId: S.optional(S.String),
+          state: S.optional(S.String),
+          errors: S.optional(__S(2240, __c70, 0)),
+          errorResult: S.optional(__S(2176, __c68, 0)),
         }),
-      ).annotate({ identifier: "ModelExtractOptions" });
+      ).annotate({ identifier: "JobStatus" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          modelExtractOptions: S.optional(__S(2432, __c76, 0)),
-          useAvroLogicalTypes: S.optional(S.Boolean),
-          compression: S.optional(S.String),
+          destinationEncryptionConfiguration: S.optional(__S(1920, __c60, 0)),
           sourceTable: S.optional(__S(1888, __c59, 0)),
-          sourceModel: S.optional(__S(2112, __c66, 0)),
-          destinationFormat: S.optional(S.String),
-          destinationUri: S.optional(S.String),
-          secureContext: S.optional(__S(2529, __c79, 1)),
-          fieldDelimiter: S.optional(S.String),
-          destinationUris: S.optional(__S(1376, __c43, 0)),
-          nativeGeographyExportEnabled: S.optional(S.Boolean),
-          printHeader: S.optional(S.Boolean),
+          createDisposition: S.optional(S.String),
+          destinationExpirationTime: S.optional(S.String),
+          operationType: S.optional(S.String),
+          sourceTables: S.optional(__S(2368, __c74, 0)),
+          destinationTable: S.optional(__S(1888, __c59, 0)),
+          writeDisposition: S.optional(S.String),
         }),
-      ).annotate({ identifier: "JobConfigurationExtract" });
+      ).annotate({ identifier: "JobConfigurationTableCopy" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
+          labels: S.optional(__S(1856, __c58, 0)),
           expirationTime: S.optional(S.String),
           friendlyName: S.optional(S.String),
-          labels: S.optional(__S(1856, __c58, 0)),
         }),
       ).annotate({ identifier: "DestinationTableProperties" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          timestampFormat: S.optional(S.String),
-          sourceFormat: S.optional(S.String),
-          encoding: S.optional(S.String),
-          destinationTable: S.optional(__S(1888, __c59, 0)),
-          hivePartitioningOptions: S.optional(__S(2368, __c74, 0)),
-          useAvroLogicalTypes: S.optional(S.Boolean),
-          jsonExtension: S.optional(S.String),
-          connectionProperties: S.optional(__S(2531, __c79, 3)),
-          timeFormat: S.optional(S.String),
-          preserveAsciiControlCharacters: S.optional(S.Boolean),
-          timeZone: S.optional(S.String),
-          schemaInline: S.optional(S.String),
-          sourceColumnMatch: S.optional(S.String),
-          fieldDelimiter: S.optional(S.String),
+          writeDisposition: S.optional(S.String),
+          quote: S.optional(S.String),
           clustering: S.optional(__S(2336, __c73, 0)),
-          maxBadRecords: S.optional(S.Number),
           allowJaggedRows: S.optional(S.Boolean),
+          useAvroLogicalTypes: S.optional(S.Boolean),
+          fieldDelimiter: S.optional(S.String),
+          parquetOptions: S.optional(__S(2369, __c74, 1)),
+          decimalTargetTypes: S.optional(__S(1952, __c61, 0)),
           destinationEncryptionConfiguration: S.optional(__S(1920, __c60, 0)),
-          skipLeadingRows: S.optional(S.Number),
-          fileSetSpecType: S.optional(S.String),
-          destinationTableProperties: S.optional(__S(2434, __c76, 2)),
-          projectionFields: S.optional(__S(1376, __c43, 0)),
-          datetimeFormat: S.optional(S.String),
-          schemaInlineFormat: S.optional(S.String),
           columnNameCharacterMap: S.optional(S.String),
           createSession: S.optional(S.Boolean),
-          nullMarkers: S.optional(__S(1376, __c43, 0)),
-          dateFormat: S.optional(S.String),
-          schemaUpdateOptions: S.optional(__S(1376, __c43, 0)),
           allowQuotedNewlines: S.optional(S.Boolean),
-          timePartitioning: S.optional(__S(2337, __c73, 1)),
-          parquetOptions: S.optional(__S(2369, __c74, 1)),
-          referenceFileSchemaUri: S.optional(S.String),
-          schema: S.optional(__S(2219, __c69, 11)),
-          createDisposition: S.optional(S.String),
-          copyFilesOnly: S.optional(S.Boolean),
-          writeDisposition: S.optional(S.String),
+          hivePartitioningOptions: S.optional(__S(2370, __c74, 2)),
+          timeFormat: S.optional(S.String),
           ignoreUnknownValues: S.optional(S.Boolean),
-          sourceUris: S.optional(__S(1376, __c43, 0)),
+          timePartitioning: S.optional(__S(2337, __c73, 1)),
+          fileSetSpecType: S.optional(S.String),
           rangePartitioning: S.optional(__S(2339, __c73, 3)),
-          autodetect: S.optional(S.Boolean),
-          nullMarker: S.optional(S.String),
-          decimalTargetTypes: S.optional(__S(1952, __c61, 0)),
-          quote: S.optional(S.String),
+          sourceFormat: S.optional(S.String),
+          skipLeadingRows: S.optional(S.Number),
+          sourceColumnMatch: S.optional(S.String),
+          timestampFormat: S.optional(S.String),
+          referenceFileSchemaUri: S.optional(S.String),
+          destinationTableProperties: S.optional(__S(2434, __c76, 2)),
+          datetimeFormat: S.optional(S.String),
+          timeZone: S.optional(S.String),
           timestampTargetPrecision: S.optional(__S(2080, __c65, 0)),
+          nullMarkers: S.optional(__S(1376, __c43, 0)),
+          jsonExtension: S.optional(S.String),
+          copyFilesOnly: S.optional(S.Boolean),
+          schemaInline: S.optional(S.String),
+          destinationTable: S.optional(__S(1888, __c59, 0)),
+          autodetect: S.optional(S.Boolean),
+          connectionProperties: S.optional(__S(2529, __c79, 1)),
+          dateFormat: S.optional(S.String),
+          nullMarker: S.optional(S.String),
+          createDisposition: S.optional(S.String),
+          schema: S.optional(__S(2219, __c69, 11)),
+          maxBadRecords: S.optional(S.Number),
+          schemaUpdateOptions: S.optional(__S(1376, __c43, 0)),
+          schemaInlineFormat: S.optional(S.String),
+          sourceUris: S.optional(__S(1376, __c43, 0)),
+          projectionFields: S.optional(__S(1376, __c43, 0)),
+          encoding: S.optional(S.String),
+          preserveAsciiControlCharacters: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "JobConfigurationLoad" });
     case 4:
-      return S.Record(S.String, __S(2051, __c64, 3));
+      return S.suspend(() =>
+        S.Struct({
+          trialId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ModelExtractOptions" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          types: S.optional(__S(2436, __c76, 4)),
-          values: S.optional(__S(2528, __c79, 0)),
+          nativeGeographyExportEnabled: S.optional(S.Boolean),
+          destinationFormat: S.optional(S.String),
+          modelExtractOptions: S.optional(__S(2436, __c76, 4)),
+          useAvroLogicalTypes: S.optional(S.Boolean),
+          printHeader: S.optional(S.Boolean),
+          destinationUris: S.optional(__S(1376, __c43, 0)),
+          compression: S.optional(S.String),
+          sourceTable: S.optional(__S(1888, __c59, 0)),
+          fieldDelimiter: S.optional(S.String),
+          secureContext: S.optional(__S(2531, __c79, 3)),
+          sourceModel: S.optional(__S(2112, __c66, 0)),
+          destinationUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JobConfigurationExtract" });
+    case 6:
+      return S.Record(S.String, __S(2051, __c64, 3));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          types: S.optional(__S(2438, __c76, 6)),
+          values: S.optional(__S(2530, __c79, 2)),
         }),
       ).annotate({ identifier: "SystemVariables" });
-    case 6:
+    case 8:
+      return S.Record(S.String, __S(2383, __c74, 15));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           statementTimeoutMs: S.optional(S.String),
@@ -8351,594 +8513,56 @@ function __c76(j: number): any {
           keyResultStatement: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScriptOptions" });
-    case 7:
-      return S.Record(S.String, __S(2382, __c74, 14));
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          allowLargeResults: S.optional(S.Boolean),
-          useLegacySql: S.optional(S.Boolean),
-          rangePartitioning: S.optional(__S(2339, __c73, 3)),
-          writeDisposition: S.optional(S.String),
-          priority: S.optional(S.String),
+          query: S.optional(S.String),
+          clustering: S.optional(__S(2336, __c73, 0)),
           createSession: S.optional(S.Boolean),
+          secureContext: S.optional(__S(2531, __c79, 3)),
+          rangePartitioning: S.optional(__S(2339, __c73, 3)),
           flattenResults: S.optional(S.Boolean),
-          systemVariables: S.optional(__S(2437, __c76, 5)),
+          destinationEncryptionConfiguration: S.optional(__S(1920, __c60, 0)),
+          timePartitioning: S.optional(__S(2337, __c73, 1)),
+          userDefinedFunctionResources: S.optional(__S(2372, __c74, 4)),
+          preserveNulls: S.optional(S.Boolean),
+          systemVariables: S.optional(__S(2439, __c76, 7)),
           useQueryCache: S.optional(S.Boolean),
-          scriptOptions: S.optional(__S(2438, __c76, 6)),
           writeIncrementalResults: S.optional(S.Boolean),
-          createDisposition: S.optional(S.String),
+          priority: S.optional(S.String),
           maximumBillingTier: S.optional(S.Number),
           maximumBytesBilled: S.optional(S.String),
           parameterMode: S.optional(S.String),
-          connectionProperties: S.optional(__S(2531, __c79, 3)),
-          clustering: S.optional(__S(2336, __c73, 0)),
-          userDefinedFunctionResources: S.optional(__S(2371, __c74, 3)),
-          tableDefinitions: S.optional(__S(2439, __c76, 7)),
-          secureContext: S.optional(__S(2529, __c79, 1)),
-          destinationEncryptionConfiguration: S.optional(__S(1920, __c60, 0)),
-          queryParameters: S.optional(__S(2540, __c79, 12)),
-          destinationTable: S.optional(__S(1888, __c59, 0)),
-          timePartitioning: S.optional(__S(2337, __c73, 1)),
-          continuous: S.optional(S.Boolean),
-          query: S.optional(S.String),
+          writeDisposition: S.optional(S.String),
+          useLegacySql: S.optional(S.Boolean),
+          connectionProperties: S.optional(__S(2529, __c79, 1)),
           defaultDataset: S.optional(__S(2016, __c63, 0)),
-          preserveNulls: S.optional(S.Boolean),
+          allowLargeResults: S.optional(S.Boolean),
+          tableDefinitions: S.optional(__S(2440, __c76, 8)),
           schemaUpdateOptions: S.optional(__S(1376, __c43, 0)),
+          scriptOptions: S.optional(__S(2441, __c76, 9)),
+          createDisposition: S.optional(S.String),
+          destinationTable: S.optional(__S(1888, __c59, 0)),
+          continuous: S.optional(S.Boolean),
+          queryParameters: S.optional(__S(2540, __c79, 12)),
         }),
       ).annotate({ identifier: "JobConfigurationQuery" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          destinationEncryptionConfiguration: S.optional(__S(1920, __c60, 0)),
-          destinationTable: S.optional(__S(1888, __c59, 0)),
-          writeDisposition: S.optional(S.String),
-          sourceTable: S.optional(__S(1888, __c59, 0)),
-          sourceTables: S.optional(__S(2383, __c74, 15)),
-          destinationExpirationTime: S.optional(S.String),
-          createDisposition: S.optional(S.String),
-          operationType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "JobConfigurationTableCopy" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          extract: S.optional(__S(2433, __c76, 1)),
-          load: S.optional(__S(2435, __c76, 3)),
-          query: S.optional(__S(2440, __c76, 8)),
-          jobType: S.optional(S.String),
-          dryRun: S.optional(S.Boolean),
-          copy: S.optional(__S(2441, __c76, 9)),
-          jobTimeoutMs: S.optional(S.String),
           reservation: S.optional(S.String),
+          jobType: S.optional(S.String),
+          copy: S.optional(__S(2433, __c76, 1)),
           labels: S.optional(__S(1856, __c58, 0)),
+          load: S.optional(__S(2435, __c76, 3)),
+          extract: S.optional(__S(2437, __c76, 5)),
+          query: S.optional(__S(2442, __c76, 10)),
           maxSlots: S.optional(S.Number),
+          jobTimeoutMs: S.optional(S.String),
+          dryRun: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "JobConfiguration" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          pendingUnits: S.optional(S.String),
-          activeUnits: S.optional(S.String),
-          estimatedRunnableUnits: S.optional(S.String),
-          completedUnits: S.optional(S.String),
-          elapsedMs: S.optional(S.String),
-          shuffleRamUsageRatio: S.optional(S.Number),
-          totalSlotMs: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "QueryTimelineSample" });
     case 12:
-      return S.Array(__S(2443, __c76, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          outputRows: S.optional(S.String),
-          inputFileBytes: S.optional(S.String),
-          badRecords: S.optional(S.String),
-          outputBytes: S.optional(S.String),
-          timeline: S.optional(__S(2444, __c76, 12)),
-          inputFiles: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "JobStatistics3" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          dataMaskingApplied: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "DataMaskingStatistics" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          endColumn: S.optional(S.Number),
-          procedureId: S.optional(S.String),
-          endLine: S.optional(S.Number),
-          startColumn: S.optional(S.Number),
-          text: S.optional(S.String),
-          startLine: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ScriptStackFrame" });
-    case 16:
-      return S.Array(__S(2447, __c76, 15));
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          evaluationKind: S.optional(S.String),
-          stackFrames: S.optional(__S(2448, __c76, 16)),
-        }),
-      ).annotate({ identifier: "ScriptStatistics" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          expectedTotalIterations: S.optional(S.String),
-          currentIteration: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "BigQueryModelTraining" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          postCmetaPruningPartitionCount: S.optional(S.String),
-          preCmetaPruningParallelInputCount: S.optional(S.String),
-          postCmetaPruningParallelInputCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PruningStats" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          explanation: S.optional(S.String),
-          tableReference: S.optional(__S(1888, __c59, 0)),
-          pruningStats: S.optional(__S(2451, __c76, 19)),
-          tableType: S.optional(S.String),
-          unusedReason: S.optional(S.String),
-          staleness: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TableMetadataCacheUsage" });
-    case 21:
-      return S.Array(__S(2452, __c76, 20));
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          tableMetadataCacheUsage: S.optional(__S(2453, __c76, 21)),
-        }),
-      ).annotate({ identifier: "MetadataCacheStatistics" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.optional(S.String),
-          resourceType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SparkLoggingInfo" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          kmsKeyName: S.optional(S.String),
-          endpoints: S.optional(__S(1856, __c58, 0)),
-          sparkJobLocation: S.optional(S.String),
-          sparkJobId: S.optional(S.String),
-          gcsStagingBucket: S.optional(S.String),
-          loggingInfo: S.optional(__S(2455, __c76, 23)),
-        }),
-      ).annotate({ identifier: "SparkStatistics" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          slotMs: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "JobStatistics2ReservationUsageItem" });
-    case 26:
-      return S.Array(__S(2457, __c76, 25));
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          slotMs: S.optional(S.String),
-          bytesBilled: S.optional(S.String),
-          externalService: S.optional(S.String),
-          billingMethod: S.optional(S.String),
-          reservedSlotCount: S.optional(S.String),
-          bytesProcessed: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExternalServiceCost" });
-    case 28:
-      return S.Array(__S(2459, __c76, 27));
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          errors: S.optional(__S(1376, __c43, 0)),
-        }),
-      ).annotate({ identifier: "GenAiErrorStats" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          numCacheHitRows: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GenAiFunctionCacheStats" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          numCostOptimizedRows: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GenAiFunctionCostOptimizationStats" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          numFailedRows: S.optional(S.String),
-          errors: S.optional(__S(1376, __c43, 0)),
-        }),
-      ).annotate({ identifier: "GenAiFunctionErrorStats" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          cacheStats: S.optional(__S(2462, __c76, 30)),
-          costOptimizationStats: S.optional(__S(2463, __c76, 31)),
-          errorStats: S.optional(__S(2464, __c77, 0)),
-          prompt: S.optional(S.String),
-          functionName: S.optional(S.String),
-          numProcessedRows: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GenAiFunctionStats" });
-    case 2:
-      return S.Array(__S(2465, __c77, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          errorStats: S.optional(__S(2461, __c76, 29)),
-          functionStats: S.optional(__S(2466, __c77, 2)),
-        }),
-      ).annotate({ identifier: "GenAiStats" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          code: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BiEngineReason" });
-    case 5:
-      return S.Array(__S(2468, __c77, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          outputBytesMax: S.optional(S.String),
-          outputBytesP95: S.optional(S.String),
-          outputBytesMedian: S.optional(S.String),
-          stageId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SkewSource" });
-    case 7:
-      return S.Array(__S(2470, __c77, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          skewSources: S.optional(__S(2471, __c77, 7)),
-        }),
-      ).annotate({ identifier: "PartitionSkew" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          leftRows: S.optional(S.String),
-          rightRows: S.optional(S.String),
-          stepIndex: S.optional(S.Number),
-          outputRows: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HighCardinalityJoin" });
-    case 10:
-      return S.Array(__S(2473, __c77, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          biEngineReasons: S.optional(__S(2469, __c77, 5)),
-          partitionSkew: S.optional(__S(2472, __c77, 8)),
-          highCardinalityJoins: S.optional(__S(2474, __c77, 10)),
-          stageId: S.optional(S.String),
-          slotContention: S.optional(S.Boolean),
-          insufficientShuffleQuota: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "StagePerformanceStandaloneInsight" });
-    case 12:
-      return S.Array(__S(2475, __c77, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          stalenessPercentageIncrease: S.optional(S.Number),
-          avgPreviousStalenessMs: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MetadataCacheStalenessInsight" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          metadataCacheNotUsedButUsedPreviously: S.optional(S.Boolean),
-          tableReference: S.optional(__S(1888, __c59, 0)),
-          metadataCacheStalenessInsight: S.optional(__S(2477, __c77, 13)),
-        }),
-      ).annotate({ identifier: "TableChangeInsight" });
-    case 15:
-      return S.Array(__S(2478, __c77, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          recordsReadDiffPercentage: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "InputDataChange" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          stageId: S.optional(S.String),
-          inputDataChange: S.optional(__S(2480, __c77, 16)),
-        }),
-      ).annotate({ identifier: "StagePerformanceChangeInsight" });
-    case 18:
-      return S.Array(__S(2481, __c77, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          stagePerformanceStandaloneInsights: S.optional(__S(2476, __c77, 12)),
-          avgPreviousExecutionMs: S.optional(S.String),
-          tableChangeInsights: S.optional(__S(2479, __c77, 15)),
-          stagePerformanceChangeInsights: S.optional(__S(2482, __c77, 18)),
-        }),
-      ).annotate({ identifier: "PerformanceInsights" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          cacheBytesRead: S.optional(S.String),
-          cloudProvider: S.optional(S.String),
-          objectStorageBytesRead: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ObjectStorageStats" });
-    case 21:
-      return S.Array(__S(2484, __c77, 20));
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          rowCount: S.optional(S.String),
-          fileCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExportDataStatistics" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          resultSetLastModifyTime: S.optional(S.String),
-          incrementalRowCount: S.optional(S.String),
-          disabledReason: S.optional(S.String),
-          disabledReasonDetails: S.optional(S.String),
-          firstIncrementalRowTime: S.optional(S.String),
-          lastIncrementalRowTime: S.optional(S.String),
-          resultSetLastReplaceTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IncrementalResultStats" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          trainingType: S.optional(S.String),
-          maxIterations: S.optional(S.String),
-          hparamTrials: S.optional(__S(2147, __c67, 3)),
-          modelType: S.optional(S.String),
-          iterationResults: S.optional(__S(2157, __c67, 13)),
-        }),
-      ).annotate({ identifier: "MlStatistics" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          accelerationMode: S.optional(S.String),
-          biEngineReasons: S.optional(__S(2469, __c77, 5)),
-          biEngineMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BiEngineStatistics" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          baseTable: S.optional(__S(1888, __c59, 0)),
-          postIndexPruningParallelInputCount: S.optional(S.String),
-          preIndexPruningParallelInputCount: S.optional(S.String),
-          indexId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IndexPruningStats" });
-    case 27:
-      return S.Array(__S(2490, __c77, 26));
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-          baseTable: S.optional(__S(1888, __c59, 0)),
-          indexName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IndexUnusedReason" });
-    case 29:
-      return S.Array(__S(2492, __c77, 28));
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          indexUsageMode: S.optional(S.String),
-          indexPruningStats: S.optional(__S(2491, __c77, 27)),
-          indexUnusedReasons: S.optional(__S(2493, __c77, 29)),
-        }),
-      ).annotate({ identifier: "SearchStatistics" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          uncoveredColumns: S.optional(__S(1376, __c43, 0)),
-          code: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StoredColumnsUnusedReason" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2495, __c77, 31));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          storedColumnsUnusedReasons: S.optional(__S(2496, __c78, 0)),
-          baseTable: S.optional(__S(1888, __c59, 0)),
-          isQueryAccelerated: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "StoredColumnsUsage" });
-    case 2:
-      return S.Array(__S(2497, __c78, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          indexUsageMode: S.optional(S.String),
-          indexUnusedReasons: S.optional(__S(2493, __c77, 29)),
-          storedColumnsUsages: S.optional(__S(2498, __c78, 2)),
-        }),
-      ).annotate({ identifier: "VectorSearchStatistics" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          badRecords: S.optional(S.String),
-          outputRows: S.optional(S.String),
-          outputBytes: S.optional(S.String),
-          inputFileBytes: S.optional(S.String),
-          bytesTransferred: S.optional(S.String),
-          inputFiles: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LoadQueryStatistics" });
-    case 5:
-      return S.Array(__S(1984, __c62, 0));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          optimizationDetails: S.optional(__S(2528, __c79, 0)),
-        }),
-      ).annotate({ identifier: "QueryInfo" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          datasetId: S.optional(S.String),
-          projectId: S.optional(S.String),
-          propertyGraphId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PropertyGraphReference" });
-    case 8:
-      return S.Array(__S(2503, __c78, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.optional(S.String),
-          substeps: S.optional(__S(1376, __c43, 0)),
-        }),
-      ).annotate({ identifier: "ExplainQueryStep" });
-    case 10:
-      return S.Array(__S(2505, __c78, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          waitRatioMax: S.optional(S.Number),
-          status: S.optional(S.String),
-          computeMode: S.optional(S.String),
-          shuffleOutputBytes: S.optional(S.String),
-          computeRatioMax: S.optional(S.Number),
-          endMs: S.optional(S.String),
-          writeRatioAvg: S.optional(S.Number),
-          slotMs: S.optional(S.String),
-          writeMsMax: S.optional(S.String),
-          startMs: S.optional(S.String),
-          computeRatioAvg: S.optional(S.Number),
-          waitRatioAvg: S.optional(S.Number),
-          readMsAvg: S.optional(S.String),
-          writeRatioMax: S.optional(S.Number),
-          completedParallelInputs: S.optional(S.String),
-          parallelInputs: S.optional(S.String),
-          computeMsAvg: S.optional(S.String),
-          inputStages: S.optional(__S(1376, __c43, 0)),
-          readRatioAvg: S.optional(S.Number),
-          readMsMax: S.optional(S.String),
-          writeMsAvg: S.optional(S.String),
-          readRatioMax: S.optional(S.Number),
-          recordsRead: S.optional(S.String),
-          waitMsAvg: S.optional(S.String),
-          shuffleOutputBytesSpilled: S.optional(S.String),
-          waitMsMax: S.optional(S.String),
-          steps: S.optional(__S(2506, __c78, 10)),
-          id: S.optional(S.String),
-          recordsWritten: S.optional(S.String),
-          computeMsMax: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExplainQueryStage" });
-    case 12:
-      return S.Array(__S(2507, __c78, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          estimatedBytesSaved: S.optional(S.String),
-          chosen: S.optional(S.Boolean),
-          rejectedReason: S.optional(S.String),
-          tableReference: S.optional(__S(1888, __c59, 0)),
-        }),
-      ).annotate({ identifier: "MaterializedView" });
-    case 14:
-      return S.Array(__S(2509, __c78, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          materializedView: S.optional(__S(2510, __c78, 14)),
-        }),
-      ).annotate({ identifier: "MaterializedViewStatistics" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          modelTraining: S.optional(__S(2450, __c76, 18)),
-          numDmlAffectedRows: S.optional(S.String),
-          ddlTargetRowAccessPolicy: S.optional(__S(2304, __c72, 0)),
-          modelTrainingExpectedTotalIteration: S.optional(S.String),
-          dclTargetDataset: S.optional(__S(2016, __c63, 0)),
-          dclTargetTable: S.optional(__S(1888, __c59, 0)),
-          metadataCacheStatistics: S.optional(__S(2454, __c76, 22)),
-          sparkStatistics: S.optional(__S(2456, __c76, 24)),
-          reservationUsage: S.optional(__S(2458, __c76, 26)),
-          transferredBytes: S.optional(S.String),
-          referencedLogicalViews: S.optional(__S(2383, __c74, 15)),
-          undeclaredQueryParameters: S.optional(__S(2540, __c79, 12)),
-          externalServiceCosts: S.optional(__S(2460, __c76, 28)),
-          billingTier: S.optional(S.Number),
-          schema: S.optional(__S(2219, __c69, 11)),
-          genAiStats: S.optional(__S(2467, __c77, 3)),
-          performanceInsights: S.optional(__S(2483, __c77, 19)),
-          objectStorageStats: S.optional(__S(2485, __c77, 21)),
-          exportDataStatistics: S.optional(__S(2486, __c77, 22)),
-          incrementalResultStats: S.optional(__S(2487, __c77, 23)),
-          ddlTargetDataset: S.optional(__S(2016, __c63, 0)),
-          totalServicesSkuSlotMs: S.optional(S.String),
-          mlStatistics: S.optional(__S(2488, __c77, 24)),
-          biEngineStatistics: S.optional(__S(2489, __c77, 25)),
-          searchStatistics: S.optional(__S(2494, __c77, 30)),
-          cacheHit: S.optional(S.Boolean),
-          vectorSearchStatistics: S.optional(__S(2499, __c78, 3)),
-          ddlTargetRoutine: S.optional(__S(1984, __c62, 0)),
-          timeline: S.optional(__S(2444, __c76, 12)),
-          dmlStats: S.optional(__S(2541, __c79, 13)),
-          ddlTargetTable: S.optional(__S(1888, __c59, 0)),
-          totalBytesProcessed: S.optional(S.String),
-          loadQueryStatistics: S.optional(__S(2500, __c78, 4)),
-          referencedRoutines: S.optional(__S(2501, __c78, 5)),
-          statementType: S.optional(S.String),
-          totalSlotMs: S.optional(S.String),
-          estimatedBytesProcessed: S.optional(S.String),
-          queryInfo: S.optional(__S(2502, __c78, 6)),
-          ddlDestinationTable: S.optional(__S(1888, __c59, 0)),
-          totalBytesBilled: S.optional(S.String),
-          referencedPropertyGraphs: S.optional(__S(2504, __c78, 8)),
-          queryPlan: S.optional(__S(2508, __c78, 12)),
-          modelTrainingCurrentIteration: S.optional(S.Number),
-          referencedTables: S.optional(__S(2383, __c74, 15)),
-          ddlAffectedRowAccessPolicyCount: S.optional(S.String),
-          dclTargetView: S.optional(__S(1888, __c59, 0)),
-          totalPartitionsProcessed: S.optional(S.String),
-          materializedViewStatistics: S.optional(__S(2511, __c78, 15)),
-          ddlOperationPerformed: S.optional(S.String),
-          totalBytesProcessedAccuracy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "JobStatistics2" });
-    case 17:
       return S.suspend(() =>
         S.Struct({
           remoteDestinationRegion: S.optional(S.String),
@@ -8946,114 +8570,645 @@ function __c78(j: number): any {
           copiedLogicalBytes: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobStatistics5" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          elapsedMs: S.optional(S.String),
+          estimatedRunnableUnits: S.optional(S.String),
+          activeUnits: S.optional(S.String),
+          completedUnits: S.optional(S.String),
+          shuffleRamUsageRatio: S.optional(S.Number),
+          totalSlotMs: S.optional(S.String),
+          pendingUnits: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "QueryTimelineSample" });
+    case 14:
+      return S.Array(__S(2445, __c76, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          timeline: S.optional(__S(2446, __c76, 14)),
+          destinationUriFileCounts: S.optional(__S(1376, __c43, 0)),
+          inputBytes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JobStatistics4" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          fileCount: S.optional(S.String),
+          rowCount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExportDataStatistics" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          numCacheHitRows: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GenAiFunctionCacheStats" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          rowLevelSecurityApplied: S.optional(S.Boolean),
+          errors: S.optional(__S(1376, __c43, 0)),
+          numFailedRows: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RowLevelSecurityStatistics" });
+      ).annotate({ identifier: "GenAiFunctionErrorStats" });
     case 19:
+      return S.suspend(() =>
+        S.Struct({
+          numCostOptimizedRows: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GenAiFunctionCostOptimizationStats" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          cacheStats: S.optional(__S(2449, __c76, 17)),
+          errorStats: S.optional(__S(2450, __c76, 18)),
+          numProcessedRows: S.optional(S.String),
+          functionName: S.optional(S.String),
+          costOptimizationStats: S.optional(__S(2451, __c76, 19)),
+          prompt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GenAiFunctionStats" });
+    case 21:
+      return S.Array(__S(2452, __c76, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(1376, __c43, 0)),
+        }),
+      ).annotate({ identifier: "GenAiErrorStats" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          functionStats: S.optional(__S(2453, __c76, 21)),
+          errorStats: S.optional(__S(2454, __c76, 22)),
+        }),
+      ).annotate({ identifier: "GenAiStats" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          objectStorageBytesRead: S.optional(S.String),
+          cloudProvider: S.optional(S.String),
+          cacheBytesRead: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ObjectStorageStats" });
+    case 25:
+      return S.Array(__S(2456, __c76, 24));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BiEngineReason" });
+    case 27:
+      return S.Array(__S(2458, __c76, 26));
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          biEngineMode: S.optional(S.String),
+          biEngineReasons: S.optional(__S(2459, __c76, 27)),
+          accelerationMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BiEngineStatistics" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          slotMs: S.optional(S.String),
+          bytesProcessed: S.optional(S.String),
+          reservedSlotCount: S.optional(S.String),
+          bytesBilled: S.optional(S.String),
+          externalService: S.optional(S.String),
+          billingMethod: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExternalServiceCost" });
+    case 30:
+      return S.Array(__S(2461, __c76, 29));
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          disabledReasonDetails: S.optional(S.String),
+          incrementalRowCount: S.optional(S.String),
+          firstIncrementalRowTime: S.optional(S.String),
+          resultSetLastReplaceTime: S.optional(S.String),
+          disabledReason: S.optional(S.String),
+          resultSetLastModifyTime: S.optional(S.String),
+          lastIncrementalRowTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IncrementalResultStats" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          datasetId: S.optional(S.String),
+          propertyGraphId: S.optional(S.String),
+          projectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PropertyGraphReference" });
+    case 1:
+      return S.Array(__S(2464, __c77, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.optional(S.String),
+          projectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SparkLoggingInfo" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          loggingInfo: S.optional(__S(2466, __c77, 2)),
+          kmsKeyName: S.optional(S.String),
+          sparkJobId: S.optional(S.String),
+          gcsStagingBucket: S.optional(S.String),
+          sparkJobLocation: S.optional(S.String),
+          endpoints: S.optional(__S(1856, __c58, 0)),
+        }),
+      ).annotate({ identifier: "SparkStatistics" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          baseTable: S.optional(__S(1888, __c59, 0)),
+          indexName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VectorSearchIndexingStats" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.optional(S.String),
+          substeps: S.optional(__S(1376, __c43, 0)),
+        }),
+      ).annotate({ identifier: "ExplainQueryStep" });
+    case 6:
+      return S.Array(__S(2469, __c77, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          writeRatioMax: S.optional(S.Number),
+          status: S.optional(S.String),
+          waitRatioMax: S.optional(S.Number),
+          endMs: S.optional(S.String),
+          waitRatioAvg: S.optional(S.Number),
+          writeRatioAvg: S.optional(S.Number),
+          shuffleOutputBytes: S.optional(S.String),
+          readRatioMax: S.optional(S.Number),
+          startMs: S.optional(S.String),
+          computeRatioAvg: S.optional(S.Number),
+          computeMsAvg: S.optional(S.String),
+          id: S.optional(S.String),
+          waitMsAvg: S.optional(S.String),
+          waitMsMax: S.optional(S.String),
+          slotMs: S.optional(S.String),
+          readMsMax: S.optional(S.String),
+          steps: S.optional(__S(2470, __c77, 6)),
+          completedParallelInputs: S.optional(S.String),
+          readRatioAvg: S.optional(S.Number),
+          writeMsMax: S.optional(S.String),
+          recordsWritten: S.optional(S.String),
+          inputStages: S.optional(__S(1376, __c43, 0)),
+          computeRatioMax: S.optional(S.Number),
+          computeMsMax: S.optional(S.String),
+          name: S.optional(S.String),
+          parallelInputs: S.optional(S.String),
+          shuffleOutputBytesSpilled: S.optional(S.String),
+          computeMode: S.optional(S.String),
+          recordsRead: S.optional(S.String),
+          writeMsAvg: S.optional(S.String),
+          readMsAvg: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExplainQueryStage" });
+    case 8:
+      return S.Array(__S(2471, __c77, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          expectedTotalIterations: S.optional(S.String),
+          currentIteration: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BigQueryModelTraining" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          modelType: S.optional(S.String),
+          hparamTrials: S.optional(__S(2147, __c67, 3)),
+          iterationResults: S.optional(__S(2157, __c67, 13)),
+          maxIterations: S.optional(S.String),
+          trainingType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MlStatistics" });
+    case 11:
+      return S.Array(__S(1984, __c62, 0));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          indexName: S.optional(S.String),
+          baseTable: S.optional(__S(1888, __c59, 0)),
+        }),
+      ).annotate({ identifier: "SearchIndexingStats" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          outputBytes: S.optional(S.String),
+          inputFiles: S.optional(S.String),
+          outputRows: S.optional(S.String),
+          bytesTransferred: S.optional(S.String),
+          badRecords: S.optional(S.String),
+          inputFileBytes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LoadQueryStatistics" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          optimizationDetails: S.optional(__S(2530, __c79, 2)),
+        }),
+      ).annotate({ identifier: "QueryInfo" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          uncoveredColumns: S.optional(__S(1376, __c43, 0)),
+        }),
+      ).annotate({ identifier: "StoredColumnsUnusedReason" });
+    case 16:
+      return S.Array(__S(2479, __c77, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          isQueryAccelerated: S.optional(S.Boolean),
+          storedColumnsUnusedReasons: S.optional(__S(2480, __c77, 16)),
+          baseTable: S.optional(__S(1888, __c59, 0)),
+        }),
+      ).annotate({ identifier: "StoredColumnsUsage" });
+    case 18:
+      return S.Array(__S(2481, __c77, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          baseTable: S.optional(__S(1888, __c59, 0)),
+          message: S.optional(S.String),
+          indexName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IndexUnusedReason" });
+    case 20:
+      return S.Array(__S(2483, __c77, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          storedColumnsUsages: S.optional(__S(2482, __c77, 18)),
+          indexUsageMode: S.optional(S.String),
+          indexUnusedReasons: S.optional(__S(2484, __c77, 20)),
+        }),
+      ).annotate({ identifier: "VectorSearchStatistics" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          rejectedReason: S.optional(S.String),
+          chosen: S.optional(S.Boolean),
+          estimatedBytesSaved: S.optional(S.String),
+          tableReference: S.optional(__S(1888, __c59, 0)),
+        }),
+      ).annotate({ identifier: "MaterializedView" });
+    case 23:
+      return S.Array(__S(2486, __c77, 22));
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          materializedView: S.optional(__S(2487, __c77, 23)),
+        }),
+      ).annotate({ identifier: "MaterializedViewStatistics" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          outputBytesMax: S.optional(S.String),
+          outputBytesMedian: S.optional(S.String),
+          stageId: S.optional(S.String),
+          outputBytesP95: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SkewSource" });
+    case 26:
+      return S.Array(__S(2489, __c77, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          skewSources: S.optional(__S(2490, __c77, 26)),
+        }),
+      ).annotate({ identifier: "PartitionSkew" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          outputRows: S.optional(S.String),
+          rightRows: S.optional(S.String),
+          stepIndex: S.optional(S.Number),
+          leftRows: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HighCardinalityJoin" });
+    case 29:
+      return S.Array(__S(2492, __c77, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          biEngineReasons: S.optional(__S(2459, __c76, 27)),
+          partitionSkew: S.optional(__S(2491, __c77, 27)),
+          highCardinalityJoins: S.optional(__S(2493, __c77, 29)),
+          insufficientShuffleQuota: S.optional(S.Boolean),
+          slotContention: S.optional(S.Boolean),
+          stageId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StagePerformanceStandaloneInsight" });
+    case 31:
+      return S.Array(__S(2494, __c77, 30));
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recordsReadDiffPercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "InputDataChange" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          inputDataChange: S.optional(__S(2496, __c78, 0)),
+          stageId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StagePerformanceChangeInsight" });
+    case 2:
+      return S.Array(__S(2497, __c78, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          stalenessPercentageIncrease: S.optional(S.Number),
+          avgPreviousStalenessMs: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MetadataCacheStalenessInsight" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          metadataCacheNotUsedButUsedPreviously: S.optional(S.Boolean),
+          tableReference: S.optional(__S(1888, __c59, 0)),
+          metadataCacheStalenessInsight: S.optional(__S(2499, __c78, 3)),
+        }),
+      ).annotate({ identifier: "TableChangeInsight" });
+    case 5:
+      return S.Array(__S(2500, __c78, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          stagePerformanceStandaloneInsights: S.optional(__S(2495, __c77, 31)),
+          stagePerformanceChangeInsights: S.optional(__S(2498, __c78, 2)),
+          tableChangeInsights: S.optional(__S(2501, __c78, 5)),
+          avgPreviousExecutionMs: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PerformanceInsights" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          preCmetaPruningParallelInputCount: S.optional(S.String),
+          postCmetaPruningParallelInputCount: S.optional(S.String),
+          postCmetaPruningPartitionCount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PruningStats" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          tableReference: S.optional(__S(1888, __c59, 0)),
+          pruningStats: S.optional(__S(2503, __c78, 7)),
+          tableType: S.optional(S.String),
+          explanation: S.optional(S.String),
+          staleness: S.optional(S.String),
+          unusedReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TableMetadataCacheUsage" });
+    case 9:
+      return S.Array(__S(2504, __c78, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          tableMetadataCacheUsage: S.optional(__S(2505, __c78, 9)),
+        }),
+      ).annotate({ identifier: "MetadataCacheStatistics" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          postIndexPruningParallelInputCount: S.optional(S.String),
+          baseTable: S.optional(__S(1888, __c59, 0)),
+          preIndexPruningParallelInputCount: S.optional(S.String),
+          indexId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IndexPruningStats" });
+    case 12:
+      return S.Array(__S(2507, __c78, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          indexUnusedReasons: S.optional(__S(2484, __c77, 20)),
+          indexPruningStats: S.optional(__S(2508, __c78, 12)),
+          indexUsageMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SearchStatistics" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          slotMs: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JobStatistics2ReservationUsageItem" });
+    case 15:
+      return S.Array(__S(2510, __c78, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          statementType: S.optional(S.String),
+          exportDataStatistics: S.optional(__S(2448, __c76, 16)),
+          billingTier: S.optional(S.Number),
+          ddlOperationPerformed: S.optional(S.String),
+          genAiStats: S.optional(__S(2455, __c76, 23)),
+          referencedTables: S.optional(__S(2368, __c74, 0)),
+          timeline: S.optional(__S(2446, __c76, 14)),
+          objectStorageStats: S.optional(__S(2457, __c76, 25)),
+          dclTargetTable: S.optional(__S(1888, __c59, 0)),
+          ddlDestinationTable: S.optional(__S(1888, __c59, 0)),
+          dclTargetDataset: S.optional(__S(2016, __c63, 0)),
+          ddlAffectedRowAccessPolicyCount: S.optional(S.String),
+          biEngineStatistics: S.optional(__S(2460, __c76, 28)),
+          externalServiceCosts: S.optional(__S(2462, __c76, 30)),
+          cacheHit: S.optional(S.Boolean),
+          incrementalResultStats: S.optional(__S(2463, __c76, 31)),
+          ddlTargetRowAccessPolicy: S.optional(__S(2304, __c72, 0)),
+          totalBytesBilled: S.optional(S.String),
+          referencedPropertyGraphs: S.optional(__S(2465, __c77, 1)),
+          transferredBytes: S.optional(S.String),
+          sparkStatistics: S.optional(__S(2467, __c77, 3)),
+          vectorSearchIndexingStats: S.optional(__S(2468, __c77, 4)),
+          queryPlan: S.optional(__S(2472, __c77, 8)),
+          referencedLogicalViews: S.optional(__S(2368, __c74, 0)),
+          modelTraining: S.optional(__S(2473, __c77, 9)),
+          estimatedBytesProcessed: S.optional(S.String),
+          mlStatistics: S.optional(__S(2474, __c77, 10)),
+          numDmlAffectedRows: S.optional(S.String),
+          referencedRoutines: S.optional(__S(2475, __c77, 11)),
+          totalBytesProcessed: S.optional(S.String),
+          dclTargetView: S.optional(__S(1888, __c59, 0)),
+          ddlTargetRoutine: S.optional(__S(1984, __c62, 0)),
+          modelTrainingCurrentIteration: S.optional(S.Number),
+          searchIndexingStats: S.optional(__S(2476, __c77, 12)),
+          loadQueryStatistics: S.optional(__S(2477, __c77, 13)),
+          queryInfo: S.optional(__S(2478, __c77, 14)),
+          ddlTargetTable: S.optional(__S(1888, __c59, 0)),
+          totalServicesSkuSlotMs: S.optional(S.String),
+          modelTrainingExpectedTotalIteration: S.optional(S.String),
+          ddlTargetDataset: S.optional(__S(2016, __c63, 0)),
+          dmlStats: S.optional(__S(2541, __c79, 13)),
+          vectorSearchStatistics: S.optional(__S(2485, __c77, 21)),
+          undeclaredQueryParameters: S.optional(__S(2540, __c79, 12)),
+          materializedViewStatistics: S.optional(__S(2488, __c77, 24)),
+          performanceInsights: S.optional(__S(2502, __c78, 6)),
+          metadataCacheStatistics: S.optional(__S(2506, __c78, 10)),
+          totalPartitionsProcessed: S.optional(S.String),
+          schema: S.optional(__S(2219, __c69, 11)),
+          totalBytesProcessedAccuracy: S.optional(S.String),
+          searchStatistics: S.optional(__S(2509, __c78, 13)),
+          totalSlotMs: S.optional(S.String),
+          reservationUsage: S.optional(__S(2511, __c78, 15)),
+        }),
+      ).annotate({ identifier: "JobStatistics2" });
+    case 17:
       return S.suspend(() =>
         S.Struct({
           transactionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransactionInfo" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          inputFileBytes: S.optional(S.String),
+          badRecords: S.optional(S.String),
+          inputFiles: S.optional(S.String),
+          outputRows: S.optional(S.String),
+          timeline: S.optional(__S(2446, __c76, 14)),
+          outputBytes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JobStatistics3" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          rowLevelSecurityApplied: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "RowLevelSecurityStatistics" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          destinationUriFileCounts: S.optional(__S(1376, __c43, 0)),
-          inputBytes: S.optional(S.String),
-          timeline: S.optional(__S(2444, __c76, 12)),
+          dataMaskingApplied: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "JobStatistics4" });
+      ).annotate({ identifier: "DataMaskingStatistics" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          load: S.optional(__S(2445, __c76, 13)),
-          edition: S.optional(S.String),
-          reservationGroupPath: S.optional(__S(1376, __c43, 0)),
-          totalSlotMs: S.optional(S.String),
-          dataMaskingStatistics: S.optional(__S(2446, __c76, 14)),
-          completionRatio: S.optional(S.Number),
-          parentJobId: S.optional(S.String),
-          totalBytesProcessed: S.optional(S.String),
-          scriptStatistics: S.optional(__S(2449, __c76, 17)),
-          query: S.optional(__S(2512, __c78, 16)),
-          sessionInfo: S.optional(__S(2542, __c79, 14)),
-          parentGlobalQueryJob: S.optional(__S(2272, __c71, 0)),
-          copy: S.optional(__S(2513, __c78, 17)),
-          reservation_id: S.optional(S.String),
-          startTime: S.optional(S.String),
-          reservationUsage: S.optional(__S(2458, __c76, 26)),
-          rowLevelSecurityStatistics: S.optional(__S(2514, __c78, 18)),
-          quotaDeferments: S.optional(__S(1376, __c43, 0)),
-          finalExecutionDurationMs: S.optional(S.String),
-          numChildJobs: S.optional(S.String),
-          transactionInfo: S.optional(__S(2515, __c78, 19)),
-          creationTime: S.optional(S.String),
-          extract: S.optional(__S(2516, __c78, 20)),
-          globalQueryRemoteRegions: S.optional(__S(1376, __c43, 0)),
-          endTime: S.optional(S.String),
+          endColumn: S.optional(S.Number),
+          procedureId: S.optional(S.String),
+          text: S.optional(S.String),
+          endLine: S.optional(S.Number),
+          startLine: S.optional(S.Number),
+          startColumn: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "JobStatistics" });
+      ).annotate({ identifier: "ScriptStackFrame" });
     case 22:
+      return S.Array(__S(2517, __c78, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(2240, __c70, 0)),
-          errorResult: S.optional(__S(2176, __c68, 0)),
-          state: S.optional(S.String),
+          evaluationKind: S.optional(S.String),
+          stackFrames: S.optional(__S(2518, __c78, 22)),
         }),
-      ).annotate({ identifier: "JobStatus" });
+      ).annotate({ identifier: "ScriptStatistics" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          copy: S.optional(__S(2444, __c76, 12)),
+          globalQueryRemoteRegions: S.optional(__S(1376, __c43, 0)),
+          extract: S.optional(__S(2447, __c76, 15)),
+          totalBytesProcessed: S.optional(S.String),
+          endTime: S.optional(S.String),
+          quotaDeferments: S.optional(__S(1376, __c43, 0)),
+          totalSlotMs: S.optional(S.String),
+          query: S.optional(__S(2512, __c78, 16)),
+          transactionInfo: S.optional(__S(2513, __c78, 17)),
+          load: S.optional(__S(2514, __c78, 18)),
+          edition: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          reservationUsage: S.optional(__S(2511, __c78, 15)),
+          parentJobId: S.optional(S.String),
+          finalExecutionDurationMs: S.optional(S.String),
+          reservationGroupPath: S.optional(__S(1376, __c43, 0)),
+          sessionInfo: S.optional(__S(2542, __c79, 14)),
+          parentGlobalQueryJob: S.optional(__S(2272, __c71, 0)),
+          rowLevelSecurityStatistics: S.optional(__S(2515, __c78, 19)),
+          reservation_id: S.optional(S.String),
+          startTime: S.optional(S.String),
+          numChildJobs: S.optional(S.String),
+          dataMaskingStatistics: S.optional(__S(2516, __c78, 20)),
+          completionRatio: S.optional(S.Number),
+          scriptStatistics: S.optional(__S(2519, __c78, 23)),
+        }),
+      ).annotate({ identifier: "JobStatistics" });
   }
 }
 function __c79(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          secureParameterEntries: S.optional(__S(2528, __c79, 0)),
-        }),
-      ).annotate({ identifier: "SecureContext" });
-    case 2:
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectionProperty" });
+    case 1:
+      return S.Array(__S(2528, __c79, 0));
+    case 2:
+      return S.Record(S.String, S.Unknown);
     case 3:
-      return S.Array(__S(2530, __c79, 2));
+      return S.suspend(() =>
+        S.Struct({
+          secureParameterEntries: S.optional(__S(2530, __c79, 2)),
+        }),
+      ).annotate({ identifier: "SecureContext" });
     case 4:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2535, __c79, 7)));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.optional(S.suspend(() => __S(2535, __c79, 7))),
+          end: S.optional(S.suspend(() => __S(2535, __c79, 7))),
+        }),
+      ).annotate({ identifier: "RangeValue" });
+    case 6:
       return S.Record(
         S.String,
         /*@__PURE__*/ S.suspend(() => __S(2535, __c79, 7)),
       );
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          end: S.optional(S.suspend(() => __S(2535, __c79, 7))),
-          start: S.optional(S.suspend(() => __S(2535, __c79, 7))),
-        }),
-      ).annotate({ identifier: "RangeValue" });
-    case 6:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2535, __c79, 7)));
     case 7:
       return S.suspend(() =>
         S.Struct({
+          arrayValues: S.optional(__S(2532, __c79, 4)),
           value: S.optional(S.String),
-          structValues: S.optional(__S(2532, __c79, 4)),
           rangeValue: S.optional(__S(2533, __c79, 5)),
-          arrayValues: S.optional(__S(2534, __c79, 6)),
+          structValues: S.optional(__S(2534, __c79, 6)),
         }),
       ).annotate({ identifier: "QueryParameterValue" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          type: S.optional(S.suspend(() => __S(2538, __c79, 10))),
           name: S.optional(S.String),
+          type: S.optional(S.suspend(() => __S(2538, __c79, 10))),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryParameterTypeStructTypesItem" });
     case 9:
@@ -9061,19 +9216,19 @@ function __c79(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          rangeElementType: S.optional(__S(2538, __c79, 10)),
-          type: S.optional(S.String),
-          arrayType: S.optional(__S(2538, __c79, 10)),
           timestampPrecision: S.optional(S.String),
           structTypes: S.optional(__S(2537, __c79, 9)),
+          arrayType: S.optional(__S(2538, __c79, 10)),
+          type: S.optional(S.String),
+          rangeElementType: S.optional(__S(2538, __c79, 10)),
         }),
       ).annotate({ identifier: "QueryParameterType" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           parameterValue: S.optional(__S(2535, __c79, 7)),
           parameterType: S.optional(__S(2538, __c79, 10)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryParameter" });
     case 12:
@@ -9081,11 +9236,11 @@ function __c79(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          fineGrainedDmlUnusedReason: S.optional(S.String),
-          deletedRowCount: S.optional(S.String),
           insertedRowCount: S.optional(S.String),
-          dmlMode: S.optional(S.String),
           updatedRowCount: S.optional(S.String),
+          fineGrainedDmlUnusedReason: S.optional(S.String),
+          dmlMode: S.optional(S.String),
+          deletedRowCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "DmlStatistics" });
     case 14:
@@ -9111,12 +9266,12 @@ function __c81(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(798, __c24, 30),
+          __S(799, __c24, 31),
           S.Struct({
-            projectId: S.String.pipe(T.Label()),
-            tableId: S.String.pipe(T.Label()),
             autodetect_schema: S.optional(S.Boolean.pipe(T.Query())),
             datasetId: S.String.pipe(T.Label()),
+            tableId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -9133,9 +9288,9 @@ function __c82(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          projectId: S.String.pipe(T.Label()),
           deleteContents: S.optional(S.Boolean.pipe(T.Query())),
           datasetId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -9152,8 +9307,8 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          jobId: S.String.pipe(T.Label()),
           location: S.optional(S.String.pipe(T.Query())),
+          jobId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -9169,8 +9324,8 @@ function __c84(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
           datasetId: S.String.pipe(T.Label()),
+          projectId: S.String.pipe(T.Label()),
           modelId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -9188,8 +9343,8 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           datasetId: S.String.pipe(T.Label()),
-          routineId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
+          routineId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",

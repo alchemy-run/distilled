@@ -89,34 +89,34 @@ export interface GetProjectsTracesRequest {
   /** Required. ID of the trace to return. */
   traceId: string;
 }
-export type TraceSpanKindEnum = "SPAN_KIND_UNSPECIFIED" | "RPC_SERVER" | "RPC_CLIENT";
 export type StringMap = { [key: string]: string | undefined };
+export type TraceSpanKindEnum = "SPAN_KIND_UNSPECIFIED" | "RPC_SERVER" | "RPC_CLIENT";
 /** A span represents a single timed event within a trace. Spans can be nested and form a trace tree. Often, a trace contains a root span that describes the end-to-end latency of an operation and, optionally, one or more subspans for its suboperations. Spans do not need to be contiguous. There may be gaps between spans in a trace. */
 export interface TraceSpan {
+  /** Required. End time of the span in seconds and nanoseconds from the UNIX epoch. */
+  endTime?: string | undefined;
   /** Required. Start time of the span in seconds and nanoseconds from the UNIX epoch. */
   startTime?: string | undefined;
-  /** Optional. Distinguishes between spans generated in a particular context. For example, two spans with the same name may be distinguished using `RPC_CLIENT` and `RPC_SERVER` to identify queueing latency associated with the span. */
-  kind?: TraceSpanKindEnum | (string & {}) | undefined;
   /** Optional. Collection of labels associated with the span. Label keys must be less than 128 bytes. Label values must be less than 16 KiB. Some keys might have predefined meaning, and you can also create your own. For more information, see [Cloud Trace labels](https://cloud.google.com/trace/docs/trace-labels). */
   labels?: StringMap | undefined;
   /** Optional. ID of the parent span, if any. */
   parentSpanId?: string | undefined;
-  /** Required. Name of the span. Must be less than 128 bytes. The span name is sanitized and displayed in the Trace tool in the Google Cloud Platform Console. The name may be a method name or some other per-call site name. For the same executable and the same call point, a best practice is to use a consistent name, which makes it easier to correlate cross-trace spans. */
-  name?: string | undefined;
-  /** Required. End time of the span in seconds and nanoseconds from the UNIX epoch. */
-  endTime?: string | undefined;
   /** Required. Identifier for the span. Must be a 64-bit integer other than 0 and unique within a trace. For example, `2205310701640571284`. */
   spanId?: string | undefined;
+  /** Required. Name of the span. Must be less than 128 bytes. The span name is sanitized and displayed in the Trace tool in the Google Cloud Platform Console. The name may be a method name or some other per-call site name. For the same executable and the same call point, a best practice is to use a consistent name, which makes it easier to correlate cross-trace spans. */
+  name?: string | undefined;
+  /** Optional. Distinguishes between spans generated in a particular context. For example, two spans with the same name may be distinguished using `RPC_CLIENT` and `RPC_SERVER` to identify queueing latency associated with the span. */
+  kind?: TraceSpanKindEnum | (string & {}) | undefined;
 }
 export type TraceSpanList = Array<TraceSpan>;
 /** A trace describes how long it takes for an application to perform an operation. It consists of a set of spans, each of which represent a single timed event within the operation. */
 export interface Trace {
+  /** Collection of spans in the trace. */
+  spans?: TraceSpanList | undefined;
   /** Required. Project ID of the Cloud project where the trace data is stored. */
   projectId?: string | undefined;
   /** Required. Globally unique identifier for the trace. This identifier is a 128-bit numeric value formatted as a 32-byte hex string. For example, `382d4f4c6b7bb2f4a972559d9085001d`. The numeric value should not be zero. */
   traceId?: string | undefined;
-  /** Collection of spans in the trace. */
-  spans?: TraceSpanList | undefined;
 }
 export type ListProjectsTracesViewEnum =
   | "VIEW_TYPE_UNSPECIFIED"
@@ -124,30 +124,30 @@ export type ListProjectsTracesViewEnum =
   | "ROOTSPAN"
   | "COMPLETE";
 export interface ListProjectsTracesRequest {
-  /** Required. Start of the time interval (inclusive) during which the trace data was collected from the application. */
-  startTime?: string | undefined;
-  /** Required. ID of the Cloud project where the trace data is stored. */
-  projectId: string;
-  /** Optional. Token identifying the page of results to return. If provided, use the value of the `next_page_token` field from a previous request. */
-  pageToken?: string | undefined;
-  /** Optional. Field used to sort the returned traces. Can be one of the following: * `trace_id` * `name` (`name` field of root span in the trace) * `duration` (difference between `end_time` and `start_time` fields of the root span) * `start` (`start_time` field of the root span) Descending order can be specified by appending `desc` to the sort field (for example, `name desc`). Only one sort field is permitted. */
-  orderBy?: string | undefined;
-  /** Optional. Maximum number of traces to return. If not specified or <= 0, the implementation selects a reasonable value. The implementation may return fewer traces than the requested page size. */
-  pageSize?: number | undefined;
-  /** Optional. A filter against properties of the trace. See [filter syntax documentation](https://cloud.google.com/trace/docs/trace-filters) for details. */
-  filter?: string | undefined;
-  /** Optional. Type of data returned for traces in the list. Default is `MINIMAL`. */
-  view?: ListProjectsTracesViewEnum | (string & {}) | undefined;
   /** Required. End of the time interval (inclusive) during which the trace data was collected from the application. */
   endTime?: string | undefined;
+  /** Optional. Maximum number of traces to return. If not specified or <= 0, the implementation selects a reasonable value. The implementation may return fewer traces than the requested page size. */
+  pageSize?: number | undefined;
+  /** Optional. Token identifying the page of results to return. If provided, use the value of the `next_page_token` field from a previous request. */
+  pageToken?: string | undefined;
+  /** Optional. Type of data returned for traces in the list. Default is `MINIMAL`. */
+  view?: ListProjectsTracesViewEnum | (string & {}) | undefined;
+  /** Required. Start of the time interval (inclusive) during which the trace data was collected from the application. */
+  startTime?: string | undefined;
+  /** Optional. Field used to sort the returned traces. Can be one of the following: * `trace_id` * `name` (`name` field of root span in the trace) * `duration` (difference between `end_time` and `start_time` fields of the root span) * `start` (`start_time` field of the root span) Descending order can be specified by appending `desc` to the sort field (for example, `name desc`). Only one sort field is permitted. */
+  orderBy?: string | undefined;
+  /** Required. ID of the Cloud project where the trace data is stored. */
+  projectId: string;
+  /** Optional. A filter against properties of the trace. See [filter syntax documentation](https://cloud.google.com/trace/docs/trace-filters) for details. */
+  filter?: string | undefined;
 }
 export type TraceList = Array<Trace>;
 /** The response message for the `ListTraces` method. */
 export interface ListTracesResponse {
-  /** List of trace records as specified by the view parameter. */
-  traces?: TraceList | undefined;
   /** If defined, indicates that there are more traces that match the request and that this value should be passed to the next request to continue retrieving additional traces. */
   nextPageToken?: string | undefined;
+  /** List of trace records as specified by the view parameter. */
+  traces?: TraceList | undefined;
 }
 /** List of new or updated traces. */
 export interface Traces {
@@ -238,13 +238,13 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          endTime: S.optional(S.String),
           startTime: S.optional(S.String),
-          kind: S.optional(S.String),
           labels: S.optional(__S(4, __c1, 0)),
           parentSpanId: S.optional(S.String),
-          name: S.optional(S.String),
-          endTime: S.optional(S.String),
           spanId: S.optional(S.String),
+          name: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "TraceSpan" });
     case 2:
@@ -252,9 +252,9 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          spans: S.optional(__S(6, __c1, 2)),
           projectId: S.optional(S.String),
           traceId: S.optional(S.String),
-          spans: S.optional(__S(6, __c1, 2)),
         }),
       ).annotate({ identifier: "Trace" });
   }
@@ -264,14 +264,14 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
           endTime: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
+          startTime: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -283,8 +283,8 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          traces: S.optional(__S(12, __c3, 0)),
           nextPageToken: S.optional(S.String),
+          traces: S.optional(__S(12, __c3, 0)),
         }),
       ).annotate({ identifier: "ListTracesResponse" });
   }

@@ -91,27 +91,6 @@ export interface BenignProjectsAlertsRequest {
   /** Request body */
   body?: MarkAlertAsBenignRequest | undefined;
 }
-export type StringList = Array<string>;
-export type PriorityAnalysisConfidenceEnum =
-  | "CONFIDENCE_LEVEL_UNSPECIFIED"
-  | "CONFIDENCE_LEVEL_LOW"
-  | "CONFIDENCE_LEVEL_MEDIUM"
-  | "CONFIDENCE_LEVEL_HIGH";
-export type PriorityAnalysisPriorityLevelEnum =
-  | "PRIORITY_LEVEL_UNSPECIFIED"
-  | "PRIORITY_LEVEL_LOW"
-  | "PRIORITY_LEVEL_MEDIUM"
-  | "PRIORITY_LEVEL_HIGH"
-  | "PRIORITY_LEVEL_CRITICAL";
-/** Structured priority analysis for a threat. */
-export interface PriorityAnalysis {
-  /** The level of confidence in the given verdict. */
-  confidence?: PriorityAnalysisConfidenceEnum | undefined;
-  /** Human-readable explanation from the model, detailing why a particular result is considered to have a certain priority. */
-  reasoning?: string | undefined;
-  /** The level of Priority. */
-  priorityLevel?: PriorityAnalysisPriorityLevelEnum | undefined;
-}
 export type SeverityAnalysisSeverityLevelEnum =
   | "SEVERITY_LEVEL_UNSPECIFIED"
   | "SEVERITY_LEVEL_LOW"
@@ -124,224 +103,21 @@ export type SeverityAnalysisConfidenceEnum =
   | "CONFIDENCE_LEVEL_HIGH";
 /** Structured severity analysis for a threat. */
 export interface SeverityAnalysis {
-  /** The level of severity. */
-  severityLevel?: SeverityAnalysisSeverityLevelEnum | undefined;
   /** Human-readable explanation from the model, detailing why a particular result is considered to have a certain severity. */
   reasoning?: string | undefined;
+  /** The level of severity. */
+  severityLevel?: SeverityAnalysisSeverityLevelEnum | undefined;
   /** The level of confidence in the given verdict. */
   confidence?: SeverityAnalysisConfidenceEnum | undefined;
 }
-/** Tracks basic CRUD facts. */
-export interface Audit {
-  /** Output only. Time of creation or last update. */
-  updateTime?: string | undefined;
-  /** Output only. Agent that created or updated the record, could be a UserId or a JobId. */
-  creator?: string | undefined;
-  /** Output only. Time of creation. */
-  createTime?: string | undefined;
-  /** Output only. Agent that last updated the record, could be a UserId or a JobId. */
-  updater?: string | undefined;
-}
-export type AlertStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "NEW"
-  | "READ"
-  | "TRIAGED"
-  | "ESCALATED"
-  | "RESOLVED"
-  | "DUPLICATE"
-  | "FALSE_POSITIVE"
-  | "NOT_ACTIONABLE"
-  | "BENIGN"
-  | "TRACKED_EXTERNALLY";
-/** Detailed communication context metadata for documents originating from deep and dark web communication channels. */
-export interface CommunicationContext {
-  /** Optional. Channel path (e.g. forum path or sub-channel). */
-  channelPath?: string | undefined;
-  /** Optional. Message or post identifier on the originating platform. */
-  messageId?: string | undefined;
-  /** Optional. Name of the communication channel. */
-  channelName?: string | undefined;
-  /** Optional. Conversation thread identifier. */
-  threadId?: string | undefined;
-  /** Optional. Description of the communication channel. */
-  channelDescription?: string | undefined;
-  /** Optional. Service from the collection event origin (e.g. forum or chat service name). */
-  serviceName?: string | undefined;
-  /** Optional. URL of the communication channel. */
-  channelUrl?: string | undefined;
-}
-/** Replaces the raw string ID to hold associated metadata. */
-export interface DiscoveryDocument {
-  /** Optional. Detailed communication context metadata for documents originating from deep and dark web communication channels. */
-  communicationContext?: CommunicationContext | undefined;
-  /** Output only. The identifier of the discovery document. */
-  documentId?: string | undefined;
-  /** Output only. The classification/type of the document (e.g. `COMMUNICATION`, `DDW_COMMUNICATION`, `message`). */
-  documentType?: string | undefined;
-}
-export type DiscoveryDocumentList = Array<DiscoveryDocument>;
-/** Captures the specific details of InsiderThreat alert. */
-export interface InsiderThreatAlertDetail {
-  /** Required. The severity of the Insider Threat alert. Allowed values are: * `LOW` * `MEDIUM` * `HIGH` * `CRITICAL` */
-  severity?: string | undefined;
-  /** Output only. New structured metadata payload. */
-  discoveryDocuments?: DiscoveryDocumentList | undefined;
-  /** Optional. Deprecated: Use `discovery_documents` instead. Array of ids to accommodate multiple discovery documents. */
-  discoveryDocumentIds?: StringList | undefined;
-}
-/** Captures the specific details of Data Leak alert. */
-export interface DataLeakAlertDetail {
-  /** Output only. New structured metadata payload. */
-  discoveryDocuments?: DiscoveryDocumentList | undefined;
-  /** Optional. Deprecated: Use `discovery_documents` instead. Array of ids to accommodate multiple discovery documents. */
-  discoveryDocumentIds?: StringList | undefined;
-  /** Required. The severity of the Data Leak alert. Allowed values are: * `LOW` * `MEDIUM` * `HIGH` * `CRITICAL` */
-  severity?: string | undefined;
-}
-/** The DNS record of the domain. */
-export interface DomainMonitoringDnsRecord {
-  /** Optional. The region code associated with the resolved IP. Use ISO 3166-1 alpha-2 codes. */
-  ipRegionCode?: string | undefined;
-  /** Optional. The TTL of the DNS record. */
-  ttl?: number | undefined;
-  /** Optional. The value of the DNS record. */
-  recordData?: string | undefined;
-  /** Optional. The resolved IP address. */
-  resolvedIp?: string | undefined;
-  /** Optional. The type of the DNS record. */
-  type?: string | undefined;
-  /** Optional. The ASN hosting the domain. */
-  asnHosting?: string | undefined;
-  /** Optional. The region code of the ASN. Use ISO 3166-1 alpha-2 codes. */
-  asnRegionCode?: string | undefined;
-}
-export type DomainMonitoringDnsRecordList = Array<DomainMonitoringDnsRecord>;
-/** The DNS details of the domain. */
-export interface DomainMonitoringDnsDetails {
-  /** Optional. The DNS records of the domain. */
-  dnsRecords?: DomainMonitoringDnsRecordList | undefined;
-  /** Optional. The time the DNS details were retrieved. */
-  retrievalTime?: string | undefined;
-}
-/** Details regarding the SSL certificate configuration. */
-export interface CertificateDetails {
-  /** Optional. The SSL subject alternative names. */
-  subjectAlternativeNames?: StringList | undefined;
-  /** Optional. The SSL certificate issuer. */
-  issuer?: string | undefined;
-}
-/** Core infrastructure observations associated with the URL or Domain. */
-export interface Infrastructure {
-  /** Optional. The raw URL response string. */
-  urlResponse?: string | undefined;
-  /** Optional. SSL certificate details. */
-  certificateDetails?: CertificateDetails | undefined;
-}
-/** Details about the detection vendors. */
-export interface AVDetections {
-  /** Optional. Total number of vendors. */
-  totalVendorCount?: number | undefined;
-  /** Optional. Number of vendors that detected the threat. */
-  detectedVendorCount?: number | undefined;
-}
-export type DomainMonitoringGtiDetailsVerdictEnum =
-  | "DOMAIN_MONITORING_GTI_VERDICT_UNSPECIFIED"
-  | "DOMAIN_MONITORING_GTI_VERDICT_BENIGN"
-  | "DOMAIN_MONITORING_GTI_VERDICT_UNDETECTED"
-  | "DOMAIN_MONITORING_GTI_VERDICT_SUSPICIOUS"
-  | "DOMAIN_MONITORING_GTI_VERDICT_MALICIOUS"
-  | "DOMAIN_MONITORING_GTI_VERDICT_UNKNOWN";
-/** The GTI details of the domain. */
-export interface DomainMonitoringGtiDetails {
-  /** Optional. Detection counts across vendor feeds. */
-  avDetections?: AVDetections | undefined;
-  /** Optional. The threat classification of the domain, obtained from the domain report (e.g. DomainMonitoring). */
-  threatClassification?: string | undefined;
-  /** Output only. The verdict of the domain. */
-  verdict?: DomainMonitoringGtiDetailsVerdictEnum | undefined;
-  /** Optional. The GTI link for the domain. */
-  gtiDomainUri?: string | undefined;
-  /** Optional. The permutation technique used for the domain (e.g., dictionary, homoglyph). */
-  domainPermutation?: string | undefined;
-  /** Optional. The GTI score of the domain. The threat score is a number between 0 and 100. */
-  gtiScore?: number | undefined;
-}
-/** Details specific to a monitored domain. */
-export interface DomainMonitoringDomainDetails {
-  /** Required. The domain name to match against. */
-  domain?: string | undefined;
-}
-/** Related entities and domains observed for the target. */
-export interface Relationships {
-  /** Optional. Subdomains associated with the target domain or URL. */
-  subdomains?: StringList | undefined;
-  /** Optional. Sibling domains sharing the same IP address. */
-  siblingDomains?: StringList | undefined;
-  /** Optional. Related URLs associated with the domain. */
-  relatedUrls?: StringList | undefined;
-}
-/** Details specific to a monitored URL. */
-export interface DomainMonitoringUrlDetails {
-  /** Required. The URL to match against. */
-  url?: string | undefined;
-}
-/** The whois details of the domain. */
-export interface DomainMonitoringWhoIsDetails {
-  /** Optional. The whois details of the domain. */
-  whois?: string | undefined;
-  /** Optional. The time the whois details were retrieved. */
-  retrievalTime?: string | undefined;
-}
-/** Threat attribution information (actor, campaign, etc.). */
-export interface ThreatAttributionDetails {
-  /** Optional. The threat collections detected. */
-  collections?: StringList | undefined;
-  /** Optional. The threat actors associated with the target. */
-  actors?: StringList | undefined;
-  /** Optional. The malware associated with the threat. */
-  malware?: StringList | undefined;
-}
-/** Extracted WHOIS and DNS registration details of the domain. */
-export interface DnsRegistrationDetails {
-  /** Optional. The country code of the registrant (e.g., US). Use ISO 3166-1 alpha-2 codes */
-  registrantCountry?: string | undefined;
-  /** Optional. The specific timestamp when the domain registration was created. */
-  registrationTime?: string | undefined;
-  /** Optional. Indicates whether private registration is enabled on the WHOIS record. */
-  privateRegistration?: boolean | undefined;
-  /** Optional. The specific timestamp when the current domain registration expires. */
-  expireTime?: string | undefined;
-  /** Optional. The registrar where the domain was registered (e.g., NameCheap). */
-  registrar?: string | undefined;
-}
-/** A detailed object for a Domain or URL alert. */
-export interface DomainMonitoringAlertDetail {
-  /** Optional. The DNS details of the domain or URL. */
-  dnsDetails?: DomainMonitoringDnsDetails | undefined;
-  /** Optional. The infrastructure of the domain or URL. */
-  infrastructure?: Infrastructure | undefined;
-  /** Optional. The GTI details of the domain or URL. */
-  gtiDetails?: DomainMonitoringGtiDetails | undefined;
-  /** Details specific to a monitored domain. */
-  domainDetails?: DomainMonitoringDomainDetails | undefined;
-  /** Optional. The relationships of the domain or URL. */
-  relationships?: Relationships | undefined;
-  /** The protected domain that triggered the alert. */
-  protectedDomain?: DomainMonitoringDomainDetails | undefined;
-  /** Details specific to a monitored URL. */
-  urlDetails?: DomainMonitoringUrlDetails | undefined;
-  /** Optional. The matched domain. */
-  matchedDomain?: string | undefined;
-  /** The protected brand name that triggered the alert. */
-  protectedBrand?: string | undefined;
-  /** Optional. The whois details of the domain or URL. */
-  whoisDetails?: DomainMonitoringWhoIsDetails | undefined;
-  /** Optional. The threat attribution details of the domain or URL. */
-  threatAttributionDetails?: ThreatAttributionDetails | undefined;
-  /** Optional. Extracted WHOIS and DNS registration details. */
-  registrationDetails?: DnsRegistrationDetails | undefined;
-}
+export type VulnerabilityMatchRiskRatingEnum =
+  | "RISK_RATING_UNSPECIFIED"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | "CRITICAL"
+  | "UNRATED";
+export type StringList = Array<string>;
 export type VulnerabilityMatchPriorityEnum =
   | "PRIORITY_UNSPECIFIED"
   | "P0"
@@ -365,16 +141,52 @@ export type VulnerabilityMatchExploitationConsequencesItemEnum =
   | "SPOOFING";
 export type VulnerabilityMatchExploitationConsequencesItemEnumList =
   Array<VulnerabilityMatchExploitationConsequencesItemEnum>;
+export type PublicExploitExploitGradeEnum =
+  | "EXPLOIT_GRADE_UNSPECIFIED"
+  | "UNEVALUATED"
+  | "PROOF_OF_CONCEPT"
+  | "NON_WEAPONIZED"
+  | "WEAPONIZED"
+  | "SCANNER"
+  | "FAKE";
+export type PublicExploitExploitReliabilityEnum =
+  | "EXPLOIT_RELIABILITY_UNSPECIFIED"
+  | "UNREVIEWED"
+  | "REVIEWED"
+  | "TESTED";
+/** Contains details about a public exploit. */
+export interface PublicExploit {
+  /** Optional. The size of the exploit. */
+  sizeBytes?: string | undefined;
+  /** Optional. The grade of the exploit. Ex: "non-weaponized". */
+  exploitGrade?: PublicExploitExploitGradeEnum | undefined;
+  /** Optional. The URI of the exploit. */
+  uri?: string | undefined;
+  /** Required. The name of the exploit. Ex: "Magentounauth.php.txt". */
+  exploitName?: string | undefined;
+  /** Optional. The release time of the exploit. */
+  releaseTime?: string | undefined;
+  /** Optional. The reliability of the exploit. Ex: "Unreviewed". */
+  exploitReliability?: PublicExploitExploitReliabilityEnum | undefined;
+}
+export type PublicExploitList = Array<PublicExploit>;
+export type VulnerabilityMatchExploitationStateEnum =
+  | "EXPLOITATION_STATE_UNSPECIFIED"
+  | "EXPLOITATION_STATE_NO_KNOWN"
+  | "EXPLOITATION_STATE_REPORTED"
+  | "EXPLOITATION_STATE_SUSPECTED"
+  | "EXPLOITATION_STATE_CONFIRMED"
+  | "EXPLOITATION_STATE_WIDESPREAD";
 /** Contains details about a product fix. */
 export interface ProductFix {
-  /** Required. The name of the fix. Ex: "Magento". */
-  displayName?: string | undefined;
-  /** Required. The source ID of the fix. Ex: "APPSEC-1420". */
-  sourceId?: string | undefined;
   /** Optional. The published time of the fix. */
   publishTime?: string | undefined;
+  /** Required. The source ID of the fix. Ex: "APPSEC-1420". */
+  sourceId?: string | undefined;
   /** Optional. The URI of the fix. */
   uri?: string | undefined;
+  /** Required. The name of the fix. Ex: "Magento". */
+  displayName?: string | undefined;
 }
 export type ProductFixList = Array<ProductFix>;
 export type AssociationTypeEnum =
@@ -388,26 +200,12 @@ export type AssociationTypeEnum =
   | "THREAT_INTEL_OBJECT_TYPE_VULNERABILITY";
 /** Represents an association with a vulnerability. */
 export interface Association {
-  /** Required. The ID of the association. */
-  id?: string | undefined;
   /** Required. The type of the association. */
   type?: AssociationTypeEnum | undefined;
+  /** Required. The ID of the association. */
+  id?: string | undefined;
 }
 export type AssociationList = Array<Association>;
-export type VulnerabilityMatchExploitationStateEnum =
-  | "EXPLOITATION_STATE_UNSPECIFIED"
-  | "EXPLOITATION_STATE_NO_KNOWN"
-  | "EXPLOITATION_STATE_REPORTED"
-  | "EXPLOITATION_STATE_SUSPECTED"
-  | "EXPLOITATION_STATE_CONFIRMED"
-  | "EXPLOITATION_STATE_WIDESPREAD";
-export type VulnerabilityMatchRiskRatingEnum =
-  | "RISK_RATING_UNSPECIFIED"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "CRITICAL"
-  | "UNRATED";
 export type VulnerabilityMatchExploitationVectorsItemEnum =
   | "EXPLOITATION_VECTOR_UNSPECIFIED"
   | "ADMINISTRATIVE_INTERFACE"
@@ -429,100 +227,279 @@ export type VulnerabilityMatchExploitationVectorsItemEnum =
   | "WIFI_ACCESS";
 export type VulnerabilityMatchExploitationVectorsItemEnumList =
   Array<VulnerabilityMatchExploitationVectorsItemEnum>;
-export type PublicExploitExploitReliabilityEnum =
-  | "EXPLOIT_RELIABILITY_UNSPECIFIED"
-  | "UNREVIEWED"
-  | "REVIEWED"
-  | "TESTED";
-export type PublicExploitExploitGradeEnum =
-  | "EXPLOIT_GRADE_UNSPECIFIED"
-  | "UNEVALUATED"
-  | "PROOF_OF_CONCEPT"
-  | "NON_WEAPONIZED"
-  | "WEAPONIZED"
-  | "SCANNER"
-  | "FAKE";
-/** Contains details about a public exploit. */
-export interface PublicExploit {
-  /** Optional. The URI of the exploit. */
-  uri?: string | undefined;
-  /** Required. The name of the exploit. Ex: "Magentounauth.php.txt". */
-  exploitName?: string | undefined;
-  /** Optional. The release time of the exploit. */
-  releaseTime?: string | undefined;
-  /** Optional. The reliability of the exploit. Ex: "Unreviewed". */
-  exploitReliability?: PublicExploitExploitReliabilityEnum | undefined;
-  /** Optional. The size of the exploit. */
-  sizeBytes?: string | undefined;
-  /** Optional. The grade of the exploit. Ex: "non-weaponized". */
-  exploitGrade?: PublicExploitExploitGradeEnum | undefined;
-}
-export type PublicExploitList = Array<PublicExploit>;
 /** Contains details about a vulnerability match. */
 export interface VulnerabilityMatch {
-  /** Required. The CVSS score of the vulnerability. Evaluates to CVSS v3 when available with a fallback to v2 and v4. Example: 6.4. */
-  cvss3Score?: number | undefined;
+  /** Required. The collection ID of the vulnerability. Ex: "vulnerability--cve-2025-9876". */
+  collectionId?: string | undefined;
+  /** Required. The risk rating of the vulnerability. */
+  riskRating?: VulnerabilityMatchRiskRatingEnum | undefined;
+  /** Required. A description of the vulnerability. */
+  description?: string | undefined;
   /** Optional. The entries from the configured watchlist that triggered the match, exactly as written in `TechnologyWatchListConfig.technologies`. Ex: `apache http_server 2.4.54`. */
   matchedTechnologies?: StringList | undefined;
-  /** Optional. The disclosure time of the vulnerability. */
-  disclosureTime?: string | undefined;
   /** Optional. The priority level of the vulnerability data. Ex: "P1". */
   priority?: VulnerabilityMatchPriorityEnum | undefined;
   /** Optional. List of exploitation consequences for the vulnerability. */
   exploitationConsequences?: VulnerabilityMatchExploitationConsequencesItemEnumList | undefined;
-  /** Output only. Whether a publicly available exploit exists. */
-  publiclyAvailableExploit?: boolean | undefined;
-  /** Optional. List of product fixes for the vulnerability. */
-  productFixes?: ProductFixList | undefined;
+  /** Required. The CVSS score of the vulnerability. Evaluates to CVSS v3 when available with a fallback to v2 and v4. Example: 6.4. */
+  cvss3Score?: number | undefined;
   /** Required. The CVE ID of the vulnerability. Ex: "CVE-2025-9876". See https://www.cve.org/ for more information. */
   cveId?: string | undefined;
-  /** Optional. Associated threat actors, malware, etc. This is embedded as a snapshot because the details of the association at the time of the vulnerability match are important for context and reporting. */
-  associations?: AssociationList | undefined;
+  /** Required. All technologies affected by the vulnerability, using the vendor and product names of its affected products, optionally followed by a version. Ex: `Apache Struts 2.2.3`. */
+  technologies?: StringList | undefined;
+  /** Optional. List of public exploits. */
+  publicExploits?: PublicExploitList | undefined;
+  /** Optional. The disclosure time of the vulnerability. */
+  disclosureTime?: string | undefined;
   /** Required. The exploitation state of the vulnerability. */
   exploitationState?: VulnerabilityMatchExploitationStateEnum | undefined;
   /** Optional. The EPSS score, representing the probability of exploitation. Example: 0.87. */
   epssScore?: number | undefined;
-  /** Required. The risk rating of the vulnerability. */
-  riskRating?: VulnerabilityMatchRiskRatingEnum | undefined;
-  /** Required. The collection ID of the vulnerability. Ex: "vulnerability--cve-2025-9876". */
-  collectionId?: string | undefined;
+  /** Optional. List of product fixes for the vulnerability. */
+  productFixes?: ProductFixList | undefined;
+  /** Output only. Whether a publicly available exploit exists. */
+  publiclyAvailableExploit?: boolean | undefined;
+  /** Optional. Associated threat actors, malware, etc. This is embedded as a snapshot because the details of the association at the time of the vulnerability match are important for context and reporting. */
+  associations?: AssociationList | undefined;
   /** Optional. List of exploitation vectors for the vulnerability. */
   exploitationVectors?: VulnerabilityMatchExploitationVectorsItemEnumList | undefined;
-  /** Optional. List of public exploits. */
-  publicExploits?: PublicExploitList | undefined;
-  /** Required. All technologies affected by the vulnerability, using the vendor and product names of its affected products, optionally followed by a version. Ex: `Apache Struts 2.2.3`. */
-  technologies?: StringList | undefined;
-  /** Required. A description of the vulnerability. */
-  description?: string | undefined;
 }
 /** Contains details for a technology watchlist alert. */
 export interface TargetTechnologyAlertDetail {
   /** Optional. The vulnerability match details. */
   vulnerabilityMatch?: VulnerabilityMatch | undefined;
 }
-/** Captures the specific details of InitialAccessBroker (IAB) alert. */
-export interface InitialAccessBrokerAlertDetail {
-  /** Optional. Deprecated: Use `discovery_documents` instead. Array of ids to accommodate multiple discovery documents. */
-  discoveryDocumentIds?: StringList | undefined;
+/** Detailed communication context metadata for documents originating from deep and dark web communication channels. */
+export interface CommunicationContext {
+  /** Optional. Service from the collection event origin (e.g. forum or chat service name). */
+  serviceName?: string | undefined;
+  /** Optional. Conversation thread identifier. */
+  threadId?: string | undefined;
+  /** Optional. Description of the communication channel. */
+  channelDescription?: string | undefined;
+  /** Optional. Message or post identifier on the originating platform. */
+  messageId?: string | undefined;
+  /** Optional. URL of the communication channel. */
+  channelUrl?: string | undefined;
+  /** Optional. Channel path (e.g. forum path or sub-channel). */
+  channelPath?: string | undefined;
+  /** Optional. Name of the communication channel. */
+  channelName?: string | undefined;
+}
+/** Replaces the raw string ID to hold associated metadata. */
+export interface DiscoveryDocument {
+  /** Optional. Detailed communication context metadata for documents originating from deep and dark web communication channels. */
+  communicationContext?: CommunicationContext | undefined;
+  /** Output only. The classification/type of the document (e.g. `COMMUNICATION`, `DDW_COMMUNICATION`, `message`). */
+  documentType?: string | undefined;
+  /** Output only. The identifier of the discovery document. */
+  documentId?: string | undefined;
+}
+export type DiscoveryDocumentList = Array<DiscoveryDocument>;
+/** Captures the specific details of InsiderThreat alert. */
+export interface InsiderThreatAlertDetail {
   /** Output only. New structured metadata payload. */
   discoveryDocuments?: DiscoveryDocumentList | undefined;
+  /** Required. The severity of the Insider Threat alert. Allowed values are: * `LOW` * `MEDIUM` * `HIGH` * `CRITICAL` */
+  severity?: string | undefined;
+  /** Optional. Deprecated: Use `discovery_documents` instead. Array of ids to accommodate multiple discovery documents. */
+  discoveryDocumentIds?: StringList | undefined;
+}
+/** Details about the detection vendors. */
+export interface AVDetections {
+  /** Optional. Total number of vendors. */
+  totalVendorCount?: number | undefined;
+  /** Optional. Number of vendors that detected the threat. */
+  detectedVendorCount?: number | undefined;
+}
+export type DomainMonitoringGtiDetailsVerdictEnum =
+  | "DOMAIN_MONITORING_GTI_VERDICT_UNSPECIFIED"
+  | "DOMAIN_MONITORING_GTI_VERDICT_BENIGN"
+  | "DOMAIN_MONITORING_GTI_VERDICT_UNDETECTED"
+  | "DOMAIN_MONITORING_GTI_VERDICT_SUSPICIOUS"
+  | "DOMAIN_MONITORING_GTI_VERDICT_MALICIOUS"
+  | "DOMAIN_MONITORING_GTI_VERDICT_UNKNOWN";
+/** The GTI details of the domain. */
+export interface DomainMonitoringGtiDetails {
+  /** Optional. Detection counts across vendor feeds. */
+  avDetections?: AVDetections | undefined;
+  /** Optional. The threat classification of the domain, obtained from the domain report (e.g. DomainMonitoring). */
+  threatClassification?: string | undefined;
+  /** Optional. The GTI link for the domain. */
+  gtiDomainUri?: string | undefined;
+  /** Optional. The GTI score of the domain. The threat score is a number between 0 and 100. */
+  gtiScore?: number | undefined;
+  /** Output only. The verdict of the domain. */
+  verdict?: DomainMonitoringGtiDetailsVerdictEnum | undefined;
+  /** Optional. The permutation technique used for the domain (e.g., dictionary, homoglyph). */
+  domainPermutation?: string | undefined;
+}
+/** Details specific to a monitored URL. */
+export interface DomainMonitoringUrlDetails {
+  /** Required. The URL to match against. */
+  url?: string | undefined;
+}
+/** Related entities and domains observed for the target. */
+export interface Relationships {
+  /** Optional. Related URLs associated with the domain. */
+  relatedUrls?: StringList | undefined;
+  /** Optional. Sibling domains sharing the same IP address. */
+  siblingDomains?: StringList | undefined;
+  /** Optional. Subdomains associated with the target domain or URL. */
+  subdomains?: StringList | undefined;
+}
+/** Details specific to a monitored domain. */
+export interface DomainMonitoringDomainDetails {
+  /** Required. The domain name to match against. */
+  domain?: string | undefined;
+}
+/** Threat attribution information (actor, campaign, etc.). */
+export interface ThreatAttributionDetails {
+  /** Optional. The malware associated with the threat. */
+  malware?: StringList | undefined;
+  /** Optional. The threat collections detected. */
+  collections?: StringList | undefined;
+  /** Optional. The threat actors associated with the target. */
+  actors?: StringList | undefined;
+}
+/** Extracted WHOIS and DNS registration details of the domain. */
+export interface DnsRegistrationDetails {
+  /** Optional. The specific timestamp when the domain registration was created. */
+  registrationTime?: string | undefined;
+  /** Optional. The specific timestamp when the current domain registration expires. */
+  expireTime?: string | undefined;
+  /** Optional. The registrar where the domain was registered (e.g., NameCheap). */
+  registrar?: string | undefined;
+  /** Optional. The country code of the registrant (e.g., US). Use ISO 3166-1 alpha-2 codes */
+  registrantCountry?: string | undefined;
+  /** Optional. Indicates whether private registration is enabled on the WHOIS record. */
+  privateRegistration?: boolean | undefined;
+}
+/** The whois details of the domain. */
+export interface DomainMonitoringWhoIsDetails {
+  /** Optional. The whois details of the domain. */
+  whois?: string | undefined;
+  /** Optional. The time the whois details were retrieved. */
+  retrievalTime?: string | undefined;
+}
+/** The DNS record of the domain. */
+export interface DomainMonitoringDnsRecord {
+  /** Optional. The region code associated with the resolved IP. Use ISO 3166-1 alpha-2 codes. */
+  ipRegionCode?: string | undefined;
+  /** Optional. The TTL of the DNS record. */
+  ttl?: number | undefined;
+  /** Optional. The ASN hosting the domain. */
+  asnHosting?: string | undefined;
+  /** Optional. The resolved IP address. */
+  resolvedIp?: string | undefined;
+  /** Optional. The type of the DNS record. */
+  type?: string | undefined;
+  /** Optional. The region code of the ASN. Use ISO 3166-1 alpha-2 codes. */
+  asnRegionCode?: string | undefined;
+  /** Optional. The value of the DNS record. */
+  recordData?: string | undefined;
+}
+export type DomainMonitoringDnsRecordList = Array<DomainMonitoringDnsRecord>;
+/** The DNS details of the domain. */
+export interface DomainMonitoringDnsDetails {
+  /** Optional. The time the DNS details were retrieved. */
+  retrievalTime?: string | undefined;
+  /** Optional. The DNS records of the domain. */
+  dnsRecords?: DomainMonitoringDnsRecordList | undefined;
+}
+/** Details regarding the SSL certificate configuration. */
+export interface CertificateDetails {
+  /** Optional. The SSL certificate issuer. */
+  issuer?: string | undefined;
+  /** Optional. The SSL subject alternative names. */
+  subjectAlternativeNames?: StringList | undefined;
+}
+/** Core infrastructure observations associated with the URL or Domain. */
+export interface Infrastructure {
+  /** Optional. The raw URL response string. */
+  urlResponse?: string | undefined;
+  /** Optional. SSL certificate details. */
+  certificateDetails?: CertificateDetails | undefined;
+}
+/** A detailed object for a Domain or URL alert. */
+export interface DomainMonitoringAlertDetail {
+  /** Optional. The GTI details of the domain or URL. */
+  gtiDetails?: DomainMonitoringGtiDetails | undefined;
+  /** Details specific to a monitored URL. */
+  urlDetails?: DomainMonitoringUrlDetails | undefined;
+  /** Optional. The relationships of the domain or URL. */
+  relationships?: Relationships | undefined;
+  /** The protected domain that triggered the alert. */
+  protectedDomain?: DomainMonitoringDomainDetails | undefined;
+  /** Optional. The threat attribution details of the domain or URL. */
+  threatAttributionDetails?: ThreatAttributionDetails | undefined;
+  /** Details specific to a monitored domain. */
+  domainDetails?: DomainMonitoringDomainDetails | undefined;
+  /** Optional. Extracted WHOIS and DNS registration details. */
+  registrationDetails?: DnsRegistrationDetails | undefined;
+  /** Optional. The whois details of the domain or URL. */
+  whoisDetails?: DomainMonitoringWhoIsDetails | undefined;
+  /** The protected brand name that triggered the alert. */
+  protectedBrand?: string | undefined;
+  /** Optional. The DNS details of the domain or URL. */
+  dnsDetails?: DomainMonitoringDnsDetails | undefined;
+  /** Optional. The matched domain. */
+  matchedDomain?: string | undefined;
+  /** Optional. The infrastructure of the domain or URL. */
+  infrastructure?: Infrastructure | undefined;
+}
+/** Captures the specific details of InitialAccessBroker (IAB) alert. */
+export interface InitialAccessBrokerAlertDetail {
   /** Required. The severity of the Initial Access Broker (IAB) alert. Allowed values are: * `LOW` * `MEDIUM` * `HIGH` * `CRITICAL` */
   severity?: string | undefined;
+  /** Output only. New structured metadata payload. */
+  discoveryDocuments?: DiscoveryDocumentList | undefined;
+  /** Optional. Deprecated: Use `discovery_documents` instead. Array of ids to accommodate multiple discovery documents. */
+  discoveryDocumentIds?: StringList | undefined;
+}
+/** Captures the specific details of Data Leak alert. */
+export interface DataLeakAlertDetail {
+  /** Optional. Deprecated: Use `discovery_documents` instead. Array of ids to accommodate multiple discovery documents. */
+  discoveryDocumentIds?: StringList | undefined;
+  /** Required. The severity of the Data Leak alert. Allowed values are: * `LOW` * `MEDIUM` * `HIGH` * `CRITICAL` */
+  severity?: string | undefined;
+  /** Output only. New structured metadata payload. */
+  discoveryDocuments?: DiscoveryDocumentList | undefined;
 }
 /** Container for different types of alert details. */
 export interface AlertDetail {
-  /** Insider Threat alert detail type. */
-  insiderThreat?: InsiderThreatAlertDetail | undefined;
-  /** Data Leak alert detail type. */
-  dataLeak?: DataLeakAlertDetail | undefined;
-  /** Domain Monitoring alert detail type. */
-  domainMonitoring?: DomainMonitoringAlertDetail | undefined;
-  /** Output only. Name of the detail type. Will be set by the server during creation to the name of the field that is set in the detail union. */
-  detailType?: string | undefined;
   /** Technology Watchlist alert detail type. */
   targetTechnology?: TargetTechnologyAlertDetail | undefined;
+  /** Insider Threat alert detail type. */
+  insiderThreat?: InsiderThreatAlertDetail | undefined;
+  /** Domain Monitoring alert detail type. */
+  domainMonitoring?: DomainMonitoringAlertDetail | undefined;
   /** Initial Access Broker alert detail type. */
   initialAccessBroker?: InitialAccessBrokerAlertDetail | undefined;
+  /** Output only. Name of the detail type. Will be set by the server during creation to the name of the field that is set in the detail union. */
+  detailType?: string | undefined;
+  /** Data Leak alert detail type. */
+  dataLeak?: DataLeakAlertDetail | undefined;
+}
+export type PriorityAnalysisConfidenceEnum =
+  | "CONFIDENCE_LEVEL_UNSPECIFIED"
+  | "CONFIDENCE_LEVEL_LOW"
+  | "CONFIDENCE_LEVEL_MEDIUM"
+  | "CONFIDENCE_LEVEL_HIGH";
+export type PriorityAnalysisPriorityLevelEnum =
+  | "PRIORITY_LEVEL_UNSPECIFIED"
+  | "PRIORITY_LEVEL_LOW"
+  | "PRIORITY_LEVEL_MEDIUM"
+  | "PRIORITY_LEVEL_HIGH"
+  | "PRIORITY_LEVEL_CRITICAL";
+/** Structured priority analysis for a threat. */
+export interface PriorityAnalysis {
+  /** The level of confidence in the given verdict. */
+  confidence?: PriorityAnalysisConfidenceEnum | undefined;
+  /** Human-readable explanation from the model, detailing why a particular result is considered to have a certain priority. */
+  reasoning?: string | undefined;
+  /** The level of Priority. */
+  priorityLevel?: PriorityAnalysisPriorityLevelEnum | undefined;
 }
 export type AlertTagsItemEnum =
   | "ALERT_TAG_UNSPECIFIED"
@@ -536,18 +513,18 @@ export type AlertTagsItemEnum =
   | "ALERT_TAG_MATCH_LOGIN_EMAIL_DOMAIN"
   | "ALERT_TAG_MATCH_SERVICE_DOMAIN";
 export type AlertTagsItemEnumList = Array<AlertTagsItemEnum>;
-/** Details the evidence used to determine the relevance verdict. */
-export interface Evidence {
-  /** A list of semantic themes or descriptions unique to one source or semantically distant. */
-  distinctThemes?: StringList | undefined;
-  /** A list of semantic themes or concepts found to be common, related, or aligned between the sources, supporting the verdict. */
-  commonThemes?: StringList | undefined;
-}
 export type RelevanceAnalysisConfidenceEnum =
   | "CONFIDENCE_LEVEL_UNSPECIFIED"
   | "CONFIDENCE_LEVEL_LOW"
   | "CONFIDENCE_LEVEL_MEDIUM"
   | "CONFIDENCE_LEVEL_HIGH";
+/** Details the evidence used to determine the relevance verdict. */
+export interface Evidence {
+  /** A list of semantic themes or concepts found to be common, related, or aligned between the sources, supporting the verdict. */
+  commonThemes?: StringList | undefined;
+  /** A list of semantic themes or descriptions unique to one source or semantically distant. */
+  distinctThemes?: StringList | undefined;
+}
 export type RelevanceAnalysisRelevanceLevelEnum =
   | "RELEVANCE_LEVEL_UNSPECIFIED"
   | "RELEVANCE_LEVEL_LOW"
@@ -555,53 +532,76 @@ export type RelevanceAnalysisRelevanceLevelEnum =
   | "RELEVANCE_LEVEL_HIGH";
 /** Structured relevance analysis for a threat. */
 export interface RelevanceAnalysis {
-  /** Evidence supporting the verdict, including matched and unmatched items. */
-  evidence?: Evidence | undefined;
   /** The level of confidence in the given verdict. */
   confidence?: RelevanceAnalysisConfidenceEnum | undefined;
-  /** Human-readable explanation from the matcher, detailing why a particular result is considered relevant or not relevant. */
-  reasoning?: string | undefined;
   /** Indicates whether the threat is considered relevant. */
   relevant?: boolean | undefined;
+  /** Evidence supporting the verdict, including matched and unmatched items. */
+  evidence?: Evidence | undefined;
   /** The level of relevance. */
   relevanceLevel?: RelevanceAnalysisRelevanceLevelEnum | undefined;
+  /** Human-readable explanation from the matcher, detailing why a particular result is considered relevant or not relevant. */
+  reasoning?: string | undefined;
+}
+export type AlertStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "NEW"
+  | "READ"
+  | "TRIAGED"
+  | "ESCALATED"
+  | "RESOLVED"
+  | "DUPLICATE"
+  | "FALSE_POSITIVE"
+  | "NOT_ACTIONABLE"
+  | "BENIGN"
+  | "TRACKED_EXTERNALLY";
+/** Tracks basic CRUD facts. */
+export interface Audit {
+  /** Output only. Time of creation or last update. */
+  updateTime?: string | undefined;
+  /** Output only. Time of creation. */
+  createTime?: string | undefined;
+  /** Output only. Agent that last updated the record, could be a UserId or a JobId. */
+  updater?: string | undefined;
+  /** Output only. Agent that created or updated the record, could be a UserId or a JobId. */
+  creator?: string | undefined;
 }
 /** Stateful object representing a group of Findings. Key feature to an Alert is that it expresses the user's intent towards the findings of that group, even those that haven't occurred yet. */
 export interface Alert {
-  /** Output only. The resource names of the Configurations bound to this alert. Format: projects/{project}/configurations/{configuration} */
-  configurations?: StringList | undefined;
-  /** Output only. High-Precision Priority Analysis for the alert. */
-  priorityAnalysis?: PriorityAnalysis | undefined;
-  /** Output only. alert name of the alert this alert is a duplicate of. Format: projects/{project}/alerts/{alert} */
-  duplicateOf?: string | undefined;
   /** Output only. High-Precision Severity Analysis for the alert. */
   severityAnalysis?: SeverityAnalysis | undefined;
-  /** Output only. A short title for the alert. */
-  displayName?: string | undefined;
-  /** Output only. External ID for the alert. This is used internally to provide protection against out of order updates. */
-  externalId?: string | undefined;
-  /** Output only. Findings that are covered by this alert. */
-  findings?: StringList | undefined;
+  /** Output only. Details object for the alert, not all alerts will have a details object. */
+  detail?: AlertDetail | undefined;
+  /** Output only. High-Precision Priority Analysis for the alert. */
+  priorityAnalysis?: PriorityAnalysis | undefined;
   /** Optional. AI summary of the alert. */
   aiSummary?: string | undefined;
   /** Output only. The number of findings associated with this alert. */
   findingCount?: string | undefined;
-  /** Optional. If included when updating an alert, this should be set to the current etag of the alert. If the etags do not match, the update will be rejected and an ABORTED error will be returned. */
-  etag?: string | undefined;
-  /** Output only. Audit information for the alert. */
-  audit?: Audit | undefined;
-  /** Output only. State of the alert. */
-  state?: AlertStateEnum | undefined;
-  /** Output only. Details object for the alert, not all alerts will have a details object. */
-  detail?: AlertDetail | undefined;
-  /** Output only. alert names of the alerts that are duplicates of this alert. Format: projects/{project}/alerts/{alert} */
-  duplicatedBy?: StringList | undefined;
-  /** Identifier. Server generated name for the alert. format is projects/{project}/alerts/{alert} */
-  name?: string | undefined;
   /** Output only. System taxonomy tags associated with this alert. */
   tags?: AlertTagsItemEnumList | undefined;
   /** Output only. High-Precision Relevance Analysis verdict for the alert. */
   relevanceAnalysis?: RelevanceAnalysis | undefined;
+  /** Identifier. Server generated name for the alert. format is projects/{project}/alerts/{alert} */
+  name?: string | undefined;
+  /** Output only. A short title for the alert. */
+  displayName?: string | undefined;
+  /** Output only. State of the alert. */
+  state?: AlertStateEnum | undefined;
+  /** Optional. If included when updating an alert, this should be set to the current etag of the alert. If the etags do not match, the update will be rejected and an ABORTED error will be returned. */
+  etag?: string | undefined;
+  /** Output only. alert names of the alerts that are duplicates of this alert. Format: projects/{project}/alerts/{alert} */
+  duplicatedBy?: StringList | undefined;
+  /** Output only. External ID for the alert. This is used internally to provide protection against out of order updates. */
+  externalId?: string | undefined;
+  /** Output only. alert name of the alert this alert is a duplicate of. Format: projects/{project}/alerts/{alert} */
+  duplicateOf?: string | undefined;
+  /** Output only. Findings that are covered by this alert. */
+  findings?: StringList | undefined;
+  /** Output only. The resource names of the Configurations bound to this alert. Format: projects/{project}/configurations/{configuration} */
+  configurations?: StringList | undefined;
+  /** Output only. Audit information for the alert. */
+  audit?: Audit | undefined;
 }
 /** Request message for MarkAlertAsDuplicate. */
 export interface MarkAlertAsDuplicateRequest {
@@ -620,26 +620,26 @@ export interface EnumerateFacetsProjectsAlertsRequest {
 }
 /** FacetCount represents a count of records with each facet value. */
 export interface FacetCount {
-  /** Value of the facet stringified. Timestamps will be formatted using RFC3339. */
-  value?: string | undefined;
   /** Count of records with the value. */
   count?: number | undefined;
+  /** Value of the facet stringified. Timestamps will be formatted using RFC3339. */
+  value?: string | undefined;
 }
 export type FacetCountList = Array<FacetCount>;
 /** Facet represents a sub element of a resource for filtering. The results from this method are used to populate the filterable facets in the UI. */
 export interface Facet {
-  /** Name of the facet. This is also the string that needs to be used in the filtering expression. */
-  facet?: string | undefined;
-  /** The type of the facet. Options include "string", "int", "float", "bool", "enum", "timestamp", "user" and are useful to show the right sort of UI controls when building a AIP-160 style filtering string. */
-  facetType?: string | undefined;
   /** Max value of the facet stringified based on type. Will be populated and formatted the same as min_value. */
   maxValue?: string | undefined;
-  /** Total number of records that contain this facet with ANY value. */
-  totalCount?: string | undefined;
+  /** The type of the facet. Options include "string", "int", "float", "bool", "enum", "timestamp", "user" and are useful to show the right sort of UI controls when building a AIP-160 style filtering string. */
+  facetType?: string | undefined;
+  /** Name of the facet. This is also the string that needs to be used in the filtering expression. */
+  facet?: string | undefined;
   /** Min value of the facet stringified based on type. This is only populated for facets that have a clear ordering, for types like enum it will be left empty. Timestamps will be formatted using RFC3339. */
   minValue?: string | undefined;
   /** List of counts for the facet (if categorical). */
   facetCounts?: FacetCountList | undefined;
+  /** Total number of records that contain this facet with ANY value. */
+  totalCount?: string | undefined;
 }
 export type FacetList = Array<Facet>;
 /** Response message for EnumerateAlertFacets. */
@@ -680,23 +680,23 @@ export type DocumentMapList = Array<DocumentMap>;
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
 }
 export interface GetPasswordProjectsAlertsRequest {
   /** Required. Name of the alert to get password for. Format: projects/{project}/alerts/{alert} */
@@ -724,90 +724,72 @@ export interface AlertDocumentTranslation {
 }
 /** A document that is associated with an alert. */
 export interface AlertDocument {
+  /** Output only. Time when GTI received the intel. */
+  ingestTime?: string | undefined;
+  /** Output only. The author of the document. */
+  author?: string | undefined;
   /** Output only. Time when the intel was last updated by the source. */
   sourceUpdateTime?: string | undefined;
-  /** Output only. Time when the origin source collected the intel. */
-  collectionTime?: string | undefined;
-  /** Output only. URI of the intel item from the source. */
-  sourceUri?: string | undefined;
-  /** Output only. The content of the document. */
-  content?: string | undefined;
   /** Output only. Source of the intel item, e.g. DarkMarket. */
   source?: string | undefined;
+  /** Output only. The content of the document. */
+  content?: string | undefined;
+  /** Identifier. Server generated name for the alert document. format is projects/{project}/alerts/{alert}/documents/{document} */
+  name?: string | undefined;
+  /** Output only. Time when the origin source collected the intel. */
+  collectionTime?: string | undefined;
+  /** Output only. The language code of the document. */
+  languageCode?: string | undefined;
+  /** Output only. URI of the intel item from the source. */
+  sourceUri?: string | undefined;
+  /** Output only. The timestamp of the original external publication of the document. */
+  createTime?: string | undefined;
+  /** Output only. The translation of the document, if available. */
+  translation?: AlertDocumentTranslation | undefined;
   /** Output only. AI summary of the document. */
   aiSummary?: string | undefined;
   /** Output only. The title of the document, if available. */
   title?: string | undefined;
-  /** Output only. The timestamp of the original external publication of the document. */
-  createTime?: string | undefined;
-  /** Output only. Time when GTI received the intel. */
-  ingestTime?: string | undefined;
-  /** Output only. The translation of the document, if available. */
-  translation?: AlertDocumentTranslation | undefined;
   /** Output only. Platform identifiers of the message, thread and channel. */
   communicationContext?: CommunicationContext | undefined;
-  /** Output only. The author of the document. */
-  author?: string | undefined;
-  /** Identifier. Server generated name for the alert document. format is projects/{project}/alerts/{alert}/documents/{document} */
-  name?: string | undefined;
-  /** Output only. The language code of the document. */
-  languageCode?: string | undefined;
 }
 export interface GetProjectsConfigurationsRequest {
   /** Required. Name of the configuration to get. Format: vaults/{vault}/configurations/{configuration} */
   name: string;
 }
-export type ConfigurationStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED" | "DEPRECATED";
-export type TechnologyWatchListAlertThresholdPriorityMinimumEnum =
-  | "PRIORITY_UNSPECIFIED"
-  | "P0"
-  | "P1"
-  | "P2"
-  | "P3"
-  | "P4";
-export type TechnologyWatchListAlertThresholdExploitationStatesItemEnum =
-  | "EXPLOITATION_STATE_UNSPECIFIED"
-  | "EXPLOITATION_STATE_NO_KNOWN"
-  | "EXPLOITATION_STATE_REPORTED"
-  | "EXPLOITATION_STATE_SUSPECTED"
-  | "EXPLOITATION_STATE_CONFIRMED"
-  | "EXPLOITATION_STATE_WIDESPREAD";
-export type TechnologyWatchListAlertThresholdExploitationStatesItemEnumList = Array<
-  TechnologyWatchListAlertThresholdExploitationStatesItemEnum | (string & {})
->;
-export type TechnologyWatchListAlertThresholdRiskRatingMinimumEnum =
-  | "RISK_RATING_UNSPECIFIED"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "CRITICAL"
-  | "UNRATED";
-/** TechnologyWatchListAlertThreshold contains the thresholds for alerting. */
-export interface TechnologyWatchListAlertThreshold {
-  /** Optional. The minimum epss score for the alert. Ex: 0.8. Valid range is [0.0, 1.0]. */
-  epssScoreMinimum?: number | undefined;
-  /** Optional. The minimum priority for the alert. */
-  priorityMinimum?:
-    | TechnologyWatchListAlertThresholdPriorityMinimumEnum
-    | (string & {})
-    | undefined;
-  /** Optional. The exploitation states of the alert. */
-  exploitationStates?: TechnologyWatchListAlertThresholdExploitationStatesItemEnumList | undefined;
-  /** Optional. The minimum CVSS score for the alert. Evaluates to CVSS v3 when available with a fallback to v2 and v4. Ex: 7.0. Valid range is [0.0, 10.0]. */
-  cvssScoreMinimum?: number | undefined;
-  /** Optional. The minimum risk rating for the alert. */
-  riskRatingMinimum?:
-    | TechnologyWatchListAlertThresholdRiskRatingMinimumEnum
-    | (string & {})
-    | undefined;
+/** Person information for the customer profile. */
+export interface CustomerProfilePerson {
+  /** Optional. The citation ids for the person. */
+  citationIds?: StringList | undefined;
+  /** Optional. The title of the person. */
+  title?: string | undefined;
+  /** Required. The name of the person. */
+  name?: string | undefined;
 }
-/** TechnologyWatchListConfig is the configuration for the technology watchlist. */
-export interface TechnologyWatchListConfig {
-  /** Optional. List of technologies to watch, one per entry, in the form ` [version]`, using the vendor and product names from the Google Threat Intelligence products and fixes section. example: `microsoft outlook` `apache http_server 2.4.54` CPE strings such as `cpe:2.3:a:microsoft:outlook:*:*:*:*:*:*:*:*` are only parsed through the Google Threat Intelligence interface and are not available through the API. Send the vendor and product pair instead. */
-  technologies?: StringList | undefined;
-  /** Optional. Alert thresholds to effectively reduce noise. */
-  alertThreshold?: TechnologyWatchListAlertThreshold | undefined;
+export type CustomerProfilePersonList = Array<CustomerProfilePerson>;
+/** Security considerations for the customer profile. */
+export interface CustomerProfileSecurityConsiderations {
+  /** Optional. A series of considerations for the security of the organization, such as "high risk of compromise" or "vulnerable to cyberbullying". */
+  considerations?: StringList | undefined;
+  /** Optional. A note about the security considerations. */
+  note?: string | undefined;
 }
+/** Contact information for the customer profile. */
+export interface CustomerProfileContactInfo {
+  /** The phone number of the contact. */
+  phone?: string | undefined;
+  /** The address of the contact. */
+  address?: string | undefined;
+  /** The email address of the contact. */
+  email?: string | undefined;
+  /** Optional. The name of the contact. */
+  label?: string | undefined;
+  /** The other contact information. */
+  other?: string | undefined;
+  /** Optional. The citation ids for the contact information. */
+  citationIds?: StringList | undefined;
+}
+export type CustomerProfileContactInfoList = Array<CustomerProfileContactInfo>;
 /** Web presence information for the customer profile. */
 export interface CustomerProfileWebPresence {
   /** Optional. The citation ids for the web presence. */
@@ -816,20 +798,26 @@ export interface CustomerProfileWebPresence {
   domain?: string | undefined;
 }
 export type CustomerProfileWebPresenceList = Array<CustomerProfileWebPresence>;
-/** Citation information for the customer profile. */
-export interface CustomerProfileCitation {
-  /** Optional. The url of the citation. */
-  uri?: string | undefined;
-  /** The time the citation was retrieved. */
-  retrievalTime?: string | undefined;
-  /** Required. The name of the document the citation is from. */
-  document?: string | undefined;
-  /** Required. The source of the citation. */
-  source?: string | undefined;
-  /** Required. The citation id for the citation. Should be unique within the profile. */
-  citationId?: string | undefined;
+/** Location information for the customer profile. */
+export interface CustomerProfileLocation {
+  /** Optional. The citation ids for the location. */
+  citationIds?: StringList | undefined;
+  /** Required. The address of the location. */
+  address?: string | undefined;
+  /** Optional. The type of location. */
+  facilityType?: string | undefined;
+  /** Required. The brand of the location. */
+  brand?: string | undefined;
 }
-export type CustomerProfileCitationList = Array<CustomerProfileCitation>;
+export type CustomerProfileLocationList = Array<CustomerProfileLocation>;
+/** Company information for the customer profile. */
+export interface CustomerProfileCompany {
+  /** Optional. The citation ids for the company. */
+  citationIds?: StringList | undefined;
+  /** Required. The name of the company. */
+  company?: string | undefined;
+}
+export type CustomerProfileCompanyList = Array<CustomerProfileCompany>;
 /** Industry information for the customer profile. */
 export interface CustomerProfileIndustry {
   /** Required. The name of the industry. */
@@ -838,13 +826,54 @@ export interface CustomerProfileIndustry {
   citationIds?: StringList | undefined;
 }
 export type CustomerProfileIndustryList = Array<CustomerProfileIndustry>;
-/** Security considerations for the customer profile. */
-export interface CustomerProfileSecurityConsiderations {
-  /** Optional. A note about the security considerations. */
-  note?: string | undefined;
-  /** Optional. A series of considerations for the security of the organization, such as "high risk of compromise" or "vulnerable to cyberbullying". */
-  considerations?: StringList | undefined;
+/** A string with citation ids. */
+export interface CustomerProfileCitedString {
+  /** Required. The value of the string. */
+  value?: string | undefined;
+  /** Optional. The citation ids for the string. */
+  citationIds?: StringList | undefined;
 }
+/** A summarized version of the customer profile. Generated by the backend. */
+export interface CustomerProfileSummary {
+  /** Optional. The industry the customer is in. */
+  industry?: CustomerProfileCitedString | undefined;
+  /** Optional. A narrative summary of key people. */
+  keyPeopleSummary?: CustomerProfileCitedString | undefined;
+  /** Optional. The primary website of the customer. */
+  primaryWebsite?: CustomerProfileCitedString | undefined;
+  /** Optional. The headquarters of the customer. */
+  headquarters?: CustomerProfileCitedString | undefined;
+  /** Optional. A narrative summary of services. */
+  servicesSummary?: CustomerProfileCitedString | undefined;
+  /** Optional. The official name of the customer. */
+  title?: CustomerProfileCitedString | undefined;
+  /** Optional. A narrative summary of products. */
+  productsSummary?: CustomerProfileCitedString | undefined;
+  /** Optional. The area the customer serves. */
+  areaServed?: CustomerProfileCitedString | undefined;
+  /** Optional. The date the customer was founded. */
+  founded?: CustomerProfileCitedString | undefined;
+  /** Optional. The parent company of the customer. */
+  parentCompany?: CustomerProfileCitedString | undefined;
+  /** Optional. A narrative summary of brands. */
+  brands?: CustomerProfileCitedString | undefined;
+  /** Optional. The entity type of the customer. */
+  entityType?: CustomerProfileCitedString | undefined;
+}
+/** Citation information for the customer profile. */
+export interface CustomerProfileCitation {
+  /** The time the citation was retrieved. */
+  retrievalTime?: string | undefined;
+  /** Required. The citation id for the citation. Should be unique within the profile. */
+  citationId?: string | undefined;
+  /** Required. The source of the citation. */
+  source?: string | undefined;
+  /** Required. The name of the document the citation is from. */
+  document?: string | undefined;
+  /** Optional. The url of the citation. */
+  uri?: string | undefined;
+}
+export type CustomerProfileCitationList = Array<CustomerProfileCitation>;
 /** Technology information for the customer profile. */
 export interface CustomerProfileTechnology {
   /** Optional. The citation ids for the technology. */
@@ -853,86 +882,6 @@ export interface CustomerProfileTechnology {
   technology?: string | undefined;
 }
 export type CustomerProfileTechnologyList = Array<CustomerProfileTechnology>;
-/** Company information for the customer profile. */
-export interface CustomerProfileCompany {
-  /** Required. The name of the company. */
-  company?: string | undefined;
-  /** Optional. The citation ids for the company. */
-  citationIds?: StringList | undefined;
-}
-export type CustomerProfileCompanyList = Array<CustomerProfileCompany>;
-/** Location information for the customer profile. */
-export interface CustomerProfileLocation {
-  /** Required. The address of the location. */
-  address?: string | undefined;
-  /** Optional. The citation ids for the location. */
-  citationIds?: StringList | undefined;
-  /** Required. The brand of the location. */
-  brand?: string | undefined;
-  /** Optional. The type of location. */
-  facilityType?: string | undefined;
-}
-export type CustomerProfileLocationList = Array<CustomerProfileLocation>;
-/** Contact information for the customer profile. */
-export interface CustomerProfileContactInfo {
-  /** The address of the contact. */
-  address?: string | undefined;
-  /** The phone number of the contact. */
-  phone?: string | undefined;
-  /** Optional. The citation ids for the contact information. */
-  citationIds?: StringList | undefined;
-  /** The email address of the contact. */
-  email?: string | undefined;
-  /** The other contact information. */
-  other?: string | undefined;
-  /** Optional. The name of the contact. */
-  label?: string | undefined;
-}
-export type CustomerProfileContactInfoList = Array<CustomerProfileContactInfo>;
-/** A string with citation ids. */
-export interface CustomerProfileCitedString {
-  /** Optional. The citation ids for the string. */
-  citationIds?: StringList | undefined;
-  /** Required. The value of the string. */
-  value?: string | undefined;
-}
-/** A summarized version of the customer profile. Generated by the backend. */
-export interface CustomerProfileSummary {
-  /** Optional. The official name of the customer. */
-  title?: CustomerProfileCitedString | undefined;
-  /** Optional. A narrative summary of products. */
-  productsSummary?: CustomerProfileCitedString | undefined;
-  /** Optional. The headquarters of the customer. */
-  headquarters?: CustomerProfileCitedString | undefined;
-  /** Optional. The primary website of the customer. */
-  primaryWebsite?: CustomerProfileCitedString | undefined;
-  /** Optional. A narrative summary of brands. */
-  brands?: CustomerProfileCitedString | undefined;
-  /** Optional. The entity type of the customer. */
-  entityType?: CustomerProfileCitedString | undefined;
-  /** Optional. The parent company of the customer. */
-  parentCompany?: CustomerProfileCitedString | undefined;
-  /** Optional. A narrative summary of key people. */
-  keyPeopleSummary?: CustomerProfileCitedString | undefined;
-  /** Optional. The date the customer was founded. */
-  founded?: CustomerProfileCitedString | undefined;
-  /** Optional. The area the customer serves. */
-  areaServed?: CustomerProfileCitedString | undefined;
-  /** Optional. The industry the customer is in. */
-  industry?: CustomerProfileCitedString | undefined;
-  /** Optional. A narrative summary of services. */
-  servicesSummary?: CustomerProfileCitedString | undefined;
-}
-/** Product information for the customer profile. */
-export interface CustomerProfileProduct {
-  /** Optional. The citation ids for the product. */
-  citationIds?: StringList | undefined;
-  /** Required. The name of the product. */
-  product?: string | undefined;
-  /** Required. The brand of the product. */
-  brand?: string | undefined;
-}
-export type CustomerProfileProductList = Array<CustomerProfileProduct>;
 /** Brand information for the customer profile. */
 export interface CustomerProfileBrand {
   /** Optional. The citation ids for the brand. */
@@ -943,48 +892,98 @@ export interface CustomerProfileBrand {
   id?: string | undefined;
 }
 export type CustomerProfileBrandList = Array<CustomerProfileBrand>;
-/** Person information for the customer profile. */
-export interface CustomerProfilePerson {
-  /** Optional. The citation ids for the person. */
+/** Product information for the customer profile. */
+export interface CustomerProfileProduct {
+  /** Optional. The citation ids for the product. */
   citationIds?: StringList | undefined;
-  /** Required. The name of the person. */
-  name?: string | undefined;
-  /** Optional. The title of the person. */
-  title?: string | undefined;
+  /** Required. The brand of the product. */
+  brand?: string | undefined;
+  /** Required. The name of the product. */
+  product?: string | undefined;
 }
-export type CustomerProfilePersonList = Array<CustomerProfilePerson>;
+export type CustomerProfileProductList = Array<CustomerProfileProduct>;
 /** CustomerProfileConfig is the configuration for the customer profile. */
 export interface CustomerProfileConfig {
-  /** Optional. A summary of the organization. */
-  orgSummary?: string | undefined;
-  /** Optional. Web presence of the organization. */
-  webPresences?: CustomerProfileWebPresenceList | undefined;
-  /** Optional. Technology presence of the organization. */
-  technologyPresence?: string | undefined;
-  /** Optional. Citations for the organization profile. */
-  citations?: CustomerProfileCitationList | undefined;
-  /** Optional. The industries the organization is involved in. */
-  industries?: CustomerProfileIndustryList | undefined;
-  /** Optional. Security considerations for the organization. */
-  securityConsiderations?: CustomerProfileSecurityConsiderations | undefined;
-  /** Optional. Technologies associated with the organization. */
-  technologies?: CustomerProfileTechnologyList | undefined;
-  /** Optional. The parent companies of the organization. */
-  parentCompanies?: CustomerProfileCompanyList | undefined;
-  /** Optional. Locations the organization is present or conducts business in. */
-  locations?: CustomerProfileLocationList | undefined;
   /** Required. The name of the organization. */
   org?: string | undefined;
-  /** Optional. Contact information for the organization. */
-  contactInfo?: CustomerProfileContactInfoList | undefined;
-  /** Optional. A summarized version of the customer profile. */
-  summary?: CustomerProfileSummary | undefined;
-  /** Optional. Product information for the organization. */
-  products?: CustomerProfileProductList | undefined;
-  /** Optional. Brands associated with the organization. */
-  brands?: CustomerProfileBrandList | undefined;
   /** Optional. Executives of the organization. */
   executives?: CustomerProfilePersonList | undefined;
+  /** Optional. Security considerations for the organization. */
+  securityConsiderations?: CustomerProfileSecurityConsiderations | undefined;
+  /** Optional. Contact information for the organization. */
+  contactInfo?: CustomerProfileContactInfoList | undefined;
+  /** Optional. Web presence of the organization. */
+  webPresences?: CustomerProfileWebPresenceList | undefined;
+  /** Optional. Locations the organization is present or conducts business in. */
+  locations?: CustomerProfileLocationList | undefined;
+  /** Optional. The parent companies of the organization. */
+  parentCompanies?: CustomerProfileCompanyList | undefined;
+  /** Optional. Technology presence of the organization. */
+  technologyPresence?: string | undefined;
+  /** Optional. The industries the organization is involved in. */
+  industries?: CustomerProfileIndustryList | undefined;
+  /** Optional. A summarized version of the customer profile. */
+  summary?: CustomerProfileSummary | undefined;
+  /** Optional. Citations for the organization profile. */
+  citations?: CustomerProfileCitationList | undefined;
+  /** Optional. Technologies associated with the organization. */
+  technologies?: CustomerProfileTechnologyList | undefined;
+  /** Optional. A summary of the organization. */
+  orgSummary?: string | undefined;
+  /** Optional. Brands associated with the organization. */
+  brands?: CustomerProfileBrandList | undefined;
+  /** Optional. Product information for the organization. */
+  products?: CustomerProfileProductList | undefined;
+}
+export type TechnologyWatchListAlertThresholdRiskRatingMinimumEnum =
+  | "RISK_RATING_UNSPECIFIED"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | "CRITICAL"
+  | "UNRATED";
+export type TechnologyWatchListAlertThresholdExploitationStatesItemEnum =
+  | "EXPLOITATION_STATE_UNSPECIFIED"
+  | "EXPLOITATION_STATE_NO_KNOWN"
+  | "EXPLOITATION_STATE_REPORTED"
+  | "EXPLOITATION_STATE_SUSPECTED"
+  | "EXPLOITATION_STATE_CONFIRMED"
+  | "EXPLOITATION_STATE_WIDESPREAD";
+export type TechnologyWatchListAlertThresholdExploitationStatesItemEnumList = Array<
+  TechnologyWatchListAlertThresholdExploitationStatesItemEnum | (string & {})
+>;
+export type TechnologyWatchListAlertThresholdPriorityMinimumEnum =
+  | "PRIORITY_UNSPECIFIED"
+  | "P0"
+  | "P1"
+  | "P2"
+  | "P3"
+  | "P4";
+/** TechnologyWatchListAlertThreshold contains the thresholds for alerting. */
+export interface TechnologyWatchListAlertThreshold {
+  /** Optional. The minimum risk rating for the alert. */
+  riskRatingMinimum?:
+    | TechnologyWatchListAlertThresholdRiskRatingMinimumEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The minimum CVSS score for the alert. Evaluates to CVSS v3 when available with a fallback to v2 and v4. Ex: 7.0. Valid range is [0.0, 10.0]. */
+  cvssScoreMinimum?: number | undefined;
+  /** Optional. The minimum epss score for the alert. Ex: 0.8. Valid range is [0.0, 1.0]. */
+  epssScoreMinimum?: number | undefined;
+  /** Optional. The exploitation states of the alert. */
+  exploitationStates?: TechnologyWatchListAlertThresholdExploitationStatesItemEnumList | undefined;
+  /** Optional. The minimum priority for the alert. */
+  priorityMinimum?:
+    | TechnologyWatchListAlertThresholdPriorityMinimumEnum
+    | (string & {})
+    | undefined;
+}
+/** TechnologyWatchListConfig is the configuration for the technology watchlist. */
+export interface TechnologyWatchListConfig {
+  /** Optional. List of technologies to watch, one per entry, in the form ` [version]`, using the vendor and product names from the Google Threat Intelligence products and fixes section. example: `microsoft outlook` `apache http_server 2.4.54` CPE strings such as `cpe:2.3:a:microsoft:outlook:*:*:*:*:*:*:*:*` are only parsed through the Google Threat Intelligence interface and are not available through the API. Send the vendor and product pair instead. */
+  technologies?: StringList | undefined;
+  /** Optional. Alert thresholds to effectively reduce noise. */
+  alertThreshold?: TechnologyWatchListAlertThreshold | undefined;
 }
 /** Specific configuration for the Domain Monitoring feature. */
 export interface DomainMonitoringFeatureConfig {
@@ -994,12 +993,12 @@ export interface DomainMonitoringFeatureConfig {
 export type DomainSettingStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "VERIFIED";
 /** Feature settings and toggles for a single specific domain. */
 export interface DomainSetting {
-  /** Required. The domain name to match against. */
-  domain?: string | undefined;
   /** Optional. If not present, Domain Monitoring is enabled. */
   domainMonitoringConfig?: DomainMonitoringFeatureConfig | undefined;
   /** Output only. The verification state of the domain. */
   state?: DomainSettingStateEnum | (string & {}) | undefined;
+  /** Required. The domain name to match against. */
+  domain?: string | undefined;
 }
 export type DomainSettingList = Array<DomainSetting>;
 /** Configuration holding settings for one or more monitored domains. */
@@ -1028,51 +1027,51 @@ export type CustomThreatScenarioConfigScenarioTypeEnum =
   | "CUSTOM_MONITOR";
 /** Legacy metadata associated with this scenario/monitor. */
 export interface LegacyMetadata {
-  /** Output only. ID of the tenant owning the monitor. */
-  tenantId?: string | undefined;
-  /** Output only. Description of the legacy monitor. */
-  description?: string | undefined;
-  /** Output only. Code indicating why the monitor is disabled (if applicable). */
-  disabledCode?: string | undefined;
-  /** Output only. Deprecated: Whether email notifications are enabled. This field will not be used as email notifications are handled through the GTI Mail Hub. */
-  emailNotificationEnabled?: boolean | undefined;
-  /** Output only. Similarity threshold for aggregation. */
-  aggregationSimilarity?: number | undefined;
-  /** Output only. Unique identifier of the legacy monitor. */
-  legacyMonitorId?: string | undefined;
-  /** Output only. Deprecated: Whether email notifications are intermediate/immediate. This field will not be used as email notifications are handled through the GTI Mail Hub. */
-  emailNotificationImmediate?: boolean | undefined;
-  /** Output only. User ID who created the monitor. */
-  creatorUserId?: string | undefined;
-  /** Output only. User ID who last updated the monitor. */
-  updaterUserId?: string | undefined;
+  /** Output only. Name of the legacy monitor. */
+  displayName?: string | undefined;
   /** Output only. ID of the template this monitor was created from. */
   templateId?: string | undefined;
   /** Output only. Reason why the monitor is disabled (if applicable). */
   disabledReason?: string | undefined;
+  /** Output only. Deprecated: Whether email notifications are enabled. This field will not be used as email notifications are handled through the GTI Mail Hub. */
+  emailNotificationEnabled?: boolean | undefined;
+  /** Output only. ID of the tenant owning the monitor. */
+  tenantId?: string | undefined;
   /** Output only. Time the legacy monitor was considered stale. */
   staleTime?: string | undefined;
-  /** Output only. Whether aggregation is enabled for alerts from this monitor. */
-  aggregationEnabled?: boolean | undefined;
-  /** Output only. Name of the legacy monitor. */
-  displayName?: string | undefined;
+  /** Output only. Unique identifier of the legacy monitor. */
+  legacyMonitorId?: string | undefined;
+  /** Output only. Similarity threshold for aggregation. */
+  aggregationSimilarity?: number | undefined;
+  /** Output only. Description of the legacy monitor. */
+  description?: string | undefined;
+  /** Output only. Deprecated: Whether email notifications are intermediate/immediate. This field will not be used as email notifications are handled through the GTI Mail Hub. */
+  emailNotificationImmediate?: boolean | undefined;
   /** Output only. Version of the condition schema. */
   conditionVersion?: number | undefined;
+  /** Output only. Code indicating why the monitor is disabled (if applicable). */
+  disabledCode?: string | undefined;
+  /** Output only. Whether aggregation is enabled for alerts from this monitor. */
+  aggregationEnabled?: boolean | undefined;
   /** Output only. Version of the monitor configuration. */
   version?: number | undefined;
+  /** Output only. User ID who created the monitor. */
+  creatorUserId?: string | undefined;
+  /** Output only. User ID who last updated the monitor. */
+  updaterUserId?: string | undefined;
 }
 /** CustomThreatScenarioConfig represents a user-defined threat scenario configuration. */
 export interface CustomThreatScenarioConfig {
   /** Optional. The query used to match documents. */
   documentQuery?: DocumentQuery | undefined;
-  /** Output only. The compiled Lucene query string. */
-  compiledLuceneQuery?: string | undefined;
   /** Optional. The custom threat scenario type used to create this configuration. */
   scenarioType?: CustomThreatScenarioConfigScenarioTypeEnum | (string & {}) | undefined;
-  /** Output only. Legacy metadata associated with this scenario/monitor. */
-  legacyMonitorMetadata?: LegacyMetadata | undefined;
   /** Required. The condition driving the scenario, stored as a stringified JSON. This is used to query/filter documents. */
   documentCondition?: string | undefined;
+  /** Output only. The compiled Lucene query string. */
+  compiledLuceneQuery?: string | undefined;
+  /** Output only. Legacy metadata associated with this scenario/monitor. */
+  legacyMonitorMetadata?: LegacyMetadata | undefined;
 }
 /** A Domain Monitoring "domain" */
 export interface DomainMonitoringDomain {
@@ -1087,106 +1086,44 @@ export interface DomainMonitoringConfig {
 }
 /** Wrapper class that contains the union struct for all the various configuration detail specific classes. */
 export interface ConfigurationDetail {
-  /** Technology Watchlist detail config. */
-  technologyWatchlist?: TechnologyWatchListConfig | undefined;
   /** Customer Profile detail config. */
   customerProfile?: CustomerProfileConfig | undefined;
+  /** Output only. Name of the detail type. Will be set by the server during creation to the name of the field that is set in the detail union. */
+  detailType?: string | undefined;
+  /** Technology Watchlist detail config. */
+  technologyWatchlist?: TechnologyWatchListConfig | undefined;
   /** Domain Configuration detail config. */
   domainConfiguration?: DomainConfiguration | undefined;
   /** Custom Threat Scenario detail config. */
   customThreatScenario?: CustomThreatScenarioConfig | undefined;
   /** Domain Monitoring detail config. */
   domainMonitoring?: DomainMonitoringConfig | undefined;
-  /** Output only. Name of the detail type. Will be set by the server during creation to the name of the field that is set in the detail union. */
-  detailType?: string | undefined;
 }
+export type ConfigurationStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED" | "DEPRECATED";
 /** A configuration represents a behavior an engine should follow when producing new findings. */
 export interface Configuration {
-  /** If included when updating a configuration, this should be set to the current etag of the configuration. If the etags do not match, the update will be rejected and an ABORTED error will be returned. */
-  etag?: string | undefined;
   /** Output only. Human readable name for the configuration. */
   displayName?: string | undefined;
-  /** Output only. Audit information for the configuration. */
-  audit?: Audit | undefined;
+  /** Required. Domain specific details for the configuration. */
+  detail?: ConfigurationDetail | undefined;
+  /** If included when updating a configuration, this should be set to the current etag of the configuration. If the etags do not match, the update will be rejected and an ABORTED error will be returned. */
+  etag?: string | undefined;
   /** Optional. State of the configuration. */
   state?: ConfigurationStateEnum | (string & {}) | undefined;
+  /** Optional. A description of the configuration. */
+  description?: string | undefined;
   /** Required. Name of the service that provides the configuration. */
   provider?: string | undefined;
   /** Optional. A user-manipulatable version. Does not adhere to a specific format */
   version?: string | undefined;
-  /** Optional. A description of the configuration. */
-  description?: string | undefined;
+  /** Output only. Audit information for the configuration. */
+  audit?: Audit | undefined;
   /** Identifier. Server generated name for the configuration. format is projects/{project}/configurations/{configuration} */
   name?: string | undefined;
-  /** Required. Domain specific details for the configuration. */
-  detail?: ConfigurationDetail | undefined;
 }
 export interface GetProjectsFindingsRequest {
   /** Required. Name of the finding to get. */
   name: string;
-}
-export type InsiderThreatFindingDetailSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "CRITICAL";
-/** A detail object for a InsiderThreat finding. */
-export interface InsiderThreatFindingDetail {
-  /** Required. The severity of the InsiderThreat finding. This indicates the potential impact of the threat. */
-  severity?: InsiderThreatFindingDetailSeverityEnum | undefined;
-  /** Optional. The discovery document associated with the Insider Threat finding. */
-  discoveryDocument?: DiscoveryDocument | undefined;
-  /** Required. Reference to the match score of the InsiderThreat finding. This is a float value greater than 0 and less than or equal to 1 calculated by the matching engine based on the similarity of the document and the user provided configurations. */
-  matchScore?: number | undefined;
-  /** Optional. Deprecated: Use `discovery_document` instead. The unique identifier of the document that triggered the InsiderThreat finding. This ID can be used to retrieve the content of the document for further analysis. */
-  documentId?: string | undefined;
-}
-/** Contains details for a technology watchlist finding. */
-export type TargetTechnologyFindingDetail = TargetTechnologyAlertDetail;
-export type InitialAccessBrokerFindingDetailSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "CRITICAL";
-/** A detail object for an Initial Access Broker (IAB) finding. */
-export interface InitialAccessBrokerFindingDetail {
-  /** Required. Reference to the match score of the IAB finding. This is a float value between 0 and 1 calculated by the matching engine based on the similarity of the document and the user provided configurations. */
-  matchScore?: number | undefined;
-  /** Optional. Deprecated: Use `discovery_document` instead. The unique identifier of the document that triggered the IAB finding. This ID can be used to retrieve the content of the document for further analysis. */
-  documentId?: string | undefined;
-  /** Required. The severity of the IAB finding. This indicates the potential impact of the threat. */
-  severity?: InitialAccessBrokerFindingDetailSeverityEnum | undefined;
-  /** Optional. The discovery document associated with the IAB finding. */
-  discoveryDocument?: DiscoveryDocument | undefined;
-}
-/** A detailed object for a Domain or URL finding. */
-export interface DomainMonitoringFindingDetail {
-  /** The protected brand name that triggered the alert. */
-  protectedBrand?: string | undefined;
-  /** Details specific to a monitored domain. */
-  domainDetails?: DomainMonitoringDomainDetails | undefined;
-  /** Optional. The relationships of the domain or URL. */
-  relationships?: Relationships | undefined;
-  /** Optional. The DNS details of the domain or URL. */
-  dnsDetails?: DomainMonitoringDnsDetails | undefined;
-  /** Optional. The matched domain. */
-  matchedDomain?: string | undefined;
-  /** Optional. Extracted WHOIS and DNS registration details. */
-  registrationDetails?: DnsRegistrationDetails | undefined;
-  /** Details specific to a monitored URL. */
-  urlDetails?: DomainMonitoringUrlDetails | undefined;
-  /** Optional. The GTI details of the domain or URL. */
-  gtiDetails?: DomainMonitoringGtiDetails | undefined;
-  /** Optional. The threat attribution details of the domain or URL. */
-  threatAttributionDetails?: ThreatAttributionDetails | undefined;
-  /** Optional. The whois details of the domain or URL. */
-  whoisDetails?: DomainMonitoringWhoIsDetails | undefined;
-  /** The protected domain that triggered the alert. */
-  protectedDomain?: DomainMonitoringDomainDetails | undefined;
-  /** Optional. The infrastructure of the domain or URL. */
-  infrastructure?: Infrastructure | undefined;
 }
 export type DataLeakFindingDetailSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -1196,68 +1133,131 @@ export type DataLeakFindingDetailSeverityEnum =
   | "CRITICAL";
 /** A detail object for a Data Leak finding. */
 export interface DataLeakFindingDetail {
-  /** Required. The severity of the Data Leak finding. This indicates the potential impact of the threat. */
-  severity?: DataLeakFindingDetailSeverityEnum | undefined;
+  /** Optional. The discovery document associated with the Data Leak finding. */
+  discoveryDocument?: DiscoveryDocument | undefined;
   /** Optional. Deprecated: Use `discovery_document` instead. The unique identifier of the document that triggered the Data Leak finding. This ID can be used to retrieve the content of the document for further analysis. */
   documentId?: string | undefined;
   /** Required. Reference to the match score of the Data Leak finding. This is a float value greater than 0 and less than or equal to 1 calculated by the matching engine based on the similarity of the document and the user provided configurations. */
   matchScore?: number | undefined;
-  /** Optional. The discovery document associated with the Data Leak finding. */
+  /** Required. The severity of the Data Leak finding. This indicates the potential impact of the threat. */
+  severity?: DataLeakFindingDetailSeverityEnum | undefined;
+}
+export type InsiderThreatFindingDetailSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | "CRITICAL";
+/** A detail object for a InsiderThreat finding. */
+export interface InsiderThreatFindingDetail {
+  /** Optional. Deprecated: Use `discovery_document` instead. The unique identifier of the document that triggered the InsiderThreat finding. This ID can be used to retrieve the content of the document for further analysis. */
+  documentId?: string | undefined;
+  /** Required. The severity of the InsiderThreat finding. This indicates the potential impact of the threat. */
+  severity?: InsiderThreatFindingDetailSeverityEnum | undefined;
+  /** Required. Reference to the match score of the InsiderThreat finding. This is a float value greater than 0 and less than or equal to 1 calculated by the matching engine based on the similarity of the document and the user provided configurations. */
+  matchScore?: number | undefined;
+  /** Optional. The discovery document associated with the Insider Threat finding. */
   discoveryDocument?: DiscoveryDocument | undefined;
+}
+export type InitialAccessBrokerFindingDetailSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | "CRITICAL";
+/** A detail object for an Initial Access Broker (IAB) finding. */
+export interface InitialAccessBrokerFindingDetail {
+  /** Optional. The discovery document associated with the IAB finding. */
+  discoveryDocument?: DiscoveryDocument | undefined;
+  /** Required. Reference to the match score of the IAB finding. This is a float value between 0 and 1 calculated by the matching engine based on the similarity of the document and the user provided configurations. */
+  matchScore?: number | undefined;
+  /** Optional. Deprecated: Use `discovery_document` instead. The unique identifier of the document that triggered the IAB finding. This ID can be used to retrieve the content of the document for further analysis. */
+  documentId?: string | undefined;
+  /** Required. The severity of the IAB finding. This indicates the potential impact of the threat. */
+  severity?: InitialAccessBrokerFindingDetailSeverityEnum | undefined;
+}
+/** Contains details for a technology watchlist finding. */
+export type TargetTechnologyFindingDetail = TargetTechnologyAlertDetail;
+/** A detailed object for a Domain or URL finding. */
+export interface DomainMonitoringFindingDetail {
+  /** Optional. Extracted WHOIS and DNS registration details. */
+  registrationDetails?: DnsRegistrationDetails | undefined;
+  /** Details specific to a monitored domain. */
+  domainDetails?: DomainMonitoringDomainDetails | undefined;
+  /** Optional. The matched domain. */
+  matchedDomain?: string | undefined;
+  /** Optional. The GTI details of the domain or URL. */
+  gtiDetails?: DomainMonitoringGtiDetails | undefined;
+  /** Details specific to a monitored URL. */
+  urlDetails?: DomainMonitoringUrlDetails | undefined;
+  /** The protected brand name that triggered the alert. */
+  protectedBrand?: string | undefined;
+  /** The protected domain that triggered the alert. */
+  protectedDomain?: DomainMonitoringDomainDetails | undefined;
+  /** Optional. The infrastructure of the domain or URL. */
+  infrastructure?: Infrastructure | undefined;
+  /** Optional. The whois details of the domain or URL. */
+  whoisDetails?: DomainMonitoringWhoIsDetails | undefined;
+  /** Optional. The DNS details of the domain or URL. */
+  dnsDetails?: DomainMonitoringDnsDetails | undefined;
+  /** Optional. The threat attribution details of the domain or URL. */
+  threatAttributionDetails?: ThreatAttributionDetails | undefined;
+  /** Optional. The relationships of the domain or URL. */
+  relationships?: Relationships | undefined;
 }
 /** Wrapper class that contains the union struct for all the various findings detail specific classes. */
 export interface FindingDetail {
-  /** Insider Threat finding detail type. */
-  insiderThreat?: InsiderThreatFindingDetail | undefined;
-  /** Technology Watchlist finding detail type. */
-  targetTechnology?: TargetTechnologyAlertDetail | undefined;
-  /** Initial Access Broker finding detail type. */
-  initialAccessBroker?: InitialAccessBrokerFindingDetail | undefined;
   /** Output only. Name of the detail type. Will be set by the server during creation to the name of the field that is set in the detail union. */
   detailType?: string | undefined;
-  /** Domain Monitoring finding detail type. */
-  domainMonitoring?: DomainMonitoringFindingDetail | undefined;
   /** Data Leak finding detail type. */
   dataLeak?: DataLeakFindingDetail | undefined;
+  /** Insider Threat finding detail type. */
+  insiderThreat?: InsiderThreatFindingDetail | undefined;
+  /** Initial Access Broker finding detail type. */
+  initialAccessBroker?: InitialAccessBrokerFindingDetail | undefined;
+  /** Technology Watchlist finding detail type. */
+  targetTechnology?: TargetTechnologyAlertDetail | undefined;
+  /** Domain Monitoring finding detail type. */
+  domainMonitoring?: DomainMonitoringFindingDetail | undefined;
 }
 /** A 'stateless' and a point in time event that a check produced a result of interest. */
 export interface Finding {
-  /** Required. A short descriptive title for the finding <= 250 chars. EX: "Actor 'baddy' offering $1000 for credentials of 'goodguy'". */
-  displayName?: string | undefined;
   /** Required. Holder of the domain specific details of the finding. */
   detail?: FindingDetail | undefined;
-  /** Optional. Name of the alert that this finding is bound to. */
-  alert?: string | undefined;
-  /** Output only. Audit data about the finding. */
-  audit?: Audit | undefined;
-  /** Optional. Configuration names that are bound to this finding. */
-  configurations?: StringList | undefined;
-  /** Output only. When identical finding (same labels and same details) has re-occurred. */
-  reoccurrenceTimes?: StringList | undefined;
-  /** Optional. AI summary of the finding. */
-  aiSummary?: string | undefined;
-  /** Optional. Deprecated: Use the `severity_analysis` field instead. Base severity score from the finding source. */
-  severity?: number | undefined;
-  /** Output only. High-Precision Relevance Analysis verdict for the finding. */
-  relevanceAnalysis?: RelevanceAnalysis | undefined;
-  /** Output only. High-Precision Severity Analysis verdict for the finding. */
-  severityAnalysis?: SeverityAnalysis | undefined;
   /** Identifier. Server generated name for the finding (leave clear during creation). Format: projects/{project}/findings/{finding} */
   name?: string | undefined;
+  /** Optional. AI summary of the finding. */
+  aiSummary?: string | undefined;
+  /** Output only. Audit data about the finding. */
+  audit?: Audit | undefined;
+  /** Required. A short descriptive title for the finding <= 250 chars. EX: "Actor 'baddy' offering $1000 for credentials of 'goodguy'". */
+  displayName?: string | undefined;
   /** Required. Logical source of this finding (name of the sub-engine). */
   provider?: string | undefined;
+  /** Output only. High-Precision Severity Analysis verdict for the finding. */
+  severityAnalysis?: SeverityAnalysis | undefined;
+  /** Optional. Configuration names that are bound to this finding. */
+  configurations?: StringList | undefined;
+  /** Optional. Name of the alert that this finding is bound to. */
+  alert?: string | undefined;
+  /** Optional. Deprecated: Use the `severity_analysis` field instead. Base severity score from the finding source. */
+  severity?: number | undefined;
+  /** Output only. When identical finding (same labels and same details) has re-occurred. */
+  reoccurrenceTimes?: StringList | undefined;
+  /** Output only. High-Precision Relevance Analysis verdict for the finding. */
+  relevanceAnalysis?: RelevanceAnalysis | undefined;
 }
 export interface ListProjectsAlertsRequest {
   /** Required. Parent of the alerts. Format: projects/{project} */
   parent: string;
-  /** Optional. Page size. Default to 100 alerts per page. Maximum is 1000 alerts per page. */
-  pageSize?: number | undefined;
-  /** Optional. Order by criteria in the csv format: "field1, field2 desc" or "field1, field2" or "field1 asc, field2". If a field is specified without `asc` or `desc`, ascending order is used by default. Supported fields for ordering are identical to those supported for filtering. Examples: * `audit.create_time desc` * `audit.update_time asc` * `audit.create_time desc, severity_analysis.severity_level desc` */
-  orderBy?: string | undefined;
   /** Optional. Page token to retrieve the next page of results. */
   pageToken?: string | undefined;
   /** Optional. Filter criteria. Supported fields for filtering include: * `audit.create_time` * `audit.creator` * `audit.update_time` * `audit.updater` * `detail.data_leak.discovery_document_ids` * `detail.data_leak.severity` * `detail.detail_type` * `detail.initial_access_broker.discovery_document_ids` * `detail.initial_access_broker.severity` * `detail.insider_threat.discovery_document_ids` * `detail.insider_threat.severity` * `finding_count` * `priority_analysis.priority_level` * `relevance_analysis.confidence` * `relevance_analysis.relevance_level` * `relevance_analysis.relevant` * `severity_analysis.severity_level` * `state` Examples: * `detail.detail_type = "initial_access_broker"` * `detail.detail_type != "data_leak"` * `detail.insider_threat.severity = "HIGH"` * `audit.create_time >= "2026-04-03T00:00:00Z" AND audit.create_time < "2026-04-06T00:00:00Z"` * `state = "NEW" OR state = "TRIAGED"` * `severity_analysis.severity_level = "SEVERITY_LEVEL_CRITICAL"` */
   filter?: string | undefined;
+  /** Optional. Page size. Default to 100 alerts per page. Maximum is 1000 alerts per page. */
+  pageSize?: number | undefined;
+  /** Optional. Order by criteria in the csv format: "field1, field2 desc" or "field1, field2" or "field1 asc, field2". If a field is specified without `asc` or `desc`, ascending order is used by default. Supported fields for ordering are identical to those supported for filtering. Examples: * `audit.create_time desc` * `audit.update_time asc` * `audit.create_time desc, severity_analysis.severity_level desc` */
+  orderBy?: string | undefined;
 }
 export type AlertList = Array<Alert>;
 /** Response message for ListAlerts. */
@@ -1268,65 +1268,65 @@ export interface ListAlertsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsConfigurationsRequest {
+  /** Optional. Page size. */
+  pageSize?: number | undefined;
   /** Optional. Page token. */
   pageToken?: string | undefined;
   /** Required. Parent of the configuration. Format: vaults/{vault} */
   parent: string;
-  /** Optional. Order by criteria in the csv format: "field1,field2 desc" or "field1,field2" or "field1 asc, field2". */
-  orderBy?: string | undefined;
-  /** Optional. Page size. */
-  pageSize?: number | undefined;
   /** Optional. Filter criteria. */
   filter?: string | undefined;
+  /** Optional. Order by criteria in the csv format: "field1,field2 desc" or "field1,field2" or "field1 asc, field2". */
+  orderBy?: string | undefined;
 }
 export type ConfigurationList = Array<Configuration>;
 /** Response message for ListConfigurations. */
 export interface ListConfigurationsResponse {
-  /** List of configurations. */
-  configurations?: ConfigurationList | undefined;
   /** Page token. */
   nextPageToken?: string | undefined;
+  /** List of configurations. */
+  configurations?: ConfigurationList | undefined;
 }
 export interface ListProjectsConfigurationsRevisionsRequest {
-  /** Optional. A page token provided by the API */
-  pageToken?: string | undefined;
   /** Required. The name of the Configuration to retrieve Revisions for */
   parent: string;
-  /** Optional. An AIP-160 filter string */
-  filter?: string | undefined;
   /** Optional. Specify ordering of response */
   orderBy?: string | undefined;
+  /** Optional. An AIP-160 filter string */
+  filter?: string | undefined;
   /** Optional. Page Size */
   pageSize?: number | undefined;
+  /** Optional. A page token provided by the API */
+  pageToken?: string | undefined;
 }
 /** A ConfigurationRevision is a snapshot of a Configuration at a point in time. It is immutable. */
 export interface ConfigurationRevision {
   /** The snapshot of the configuration */
   snapshot?: Configuration | undefined;
-  /** Output only. The time the Revision was created */
-  createTime?: string | undefined;
   /** Identifier. The name of the ConfigurationRevision Format: projects//configurations//revisions/ */
   name?: string | undefined;
+  /** Output only. The time the Revision was created */
+  createTime?: string | undefined;
 }
 export type ConfigurationRevisionList = Array<ConfigurationRevision>;
 /** Response message for ListConfigurationRevisions. */
 export interface ListConfigurationRevisionsResponse {
-  /** The Configuration Revisions associated with the specified Configuration */
-  revisions?: ConfigurationRevisionList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The Configuration Revisions associated with the specified Configuration */
+  revisions?: ConfigurationRevisionList | undefined;
 }
 export interface ListProjectsFindingsRequest {
   /** Optional. Page size. */
   pageSize?: number | undefined;
-  /** Optional. Order by criteria in the csv format: "field1,field2 desc" or "field1,field2" or "field1 asc, field2". */
-  orderBy?: string | undefined;
-  /** Required. Parent of the findings. */
-  parent: string;
-  /** Optional. Filter criteria. */
-  filter?: string | undefined;
   /** Optional. Page token. */
   pageToken?: string | undefined;
+  /** Required. Parent of the findings. */
+  parent: string;
+  /** Optional. Order by criteria in the csv format: "field1,field2 desc" or "field1,field2" or "field1 asc, field2". */
+  orderBy?: string | undefined;
+  /** Optional. Filter criteria. */
+  filter?: string | undefined;
 }
 export type FindingList = Array<Finding>;
 /** Response message for ListFindings. */
@@ -1361,23 +1361,23 @@ export interface ResolveProjectsAlertsRequest {
   body?: MarkAlertAsBenignRequest | undefined;
 }
 export interface SearchProjectsFindingsRequest {
+  /** Optional. Page size. */
+  pageSize?: number | undefined;
   /** Optional. Page token. */
   pageToken?: string | undefined;
   /** Optional. Query on what findings will be returned. This supports the same filter criteria as FindingService.ListFindings as well as the following relationship query `has_alert`. Example: - `has_alert("name=\"projects/gti-12345/alerts/alert-12345\"")` */
   query?: string | undefined;
-  /** Optional. Page size. */
-  pageSize?: number | undefined;
-  /** Optional. Order by criteria in the csv format: "field1,field2 desc" or "field1,field2" or "field1 asc, field2". */
-  orderBy?: string | undefined;
   /** Required. Parent of the findings. Format: vaults/{vault} */
   parent: string;
+  /** Optional. Order by criteria in the csv format: "field1,field2 desc" or "field1,field2" or "field1 asc, field2". */
+  orderBy?: string | undefined;
 }
 /** Response message for SearchFindings. */
 export interface SearchFindingsResponse {
-  /** List of findings. */
-  findings?: FindingList | undefined;
   /** Page token. */
   nextPageToken?: string | undefined;
+  /** List of findings. */
+  findings?: FindingList | undefined;
 }
 /** Request message for MarkAlertAsTrackedExternally. */
 export type MarkAlertAsTrackedExternallyRequest = MarkAlertAsBenignRequest;
@@ -1396,10 +1396,10 @@ export interface TriageProjectsAlertsRequest {
   body?: MarkAlertAsBenignRequest | undefined;
 }
 export interface UpsertProjectsConfigurationsRequest extends Configuration {
-  /** Required. Parent of the configuration. */
-  parent: string;
   /** Optional. Time that the configuration should be considered to have been published. This is an advanced feature used when onboarding and bulk loading data from other systems. Do not set this field without consulting with the API team. */
   publishTime?: string | undefined;
+  /** Required. Parent of the configuration. */
+  parent: string;
 }
 /** Response message for UpsertConfiguration. */
 export interface UpsertConfigurationResponse {
@@ -1675,7 +1675,7 @@ export const listProjectsFindings: API.PaginatedOperationMethod<
   ListFindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<ListProjectsFindingsRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<ListFindingsResponse>,
+  output: __S(353, __c11, 1) as any as S.Schema<ListFindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1750,7 +1750,7 @@ export const searchProjectsFindings: API.PaginatedOperationMethod<
   SearchFindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<SearchProjectsFindingsRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<SearchFindingsResponse>,
+  output: __S(513, __c16, 1) as any as S.Schema<SearchFindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1883,20 +1883,20 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          ingestTime: S.optional(S.String),
+          author: S.optional(S.String),
           sourceUpdateTime: S.optional(S.String),
-          collectionTime: S.optional(S.String),
-          sourceUri: S.optional(S.String),
-          content: S.optional(S.String),
           source: S.optional(S.String),
+          content: S.optional(S.String),
+          name: S.optional(S.String),
+          collectionTime: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          sourceUri: S.optional(S.String),
+          createTime: S.optional(S.String),
+          translation: S.optional(__S(65, __c2, 1)),
           aiSummary: S.optional(S.String),
           title: S.optional(S.String),
-          createTime: S.optional(S.String),
-          ingestTime: S.optional(S.String),
-          translation: S.optional(__S(65, __c2, 1)),
           communicationContext: S.optional(__S(672, __c21, 0)),
-          author: S.optional(S.String),
-          name: S.optional(S.String),
-          languageCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertDocument" });
   }
@@ -1922,134 +1922,117 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          epssScoreMinimum: S.optional(S.Number),
-          priorityMinimum: S.optional(S.String),
-          exploitationStates: S.optional(__S(707, __c22, 3)),
-          cvssScoreMinimum: S.optional(S.Number),
-          riskRatingMinimum: S.optional(S.String),
+          citationIds: S.optional(__S(704, __c22, 0)),
+          title: S.optional(S.String),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TechnologyWatchListAlertThreshold" });
+      ).annotate({ identifier: "CustomerProfilePerson" });
     case 1:
+      return S.Array(__S(128, __c4, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          technologies: S.optional(__S(704, __c22, 0)),
-          alertThreshold: S.optional(__S(128, __c4, 0)),
+          considerations: S.optional(__S(704, __c22, 0)),
+          note: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TechnologyWatchListConfig" });
-    case 2:
+      ).annotate({ identifier: "CustomerProfileSecurityConsiderations" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          phone: S.optional(S.String),
+          address: S.optional(S.String),
+          email: S.optional(S.String),
+          label: S.optional(S.String),
+          other: S.optional(S.String),
+          citationIds: S.optional(__S(704, __c22, 0)),
+        }),
+      ).annotate({ identifier: "CustomerProfileContactInfo" });
+    case 4:
+      return S.Array(__S(131, __c4, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           citationIds: S.optional(__S(704, __c22, 0)),
           domain: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerProfileWebPresence" });
-    case 3:
-      return S.Array(__S(130, __c4, 2));
-    case 4:
+    case 6:
+      return S.Array(__S(133, __c4, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          uri: S.optional(S.String),
-          retrievalTime: S.optional(S.String),
-          document: S.optional(S.String),
-          source: S.optional(S.String),
-          citationId: S.optional(S.String),
+          citationIds: S.optional(__S(704, __c22, 0)),
+          address: S.optional(S.String),
+          facilityType: S.optional(S.String),
+          brand: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CustomerProfileCitation" });
-    case 5:
-      return S.Array(__S(132, __c4, 4));
-    case 6:
+      ).annotate({ identifier: "CustomerProfileLocation" });
+    case 8:
+      return S.Array(__S(135, __c4, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          citationIds: S.optional(__S(704, __c22, 0)),
+          company: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomerProfileCompany" });
+    case 10:
+      return S.Array(__S(137, __c4, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           industry: S.optional(S.String),
           citationIds: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "CustomerProfileIndustry" });
-    case 7:
-      return S.Array(__S(134, __c4, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          note: S.optional(S.String),
-          considerations: S.optional(__S(704, __c22, 0)),
-        }),
-      ).annotate({ identifier: "CustomerProfileSecurityConsiderations" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          citationIds: S.optional(__S(704, __c22, 0)),
-          technology: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CustomerProfileTechnology" });
-    case 10:
-      return S.Array(__S(137, __c4, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          company: S.optional(S.String),
-          citationIds: S.optional(__S(704, __c22, 0)),
-        }),
-      ).annotate({ identifier: "CustomerProfileCompany" });
     case 12:
       return S.Array(__S(139, __c4, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.String),
+          value: S.optional(S.String),
           citationIds: S.optional(__S(704, __c22, 0)),
-          brand: S.optional(S.String),
-          facilityType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CustomerProfileLocation" });
+      ).annotate({ identifier: "CustomerProfileCitedString" });
     case 14:
-      return S.Array(__S(141, __c4, 13));
+      return S.suspend(() =>
+        S.Struct({
+          industry: S.optional(__S(141, __c4, 13)),
+          keyPeopleSummary: S.optional(__S(141, __c4, 13)),
+          primaryWebsite: S.optional(__S(141, __c4, 13)),
+          headquarters: S.optional(__S(141, __c4, 13)),
+          servicesSummary: S.optional(__S(141, __c4, 13)),
+          title: S.optional(__S(141, __c4, 13)),
+          productsSummary: S.optional(__S(141, __c4, 13)),
+          areaServed: S.optional(__S(141, __c4, 13)),
+          founded: S.optional(__S(141, __c4, 13)),
+          parentCompany: S.optional(__S(141, __c4, 13)),
+          brands: S.optional(__S(141, __c4, 13)),
+          entityType: S.optional(__S(141, __c4, 13)),
+        }),
+      ).annotate({ identifier: "CustomerProfileSummary" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.String),
-          phone: S.optional(S.String),
-          citationIds: S.optional(__S(704, __c22, 0)),
-          email: S.optional(S.String),
-          other: S.optional(S.String),
-          label: S.optional(S.String),
+          retrievalTime: S.optional(S.String),
+          citationId: S.optional(S.String),
+          source: S.optional(S.String),
+          document: S.optional(S.String),
+          uri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CustomerProfileContactInfo" });
+      ).annotate({ identifier: "CustomerProfileCitation" });
     case 16:
       return S.Array(__S(143, __c4, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           citationIds: S.optional(__S(704, __c22, 0)),
-          value: S.optional(S.String),
+          technology: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CustomerProfileCitedString" });
+      ).annotate({ identifier: "CustomerProfileTechnology" });
     case 18:
-      return S.suspend(() =>
-        S.Struct({
-          title: S.optional(__S(145, __c4, 17)),
-          productsSummary: S.optional(__S(145, __c4, 17)),
-          headquarters: S.optional(__S(145, __c4, 17)),
-          primaryWebsite: S.optional(__S(145, __c4, 17)),
-          brands: S.optional(__S(145, __c4, 17)),
-          entityType: S.optional(__S(145, __c4, 17)),
-          parentCompany: S.optional(__S(145, __c4, 17)),
-          keyPeopleSummary: S.optional(__S(145, __c4, 17)),
-          founded: S.optional(__S(145, __c4, 17)),
-          areaServed: S.optional(__S(145, __c4, 17)),
-          industry: S.optional(__S(145, __c4, 17)),
-          servicesSummary: S.optional(__S(145, __c4, 17)),
-        }),
-      ).annotate({ identifier: "CustomerProfileSummary" });
+      return S.Array(__S(145, __c4, 17));
     case 19:
-      return S.suspend(() =>
-        S.Struct({
-          citationIds: S.optional(__S(704, __c22, 0)),
-          product: S.optional(S.String),
-          brand: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CustomerProfileProduct" });
-    case 20:
-      return S.Array(__S(147, __c4, 19));
-    case 21:
       return S.suspend(() =>
         S.Struct({
           citationIds: S.optional(__S(704, __c22, 0)),
@@ -2057,38 +2040,55 @@ function __c4(j: number): any {
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerProfileBrand" });
+    case 20:
+      return S.Array(__S(147, __c4, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          citationIds: S.optional(__S(704, __c22, 0)),
+          brand: S.optional(S.String),
+          product: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomerProfileProduct" });
     case 22:
       return S.Array(__S(149, __c4, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          citationIds: S.optional(__S(704, __c22, 0)),
-          name: S.optional(S.String),
-          title: S.optional(S.String),
+          org: S.optional(S.String),
+          executives: S.optional(__S(129, __c4, 1)),
+          securityConsiderations: S.optional(__S(130, __c4, 2)),
+          contactInfo: S.optional(__S(132, __c4, 4)),
+          webPresences: S.optional(__S(134, __c4, 6)),
+          locations: S.optional(__S(136, __c4, 8)),
+          parentCompanies: S.optional(__S(138, __c4, 10)),
+          technologyPresence: S.optional(S.String),
+          industries: S.optional(__S(140, __c4, 12)),
+          summary: S.optional(__S(142, __c4, 14)),
+          citations: S.optional(__S(144, __c4, 16)),
+          technologies: S.optional(__S(146, __c4, 18)),
+          orgSummary: S.optional(S.String),
+          brands: S.optional(__S(148, __c4, 20)),
+          products: S.optional(__S(150, __c4, 22)),
         }),
-      ).annotate({ identifier: "CustomerProfilePerson" });
+      ).annotate({ identifier: "CustomerProfileConfig" });
     case 24:
-      return S.Array(__S(151, __c4, 23));
+      return S.suspend(() =>
+        S.Struct({
+          riskRatingMinimum: S.optional(S.String),
+          cvssScoreMinimum: S.optional(S.Number),
+          epssScoreMinimum: S.optional(S.Number),
+          exploitationStates: S.optional(__S(705, __c22, 1)),
+          priorityMinimum: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TechnologyWatchListAlertThreshold" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          orgSummary: S.optional(S.String),
-          webPresences: S.optional(__S(131, __c4, 3)),
-          technologyPresence: S.optional(S.String),
-          citations: S.optional(__S(133, __c4, 5)),
-          industries: S.optional(__S(135, __c4, 7)),
-          securityConsiderations: S.optional(__S(136, __c4, 8)),
-          technologies: S.optional(__S(138, __c4, 10)),
-          parentCompanies: S.optional(__S(140, __c4, 12)),
-          locations: S.optional(__S(142, __c4, 14)),
-          org: S.optional(S.String),
-          contactInfo: S.optional(__S(144, __c4, 16)),
-          summary: S.optional(__S(146, __c4, 18)),
-          products: S.optional(__S(148, __c4, 20)),
-          brands: S.optional(__S(150, __c4, 22)),
-          executives: S.optional(__S(152, __c4, 24)),
+          technologies: S.optional(__S(704, __c22, 0)),
+          alertThreshold: S.optional(__S(152, __c4, 24)),
         }),
-      ).annotate({ identifier: "CustomerProfileConfig" });
+      ).annotate({ identifier: "TechnologyWatchListConfig" });
     case 26:
       return S.suspend(() =>
         S.Struct({
@@ -2098,9 +2098,9 @@ function __c4(j: number): any {
     case 27:
       return S.suspend(() =>
         S.Struct({
-          domain: S.optional(S.String),
           domainMonitoringConfig: S.optional(__S(154, __c4, 26)),
           state: S.optional(S.String),
+          domain: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainSetting" });
     case 28:
@@ -2121,22 +2121,22 @@ function __c4(j: number): any {
     case 31:
       return S.suspend(() =>
         S.Struct({
-          tenantId: S.optional(S.String),
-          description: S.optional(S.String),
-          disabledCode: S.optional(S.String),
-          emailNotificationEnabled: S.optional(S.Boolean),
-          aggregationSimilarity: S.optional(S.Number),
-          legacyMonitorId: S.optional(S.String),
-          emailNotificationImmediate: S.optional(S.Boolean),
-          creatorUserId: S.optional(S.String),
-          updaterUserId: S.optional(S.String),
+          displayName: S.optional(S.String),
           templateId: S.optional(S.String),
           disabledReason: S.optional(S.String),
+          emailNotificationEnabled: S.optional(S.Boolean),
+          tenantId: S.optional(S.String),
           staleTime: S.optional(S.String),
-          aggregationEnabled: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
+          legacyMonitorId: S.optional(S.String),
+          aggregationSimilarity: S.optional(S.Number),
+          description: S.optional(S.String),
+          emailNotificationImmediate: S.optional(S.Boolean),
           conditionVersion: S.optional(S.Number),
+          disabledCode: S.optional(S.String),
+          aggregationEnabled: S.optional(S.Boolean),
           version: S.optional(S.Number),
+          creatorUserId: S.optional(S.String),
+          updaterUserId: S.optional(S.String),
         }),
       ).annotate({ identifier: "LegacyMetadata" });
   }
@@ -2147,10 +2147,10 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           documentQuery: S.optional(__S(158, __c4, 30)),
-          compiledLuceneQuery: S.optional(S.String),
           scenarioType: S.optional(S.String),
-          legacyMonitorMetadata: S.optional(__S(159, __c4, 31)),
           documentCondition: S.optional(S.String),
+          compiledLuceneQuery: S.optional(S.String),
+          legacyMonitorMetadata: S.optional(__S(159, __c4, 31)),
         }),
       ).annotate({ identifier: "CustomThreatScenarioConfig" });
     case 1:
@@ -2164,26 +2164,26 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          technologyWatchlist: S.optional(__S(129, __c4, 1)),
-          customerProfile: S.optional(__S(153, __c4, 25)),
+          customerProfile: S.optional(__S(151, __c4, 23)),
+          detailType: S.optional(S.String),
+          technologyWatchlist: S.optional(__S(153, __c4, 25)),
           domainConfiguration: S.optional(__S(157, __c4, 29)),
           customThreatScenario: S.optional(__S(160, __c5, 0)),
           domainMonitoring: S.optional(__S(162, __c5, 2)),
-          detailType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationDetail" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
           displayName: S.optional(S.String),
-          audit: S.optional(__S(705, __c22, 1)),
+          detail: S.optional(__S(163, __c5, 3)),
+          etag: S.optional(S.String),
           state: S.optional(S.String),
+          description: S.optional(S.String),
           provider: S.optional(S.String),
           version: S.optional(S.String),
-          description: S.optional(S.String),
+          audit: S.optional(__S(707, __c22, 3)),
           name: S.optional(S.String),
-          detail: S.optional(__S(163, __c5, 3)),
         }),
       ).annotate({ identifier: "Configuration" });
   }
@@ -2209,73 +2209,73 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          severity: S.optional(S.String),
-          discoveryDocument: S.optional(__S(737, __c23, 1)),
-          matchScore: S.optional(S.Number),
+          discoveryDocument: S.optional(__S(745, __c23, 9)),
           documentId: S.optional(S.String),
+          matchScore: S.optional(S.Number),
+          severity: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InsiderThreatFindingDetail" });
+      ).annotate({ identifier: "DataLeakFindingDetail" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          matchScore: S.optional(S.Number),
           documentId: S.optional(S.String),
           severity: S.optional(S.String),
-          discoveryDocument: S.optional(__S(737, __c23, 1)),
+          matchScore: S.optional(S.Number),
+          discoveryDocument: S.optional(__S(745, __c23, 9)),
         }),
-      ).annotate({ identifier: "InitialAccessBrokerFindingDetail" });
+      ).annotate({ identifier: "InsiderThreatFindingDetail" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          protectedBrand: S.optional(S.String),
-          domainDetails: S.optional(__S(706, __c22, 2)),
-          relationships: S.optional(__S(745, __c23, 9)),
-          dnsDetails: S.optional(__S(740, __c23, 4)),
-          matchedDomain: S.optional(S.String),
-          registrationDetails: S.optional(__S(749, __c23, 13)),
-          urlDetails: S.optional(__S(746, __c23, 10)),
-          gtiDetails: S.optional(__S(744, __c23, 8)),
-          threatAttributionDetails: S.optional(__S(748, __c23, 12)),
-          whoisDetails: S.optional(__S(747, __c23, 11)),
-          protectedDomain: S.optional(__S(706, __c22, 2)),
-          infrastructure: S.optional(__S(742, __c23, 6)),
+          discoveryDocument: S.optional(__S(745, __c23, 9)),
+          matchScore: S.optional(S.Number),
+          documentId: S.optional(S.String),
+          severity: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DomainMonitoringFindingDetail" });
+      ).annotate({ identifier: "InitialAccessBrokerFindingDetail" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          severity: S.optional(S.String),
-          documentId: S.optional(S.String),
-          matchScore: S.optional(S.Number),
-          discoveryDocument: S.optional(__S(737, __c23, 1)),
+          registrationDetails: S.optional(__S(751, __c23, 15)),
+          domainDetails: S.optional(__S(706, __c22, 2)),
+          matchedDomain: S.optional(S.String),
+          gtiDetails: S.optional(__S(747, __c23, 11)),
+          urlDetails: S.optional(__S(748, __c23, 12)),
+          protectedBrand: S.optional(S.String),
+          protectedDomain: S.optional(__S(706, __c22, 2)),
+          infrastructure: S.optional(__S(757, __c23, 21)),
+          whoisDetails: S.optional(__S(752, __c23, 16)),
+          dnsDetails: S.optional(__S(755, __c23, 19)),
+          threatAttributionDetails: S.optional(__S(750, __c23, 14)),
+          relationships: S.optional(__S(749, __c23, 13)),
         }),
-      ).annotate({ identifier: "DataLeakFindingDetail" });
+      ).annotate({ identifier: "DomainMonitoringFindingDetail" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          insiderThreat: S.optional(__S(224, __c7, 0)),
-          targetTechnology: S.optional(__S(757, __c23, 21)),
-          initialAccessBroker: S.optional(__S(225, __c7, 1)),
           detailType: S.optional(S.String),
-          domainMonitoring: S.optional(__S(226, __c7, 2)),
-          dataLeak: S.optional(__S(227, __c7, 3)),
+          dataLeak: S.optional(__S(224, __c7, 0)),
+          insiderThreat: S.optional(__S(225, __c7, 1)),
+          initialAccessBroker: S.optional(__S(226, __c7, 2)),
+          targetTechnology: S.optional(__S(744, __c23, 8)),
+          domainMonitoring: S.optional(__S(227, __c7, 3)),
         }),
       ).annotate({ identifier: "FindingDetail" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           detail: S.optional(__S(228, __c7, 4)),
-          alert: S.optional(S.String),
-          audit: S.optional(__S(705, __c22, 1)),
-          configurations: S.optional(__S(704, __c22, 0)),
-          reoccurrenceTimes: S.optional(__S(704, __c22, 0)),
-          aiSummary: S.optional(S.String),
-          severity: S.optional(S.Number),
-          relevanceAnalysis: S.optional(__S(759, __c23, 23)),
-          severityAnalysis: S.optional(__S(736, __c23, 0)),
           name: S.optional(S.String),
+          aiSummary: S.optional(S.String),
+          audit: S.optional(__S(707, __c22, 3)),
+          displayName: S.optional(S.String),
           provider: S.optional(S.String),
+          severityAnalysis: S.optional(__S(736, __c23, 0)),
+          configurations: S.optional(__S(704, __c22, 0)),
+          alert: S.optional(S.String),
+          severity: S.optional(S.Number),
+          reoccurrenceTimes: S.optional(__S(704, __c22, 0)),
+          relevanceAnalysis: S.optional(__S(759, __c23, 23)),
         }),
       ).annotate({ identifier: "Finding" });
   }
@@ -2286,10 +2286,10 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2314,11 +2314,11 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2332,8 +2332,8 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          configurations: S.optional(__S(289, __c9, 1)),
           nextPageToken: S.optional(S.String),
+          configurations: S.optional(__S(289, __c9, 1)),
         }),
       ).annotate({ identifier: "ListConfigurationsResponse" });
   }
@@ -2343,11 +2343,11 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2360,8 +2360,8 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           snapshot: S.optional(__S(164, __c5, 4)),
-          createTime: S.optional(S.String),
           name: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationRevision" });
     case 2:
@@ -2369,8 +2369,8 @@ function __c10(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          revisions: S.optional(__S(322, __c10, 2)),
           nextPageToken: S.optional(S.String),
+          revisions: S.optional(__S(322, __c10, 2)),
         }),
       ).annotate({ identifier: "ListConfigurationRevisionsResponse" });
   }
@@ -2381,10 +2381,10 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2393,12 +2393,6 @@ function __c11(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListProjectsFindingsRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(229, __c7, 5));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -2406,6 +2400,12 @@ function __c12(j: number): any {
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFindingsResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(229, __c7, 5));
   }
 }
 function __c13(j: number): any {
@@ -2464,11 +2464,11 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2477,6 +2477,13 @@ function __c16(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchProjectsFindingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          findings: S.optional(__S(384, __c12, 0)),
+        }),
+      ).annotate({ identifier: "SearchFindingsResponse" });
   }
 }
 function __c17(j: number): any {
@@ -2520,8 +2527,8 @@ function __c19(j: number): any {
         S.Extend(
           __S(164, __c5, 4),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             publishTime: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2561,13 +2568,13 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          channelPath: S.optional(S.String),
-          messageId: S.optional(S.String),
-          channelName: S.optional(S.String),
+          serviceName: S.optional(S.String),
           threadId: S.optional(S.String),
           channelDescription: S.optional(S.String),
-          serviceName: S.optional(S.String),
+          messageId: S.optional(S.String),
           channelUrl: S.optional(S.String),
+          channelPath: S.optional(S.String),
+          channelName: S.optional(S.String),
         }),
       ).annotate({ identifier: "CommunicationContext" });
   }
@@ -2577,14 +2584,7 @@ function __c22(j: number): any {
     case 0:
       return S.Array(S.String);
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          creator: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updater: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Audit" });
+      return S.Array(S.String);
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2592,7 +2592,14 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "DomainMonitoringDomainDetails" });
     case 3:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updater: S.optional(S.String),
+          creator: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Audit" });
   }
 }
 function __c23(j: number): any {
@@ -2600,187 +2607,187 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          severityLevel: S.optional(S.String),
           reasoning: S.optional(S.String),
+          severityLevel: S.optional(S.String),
           confidence: S.optional(S.String),
         }),
       ).annotate({ identifier: "SeverityAnalysis" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          communicationContext: S.optional(__S(672, __c21, 0)),
-          documentId: S.optional(S.String),
-          documentType: S.optional(S.String),
+          sizeBytes: S.optional(S.String),
+          exploitGrade: S.optional(S.String),
+          uri: S.optional(S.String),
+          exploitName: S.optional(S.String),
+          releaseTime: S.optional(S.String),
+          exploitReliability: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DiscoveryDocument" });
+      ).annotate({ identifier: "PublicExploit" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ipRegionCode: S.optional(S.String),
-          ttl: S.optional(S.Number),
-          recordData: S.optional(S.String),
-          resolvedIp: S.optional(S.String),
-          type: S.optional(S.String),
-          asnHosting: S.optional(S.String),
-          asnRegionCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DomainMonitoringDnsRecord" });
+      return S.Array(__S(737, __c23, 1));
     case 3:
-      return S.Array(__S(738, __c23, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          dnsRecords: S.optional(__S(739, __c23, 3)),
-          retrievalTime: S.optional(S.String),
+          publishTime: S.optional(S.String),
+          sourceId: S.optional(S.String),
+          uri: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DomainMonitoringDnsDetails" });
+      ).annotate({ identifier: "ProductFix" });
+    case 4:
+      return S.Array(__S(739, __c23, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          subjectAlternativeNames: S.optional(__S(704, __c22, 0)),
-          issuer: S.optional(S.String),
+          type: S.optional(S.String),
+          id: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CertificateDetails" });
+      ).annotate({ identifier: "Association" });
     case 6:
+      return S.Array(__S(741, __c23, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          urlResponse: S.optional(S.String),
-          certificateDetails: S.optional(__S(741, __c23, 5)),
+          collectionId: S.optional(S.String),
+          riskRating: S.optional(S.String),
+          description: S.optional(S.String),
+          matchedTechnologies: S.optional(__S(704, __c22, 0)),
+          priority: S.optional(S.String),
+          exploitationConsequences: S.optional(__S(705, __c22, 1)),
+          cvss3Score: S.optional(S.Number),
+          cveId: S.optional(S.String),
+          technologies: S.optional(__S(704, __c22, 0)),
+          publicExploits: S.optional(__S(738, __c23, 2)),
+          disclosureTime: S.optional(S.String),
+          exploitationState: S.optional(S.String),
+          epssScore: S.optional(S.Number),
+          productFixes: S.optional(__S(740, __c23, 4)),
+          publiclyAvailableExploit: S.optional(S.Boolean),
+          associations: S.optional(__S(742, __c23, 6)),
+          exploitationVectors: S.optional(__S(705, __c22, 1)),
         }),
-      ).annotate({ identifier: "Infrastructure" });
-    case 7:
+      ).annotate({ identifier: "VulnerabilityMatch" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          vulnerabilityMatch: S.optional(__S(743, __c23, 7)),
+        }),
+      ).annotate({ identifier: "TargetTechnologyAlertDetail" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          communicationContext: S.optional(__S(672, __c21, 0)),
+          documentType: S.optional(S.String),
+          documentId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DiscoveryDocument" });
+    case 10:
       return S.suspend(() =>
         S.Struct({
           totalVendorCount: S.optional(S.Number),
           detectedVendorCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AVDetections" });
-    case 8:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          avDetections: S.optional(__S(743, __c23, 7)),
+          avDetections: S.optional(__S(746, __c23, 10)),
           threatClassification: S.optional(S.String),
-          verdict: S.optional(S.String),
           gtiDomainUri: S.optional(S.String),
-          domainPermutation: S.optional(S.String),
           gtiScore: S.optional(S.Number),
+          verdict: S.optional(S.String),
+          domainPermutation: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainMonitoringGtiDetails" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          subdomains: S.optional(__S(704, __c22, 0)),
-          siblingDomains: S.optional(__S(704, __c22, 0)),
-          relatedUrls: S.optional(__S(704, __c22, 0)),
-        }),
-      ).annotate({ identifier: "Relationships" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainMonitoringUrlDetails" });
-    case 11:
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          relatedUrls: S.optional(__S(704, __c22, 0)),
+          siblingDomains: S.optional(__S(704, __c22, 0)),
+          subdomains: S.optional(__S(704, __c22, 0)),
+        }),
+      ).annotate({ identifier: "Relationships" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          malware: S.optional(__S(704, __c22, 0)),
+          collections: S.optional(__S(704, __c22, 0)),
+          actors: S.optional(__S(704, __c22, 0)),
+        }),
+      ).annotate({ identifier: "ThreatAttributionDetails" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          registrationTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          registrar: S.optional(S.String),
+          registrantCountry: S.optional(S.String),
+          privateRegistration: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DnsRegistrationDetails" });
+    case 16:
       return S.suspend(() =>
         S.Struct({
           whois: S.optional(S.String),
           retrievalTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainMonitoringWhoIsDetails" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          collections: S.optional(__S(704, __c22, 0)),
-          actors: S.optional(__S(704, __c22, 0)),
-          malware: S.optional(__S(704, __c22, 0)),
-        }),
-      ).annotate({ identifier: "ThreatAttributionDetails" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          registrantCountry: S.optional(S.String),
-          registrationTime: S.optional(S.String),
-          privateRegistration: S.optional(S.Boolean),
-          expireTime: S.optional(S.String),
-          registrar: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DnsRegistrationDetails" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          sourceId: S.optional(S.String),
-          publishTime: S.optional(S.String),
-          uri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProductFix" });
-    case 15:
-      return S.Array(__S(750, __c23, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Association" });
     case 17:
-      return S.Array(__S(752, __c23, 16));
-    case 18:
       return S.suspend(() =>
         S.Struct({
-          uri: S.optional(S.String),
-          exploitName: S.optional(S.String),
-          releaseTime: S.optional(S.String),
-          exploitReliability: S.optional(S.String),
-          sizeBytes: S.optional(S.String),
-          exploitGrade: S.optional(S.String),
+          ipRegionCode: S.optional(S.String),
+          ttl: S.optional(S.Number),
+          asnHosting: S.optional(S.String),
+          resolvedIp: S.optional(S.String),
+          type: S.optional(S.String),
+          asnRegionCode: S.optional(S.String),
+          recordData: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PublicExploit" });
+      ).annotate({ identifier: "DomainMonitoringDnsRecord" });
+    case 18:
+      return S.Array(__S(753, __c23, 17));
     case 19:
-      return S.Array(__S(754, __c23, 18));
+      return S.suspend(() =>
+        S.Struct({
+          retrievalTime: S.optional(S.String),
+          dnsRecords: S.optional(__S(754, __c23, 18)),
+        }),
+      ).annotate({ identifier: "DomainMonitoringDnsDetails" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          cvss3Score: S.optional(S.Number),
-          matchedTechnologies: S.optional(__S(704, __c22, 0)),
-          disclosureTime: S.optional(S.String),
-          priority: S.optional(S.String),
-          exploitationConsequences: S.optional(__S(707, __c22, 3)),
-          publiclyAvailableExploit: S.optional(S.Boolean),
-          productFixes: S.optional(__S(751, __c23, 15)),
-          cveId: S.optional(S.String),
-          associations: S.optional(__S(753, __c23, 17)),
-          exploitationState: S.optional(S.String),
-          epssScore: S.optional(S.Number),
-          riskRating: S.optional(S.String),
-          collectionId: S.optional(S.String),
-          exploitationVectors: S.optional(__S(707, __c22, 3)),
-          publicExploits: S.optional(__S(755, __c23, 19)),
-          technologies: S.optional(__S(704, __c22, 0)),
-          description: S.optional(S.String),
+          issuer: S.optional(S.String),
+          subjectAlternativeNames: S.optional(__S(704, __c22, 0)),
         }),
-      ).annotate({ identifier: "VulnerabilityMatch" });
+      ).annotate({ identifier: "CertificateDetails" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          vulnerabilityMatch: S.optional(__S(756, __c23, 20)),
+          urlResponse: S.optional(S.String),
+          certificateDetails: S.optional(__S(756, __c23, 20)),
         }),
-      ).annotate({ identifier: "TargetTechnologyAlertDetail" });
+      ).annotate({ identifier: "Infrastructure" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          distinctThemes: S.optional(__S(704, __c22, 0)),
           commonThemes: S.optional(__S(704, __c22, 0)),
+          distinctThemes: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "Evidence" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          evidence: S.optional(__S(758, __c23, 22)),
           confidence: S.optional(S.String),
-          reasoning: S.optional(S.String),
           relevant: S.optional(S.Boolean),
+          evidence: S.optional(__S(758, __c23, 22)),
           relevanceLevel: S.optional(S.String),
+          reasoning: S.optional(S.String),
         }),
       ).annotate({ identifier: "RelevanceAnalysis" });
   }
@@ -2788,6 +2795,60 @@ function __c23(j: number): any {
 function __c24(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(745, __c23, 9));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          discoveryDocuments: S.optional(__S(768, __c24, 0)),
+          severity: S.optional(S.String),
+          discoveryDocumentIds: S.optional(__S(704, __c22, 0)),
+        }),
+      ).annotate({ identifier: "InsiderThreatAlertDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          gtiDetails: S.optional(__S(747, __c23, 11)),
+          urlDetails: S.optional(__S(748, __c23, 12)),
+          relationships: S.optional(__S(749, __c23, 13)),
+          protectedDomain: S.optional(__S(706, __c22, 2)),
+          threatAttributionDetails: S.optional(__S(750, __c23, 14)),
+          domainDetails: S.optional(__S(706, __c22, 2)),
+          registrationDetails: S.optional(__S(751, __c23, 15)),
+          whoisDetails: S.optional(__S(752, __c23, 16)),
+          protectedBrand: S.optional(S.String),
+          dnsDetails: S.optional(__S(755, __c23, 19)),
+          matchedDomain: S.optional(S.String),
+          infrastructure: S.optional(__S(757, __c23, 21)),
+        }),
+      ).annotate({ identifier: "DomainMonitoringAlertDetail" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          severity: S.optional(S.String),
+          discoveryDocuments: S.optional(__S(768, __c24, 0)),
+          discoveryDocumentIds: S.optional(__S(704, __c22, 0)),
+        }),
+      ).annotate({ identifier: "InitialAccessBrokerAlertDetail" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          discoveryDocumentIds: S.optional(__S(704, __c22, 0)),
+          severity: S.optional(S.String),
+          discoveryDocuments: S.optional(__S(768, __c24, 0)),
+        }),
+      ).annotate({ identifier: "DataLeakAlertDetail" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          targetTechnology: S.optional(__S(744, __c23, 8)),
+          insiderThreat: S.optional(__S(769, __c24, 1)),
+          domainMonitoring: S.optional(__S(770, __c24, 2)),
+          initialAccessBroker: S.optional(__S(771, __c24, 3)),
+          detailType: S.optional(S.String),
+          dataLeak: S.optional(__S(772, __c24, 4)),
+        }),
+      ).annotate({ identifier: "AlertDetail" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           confidence: S.optional(S.String),
@@ -2795,80 +2856,26 @@ function __c24(j: number): any {
           priorityLevel: S.optional(S.String),
         }),
       ).annotate({ identifier: "PriorityAnalysis" });
-    case 1:
-      return S.Array(__S(737, __c23, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          severity: S.optional(S.String),
-          discoveryDocuments: S.optional(__S(769, __c24, 1)),
-          discoveryDocumentIds: S.optional(__S(704, __c22, 0)),
-        }),
-      ).annotate({ identifier: "InsiderThreatAlertDetail" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          discoveryDocuments: S.optional(__S(769, __c24, 1)),
-          discoveryDocumentIds: S.optional(__S(704, __c22, 0)),
-          severity: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DataLeakAlertDetail" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          dnsDetails: S.optional(__S(740, __c23, 4)),
-          infrastructure: S.optional(__S(742, __c23, 6)),
-          gtiDetails: S.optional(__S(744, __c23, 8)),
-          domainDetails: S.optional(__S(706, __c22, 2)),
-          relationships: S.optional(__S(745, __c23, 9)),
-          protectedDomain: S.optional(__S(706, __c22, 2)),
-          urlDetails: S.optional(__S(746, __c23, 10)),
-          matchedDomain: S.optional(S.String),
-          protectedBrand: S.optional(S.String),
-          whoisDetails: S.optional(__S(747, __c23, 11)),
-          threatAttributionDetails: S.optional(__S(748, __c23, 12)),
-          registrationDetails: S.optional(__S(749, __c23, 13)),
-        }),
-      ).annotate({ identifier: "DomainMonitoringAlertDetail" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          discoveryDocumentIds: S.optional(__S(704, __c22, 0)),
-          discoveryDocuments: S.optional(__S(769, __c24, 1)),
-          severity: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InitialAccessBrokerAlertDetail" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          insiderThreat: S.optional(__S(770, __c24, 2)),
-          dataLeak: S.optional(__S(771, __c24, 3)),
-          domainMonitoring: S.optional(__S(772, __c24, 4)),
-          detailType: S.optional(S.String),
-          targetTechnology: S.optional(__S(757, __c23, 21)),
-          initialAccessBroker: S.optional(__S(773, __c24, 5)),
-        }),
-      ).annotate({ identifier: "AlertDetail" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          configurations: S.optional(__S(704, __c22, 0)),
-          priorityAnalysis: S.optional(__S(768, __c24, 0)),
-          duplicateOf: S.optional(S.String),
           severityAnalysis: S.optional(__S(736, __c23, 0)),
-          displayName: S.optional(S.String),
-          externalId: S.optional(S.String),
-          findings: S.optional(__S(704, __c22, 0)),
+          detail: S.optional(__S(773, __c24, 5)),
+          priorityAnalysis: S.optional(__S(774, __c24, 6)),
           aiSummary: S.optional(S.String),
           findingCount: S.optional(S.String),
-          etag: S.optional(S.String),
-          audit: S.optional(__S(705, __c22, 1)),
-          state: S.optional(S.String),
-          detail: S.optional(__S(774, __c24, 6)),
-          duplicatedBy: S.optional(__S(704, __c22, 0)),
-          name: S.optional(S.String),
-          tags: S.optional(__S(707, __c22, 3)),
+          tags: S.optional(__S(705, __c22, 1)),
           relevanceAnalysis: S.optional(__S(759, __c23, 23)),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          state: S.optional(S.String),
+          etag: S.optional(S.String),
+          duplicatedBy: S.optional(__S(704, __c22, 0)),
+          externalId: S.optional(S.String),
+          duplicateOf: S.optional(S.String),
+          findings: S.optional(__S(704, __c22, 0)),
+          configurations: S.optional(__S(704, __c22, 0)),
+          audit: S.optional(__S(707, __c22, 3)),
         }),
       ).annotate({ identifier: "Alert" });
   }
@@ -2922,8 +2929,8 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
           count: S.optional(S.Number),
+          value: S.optional(S.String),
         }),
       ).annotate({ identifier: "FacetCount" });
     case 2:
@@ -2931,12 +2938,12 @@ function __c27(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          facet: S.optional(S.String),
-          facetType: S.optional(S.String),
           maxValue: S.optional(S.String),
-          totalCount: S.optional(S.String),
+          facetType: S.optional(S.String),
+          facet: S.optional(S.String),
           minValue: S.optional(S.String),
           facetCounts: S.optional(__S(866, __c27, 2)),
+          totalCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "Facet" });
     case 4:
@@ -3015,18 +3022,18 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(963, __c30, 3)),
           code: S.optional(S.Number),
+          details: S.optional(__S(963, __c30, 3)),
         }),
       ).annotate({ identifier: "Status" });
     case 5:
       return S.suspend(() =>
         S.Struct({
+          metadata: S.optional(__S(962, __c30, 2)),
+          response: S.optional(__S(962, __c30, 2)),
           name: S.optional(S.String),
           error: S.optional(__S(964, __c30, 4)),
-          metadata: S.optional(__S(962, __c30, 2)),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(962, __c30, 2)),
         }),
       ).annotate({ identifier: "Operation" });
   }

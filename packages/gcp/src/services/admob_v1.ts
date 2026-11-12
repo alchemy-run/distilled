@@ -83,36 +83,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type MediationReportSpecMetricsItemEnum =
-  | "METRIC_UNSPECIFIED"
-  | "AD_REQUESTS"
-  | "CLICKS"
-  | "ESTIMATED_EARNINGS"
-  | "IMPRESSIONS"
-  | "IMPRESSION_CTR"
-  | "MATCHED_REQUESTS"
-  | "MATCH_RATE"
-  | "OBSERVED_ECPM"
-  | "AD_LOAD_LATENCY";
-export type MediationReportSpecMetricsItemEnumList = Array<
-  MediationReportSpecMetricsItemEnum | (string & {})
->;
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Admob_Date {
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number | undefined;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number | undefined;
-}
-/** Specification of a single date range. Both dates are inclusive. */
-export interface DateRange {
-  /** Start date of the date range, inclusive. Must be less than or equal to the end date. */
-  startDate?: Admob_Date | undefined;
-  /** End date of the date range, inclusive. Must be greater than or equal to the start date. */
-  endDate?: Admob_Date | undefined;
-}
 export type MediationReportSpecDimensionsItemEnum =
   | "DIMENSION_UNSPECIFIED"
   | "DATE"
@@ -133,6 +103,12 @@ export type MediationReportSpecDimensionsItemEnum =
 export type MediationReportSpecDimensionsItemEnumList = Array<
   MediationReportSpecDimensionsItemEnum | (string & {})
 >;
+export type StringList_ = Array<string>;
+/** List of string values. */
+export interface StringList {
+  /** The string values. */
+  values?: StringList_ | undefined;
+}
 export type MediationReportSpecDimensionFilterDimensionEnum =
   | "DIMENSION_UNSPECIFIED"
   | "DATE"
@@ -150,27 +126,18 @@ export type MediationReportSpecDimensionFilterDimensionEnum =
   | "GMA_SDK_VERSION"
   | "APP_VERSION_NAME"
   | "SERVING_RESTRICTION";
-export type StringList_ = Array<string>;
-/** List of string values. */
-export interface StringList {
-  /** The string values. */
-  values?: StringList_ | undefined;
-}
 /** Describes which report rows to match based on their dimension values. */
 export interface MediationReportSpecDimensionFilter {
-  /** Applies the filter criterion to the specified dimension. */
-  dimension?: MediationReportSpecDimensionFilterDimensionEnum | (string & {}) | undefined;
   /** Matches a row if its value for the specified dimension is in one of the values specified in this condition. */
   matchesAny?: StringList | undefined;
+  /** Applies the filter criterion to the specified dimension. */
+  dimension?: MediationReportSpecDimensionFilterDimensionEnum | (string & {}) | undefined;
 }
 export type MediationReportSpecDimensionFilterList = Array<MediationReportSpecDimensionFilter>;
-/** Localization settings for reports, such as currency and language. It affects how metrics are calculated. */
-export interface LocalizationSettings {
-  /** Currency code of the earning related metrics, which is the 3-letter code defined in ISO 4217. The daily average rate is used for the currency conversion. Defaults to the account currency code if unspecified. */
-  currencyCode?: string | undefined;
-  /** Language used for any localized text, such as some dimension value display labels. The language tag defined in the IETF BCP47. Defaults to 'en-US' if unspecified. */
-  languageCode?: string | undefined;
-}
+export type MediationReportSpecSortConditionOrderEnum =
+  | "SORT_ORDER_UNSPECIFIED"
+  | "ASCENDING"
+  | "DESCENDING";
 export type MediationReportSpecSortConditionDimensionEnum =
   | "DIMENSION_UNSPECIFIED"
   | "DATE"
@@ -188,10 +155,6 @@ export type MediationReportSpecSortConditionDimensionEnum =
   | "GMA_SDK_VERSION"
   | "APP_VERSION_NAME"
   | "SERVING_RESTRICTION";
-export type MediationReportSpecSortConditionOrderEnum =
-  | "SORT_ORDER_UNSPECIFIED"
-  | "ASCENDING"
-  | "DESCENDING";
 export type MediationReportSpecSortConditionMetricEnum =
   | "METRIC_UNSPECIFIED"
   | "AD_REQUESTS"
@@ -205,32 +168,69 @@ export type MediationReportSpecSortConditionMetricEnum =
   | "AD_LOAD_LATENCY";
 /** Sorting direction to be applied on a dimension or a metric. */
 export interface MediationReportSpecSortCondition {
-  /** Sort by the specified dimension. */
-  dimension?: MediationReportSpecSortConditionDimensionEnum | (string & {}) | undefined;
   /** Sorting order of the dimension or metric. */
   order?: MediationReportSpecSortConditionOrderEnum | (string & {}) | undefined;
+  /** Sort by the specified dimension. */
+  dimension?: MediationReportSpecSortConditionDimensionEnum | (string & {}) | undefined;
   /** Sort by the specified metric. */
   metric?: MediationReportSpecSortConditionMetricEnum | (string & {}) | undefined;
 }
 export type MediationReportSpecSortConditionList = Array<MediationReportSpecSortCondition>;
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Admob_Date {
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
+}
+/** Specification of a single date range. Both dates are inclusive. */
+export interface DateRange {
+  /** End date of the date range, inclusive. Must be greater than or equal to the start date. */
+  endDate?: Admob_Date | undefined;
+  /** Start date of the date range, inclusive. Must be less than or equal to the end date. */
+  startDate?: Admob_Date | undefined;
+}
+export type MediationReportSpecMetricsItemEnum =
+  | "METRIC_UNSPECIFIED"
+  | "AD_REQUESTS"
+  | "CLICKS"
+  | "ESTIMATED_EARNINGS"
+  | "IMPRESSIONS"
+  | "IMPRESSION_CTR"
+  | "MATCHED_REQUESTS"
+  | "MATCH_RATE"
+  | "OBSERVED_ECPM"
+  | "AD_LOAD_LATENCY";
+export type MediationReportSpecMetricsItemEnumList = Array<
+  MediationReportSpecMetricsItemEnum | (string & {})
+>;
+/** Localization settings for reports, such as currency and language. It affects how metrics are calculated. */
+export interface LocalizationSettings {
+  /** Currency code of the earning related metrics, which is the 3-letter code defined in ISO 4217. The daily average rate is used for the currency conversion. Defaults to the account currency code if unspecified. */
+  currencyCode?: string | undefined;
+  /** Language used for any localized text, such as some dimension value display labels. The language tag defined in the IETF BCP47. Defaults to 'en-US' if unspecified. */
+  languageCode?: string | undefined;
+}
 /** The specification for generating an AdMob Mediation report. For example, the specification to get observed ECPM sliced by ad source and app for the 'US' and 'CN' countries can look like the following example: { "date_range": { "start_date": {"year": 2021, "month": 9, "day": 1}, "end_date": {"year": 2021, "month": 9, "day": 30} }, "dimensions": ["AD_SOURCE", "APP", "COUNTRY"], "metrics": ["OBSERVED_ECPM"], "dimension_filters": [ { "dimension": "COUNTRY", "matches_any": {"values": [{"value": "US", "value": "CN"}]} } ], "sort_conditions": [ {"dimension":"APP", order: "ASCENDING"} ], "localization_settings": { "currency_code": "USD", "language_code": "en-US" } } For a better understanding, you can treat the preceding specification like the following pseudo SQL: SELECT AD_SOURCE, APP, COUNTRY, OBSERVED_ECPM FROM MEDIATION_REPORT WHERE DATE >= '2021-09-01' AND DATE <= '2021-09-30' AND COUNTRY IN ('US', 'CN') GROUP BY AD_SOURCE, APP, COUNTRY ORDER BY APP ASC; */
 export interface MediationReportSpec {
-  /** List of metrics of the report. A report must specify at least one metric. */
-  metrics?: MediationReportSpecMetricsItemEnumList | undefined;
-  /** Maximum number of report data rows to return. If the value is not set, the API returns as many rows as possible, up to 100000. Acceptable values are 1-100000, inclusive. Values larger than 100000 return an error. */
-  maxReportRows?: number | undefined;
-  /** The date range for which the report is generated. */
-  dateRange?: DateRange | undefined;
-  /** A report time zone. Accepts an IANA TZ name values, such as "America/Los_Angeles." If no time zone is defined, the account default takes effect. Check default value by the get account action. **Warning:** The "America/Los_Angeles" is the only supported value at the moment. */
-  timeZone?: string | undefined;
   /** List of dimensions of the report. The value combination of these dimensions determines the row of the report. If no dimensions are specified, the report returns a single row of requested metrics for the entire account. */
   dimensions?: MediationReportSpecDimensionsItemEnumList | undefined;
   /** Describes which report rows to match based on their dimension values. */
   dimensionFilters?: MediationReportSpecDimensionFilterList | undefined;
-  /** Localization settings of the report. */
-  localizationSettings?: LocalizationSettings | undefined;
+  /** Maximum number of report data rows to return. If the value is not set, the API returns as many rows as possible, up to 100000. Acceptable values are 1-100000, inclusive. Values larger than 100000 return an error. */
+  maxReportRows?: number | undefined;
   /** Describes the sorting of report rows. The order of the condition in the list defines its precedence; the earlier the condition, the higher its precedence. If no sort conditions are specified, the row ordering is undefined. */
   sortConditions?: MediationReportSpecSortConditionList | undefined;
+  /** The date range for which the report is generated. */
+  dateRange?: DateRange | undefined;
+  /** List of metrics of the report. A report must specify at least one metric. */
+  metrics?: MediationReportSpecMetricsItemEnumList | undefined;
+  /** Localization settings of the report. */
+  localizationSettings?: LocalizationSettings | undefined;
+  /** A report time zone. Accepts an IANA TZ name values, such as "America/Los_Angeles." If no time zone is defined, the account default takes effect. Check default value by the get account action. **Warning:** The "America/Los_Angeles" is the only supported value at the moment. */
+  timeZone?: string | undefined;
 }
 /** Request to generate an AdMob Mediation report. */
 export interface GenerateMediationReportRequest {
@@ -240,40 +240,6 @@ export interface GenerateMediationReportRequest {
 export interface GenerateAccountsMediationReportRequest extends GenerateMediationReportRequest {
   /** Resource name of the account to generate the report for. Example: accounts/pub-9876543210987654 */
   parent: string;
-}
-/** Groups data helps to treat the generated report. Always sent as a first message in the stream response. */
-export interface ReportHeader {
-  /** Localization settings of the report. This is identical to the settings in the report request. */
-  localizationSettings?: LocalizationSettings | undefined;
-  /** The date range for which the report is generated. This is identical to the range specified in the report request. */
-  dateRange?: DateRange | undefined;
-  /** The report time zone. The value is a time-zone ID as specified by the CLDR project, for example, "America/Los_Angeles". */
-  reportingTimeZone?: string | undefined;
-}
-/** Representation of a metric value. */
-export interface ReportRowMetricValue {
-  /** Double precision (approximate) decimal values. Rates are from 0 to 1. */
-  doubleValue?: number | undefined;
-  /** Amount in micros. One million is equivalent to one unit. Currency value is in the unit (USD, EUR or other) specified by the request. For example, $6.50 whould be represented as 6500000 micros. */
-  microsValue?: string | undefined;
-  /** Metric integer value. */
-  integerValue?: string | undefined;
-}
-export type ReportRowMetricValueMap = { [key: string]: ReportRowMetricValue | undefined };
-/** Representation of a dimension value. */
-export interface ReportRowDimensionValue {
-  /** Dimension value in the format specified in the report's spec Dimension enum. */
-  value?: string | undefined;
-  /** The localized string representation of the value. If unspecified, the display label should be derived from the value. */
-  displayLabel?: string | undefined;
-}
-export type ReportRowDimensionValueMap = { [key: string]: ReportRowDimensionValue | undefined };
-/** A row of the returning report. */
-export interface ReportRow {
-  /** Map of metric values in a row, with keys as enum name of the metrics. If a metric being requested has no value returned, the map will not include it. */
-  metricValues?: ReportRowMetricValueMap | undefined;
-  /** Map of dimension values in a row, with keys as enum name of the dimensions. */
-  dimensionValues?: ReportRowDimensionValueMap | undefined;
 }
 export type ReportWarningTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -296,69 +262,49 @@ export interface ReportFooter {
   /** Total number of rows that matched the request. Warning: This count does NOT always match the number of rows in the response. Do not make that assumption when processing the response. */
   matchingRowCount?: string | undefined;
 }
+/** Representation of a metric value. */
+export interface ReportRowMetricValue {
+  /** Amount in micros. One million is equivalent to one unit. Currency value is in the unit (USD, EUR or other) specified by the request. For example, $6.50 whould be represented as 6500000 micros. */
+  microsValue?: string | undefined;
+  /** Metric integer value. */
+  integerValue?: string | undefined;
+  /** Double precision (approximate) decimal values. Rates are from 0 to 1. */
+  doubleValue?: number | undefined;
+}
+export type ReportRowMetricValueMap = { [key: string]: ReportRowMetricValue | undefined };
+/** Representation of a dimension value. */
+export interface ReportRowDimensionValue {
+  /** Dimension value in the format specified in the report's spec Dimension enum. */
+  value?: string | undefined;
+  /** The localized string representation of the value. If unspecified, the display label should be derived from the value. */
+  displayLabel?: string | undefined;
+}
+export type ReportRowDimensionValueMap = { [key: string]: ReportRowDimensionValue | undefined };
+/** A row of the returning report. */
+export interface ReportRow {
+  /** Map of metric values in a row, with keys as enum name of the metrics. If a metric being requested has no value returned, the map will not include it. */
+  metricValues?: ReportRowMetricValueMap | undefined;
+  /** Map of dimension values in a row, with keys as enum name of the dimensions. */
+  dimensionValues?: ReportRowDimensionValueMap | undefined;
+}
+/** Groups data helps to treat the generated report. Always sent as a first message in the stream response. */
+export interface ReportHeader {
+  /** The date range for which the report is generated. This is identical to the range specified in the report request. */
+  dateRange?: DateRange | undefined;
+  /** The report time zone. The value is a time-zone ID as specified by the CLDR project, for example, "America/Los_Angeles". */
+  reportingTimeZone?: string | undefined;
+  /** Localization settings of the report. This is identical to the settings in the report request. */
+  localizationSettings?: LocalizationSettings | undefined;
+}
 /** The streaming response for the AdMob Mediation report where the first response contains the report header, then a stream of row responses, and finally a footer as the last response message. For example: [{ "header": { "date_range": { "start_date": {"year": 2018, "month": 9, "day": 1}, "end_date": {"year": 2018, "month": 9, "day": 1} }, "localization_settings": { "currency_code": "USD", "language_code": "en-US" } } }, { "row": { "dimension_values": { "DATE": {"value": "20180918"}, "APP": { "value": "ca-app-pub-8123415297019784~1001342552", "display_label": "My app name!" } }, "metric_values": { "ESTIMATED_EARNINGS": {"decimal_value": "1324746"} } } }, { "footer": {"matching_row_count": 1} }] */
 export interface GenerateMediationReportResponse {
-  /** Report generation settings that describes the report contents, such as the report date range and localization settings. */
-  header?: ReportHeader | undefined;
-  /** Actual report data. */
-  row?: ReportRow | undefined;
   /** Additional information about the generated report, such as warnings about the data. */
   footer?: ReportFooter | undefined;
+  /** Actual report data. */
+  row?: ReportRow | undefined;
+  /** Report generation settings that describes the report contents, such as the report date range and localization settings. */
+  header?: ReportHeader | undefined;
 }
-export type NetworkReportSpecSortConditionOrderEnum =
-  | "SORT_ORDER_UNSPECIFIED"
-  | "ASCENDING"
-  | "DESCENDING";
-export type NetworkReportSpecSortConditionMetricEnum =
-  | "METRIC_UNSPECIFIED"
-  | "AD_REQUESTS"
-  | "CLICKS"
-  | "ESTIMATED_EARNINGS"
-  | "IMPRESSIONS"
-  | "IMPRESSION_CTR"
-  | "IMPRESSION_RPM"
-  | "MATCHED_REQUESTS"
-  | "MATCH_RATE"
-  | "SHOW_RATE";
-export type NetworkReportSpecSortConditionDimensionEnum =
-  | "DIMENSION_UNSPECIFIED"
-  | "DATE"
-  | "MONTH"
-  | "WEEK"
-  | "AD_UNIT"
-  | "APP"
-  | "AD_TYPE"
-  | "COUNTRY"
-  | "FORMAT"
-  | "PLATFORM"
-  | "MOBILE_OS_VERSION"
-  | "GMA_SDK_VERSION"
-  | "APP_VERSION_NAME"
-  | "SERVING_RESTRICTION";
-/** Sorting direction to be applied on a dimension or a metric. */
-export interface NetworkReportSpecSortCondition {
-  /** Sorting order of the dimension or metric. */
-  order?: NetworkReportSpecSortConditionOrderEnum | (string & {}) | undefined;
-  /** Sort by the specified metric. */
-  metric?: NetworkReportSpecSortConditionMetricEnum | (string & {}) | undefined;
-  /** Sort by the specified dimension. */
-  dimension?: NetworkReportSpecSortConditionDimensionEnum | (string & {}) | undefined;
-}
-export type NetworkReportSpecSortConditionList = Array<NetworkReportSpecSortCondition>;
-export type NetworkReportSpecMetricsItemEnum =
-  | "METRIC_UNSPECIFIED"
-  | "AD_REQUESTS"
-  | "CLICKS"
-  | "ESTIMATED_EARNINGS"
-  | "IMPRESSIONS"
-  | "IMPRESSION_CTR"
-  | "IMPRESSION_RPM"
-  | "MATCHED_REQUESTS"
-  | "MATCH_RATE"
-  | "SHOW_RATE";
-export type NetworkReportSpecMetricsItemEnumList = Array<
-  NetworkReportSpecMetricsItemEnum | (string & {})
->;
 export type NetworkReportSpecDimensionFilterDimensionEnum =
   | "DIMENSION_UNSPECIFIED"
   | "DATE"
@@ -382,6 +328,60 @@ export interface NetworkReportSpecDimensionFilter {
   dimension?: NetworkReportSpecDimensionFilterDimensionEnum | (string & {}) | undefined;
 }
 export type NetworkReportSpecDimensionFilterList = Array<NetworkReportSpecDimensionFilter>;
+export type NetworkReportSpecMetricsItemEnum =
+  | "METRIC_UNSPECIFIED"
+  | "AD_REQUESTS"
+  | "CLICKS"
+  | "ESTIMATED_EARNINGS"
+  | "IMPRESSIONS"
+  | "IMPRESSION_CTR"
+  | "IMPRESSION_RPM"
+  | "MATCHED_REQUESTS"
+  | "MATCH_RATE"
+  | "SHOW_RATE";
+export type NetworkReportSpecMetricsItemEnumList = Array<
+  NetworkReportSpecMetricsItemEnum | (string & {})
+>;
+export type NetworkReportSpecSortConditionDimensionEnum =
+  | "DIMENSION_UNSPECIFIED"
+  | "DATE"
+  | "MONTH"
+  | "WEEK"
+  | "AD_UNIT"
+  | "APP"
+  | "AD_TYPE"
+  | "COUNTRY"
+  | "FORMAT"
+  | "PLATFORM"
+  | "MOBILE_OS_VERSION"
+  | "GMA_SDK_VERSION"
+  | "APP_VERSION_NAME"
+  | "SERVING_RESTRICTION";
+export type NetworkReportSpecSortConditionMetricEnum =
+  | "METRIC_UNSPECIFIED"
+  | "AD_REQUESTS"
+  | "CLICKS"
+  | "ESTIMATED_EARNINGS"
+  | "IMPRESSIONS"
+  | "IMPRESSION_CTR"
+  | "IMPRESSION_RPM"
+  | "MATCHED_REQUESTS"
+  | "MATCH_RATE"
+  | "SHOW_RATE";
+export type NetworkReportSpecSortConditionOrderEnum =
+  | "SORT_ORDER_UNSPECIFIED"
+  | "ASCENDING"
+  | "DESCENDING";
+/** Sorting direction to be applied on a dimension or a metric. */
+export interface NetworkReportSpecSortCondition {
+  /** Sort by the specified dimension. */
+  dimension?: NetworkReportSpecSortConditionDimensionEnum | (string & {}) | undefined;
+  /** Sort by the specified metric. */
+  metric?: NetworkReportSpecSortConditionMetricEnum | (string & {}) | undefined;
+  /** Sorting order of the dimension or metric. */
+  order?: NetworkReportSpecSortConditionOrderEnum | (string & {}) | undefined;
+}
+export type NetworkReportSpecSortConditionList = Array<NetworkReportSpecSortCondition>;
 export type NetworkReportSpecDimensionsItemEnum =
   | "DIMENSION_UNSPECIFIED"
   | "DATE"
@@ -404,18 +404,18 @@ export type NetworkReportSpecDimensionsItemEnumList = Array<
 export interface NetworkReportSpec {
   /** Localization settings of the report. */
   localizationSettings?: LocalizationSettings | undefined;
-  /** Maximum number of report data rows to return. If the value is not set, the API returns as many rows as possible, up to 100000. Acceptable values are 1-100000, inclusive. Values larger than 100000 return an error. */
-  maxReportRows?: number | undefined;
-  /** Describes the sorting of report rows. The order of the condition in the list defines its precedence; the earlier the condition, the higher its precedence. If no sort conditions are specified, the row ordering is undefined. */
-  sortConditions?: NetworkReportSpecSortConditionList | undefined;
-  /** The date range for which the report is generated. */
-  dateRange?: DateRange | undefined;
-  /** A report time zone. Accepts an IANA TZ name values, such as "America/Los_Angeles." If no time zone is defined, the account default takes effect. Check default value by the get account action. **Warning:** The "America/Los_Angeles" is the only supported value at the moment. */
-  timeZone?: string | undefined;
-  /** List of metrics of the report. A report must specify at least one metric. */
-  metrics?: NetworkReportSpecMetricsItemEnumList | undefined;
   /** Describes which report rows to match based on their dimension values. */
   dimensionFilters?: NetworkReportSpecDimensionFilterList | undefined;
+  /** Maximum number of report data rows to return. If the value is not set, the API returns as many rows as possible, up to 100000. Acceptable values are 1-100000, inclusive. Values larger than 100000 return an error. */
+  maxReportRows?: number | undefined;
+  /** A report time zone. Accepts an IANA TZ name values, such as "America/Los_Angeles." If no time zone is defined, the account default takes effect. Check default value by the get account action. **Warning:** The "America/Los_Angeles" is the only supported value at the moment. */
+  timeZone?: string | undefined;
+  /** The date range for which the report is generated. */
+  dateRange?: DateRange | undefined;
+  /** List of metrics of the report. A report must specify at least one metric. */
+  metrics?: NetworkReportSpecMetricsItemEnumList | undefined;
+  /** Describes the sorting of report rows. The order of the condition in the list defines its precedence; the earlier the condition, the higher its precedence. If no sort conditions are specified, the row ordering is undefined. */
+  sortConditions?: NetworkReportSpecSortConditionList | undefined;
   /** List of dimensions of the report. The value combination of these dimensions determines the row of the report. If no dimensions are specified, the report returns a single row of requested metrics for the entire account. */
   dimensions?: NetworkReportSpecDimensionsItemEnumList | undefined;
 }
@@ -443,51 +443,51 @@ export interface GetAccountsRequest {
 }
 /** A publisher account contains information relevant to the use of this API, such as the time zone used for the reports. */
 export interface PublisherAccount {
-  /** The unique ID by which this publisher account can be identified in the API requests (for example, pub-1234567890). */
-  publisherId?: string | undefined;
+  /** Resource name of this account. Format is accounts/{publisher_id}. */
+  name?: string | undefined;
   /** The time zone that is used in reports that are generated for this account. The value is a time-zone ID as specified by the CLDR project, for example, "America/Los_Angeles". */
   reportingTimeZone?: string | undefined;
   /** Currency code of the earning-related metrics, which is the 3-letter code defined in ISO 4217. The daily average rate is used for the currency conversion. */
   currencyCode?: string | undefined;
-  /** Resource name of this account. Format is accounts/{publisher_id}. */
-  name?: string | undefined;
+  /** The unique ID by which this publisher account can be identified in the API requests (for example, pub-1234567890). */
+  publisherId?: string | undefined;
 }
 export interface ListAccountsRequest {
-  /** The value returned by the last `ListPublisherAccountsResponse`; indicates that this is a continuation of a prior `ListPublisherAccounts` call, and that the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** Maximum number of accounts to return. */
   pageSize?: number | undefined;
+  /** The value returned by the last `ListPublisherAccountsResponse`; indicates that this is a continuation of a prior `ListPublisherAccounts` call, and that the system should return the next page of data. */
+  pageToken?: string | undefined;
 }
 export type PublisherAccountList = Array<PublisherAccount>;
 /** Response for the publisher account list request. */
 export interface ListPublisherAccountsResponse {
-  /** If not empty, indicates that there might be more accounts for the request; you must pass this value in a new `ListPublisherAccountsRequest`. */
-  nextPageToken?: string | undefined;
   /** Publisher that the client credentials can access. */
   account?: PublisherAccountList | undefined;
+  /** If not empty, indicates that there might be more accounts for the request; you must pass this value in a new `ListPublisherAccountsRequest`. */
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsAdUnitsRequest {
-  /** The value returned by the last `ListAdUnitsResponse`; indicates that this is a continuation of a prior `ListAdUnits` call, and that the system should return the next page of data. */
-  pageToken?: string | undefined;
-  /** Required. Resource name of the account to list ad units for. Example: accounts/pub-9876543210987654 */
-  parent: string;
   /** The maximum number of ad units to return. If unspecified or 0, at most 10,000 ad units will be returned. The maximum value is 20,000; values above 20,000 will be coerced to 20,000. */
   pageSize?: number | undefined;
+  /** Required. Resource name of the account to list ad units for. Example: accounts/pub-9876543210987654 */
+  parent: string;
+  /** The value returned by the last `ListAdUnitsResponse`; indicates that this is a continuation of a prior `ListAdUnits` call, and that the system should return the next page of data. */
+  pageToken?: string | undefined;
 }
 /** Describes an AdMob ad unit. */
 export interface AdUnit {
   /** Ad media type supported by this ad unit. Possible values as follows: "RICH_MEDIA" - Text, image, and other non-video media. "VIDEO" - Video media. */
   adTypes?: StringList_ | undefined;
-  /** The externally visible ID of the app this ad unit is associated with. Example: ca-app-pub-9876543210987654~0123456789 */
-  appId?: string | undefined;
   /** Resource name for this ad unit. Format is accounts/{publisher_id}/adUnits/{ad_unit_id_fragment} Example: accounts/pub-9876543210987654/adUnits/0123456789 */
   name?: string | undefined;
+  /** The externally visible ID of the app this ad unit is associated with. Example: ca-app-pub-9876543210987654~0123456789 */
+  appId?: string | undefined;
   /** The externally visible ID of the ad unit which can be used to integrate with AdMob. This is a read only property. Example: ca-app-pub-9876543210987654/0123456789 */
   adUnitId?: string | undefined;
-  /** The display name of the ad unit as shown in the AdMob UI, which is provided by the user. The maximum length allowed is 80 characters. */
-  displayName?: string | undefined;
   /** AdFormat of the ad unit. Possible values are as follows: "APP_OPEN" - App Open ad format. "BANNER" - Banner ad format. "BANNER_INTERSTITIAL" - Legacy format that can be used as either banner or interstitial. This format can no longer be created but can be targeted by mediation groups. "INTERSTITIAL" - A full screen ad. Supported ad types are "RICH_MEDIA" and "VIDEO". "NATIVE" - Native ad format. "REWARDED" - An ad that, once viewed, gets a callback verifying the view so that a reward can be given to the user. Supported ad types are "RICH_MEDIA" (interactive) and video where video can not be excluded. "REWARDED_INTERSTITIAL" - Rewarded Interstitial ad format. Only supports video ad type. See https://support.google.com/admob/answer/9884467. */
   adFormat?: string | undefined;
+  /** The display name of the ad unit as shown in the AdMob UI, which is provided by the user. The maximum length allowed is 80 characters. */
+  displayName?: string | undefined;
 }
 export type AdUnitList = Array<AdUnit>;
 /** Response for the ad units list request. */
@@ -507,10 +507,10 @@ export interface ListAccountsAppsRequest {
 }
 /** Information from the app store if the app is linked to an app store. */
 export interface AppLinkedAppInfo {
-  /** The app store ID of the app; present if and only if the app is linked to an app store. If the app is added to the Google Play store, it will be the application ID of the app. For example: "com.example.myapp". See https://developer.android.com/studio/build/application-id. If the app is added to the Apple App Store, it will be app store ID. For example "105169111". Note that setting the app store id is considered an irreversible action. Once an app is linked, it cannot be unlinked. */
-  appStoreId?: string | undefined;
   /** Output only. Display name of the app as it appears in the app store. This is an output-only field, and may be empty if the app cannot be found in the store. */
   displayName?: string | undefined;
+  /** The app store ID of the app; present if and only if the app is linked to an app store. If the app is added to the Google Play store, it will be the application ID of the app. For example: "com.example.myapp". See https://developer.android.com/studio/build/application-id. If the app is added to the Apple App Store, it will be app store ID. For example "105169111". Note that setting the app store id is considered an irreversible action. Once an app is linked, it cannot be unlinked. */
+  appStoreId?: string | undefined;
 }
 /** Information provided for manual apps which are not linked to an application store (Example: Google Play, App Store). */
 export interface AppManualAppInfo {
@@ -524,18 +524,18 @@ export type AppAppApprovalStateEnum =
   | "APPROVED";
 /** Describes an AdMob app for a specific platform (For example: Android or iOS). */
 export interface App {
-  /** Immutable. The information for an app that is linked to an app store. This field is present if and only if the app is linked to an app store. */
-  linkedAppInfo?: AppLinkedAppInfo | undefined;
-  /** Resource name for this app. Format is accounts/{publisher_id}/apps/{app_id_fragment} Example: accounts/pub-9876543210987654/apps/0123456789 */
-  name?: string | undefined;
-  /** The information for an app that is not linked to any app store. After an app is linked, this information is still retrivable. If no name is provided for the app upon creation, a placeholder name will be used. */
-  manualAppInfo?: AppManualAppInfo | undefined;
-  /** Output only. The approval state for the app. The field is read-only. */
-  appApprovalState?: AppAppApprovalStateEnum | undefined;
-  /** The externally visible ID of the app which can be used to integrate with AdMob. This is a read only property. Example: ca-app-pub-9876543210987654~0123456789 */
-  appId?: string | undefined;
   /** Describes the platform of the app. Limited to "IOS" and "ANDROID". */
   platform?: string | undefined;
+  /** Immutable. The information for an app that is linked to an app store. This field is present if and only if the app is linked to an app store. */
+  linkedAppInfo?: AppLinkedAppInfo | undefined;
+  /** The information for an app that is not linked to any app store. After an app is linked, this information is still retrivable. If no name is provided for the app upon creation, a placeholder name will be used. */
+  manualAppInfo?: AppManualAppInfo | undefined;
+  /** The externally visible ID of the app which can be used to integrate with AdMob. This is a read only property. Example: ca-app-pub-9876543210987654~0123456789 */
+  appId?: string | undefined;
+  /** Resource name for this app. Format is accounts/{publisher_id}/apps/{app_id_fragment} Example: accounts/pub-9876543210987654/apps/0123456789 */
+  name?: string | undefined;
+  /** Output only. The approval state for the app. The field is read-only. */
+  appApprovalState?: AppAppApprovalStateEnum | undefined;
 }
 export type AppList = Array<App>;
 /** Response for the apps list request. */
@@ -558,8 +558,8 @@ export const generateAccountsMediationReport: API.OperationMethod<
   GenerateAccountsMediationReportError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c0, 6) as any as S.Schema<GenerateAccountsMediationReportRequest>,
-  output: __S(7, __c0, 7) as any as S.Schema<GenerateMediationReportResponse>,
+  input: __S(4, __c0, 4) as any as S.Schema<GenerateAccountsMediationReportRequest>,
+  output: __S(5, __c0, 5) as any as S.Schema<GenerateMediationReportResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -580,8 +580,8 @@ export const generateAccountsNetworkReport: API.OperationMethod<
   GenerateAccountsNetworkReportError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(54, __c3, 6) as any as S.Schema<GenerateAccountsNetworkReportRequest>,
-  output: __S(55, __c3, 7) as any as S.Schema<GenerateNetworkReportResponse>,
+  input: __S(52, __c3, 4) as any as S.Schema<GenerateAccountsNetworkReportRequest>,
+  output: __S(53, __c3, 5) as any as S.Schema<GenerateNetworkReportResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -669,45 +669,36 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          order: S.optional(S.String),
           dimension: S.optional(S.String),
-          matchesAny: S.optional(__S(19, __c1, 3)),
+          metric: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MediationReportSpecDimensionFilter" });
+      ).annotate({ identifier: "MediationReportSpecSortCondition" });
     case 1:
       return S.Array(__S(0, __c0, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dimension: S.optional(S.String),
-          order: S.optional(S.String),
-          metric: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MediationReportSpecSortCondition" });
-    case 3:
-      return S.Array(__S(2, __c0, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          metrics: S.optional(__S(16, __c1, 0)),
-          maxReportRows: S.optional(S.Number),
-          dateRange: S.optional(__S(18, __c1, 2)),
-          timeZone: S.optional(S.String),
           dimensions: S.optional(__S(16, __c1, 0)),
-          dimensionFilters: S.optional(__S(1, __c0, 1)),
-          localizationSettings: S.optional(__S(20, __c1, 4)),
-          sortConditions: S.optional(__S(3, __c0, 3)),
+          dimensionFilters: S.optional(__S(19, __c1, 3)),
+          maxReportRows: S.optional(S.Number),
+          sortConditions: S.optional(__S(1, __c0, 1)),
+          dateRange: S.optional(__S(21, __c1, 5)),
+          metrics: S.optional(__S(16, __c1, 0)),
+          localizationSettings: S.optional(__S(22, __c1, 6)),
+          timeZone: S.optional(S.String),
         }),
       ).annotate({ identifier: "MediationReportSpec" });
-    case 5:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          reportSpec: S.optional(__S(4, __c0, 4)),
+          reportSpec: S.optional(__S(2, __c0, 2)),
         }),
       ).annotate({ identifier: "GenerateMediationReportRequest" });
-    case 6:
+    case 4:
       return S.suspend(() =>
         S.Extend(
-          __S(5, __c0, 5),
+          __S(3, __c0, 3),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -719,12 +710,12 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateAccountsMediationReportRequest" });
-    case 7:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          header: S.optional(__S(21, __c1, 5)),
-          row: S.optional(__S(26, __c1, 10)),
-          footer: S.optional(__S(29, __c1, 13)),
+          footer: S.optional(__S(25, __c1, 9)),
+          row: S.optional(__S(30, __c1, 14)),
+          header: S.optional(__S(31, __c1, 15)),
         }),
       ).annotate({ identifier: "GenerateMediationReportResponse" });
   }
@@ -736,81 +727,90 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          month: S.optional(S.Number),
-          year: S.optional(S.Number),
-          day: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Admob_Date" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          startDate: S.optional(__S(17, __c1, 1)),
-          endDate: S.optional(__S(17, __c1, 1)),
-        }),
-      ).annotate({ identifier: "DateRange" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           values: S.optional(__S(32, __c2, 0)),
         }),
       ).annotate({ identifier: "StringList" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          matchesAny: S.optional(__S(17, __c1, 1)),
+          dimension: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MediationReportSpecDimensionFilter" });
+    case 3:
+      return S.Array(__S(18, __c1, 2));
     case 4:
+      return S.suspend(() =>
+        S.Struct({
+          year: S.optional(S.Number),
+          day: S.optional(S.Number),
+          month: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Admob_Date" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          endDate: S.optional(__S(20, __c1, 4)),
+          startDate: S.optional(__S(20, __c1, 4)),
+        }),
+      ).annotate({ identifier: "DateRange" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           currencyCode: S.optional(S.String),
           languageCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "LocalizationSettings" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          localizationSettings: S.optional(__S(20, __c1, 4)),
-          dateRange: S.optional(__S(18, __c1, 2)),
-          reportingTimeZone: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReportHeader" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          doubleValue: S.optional(S.Number),
-          microsValue: S.optional(S.String),
-          integerValue: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReportRowMetricValue" });
     case 7:
-      return S.Record(S.String, __S(22, __c1, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
-          displayLabel: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReportRowDimensionValue" });
-    case 9:
-      return S.Record(S.String, __S(24, __c1, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          metricValues: S.optional(__S(23, __c1, 7)),
-          dimensionValues: S.optional(__S(25, __c1, 9)),
-        }),
-      ).annotate({ identifier: "ReportRow" });
-    case 11:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportWarning" });
-    case 12:
-      return S.Array(__S(27, __c1, 11));
-    case 13:
+    case 8:
+      return S.Array(__S(23, __c1, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          warnings: S.optional(__S(28, __c1, 12)),
+          warnings: S.optional(__S(24, __c1, 8)),
           matchingRowCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportFooter" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          microsValue: S.optional(S.String),
+          integerValue: S.optional(S.String),
+          doubleValue: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ReportRowMetricValue" });
+    case 11:
+      return S.Record(S.String, __S(26, __c1, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          displayLabel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReportRowDimensionValue" });
+    case 13:
+      return S.Record(S.String, __S(28, __c1, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          metricValues: S.optional(__S(27, __c1, 11)),
+          dimensionValues: S.optional(__S(29, __c1, 13)),
+        }),
+      ).annotate({ identifier: "ReportRow" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          dateRange: S.optional(__S(21, __c1, 5)),
+          reportingTimeZone: S.optional(S.String),
+          localizationSettings: S.optional(__S(22, __c1, 6)),
+        }),
+      ).annotate({ identifier: "ReportHeader" });
   }
 }
 function __c2(j: number): any {
@@ -824,9 +824,9 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          order: S.optional(S.String),
-          metric: S.optional(S.String),
           dimension: S.optional(S.String),
+          metric: S.optional(S.String),
+          order: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkReportSpecSortCondition" });
     case 1:
@@ -834,35 +834,26 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          matchesAny: S.optional(__S(19, __c1, 3)),
-          dimension: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NetworkReportSpecDimensionFilter" });
-    case 3:
-      return S.Array(__S(50, __c3, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          localizationSettings: S.optional(__S(20, __c1, 4)),
+          localizationSettings: S.optional(__S(22, __c1, 6)),
+          dimensionFilters: S.optional(__S(19, __c1, 3)),
           maxReportRows: S.optional(S.Number),
-          sortConditions: S.optional(__S(49, __c3, 1)),
-          dateRange: S.optional(__S(18, __c1, 2)),
           timeZone: S.optional(S.String),
+          dateRange: S.optional(__S(21, __c1, 5)),
           metrics: S.optional(__S(16, __c1, 0)),
-          dimensionFilters: S.optional(__S(51, __c3, 3)),
+          sortConditions: S.optional(__S(49, __c3, 1)),
           dimensions: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "NetworkReportSpec" });
-    case 5:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          reportSpec: S.optional(__S(52, __c3, 4)),
+          reportSpec: S.optional(__S(50, __c3, 2)),
         }),
       ).annotate({ identifier: "GenerateNetworkReportRequest" });
-    case 6:
+    case 4:
       return S.suspend(() =>
         S.Extend(
-          __S(53, __c3, 5),
+          __S(51, __c3, 3),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -874,12 +865,12 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateAccountsNetworkReportRequest" });
-    case 7:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          footer: S.optional(__S(29, __c1, 13)),
-          header: S.optional(__S(21, __c1, 5)),
-          row: S.optional(__S(26, __c1, 10)),
+          footer: S.optional(__S(25, __c1, 9)),
+          header: S.optional(__S(31, __c1, 15)),
+          row: S.optional(__S(30, __c1, 14)),
         }),
       ).annotate({ identifier: "GenerateNetworkReportResponse" });
   }
@@ -901,10 +892,10 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          publisherId: S.optional(S.String),
+          name: S.optional(S.String),
           reportingTimeZone: S.optional(S.String),
           currencyCode: S.optional(S.String),
-          name: S.optional(S.String),
+          publisherId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublisherAccount" });
   }
@@ -914,8 +905,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "v1/accounts", baseUrl: "https://admob.googleapis.com/" }),
         ),
@@ -925,8 +916,8 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           account: S.optional(__S(97, __c6, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPublisherAccountsResponse" });
   }
@@ -936,9 +927,9 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -951,11 +942,11 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           adTypes: S.optional(__S(32, __c2, 0)),
-          appId: S.optional(S.String),
           name: S.optional(S.String),
+          appId: S.optional(S.String),
           adUnitId: S.optional(S.String),
-          displayName: S.optional(S.String),
           adFormat: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdUnit" });
     case 2:
@@ -988,8 +979,8 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appStoreId: S.optional(S.String),
           displayName: S.optional(S.String),
+          appStoreId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppLinkedAppInfo" });
     case 2:
@@ -1001,12 +992,12 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          linkedAppInfo: S.optional(__S(129, __c8, 1)),
-          name: S.optional(S.String),
-          manualAppInfo: S.optional(__S(130, __c8, 2)),
-          appApprovalState: S.optional(S.String),
-          appId: S.optional(S.String),
           platform: S.optional(S.String),
+          linkedAppInfo: S.optional(__S(129, __c8, 1)),
+          manualAppInfo: S.optional(__S(130, __c8, 2)),
+          appId: S.optional(S.String),
+          name: S.optional(S.String),
+          appApprovalState: S.optional(S.String),
         }),
       ).annotate({ identifier: "App" });
     case 4:

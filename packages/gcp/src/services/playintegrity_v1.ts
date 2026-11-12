@@ -92,40 +92,25 @@ export interface DecodeIntegrityTokenV1Request extends DecodeIntegrityTokenReque
   /** Package name of the app the attached integrity token belongs to. */
   packageName: string;
 }
-export type StringList = Array<string>;
-export type AppIntegrityAppRecognitionVerdictEnum =
+/** Contains the integrity request information. */
+export interface RequestDetails {
+  /** Request hash that was provided in the request. */
+  requestHash?: string | undefined;
+  /** Required. Application package name this attestation was requested for. Note: This field makes no guarantees or promises on the caller integrity. For details on application integrity, check application_integrity. */
+  requestPackageName?: string | undefined;
+  /** Nonce that was provided in the request (which is base64 web-safe no-wrap). */
+  nonce?: string | undefined;
+  /** Required. Timestamp, in milliseconds, of the integrity application request. */
+  timestampMillis?: string | undefined;
+}
+export type DeviceIntegrityDeviceRecognitionVerdictItemEnum =
   | "UNKNOWN"
-  | "PLAY_RECOGNIZED"
-  | "UNRECOGNIZED_VERSION"
-  | "UNEVALUATED";
-/** Contains the application integrity information. */
-export interface AppIntegrity {
-  /** The SHA256 hash of the requesting app's signing certificates (base64 web-safe encoded). Set iff app_recognition_verdict != UNEVALUATED. */
-  certificateSha256Digest?: StringList | undefined;
-  /** Package name of the application under attestation. Set iff app_recognition_verdict != UNEVALUATED. */
-  packageName?: string | undefined;
-  /** Required. Details about the app recognition verdict */
-  appRecognitionVerdict?: AppIntegrityAppRecognitionVerdictEnum | undefined;
-  /** Version code of the application. Set iff app_recognition_verdict != UNEVALUATED. */
-  versionCode?: string | undefined;
-}
-/** Contains additional information generated for testing responses. */
-export interface TestingDetails {
-  /** Required. Indicates that the information contained in this payload is a testing response that is statically overridden for a tester. */
-  isTestingResponse?: boolean | undefined;
-}
-export type RecentDeviceActivityDeviceActivityLevelEnum =
-  | "DEVICE_ACTIVITY_LEVEL_UNSPECIFIED"
-  | "UNEVALUATED"
-  | "LEVEL_1"
-  | "LEVEL_2"
-  | "LEVEL_3"
-  | "LEVEL_4";
-/** Recent device activity can help developers identify devices that have exhibited hyperactive attestation activity, which could be a sign of an attack or token farming. */
-export interface RecentDeviceActivity {
-  /** Required. Indicates the activity level of the device. */
-  deviceActivityLevel?: RecentDeviceActivityDeviceActivityLevelEnum | undefined;
-}
+  | "MEETS_BASIC_INTEGRITY"
+  | "MEETS_DEVICE_INTEGRITY"
+  | "MEETS_STRONG_INTEGRITY"
+  | "MEETS_VIRTUAL_INTEGRITY";
+export type DeviceIntegrityDeviceRecognitionVerdictItemEnumList =
+  Array<DeviceIntegrityDeviceRecognitionVerdictItemEnum>;
 export type DeviceIntegrityLegacyDeviceRecognitionVerdictItemEnum =
   | "UNKNOWN"
   | "MEETS_BASIC_INTEGRITY"
@@ -164,18 +149,22 @@ export interface DeviceAttributes {
   /** Android SDK version of the device, as defined in the public Android documentation: https://developer.android.com/reference/android/os/Build.VERSION_CODES. It won't be set if a necessary requirement was missed. For example DeviceIntegrity did not meet the minimum bar. */
   sdkVersion?: number | undefined;
 }
-export type DeviceIntegrityDeviceRecognitionVerdictItemEnum =
-  | "UNKNOWN"
-  | "MEETS_BASIC_INTEGRITY"
-  | "MEETS_DEVICE_INTEGRITY"
-  | "MEETS_STRONG_INTEGRITY"
-  | "MEETS_VIRTUAL_INTEGRITY";
-export type DeviceIntegrityDeviceRecognitionVerdictItemEnumList =
-  Array<DeviceIntegrityDeviceRecognitionVerdictItemEnum>;
+export type RecentDeviceActivityDeviceActivityLevelEnum =
+  | "DEVICE_ACTIVITY_LEVEL_UNSPECIFIED"
+  | "UNEVALUATED"
+  | "LEVEL_1"
+  | "LEVEL_2"
+  | "LEVEL_3"
+  | "LEVEL_4";
+/** Recent device activity can help developers identify devices that have exhibited hyperactive attestation activity, which could be a sign of an attack or token farming. */
+export interface RecentDeviceActivity {
+  /** Required. Indicates the activity level of the device. */
+  deviceActivityLevel?: RecentDeviceActivityDeviceActivityLevelEnum | undefined;
+}
 /** Contains the device attestation information. */
 export interface DeviceIntegrity {
-  /** Details about the device activity of the device the app is running on. */
-  recentDeviceActivity?: RecentDeviceActivity | undefined;
+  /** Details about the integrity of the device the app is running on. */
+  deviceRecognitionVerdict?: DeviceIntegrityDeviceRecognitionVerdictItemEnumList | undefined;
   /** Contains legacy details about the integrity of the device the app is running on. Only for devices with Android version T or higher and only for apps opted in to the new verdicts. Only available during the transition period to the new verdicts system and will be removed afterwards. */
   legacyDeviceRecognitionVerdict?:
     | DeviceIntegrityLegacyDeviceRecognitionVerdictItemEnumList
@@ -184,25 +173,30 @@ export interface DeviceIntegrity {
   deviceRecall?: DeviceRecall | undefined;
   /** Attributes of the device where the integrity token was generated. */
   deviceAttributes?: DeviceAttributes | undefined;
-  /** Details about the integrity of the device the app is running on. */
-  deviceRecognitionVerdict?: DeviceIntegrityDeviceRecognitionVerdictItemEnumList | undefined;
+  /** Details about the device activity of the device the app is running on. */
+  recentDeviceActivity?: RecentDeviceActivity | undefined;
 }
-export type AppAccessRiskVerdictAppsDetectedItemEnum =
-  | "APPS_DETECTED_UNSPECIFIED"
-  | "KNOWN_INSTALLED"
-  | "KNOWN_CAPTURING"
-  | "KNOWN_OVERLAYS"
-  | "KNOWN_CONTROLLING"
-  | "UNKNOWN_INSTALLED"
-  | "UNKNOWN_CAPTURING"
-  | "UNKNOWN_OVERLAYS"
-  | "UNKNOWN_CONTROLLING";
-export type AppAccessRiskVerdictAppsDetectedItemEnumList =
-  Array<AppAccessRiskVerdictAppsDetectedItemEnum>;
-/** Contains signals about others apps on the device which could be used to access or control the requesting app. */
-export interface AppAccessRiskVerdict {
-  /** List of detected app types signalled for App Access Risk. */
-  appsDetected?: AppAccessRiskVerdictAppsDetectedItemEnumList | undefined;
+/** Contains additional information generated for testing responses. */
+export interface TestingDetails {
+  /** Required. Indicates that the information contained in this payload is a testing response that is statically overridden for a tester. */
+  isTestingResponse?: boolean | undefined;
+}
+export type StringList = Array<string>;
+export type AppIntegrityAppRecognitionVerdictEnum =
+  | "UNKNOWN"
+  | "PLAY_RECOGNIZED"
+  | "UNRECOGNIZED_VERSION"
+  | "UNEVALUATED";
+/** Contains the application integrity information. */
+export interface AppIntegrity {
+  /** Package name of the application under attestation. Set iff app_recognition_verdict != UNEVALUATED. */
+  packageName?: string | undefined;
+  /** Version code of the application. Set iff app_recognition_verdict != UNEVALUATED. */
+  versionCode?: string | undefined;
+  /** The SHA256 hash of the requesting app's signing certificates (base64 web-safe encoded). Set iff app_recognition_verdict != UNEVALUATED. */
+  certificateSha256Digest?: StringList | undefined;
+  /** Required. Details about the app recognition verdict */
+  appRecognitionVerdict?: AppIntegrityAppRecognitionVerdictEnum | undefined;
 }
 export type EnvironmentDetailsPlayProtectVerdictEnum =
   | "PLAY_PROTECT_VERDICT_UNSPECIFIED"
@@ -222,22 +216,34 @@ export type EnvironmentDetailsLocationSpoofingRiskVerdictItemEnum =
   | "HIGH_RISK_NETWORK";
 export type EnvironmentDetailsLocationSpoofingRiskVerdictItemEnumList =
   Array<EnvironmentDetailsLocationSpoofingRiskVerdictItemEnum>;
+export type AppAccessRiskVerdictAppsDetectedItemEnum =
+  | "APPS_DETECTED_UNSPECIFIED"
+  | "KNOWN_INSTALLED"
+  | "KNOWN_CAPTURING"
+  | "KNOWN_OVERLAYS"
+  | "KNOWN_CONTROLLING"
+  | "UNKNOWN_INSTALLED"
+  | "UNKNOWN_CAPTURING"
+  | "UNKNOWN_OVERLAYS"
+  | "UNKNOWN_CONTROLLING";
+export type AppAccessRiskVerdictAppsDetectedItemEnumList =
+  Array<AppAccessRiskVerdictAppsDetectedItemEnum>;
+/** Contains signals about others apps on the device which could be used to access or control the requesting app. */
+export interface AppAccessRiskVerdict {
+  /** List of detected app types signalled for App Access Risk. */
+  appsDetected?: AppAccessRiskVerdictAppsDetectedItemEnumList | undefined;
+}
 /** Contains information about the environment Play Integrity API runs in, e.g. Play Protect verdict. */
 export interface EnvironmentDetails {
-  /** The evaluation of the App Access Risk verdicts. */
-  appAccessRiskVerdict?: AppAccessRiskVerdict | undefined;
   /** The evaluation of Play Protect verdict. */
   playProtectVerdict?: EnvironmentDetailsPlayProtectVerdictEnum | undefined;
   /** The evaluation of the Location Spoofing Risk verdict. */
   locationSpoofingRiskVerdict?:
     | EnvironmentDetailsLocationSpoofingRiskVerdictItemEnumList
     | undefined;
+  /** The evaluation of the App Access Risk verdicts. */
+  appAccessRiskVerdict?: AppAccessRiskVerdict | undefined;
 }
-export type AccountDetailsAppLicensingVerdictEnum =
-  | "UNKNOWN"
-  | "LICENSED"
-  | "UNLICENSED"
-  | "UNEVALUATED";
 export type AccountActivityActivityLevelEnum =
   | "ACTIVITY_LEVEL_UNSPECIFIED"
   | "UNEVALUATED"
@@ -250,38 +256,32 @@ export interface AccountActivity {
   /** Required. Indicates the activity level of the account. */
   activityLevel?: AccountActivityActivityLevelEnum | undefined;
 }
+export type AccountDetailsAppLicensingVerdictEnum =
+  | "UNKNOWN"
+  | "LICENSED"
+  | "UNLICENSED"
+  | "UNEVALUATED";
 /** Contains the account information such as the licensing status for the user in the scope. */
 export interface AccountDetails {
-  /** Required. Details about the licensing status of the user for the app in the scope. */
-  appLicensingVerdict?: AccountDetailsAppLicensingVerdictEnum | undefined;
   /** (Restricted Access) Details about the account activity for the user in the scope. */
   accountActivity?: AccountActivity | undefined;
-}
-/** Contains the integrity request information. */
-export interface RequestDetails {
-  /** Nonce that was provided in the request (which is base64 web-safe no-wrap). */
-  nonce?: string | undefined;
-  /** Required. Timestamp, in milliseconds, of the integrity application request. */
-  timestampMillis?: string | undefined;
-  /** Request hash that was provided in the request. */
-  requestHash?: string | undefined;
-  /** Required. Application package name this attestation was requested for. Note: This field makes no guarantees or promises on the caller integrity. For details on application integrity, check application_integrity. */
-  requestPackageName?: string | undefined;
+  /** Required. Details about the licensing status of the user for the app in the scope. */
+  appLicensingVerdict?: AccountDetailsAppLicensingVerdictEnum | undefined;
 }
 /** Contains basic app information and integrity signals like device attestation and licensing details. */
 export interface TokenPayloadExternal {
-  /** Required. Details about the application integrity. */
-  appIntegrity?: AppIntegrity | undefined;
-  /** Indicates that this payload is generated for testing purposes and contains any additional data that is linked with testing status. */
-  testingDetails?: TestingDetails | undefined;
+  /** Required. Details about the integrity request. */
+  requestDetails?: RequestDetails | undefined;
   /** Required. Details about the device integrity. */
   deviceIntegrity?: DeviceIntegrity | undefined;
+  /** Indicates that this payload is generated for testing purposes and contains any additional data that is linked with testing status. */
+  testingDetails?: TestingDetails | undefined;
+  /** Required. Details about the application integrity. */
+  appIntegrity?: AppIntegrity | undefined;
   /** Details of the environment Play Integrity API runs in. */
   environmentDetails?: EnvironmentDetails | undefined;
   /** Required. Details about the Play Store account. */
   accountDetails?: AccountDetails | undefined;
-  /** Required. Details about the integrity request. */
-  requestDetails?: RequestDetails | undefined;
 }
 /** Response containing the decoded integrity payload. */
 export interface DecodeIntegrityTokenResponse {
@@ -294,22 +294,17 @@ export interface DecodePcIntegrityTokenV1Request extends DecodeIntegrityTokenReq
   /** Package name of the app the attached integrity token belongs to. */
   packageName: string;
 }
-export type PcDeviceIntegrityDeviceRecognitionVerdictItemEnum =
-  | "DEVICE_RECOGNITION_VERDICT_UNSPECIFIED"
-  | "MEETS_PC_INTEGRITY";
-export type PcDeviceIntegrityDeviceRecognitionVerdictItemEnumList =
-  Array<PcDeviceIntegrityDeviceRecognitionVerdictItemEnum>;
-/** Contains the device attestation information. */
-export interface PcDeviceIntegrity {
-  /** Details about the integrity of the device the app is running on. */
-  deviceRecognitionVerdict?: PcDeviceIntegrityDeviceRecognitionVerdictItemEnumList | undefined;
+/** Contains additional information generated for testing responses. */
+export interface PcTestingDetails {
+  /** Indicates that the information contained in this payload is a testing response that is statically overridden for a tester. */
+  isTestingResponse?: boolean | undefined;
 }
 /** Contains the integrity request information. */
 export interface PcRequestDetails {
-  /** Required. Timestamp, of the integrity application request. */
-  requestTime?: string | undefined;
   /** Required. Application package name this attestation was requested for. Note: This field makes no guarantees or promises on the caller integrity. */
   requestPackageName?: string | undefined;
+  /** Required. Timestamp, of the integrity application request. */
+  requestTime?: string | undefined;
   /** Request hash that was provided in the request. */
   requestHash?: string | undefined;
 }
@@ -323,21 +318,26 @@ export interface PcAccountDetails {
   /** Required. Details about the licensing status of the user for the app in the scope. */
   appLicensingVerdict?: PcAccountDetailsAppLicensingVerdictEnum | undefined;
 }
-/** Contains additional information generated for testing responses. */
-export interface PcTestingDetails {
-  /** Indicates that the information contained in this payload is a testing response that is statically overridden for a tester. */
-  isTestingResponse?: boolean | undefined;
+export type PcDeviceIntegrityDeviceRecognitionVerdictItemEnum =
+  | "DEVICE_RECOGNITION_VERDICT_UNSPECIFIED"
+  | "MEETS_PC_INTEGRITY";
+export type PcDeviceIntegrityDeviceRecognitionVerdictItemEnumList =
+  Array<PcDeviceIntegrityDeviceRecognitionVerdictItemEnum>;
+/** Contains the device attestation information. */
+export interface PcDeviceIntegrity {
+  /** Details about the integrity of the device the app is running on. */
+  deviceRecognitionVerdict?: PcDeviceIntegrityDeviceRecognitionVerdictItemEnumList | undefined;
 }
 /** Contains PC device attestation details. */
 export interface PcTokenPayloadExternal {
-  /** Required. Details about the device integrity. */
-  deviceIntegrity?: PcDeviceIntegrity | undefined;
+  /** Indicates that this payload is generated for testing purposes and contains any additional data that is linked with testing status. */
+  testingDetails?: PcTestingDetails | undefined;
   /** Required. Details about the integrity request. */
   requestDetails?: PcRequestDetails | undefined;
   /** Details about the account information such as the licensing status. */
   accountDetails?: PcAccountDetails | undefined;
-  /** Indicates that this payload is generated for testing purposes and contains any additional data that is linked with testing status. */
-  testingDetails?: PcTestingDetails | undefined;
+  /** Required. Details about the device integrity. */
+  deviceIntegrity?: PcDeviceIntegrity | undefined;
 }
 /** Response containing the decoded PC integrity payload. */
 export interface DecodePcIntegrityTokenResponse {
@@ -432,23 +432,15 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "DecodeIntegrityTokenV1Request" });
     case 1:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          requestHash: S.optional(S.String),
+          requestPackageName: S.optional(S.String),
+          nonce: S.optional(S.String),
+          timestampMillis: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RequestDetails" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          certificateSha256Digest: S.optional(__S(1, __c0, 1)),
-          packageName: S.optional(S.String),
-          appRecognitionVerdict: S.optional(S.String),
-          versionCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AppIntegrity" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          deviceActivityLevel: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RecentDeviceActivity" });
-    case 4:
       return S.suspend(() =>
         S.Struct({
           yyyymmFirst: S.optional(S.Number),
@@ -456,74 +448,82 @@ function __c0(j: number): any {
           yyyymmSecond: S.optional(S.Number),
         }),
       ).annotate({ identifier: "WriteDates" });
-    case 5:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          writeDates: S.optional(__S(4, __c0, 4)),
+          writeDates: S.optional(__S(2, __c0, 2)),
           values: S.optional(__S(32, __c2, 0)),
         }),
       ).annotate({ identifier: "DeviceRecall" });
-    case 6:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           sdkVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DeviceAttributes" });
-    case 7:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          recentDeviceActivity: S.optional(__S(3, __c0, 3)),
-          legacyDeviceRecognitionVerdict: S.optional(__S(18, __c1, 2)),
-          deviceRecall: S.optional(__S(5, __c0, 5)),
-          deviceAttributes: S.optional(__S(6, __c0, 6)),
-          deviceRecognitionVerdict: S.optional(__S(18, __c1, 2)),
+          deviceActivityLevel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecentDeviceActivity" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          deviceRecognitionVerdict: S.optional(__S(17, __c1, 1)),
+          legacyDeviceRecognitionVerdict: S.optional(__S(17, __c1, 1)),
+          deviceRecall: S.optional(__S(3, __c0, 3)),
+          deviceAttributes: S.optional(__S(4, __c0, 4)),
+          recentDeviceActivity: S.optional(__S(5, __c0, 5)),
         }),
       ).annotate({ identifier: "DeviceIntegrity" });
+    case 7:
+      return S.Array(S.String);
     case 8:
       return S.suspend(() =>
         S.Struct({
-          appsDetected: S.optional(__S(18, __c1, 2)),
+          packageName: S.optional(S.String),
+          versionCode: S.optional(S.String),
+          certificateSha256Digest: S.optional(__S(7, __c0, 7)),
+          appRecognitionVerdict: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AppAccessRiskVerdict" });
+      ).annotate({ identifier: "AppIntegrity" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          appAccessRiskVerdict: S.optional(__S(8, __c0, 8)),
+          appsDetected: S.optional(__S(17, __c1, 1)),
+        }),
+      ).annotate({ identifier: "AppAccessRiskVerdict" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
           playProtectVerdict: S.optional(S.String),
-          locationSpoofingRiskVerdict: S.optional(__S(18, __c1, 2)),
+          locationSpoofingRiskVerdict: S.optional(__S(17, __c1, 1)),
+          appAccessRiskVerdict: S.optional(__S(9, __c0, 9)),
         }),
       ).annotate({ identifier: "EnvironmentDetails" });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           activityLevel: S.optional(S.String),
         }),
       ).annotate({ identifier: "AccountActivity" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          appLicensingVerdict: S.optional(S.String),
-          accountActivity: S.optional(__S(10, __c0, 10)),
-        }),
-      ).annotate({ identifier: "AccountDetails" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          nonce: S.optional(S.String),
-          timestampMillis: S.optional(S.String),
-          requestHash: S.optional(S.String),
-          requestPackageName: S.optional(S.String),
+          accountActivity: S.optional(__S(11, __c0, 11)),
+          appLicensingVerdict: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RequestDetails" });
+      ).annotate({ identifier: "AccountDetails" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          appIntegrity: S.optional(__S(2, __c0, 2)),
-          testingDetails: S.optional(__S(17, __c1, 1)),
-          deviceIntegrity: S.optional(__S(7, __c0, 7)),
-          environmentDetails: S.optional(__S(9, __c0, 9)),
-          accountDetails: S.optional(__S(11, __c0, 11)),
-          requestDetails: S.optional(__S(12, __c0, 12)),
+          requestDetails: S.optional(__S(1, __c0, 1)),
+          deviceIntegrity: S.optional(__S(6, __c0, 6)),
+          testingDetails: S.optional(__S(18, __c1, 2)),
+          appIntegrity: S.optional(__S(8, __c0, 8)),
+          environmentDetails: S.optional(__S(10, __c0, 10)),
+          accountDetails: S.optional(__S(12, __c0, 12)),
         }),
       ).annotate({ identifier: "TokenPayloadExternal" });
     case 14:
@@ -543,13 +543,13 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "DecodeIntegrityTokenRequest" });
     case 1:
+      return S.Array(S.String);
+    case 2:
       return S.suspend(() =>
         S.Struct({
           isTestingResponse: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TestingDetails" });
-    case 2:
-      return S.Array(S.String);
   }
 }
 function __c2(j: number): any {
@@ -584,30 +584,30 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          deviceRecognitionVerdict: S.optional(__S(18, __c1, 2)),
-        }),
-      ).annotate({ identifier: "PcDeviceIntegrity" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          requestTime: S.optional(S.String),
           requestPackageName: S.optional(S.String),
+          requestTime: S.optional(S.String),
           requestHash: S.optional(S.String),
         }),
       ).annotate({ identifier: "PcRequestDetails" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           appLicensingVerdict: S.optional(S.String),
         }),
       ).annotate({ identifier: "PcAccountDetails" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          deviceRecognitionVerdict: S.optional(__S(17, __c1, 1)),
+        }),
+      ).annotate({ identifier: "PcDeviceIntegrity" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          deviceIntegrity: S.optional(__S(49, __c3, 1)),
-          requestDetails: S.optional(__S(50, __c3, 2)),
-          accountDetails: S.optional(__S(51, __c3, 3)),
-          testingDetails: S.optional(__S(17, __c1, 1)),
+          testingDetails: S.optional(__S(18, __c1, 2)),
+          requestDetails: S.optional(__S(49, __c3, 1)),
+          accountDetails: S.optional(__S(50, __c3, 2)),
+          deviceIntegrity: S.optional(__S(51, __c3, 3)),
         }),
       ).annotate({ identifier: "PcTokenPayloadExternal" });
     case 5:

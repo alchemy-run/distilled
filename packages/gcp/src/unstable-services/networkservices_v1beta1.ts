@@ -93,23 +93,21 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export type AgentConnectivityTemplateDeploymentModelEnum =
-  | "DEPLOYMENT_MODEL_UNSPECIFIED"
-  | "CENTRALIZED"
-  | "AMBIENT";
-export type AgentConnectivityTemplateAgentComputeEnum =
-  | "AGENT_COMPUTE_UNSPECIFIED"
-  | "GKE"
-  | "CLOUD_RUN"
-  | "BORG"
-  | "GCE_VM";
-export type AgentConnectivityTemplateAccessTypesItemEnum =
-  | "ACCESS_TYPE_UNSPECIFIED"
-  | "PUBLIC"
-  | "PRIVATE";
-export type AgentConnectivityTemplateAccessTypesItemEnumList = Array<
-  AgentConnectivityTemplateAccessTypesItemEnum | (string & {})
->;
+export type StringMap = { [key: string]: string | undefined };
+export type StringList = Array<string>;
+/** DNS Peering configuration. */
+export interface DnsPeeringConfig {
+  /** Optional. The domains to peer. */
+  domains?: StringList | undefined;
+  /** Optional. The target network resource name for DNS peering. Format: projects/{project}/global/networks/{network_id} */
+  targetNetwork?: string | undefined;
+  /** Optional. Deprecated: Use `domains` instead. The domain to peer. */
+  domain?: string | undefined;
+}
+export type EgressNetworkConfigVpcEgressEnum =
+  | "VPC_EGRESS_UNSPECIFIED"
+  | "ALL_TRAFFIC"
+  | "PRIVATE_RANGES_ONLY";
 export type EgressNetworkConfigTlsConfigAdditionalRootsEnum =
   | "ADDITIONAL_ROOTS_UNSPECIFIED"
   | "NO_ADDITIONAL_ROOTS"
@@ -121,101 +119,94 @@ export interface EgressNetworkConfigTlsConfig {
   /** Optional. The additional roots to trust. */
   additionalRoots?: EgressNetworkConfigTlsConfigAdditionalRootsEnum | (string & {}) | undefined;
 }
-export type EgressNetworkConfigVpcEgressEnum =
-  | "VPC_EGRESS_UNSPECIFIED"
-  | "ALL_TRAFFIC"
-  | "PRIVATE_RANGES_ONLY";
-export type StringList = Array<string>;
-/** DNS Peering configuration. */
-export interface DnsPeeringConfig {
-  /** Optional. The domains to peer. */
-  domains?: StringList | undefined;
-  /** Optional. Deprecated: Use `domains` instead. The domain to peer. */
-  domain?: string | undefined;
-  /** Optional. The target network resource name for DNS peering. Format: projects/{project}/global/networks/{network_id} */
-  targetNetwork?: string | undefined;
-}
 /** Egress network config */
 export interface EgressNetworkConfig {
-  /** Optional. The TLS configuration for the egress traffic. */
-  tlsConfig?: EgressNetworkConfigTlsConfig | undefined;
-  /** Optional. Deprecated: Use tls_config instead. The trust config resource name. Format: projects/{project}/locations/{location}/trustConfigs/{trust_config} */
-  trustConfig?: string | undefined;
-  /** Optional. The network attachment resource name. Format: projects/{project}/regions/{region}/networkAttachments/{network_attachment_id} */
-  networkAttachment?: string | undefined;
-  /** Optional. The VPC egress setting. */
-  vpcEgress?: EgressNetworkConfigVpcEgressEnum | (string & {}) | undefined;
   /** Optional. DNS Peering configuration. */
   dnsPeeringConfig?: DnsPeeringConfig | undefined;
+  /** Optional. Deprecated: Use tls_config instead. The trust config resource name. Format: projects/{project}/locations/{location}/trustConfigs/{trust_config} */
+  trustConfig?: string | undefined;
+  /** Optional. The VPC egress setting. */
+  vpcEgress?: EgressNetworkConfigVpcEgressEnum | (string & {}) | undefined;
+  /** Optional. The TLS configuration for the egress traffic. */
+  tlsConfig?: EgressNetworkConfigTlsConfig | undefined;
+  /** Optional. The network attachment resource name. Format: projects/{project}/regions/{region}/networkAttachments/{network_attachment_id} */
+  networkAttachment?: string | undefined;
 }
-export type StringMap = { [key: string]: string | undefined };
+export type AgentConnectivityTemplateDeploymentModelEnum =
+  | "DEPLOYMENT_MODEL_UNSPECIFIED"
+  | "CENTRALIZED"
+  | "AMBIENT";
 export type AgentConnectivityTemplateAccessPathEnum =
   | "ACCESS_PATH_UNSPECIFIED"
   | "CLIENT_TO_AGENT"
   | "AGENT_TO_ANYWHERE";
+export type AgentConnectivityTemplateAccessTypesItemEnum =
+  | "ACCESS_TYPE_UNSPECIFIED"
+  | "PUBLIC"
+  | "PRIVATE";
+export type AgentConnectivityTemplateAccessTypesItemEnumList = Array<
+  AgentConnectivityTemplateAccessTypesItemEnum | (string & {})
+>;
+export type AgentConnectivityTemplateAgentComputeEnum =
+  | "AGENT_COMPUTE_UNSPECIFIED"
+  | "GKE"
+  | "CLOUD_RUN"
+  | "BORG"
+  | "GCE_VM";
 /** AgentConnectivityTemplate represents a reusable network configuration. */
 export interface AgentConnectivityTemplate {
-  /** Optional. The deployment model for the gateway. */
-  deploymentModel?: AgentConnectivityTemplateDeploymentModelEnum | (string & {}) | undefined;
-  /** Optional. The compute environment where the agent is hosted. Exactly one type of compute must be chosen. */
-  agentCompute?: AgentConnectivityTemplateAgentComputeEnum | (string & {}) | undefined;
-  /** Optional. The types of network access provided to the gateway. Both PUBLIC and PRIVATE can be configured. */
-  accessTypes?: AgentConnectivityTemplateAccessTypesItemEnumList | undefined;
-  /** Optional. Configuration for egress network traffic. */
-  egressNetworkConfig?: EgressNetworkConfig | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string | undefined;
-  /** Identifier. Name of the AgentConnectivityTemplate resource. It matches pattern `projects/*\/locations/*\/agentConnectivityTemplates/`. */
-  name?: string | undefined;
   /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
   etag?: string | undefined;
   /** Optional. Set of label tags associated with the AgentConnectivityTemplate resource. */
   labels?: StringMap | undefined;
-  /** Optional. Immutable. The path of the access. Maps roughly to ingress/egress, though we keep CLIENT_TO_AGENT and AGENT_TO_ANYWHERE as carryovers from Agent Gateway's original resource model. The path is immutable once set. Exactly one path can be set. */
-  accessPath?: AgentConnectivityTemplateAccessPathEnum | (string & {}) | undefined;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Configuration for egress network traffic. */
+  egressNetworkConfig?: EgressNetworkConfig | undefined;
+  /** Optional. The deployment model for the gateway. */
+  deploymentModel?: AgentConnectivityTemplateDeploymentModelEnum | (string & {}) | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Identifier. Name of the AgentConnectivityTemplate resource. It matches pattern `projects/*\/locations/*\/agentConnectivityTemplates/`. */
+  name?: string | undefined;
+  /** Optional. Immutable. The path of the access. Maps roughly to ingress/egress, though we keep CLIENT_TO_AGENT and AGENT_TO_ANYWHERE as carryovers from Agent Gateway's original resource model. The path is immutable once set. Exactly one path can be set. */
+  accessPath?: AgentConnectivityTemplateAccessPathEnum | (string & {}) | undefined;
+  /** Optional. The types of network access provided to the gateway. Both PUBLIC and PRIVATE can be configured. */
+  accessTypes?: AgentConnectivityTemplateAccessTypesItemEnumList | undefined;
+  /** Optional. The compute environment where the agent is hosted. Exactly one type of compute must be chosen. */
+  agentCompute?: AgentConnectivityTemplateAgentComputeEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsAgentConnectivityTemplatesRequest extends AgentConnectivityTemplate {
-  /** Required. Short name of the AgentConnectivityTemplate resource to be created. */
-  agentConnectivityTemplateId?: string | undefined;
   /** Required. The parent resource of the AgentConnectivityTemplate. Must be in the format `projects/*\/locations/*`. */
   parent: string;
+  /** Required. Short name of the AgentConnectivityTemplate resource to be created. */
+  agentConnectivityTemplateId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
-}
-export type AgentGatewayGoogleManagedGovernedAccessPathEnum =
-  | "GOVERNED_ACCESS_PATH_UNSPECIFIED"
-  | "AGENT_TO_ANYWHERE"
-  | "CLIENT_TO_AGENT";
-/** Configuration for Google Managed deployment mode. Proxy is orchestrated and managed by GoogleCloud in a tenant project. */
-export interface AgentGatewayGoogleManaged {
-  /** Optional. Operating Mode of Agent Gateway. */
-  governedAccessPath?: AgentGatewayGoogleManagedGovernedAccessPathEnum | (string & {}) | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
 }
 /** Configuration for Self Managed deployment mode. Attach to existing Application Load Balancers or Secure Web Proxies. */
 export interface AgentGatewaySelfManaged {
@@ -226,17 +217,12 @@ export interface AgentGatewaySelfManaged {
 }
 /** AgentGatewayOutputCard contains informational output-only fields */
 export interface AgentGatewayAgentGatewayOutputCard {
-  /** Output only. mTLS Endpoint associated with this AgentGateway */
-  mtlsEndpoint?: string | undefined;
   /** Output only. Service Account used by Service Extensions to operate. */
   serviceExtensionsServiceAccount?: string | undefined;
+  /** Output only. mTLS Endpoint associated with this AgentGateway */
+  mtlsEndpoint?: string | undefined;
   /** Output only. Root Certificates for Agents to validate this AgentGateway */
   rootCertificates?: StringList | undefined;
-}
-/** Configuration for Egress */
-export interface AgentGatewayNetworkConfigEgress {
-  /** Optional. The URI of the Network Attachment resource. */
-  networkAttachment?: string | undefined;
 }
 /** DNS peering config for the user VPC network. */
 export interface AgentGatewayNetworkConfigDnsPeeringConfig {
@@ -247,12 +233,26 @@ export interface AgentGatewayNetworkConfigDnsPeeringConfig {
   /** Required. Target network in 'target project' to which DNS queries should be forwarded to. Must be in format of `projects/{project}/global/networks/{network}`. */
   targetNetwork?: string | undefined;
 }
+/** Configuration for Egress */
+export interface AgentGatewayNetworkConfigEgress {
+  /** Optional. The URI of the Network Attachment resource. */
+  networkAttachment?: string | undefined;
+}
 /** NetworkConfig contains network configurations for the AgentGateway. */
 export interface AgentGatewayNetworkConfig {
-  /** Optional. Optional PSC-Interface network attachment for connectivity to your private VPCs network. */
-  egress?: AgentGatewayNetworkConfigEgress | undefined;
   /** Optional. Optional DNS peering configuration for connectivity to your private VPC network. */
   dnsPeeringConfig?: AgentGatewayNetworkConfigDnsPeeringConfig | undefined;
+  /** Optional. Optional PSC-Interface network attachment for connectivity to your private VPCs network. */
+  egress?: AgentGatewayNetworkConfigEgress | undefined;
+}
+export type AgentGatewayGoogleManagedGovernedAccessPathEnum =
+  | "GOVERNED_ACCESS_PATH_UNSPECIFIED"
+  | "AGENT_TO_ANYWHERE"
+  | "CLIENT_TO_AGENT";
+/** Configuration for Google Managed deployment mode. Proxy is orchestrated and managed by GoogleCloud in a tenant project. */
+export interface AgentGatewayGoogleManaged {
+  /** Optional. Operating Mode of Agent Gateway. */
+  governedAccessPath?: AgentGatewayGoogleManagedGovernedAccessPathEnum | (string & {}) | undefined;
 }
 export type AgentGatewayProtocolsItemEnum = "PROTOCOL_UNSPECIFIED" | "MCP";
 export type AgentGatewayProtocolsItemEnumList = Array<
@@ -260,32 +260,32 @@ export type AgentGatewayProtocolsItemEnumList = Array<
 >;
 /** AgentGateway represents the agent gateway resource. */
 export interface AgentGateway {
-  /** Optional. Proxy is orchestrated and managed by GoogleCloud in a tenant project. */
-  googleManaged?: AgentGatewayGoogleManaged | undefined;
-  /** Identifier. Name of the AgentGateway resource. It matches pattern `projects/*\/locations/*\/agentGateways/`. */
-  name?: string | undefined;
   /** Optional. Attach to existing Application Load Balancers or Secure Web Proxies. */
   selfManaged?: AgentGatewaySelfManaged | undefined;
-  /** Optional. Set of label tags associated with the AgentGateway resource. */
-  labels?: StringMap | undefined;
-  /** Output only. Field for populated AgentGateway card. */
-  agentGatewayCard?: AgentGatewayAgentGatewayOutputCard | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
-  /** Optional. Network configuration for the AgentGateway. */
-  networkConfig?: AgentGatewayNetworkConfig | undefined;
-  /** Optional. A list of Agent registries containing the agents, MCP servers and tools governed by the Agent Gateway. Note: Currently limited to project-scoped registries Must be of format `//agentregistry.googleapis.com/projects/{project}/locations/{location}/` */
-  registries?: StringList | undefined;
+  /** Identifier. Name of the AgentGateway resource. It matches pattern `projects/*\/locations/*\/agentGateways/`. */
+  name?: string | undefined;
   /** Optional. The resource name of the AgentConnectivityTemplate. Format: projects/{project}/locations/{location}/agentConnectivityTemplates/{template} */
   agentConnectivityTemplate?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Output only. Field for populated AgentGateway card. */
+  agentGatewayCard?: AgentGatewayAgentGatewayOutputCard | undefined;
   /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
   etag?: string | undefined;
-  /** Optional. Deprecated. */
-  protocols?: AgentGatewayProtocolsItemEnumList | undefined;
+  /** Optional. Network configuration for the AgentGateway. */
+  networkConfig?: AgentGatewayNetworkConfig | undefined;
+  /** Optional. Set of label tags associated with the AgentGateway resource. */
+  labels?: StringMap | undefined;
+  /** Optional. A list of Agent registries containing the agents, MCP servers and tools governed by the Agent Gateway. Note: Currently limited to project-scoped registries Must be of format `//agentregistry.googleapis.com/projects/{project}/locations/{location}/` */
+  registries?: StringList | undefined;
+  /** Optional. Proxy is orchestrated and managed by GoogleCloud in a tenant project. */
+  googleManaged?: AgentGatewayGoogleManaged | undefined;
   /** Optional. A free-text description of the resource. Max length 1024 characters. */
   description?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Deprecated. */
+  protocols?: AgentGatewayProtocolsItemEnumList | undefined;
 }
 export interface CreateProjectsLocationsAgentGatewaysRequest extends AgentGateway {
   /** Required. The parent resource of the AgentGateway. Must be in the format `projects/*\/locations/*`. */
@@ -293,58 +293,62 @@ export interface CreateProjectsLocationsAgentGatewaysRequest extends AgentGatewa
   /** Required. Short name of the AgentGateway resource to be created. */
   agentGatewayId?: string | undefined;
 }
-export type AuthzExtensionWireFormatEnum =
-  | "WIRE_FORMAT_UNSPECIFIED"
-  | "EXT_PROC_GRPC"
-  | "EXT_AUTHZ_GRPC";
 export type AuthzExtensionLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
   | "INTERNAL_MANAGED"
   | "EXTERNAL_MANAGED";
+export type AuthzExtensionWireFormatEnum =
+  | "WIRE_FORMAT_UNSPECIFIED"
+  | "EXT_PROC_GRPC"
+  | "EXT_AUTHZ_GRPC";
 /** `AuthzExtension` is a resource that allows traffic forwarding to a callout backend service to make an authorization decision. */
 export interface AuthzExtension {
-  /** Required. Identifier. Name of the `AuthzExtension` resource in the following format: `projects/{project}/locations/{location}/authzExtensions/{authz_extension}`. */
-  name?: string | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
-  /** Optional. Set of labels associated with the `AuthzExtension` resource. The format must comply with [the requirements for labels](/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
-  labels?: StringMap | undefined;
   /** Optional. Determines how the proxy behaves if the call to the extension fails or times out. When set to `TRUE`, request or response processing continues without error. Any subsequent extensions in the extension chain are also executed. When set to `FALSE` or the default setting of `FALSE` is used, one of the following happens: * If response headers have not been delivered to the downstream client, a generic 500 error is returned to the client. The error response can be tailored by configuring a custom error response in the load balancer. * If response headers have been delivered, then the HTTP stream to the downstream client is reset. */
   failOpen?: boolean | undefined;
-  /** Optional. The format of communication supported by the callout extension. This field is supported only for regional `AuthzExtension` resources. If not specified, the default value `EXT_PROC_GRPC` is used. Global `AuthzExtension` resources use the `EXT_PROC_GRPC` wire format. */
-  wireFormat?: AuthzExtensionWireFormatEnum | (string & {}) | undefined;
   /** Optional. A human-readable description of the resource. */
   description?: string | undefined;
-  /** Required. The reference to the service that runs the extension. To configure a callout extension: For global AuthzExtension, `service` must be a fully-qualified reference to a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/global/backendServices/{backendService}`. For regional AuthzExtension, `service` must be a fully-qualified reference to one of the following: * a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/backendServices/{backendService}`. * a fully qualified domain name that can be resolved by the Google Cloud DNS. * `iap.googleapis.com` and it can only be referenced by an AuthzPolicy with the policyProfile set to REQUEST_AUTHZ. * `modelarmor..rep.googleapis.com` and it can only be referenced by an AuthzPolicy with the policyProfile set to CONTENT_AUTHZ. */
-  service?: string | undefined;
-  /** Required. Specifies the timeout for each individual message on the stream. The timeout must be between 10-10000 milliseconds. */
-  timeout?: string | undefined;
-  /** Optional. The `:authority` header in the gRPC request sent from Envoy to the extension service. It is required when the `service` field points to a backend service. */
-  authority?: string | undefined;
-  /** Optional. List of the Envoy attributes to forward to the extension server. The attributes provided here are included as part of the `ProcessingRequest.attributes` field (of type `map`), where the keys are the attribute names. Refer to the [documentation](https://cloud.google.com/service-extensions/docs/cel-matcher-language-reference#attributes) for the names of attributes that can be forwarded. If omitted, no attributes are sent. Each element is a string indicating the attribute name. */
-  forwardAttributes?: StringList | undefined;
   /** Optional. List of the HTTP headers to forward to the extension (from the client). If omitted, all headers are sent. Each element is a string indicating the header name. */
   forwardHeaders?: StringList | undefined;
-  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata is available under the namespace `com.google.authz_extension.`. The following variables are supported in the metadata Struct: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. */
-  metadata?: DocumentMap | undefined;
-  /** Optional. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. The supported values are `INTERNAL_MANAGED` and `EXTERNAL_MANAGED`. You can omit this field for `AuthzExtensions` resources that don't reference a backend service. For more information, see [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
-  loadBalancingScheme?: AuthzExtensionLoadBalancingSchemeEnum | (string & {}) | undefined;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
+  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata is available under the namespace `com.google.authz_extension.`. The following variables are supported in the metadata Struct: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. */
+  metadata?: DocumentMap | undefined;
+  /** Optional. The `:authority` header in the gRPC request sent from Envoy to the extension service. It is required when the `service` field points to a backend service. */
+  authority?: string | undefined;
+  /** Required. Specifies the timeout for each individual message on the stream. The timeout must be between 10-10000 milliseconds. */
+  timeout?: string | undefined;
+  /** Optional. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. The supported values are `INTERNAL_MANAGED` and `EXTERNAL_MANAGED`. You can omit this field for `AuthzExtensions` resources that don't reference a backend service. For more information, see [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
+  loadBalancingScheme?: AuthzExtensionLoadBalancingSchemeEnum | (string & {}) | undefined;
+  /** Optional. The format of communication supported by the callout extension. This field is supported only for regional `AuthzExtension` resources. If not specified, the default value `EXT_PROC_GRPC` is used. Global `AuthzExtension` resources use the `EXT_PROC_GRPC` wire format. */
+  wireFormat?: AuthzExtensionWireFormatEnum | (string & {}) | undefined;
+  /** Required. The reference to the service that runs the extension. To configure a callout extension: For a global AuthzExtension, `service` must be a fully qualified reference to a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/global/backendServices/{backendService}`. For a regional AuthzExtension, `service` must be a fully qualified reference to one of the following: * A [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/backendServices/{backendService}`. * A fully qualified domain name that can be resolved by Cloud DNS. * `iap.googleapis.com` and can be referenced only by an `AuthzPolicy` with the `policyProfile` set to `REQUEST_AUTHZ`. * `modelarmor..rep.googleapis.com` and it can only be referenced by an `AuthzPolicy` with the `policyProfile` set to `CONTENT_AUTHZ`. */
+  service?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Required. Identifier. Name of the `AuthzExtension` resource in the following format: `projects/{project}/locations/{location}/authzExtensions/{authz_extension}`. */
+  name?: string | undefined;
+  /** Optional. List of the Envoy attributes to forward to the extension server. The attributes provided here are included as part of the `ProcessingRequest.attributes` field (of type `map`), where the keys are the attribute names. Refer to the [documentation](https://cloud.google.com/service-extensions/docs/cel-matcher-language-reference#attributes) for the names of attributes that can be forwarded. If omitted, no attributes are sent. Each element is a string indicating the attribute name. */
+  forwardAttributes?: StringList | undefined;
+  /** Optional. Set of labels associated with the `AuthzExtension` resource. The format must comply with [the requirements for labels](/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsAuthzExtensionsRequest extends AuthzExtension {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. User-provided ID of the `AuthzExtension` resource to be created. */
   authzExtensionId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. The parent resource of the `AuthzExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
 }
-/** Specifies the set of targets to which `CdnEdgeExtension` should be applied to. */
+/** Specifies the set of targets to which a `CdnEdgeExtension` will be applied. */
 export interface CdnEdgeExtensionTarget {
-  /** Required. A list of references to the resources that are targeted by `CdnEdgeExtension`. Types of resources supported: `EdgeCacheService`. The format must be the full resource name of [EdgeCacheService](https://cloud.google.com/media-cdn/docs/reference/rest/v1/projects.locations.edgeCacheServices) in the following format: `//networkservices.googleapis.com/projects/{project}/locations/{location}/edgeCacheServices/{edgeCacheService}`. */
+  /** Required. A list of references to the resources that are targeted by `CdnEdgeExtension`. Types of resources supported: `EdgeCacheService`. The format must be the full resource name of an [`EdgeCacheService`](/media-cdn/docs/reference/rest/v1/projects.locations.edgeCacheServices) in the following format: `//networkservices.googleapis.com/projects/{project}/locations/{location}/edgeCacheServices/{edgeCacheService}`. */
   resources?: StringList | undefined;
 }
+export type ExtensionChainExtensionResponseBodySendModeEnum =
+  | "BODY_SEND_MODE_UNSPECIFIED"
+  | "BODY_SEND_MODE_STREAMED"
+  | "BODY_SEND_MODE_FULL_DUPLEX_STREAMED";
 export type ExtensionChainExtensionSupportedEventsItemEnum =
   | "EVENT_TYPE_UNSPECIFIED"
   | "REQUEST_HEADERS"
@@ -360,41 +364,37 @@ export type ExtensionChainExtensionRequestBodySendModeEnum =
   | "BODY_SEND_MODE_UNSPECIFIED"
   | "BODY_SEND_MODE_STREAMED"
   | "BODY_SEND_MODE_FULL_DUPLEX_STREAMED";
-export type ExtensionChainExtensionResponseBodySendModeEnum =
-  | "BODY_SEND_MODE_UNSPECIFIED"
-  | "BODY_SEND_MODE_STREAMED"
-  | "BODY_SEND_MODE_FULL_DUPLEX_STREAMED";
 /** A single extension in the chain to execute for the matching request. */
 export interface ExtensionChainExtension {
-  /** Optional. List of the Envoy attributes to forward to the extension server. The attributes provided here are included as part of the `ProcessingRequest.attributes` field (of type `map`), where the keys are the attribute names. Refer to the [documentation](https://cloud.google.com/service-extensions/docs/cel-matcher-language-reference#attributes) for the names of attributes that can be forwarded. If omitted, no attributes are sent. Each element is a string indicating the attribute name. */
-  forwardAttributes?: StringList | undefined;
-  /** Optional. A set of events during request or response processing for which this extension is called. For the `LbTrafficExtension` resource, this field is required. For the `LbRouteExtension` resource, this field is optional. If unspecified, `REQUEST_HEADERS` event is assumed as supported. For the `LbEdgeExtension` resource, this field is required and must only contain `REQUEST_HEADERS` event. For the `AuthzExtension` resource, this field is optional. `REQUEST_HEADERS` is the only supported event. If unspecified, `REQUEST_HEADERS` event is assumed as supported. For the `CdnEdgeExtension` resource, this field is optional. Eligible values are `REQUEST_HEADERS` and `RESPONSE_HEADERS`. If unspecified, both are assumed as supported. */
-  supportedEvents?: ExtensionChainExtensionSupportedEventsItemEnumList | undefined;
-  /** Optional. When set to `TRUE`, the response from an extension service is allowed to set the `com.google.envoy.dynamic_forwarding` namespace in the dynamic metadata. This field is not supported for plugin extensions or AuthzExtensions. Setting it results in a validation error. */
-  allowDynamicForwarding?: boolean | undefined;
-  /** Required. The reference to the service that runs the extension. To configure a callout extension, `service` must be a fully-qualified reference to a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/backendServices/{backendService}` or `https://www.googleapis.com/compute/v1/projects/{project}/global/backendServices/{backendService}`. To configure a plugin extension, `service` must be a reference to a [`WasmPlugin` resource](https://cloud.google.com/service-extensions/docs/reference/rest/v1beta1/projects.locations.wasmPlugins) in the format: `projects/{project}/locations/{location}/wasmPlugins/{plugin}` or `//networkservices.googleapis.com/projects/{project}/locations/{location}/wasmPlugins/{wasmPlugin}`. Plugin extensions are currently supported for the `LbTrafficExtension`, the `LbRouteExtension`, the `LbEdgeExtension`, and the `CdnEdgeExtension` resources. */
-  service?: string | undefined;
-  /** Optional. Specifies the timeout for each individual message on the stream. The timeout must be between `10`-`10000` milliseconds. Required for callout extensions. This field is not supported for plugin extensions. Setting it results in a validation error. */
-  timeout?: string | undefined;
-  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. For `AuthzExtension` resources, the metadata is available under the namespace `com.google.authz_extension.`. For other types of extensions, the metadata is available under the namespace `com.google....`. For example: `com.google.lb_traffic_extension.lbtrafficextension1.chain1.ext1`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set for plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. This field is subject to following limitations: * The total size of the metadata must be less than 1KiB. * The total number of keys in the metadata must be less than 16. * The length of each key must be less than 64 characters. * The length of each value must be less than 1024 characters. * All values must be strings. */
-  metadata?: DocumentMap | undefined;
-  /** Optional. Configures the send mode for request body processing. The field can only be set if `supported_events` includes `REQUEST_BODY`. If `supported_events` includes `REQUEST_BODY`, but `request_body_send_mode` is unset, the default value `STREAMED` is used. When this field is set to `FULL_DUPLEX_STREAMED`, `supported_events` must include both `REQUEST_BODY` and `REQUEST_TRAILERS`. This field can be set only for `LbTrafficExtension` and `LbRouteExtension` resources, and only when the `service` field of the extension points to a `BackendService`. Only `FULL_DUPLEX_STREAMED` mode is supported for `LbRouteExtension` resources. */
-  requestBodySendMode?: ExtensionChainExtensionRequestBodySendModeEnum | (string & {}) | undefined;
-  /** Optional. The `:authority` header in the gRPC request sent from Envoy to the extension service. Required for Callout extensions. This field is not supported for plugin extensions. Setting it results in a validation error. */
-  authority?: string | undefined;
+  /** Optional. List of the HTTP headers to forward to the extension (from the client or backend). If omitted, all headers are sent. Each element is a string indicating the header name. */
+  forwardHeaders?: StringList | undefined;
   /** Optional. Configures the send mode for response processing. If unspecified, the default value `STREAMED` is used. The field can only be set if `supported_events` includes `RESPONSE_BODY`. If `supported_events` includes `RESPONSE_BODY`, but `response_body_send_mode` is unset, the default value `STREAMED` is used. When this field is set to `FULL_DUPLEX_STREAMED`, `supported_events` must include both `RESPONSE_BODY` and `RESPONSE_TRAILERS`. This field can be set only for `LbTrafficExtension` resources, and only when the `service` field of the extension points to a `BackendService`. */
   responseBodySendMode?:
     | ExtensionChainExtensionResponseBodySendModeEnum
     | (string & {})
     | undefined;
-  /** Optional. List of the HTTP headers to forward to the extension (from the client or backend). If omitted, all headers are sent. Each element is a string indicating the header name. */
-  forwardHeaders?: StringList | undefined;
-  /** Optional. The name for this extension. The name is logged as part of the HTTP request logs. The name must conform with RFC-1034, is restricted to lower-cased letters, numbers and hyphens, and can have a maximum length of 63 characters. Additionally, the first character must be a letter and the last a letter or a number. This field is required except for AuthzExtension. */
-  name?: string | undefined;
-  /** Optional. When set to `true`, the calls to the extension backend are performed asynchronously, without pausing the processing of the ongoing request. In this mode, only `STREAMED` (default) body processing is supported. Responses, if any, are ignored. Supported by regional `LbTrafficExtension` and `LbRouteExtension` resources. */
-  observabilityMode?: boolean | undefined;
+  /** Required. The reference to the service that runs the extension. To configure a callout extension, `service` must be a fully qualified reference to a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/backendServices/{backendService}` or `https://www.googleapis.com/compute/v1/projects/{project}/global/backendServices/{backendService}`. To configure a plugin extension, `service` must be a reference to a [`WasmPlugin` resource](https://cloud.google.com/service-extensions/docs/reference/rest/v1beta1/projects.locations.wasmPlugins) in the format: `projects/{project}/locations/{location}/wasmPlugins/{plugin}` or `//networkservices.googleapis.com/projects/{project}/locations/{location}/wasmPlugins/{wasmPlugin}`. Supports plugin extensions for `LbTrafficExtension`, `LbRouteExtension`, `LbEdgeExtension`, and `CdnEdgeExtension` resources. */
+  service?: string | undefined;
   /** Optional. Determines how the proxy behaves if the call to the extension fails or times out. When set to `TRUE`, request or response processing continues without error. Any subsequent extensions in the extension chain are also executed. When set to `FALSE` or the default setting of `FALSE` is used, one of the following happens: * If response headers have not been delivered to the downstream client, a generic 500 error is returned to the client. The error response can be tailored by configuring a custom error response in the load balancer. * If response headers have been delivered, then the HTTP stream to the downstream client is reset. */
   failOpen?: boolean | undefined;
+  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. For `AuthzExtension` resources, the metadata is available under the namespace `com.google.authz_extension.`. For other types of extensions, the metadata is available under the namespace `com.google....`. For example: `com.google.lb_traffic_extension.lbtrafficextension1.chain1.ext1`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set for plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. This field is subject to following limitations: * The total size of the metadata must be less than 1KiB. * The total number of keys in the metadata must be less than 16. * The length of each key must be less than 64 characters. * The length of each value must be less than 1024 characters. * All values must be strings. */
+  metadata?: DocumentMap | undefined;
+  /** Optional. List of the Envoy attributes to forward to the extension server. The attributes provided here are included as part of the `ProcessingRequest.attributes` field (of type `map`), where the keys are the attribute names. Refer to the [documentation](https://cloud.google.com/service-extensions/docs/cel-matcher-language-reference#attributes) for the names of attributes that can be forwarded. If omitted, no attributes are sent. Each element is a string indicating the attribute name. */
+  forwardAttributes?: StringList | undefined;
+  /** Optional. The `:authority` header in the gRPC request sent from Envoy to the extension service. Required for Callout extensions. This field is not supported for plugin extensions. Setting it results in a validation error. */
+  authority?: string | undefined;
+  /** Optional. When set to `true`, the calls to the extension backend are performed asynchronously, without pausing the processing of the ongoing request. In this mode, only `STREAMED` (default) body processing is supported. Responses, if any, are ignored. Supported by regional `LbTrafficExtension` and `LbRouteExtension` resources. */
+  observabilityMode?: boolean | undefined;
+  /** Optional. A set of events during request or response processing for which this extension is called. For the `LbTrafficExtension` resource, this field is required. For the `LbRouteExtension` resource, this field is optional. If unspecified, `REQUEST_HEADERS` event is assumed as supported. For the `LbEdgeExtension` resource, this field is required and must only contain `REQUEST_HEADERS` event. For the `AuthzExtension` resource, this field is optional. `REQUEST_HEADERS` is the only supported event. If unspecified, `REQUEST_HEADERS` event is assumed as supported. For the `CdnEdgeExtension` resource, this field is optional. Eligible values are `REQUEST_HEADERS` and `RESPONSE_HEADERS`. If unspecified, both are assumed as supported. */
+  supportedEvents?: ExtensionChainExtensionSupportedEventsItemEnumList | undefined;
+  /** Optional. Specifies the timeout for each individual message on the stream. The timeout must be between `10`-`10000` milliseconds. Required for callout extensions. This field is not supported for plugin extensions. Setting it results in a validation error. */
+  timeout?: string | undefined;
+  /** Optional. When set to `TRUE`, the response from an extension service is allowed to set the `com.google.envoy.dynamic_forwarding` namespace in the dynamic metadata. This field is not supported for plugin extensions or AuthzExtensions. Setting it results in a validation error. */
+  allowDynamicForwarding?: boolean | undefined;
+  /** Optional. The name for this extension. The name is logged as part of the HTTP request logs. The name must conform with RFC-1034, is restricted to lower-cased letters, numbers and hyphens, and can have a maximum length of 63 characters. Additionally, the first character must be a letter and the last a letter or a number. This field is required except for AuthzExtension. */
+  name?: string | undefined;
+  /** Optional. Configures the send mode for request body processing. The field can only be set if `supported_events` includes `REQUEST_BODY`. If `supported_events` includes `REQUEST_BODY`, but `request_body_send_mode` is unset, the default value `STREAMED` is used. When this field is set to `FULL_DUPLEX_STREAMED`, `supported_events` must include both `REQUEST_BODY` and `REQUEST_TRAILERS`. This field can be set only for `LbTrafficExtension` and `LbRouteExtension` resources, and only when the `service` field of the extension points to a `BackendService`. Only `FULL_DUPLEX_STREAMED` mode is supported for `LbRouteExtension` resources. */
+  requestBodySendMode?: ExtensionChainExtensionRequestBodySendModeEnum | (string & {}) | undefined;
 }
 export type ExtensionChainExtensionList = Array<ExtensionChainExtension>;
 /** Conditions under which this chain is invoked for a request. */
@@ -404,65 +404,60 @@ export interface ExtensionChainMatchCondition {
 }
 /** A single extension chain wrapper that contains the match conditions and extensions to execute. */
 export interface ExtensionChain {
-  /** Required. A set of extensions to execute for the matching request. At least one extension is required. Up to 3 extensions can be defined for each extension chain for `LbTrafficExtension` and `CdnEdgeExtension` resources. `LbRouteExtension`, `LbEdgeExtension`, and `LbTcpExtension` chains are limited to 1 extension per extension chain. */
+  /** Required. A set of extensions to run for the matching request. Up to three extensions can be defined for each extension chain for the `LbTrafficExtension` resource. You can define a maximum of two extensions for each extension chain for the `CdnEdgeExtension` resource. `LbRouteExtension`, `LbEdgeExtension`, and `LbTcpExtension` chains are limited to one extension per extension chain. */
   extensions?: ExtensionChainExtensionList | undefined;
-  /** Required. The name for this extension chain. The name is logged as part of the HTTP request logs. The name must conform with RFC-1034, is restricted to lower-cased letters, numbers and hyphens, and can have a maximum length of 63 characters. Additionally, the first character must be a letter and the last a letter or a number. */
-  name?: string | undefined;
   /** Required. Conditions under which this chain is invoked for a request. */
   matchCondition?: ExtensionChainMatchCondition | undefined;
+  /** Required. The name for this extension chain. The name is logged as part of the HTTP request logs. The name must conform with RFC-1034, is restricted to lower-cased letters, numbers and hyphens, and can have a maximum length of 63 characters. Additionally, the first character must be a letter and the last a letter or a number. */
+  name?: string | undefined;
 }
 export type ExtensionChainList = Array<ExtensionChain>;
-/** `CdnEdgeExtension` is a resource that lets the extension service modify the headers of both requests to the cache and responses from the cache served by an [`EdgeCacheService`](https://cloud.google.com/media-cdn/docs/reference/rest/v1/projects.locations.edgeCacheServices). */
+/** `CdnEdgeExtension` is a resource that lets the extension service modify the headers of both requests to the cache and responses from the cache served by an [`EdgeCacheService`](/media-cdn/docs/reference/rest/v1/projects.locations.edgeCacheServices). */
 export interface CdnEdgeExtension {
-  /** Optional. Set of labels associated with the `CdnEdgeExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
-  labels?: StringMap | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
   /** Required. Identifier. Name of the `CdnEdgeExtension` resource in the following format: `projects/{project}/locations/{location}/cdnEdgeExtensions/{cdn_edge_extension}`. */
   name?: string | undefined;
+  /** Optional. Set of labels associated with the `CdnEdgeExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap | undefined;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
-  /** Required. Specifies the set of resources to which this extension should be applied to. */
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Required. Specifies the set of resources to which this extension will be applied. */
   target?: CdnEdgeExtensionTarget | undefined;
   /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
   extensionChains?: ExtensionChainList | undefined;
-  /** Optional. A human-readable description of the resource. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsCdnEdgeExtensionsRequest extends CdnEdgeExtension {
-  /** Required. The parent resource of the `CdnEdgeExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Required. User-provided ID of the `CdnEdgeExtension` resource to be created. */
   cdnEdgeExtensionId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this behavior for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that the zero UUID isn't supported (`00000000-0000-0000-0000-000000000000`). */
   requestId?: string | undefined;
+  /** Required. The parent resource of the `CdnEdgeExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
 }
-/** Specification of a port-based selector. */
-export interface TrafficPortSelector {
-  /** Optional. A list of ports. Can be port numbers or port range (example, [80-90] specifies all ports from 80 to 90, including 80 and 90) or named ports or * to specify all ports. If the list is empty, all ports are selected. */
-  ports?: StringList | undefined;
-}
-/** Defines a name-pair value for a single label. */
-export interface MetadataLabels {
-  /** Required. Label name presented as key in xDS Node Metadata. */
-  labelName?: string | undefined;
-  /** Required. Label value presented as value corresponding to the above key, in xDS Node Metadata. */
-  labelValue?: string | undefined;
-}
-export type MetadataLabelsList = Array<MetadataLabels>;
 export type MetadataLabelMatcherMetadataLabelMatchCriteriaEnum =
   | "METADATA_LABEL_MATCH_CRITERIA_UNSPECIFIED"
   | "MATCH_ANY"
   | "MATCH_ALL";
+/** Defines a name-pair value for a single label. */
+export interface MetadataLabels {
+  /** Required. Label value presented as value corresponding to the above key, in xDS Node Metadata. */
+  labelValue?: string | undefined;
+  /** Required. Label name presented as key in xDS Node Metadata. */
+  labelName?: string | undefined;
+}
+export type MetadataLabelsList = Array<MetadataLabels>;
 /** The matcher that is based on node metadata presented by xDS clients. */
 export interface MetadataLabelMatcher {
-  /** The list of label value pairs that must match labels in the provided metadata based on filterMatchCriteria This list can have at most 64 entries. The list can be empty if the match criteria is MATCH_ANY, to specify a wildcard match (i.e this matches any client). */
-  metadataLabels?: MetadataLabelsList | undefined;
   /** Specifies how matching should be done. Supported values are: MATCH_ANY: At least one of the Labels specified in the matcher should match the metadata presented by xDS client. MATCH_ALL: The metadata presented by the xDS client should contain all of the labels specified here. The selection is determined based on the best match. For example, suppose there are three EndpointPolicy resources P1, P2 and P3 and if P1 has a the matcher as MATCH_ANY , P2 has MATCH_ALL , and P3 has MATCH_ALL . If a client with label connects, the config from P1 will be selected. If a client with label connects, the config from P2 will be selected. If a client with label connects, the config from P3 will be selected. If there is more than one best match, (for example, if a config P4 with selector exists and if a client with label connects), pick up the one with older creation time. */
   metadataLabelMatchCriteria?:
     | MetadataLabelMatcherMetadataLabelMatchCriteriaEnum
     | (string & {})
     | undefined;
+  /** The list of label value pairs that must match labels in the provided metadata based on filterMatchCriteria This list can have at most 64 entries. The list can be empty if the match criteria is MATCH_ANY, to specify a wildcard match (i.e this matches any client). */
+  metadataLabels?: MetadataLabelsList | undefined;
 }
 /** A definition of a matcher that selects endpoints to which the policies should be applied. */
 export interface EndpointMatcher {
@@ -473,32 +468,37 @@ export type EndpointPolicyTypeEnum =
   | "ENDPOINT_POLICY_TYPE_UNSPECIFIED"
   | "SIDECAR_PROXY"
   | "GRPC_SERVER";
+/** Specification of a port-based selector. */
+export interface TrafficPortSelector {
+  /** Optional. A list of ports. Can be port numbers or port range (example, [80-90] specifies all ports from 80 to 90, including 80 and 90) or named ports or * to specify all ports. If the list is empty, all ports are selected. */
+  ports?: StringList | undefined;
+}
 /** EndpointPolicy is a resource that helps apply desired configuration on the endpoints that match specific criteria. For example, this resource can be used to apply "authentication config" an all endpoints that serve on port 8080. */
 export interface EndpointPolicy {
-  /** Optional. Port selector for the (matched) endpoints. If no port selector is provided, the matched config is applied to all ports. */
-  trafficPortSelector?: TrafficPortSelector | undefined;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Optional. A URL referring to ServerTlsPolicy resource. ServerTlsPolicy is used to determine the authentication policy to be applied to terminate the inbound traffic at the identified backends. If this field is not set, authentication is disabled(open) for this endpoint. */
-  serverTlsPolicy?: string | undefined;
-  /** Optional. A URL referring to a SecurityPolicy resource. SecurityPolicy is used to enforce rate limiting policy on the inbound traffic at the identified backends. If this field is not set, rate limiting is disabled for this endpoint. */
-  securityPolicy?: string | undefined;
-  /** Optional. Set of label tags associated with the EndpointPolicy resource. */
-  labels?: StringMap | undefined;
-  /** Identifier. Name of the EndpointPolicy resource. It matches pattern `projects/{project}/locations/*\/endpointPolicies/{endpoint_policy}`. */
-  name?: string | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
-  /** Optional. This field specifies the URL of AuthorizationPolicy resource that applies authorization policies to the inbound traffic at the matched endpoints. Refer to Authorization. If this field is not specified, authorization is disabled(no authz checks) for this endpoint. */
-  authorizationPolicy?: string | undefined;
-  /** Required. A matcher that selects endpoints to which the policies should be applied. */
-  endpointMatcher?: EndpointMatcher | undefined;
   /** Optional. Deprecated: This field is not used and is a no-op. A URL referring to a ClientTlsPolicy resource. ClientTlsPolicy can be set to specify the authentication for traffic from the proxy to the actual endpoints. More specifically, it is applied to the outgoing traffic from the proxy to the endpoint. This is typically used for sidecar model where the proxy identifies itself as endpoint to the control plane, with the connection between sidecar and endpoint requiring authentication. If this field is not set, authentication is disabled(open). Applicable only when EndpointPolicyType is SIDECAR_PROXY. */
   clientTlsPolicy?: string | undefined;
+  /** Optional. This field specifies the URL of AuthorizationPolicy resource that applies authorization policies to the inbound traffic at the matched endpoints. Refer to Authorization. If this field is not specified, authorization is disabled(no authz checks) for this endpoint. */
+  authorizationPolicy?: string | undefined;
+  /** Optional. A URL referring to a SecurityPolicy resource. SecurityPolicy is used to enforce rate limiting policy on the inbound traffic at the identified backends. If this field is not set, rate limiting is disabled for this endpoint. */
+  securityPolicy?: string | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Identifier. Name of the EndpointPolicy resource. It matches pattern `projects/{project}/locations/*\/endpointPolicies/{endpoint_policy}`. */
+  name?: string | undefined;
+  /** Required. A matcher that selects endpoints to which the policies should be applied. */
+  endpointMatcher?: EndpointMatcher | undefined;
+  /** Optional. A URL referring to ServerTlsPolicy resource. ServerTlsPolicy is used to determine the authentication policy to be applied to terminate the inbound traffic at the identified backends. If this field is not set, authentication is disabled(open) for this endpoint. */
+  serverTlsPolicy?: string | undefined;
   /** Required. The type of endpoint policy. This is primarily used to validate the configuration. */
   type?: EndpointPolicyTypeEnum | (string & {}) | undefined;
+  /** Optional. Set of label tags associated with the EndpointPolicy resource. */
+  labels?: StringMap | undefined;
+  /** Optional. Port selector for the (matched) endpoints. If no port selector is provided, the matched config is applied to all ports. */
+  trafficPortSelector?: TrafficPortSelector | undefined;
 }
 export interface CreateProjectsLocationsEndpointPoliciesRequest extends EndpointPolicy {
   /** Required. The parent resource of the EndpointPolicy. Must be in the format `projects/*\/locations/*`. */
@@ -506,16 +506,21 @@ export interface CreateProjectsLocationsEndpointPoliciesRequest extends Endpoint
   /** Required. Short name of the EndpointPolicy resource to be created. E.g. "CustomECS". */
   endpointPolicyId?: string | undefined;
 }
+/** The source of the traffic. This defines where the connection originates from. */
+export interface ExpressLinkSource {
+  /** Optional. A list of resources attached to the ExpressLink. The resources can be Cloud Run services of the format: `//run.googleapis.com/projects/*\/locations/*\/services/`. The location of the resources must match the location of the ExpressLink (unless the ExpressLink is global). */
+  services?: StringList | undefined;
+}
 /** Private Service Connect (PSC) endpoint details. */
 export interface ExpressLinkPscEndpointInfoPscEndpoint {
+  /** Output only. The resource name of the consumer VPC network. Should match the pattern: `projects/*\/global/networks/`. */
+  vpcNetwork?: string | undefined;
   /** Output only. Whether the PSC endpoint is accessible from all regions. */
   allowGlobalAccess?: boolean | undefined;
   /** Output only. The IP address of the PSC endpoint. */
   pscEndpointAddress?: string | undefined;
   /** Output only. The ForwardingRule resource name of the PSC endpoint. Should match the pattern: `projects/*\/regions/*\/forwardingRules/`. */
   forwardingRule?: string | undefined;
-  /** Output only. The resource name of the consumer VPC network. Should match the pattern: `projects/*\/global/networks/`. */
-  vpcNetwork?: string | undefined;
 }
 export type ExpressLinkPscEndpointInfoPscEndpointList =
   Array<ExpressLinkPscEndpointInfoPscEndpoint>;
@@ -524,37 +529,10 @@ export interface ExpressLinkPscEndpointInfo {
   /** Output only. A list of PSC endpoints mapped to the PSC producer service. */
   pscEndpoints?: ExpressLinkPscEndpointInfoPscEndpointList | undefined;
 }
-export type ExpressLinkAuthenticationMethodIdentityTypeEnum =
-  | "IDENTITY_TYPE_UNSPECIFIED"
-  | "SERVICE_ACCOUNT"
-  | "AGENT_IDENTITY"
-  | "WORKLOAD_IDENTITY"
-  | "OAUTH";
-export type ExpressLinkAuthenticationMethodCredentialTypeEnum =
-  | "CREDENTIAL_TYPE_UNSPECIFIED"
-  | "GCP_ACCESS_TOKEN"
-  | "JWT"
-  | "BOUND_GCP_ACCESS_TOKEN"
-  | "BOUND_JWT"
-  | "MTLS";
-/** AuthenticationMethod specifies identity type and credential type pair. */
-export interface ExpressLinkAuthenticationMethod {
-  /** Output only. Identity type supported or used. */
-  identityType?: ExpressLinkAuthenticationMethodIdentityTypeEnum | (string & {}) | undefined;
-  /** Output only. Credential type supported or used. */
-  credentialType?: ExpressLinkAuthenticationMethodCredentialTypeEnum | (string & {}) | undefined;
-}
-export type ExpressLinkAuthenticationMethodList = Array<ExpressLinkAuthenticationMethod>;
-export type ExpressLinkCloudRunSecurityInfoMtlsTierEnum =
-  | "MTLS_TIER_UNSPECIFIED"
-  | "STRICT"
-  | "PERMISSIVE";
-/** CloudRunSecurityInfo provides security details for Cloud Run to Cloud Run ExpressLinks. */
-export interface ExpressLinkCloudRunSecurityInfo {
-  /** Output only. The inbound server authentication methods required by the destination Cloud Run service. */
-  serverAuthenticationMethods?: ExpressLinkAuthenticationMethodList | undefined;
-  /** Output only. Identifies the level of mTLS transport security in use. */
-  mtlsTier?: ExpressLinkCloudRunSecurityInfoMtlsTierEnum | (string & {}) | undefined;
+/** The destination of the traffic. This defines the service that the source wants to connect to. */
+export interface ExpressLinkDestination {
+  /** Optional. The service URIs to which the ExpressLink resource is bound. Can be one of the following (all the service URIs should have the same type): `//compute.googleapis.com/projects/*\/regions/*\/serviceAttachments/`; `//compute.googleapis.com/projects/*\/regions/*\/forwardingRules/`; `//run.googleapis.com/projects/*\/locations/*\/services/`. */
+  services?: StringList | undefined;
 }
 /** Match defines the predicate used to match requests to destination services. */
 export interface ExpressLinkMatch {
@@ -562,6 +540,27 @@ export interface ExpressLinkMatch {
   hostname?: string | undefined;
 }
 export type ExpressLinkMatchList = Array<ExpressLinkMatch>;
+export type ExpressLinkAuthenticationMethodCredentialTypeEnum =
+  | "CREDENTIAL_TYPE_UNSPECIFIED"
+  | "GCP_ACCESS_TOKEN"
+  | "JWT"
+  | "BOUND_GCP_ACCESS_TOKEN"
+  | "BOUND_JWT"
+  | "MTLS";
+export type ExpressLinkAuthenticationMethodIdentityTypeEnum =
+  | "IDENTITY_TYPE_UNSPECIFIED"
+  | "SERVICE_ACCOUNT"
+  | "AGENT_IDENTITY"
+  | "WORKLOAD_IDENTITY"
+  | "OAUTH";
+/** AuthenticationMethod specifies identity type and credential type pair. */
+export interface ExpressLinkAuthenticationMethod {
+  /** Output only. Credential type supported or used. */
+  credentialType?: ExpressLinkAuthenticationMethodCredentialTypeEnum | (string & {}) | undefined;
+  /** Output only. Identity type supported or used. */
+  identityType?: ExpressLinkAuthenticationMethodIdentityTypeEnum | (string & {}) | undefined;
+}
+export type ExpressLinkAuthenticationMethodList = Array<ExpressLinkAuthenticationMethod>;
 /** WorkloadInfo provides observability details for a single Cloud Run source workload. */
 export interface ExpressLinkCloudRunSourceInfoWorkloadInfo {
   /** Output only. Consumer VPC network resource name. */
@@ -578,13 +577,24 @@ export interface ExpressLinkCloudRunSourceInfo {
   /** Output only. Observability details for Cloud Run source workloads. */
   workloads?: ExpressLinkCloudRunSourceInfoWorkloadInfoList | undefined;
 }
-export type ExpressLinkConnectionStatusCredentialTypeEnum =
-  | "CREDENTIAL_TYPE_UNSPECIFIED"
-  | "GCP_ACCESS_TOKEN"
-  | "JWT"
-  | "BOUND_GCP_ACCESS_TOKEN"
-  | "BOUND_JWT"
-  | "MTLS";
+export type ExpressLinkCloudRunSecurityInfoMtlsTierEnum =
+  | "MTLS_TIER_UNSPECIFIED"
+  | "STRICT"
+  | "PERMISSIVE";
+/** CloudRunSecurityInfo provides security details for Cloud Run to Cloud Run ExpressLinks. */
+export interface ExpressLinkCloudRunSecurityInfo {
+  /** Output only. Identifies the level of mTLS transport security in use. */
+  mtlsTier?: ExpressLinkCloudRunSecurityInfoMtlsTierEnum | (string & {}) | undefined;
+  /** Output only. The inbound server authentication methods required by the destination Cloud Run service. */
+  serverAuthenticationMethods?: ExpressLinkAuthenticationMethodList | undefined;
+}
+/** ForwardingRuleInfo provides operational details when the ExpressLink destination is a Forwarding Rule. */
+export interface ExpressLinkForwardingRuleInfo {
+  /** Output only. The port or port range of the forwarding rule. */
+  port?: string | undefined;
+  /** Output only. The IP address of the forwarding rule. */
+  ipAddress?: string | undefined;
+}
 export type ExpressLinkConnectionStatusRouteTypeEnum =
   | "ROUTE_TYPE_UNSPECIFIED"
   | "HTTP"
@@ -594,6 +604,13 @@ export type ExpressLinkConnectionStatusErrorEnum =
   | "CODE_UNSPECIFIED"
   | "NOT_FOUND"
   | "PARTIAL_RESOLUTION_ERROR";
+export type ExpressLinkConnectionStatusCredentialTypeEnum =
+  | "CREDENTIAL_TYPE_UNSPECIFIED"
+  | "GCP_ACCESS_TOKEN"
+  | "JWT"
+  | "BOUND_GCP_ACCESS_TOKEN"
+  | "BOUND_JWT"
+  | "MTLS";
 /** HostnameInfo provides details about a hostname that routes to this destination. */
 export interface ExpressLinkConnectionStatusHostnameInfo {
   /** Output only. The hostname string. */
@@ -603,67 +620,50 @@ export type ExpressLinkConnectionStatusHostnameInfoList =
   Array<ExpressLinkConnectionStatusHostnameInfo>;
 /** ConnectionStatus details the resolved state, error status, and negotiated configuration of the ExpressLink resource. */
 export interface ExpressLinkConnectionStatus {
-  /** Output only. Detailed error message explaining the binding failure. */
-  errorMessage?: string | undefined;
-  /** Output only. The negotiated credential type. */
-  credentialType?: ExpressLinkConnectionStatusCredentialTypeEnum | (string & {}) | undefined;
   /** Output only. The URI of the source workload this status applies to. */
   workloadUri?: string | undefined;
+  /** Output only. Detailed error message explaining the binding failure. */
+  errorMessage?: string | undefined;
   /** Output only. The route type of the connection (e.g. HTTP). */
   routeType?: ExpressLinkConnectionStatusRouteTypeEnum | (string & {}) | undefined;
   /** Output only. Code representing the type of error encountered. */
   error?: ExpressLinkConnectionStatusErrorEnum | (string & {}) | undefined;
+  /** Output only. The negotiated credential type. */
+  credentialType?: ExpressLinkConnectionStatusCredentialTypeEnum | (string & {}) | undefined;
   /** Output only. The list of hostnames that will route to this destination. */
   hostnames?: ExpressLinkConnectionStatusHostnameInfoList | undefined;
 }
 export type ExpressLinkConnectionStatusList = Array<ExpressLinkConnectionStatus>;
-/** The source of the traffic. This defines where the connection originates from. */
-export interface ExpressLinkSource {
-  /** Optional. A list of resources attached to the ExpressLink. The resources can be Cloud Run services of the format: `//run.googleapis.com/projects/*\/locations/*\/services/`. The location of the resources must match the location of the ExpressLink (unless the ExpressLink is global). */
-  services?: StringList | undefined;
-}
-/** ForwardingRuleInfo provides operational details when the ExpressLink destination is a Forwarding Rule. */
-export interface ExpressLinkForwardingRuleInfo {
-  /** Output only. The port or port range of the forwarding rule. */
-  port?: string | undefined;
-  /** Output only. The IP address of the forwarding rule. */
-  ipAddress?: string | undefined;
-}
-/** The destination of the traffic. This defines the service that the source wants to connect to. */
-export interface ExpressLinkDestination {
-  /** Optional. The service URIs to which the ExpressLink resource is bound. Can be one of the following (all the service URIs should have the same type): `//compute.googleapis.com/projects/*\/regions/*\/serviceAttachments/`; `//compute.googleapis.com/projects/*\/regions/*\/forwardingRules/`; `//run.googleapis.com/projects/*\/locations/*\/services/`. */
-  services?: StringList | undefined;
-}
 /** ExpressLink provides automated, zero-friction service-to-service secure connectivity across network boundaries without manual infrastructure configuration toil. */
 export interface ExpressLink {
+  /** Optional. The source service(s) for this binding. */
+  source?: ExpressLinkSource | undefined;
+  /** Identifier. Name of the ExpressLink resource. It matches pattern `projects/*\/locations/*\/expressLinks/`. */
+  name?: string | undefined;
   /** Output only. Private Service Connect (PSC) endpoint information if the ExpressLink destination is a PSC service. */
   pscEndpointInfo?: ExpressLinkPscEndpointInfo | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. The destination service(s) for this binding. */
+  destination?: ExpressLinkDestination | undefined;
+  /** Optional. A list of matches define conditions used to match requests to destination services. Each match is independent with the OR semantic, i.e. we consider it matched if ANY one of the matches is satisfied. If an ExpressLink has only one Cloud Run service, Match is optional. If not specified, only the default hostname `-..run.app` can be used. If an ExpressLink has multiple Cloud Run services, at least one Match with valid hostname is required. */
+  matches?: ExpressLinkMatchList | undefined;
+  /** Output only. Cloud Run source observability details. */
+  cloudRunSourceInfo?: ExpressLinkCloudRunSourceInfo | undefined;
+  /** Output only. Cloud Run security information if the ExpressLink destination is a Cloud Run service. */
+  cloudRunSecurityInfo?: ExpressLinkCloudRunSecurityInfo | undefined;
+  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string | undefined;
+  /** Output only. Forwarding Rule information if the ExpressLink destination is a Forwarding Rule. */
+  forwardingRuleInfo?: ExpressLinkForwardingRuleInfo | undefined;
+  /** Output only. The connection status and negotiated parameters. */
+  connectionStatus?: ExpressLinkConnectionStatusList | undefined;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
   /** Optional. Set of label tags associated with the ExpressLink resource. */
   labels?: StringMap | undefined;
-  /** Output only. Cloud Run security information if the ExpressLink destination is a Cloud Run service. */
-  cloudRunSecurityInfo?: ExpressLinkCloudRunSecurityInfo | undefined;
-  /** Optional. A list of matches define conditions used to match requests to destination services. Each match is independent with the OR semantic, i.e. we consider it matched if ANY one of the matches is satisfied. If an ExpressLink has only one Cloud Run service, Match is optional. If not specified, only the default hostname `-..run.app` can be used. If an ExpressLink has multiple Cloud Run services, at least one Match with valid hostname is required. */
-  matches?: ExpressLinkMatchList | undefined;
-  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
-  etag?: string | undefined;
-  /** Output only. Cloud Run source observability details. */
-  cloudRunSourceInfo?: ExpressLinkCloudRunSourceInfo | undefined;
-  /** Output only. The connection status and negotiated parameters. */
-  connectionStatus?: ExpressLinkConnectionStatusList | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
-  /** Optional. The source service(s) for this binding. */
-  source?: ExpressLinkSource | undefined;
-  /** Output only. Forwarding Rule information if the ExpressLink destination is a Forwarding Rule. */
-  forwardingRuleInfo?: ExpressLinkForwardingRuleInfo | undefined;
-  /** Identifier. Name of the ExpressLink resource. It matches pattern `projects/*\/locations/*\/expressLinks/`. */
-  name?: string | undefined;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string | undefined;
-  /** Optional. The destination service(s) for this binding. */
-  destination?: ExpressLinkDestination | undefined;
 }
 export interface CreateProjectsLocationsExpressLinksRequest extends ExpressLink {
   /** Required. Short name of the ExpressLink resource to be created. */
@@ -671,39 +671,18 @@ export interface CreateProjectsLocationsExpressLinksRequest extends ExpressLink 
   /** Required. The parent resource of the ExpressLink. Must be in the format `projects/*\/locations/*`. */
   parent: string;
 }
-export type ExtensionBindingTargetScopeResourceTypesItemEnum =
-  | "RESOURCE_TYPE_UNSPECIFIED"
-  | "AI_APPLICATION"
-  | "AGENT_GATEWAY";
-export type ExtensionBindingTargetScopeResourceTypesItemEnumList = Array<
-  ExtensionBindingTargetScopeResourceTypesItemEnum | (string & {})
->;
-/** Specifies the scope of resources to which this binding should attach. */
-export interface ExtensionBindingTargetScope {
-  /** Required. The types of resources to which the binding should attach. Limited to 1 resource type. */
-  resourceTypes?: ExtensionBindingTargetScopeResourceTypesItemEnumList | undefined;
-  /** Required. The parent resource that defines the scope, in the format `projects/{project_number}`. When the scope is a project, the binding applies to the resources that meet all of the following conditions: * The resource belongs to the specified project. * The resource is in the same location as the `ExtensionBinding`. * The resource type is listed in `resource_types`. */
-  parent?: string | undefined;
-}
-/** Specifies a list of targets to which this `ExtensionBinding` should attach. */
-export interface ExtensionBindingTarget {
-  /** Optional. The references to the target resources to which this binding should attach. Exactly one of `resources` or `scope` must be set. For AI Application resources, specify the full resource name in the format: `projects/{project}/locations/{location}/applications/{application}`. Limited to 1 resource. */
-  resources?: StringList | undefined;
-  /** Optional. Specifies the scope of resources to which this binding should attach. Exactly one of `resources` or `scope` must be set. */
-  scope?: ExtensionBindingTargetScope | undefined;
-}
 /** Specifies matching logic for string values. */
 export interface ExtensionBindingMatchConditionStringMatch {
-  /** Optional. The input string must have the suffix specified here. An empty suffix is not allowed. Examples: * `abc` matches the value `xyz.abc`. */
-  suffix?: string | undefined;
-  /** Optional. If true, the `exact`, `prefix`, `suffix`, or `contains` match is case insensitive. For example, the matcher `data` matches both `Data` and `data` when set to true. */
-  ignoreCase?: boolean | undefined;
-  /** Optional. The input string must match exactly the string specified here. Examples: * `abc` only matches the value `abc`. */
-  exact?: string | undefined;
   /** Optional. The input string must contain the substring specified here. An empty substring is not allowed. Examples: * `abc` matches the value `xyz.abc.def`. */
   contains?: string | undefined;
+  /** Optional. The input string must match exactly the string specified here. Examples: * `abc` matches only the value `abc`. */
+  exact?: string | undefined;
   /** Optional. The input string must have the prefix specified here. An empty prefix is not allowed. Examples: * `abc` matches the value `abc.xyz`. */
   prefix?: string | undefined;
+  /** Optional. If true, the `exact`, `prefix`, `suffix`, or `contains` match is case insensitive. For example, the matcher `data` matches both `Data` and `data` when set to true. */
+  ignoreCase?: boolean | undefined;
+  /** Optional. The input string must have the suffix specified here. An empty suffix is not allowed. Examples: * `abc` matches the value `xyz.abc`. */
+  suffix?: string | undefined;
 }
 export type ExtensionBindingMatchConditionStringMatchList =
   Array<ExtensionBindingMatchConditionStringMatch>;
@@ -723,21 +702,21 @@ export interface ExtensionBindingMatchConditionToDestinationHeaderSet {
 }
 /** Describes properties of a single destination. */
 export interface ExtensionBindingMatchConditionToDestination {
-  /** Optional. A list of non-empty strings whose value is matched against the resource to which a request is sent (e.g., an Agent in AiApplication). If not specified, any resource is allowed. If specified, a match occurs if any of the resources matches the resource value in the request. Limited to 5 resources. When matching against resources in the AgentRegistry, use the URNs of the registry resources. */
+  /** Optional. A list of paths to match against. Limited to 10 paths. If not specified, any path is allowed. Note that this path match includes the query parameters. For gRPC services, this should be a fully qualified name of the form `/package.service/method`. */
+  paths?: ExtensionBindingMatchConditionStringMatchList | undefined;
+  /** Optional. A list of non-empty strings whose value is matched against the resource to which a request is sent (for example, an `Agent` in `AiApplication`). If not specified, any resource is allowed. If specified, a match occurs if any of the resources matches the resource value in the request. Limited to 5 resources. When matching against resources in the Agent Registry, use the URNs of the registry resources. */
   resources?: ExtensionBindingMatchConditionStringMatchList | undefined;
   /** Optional. A set of HTTP headers to match against. If not specified, requests with any headers are matched. */
   headerSet?: ExtensionBindingMatchConditionToDestinationHeaderSet | undefined;
-  /** Optional. A list of paths to match against. Limited to 10 paths. If not specified, any path is allowed. Note that this path match includes the query parameters. For gRPC services, this should be a fully-qualified name of the form /package.service/method. */
-  paths?: ExtensionBindingMatchConditionStringMatchList | undefined;
-  /** Optional. A list of HTTP Hosts to match against. Limited to 10 hosts. If not specified, any host is allowed. If specified, a match occurs if any of the hosts matches the host value in the request. */
+  /** Optional. A list of HTTP hosts to match against. Limited to 10 hosts. If not specified, any host is allowed. If specified, a match occurs if any of the hosts matches the host value in the request. */
   hosts?: ExtensionBindingMatchConditionStringMatchList | undefined;
 }
 /** Describes properties of one or more destinations of a request. */
 export interface ExtensionBindingMatchConditionTo {
+  /** Optional. Describes the negated properties of the request destination. The extension will not be invoked on requests that match the criteria specified in this field. At least one of `destination` or `not_destination` must be specified. */
+  notDestination?: ExtensionBindingMatchConditionToDestination | undefined;
   /** Optional. Describes properties of the destination of a request. A request matches the destination only if it matches every field that is set. Fields that are not set are always considered a match. For example, if only `hosts` and `paths` are set, a request matches when any host matches and any path matches. At least one of `destination` or `not_destination` must be specified. */
   destination?: ExtensionBindingMatchConditionToDestination | undefined;
-  /** Optional. Describes the negated properties of the request destination. Extension will not be invoked on requests that match the criteria specified in this field. At least one of destination or not_destination must be specified. */
-  notDestination?: ExtensionBindingMatchConditionToDestination | undefined;
 }
 /** Conditions to match against the incoming request. */
 export interface ExtensionBindingMatchCondition {
@@ -745,32 +724,53 @@ export interface ExtensionBindingMatchCondition {
   to?: ExtensionBindingMatchConditionTo | undefined;
 }
 export type ExtensionBindingMatchConditionList = Array<ExtensionBindingMatchCondition>;
+export type ExtensionBindingTargetScopeResourceTypesItemEnum =
+  | "RESOURCE_TYPE_UNSPECIFIED"
+  | "AI_APPLICATION"
+  | "AGENT_GATEWAY";
+export type ExtensionBindingTargetScopeResourceTypesItemEnumList = Array<
+  ExtensionBindingTargetScopeResourceTypesItemEnum | (string & {})
+>;
+/** Specifies the scope of resources to which this binding should attach. */
+export interface ExtensionBindingTargetScope {
+  /** Required. The parent resource that defines the scope, in the format `projects/{project_number}`. When the scope is a project, the binding applies to the resources that meet all of the following conditions: * The resource belongs to the specified project. * The resource is in the same location as the `ExtensionBinding`. * The resource type is listed in `resource_types`. */
+  parent?: string | undefined;
+  /** Required. The types of resources to which the binding should attach. Limited to 1 resource type. */
+  resourceTypes?: ExtensionBindingTargetScopeResourceTypesItemEnumList | undefined;
+}
+/** Specifies a list of targets to which this `ExtensionBinding` should attach. */
+export interface ExtensionBindingTarget {
+  /** Optional. The references to the target resources to which this binding should attach. Exactly one of `resources` or `scope` must be set. For AI Application resources, specify the full resource name in the format: `projects/{project}/locations/{location}/applications/{application}`. Limited to 1 resource. */
+  resources?: StringList | undefined;
+  /** Optional. Specifies the scope of resources to which this binding should attach. Exactly one of `resources` or `scope` must be set. */
+  scope?: ExtensionBindingTargetScope | undefined;
+}
 /** `ExtensionBinding` is a resource representing the attachment of an extension to a service. */
 export interface ExtensionBinding {
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
-  /** Optional. Set of labels associated with the `ExtensionBinding` resource. The format must comply with [the following requirements](https://cloud.google.com/compute/docs/labeling-resources#requirements). */
-  labels?: StringMap | undefined;
   /** Identifier. Name of the `ExtensionBinding` resource in the following format: `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
   name?: string | undefined;
-  /** Optional. Etag of the resource. If provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
-  etag?: string | undefined;
-  /** Optional. This field is not supported. */
-  priority?: number | undefined;
-  /** Required. Specifies a target to which this `ExtensionBinding` should be attached. */
-  target?: ExtensionBindingTarget | undefined;
+  /** Optional. Set of labels associated with the `ExtensionBinding` resource. The format must comply with [the following requirements](https://cloud.google.com/compute/docs/labeling-resources#requirements). */
+  labels?: StringMap | undefined;
+  /** Required. The name of the extension that this binding should attach to target resources. Format: * For Google-provided extensions, specify the service endpoint, for example `modelarmor.us-central1.rep.googleapis.com`. */
+  producerExtension?: string | undefined;
   /** Optional. A list of match conditions to evaluate against the incoming request. The extension is invoked if the request matches at least one condition, or if no match conditions are specified. A request matches a condition only if it matches every field that is set in that condition. Limited to 5 conditions. */
   matchConditions?: ExtensionBindingMatchConditionList | undefined;
-  /** Required. The name of the extension that this binding should attach to target resources. Format: For Google-provided extensions, specify the service endpoint, for example `modelarmor.us-central1.rep.googleapis.com`. */
-  producerExtension?: string | undefined;
+  /** Required. Specifies a target to which this `ExtensionBinding` should be attached. */
+  target?: ExtensionBindingTarget | undefined;
   /** Optional. Additional metadata that should be passed to the attached extension with each request. This field is subject to the following limitations: * The total size of the metadata must be less than 1 KiB. * The total number of keys must be less than 16. * The length of each key must be less than 64 characters. * The length of each value must be less than 1024 characters. */
   producerMetadata?: StringMap | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Optional. Determines the behavior of the extension binding when the call to the extension fails or times out. Default value is `FALSE`. When set to `TRUE`, failures of the extension are silently ignored. */
+  /** Optional. Etag of the resource. If provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string | undefined;
+  /** Optional. Determines the behavior of the extension binding when the call to the extension fails or times out. Default value is `false`. When set to `true`, failures of the extension are silently ignored. */
   failOpen?: boolean | undefined;
   /** Optional. A human-readable description of the resource. */
   description?: string | undefined;
+  /** Optional. This field is not supported. */
+  priority?: number | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsExtensionBindingsRequest extends ExtensionBinding {
   /** Required. The parent resource of the `ExtensionBinding` resource. Must be in the format `projects/{project}/locations/{location}`. */
@@ -778,51 +778,51 @@ export interface CreateProjectsLocationsExtensionBindingsRequest extends Extensi
   /** Required. Short name of the `ExtensionBinding` resource to be created. */
   extensionBindingId?: string | undefined;
 }
-export type GatewayTypeEnum = "TYPE_UNSPECIFIED" | "OPEN_MESH" | "SECURE_WEB_GATEWAY";
 export type GatewayEnvoyHeadersEnum = "ENVOY_HEADERS_UNSPECIFIED" | "NONE" | "DEBUG_HEADERS";
+export type GatewayTypeEnum = "TYPE_UNSPECIFIED" | "OPEN_MESH" | "SECURE_WEB_GATEWAY";
 export type GatewayRoutingModeEnum = "EXPLICIT_ROUTING_MODE" | "NEXT_HOP_ROUTING_MODE";
 export type IntegerList = Array<number>;
 export type GatewayIpVersionEnum = "IP_VERSION_UNSPECIFIED" | "IPV4" | "IPV6";
 /** Gateway represents the configuration for a proxy, typically a load balancer. It captures the ip:port over which the services are exposed by the proxy, along with any policy configurations. Routes have reference to to Gateways to dictate how requests should be routed by this Gateway. */
 export interface Gateway {
-  /** Optional. Set of label tags associated with the Gateway resource. */
-  labels?: StringMap | undefined;
-  /** Optional. The relative resource name identifying the VPC network that is using this configuration. For example: `projects/*\/global/networks/network-1`. Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'. */
-  network?: string | undefined;
-  /** Immutable. The type of the customer managed gateway. This field is required. If unspecified, an error is returned. */
-  type?: GatewayTypeEnum | (string & {}) | undefined;
-  /** Identifier. Name of the Gateway resource. It matches pattern `projects/*\/locations/*\/gateways/`. */
-  name?: string | undefined;
-  /** Optional. A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated. If empty, TLS termination is disabled. */
-  serverTlsPolicy?: string | undefined;
-  /** Optional. A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection. This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'. */
-  certificateUrls?: StringList | undefined;
+  /** Optional. If true, the Gateway will listen on all ports. This is mutually exclusive with the `ports` field. This field only applies to gateways of type 'SECURE_WEB_GATEWAY'. */
+  allPorts?: boolean | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string | undefined;
   /** Optional. Determines if envoy will insert internal debug headers into upstream requests. Other Envoy headers may still be injected. By default, envoy will not insert any debug headers. */
   envoyHeaders?: GatewayEnvoyHeadersEnum | (string & {}) | undefined;
   /** Optional. Scope determines how configuration across multiple Gateway instances are merged. The configuration for multiple Gateway instances with the same scope will be merged as presented as a single configuration to the proxy/load balancer. Max length 64 characters. Scope should start with a letter and can only have letters, numbers, hyphens. */
   scope?: string | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Optional. If true, the gateway will allow traffic from clients outside of the region where the gateway is located. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. */
-  allowGlobalAccess?: boolean | undefined;
-  /** Optional. The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY. */
-  routingMode?: GatewayRoutingModeEnum | (string & {}) | undefined;
+  /** Immutable. The type of the customer managed gateway. This field is required. If unspecified, an error is returned. */
+  type?: GatewayTypeEnum | (string & {}) | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Optional. A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection. This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'. */
+  certificateUrls?: StringList | undefined;
   /** Optional. A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections. For example: `projects/*\/locations/*\/gatewaySecurityPolicies/swg-policy`. This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'. */
   gatewaySecurityPolicy?: string | undefined;
-  /** Output only. Server-defined URL of this resource */
-  selfLink?: string | undefined;
-  /** Optional. If true, the Gateway will listen on all ports. This is mutually exclusive with the `ports` field. This field only applies to gateways of type 'SECURE_WEB_GATEWAY'. */
-  allPorts?: boolean | undefined;
-  /** Optional. The relative resource name identifying the subnetwork in which this SWG is allocated. For example: `projects/*\/regions/us-central1/subnetworks/network-1` Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY". */
-  subnetwork?: string | undefined;
-  /** Required. One or more port numbers (1-65535), on which the Gateway will receive traffic. The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 5 ports. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports. */
-  ports?: IntegerList | undefined;
+  /** Optional. The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY. */
+  routingMode?: GatewayRoutingModeEnum | (string & {}) | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated. If empty, TLS termination is disabled. */
+  serverTlsPolicy?: string | undefined;
+  /** Identifier. Name of the Gateway resource. It matches pattern `projects/*\/locations/*\/gateways/`. */
+  name?: string | undefined;
+  /** Optional. The relative resource name identifying the VPC network that is using this configuration. For example: `projects/*\/global/networks/network-1`. Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'. */
+  network?: string | undefined;
   /** Optional. Zero or one IPv4 or IPv6 address on which the Gateway will receive the traffic. When no address is provided, an IP from the subnetwork is allocated This field only applies to gateways of type 'SECURE_WEB_GATEWAY'. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6. */
   addresses?: StringList | undefined;
+  /** Optional. The relative resource name identifying the subnetwork in which this SWG is allocated. For example: `projects/*\/regions/us-central1/subnetworks/network-1` Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY". */
+  subnetwork?: string | undefined;
+  /** Optional. If true, the gateway will allow traffic from clients outside of the region where the gateway is located. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. */
+  allowGlobalAccess?: boolean | undefined;
+  /** Optional. Set of label tags associated with the Gateway resource. */
+  labels?: StringMap | undefined;
+  /** Required. One or more port numbers (1-65535), on which the Gateway will receive traffic. The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 5 ports. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports. */
+  ports?: IntegerList | undefined;
   /** Optional. The IP Version that will be used by this gateway. Valid options are IPV4 or IPV6. Default is IPV4. */
   ipVersion?: GatewayIpVersionEnum | (string & {}) | undefined;
 }
@@ -832,44 +832,37 @@ export interface CreateProjectsLocationsGatewaysRequest extends Gateway {
   /** Required. Short name of the Gateway resource to be created. */
   gatewayId?: string | undefined;
 }
-export type GrpcRouteHeaderMatchTypeEnum = "TYPE_UNSPECIFIED" | "EXACT" | "REGULAR_EXPRESSION";
-/** A match against a collection of headers. */
-export interface GrpcRouteHeaderMatch {
-  /** Required. The value of the header. */
-  value?: string | undefined;
-  /** Optional. Specifies how to match against the value of the header. If not specified, a default value of EXACT is used. */
-  type?: GrpcRouteHeaderMatchTypeEnum | (string & {}) | undefined;
-  /** Required. The key of the header. */
-  key?: string | undefined;
-}
-export type GrpcRouteHeaderMatchList = Array<GrpcRouteHeaderMatch>;
 export type GrpcRouteMethodMatchTypeEnum = "TYPE_UNSPECIFIED" | "EXACT" | "REGULAR_EXPRESSION";
 /** Specifies a match against a method. */
 export interface GrpcRouteMethodMatch {
   /** Optional. Specifies that matches are case sensitive. The default value is true. case_sensitive must not be used with a type of REGULAR_EXPRESSION. */
   caseSensitive?: boolean | undefined;
-  /** Required. Name of the service to match against. If unspecified, will match all services. */
-  grpcService?: string | undefined;
   /** Required. Name of the method to match against. If unspecified, will match all methods. */
   grpcMethod?: string | undefined;
   /** Optional. Specifies how to match against the name. If not specified, a default value of "EXACT" is used. */
   type?: GrpcRouteMethodMatchTypeEnum | (string & {}) | undefined;
+  /** Required. Name of the service to match against. If unspecified, will match all services. */
+  grpcService?: string | undefined;
 }
+export type GrpcRouteHeaderMatchTypeEnum = "TYPE_UNSPECIFIED" | "EXACT" | "REGULAR_EXPRESSION";
+/** A match against a collection of headers. */
+export interface GrpcRouteHeaderMatch {
+  /** Required. The key of the header. */
+  key?: string | undefined;
+  /** Optional. Specifies how to match against the value of the header. If not specified, a default value of EXACT is used. */
+  type?: GrpcRouteHeaderMatchTypeEnum | (string & {}) | undefined;
+  /** Required. The value of the header. */
+  value?: string | undefined;
+}
+export type GrpcRouteHeaderMatchList = Array<GrpcRouteHeaderMatch>;
 /** Criteria for matching traffic. A RouteMatch will be considered to match when all supplied fields match. */
 export interface GrpcRouteRouteMatch {
-  /** Optional. Specifies a collection of headers to match. */
-  headers?: GrpcRouteHeaderMatchList | undefined;
   /** Optional. A gRPC method to match against. If this field is empty or omitted, will match all methods. */
   method?: GrpcRouteMethodMatch | undefined;
+  /** Optional. Specifies a collection of headers to match. */
+  headers?: GrpcRouteHeaderMatchList | undefined;
 }
 export type GrpcRouteRouteMatchList = Array<GrpcRouteRouteMatch>;
-/** The specifications for retries. Specifies one or more conditions for which this retry rule applies. Valid values are: */
-export interface GrpcRouteRetryPolicy {
-  /** - connect-failure: Router will retry on failures connecting to Backend Services, for example due to connection timeouts. - refused-stream: Router will retry if the backend service resets the stream with a REFUSED_STREAM error code. This reset type indicates that it is safe to retry. - cancelled: Router will retry if the gRPC status code in the response header is set to cancelled - deadline-exceeded: Router will retry if the gRPC status code in the response header is set to deadline-exceeded - resource-exhausted: Router will retry if the gRPC status code in the response header is set to resource-exhausted - unavailable: Router will retry if the gRPC status code in the response header is set to unavailable */
-  retryConditions?: StringList | undefined;
-  /** Specifies the allowed number of retries. This number must be > 0. If not specified, default to 1. */
-  numRetries?: number | undefined;
-}
 /** Specification of how client requests are delayed as part of fault injection before being sent to a destination. */
 export interface GrpcRouteFaultInjectionPolicyDelay {
   /** Specify a fixed delay before forwarding the request. */
@@ -891,6 +884,13 @@ export interface GrpcRouteFaultInjectionPolicy {
   /** The specification for aborting to client requests. */
   abort?: GrpcRouteFaultInjectionPolicyAbort | undefined;
 }
+/** The specifications for retries. Specifies one or more conditions for which this retry rule applies. Valid values are: */
+export interface GrpcRouteRetryPolicy {
+  /** - connect-failure: Router will retry on failures connecting to Backend Services, for example due to connection timeouts. - refused-stream: Router will retry if the backend service resets the stream with a REFUSED_STREAM error code. This reset type indicates that it is safe to retry. - cancelled: Router will retry if the gRPC status code in the response header is set to cancelled - deadline-exceeded: Router will retry if the gRPC status code in the response header is set to deadline-exceeded - resource-exhausted: Router will retry if the gRPC status code in the response header is set to resource-exhausted - unavailable: Router will retry if the gRPC status code in the response header is set to unavailable */
+  retryConditions?: StringList | undefined;
+  /** Specifies the allowed number of retries. This number must be > 0. If not specified, default to 1. */
+  numRetries?: number | undefined;
+}
 /** The destination to which traffic will be routed. */
 export interface GrpcRouteDestination {
   /** Required. The URL of a destination service to which to route traffic. Must refer to either a BackendService or ServiceDirectoryService. */
@@ -906,16 +906,16 @@ export interface GrpcRouteStatefulSessionAffinityPolicy {
 }
 /** Specifies how to route matched traffic. */
 export interface GrpcRouteRouteAction {
-  /** Optional. Specifies the retry policy associated with this route. */
-  retryPolicy?: GrpcRouteRetryPolicy | undefined;
+  /** Optional. Specifies the timeout for selected route. Timeout is computed from the time the request has been fully processed (i.e. end of stream) up until the response has been completely processed. Timeout includes all retries. */
+  timeout?: string | undefined;
   /** Optional. The specification for fault injection introduced into traffic to test the resiliency of clients to destination service failure. As part of fault injection, when clients send requests to a destination, delays can be introduced on a percentage of requests before sending those requests to the destination service. Similarly requests from clients can be aborted by for a percentage of requests. timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy */
   faultInjectionPolicy?: GrpcRouteFaultInjectionPolicy | undefined;
   /** Optional. Specifies the idle timeout for the selected route. The idle timeout is defined as the period in which there are no bytes sent or received on either the upstream or downstream connection. If not set, the default idle timeout is 1 hour. If set to 0s, the timeout will be disabled. */
   idleTimeout?: string | undefined;
+  /** Optional. Specifies the retry policy associated with this route. */
+  retryPolicy?: GrpcRouteRetryPolicy | undefined;
   /** Optional. The destination services to which traffic should be forwarded. If multiple destinations are specified, traffic will be split between Backend Service(s) according to the weight field of these destinations. */
   destinations?: GrpcRouteDestinationList | undefined;
-  /** Optional. Specifies the timeout for selected route. Timeout is computed from the time the request has been fully processed (i.e. end of stream) up until the response has been completely processed. Timeout includes all retries. */
-  timeout?: string | undefined;
   /** Optional. Specifies cookie-based stateful session affinity. */
   statefulSessionAffinity?: GrpcRouteStatefulSessionAffinityPolicy | undefined;
 }
@@ -929,26 +929,26 @@ export interface GrpcRouteRouteRule {
 export type GrpcRouteRouteRuleList = Array<GrpcRouteRouteRule>;
 /** GrpcRoute is the resource defining how gRPC traffic routed by a Mesh or Gateway resource is routed. */
 export interface GrpcRoute {
-  /** Required. Service hostnames with an optional port for which this route describes traffic. Format: [:] Hostname is the fully qualified domain name of a network host. This matches the RFC 1123 definition of a hostname with 2 notable exceptions: - IPs are not allowed. - A hostname may be prefixed with a wildcard label (`*.`). The wildcard label must appear by itself as the first label. Hostname can be "precise" which is a domain name without the terminating dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a domain name prefixed with a single wildcard label (e.g. `*.example.com`). Note that as per RFC1035 and RFC1123, a label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character. No other punctuation is allowed. The routes associated with a Mesh or Gateway must have unique hostnames. If you attempt to attach multiple routes with conflicting hostnames, the configuration will be rejected. For example, while it is acceptable for routes for the hostnames `*.foo.bar.com` and `*.bar.com` to be associated with the same route, it is not possible to associate two routes both with `*.bar.com` or both with `bar.com`. If a port is specified, then gRPC clients must use the channel URI with the port to match this rule (i.e. "xds:///service:123"), otherwise they must supply the URI without a port (i.e. "xds:///service"). */
-  hostnames?: StringList | undefined;
   /** Optional. Set of label tags associated with the GrpcRoute resource. */
   labels?: StringMap | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Optional. Gateways defines a list of gateways this GrpcRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
-  gateways?: StringList | undefined;
-  /** Identifier. Name of the GrpcRoute resource. It matches pattern `projects/*\/locations/*\/grpcRoutes/` */
-  name?: string | undefined;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string | undefined;
   /** Output only. Server-defined URL of this resource */
   selfLink?: string | undefined;
+  /** Optional. Gateways defines a list of gateways this GrpcRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
+  gateways?: StringList | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
   /** Optional. Meshes defines a list of meshes this GrpcRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` */
   meshes?: StringList | undefined;
+  /** Required. Service hostnames with an optional port for which this route describes traffic. Format: [:] Hostname is the fully qualified domain name of a network host. This matches the RFC 1123 definition of a hostname with 2 notable exceptions: - IPs are not allowed. - A hostname may be prefixed with a wildcard label (`*.`). The wildcard label must appear by itself as the first label. Hostname can be "precise" which is a domain name without the terminating dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a domain name prefixed with a single wildcard label (e.g. `*.example.com`). Note that as per RFC1035 and RFC1123, a label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character. No other punctuation is allowed. The routes associated with a Mesh or Gateway must have unique hostnames. If you attempt to attach multiple routes with conflicting hostnames, the configuration will be rejected. For example, while it is acceptable for routes for the hostnames `*.foo.bar.com` and `*.bar.com` to be associated with the same route, it is not possible to associate two routes both with `*.bar.com` or both with `bar.com`. If a port is specified, then gRPC clients must use the channel URI with the port to match this rule (i.e. "xds:///service:123"), otherwise they must supply the URI without a port (i.e. "xds:///service"). */
+  hostnames?: StringList | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
   /** Required. A list of detailed rules defining how to route traffic. Within a single GrpcRoute, the GrpcRoute.RouteAction associated with the first matching GrpcRoute.RouteRule will be executed. At least one rule must be supplied. */
   rules?: GrpcRouteRouteRuleList | undefined;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
+  /** Identifier. Name of the GrpcRoute resource. It matches pattern `projects/*\/locations/*\/grpcRoutes/` */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsGrpcRoutesRequest extends GrpcRoute {
   /** Required. The parent resource of the GrpcRoute. Must be in the format `projects/*\/locations/*`. */
@@ -965,101 +965,68 @@ export interface HttpRouteHeaderMatchIntegerRange {
 }
 /** Specifies how to select a route rule based on HTTP request headers. */
 export interface HttpRouteHeaderMatch {
-  /** The value of the header must start with the contents of prefix_match. */
-  prefixMatch?: string | undefined;
-  /** A header with header_name must exist. The match takes place whether or not the header has a value. */
-  presentMatch?: boolean | undefined;
-  /** The name of the HTTP header to match against. */
-  header?: string | undefined;
   /** The value of the header must end with the contents of suffix_match. */
   suffixMatch?: string | undefined;
-  /** The value of the header should match exactly the content of exact_match. */
-  exactMatch?: string | undefined;
+  /** A header with header_name must exist. The match takes place whether or not the header has a value. */
+  presentMatch?: boolean | undefined;
   /** The value of the header must match the regular expression specified in regex_match. For regular expression grammar, please see: https://github.com/google/re2/wiki/Syntax */
   regexMatch?: string | undefined;
+  /** The name of the HTTP header to match against. */
+  header?: string | undefined;
+  /** The value of the header should match exactly the content of exact_match. */
+  exactMatch?: string | undefined;
   /** If specified, the match result will be inverted before checking. Default value is set to false. */
   invertMatch?: boolean | undefined;
   /** If specified, the rule will match if the request header value is within the range. */
   rangeMatch?: HttpRouteHeaderMatchIntegerRange | undefined;
+  /** The value of the header must start with the contents of prefix_match. */
+  prefixMatch?: string | undefined;
 }
 export type HttpRouteHeaderMatchList = Array<HttpRouteHeaderMatch>;
 /** Specifications to match a query parameter in the request. */
 export interface HttpRouteQueryParameterMatch {
   /** The value of the query parameter must exactly match the contents of exact_match. Only one of exact_match, regex_match, or present_match must be set. */
   exactMatch?: string | undefined;
-  /** The value of the query parameter must match the regular expression specified by regex_match. For regular expression grammar, please see https://github.com/google/re2/wiki/Syntax Only one of exact_match, regex_match, or present_match must be set. */
-  regexMatch?: string | undefined;
   /** The name of the query parameter to match. */
   queryParameter?: string | undefined;
+  /** The value of the query parameter must match the regular expression specified by regex_match. For regular expression grammar, please see https://github.com/google/re2/wiki/Syntax Only one of exact_match, regex_match, or present_match must be set. */
+  regexMatch?: string | undefined;
   /** Specifies that the QueryParameterMatcher matches if request contains query parameter, irrespective of whether the parameter has a value or not. Only one of exact_match, regex_match, or present_match must be set. */
   presentMatch?: boolean | undefined;
 }
 export type HttpRouteQueryParameterMatchList = Array<HttpRouteQueryParameterMatch>;
 /** RouteMatch defines specifications used to match requests. If multiple match types are set, this RouteMatch will match if ALL type of matches are matched. */
 export interface HttpRouteRouteMatch {
+  /** The HTTP request path value should exactly match this value. Only one of full_path_match, prefix_match, or regex_match should be used. */
+  fullPathMatch?: string | undefined;
+  /** Specifies a list of HTTP request headers to match against. ALL of the supplied headers must be matched. */
+  headers?: HttpRouteHeaderMatchList | undefined;
   /** The HTTP request path value must satisfy the regular expression specified by regex_match after removing any query parameters and anchor supplied with the original URL. For regular expression grammar, please see https://github.com/google/re2/wiki/Syntax Only one of full_path_match, prefix_match, or regex_match should be used. */
   regexMatch?: string | undefined;
   /** Specifies if prefix_match and full_path_match matches are case sensitive. The default value is false. */
   ignoreCase?: boolean | undefined;
   /** The HTTP request path value must begin with specified prefix_match. prefix_match must begin with a /. Only one of full_path_match, prefix_match, or regex_match should be used. */
   prefixMatch?: string | undefined;
-  /** Specifies a list of HTTP request headers to match against. ALL of the supplied headers must be matched. */
-  headers?: HttpRouteHeaderMatchList | undefined;
   /** Specifies a list of query parameters to match against. ALL of the query parameters must be matched. */
   queryParameters?: HttpRouteQueryParameterMatchList | undefined;
-  /** The HTTP request path value should exactly match this value. Only one of full_path_match, prefix_match, or regex_match should be used. */
-  fullPathMatch?: string | undefined;
 }
 export type HttpRouteRouteMatchList = Array<HttpRouteRouteMatch>;
-/** The specification for modifying HTTP header in HTTP request and HTTP response. */
-export interface HttpRouteHeaderModifier {
-  /** Completely overwrite/replace the headers with given map where key is the name of the header, value is the value of the header. */
-  set?: StringMap | undefined;
-  /** Remove headers (matching by header names) specified in the list. */
-  remove?: StringList | undefined;
-  /** Add the headers with given map where key is the name of the header, value is the value of the header. */
-  add?: StringMap | undefined;
-}
-/** Specifications of a destination to which the request should be routed to. */
-export interface HttpRouteDestination {
-  /** Optional. The specification for modifying the headers of a response prior to sending the response back to the client. If HeaderModifiers are set on both the Destination and the RouteAction, they will be merged. Conflicts between the two will not be resolved on the configuration. */
-  responseHeaderModifier?: HttpRouteHeaderModifier | undefined;
-  /** The URL of a BackendService to route traffic to. */
-  serviceName?: string | undefined;
-  /** Optional. The specification for modifying the headers of a matching request prior to delivery of the request to the destination. If HeaderModifiers are set on both the Destination and the RouteAction, they will be merged. Conflicts between the two will not be resolved on the configuration. */
-  requestHeaderModifier?: HttpRouteHeaderModifier | undefined;
-  /** Specifies the proportion of requests forwarded to the backend referenced by the serviceName field. This is computed as: - weight/Sum(weights in this destination list). For non-zero values, there may be some epsilon from the exact proportion defined here depending on the precision an implementation supports. If only one serviceName is specified and it has a weight greater than 0, 100% of the traffic is forwarded to that backend. If weights are specified for any one service name, they need to be specified for all of them. If weights are unspecified for all services, then, traffic is distributed in equal proportions to all of them. */
-  weight?: number | undefined;
-}
-/** Specifies the policy on how requests are shadowed to a separate mirrored destination service. The proxy does not wait for responses from the shadow service. Prior to sending traffic to the shadow service, the host/authority header is suffixed with -shadow. Mirroring is currently not supported for Cloud Run destinations. */
-export interface HttpRouteRequestMirrorPolicy {
-  /** The destination the requests will be mirrored to. The weight of the destination will be ignored. */
-  destination?: HttpRouteDestination | undefined;
-  /** Optional. The percentage of requests to get mirrored to the desired destination. */
-  mirrorPercent?: number | undefined;
+/** The specification for modifying the URL of the request, prior to forwarding the request to the destination. */
+export interface HttpRouteURLRewrite {
+  /** Prior to forwarding the request to the selected destination, the requests host header is replaced by this value. */
+  hostRewrite?: string | undefined;
+  /** Prior to forwarding the request to the selected destination, the matching portion of the requests path is replaced by this value. */
+  pathPrefixRewrite?: string | undefined;
 }
 /** The specifications for retries. */
 export interface HttpRouteRetryPolicy {
-  /** Specifies the allowed number of retries. This number must be > 0. If not specified, default to 1. */
-  numRetries?: number | undefined;
   /** Specifies a non-zero timeout per retry attempt. */
   perTryTimeout?: string | undefined;
   /** Specifies one or more conditions when this retry policy applies. Valid values are: 5xx: Proxy will attempt a retry if the destination service responds with any 5xx response code, of if the destination service does not respond at all, example: disconnect, reset, read timeout, connection failure and refused streams. gateway-error: Similar to 5xx, but only applies to response codes 502, 503, 504. reset: Proxy will attempt a retry if the destination service does not respond at all (disconnect/reset/read timeout) connect-failure: Proxy will retry on failures connecting to destination for example due to connection timeouts. retriable-4xx: Proxy will retry fro retriable 4xx response codes. Currently the only retriable error supported is 409. refused-stream: Proxy will retry if the destination resets the stream with a REFUSED_STREAM error code. This reset type indicates that it is safe to retry. */
   retryConditions?: StringList | undefined;
+  /** Specifies the allowed number of retries. This number must be > 0. If not specified, default to 1. */
+  numRetries?: number | undefined;
 }
-/** The specification for modifying the URL of the request, prior to forwarding the request to the destination. */
-export interface HttpRouteURLRewrite {
-  /** Prior to forwarding the request to the selected destination, the matching portion of the requests path is replaced by this value. */
-  pathPrefixRewrite?: string | undefined;
-  /** Prior to forwarding the request to the selected destination, the requests host header is replaced by this value. */
-  hostRewrite?: string | undefined;
-}
-/** Specification of how client requests are delayed as part of fault injection before being sent to a destination. */
-export type HttpRouteFaultInjectionPolicyDelay = GrpcRouteFaultInjectionPolicyDelay;
-/** Specification of how client requests are aborted as part of fault injection before being sent to a destination. */
-export type HttpRouteFaultInjectionPolicyAbort = GrpcRouteFaultInjectionPolicyAbort;
-/** The specification for fault injection introduced into traffic to test the resiliency of clients to destination service failure. As part of fault injection, when clients send requests to a destination, delays can be introduced by client proxy on a percentage of requests before sending those requests to the destination service. Similarly requests can be aborted by client proxy for a percentage of requests. */
-export type HttpRouteFaultInjectionPolicy = GrpcRouteFaultInjectionPolicy;
 export type HttpRouteRedirectResponseCodeEnum =
   | "RESPONSE_CODE_UNSPECIFIED"
   | "MOVED_PERMANENTLY_DEFAULT"
@@ -1069,80 +1036,113 @@ export type HttpRouteRedirectResponseCodeEnum =
   | "PERMANENT_REDIRECT";
 /** The specification for redirecting traffic. */
 export interface HttpRouteRedirect {
-  /** The host that will be used in the redirect response instead of the one that was supplied in the request. */
-  hostRedirect?: string | undefined;
-  /** The path that will be used in the redirect response instead of the one that was supplied in the request. path_redirect can not be supplied together with prefix_redirect. Supply one alone or neither. If neither is supplied, the path of the original request will be used for the redirect. */
-  pathRedirect?: string | undefined;
-  /** The port that will be used in the redirected request instead of the one that was supplied in the request. */
-  portRedirect?: number | undefined;
-  /** Indicates that during redirection, the matched prefix (or path) should be swapped with this value. This option allows URLs be dynamically created based on the request. */
-  prefixRewrite?: string | undefined;
   /** If set to true, the URL scheme in the redirected request is set to https. If set to false, the URL scheme of the redirected request will remain the same as that of the request. The default is set to false. */
   httpsRedirect?: boolean | undefined;
+  /** The host that will be used in the redirect response instead of the one that was supplied in the request. */
+  hostRedirect?: string | undefined;
+  /** The port that will be used in the redirected request instead of the one that was supplied in the request. */
+  portRedirect?: number | undefined;
   /** The HTTP Status code to use for the redirect. */
   responseCode?: HttpRouteRedirectResponseCodeEnum | (string & {}) | undefined;
   /** if set to true, any accompanying query portion of the original URL is removed prior to redirecting the request. If set to false, the query portion of the original URL is retained. The default is set to false. */
   stripQuery?: boolean | undefined;
+  /** The path that will be used in the redirect response instead of the one that was supplied in the request. path_redirect can not be supplied together with prefix_redirect. Supply one alone or neither. If neither is supplied, the path of the original request will be used for the redirect. */
+  pathRedirect?: string | undefined;
+  /** Indicates that during redirection, the matched prefix (or path) should be swapped with this value. This option allows URLs be dynamically created based on the request. */
+  prefixRewrite?: string | undefined;
 }
-/** The specification for cookie-based stateful session affinity where the date plane supplies a "session cookie" with the name "GSSA" which encodes a specific destination host and each request containing that cookie will be directed to that host as long as the destination host remains up and healthy. The gRPC proxyless mesh library or sidecar proxy will manage the session cookie but the client application code is responsible for copying the cookie from each RPC in the session to the next. */
-export type HttpRouteStatefulSessionAffinityPolicy = GrpcRouteStatefulSessionAffinityPolicy;
+/** Static HTTP response object to be returned. */
+export interface HttpRouteHttpDirectResponse {
+  /** Optional. Response body as bytes. Maximum body size is 4096B. */
+  bytesBody?: string | undefined;
+  /** Required. Status to return as part of HTTP Response. Must be a positive integer. */
+  status?: number | undefined;
+  /** Optional. Response body as a string. Maximum body length is 1024 characters. */
+  stringBody?: string | undefined;
+}
+/** Specification of how client requests are delayed as part of fault injection before being sent to a destination. */
+export type HttpRouteFaultInjectionPolicyDelay = GrpcRouteFaultInjectionPolicyDelay;
+/** Specification of how client requests are aborted as part of fault injection before being sent to a destination. */
+export type HttpRouteFaultInjectionPolicyAbort = GrpcRouteFaultInjectionPolicyAbort;
+/** The specification for fault injection introduced into traffic to test the resiliency of clients to destination service failure. As part of fault injection, when clients send requests to a destination, delays can be introduced by client proxy on a percentage of requests before sending those requests to the destination service. Similarly requests can be aborted by client proxy for a percentage of requests. */
+export type HttpRouteFaultInjectionPolicy = GrpcRouteFaultInjectionPolicy;
+/** The specification for modifying HTTP header in HTTP request and HTTP response. */
+export interface HttpRouteHeaderModifier {
+  /** Completely overwrite/replace the headers with given map where key is the name of the header, value is the value of the header. */
+  set?: StringMap | undefined;
+  /** Add the headers with given map where key is the name of the header, value is the value of the header. */
+  add?: StringMap | undefined;
+  /** Remove headers (matching by header names) specified in the list. */
+  remove?: StringList | undefined;
+}
+/** Specifications of a destination to which the request should be routed to. */
+export interface HttpRouteDestination {
+  /** Optional. The specification for modifying the headers of a matching request prior to delivery of the request to the destination. If HeaderModifiers are set on both the Destination and the RouteAction, they will be merged. Conflicts between the two will not be resolved on the configuration. */
+  requestHeaderModifier?: HttpRouteHeaderModifier | undefined;
+  /** Specifies the proportion of requests forwarded to the backend referenced by the serviceName field. This is computed as: - weight/Sum(weights in this destination list). For non-zero values, there may be some epsilon from the exact proportion defined here depending on the precision an implementation supports. If only one serviceName is specified and it has a weight greater than 0, 100% of the traffic is forwarded to that backend. If weights are specified for any one service name, they need to be specified for all of them. If weights are unspecified for all services, then, traffic is distributed in equal proportions to all of them. */
+  weight?: number | undefined;
+  /** The URL of a BackendService to route traffic to. */
+  serviceName?: string | undefined;
+  /** Optional. The specification for modifying the headers of a response prior to sending the response back to the client. If HeaderModifiers are set on both the Destination and the RouteAction, they will be merged. Conflicts between the two will not be resolved on the configuration. */
+  responseHeaderModifier?: HttpRouteHeaderModifier | undefined;
+}
 export type HttpRouteDestinationList = Array<HttpRouteDestination>;
 /** The Specification for allowing client side cross-origin requests. */
 export interface HttpRouteCorsPolicy {
-  /** Specifies the regular expression patterns that match allowed origins. For regular expression grammar, please see https://github.com/google/re2/wiki/Syntax. */
-  allowOriginRegexes?: StringList | undefined;
-  /** Specifies the content for Access-Control-Allow-Methods header. */
-  allowMethods?: StringList | undefined;
-  /** In response to a preflight request, setting this to true indicates that the actual request can include user credentials. This translates to the Access-Control-Allow-Credentials header. Default value is false. */
-  allowCredentials?: boolean | undefined;
-  /** Specifies the list of origins that will be allowed to do CORS requests. An origin is allowed if it matches either an item in allow_origins or an item in allow_origin_regexes. */
-  allowOrigins?: StringList | undefined;
   /** Specifies how long result of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header. */
   maxAge?: string | undefined;
   /** Specifies the content for Access-Control-Expose-Headers header. */
   exposeHeaders?: StringList | undefined;
   /** Specifies the content for Access-Control-Allow-Headers header. */
   allowHeaders?: StringList | undefined;
+  /** In response to a preflight request, setting this to true indicates that the actual request can include user credentials. This translates to the Access-Control-Allow-Credentials header. Default value is false. */
+  allowCredentials?: boolean | undefined;
+  /** Specifies the list of origins that will be allowed to do CORS requests. An origin is allowed if it matches either an item in allow_origins or an item in allow_origin_regexes. */
+  allowOrigins?: StringList | undefined;
   /** If true, the CORS policy is disabled. The default value is false, which indicates that the CORS policy is in effect. */
   disabled?: boolean | undefined;
+  /** Specifies the content for Access-Control-Allow-Methods header. */
+  allowMethods?: StringList | undefined;
+  /** Specifies the regular expression patterns that match allowed origins. For regular expression grammar, please see https://github.com/google/re2/wiki/Syntax. */
+  allowOriginRegexes?: StringList | undefined;
 }
-/** Static HTTP response object to be returned. */
-export interface HttpRouteHttpDirectResponse {
-  /** Required. Status to return as part of HTTP Response. Must be a positive integer. */
-  status?: number | undefined;
-  /** Optional. Response body as bytes. Maximum body size is 4096B. */
-  bytesBody?: string | undefined;
-  /** Optional. Response body as a string. Maximum body length is 1024 characters. */
-  stringBody?: string | undefined;
+/** Specifies the policy on how requests are shadowed to a separate mirrored destination service. The proxy does not wait for responses from the shadow service. Prior to sending traffic to the shadow service, the host/authority header is suffixed with -shadow. Mirroring is currently not supported for Cloud Run destinations. */
+export interface HttpRouteRequestMirrorPolicy {
+  /** The destination the requests will be mirrored to. The weight of the destination will be ignored. */
+  destination?: HttpRouteDestination | undefined;
+  /** Optional. The percentage of requests to get mirrored to the desired destination. */
+  mirrorPercent?: number | undefined;
 }
+/** The specification for cookie-based stateful session affinity where the date plane supplies a "session cookie" with the name "GSSA" which encodes a specific destination host and each request containing that cookie will be directed to that host as long as the destination host remains up and healthy. The gRPC proxyless mesh library or sidecar proxy will manage the session cookie but the client application code is responsible for copying the cookie from each RPC in the session to the next. */
+export type HttpRouteStatefulSessionAffinityPolicy = GrpcRouteStatefulSessionAffinityPolicy;
 /** The specifications for routing traffic and applying associated policies. */
 export interface HttpRouteRouteAction {
-  /** Specifies the timeout for selected route. Timeout is computed from the time the request has been fully processed (i.e. end of stream) up until the response has been completely processed. Timeout includes all retries. */
-  timeout?: string | undefined;
-  /** Specifies the policy on how requests intended for the routes destination are shadowed to a separate mirrored destination. Proxy will not wait for the shadow destination to respond before returning the response. Prior to sending traffic to the shadow service, the host/authority header is suffixed with -shadow. */
-  requestMirrorPolicy?: HttpRouteRequestMirrorPolicy | undefined;
-  /** Specifies the retry policy associated with this route. */
-  retryPolicy?: HttpRouteRetryPolicy | undefined;
-  /** The specification for modifying the headers of a matching request prior to delivery of the request to the destination. If HeaderModifiers are set on both the Destination and the RouteAction, they will be merged. Conflicts between the two will not be resolved on the configuration. */
-  requestHeaderModifier?: HttpRouteHeaderModifier | undefined;
   /** The specification for rewrite URL before forwarding requests to the destination. */
   urlRewrite?: HttpRouteURLRewrite | undefined;
-  /** The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced on a percentage of requests before sending those requests to the backend service. Similarly requests from clients can be aborted for a percentage of requests. timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy */
-  faultInjectionPolicy?: GrpcRouteFaultInjectionPolicy | undefined;
+  /** Specifies the retry policy associated with this route. */
+  retryPolicy?: HttpRouteRetryPolicy | undefined;
   /** If set, the request is directed as configured by this field. */
   redirect?: HttpRouteRedirect | undefined;
-  /** Optional. Specifies cookie-based stateful session affinity. */
-  statefulSessionAffinity?: GrpcRouteStatefulSessionAffinityPolicy | undefined;
-  /** The destination to which traffic should be forwarded. */
-  destinations?: HttpRouteDestinationList | undefined;
-  /** The specification for modifying the headers of a response prior to sending the response back to the client. If HeaderModifiers are set on both the Destination and the RouteAction, they will be merged. Conflicts between the two will not be resolved on the configuration. */
-  responseHeaderModifier?: HttpRouteHeaderModifier | undefined;
-  /** The specification for allowing client side cross-origin requests. */
-  corsPolicy?: HttpRouteCorsPolicy | undefined;
   /** Optional. Static HTTP Response object to be returned regardless of the request. */
   directResponse?: HttpRouteHttpDirectResponse | undefined;
+  /** Specifies the timeout for selected route. Timeout is computed from the time the request has been fully processed (i.e. end of stream) up until the response has been completely processed. Timeout includes all retries. */
+  timeout?: string | undefined;
+  /** The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced on a percentage of requests before sending those requests to the backend service. Similarly requests from clients can be aborted for a percentage of requests. timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy */
+  faultInjectionPolicy?: GrpcRouteFaultInjectionPolicy | undefined;
   /** Optional. Specifies the idle timeout for the selected route. The idle timeout is defined as the period in which there are no bytes sent or received on either the upstream or downstream connection. If not set, the default idle timeout is 1 hour. If set to 0s, the timeout will be disabled. */
   idleTimeout?: string | undefined;
+  /** The destination to which traffic should be forwarded. */
+  destinations?: HttpRouteDestinationList | undefined;
+  /** The specification for allowing client side cross-origin requests. */
+  corsPolicy?: HttpRouteCorsPolicy | undefined;
+  /** The specification for modifying the headers of a matching request prior to delivery of the request to the destination. If HeaderModifiers are set on both the Destination and the RouteAction, they will be merged. Conflicts between the two will not be resolved on the configuration. */
+  requestHeaderModifier?: HttpRouteHeaderModifier | undefined;
+  /** The specification for modifying the headers of a response prior to sending the response back to the client. If HeaderModifiers are set on both the Destination and the RouteAction, they will be merged. Conflicts between the two will not be resolved on the configuration. */
+  responseHeaderModifier?: HttpRouteHeaderModifier | undefined;
+  /** Specifies the policy on how requests intended for the routes destination are shadowed to a separate mirrored destination. Proxy will not wait for the shadow destination to respond before returning the response. Prior to sending traffic to the shadow service, the host/authority header is suffixed with -shadow. */
+  requestMirrorPolicy?: HttpRouteRequestMirrorPolicy | undefined;
+  /** Optional. Specifies cookie-based stateful session affinity. */
+  statefulSessionAffinity?: GrpcRouteStatefulSessionAffinityPolicy | undefined;
 }
 /** Specifies how to match traffic and how to route traffic when traffic is matched. */
 export interface HttpRouteRouteRule {
@@ -1156,32 +1156,32 @@ export type HttpRouteRouteRuleList = Array<HttpRouteRouteRule>;
 export interface HttpRoute {
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
-  /** Required. Rules that define how traffic is routed and handled. Rules will be matched sequentially based on the RouteMatch specified for the rule. */
-  rules?: HttpRouteRouteRuleList | undefined;
-  /** Identifier. Name of the HttpRoute resource. It matches pattern `projects/*\/locations/*\/httpRoutes/http_route_name>`. */
-  name?: string | undefined;
-  /** Optional. Set of label tags associated with the HttpRoute resource. */
-  labels?: StringMap | undefined;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
+  /** Optional. Meshes defines a list of meshes this HttpRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
+  meshes?: StringList | undefined;
+  /** Required. Rules that define how traffic is routed and handled. Rules will be matched sequentially based on the RouteMatch specified for the rule. */
+  rules?: HttpRouteRouteRuleList | undefined;
   /** Optional. A free-text description of the resource. Max length 1024 characters. */
   description?: string | undefined;
+  /** Identifier. Name of the HttpRoute resource. It matches pattern `projects/*\/locations/*\/httpRoutes/http_route_name>`. */
+  name?: string | undefined;
   /** Output only. Server-defined URL of this resource */
   selfLink?: string | undefined;
+  /** Optional. Set of label tags associated with the HttpRoute resource. */
+  labels?: StringMap | undefined;
   /** Optional. Gateways defines a list of gateways this HttpRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
   gateways?: StringList | undefined;
   /** Required. Hostnames define a set of hosts that should match against the HTTP host header to select a HttpRoute to process the request. Hostname is the fully qualified domain name of a network host, as defined by RFC 1123 with the exception that: - IPs are not allowed. - A hostname may be prefixed with a wildcard label (`*.`). The wildcard label must appear by itself as the first label. Hostname can be "precise" which is a domain name without the terminating dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a domain name prefixed with a single wildcard label (e.g. `*.example.com`). Note that as per RFC1035 and RFC1123, a label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character. No other punctuation is allowed. The routes associated with a Mesh or Gateways must have unique hostnames. If you attempt to attach multiple routes with conflicting hostnames, the configuration will be rejected. For example, while it is acceptable for routes for the hostnames `*.foo.bar.com` and `*.bar.com` to be associated with the same Mesh (or Gateways under the same scope), it is not possible to associate two routes both with `*.bar.com` or both with `bar.com`. */
   hostnames?: StringList | undefined;
-  /** Optional. Meshes defines a list of meshes this HttpRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
-  meshes?: StringList | undefined;
 }
 export interface CreateProjectsLocationsHttpRoutesRequest extends HttpRoute {
-  /** Required. The parent resource of the HttpRoute. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. Short name of the HttpRoute resource to be created. */
-  httpRouteId?: string | undefined;
   /** Optional. Idempotent request UUID. */
   requestId?: string | undefined;
+  /** Required. Short name of the HttpRoute resource to be created. */
+  httpRouteId?: string | undefined;
+  /** Required. The parent resource of the HttpRoute. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
 }
 export type LbEdgeExtensionLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
@@ -1189,28 +1189,28 @@ export type LbEdgeExtensionLoadBalancingSchemeEnum =
   | "EXTERNAL_MANAGED";
 /** `LbEdgeExtension` is a resource that lets the extension service influence the selection of backend services and Cloud CDN cache keys by modifying request headers. */
 export interface LbEdgeExtension {
-  /** Required. All forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `EXTERNAL_MANAGED`. */
-  loadBalancingScheme?: LbEdgeExtensionLoadBalancingSchemeEnum | (string & {}) | undefined;
-  /** Required. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbEdgeExtension` resource can be associated with a forwarding rule. */
-  forwardingRules?: StringList | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
-  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
-  extensionChains?: ExtensionChainList | undefined;
   /** Optional. Set of labels associated with the `LbEdgeExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
   labels?: StringMap | undefined;
-  /** Optional. A human-readable description of the resource. */
-  description?: string | undefined;
+  /** Required. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbEdgeExtension` resource can be associated with a forwarding rule. */
+  forwardingRules?: StringList | undefined;
+  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
+  extensionChains?: ExtensionChainList | undefined;
   /** Required. Identifier. Name of the `LbEdgeExtension` resource in the following format: `projects/{project}/locations/{location}/lbEdgeExtensions/{lb_edge_extension}`. */
   name?: string | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Required. All forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `EXTERNAL_MANAGED`. */
+  loadBalancingScheme?: LbEdgeExtensionLoadBalancingSchemeEnum | (string & {}) | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsLbEdgeExtensionsRequest extends LbEdgeExtension {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. User-provided ID of the `LbEdgeExtension` resource to be created. */
   lbEdgeExtensionId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. The parent resource of the `LbEdgeExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
 }
@@ -1220,32 +1220,32 @@ export type LbRouteExtensionLoadBalancingSchemeEnum =
   | "EXTERNAL_MANAGED";
 /** `LbRouteExtension` is a resource that lets you control where traffic is routed to for a given request. */
 export interface LbRouteExtension {
-  /** Optional. A human-readable description of the resource. */
-  description?: string | undefined;
+  /** Required. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED`, `EXTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
+  loadBalancingScheme?: LbRouteExtensionLoadBalancingSchemeEnum | (string & {}) | undefined;
+  /** Required. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbRouteExtension` resource can be associated with a forwarding rule. */
+  forwardingRules?: StringList | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
   /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
   extensionChains?: ExtensionChainList | undefined;
-  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_route_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
-  metadata?: DocumentMap | undefined;
   /** Required. Identifier. Name of the `LbRouteExtension` resource in the following format: `projects/{project}/locations/{location}/lbRouteExtensions/{lb_route_extension}`. */
   name?: string | undefined;
-  /** Required. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbRouteExtension` resource can be associated with a forwarding rule. */
-  forwardingRules?: StringList | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_route_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
+  metadata?: DocumentMap | undefined;
   /** Optional. Set of labels associated with the `LbRouteExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
   labels?: StringMap | undefined;
-  /** Required. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED`, `EXTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
-  loadBalancingScheme?: LbRouteExtensionLoadBalancingSchemeEnum | (string & {}) | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsLbRouteExtensionsRequest extends LbRouteExtension {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent resource of the `LbRouteExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Required. User-provided ID of the `LbRouteExtension` resource to be created. */
   lbRouteExtensionId?: string | undefined;
+  /** Required. The parent resource of the `LbRouteExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type LbTcpExtensionLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
@@ -1253,28 +1253,28 @@ export type LbTcpExtensionLoadBalancingSchemeEnum =
   | "EXTERNAL_MANAGED";
 /** `LbTcpExtension` is a resource that allows traffic forwarding to different backend services to make allow/deny decisions on TCP connections for all L7 Load Balancers within a network. Currently only internal load-balancers are supported. */
 export interface LbTcpExtension {
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
-  /** Required. Identifier. Name of the `LbTcpExtension` resource in the following format: `projects/{project}/locations/{location}/LbTcpExtension/{lb_tcp_extension}` */
-  name?: string | undefined;
-  /** Optional. If set, this `LbTcpExtension` resource applies to all `ForwardingRule` resources in these VPC networks. Values should be relative resource names identifying VPC networks, for example `projects/*\/global/networks/network-1`. Currently limited to 1 network per resource. Limited to 1 network per resource. */
-  networks?: StringList | undefined;
-  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 1 extension chain per resource. */
-  extensionChains?: ExtensionChainList | undefined;
   /** Required. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
   loadBalancingScheme?: LbTcpExtensionLoadBalancingSchemeEnum | (string & {}) | undefined;
-  /** Optional. A human-readable description of the resource. */
-  description?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
   /** Optional. Set of labels associated with the `LbTcpExtension` resource. The format must comply with [the requirements for labels](/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
   labels?: StringMap | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 1 extension chain per resource. */
+  extensionChains?: ExtensionChainList | undefined;
+  /** Optional. If set, this `LbTcpExtension` resource applies to all `ForwardingRule` resources in these VPC networks. Values should be relative resource names identifying VPC networks, for example `projects/*\/global/networks/network-1`. Currently limited to 1 network per resource. Limited to 1 network per resource. */
+  networks?: StringList | undefined;
+  /** Required. Identifier. Name of the `LbTcpExtension` resource in the following format: `projects/{project}/locations/{location}/LbTcpExtension/{lb_tcp_extension}` */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsLbTcpExtensionsRequest extends LbTcpExtension {
-  /** Required. The parent resource of the `LbTcpExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Required. User-provided ID of the `LbTcpExtension` resource to be created. */
   lbTcpExtensionId?: string | undefined;
+  /** Required. The parent resource of the `LbTcpExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
@@ -1284,59 +1284,60 @@ export type LbTrafficExtensionLoadBalancingSchemeEnum =
   | "EXTERNAL_MANAGED";
 /** `LbTrafficExtension` is a resource that lets the extension service modify the headers and payloads of both requests and responses without impacting the choice of backend services or any other security policies associated with the backend service. */
 export interface LbTrafficExtension {
-  /** Optional. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbTrafficExtension` resource can be associated with a forwarding rule. */
-  forwardingRules?: StringList | undefined;
-  /** Required. Identifier. Name of the `LbTrafficExtension` resource in the following format: `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
-  name?: string | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_traffic_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
-  metadata?: DocumentMap | undefined;
-  /** Optional. Set of labels associated with the `LbTrafficExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
-  labels?: StringMap | undefined;
-  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
-  extensionChains?: ExtensionChainList | undefined;
-  /** Optional. A human-readable description of the resource. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
   /** Required. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED` and `EXTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
   loadBalancingScheme?: LbTrafficExtensionLoadBalancingSchemeEnum | (string & {}) | undefined;
+  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
+  extensionChains?: ExtensionChainList | undefined;
+  /** Required. Identifier. Name of the `LbTrafficExtension` resource in the following format: `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
+  name?: string | undefined;
+  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_traffic_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
+  metadata?: DocumentMap | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Optional. Set of labels associated with the `LbTrafficExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbTrafficExtension` resource can be associated with a forwarding rule. */
+  forwardingRules?: StringList | undefined;
 }
 export interface CreateProjectsLocationsLbTrafficExtensionsRequest extends LbTrafficExtension {
-  /** Required. User-provided ID of the `LbTrafficExtension` resource to be created. */
-  lbTrafficExtensionId?: string | undefined;
   /** Required. The parent resource of the `LbTrafficExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. User-provided ID of the `LbTrafficExtension` resource to be created. */
+  lbTrafficExtensionId?: string | undefined;
 }
 export type MeshEnvoyHeadersEnum = "ENVOY_HEADERS_UNSPECIFIED" | "NONE" | "DEBUG_HEADERS";
 /** Mesh represents a logical configuration grouping for workload to workload communication within a service mesh. Routes that point to mesh dictate how requests are routed within this logical mesh boundary. */
 export interface Mesh {
-  /** Output only. Server-defined URL of this resource */
-  selfLink?: string | undefined;
   /** Identifier. Name of the Mesh resource. It matches pattern `projects/*\/locations/*\/meshes/`. */
   name?: string | undefined;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string | undefined;
+  /** Optional. Determines if envoy will insert internal debug headers into upstream requests. Other Envoy headers may still be injected. By default, envoy will not insert any debug headers. */
+  envoyHeaders?: MeshEnvoyHeadersEnum | (string & {}) | undefined;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
-  /** Optional. Determines if envoy will insert internal debug headers into upstream requests. Other Envoy headers may still be injected. By default, envoy will not insert any debug headers. */
-  envoyHeaders?: MeshEnvoyHeadersEnum | (string & {}) | undefined;
-  /** Optional. Set of label tags associated with the Mesh resource. */
-  labels?: StringMap | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
   /** Optional. If set to a valid TCP port (1-65535), instructs the SIDECAR proxy to listen on the specified port of localhost (127.0.0.1) address. The SIDECAR proxy will expect all traffic to be redirected to this port regardless of its actual ip:port destination. If unset, a port '15001' is used as the interception port. This is applicable only for sidecar proxy deployments. */
   interceptionPort?: number | undefined;
+  /** Optional. Set of label tags associated with the Mesh resource. */
+  labels?: StringMap | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
 }
 export interface CreateProjectsLocationsMeshesRequest extends Mesh {
-  /** Required. The parent resource of the Mesh. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
   /** Required. Short name of the Mesh resource to be created. */
   meshId?: string | undefined;
+  /** Required. The parent resource of the Mesh. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
 }
+export type ProducerExtensionPhaseEnum = "PHASE_UNSPECIFIED" | "TRAFFIC" | "AUTHZ";
 export type ProducerExtensionExtensionSettingsSupportedEventsItemEnum =
   | "EVENT_TYPE_UNSPECIFIED"
   | "REQUEST_HEADERS"
@@ -1350,92 +1351,69 @@ export type ProducerExtensionExtensionSettingsSupportedEventsItemEnumList = Arra
 >;
 /** The configuration for the service that this `ProducerExtension` offers. */
 export interface ProducerExtensionExtensionSettings {
-  /** Required. URI of the PSC attachment. */
+  /** Required. The URI of the Private Service Connect (PSC) attachment. */
   service?: string | undefined;
   /** Optional. This field is not supported. */
   observabilityMode?: boolean | undefined;
-  /** Required. The event types supported by the extension. */
-  supportedEvents?: ProducerExtensionExtensionSettingsSupportedEventsItemEnumList | undefined;
   /** Optional. The `:authority` header in the request sent to the extension service. */
   authority?: string | undefined;
+  /** Required. The event types supported by the extension. */
+  supportedEvents?: ProducerExtensionExtensionSettingsSupportedEventsItemEnumList | undefined;
 }
-export type ProducerExtensionPhaseEnum = "PHASE_UNSPECIFIED" | "TRAFFIC" | "AUTHZ";
-/** `ProducerExtension` is a resource representing producer defined configuration for their service extension. */
+/** `ProducerExtension` is a resource that represents a producer-defined configuration for its service extension. */
 export interface ProducerExtension {
+  /** Optional. ETag of the resource. If this is provided, it must match the server's ETag. If the provided ETag doesn't match the server's ETag, then the request fails with a `409 ABORTED` error. */
+  etag?: string | undefined;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
-  /** Optional. Set of labels associated with the `ProducerExtension` resource. The format must comply with [the following requirements](https://cloud.google.com/compute/docs/labeling-resources#requirements). */
-  labels?: StringMap | undefined;
   /** Identifier. Name of the `ProducerExtension` resource in the following format: `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
   name?: string | undefined;
-  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
-  etag?: string | undefined;
-  /** Required. The configuration for the service that this `ProducerExtension` offers. */
-  extensionSettings?: ProducerExtensionExtensionSettings | undefined;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
+  /** Optional. Set of labels associated with the `ProducerExtension` resource. The format must comply with [the following requirements](https://cloud.google.com/compute/docs/labeling-resources#requirements). */
+  labels?: StringMap | undefined;
+  /** Required. The phase in which this `ProducerExtension` runs. */
+  phase?: ProducerExtensionPhaseEnum | (string & {}) | undefined;
+  /** Required. The configuration for the service that this `ProducerExtension` offers. */
+  extensionSettings?: ProducerExtensionExtensionSettings | undefined;
   /** Optional. A human-readable description of the resource. */
   description?: string | undefined;
-  /** Required. The phase in which this `ProducerExtension` should execute. */
-  phase?: ProducerExtensionPhaseEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsProducerExtensionsRequest extends ProducerExtension {
   /** Required. The parent resource of the `ProducerExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Required. Short name of the `ProducerExtension` resource to be created. */
+  /** Required. The short name of the `ProducerExtension` resource to be created. */
   producerExtensionId?: string | undefined;
 }
 /** ServiceBinding can be used to: - Bind a Service Directory Service to be used in a BackendService resource. This feature will be deprecated soon. - Bind a Private Service Connect producer service to be used in consumer Cloud Service Mesh or Application Load Balancers. - Bind a Cloud Run service to be used in consumer Cloud Service Mesh or Application Load Balancers. */
 export interface ServiceBinding {
-  /** Identifier. Name of the ServiceBinding resource. It matches pattern `projects/*\/locations/*\/serviceBindings/`. */
-  name?: string | undefined;
   /** Optional. Set of label tags associated with the ServiceBinding resource. */
   labels?: StringMap | undefined;
-  /** Optional. The full Service Directory Service name of the format `projects/*\/locations/*\/namespaces/*\/services/*`. This field is for Service Directory integration which will be deprecated soon. */
-  service?: string | undefined;
-  /** Output only. The unique identifier of the Service Directory Service against which the ServiceBinding resource is validated. This is populated when the Service Binding resource is used in another resource (like Backend Service). This is of the UUID4 format. This field is for Service Directory integration which will be deprecated soon. */
-  serviceId?: string | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string | undefined;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Identifier. Name of the ServiceBinding resource. It matches pattern `projects/*\/locations/*\/serviceBindings/`. */
+  name?: string | undefined;
+  /** Output only. The unique identifier of the Service Directory Service against which the ServiceBinding resource is validated. This is populated when the Service Binding resource is used in another resource (like Backend Service). This is of the UUID4 format. This field is for Service Directory integration which will be deprecated soon. */
+  serviceId?: string | undefined;
+  /** Optional. The full Service Directory Service name of the format `projects/*\/locations/*\/namespaces/*\/services/*`. This field is for Service Directory integration which will be deprecated soon. */
+  service?: string | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
 }
 export interface CreateProjectsLocationsServiceBindingsRequest extends ServiceBinding {
-  /** Required. Short name of the ServiceBinding resource to be created. */
-  serviceBindingId?: string | undefined;
   /** Required. The parent resource of the ServiceBinding. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. Short name of the ServiceBinding resource to be created. */
+  serviceBindingId?: string | undefined;
 }
 /** Option to specify if an unhealthy IG/NEG should be considered for load balancing and traffic routing. */
 export interface ServiceLbPolicyAutoCapacityDrain {
   /** Optional. If set to 'True', an unhealthy IG/NEG will be set as drained. - An IG/NEG is considered unhealthy if less than 25% of the instances/endpoints in the IG/NEG are healthy. - This option will never result in draining more than 50% of the configured IGs/NEGs for the Backend Service. */
   enable?: boolean | undefined;
-}
-/** Option to specify health based failover behavior. This is not related to Network load balancer FailoverPolicy. */
-export interface ServiceLbPolicyFailoverConfig {
-  /** Optional. The percentage threshold that a load balancer will begin to send traffic to failover backends. If the percentage of endpoints in a MIG/NEG is smaller than this value, traffic would be sent to failover backends if possible. This field should be set to a value between 1 and 99. The default value is 50 for Global external HTTP(S) load balancer (classic) and Proxyless service mesh, and 70 for others. */
-  failoverHealthThreshold?: number | undefined;
-}
-export type ServiceLbPolicyIsolationConfigIsolationModeEnum =
-  | "ISOLATION_MODE_UNSPECIFIED"
-  | "NEAREST"
-  | "STRICT";
-export type ServiceLbPolicyIsolationConfigIsolationGranularityEnum =
-  | "ISOLATION_GRANULARITY_UNSPECIFIED"
-  | "REGION";
-/** Configuration to provide isolation support for the associated Backend Service. */
-export interface ServiceLbPolicyIsolationConfig {
-  /** Optional. The isolation mode of the load balancer. */
-  isolationMode?: ServiceLbPolicyIsolationConfigIsolationModeEnum | (string & {}) | undefined;
-  /** Optional. The isolation granularity of the load balancer. */
-  isolationGranularity?:
-    | ServiceLbPolicyIsolationConfigIsolationGranularityEnum
-    | (string & {})
-    | undefined;
 }
 export type ServiceLbPolicyLoadBalancingAlgorithmEnum =
   | "LOAD_BALANCING_ALGORITHM_UNSPECIFIED"
@@ -1443,102 +1421,114 @@ export type ServiceLbPolicyLoadBalancingAlgorithmEnum =
   | "SPRAY_TO_REGION"
   | "WATERFALL_BY_REGION"
   | "WATERFALL_BY_ZONE";
+export type ServiceLbPolicyIsolationConfigIsolationGranularityEnum =
+  | "ISOLATION_GRANULARITY_UNSPECIFIED"
+  | "REGION";
+export type ServiceLbPolicyIsolationConfigIsolationModeEnum =
+  | "ISOLATION_MODE_UNSPECIFIED"
+  | "NEAREST"
+  | "STRICT";
+/** Configuration to provide isolation support for the associated Backend Service. */
+export interface ServiceLbPolicyIsolationConfig {
+  /** Optional. The isolation granularity of the load balancer. */
+  isolationGranularity?:
+    | ServiceLbPolicyIsolationConfigIsolationGranularityEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The isolation mode of the load balancer. */
+  isolationMode?: ServiceLbPolicyIsolationConfigIsolationModeEnum | (string & {}) | undefined;
+}
+/** Option to specify health based failover behavior. This is not related to Network load balancer FailoverPolicy. */
+export interface ServiceLbPolicyFailoverConfig {
+  /** Optional. The percentage threshold that a load balancer will begin to send traffic to failover backends. If the percentage of endpoints in a MIG/NEG is smaller than this value, traffic would be sent to failover backends if possible. This field should be set to a value between 1 and 99. The default value is 50 for Global external HTTP(S) load balancer (classic) and Proxyless service mesh, and 70 for others. */
+  failoverHealthThreshold?: number | undefined;
+}
 /** ServiceLbPolicy holds load balancing and traffic distribution configuration that can be applied to a global or regional BackendService. */
 export interface ServiceLbPolicy {
-  /** Optional. Configuration to automatically move traffic away for unhealthy IG/NEG for the associated Backend Service. */
-  autoCapacityDrain?: ServiceLbPolicyAutoCapacityDrain | undefined;
-  /** Optional. Configuration related to health based failover. */
-  failoverConfig?: ServiceLbPolicyFailoverConfig | undefined;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string | undefined;
   /** Output only. The timestamp when this resource was last updated. */
   updateTime?: string | undefined;
-  /** Identifier. Name of the ServiceLbPolicy resource. It matches pattern `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. */
-  name?: string | undefined;
-  /** Optional. Configuration to provide isolation support for the associated Backend Service. */
-  isolationConfig?: ServiceLbPolicyIsolationConfig | undefined;
-  /** Optional. The type of load balancing algorithm to be used. The default behavior is WATERFALL_BY_REGION. */
-  loadBalancingAlgorithm?: ServiceLbPolicyLoadBalancingAlgorithmEnum | (string & {}) | undefined;
   /** Output only. The timestamp when this resource was created. */
   createTime?: string | undefined;
+  /** Optional. Configuration to automatically move traffic away for unhealthy IG/NEG for the associated Backend Service. */
+  autoCapacityDrain?: ServiceLbPolicyAutoCapacityDrain | undefined;
+  /** Optional. The type of load balancing algorithm to be used. The default behavior is WATERFALL_BY_REGION. */
+  loadBalancingAlgorithm?: ServiceLbPolicyLoadBalancingAlgorithmEnum | (string & {}) | undefined;
+  /** Optional. Configuration to provide isolation support for the associated Backend Service. */
+  isolationConfig?: ServiceLbPolicyIsolationConfig | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Identifier. Name of the ServiceLbPolicy resource. It matches pattern `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. */
+  name?: string | undefined;
   /** Optional. Set of label tags associated with the ServiceLbPolicy resource. */
   labels?: StringMap | undefined;
+  /** Optional. Configuration related to health based failover. */
+  failoverConfig?: ServiceLbPolicyFailoverConfig | undefined;
 }
 export interface CreateProjectsLocationsServiceLbPoliciesRequest extends ServiceLbPolicy {
-  /** Required. Short name of the ServiceLbPolicy resource to be created. E.g. for resource name `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. the id is value of {service_lb_policy_name} */
-  serviceLbPolicyId?: string | undefined;
   /** Required. The parent resource of the ServiceLbPolicy. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Required. Short name of the ServiceLbPolicy resource to be created. E.g. for resource name `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. the id is value of {service_lb_policy_name} */
+  serviceLbPolicyId?: string | undefined;
 }
-/** RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "OR"ed for evaluation. If no routeMatch field is specified, this rule will unconditionally match traffic. */
-export interface TcpRouteRouteMatch {
-  /** Required. Specifies the destination port to match against. */
-  port?: string | undefined;
-  /** Required. Must be specified in the CIDR range format. A CIDR range consists of an IP Address and a prefix length to construct the subnet mask. By default, the prefix length is 32 (i.e. matches a single IP address). Only IPV4 addresses are supported. Examples: "10.0.0.1" - matches against this exact IP address. "10.0.0.0/8" - matches against any IP address within the 10.0.0.0 subnet and 255.255.255.0 mask. "0.0.0.0/0" - matches against any IP address'. */
-  address?: string | undefined;
-}
-export type TcpRouteRouteMatchList = Array<TcpRouteRouteMatch>;
 /** Describe the destination for traffic to be routed to. */
 export interface TcpRouteRouteDestination {
-  /** Optional. Specifies the proportion of requests forwarded to the backend referenced by the serviceName field. This is computed as: - weight/Sum(weights in this destination list). For non-zero values, there may be some epsilon from the exact proportion defined here depending on the precision an implementation supports. If only one serviceName is specified and it has a weight greater than 0, 100% of the traffic is forwarded to that backend. If weights are specified for any one service name, they need to be specified for all of them. If weights are unspecified for all services, then, traffic is distributed in equal proportions to all of them. */
-  weight?: number | undefined;
   /** Required. The URL of a BackendService to route traffic to. */
   serviceName?: string | undefined;
+  /** Optional. Specifies the proportion of requests forwarded to the backend referenced by the serviceName field. This is computed as: - weight/Sum(weights in this destination list). For non-zero values, there may be some epsilon from the exact proportion defined here depending on the precision an implementation supports. If only one serviceName is specified and it has a weight greater than 0, 100% of the traffic is forwarded to that backend. If weights are specified for any one service name, they need to be specified for all of them. If weights are unspecified for all services, then, traffic is distributed in equal proportions to all of them. */
+  weight?: number | undefined;
 }
 export type TcpRouteRouteDestinationList = Array<TcpRouteRouteDestination>;
 /** The specifications for routing traffic and applying associated policies. */
 export interface TcpRouteRouteAction {
-  /** Optional. If true, Router will use the destination IP and port of the original connection as the destination of the request. Default is false. Only one of route destinations or original destination can be set. */
-  originalDestination?: boolean | undefined;
   /** Optional. The destination services to which traffic should be forwarded. At least one destination service is required. Only one of route destination or original destination can be set. */
   destinations?: TcpRouteRouteDestinationList | undefined;
   /** Optional. Specifies the idle timeout for the selected route. The idle timeout is defined as the period in which there are no bytes sent or received on either the upstream or downstream connection. If not set, the default idle timeout is 30 seconds. If set to 0s, the timeout will be disabled. */
   idleTimeout?: string | undefined;
+  /** Optional. If true, Router will use the destination IP and port of the original connection as the destination of the request. Default is false. Only one of route destinations or original destination can be set. */
+  originalDestination?: boolean | undefined;
 }
+/** RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "OR"ed for evaluation. If no routeMatch field is specified, this rule will unconditionally match traffic. */
+export interface TcpRouteRouteMatch {
+  /** Required. Must be specified in the CIDR range format. A CIDR range consists of an IP Address and a prefix length to construct the subnet mask. By default, the prefix length is 32 (i.e. matches a single IP address). Only IPV4 addresses are supported. Examples: "10.0.0.1" - matches against this exact IP address. "10.0.0.0/8" - matches against any IP address within the 10.0.0.0 subnet and 255.255.255.0 mask. "0.0.0.0/0" - matches against any IP address'. */
+  address?: string | undefined;
+  /** Required. Specifies the destination port to match against. */
+  port?: string | undefined;
+}
+export type TcpRouteRouteMatchList = Array<TcpRouteRouteMatch>;
 /** Specifies how to match traffic and how to route traffic when traffic is matched. */
 export interface TcpRouteRouteRule {
-  /** Optional. RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "OR"ed for evaluation. If no routeMatch field is specified, this rule will unconditionally match traffic. */
-  matches?: TcpRouteRouteMatchList | undefined;
   /** Required. The detailed rule defining how to route matched traffic. */
   action?: TcpRouteRouteAction | undefined;
+  /** Optional. RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "OR"ed for evaluation. If no routeMatch field is specified, this rule will unconditionally match traffic. */
+  matches?: TcpRouteRouteMatchList | undefined;
 }
 export type TcpRouteRouteRuleList = Array<TcpRouteRouteRule>;
 /** TcpRoute is the resource defining how TCP traffic should be routed by a Mesh/Gateway resource. */
 export interface TcpRoute {
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Gateways defines a list of gateways this TcpRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
+  gateways?: StringList | undefined;
+  /** Optional. Set of label tags associated with the TcpRoute resource. */
+  labels?: StringMap | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
   /** Required. Rules that define how traffic is routed and handled. At least one RouteRule must be supplied. If there are multiple rules then the action taken will be the first rule to match. */
   rules?: TcpRouteRouteRuleList | undefined;
   /** Optional. A free-text description of the resource. Max length 1024 characters. */
   description?: string | undefined;
-  /** Output only. Server-defined URL of this resource */
-  selfLink?: string | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Optional. Meshes defines a list of meshes this TcpRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
-  meshes?: StringList | undefined;
-  /** Optional. Gateways defines a list of gateways this TcpRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
-  gateways?: StringList | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
-  /** Optional. Set of label tags associated with the TcpRoute resource. */
-  labels?: StringMap | undefined;
   /** Identifier. Name of the TcpRoute resource. It matches pattern `projects/*\/locations/*\/tcpRoutes/tcp_route_name>`. */
   name?: string | undefined;
+  /** Optional. Meshes defines a list of meshes this TcpRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
+  meshes?: StringList | undefined;
 }
 export interface CreateProjectsLocationsTcpRoutesRequest extends TcpRoute {
   /** Required. Short name of the TcpRoute resource to be created. */
   tcpRouteId?: string | undefined;
   /** Required. The parent resource of the TcpRoute. Must be in the format `projects/*\/locations/*`. */
   parent: string;
-}
-/** Configuration for metrics collection. */
-export interface MetricsConfiguration {
-  /** Optional. Indicates whether metrics are enabled or disabled. Set to true to explicitly enable, or false to explicitly disable. */
-  enabled?: boolean | undefined;
-}
-/** Specifies the set of targets to which the TelemetryPolicy should be applied. */
-export interface TelemetryTarget {
-  /** Required. Lists references to the resources that are targeted by the policy. Types of resources supported: - `run.googleapis.com/` - `compute.googleapis.com/` - `networkservices.googleapis.com/` The format must be the full resource name of a supported resource. Examples: `//run.googleapis.com/projects/{project}/locations/{location}/services/{service}` `//compute.googleapis.com/projects/my-project/global/forwardingRules/my-fr-1` `//compute.googleapis.com/projects/my-project/regions/us-central1/forwardingRules/my-fr-1` `//networkservices.googleapis.com/projects/my-project/locations/us-central1/gateways/my-secure-web-proxy-gateway` `//networkservices.googleapis.com/projects/my-project/locations/us-east1/agentGateways/my-agent-gateway` */
-  resources?: StringList | undefined;
 }
 /** Key-value pairs for adding context to spans. Supports literal_value (static) and from_header_value (dynamic extraction). Note: literal_value and from_header_value are mutually exclusive, but at least one of them must be set. */
 export interface TracingConfigurationCustomSpanAttribute {
@@ -1567,40 +1557,72 @@ export interface TracingConfiguration {
   /** Optional. Configures honoring a sampled bit in downstream traceparentID headers. */
   parentBasedSampling?: TracingConfigurationParentBasedSampling | undefined;
 }
+/** Configuration for metrics collection. */
+export interface MetricsConfiguration {
+  /** Optional. Indicates whether metrics are enabled or disabled. Set to true to explicitly enable, or false to explicitly disable. */
+  enabled?: boolean | undefined;
+}
+/** Specifies the set of targets to which the TelemetryPolicy should be applied. */
+export interface TelemetryTarget {
+  /** Required. Lists references to the resources that are targeted by the policy. Types of resources supported: - `run.googleapis.com/` - `compute.googleapis.com/` - `networkservices.googleapis.com/` The format must be the full resource name of a supported resource. Examples: `//run.googleapis.com/projects/{project}/locations/{location}/services/{service}` `//compute.googleapis.com/projects/my-project/global/forwardingRules/my-fr-1` `//compute.googleapis.com/projects/my-project/regions/us-central1/forwardingRules/my-fr-1` `//networkservices.googleapis.com/projects/my-project/locations/us-central1/gateways/my-secure-web-proxy-gateway` `//networkservices.googleapis.com/projects/my-project/locations/us-east1/agentGateways/my-agent-gateway` */
+  resources?: StringList | undefined;
+}
+export type LoggingConfigurationOptionalModeEnum =
+  | "OPTIONAL_MODE_UNSPECIFIED"
+  | "INCLUDE_ALL_OPTIONAL"
+  | "EXCLUDE_ALL_OPTIONAL"
+  | "CUSTOM";
+/** Configuration for logging collection. */
+export interface LoggingConfiguration {
+  /** Optional. The list of HTTP request headers to be logged. This field can only be specified if logging is enabled. */
+  loggingHttpRequestHeaders?: StringList | undefined;
+  /** Optional. Indicates whether logging is enabled or disabled. Set to true to explicitly enable, or false to explicitly disable. */
+  enable?: boolean | undefined;
+  /** Optional. Contains a list of optional fields to include in the logs. This field can only be specified if logging is enabled and `optional_mode` is set to `CUSTOM`. */
+  optionalFields?: StringList | undefined;
+  /** Optional. Specifies the logging sampling rate. The sampling rate is a float number in the interval [0, 1]. This field can only be specified if logging is enabled. */
+  sampleRate?: number | undefined;
+  /** Optional. Configures whether all, none, or a subset of optional fields should be added to the reported logs. This field can only be specified if logging is enabled. */
+  optionalMode?: LoggingConfigurationOptionalModeEnum | (string & {}) | undefined;
+  /** Optional. The list of HTTP response headers to be logged. This field can only be specified if logging is enabled. */
+  loggingHttpResponseHeaders?: StringList | undefined;
+}
 /** Provides a configuration for telemetry. */
 export interface TelemetryPolicy {
-  /** Output only. Indicates the timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Output only. Specifies the server-assigned unique identifier for the policy. */
-  uid?: string | undefined;
-  /** Provides a mechanism for optimistic concurrency control. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
-  etag?: string | undefined;
-  /** Optional. Specifies the top-level configuration block within the telemetry policy that contains all the settings for how metrics will be applied to the target resources. */
-  metricsConfiguration?: MetricsConfiguration | undefined;
-  /** Optional. Set of label tags associated with the TelemetryPolicy resource. */
-  labels?: StringMap | undefined;
-  /** Required. Specifies the set of targets to which this telemetry policy applies. */
-  telemetryTarget?: TelemetryTarget | undefined;
-  /** Output only. The time when this resource was soft-deleted. Only populated if the resource is in the process of being deleted. */
-  deleteTime?: string | undefined;
   /** Identifier. Represents the resource name of the policy. Format: `projects/{project}/locations/{location}/telemetryPolicies/{telemetry_policy}` */
   name?: string | undefined;
-  /** Output only. Indicates the timestamp when the resource was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. User-provided annotations. */
-  annotations?: StringMap | undefined;
   /** Optional. Specifies the top-level configuration block within the telemetry policy that contains all the settings for how tracing will be applied to the target resources. */
   tracingConfiguration?: TracingConfiguration | undefined;
+  /** Optional. Specifies the top-level configuration block within the telemetry policy that contains all the settings for how metrics will be applied to the target resources. */
+  metricsConfiguration?: MetricsConfiguration | undefined;
+  /** Required. Specifies the set of targets to which this telemetry policy applies. */
+  telemetryTarget?: TelemetryTarget | undefined;
   /** Output only. If true, the service is currently reconciling the resource to the desired state. */
   reconciling?: boolean | undefined;
+  /** Output only. Indicates the timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. User-provided annotations. */
+  annotations?: StringMap | undefined;
+  /** Optional. Specifies the top-level configuration block within the telemetry policy that contains all the settings for how logging will be applied to the target resources. */
+  loggingConfiguration?: LoggingConfiguration | undefined;
+  /** Output only. The time when this resource was soft-deleted. Only populated if the resource is in the process of being deleted. */
+  deleteTime?: string | undefined;
+  /** Provides a mechanism for optimistic concurrency control. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string | undefined;
+  /** Optional. Set of label tags associated with the TelemetryPolicy resource. */
+  labels?: StringMap | undefined;
+  /** Output only. Indicates the timestamp when the resource was last updated. */
+  updateTime?: string | undefined;
   /** Optional. Provides a human-readable name for the policy. */
   displayName?: string | undefined;
+  /** Output only. Specifies the server-assigned unique identifier for the policy. */
+  uid?: string | undefined;
 }
 export interface CreateProjectsLocationsTelemetryPoliciesRequest extends TelemetryPolicy {
-  /** Required. The ID to use for the telemetry policy, which will become the final component of the telemetry policy's resource name. This value must be 4-63 characters long, and match the regular expression `[a-z]([-a-z0-9]{2,61}[a-z0-9])`. */
-  telemetryPolicyId?: string | undefined;
   /** Required. The parent resource where this policy will be created. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Required. The ID to use for the telemetry policy, which will become the final component of the telemetry policy's resource name. This value must be 4-63 characters long, and match the regular expression `[a-z]([-a-z0-9]{2,61}[a-z0-9])`. */
+  telemetryPolicyId?: string | undefined;
 }
 /** Describe the destination for traffic to be routed to. */
 export interface TlsRouteRouteDestination {
@@ -1635,26 +1657,26 @@ export interface TlsRouteRouteRule {
 export type TlsRouteRouteRuleList = Array<TlsRouteRouteRule>;
 /** TlsRoute defines how traffic should be routed based on SNI and other matching L3 attributes. */
 export interface TlsRoute {
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
-  /** Required. Rules that define how traffic is routed and handled. At least one RouteRule must be supplied. If there are multiple rules then the action taken will be the first rule to match. */
-  rules?: TlsRouteRouteRuleList | undefined;
-  /** Optional. TargetProxies defines a list of TargetTcpProxies this TlsRoute is attached to, as one of the routing rules to route the requests served by the TargetTcpProxy. Each TargetTcpProxy reference should match the pattern: `projects/*\/locations/*\/targetTcpProxies/` */
-  targetProxies?: StringList | undefined;
   /** Optional. Gateways defines a list of gateways this TlsRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
   gateways?: StringList | undefined;
-  /** Optional. Meshes defines a list of meshes this TlsRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
-  meshes?: StringList | undefined;
   /** Output only. Server-defined URL of this resource */
   selfLink?: string | undefined;
-  /** Identifier. Name of the TlsRoute resource. It matches pattern `projects/*\/locations/*\/tlsRoutes/tls_route_name>`. */
-  name?: string | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
   /** Optional. Set of label tags associated with the TlsRoute resource. */
   labels?: StringMap | undefined;
+  /** Identifier. Name of the TlsRoute resource. It matches pattern `projects/*\/locations/*\/tlsRoutes/tls_route_name>`. */
+  name?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Meshes defines a list of meshes this TlsRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
+  meshes?: StringList | undefined;
+  /** Optional. TargetProxies defines a list of TargetTcpProxies this TlsRoute is attached to, as one of the routing rules to route the requests served by the TargetTcpProxy. Each TargetTcpProxy reference should match the pattern: `projects/*\/locations/*\/targetTcpProxies/` */
+  targetProxies?: StringList | undefined;
+  /** Required. Rules that define how traffic is routed and handled. At least one RouteRule must be supplied. If there are multiple rules then the action taken will be the first rule to match. */
+  rules?: TlsRouteRouteRuleList | undefined;
 }
 export interface CreateProjectsLocationsTlsRoutesRequest extends TlsRoute {
   /** Required. The parent resource of the TlsRoute. Must be in the format `projects/*\/locations/*`. */
@@ -1662,12 +1684,6 @@ export interface CreateProjectsLocationsTlsRoutesRequest extends TlsRoute {
   /** Required. Short name of the TlsRoute resource to be created. */
   tlsRouteId?: string | undefined;
 }
-/** Defines a resource that uses the `WasmPlugin` resource. */
-export interface WasmPluginUsedBy {
-  /** Output only. Full name of the resource https://google.aip.dev/122#full-resource-names, for example `//networkservices.googleapis.com/projects/{project}/locations/{location}/lbRouteExtensions/{extension}` */
-  name?: string | undefined;
-}
-export type WasmPluginUsedByList = Array<WasmPluginUsedBy>;
 export type WasmPluginLogConfigMinLogLevelEnum =
   | "LOG_LEVEL_UNSPECIFIED"
   | "TRACE"
@@ -1678,65 +1694,71 @@ export type WasmPluginLogConfigMinLogLevelEnum =
   | "CRITICAL";
 /** Specifies the logging options for the activity performed by this plugin. If logging is enabled, plugin logs are exported to Cloud Logging. */
 export interface WasmPluginLogConfig {
-  /** Optional. Specifies whether to enable logging for activity by this plugin. Defaults to `false`. */
-  enable?: boolean | undefined;
   /** Optional. Non-empty default. Specifies the lowest level of the plugin logs that are exported to Cloud Logging. This setting relates to the logs generated by using logging statements in your Wasm code. This field can be set only if logging is enabled for the plugin. If the field is not provided when logging is enabled, it is set to `INFO` by default. */
   minLogLevel?: WasmPluginLogConfigMinLogLevelEnum | (string & {}) | undefined;
   /** Optional. Non-empty default. Configures the sampling rate of activity logs, where `1.0` means all logged activity is reported and `0.0` means no activity is reported. A floating point value between `0.0` and `1.0` indicates that a percentage of log messages is stored. The default value when logging is enabled is `1.0`. The value of the field must be between `0` and `1` (inclusive). This field can be specified only if logging is enabled for this plugin. */
   sampleRate?: number | undefined;
+  /** Optional. Specifies whether to enable logging for activity by this plugin. Defaults to `false`. */
+  enable?: boolean | undefined;
 }
+/** Defines a resource that uses the `WasmPlugin` resource. */
+export interface WasmPluginUsedBy {
+  /** Output only. Full name of the resource https://google.aip.dev/122#full-resource-names, for example `//networkservices.googleapis.com/projects/{project}/locations/{location}/lbRouteExtensions/{extension}` */
+  name?: string | undefined;
+}
+export type WasmPluginUsedByList = Array<WasmPluginUsedBy>;
 /** Details of a `WasmPluginVersion` resource to be inlined in the `WasmPlugin` resource. */
 export interface WasmPluginVersionDetails {
+  /** Output only. This field holds the digest (usually checksum) value for the plugin image. The value is calculated based on the `image_uri` field. If the `image_uri` field refers to a container image, the digest value is obtained from the container image. If the `image_uri` field refers to a generic artifact, the digest value is calculated based on the contents of the file. */
+  imageDigest?: string | undefined;
+  /** Output only. This field holds the digest (usually checksum) value for the plugin configuration. The value is calculated based on the contents of `plugin_config_data` field or the image defined by the `plugin_config_uri` field. */
+  pluginConfigDigest?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
   /** Optional. Set of labels associated with the `WasmPluginVersion` resource. */
   labels?: StringMap | undefined;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
-  /** Output only. This field holds the digest (usually checksum) value for the plugin configuration. The value is calculated based on the contents of `plugin_config_data` field or the image defined by the `plugin_config_uri` field. */
-  pluginConfigDigest?: string | undefined;
   /** Configuration for the plugin. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. When a new `WasmPluginVersion` version is created, the digest of the contents is saved in the `plugin_config_digest` field. */
   pluginConfigData?: string | undefined;
-  /** Optional. A human-readable description of the resource. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
-  /** Optional. URI of the image containing the Wasm module, stored in Artifact Registry. The URI can refer to one of the following repository formats: * Container images: the `image_uri` must point to a container that contains a single file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `image_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `image_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `image_digest` field. */
-  imageUri?: string | undefined;
-  /** Output only. This field holds the digest (usually checksum) value for the plugin image. The value is calculated based on the `image_uri` field. If the `image_uri` field refers to a container image, the digest value is obtained from the container image. If the `image_uri` field refers to a generic artifact, the digest value is calculated based on the contents of the file. */
-  imageDigest?: string | undefined;
   /** URI of the plugin configuration stored in the Artifact Registry. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. The URI can refer to one of the following repository formats: * Container images: the `plugin_config_uri` must point to a container that contains a single file with the name `plugin.config`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `plugin_config_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `plugin_config_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.config`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `plugin_config_digest` field. */
   pluginConfigUri?: string | undefined;
+  /** Optional. URI of the image containing the Wasm module, stored in Artifact Registry. The URI can refer to one of the following repository formats: * Container images: the `image_uri` must point to a container that contains a single file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `image_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `image_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `image_digest` field. */
+  imageUri?: string | undefined;
 }
 export type WasmPluginVersionDetailsMap = { [key: string]: WasmPluginVersionDetails | undefined };
 /** `WasmPlugin` is a resource representing a service executing a customer-provided Wasm module. */
 export interface WasmPlugin {
-  /** Output only. The name of the specific [CryptoKeyVersion](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys.cryptoKeyVersions) used to encrypt the `WasmPlugin` data, if the kms_key_name field is set. Format: `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}/cryptoKeyVersions/{version}` This is a read-only field. `WasmPlugin` data is automatically encrypted using the most recent `CryptoKeyVersion` of the `CryptoKey` provided in the `kms_key_name` field. See [Cloud KMS resources](https://cloud.google.com/kms/docs/resource-hierarchy) for more information. */
-  kmsKeyVersion?: string | undefined;
-  /** Optional. The ID of the `WasmPluginVersion` resource that is the currently serving one. The version referred to must be a child of this `WasmPlugin` resource. */
-  mainVersionId?: string | undefined;
+  /** Optional. Set of labels associated with the `WasmPlugin` resource. The format must comply with [the following requirements](/compute/docs/labeling-resources#requirements). */
+  labels?: StringMap | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
-  /** Identifier. Name of the `WasmPlugin` resource in the following format: `projects/{project}/locations/{location}/wasmPlugins/{wasm_plugin}`. */
-  name?: string | undefined;
-  /** Output only. List of all [extensions](https://cloud.google.com/service-extensions/docs/overview) that use this `WasmPlugin` resource. */
-  usedBy?: WasmPluginUsedByList | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
   /** Optional. Specifies the logging options for the activity performed by this plugin. If logging is enabled, plugin logs are exported to Cloud Logging. Note that the settings relate to the logs generated by using logging statements in your Wasm code. */
   logConfig?: WasmPluginLogConfig | undefined;
   /** Optional. The name of the customer-managed [CryptoKey](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys) to be used to encrypt the `WasmPlugin` image (provided by image_uri) and configuration (provided by plugin_config_data or plugin_config_uri) that are stored by the `Service Extensions` product at rest. Format: `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}` By default, Google Cloud automatically encrypts all data at rest using Google-owned and Google-managed encryption keys. If you need ownership and control of the keys that protect your data at rest, you can specify a customer-managed encryption key (CMEK) to encrypt your `WasmPlugin` data. For more information, see [Using customer-managed encryption keys](https://cloud.google.com/service-extensions/docs/cmek). */
   kmsKeyName?: string | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
+  /** Output only. The name of the specific [CryptoKeyVersion](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys.cryptoKeyVersions) used to encrypt the `WasmPlugin` data, if the kms_key_name field is set. Format: `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}/cryptoKeyVersions/{version}` This is a read-only field. `WasmPlugin` data is automatically encrypted using the most recent `CryptoKeyVersion` of the `CryptoKey` provided in the `kms_key_name` field. See [Cloud KMS resources](https://cloud.google.com/kms/docs/resource-hierarchy) for more information. */
+  kmsKeyVersion?: string | undefined;
+  /** Output only. List of all [extensions](https://cloud.google.com/service-extensions/docs/overview) that use this `WasmPlugin` resource. */
+  usedBy?: WasmPluginUsedByList | undefined;
+  /** Identifier. Name of the `WasmPlugin` resource in the following format: `projects/{project}/locations/{location}/wasmPlugins/{wasm_plugin}`. */
+  name?: string | undefined;
+  /** Optional. The ID of the `WasmPluginVersion` resource that is the currently serving one. The version referred to must be a child of this `WasmPlugin` resource. */
+  mainVersionId?: string | undefined;
   /** Optional. All versions of this `WasmPlugin` resource in the key-value format. The key is the resource ID, and the value is the `VersionDetails` object. Lets you create or update a `WasmPlugin` resource and its versions in a single request. When the `main_version_id` field is not empty, it must point to one of the `VersionDetails` objects in the map. If provided in a `PATCH` request, the new versions replace the previous set. Any version omitted from the `versions` field is removed. Because the `WasmPluginVersion` resource is immutable, if a `WasmPluginVersion` resource with the same name already exists and differs, the request fails. Note: In a `GET` request, this field is populated only if the field `GetWasmPluginRequest.view` is set to `WASM_PLUGIN_VIEW_FULL`. */
   versions?: WasmPluginVersionDetailsMap | undefined;
-  /** Optional. A human-readable description of the resource. */
-  description?: string | undefined;
-  /** Optional. Set of labels associated with the `WasmPlugin` resource. The format must comply with [the following requirements](/compute/docs/labeling-resources#requirements). */
-  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsWasmPluginsRequest extends WasmPlugin {
-  /** Required. User-provided ID of the `WasmPlugin` resource to be created. */
-  wasmPluginId?: string | undefined;
   /** Required. The parent resource of the `WasmPlugin` resource. Must be in the format `projects/{project}/locations/global`. */
   parent: string;
+  /** Required. User-provided ID of the `WasmPlugin` resource to be created. */
+  wasmPluginId?: string | undefined;
 }
 /** A single immutable version of a `WasmPlugin` resource. Defines the Wasm module used and optionally its runtime config. */
 export interface WasmPluginVersion {
@@ -1744,22 +1766,22 @@ export interface WasmPluginVersion {
   labels?: StringMap | undefined;
   /** URI of the plugin configuration stored in the Artifact Registry. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. The URI can refer to one of the following repository formats: * Container images: the `plugin_config_uri` must point to a container that contains a single file with the name `plugin.config`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `plugin_config_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `plugin_config_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.config`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `plugin_config_digest` field. */
   pluginConfigUri?: string | undefined;
+  /** Optional. URI of the image containing the Wasm module, stored in Artifact Registry. The URI can refer to one of the following repository formats: * Container images: the `image_uri` must point to a container that contains a single file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `image_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `image_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `image_digest` field. */
+  imageUri?: string | undefined;
+  /** Output only. This field holds the digest (usually checksum) value for the plugin configuration. The value is calculated based on the contents of `plugin_config_data` field or the image defined by the `plugin_config_uri` field. */
+  pluginConfigDigest?: string | undefined;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
   /** Identifier. Name of the `WasmPluginVersion` resource in the following format: `projects/{project}/locations/{location}/wasmPlugins/{wasm_plugin}/ versions/{wasm_plugin_version}`. */
   name?: string | undefined;
-  /** Output only. This field holds the digest (usually checksum) value for the plugin configuration. The value is calculated based on the contents of `plugin_config_data` field or the image defined by the `plugin_config_uri` field. */
-  pluginConfigDigest?: string | undefined;
-  /** Output only. This field holds the digest (usually checksum) value for the plugin image. The value is calculated based on the `image_uri` field. If the `image_uri` field refers to a container image, the digest value is obtained from the container image. If the `image_uri` field refers to a generic artifact, the digest value is calculated based on the contents of the file. */
-  imageDigest?: string | undefined;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
+  /** Output only. This field holds the digest (usually checksum) value for the plugin image. The value is calculated based on the `image_uri` field. If the `image_uri` field refers to a container image, the digest value is obtained from the container image. If the `image_uri` field refers to a generic artifact, the digest value is calculated based on the contents of the file. */
+  imageDigest?: string | undefined;
   /** Configuration for the plugin. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. When a new `WasmPluginVersion` resource is created, the digest of the contents is saved in the `plugin_config_digest` field. */
   pluginConfigData?: string | undefined;
   /** Optional. A human-readable description of the resource. */
   description?: string | undefined;
-  /** Optional. URI of the image containing the Wasm module, stored in Artifact Registry. The URI can refer to one of the following repository formats: * Container images: the `image_uri` must point to a container that contains a single file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `image_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `image_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `image_digest` field. */
-  imageUri?: string | undefined;
 }
 export interface CreateProjectsLocationsWasmPluginsVersionsRequest extends WasmPluginVersion {
   /** Required. User-provided ID of the `WasmPluginVersion` resource to be created. */
@@ -1786,7 +1808,7 @@ export interface DeleteProjectsLocationsAuthzExtensionsRequest {
   requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsCdnEdgeExtensionsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this behavior for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that the zero UUID isn't supported (`00000000-0000-0000-0000-000000000000`). */
   requestId?: string | undefined;
   /** Required. The name of the `CdnEdgeExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/cdnEdgeExtensions/{cdn_edge_extension}`. */
   name: string;
@@ -1802,10 +1824,10 @@ export interface DeleteProjectsLocationsExpressLinksRequest {
   etag?: string | undefined;
 }
 export interface DeleteProjectsLocationsExtensionBindingsRequest {
-  /** Required. A name of the `ExtensionBinding` resource to delete. Must be in the format `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
-  name: string;
-  /** Optional. The etag of the ExtensionBinding to delete. */
+  /** Optional. The ETag of the `ExtensionBinding` to delete. */
   etag?: string | undefined;
+  /** Required. The name of the `ExtensionBinding` resource to delete. Must be in the format `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
+  name: string;
 }
 export interface DeleteProjectsLocationsGatewaysRequest {
   /** Required. A name of the Gateway to delete. Must be in the format `projects/*\/locations/*\/gateways/*`. */
@@ -1820,10 +1842,10 @@ export interface DeleteProjectsLocationsHttpRoutesRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsLbEdgeExtensionsRequest {
-  /** Required. The name of the `LbEdgeExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/lbEdgeExtensions/{lb_edge_extension}`. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. The name of the `LbEdgeExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/lbEdgeExtensions/{lb_edge_extension}`. */
+  name: string;
 }
 export interface DeleteProjectsLocationsLbRouteExtensionsRequest {
   /** Required. The name of the `LbRouteExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/lbRouteExtensions/{lb_route_extension}`. */
@@ -1832,16 +1854,16 @@ export interface DeleteProjectsLocationsLbRouteExtensionsRequest {
   requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsLbTcpExtensionsRequest {
-  /** Required. The name of the `LbTcpExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/LbTcpExtensions/{lb_tcp_extension}`. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. The name of the `LbTcpExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/LbTcpExtensions/{lb_tcp_extension}`. */
+  name: string;
 }
 export interface DeleteProjectsLocationsLbTrafficExtensionsRequest {
-  /** Required. The name of the `LbTrafficExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. The name of the `LbTrafficExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
+  name: string;
 }
 export interface DeleteProjectsLocationsMeshesRequest {
   /** Required. A name of the Mesh to delete. Must be in the format `projects/*\/locations/*\/meshes/*`. */
@@ -1852,16 +1874,16 @@ export interface DeleteProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsProducerExtensionsRequest {
-  /** Required. A name of the `ProducerExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
+  /** Required. The name of the `ProducerExtension` resource to delete. It must be in this format: `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
   name: string;
-  /** Optional. The etag of the ProducerExtension to delete. */
+  /** Optional. The ETag of the `ProducerExtension` to delete. */
   etag?: string | undefined;
 }
 export interface DeleteProjectsLocationsServiceBindingsRequest {
-  /** Required. A name of the ServiceBinding to delete. Must be in the format `projects/*\/locations/*\/serviceBindings/*`. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. A name of the ServiceBinding to delete. Must be in the format `projects/*\/locations/*\/serviceBindings/*`. */
+  name: string;
 }
 export interface DeleteProjectsLocationsServiceLbPoliciesRequest {
   /** Required. A name of the ServiceLbPolicy to delete. Must be in the format `projects/{project}/locations/{location}/serviceLbPolicies/*`. */
@@ -1872,10 +1894,10 @@ export interface DeleteProjectsLocationsTcpRoutesRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsTelemetryPoliciesRequest {
-  /** Required. A name of the TelemetryPolicy to delete. Must be in the format `projects/{project}/locations/{location}/telemetryPolicies/{telemetry_policy}`. */
-  name: string;
   /** Optional. The etag of the TelemetryPolicy. If this is provided, it must match the server's etag. */
   etag?: string | undefined;
+  /** Required. A name of the TelemetryPolicy to delete. Must be in the format `projects/{project}/locations/{location}/telemetryPolicies/{telemetry_policy}`. */
+  name: string;
 }
 export interface DeleteProjectsLocationsTlsRoutesRequest {
   /** Required. A name of the TlsRoute to delete. Must be in the format `projects/*\/locations/*\/tlsRoutes/*`. */
@@ -1897,14 +1919,14 @@ export interface GetProjectsLocationsRequest {
 export interface Location {
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap | undefined;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsAgentConnectivityTemplatesRequest {
   /** Required. A name of the AgentConnectivityTemplate to get. Must be in the format `projects/*\/locations/*\/agentConnectivityTemplates/*`. */
@@ -1919,7 +1941,7 @@ export interface GetProjectsLocationsAuthzExtensionsRequest {
   name: string;
 }
 export interface GetProjectsLocationsCdnEdgeExtensionsRequest {
-  /** Required. A name of the `CdnEdgeExtension` resource to get. Must be in the format `projects/{project}/locations/{location}/cdnEdgeExtensions/{cdn_edge_extension}`. */
+  /** Required. The name of the `CdnEdgeExtension` resource to get. It must be in the `projects/{project}/locations/{location}/cdnEdgeExtensions/{cdn_edge_extension}` format. */
   name: string;
 }
 export interface GetProjectsLocationsEndpointPoliciesRequest {
@@ -1937,7 +1959,7 @@ export interface GetProjectsLocationsExpressLinksRequest {
   view?: GetProjectsLocationsExpressLinksViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsExtensionBindingsRequest {
-  /** Required. A name of the `ExtensionBinding` resource to get. Must be in the format `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
+  /** Required. The name of the `ExtensionBinding` resource to get. Must be in the format `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
   name: string;
 }
 export interface GetProjectsLocationsGatewaysRequest {
@@ -1950,14 +1972,14 @@ export interface GetProjectsLocationsGatewaysRouteViewsRequest {
 }
 /** GatewayRouteView defines view-only resource for Routes to a Gateway */
 export interface GatewayRouteView {
-  /** Output only. Identifier. Full path name of the GatewayRouteView resource. Format: projects/{project_number}/locations/{location}/gateways/{gateway}/routeViews/{route_view} */
-  name?: string | undefined;
   /** Output only. Project number where the route exists. */
   routeProjectNumber?: string | undefined;
-  /** Output only. Type of the route: HttpRoute,GrpcRoute,TcpRoute, or TlsRoute */
-  routeType?: string | undefined;
+  /** Output only. Identifier. Full path name of the GatewayRouteView resource. Format: projects/{project_number}/locations/{location}/gateways/{gateway}/routeViews/{route_view} */
+  name?: string | undefined;
   /** Output only. The resource id for the route. */
   routeId?: string | undefined;
+  /** Output only. Type of the route: HttpRoute,GrpcRoute,TcpRoute, or TlsRoute */
+  routeType?: string | undefined;
   /** Output only. Location where the route exists. */
   routeLocation?: string | undefined;
 }
@@ -1995,23 +2017,23 @@ export interface GetProjectsLocationsMeshesRouteViewsRequest {
 }
 /** MeshRouteView defines view-only resource for Routes to a Mesh */
 export interface MeshRouteView {
-  /** Output only. Identifier. Full path name of the MeshRouteView resource. Format: projects/{project_number}/locations/{location}/meshes/{mesh}/routeViews/{route_view} */
-  name?: string | undefined;
   /** Output only. Location where the route exists. */
   routeLocation?: string | undefined;
-  /** Output only. Project number where the route exists. */
-  routeProjectNumber?: string | undefined;
   /** Output only. The resource id for the route. */
   routeId?: string | undefined;
   /** Output only. Type of the route: HttpRoute,GrpcRoute,TcpRoute, or TlsRoute */
   routeType?: string | undefined;
+  /** Output only. Project number where the route exists. */
+  routeProjectNumber?: string | undefined;
+  /** Output only. Identifier. Full path name of the MeshRouteView resource. Format: projects/{project_number}/locations/{location}/meshes/{mesh}/routeViews/{route_view} */
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
 }
 export interface GetProjectsLocationsProducerExtensionsRequest {
-  /** Required. A name of the `ProducerExtension` resource to get. Must be in the format `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
+  /** Required. The name of the `ProducerExtension` resource to get. It must be in this format: `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
   name: string;
 }
 export interface GetProjectsLocationsServiceBindingsRequest {
@@ -2041,7 +2063,7 @@ export type GetProjectsLocationsWasmPluginsViewEnum =
 export interface GetProjectsLocationsWasmPluginsRequest {
   /** Required. A name of the `WasmPlugin` resource to get. Must be in the format `projects/{project}/locations/global/wasmPlugins/{wasm_plugin}`. */
   name: string;
-  /** Determines how much data must be returned in the response. See [AIP-157](https://google.aip.dev/157). */
+  /** Optional. Determines how much data must be returned in the response. See [AIP-157](https://google.aip.dev/157). */
   view?: GetProjectsLocationsWasmPluginsViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsWasmPluginsVersionsRequest {
@@ -2049,16 +2071,16 @@ export interface GetProjectsLocationsWasmPluginsVersionsRequest {
   name: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList | undefined;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string | undefined;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number | undefined;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
@@ -2071,12 +2093,12 @@ export interface ListLocationsResponse {
 export interface ListProjectsLocationsAgentConnectivityTemplatesRequest {
   /** Optional. The value returned by the last `ListAgentConnectivityTemplatesResponse` Indicates that this is a continuation of a prior `ListAgentConnectivityTemplates` call, and that the system should return the next page of data. */
   pageToken?: string | undefined;
-  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
-  returnPartialSuccess?: boolean | undefined;
-  /** Required. The project and location from which the AgentConnectivityTemplates should be listed, specified in the format `projects/*\/locations/*`. */
-  parent: string;
   /** Optional. Maximum number of AgentConnectivityTemplates to return per call. */
   pageSize?: number | undefined;
+  /** Required. The project and location from which the AgentConnectivityTemplates should be listed, specified in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
+  returnPartialSuccess?: boolean | undefined;
 }
 export type AgentConnectivityTemplateList = Array<AgentConnectivityTemplate>;
 /** Response returned by the ListAgentConnectivityTemplates method. */
@@ -2089,36 +2111,36 @@ export interface ListAgentConnectivityTemplatesResponse {
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsAgentGatewaysRequest {
-  /** Optional. A filter expression to filter the results listed in the response. The expression must follow the syntax described in [AIP-160](https://google.aip.dev/160). */
-  filter?: string | undefined;
-  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
-  returnPartialSuccess?: boolean | undefined;
   /** Optional. The value returned by the last `ListAgentGatewaysResponse` Indicates that this is a continuation of a prior `ListAgentGateways` call, and that the system should return the next page of data. */
   pageToken?: string | undefined;
-  /** Required. The project and location from which the AgentGateways should be listed, specified in the format `projects/*\/locations/*`. */
-  parent: string;
+  /** Optional. A filter expression to filter the results listed in the response. The expression must follow the syntax described in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
   /** Optional. Maximum number of AgentGateways to return per call. */
   pageSize?: number | undefined;
+  /** Required. The project and location from which the AgentGateways should be listed, specified in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
+  returnPartialSuccess?: boolean | undefined;
 }
 export type AgentGatewayList = Array<AgentGateway>;
 /** Response returned by the ListAgentGateways method. */
 export interface ListAgentGatewaysResponse {
   /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
   unreachable?: StringList | undefined;
-  /** List of AgentGateway resources. */
-  agentGateways?: AgentGatewayList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string | undefined;
+  /** List of AgentGateway resources. */
+  agentGateways?: AgentGatewayList | undefined;
 }
 export interface ListProjectsLocationsAuthzExtensionsRequest {
+  /** Optional. Hint about how to order the results. */
+  orderBy?: string | undefined;
+  /** Optional. A token identifying a page of results that the server returns. */
+  pageToken?: string | undefined;
   /** Required. The project and location from which the `AuthzExtension` resources are listed. These values are specified in the following format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
   pageSize?: number | undefined;
-  /** Optional. A token identifying a page of results that the server returns. */
-  pageToken?: string | undefined;
-  /** Optional. Hint about how to order the results. */
-  orderBy?: string | undefined;
   /** Optional. Filtering results. */
   filter?: string | undefined;
 }
@@ -2133,36 +2155,36 @@ export interface ListAuthzExtensionsResponse {
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsCdnEdgeExtensionsRequest {
-  /** Required. The project and location from which the `CdnEdgeExtension` resources are listed. These values are specified in the following format: `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
-  pageSize?: number | undefined;
+  /** Optional. Comma-separated list of fields by which you can sort the results. */
+  orderBy?: string | undefined;
   /** Optional. A token identifying a page of results that the server returns. */
   pageToken?: string | undefined;
-  /** Optional. Hint about how to order the results. */
-  orderBy?: string | undefined;
-  /** Optional. Filtering results. */
+  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
+  pageSize?: number | undefined;
+  /** Required. The project and location from which the `CdnEdgeExtension` resources are listed. These values are specified in the following format: `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. Specifies a filter expression that restricts the resources listed in the response. The expression must be of the form ` `, where `` is a field name (in `snake_case` or `camelCase`) and `` is one of `<`, `>`, `<=`, `>=`, `!=`, `=`, or `:` (the `HAS` operator). Multiple expressions can be combined using `AND`, `OR`, and `NOT`. For example, `extension_chains.name = "my-chain"` or `labels.env = "prod"`. */
   filter?: string | undefined;
 }
 export type CdnEdgeExtensionList = Array<CdnEdgeExtension>;
-/** Message for response to listing `CdnEdgeExtension` resources. */
+/** Contains the response from listing `CdnEdgeExtension` resources. */
 export interface ListCdnEdgeExtensionsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
-  /** The list of `CdnEdgeExtension` resources. */
-  cdnEdgeExtensions?: CdnEdgeExtensionList | undefined;
   /** A token identifying a page of results that the server returns. */
   nextPageToken?: string | undefined;
+  /** The list of `CdnEdgeExtension` resources. */
+  cdnEdgeExtensions?: CdnEdgeExtensionList | undefined;
 }
 export interface ListProjectsLocationsEndpointPoliciesRequest {
-  /** Maximum number of EndpointPolicies to return per call. */
-  pageSize?: number | undefined;
-  /** The value returned by the last `ListEndpointPoliciesResponse` Indicates that this is a continuation of a prior `ListEndpointPolicies` call, and that the system should return the next page of data. */
-  pageToken?: string | undefined;
-  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
-  returnPartialSuccess?: boolean | undefined;
   /** Required. The project and location from which the EndpointPolicies should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
+  /** Maximum number of EndpointPolicies to return per call. */
+  pageSize?: number | undefined;
+  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The value returned by the last `ListEndpointPoliciesResponse` Indicates that this is a continuation of a prior `ListEndpointPolicies` call, and that the system should return the next page of data. */
+  pageToken?: string | undefined;
 }
 export type EndpointPolicyList = Array<EndpointPolicy>;
 /** Response returned by the ListEndpointPolicies method. */
@@ -2181,12 +2203,12 @@ export type ListProjectsLocationsExpressLinksViewEnum =
 export interface ListProjectsLocationsExpressLinksRequest {
   /** Optional. Determines the information level of the ExpressLink resources returned in the API response. */
   view?: ListProjectsLocationsExpressLinksViewEnum | (string & {}) | undefined;
-  /** Maximum number of ExpressLinks to return per call. */
-  pageSize?: number | undefined;
   /** The value returned by the last `ListExpressLinksResponse` Indicates that this is a continuation of a prior `ListExpressLinks` call, and that the system should return the next page of data. */
   pageToken?: string | undefined;
   /** Required. The project and location from which the ExpressLinks should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
+  /** Maximum number of ExpressLinks to return per call. */
+  pageSize?: number | undefined;
 }
 export type ExpressLinkList = Array<ExpressLink>;
 /** Response returned by the ListExpressLinks method. */
@@ -2199,12 +2221,12 @@ export interface ListExpressLinksResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsExtensionBindingsRequest {
-  /** Optional. Maximum number of `ExtensionBinding` resources to return per call. */
-  pageSize?: number | undefined;
-  /** Optional. The value returned by the last `ListExtensionBindingsResponse` Indicates that this is a continuation of a prior `ListExtensionBindings` call, and that the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** Required. The project and location from which the `ExtensionBinding` resources should be listed, specified in the format `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Optional. Maximum number of `ExtensionBinding` resources to return per call. */
+  pageSize?: number | undefined;
+  /** Optional. The value returned by the last `ListExtensionBindingsResponse`. Indicates that this is a continuation of a prior `ListExtensionBindings` call, and that the system should return the next page of data. */
+  pageToken?: string | undefined;
 }
 export type ExtensionBindingList = Array<ExtensionBinding>;
 /** Response returned by the `ListExtensionBindings` method. */
@@ -2217,68 +2239,68 @@ export interface ListExtensionBindingsResponse {
   extensionBindings?: ExtensionBindingList | undefined;
 }
 export interface ListProjectsLocationsGatewaysRequest {
-  /** Required. The project and location from which the Gateways should be listed, specified in the format `projects/*\/locations/*`. */
-  parent: string;
   /** The value returned by the last `ListGatewaysResponse` Indicates that this is a continuation of a prior `ListGateways` call, and that the system should return the next page of data. */
   pageToken?: string | undefined;
+  /** Required. The project and location from which the Gateways should be listed, specified in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Maximum number of Gateways to return per call. */
   pageSize?: number | undefined;
 }
 export type GatewayList = Array<Gateway>;
 /** Response returned by the ListGateways method. */
 export interface ListGatewaysResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** List of Gateway resources. */
   gateways?: GatewayList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsGatewaysRouteViewsRequest {
   /** Maximum number of GatewayRouteViews to return per call. */
   pageSize?: number | undefined;
-  /** Required. The Gateway to which a Route is associated. Formats: projects/{project_number}/locations/{location}/gateways/{gateway} */
-  parent: string;
   /** The value returned by the last `ListGatewayRouteViewsResponse` Indicates that this is a continuation of a prior `ListGatewayRouteViews` call, and that the system should return the next page of data. */
   pageToken?: string | undefined;
+  /** Required. The Gateway to which a Route is associated. Formats: projects/{project_number}/locations/{location}/gateways/{gateway} */
+  parent: string;
 }
 export type GatewayRouteViewList = Array<GatewayRouteView>;
 /** Response returned by the ListGatewayRouteViews method. */
 export interface ListGatewayRouteViewsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
-  /** List of GatewayRouteView resources. */
-  gatewayRouteViews?: GatewayRouteViewList | undefined;
   /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
   unreachable?: StringList | undefined;
+  /** List of GatewayRouteView resources. */
+  gatewayRouteViews?: GatewayRouteViewList | undefined;
 }
 export interface ListProjectsLocationsGrpcRoutesRequest {
-  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
-  returnPartialSuccess?: boolean | undefined;
-  /** The value returned by the last `ListGrpcRoutesResponse` Indicates that this is a continuation of a prior `ListGrpcRoutes` call, and that the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** Required. The project and location from which the GrpcRoutes should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
+  /** The value returned by the last `ListGrpcRoutesResponse` Indicates that this is a continuation of a prior `ListGrpcRoutes` call, and that the system should return the next page of data. */
+  pageToken?: string | undefined;
   /** Maximum number of GrpcRoutes to return per call. */
   pageSize?: number | undefined;
+  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
+  returnPartialSuccess?: boolean | undefined;
 }
 export type GrpcRouteList = Array<GrpcRoute>;
 /** Response returned by the ListGrpcRoutes method. */
 export interface ListGrpcRoutesResponse {
-  /** List of GrpcRoute resources. */
-  grpcRoutes?: GrpcRouteList | undefined;
-  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string | undefined;
   /** Unreachable resources. Populated when the request opts into return_partial_success and reading across collections e.g. when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string | undefined;
+  /** List of GrpcRoute resources. */
+  grpcRoutes?: GrpcRouteList | undefined;
 }
 export interface ListProjectsLocationsHttpRoutesRequest {
   /** The value returned by the last `ListHttpRoutesResponse` Indicates that this is a continuation of a prior `ListHttpRoutes` call, and that the system should return the next page of data. */
   pageToken?: string | undefined;
-  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
-  returnPartialSuccess?: boolean | undefined;
   /** Optional. Filter expression to restrict the list. */
   filter?: string | undefined;
+  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
+  returnPartialSuccess?: boolean | undefined;
   /** Maximum number of HttpRoutes to return per call. */
   pageSize?: number | undefined;
   /** Required. The project and location from which the HttpRoutes should be listed, specified in the format `projects/*\/locations/*`. */
@@ -2287,24 +2309,24 @@ export interface ListProjectsLocationsHttpRoutesRequest {
 export type HttpRouteList = Array<HttpRoute>;
 /** Response returned by the ListHttpRoutes method. */
 export interface ListHttpRoutesResponse {
+  /** Unreachable resources. Populated when the request opts into return_partial_success and reading across collections e.g. when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
   /** List of HttpRoute resources. */
   httpRoutes?: HttpRouteList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string | undefined;
-  /** Unreachable resources. Populated when the request opts into return_partial_success and reading across collections e.g. when attempting to list all resources across all supported locations. */
-  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsLbEdgeExtensionsRequest {
-  /** Optional. A token identifying a page of results that the server returns. */
-  pageToken?: string | undefined;
-  /** Required. The project and location from which the `LbEdgeExtension` resources are listed. These values are specified in the following format: `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Optional. Hint about how to order the results. */
   orderBy?: string | undefined;
-  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
-  pageSize?: number | undefined;
+  /** Required. The project and location from which the `LbEdgeExtension` resources are listed. These values are specified in the following format: `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Optional. Filtering results. */
   filter?: string | undefined;
+  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
+  pageSize?: number | undefined;
+  /** Optional. A token identifying a page of results that the server returns. */
+  pageToken?: string | undefined;
 }
 export type LbEdgeExtensionList = Array<LbEdgeExtension>;
 /** Message for response to listing `LbEdgeExtension` resources. */
@@ -2319,14 +2341,14 @@ export interface ListLbEdgeExtensionsResponse {
 export interface ListProjectsLocationsLbRouteExtensionsRequest {
   /** Optional. Filtering results. */
   filter?: string | undefined;
-  /** Optional. Hint about how to order the results. */
-  orderBy?: string | undefined;
+  /** Required. The project and location from which the `LbRouteExtension` resources are listed. These values are specified in the following format: `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
   pageSize?: number | undefined;
   /** Optional. A token identifying a page of results that the server returns. */
   pageToken?: string | undefined;
-  /** Required. The project and location from which the `LbRouteExtension` resources are listed. These values are specified in the following format: `projects/{project}/locations/{location}`. */
-  parent: string;
+  /** Optional. Hint about how to order the results. */
+  orderBy?: string | undefined;
 }
 export type LbRouteExtensionList = Array<LbRouteExtension>;
 /** Message for response to listing `LbRouteExtension` resources. */
@@ -2339,88 +2361,90 @@ export interface ListLbRouteExtensionsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsLbTcpExtensionsRequest {
-  /** Optional. A token identifying a page of results that the server returns. */
-  pageToken?: string | undefined;
-  /** Optional. Filtering results. */
-  filter?: string | undefined;
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string | undefined;
-  /** Required. The project and location from which the `LbTcpExtension` resources are listed, specified in the following format: `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
   pageSize?: number | undefined;
+  /** Optional. A token identifying a page of results that the server returns. */
+  pageToken?: string | undefined;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string | undefined;
+  /** Optional. Filtering results. */
+  filter?: string | undefined;
+  /** Required. The project and location from which the `LbTcpExtension` resources are listed, specified in the following format: `projects/{project}/locations/{location}`. */
+  parent: string;
 }
 export type LbTcpExtensionList = Array<LbTcpExtension>;
 /** Message for response to listing `LbTcpExtension` resources. */
 export interface ListLbTcpExtensionsResponse {
-  /** The list of `LbTcpExtension` resources. */
-  lbTcpExtensions?: LbTcpExtensionList | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
+  /** The list of `LbTcpExtension` resources. */
+  lbTcpExtensions?: LbTcpExtensionList | undefined;
   /** A token identifying a page of results that the server returns. */
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsLbTrafficExtensionsRequest {
   /** Optional. A token identifying a page of results that the server returns. */
   pageToken?: string | undefined;
-  /** Optional. Filtering results. */
-  filter?: string | undefined;
-  /** Optional. Hint about how to order the results. */
-  orderBy?: string | undefined;
-  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
-  pageSize?: number | undefined;
   /** Required. The project and location from which the `LbTrafficExtension` resources are listed. These values are specified in the following format: `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Optional. Filtering results. */
+  filter?: string | undefined;
+  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
+  pageSize?: number | undefined;
+  /** Optional. Hint about how to order the results. */
+  orderBy?: string | undefined;
 }
 export type LbTrafficExtensionList = Array<LbTrafficExtension>;
 /** Message for response to listing `LbTrafficExtension` resources. */
 export interface ListLbTrafficExtensionsResponse {
-  /** The list of `LbTrafficExtension` resources. */
-  lbTrafficExtensions?: LbTrafficExtensionList | undefined;
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** A token identifying a page of results that the server returns. */
   nextPageToken?: string | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
+  /** The list of `LbTrafficExtension` resources. */
+  lbTrafficExtensions?: LbTrafficExtensionList | undefined;
 }
 export interface ListProjectsLocationsMeshesRequest {
   /** Required. The project and location from which the Meshes should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Maximum number of Meshes to return per call. */
-  pageSize?: number | undefined;
   /** The value returned by the last `ListMeshesResponse` Indicates that this is a continuation of a prior `ListMeshes` call, and that the system should return the next page of data. */
   pageToken?: string | undefined;
   /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
   returnPartialSuccess?: boolean | undefined;
+  /** Maximum number of Meshes to return per call. */
+  pageSize?: number | undefined;
 }
 export type MeshList = Array<Mesh>;
 /** Response returned by the ListMeshes method. */
 export interface ListMeshesResponse {
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string | undefined;
   /** Unreachable resources. Populated when the request opts into `return_partial_success` and reading across collections e.g. when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
   /** List of Mesh resources. */
   meshes?: MeshList | undefined;
-  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsMeshesRouteViewsRequest {
-  /** Required. The Mesh to which a Route is associated. Format: projects/{project_number}/locations/{location}/meshes/{mesh} */
-  parent: string;
-  /** The value returned by the last `ListMeshRouteViewsResponse` Indicates that this is a continuation of a prior `ListMeshRouteViews` call, and that the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** Maximum number of MeshRouteViews to return per call. */
   pageSize?: number | undefined;
+  /** The value returned by the last `ListMeshRouteViewsResponse` Indicates that this is a continuation of a prior `ListMeshRouteViews` call, and that the system should return the next page of data. */
+  pageToken?: string | undefined;
+  /** Required. The Mesh to which a Route is associated. Format: projects/{project_number}/locations/{location}/meshes/{mesh} */
+  parent: string;
 }
 export type MeshRouteViewList = Array<MeshRouteView>;
 /** Response returned by the ListMeshRouteViews method. */
 export interface ListMeshRouteViewsResponse {
   /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
   unreachable?: StringList | undefined;
-  /** List of MeshRouteView resources. */
-  meshRouteViews?: MeshRouteViewList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** List of MeshRouteView resources. */
+  meshRouteViews?: MeshRouteViewList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
+  /** The standard list page token. */
+  pageToken?: string | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
@@ -2429,110 +2453,108 @@ export interface ListProjectsLocationsOperationsRequest {
   name: string;
   /** The standard list page size. */
   pageSize?: number | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsProducerExtensionsRequest {
-  /** Required. The project and location from which the `ProducerExtension` resources should be listed, specified in the format `projects/{project}/locations/{location}`. */
+  /** Optional. The value returned by the last `ListProducerExtensionsResponse`. It indicates that this is a continuation of a prior `ListProducerExtensions` call, and that the system should return the next page of data. */
+  pageToken?: string | undefined;
+  /** Required. The project and location from which the `ProducerExtension` resources should be listed, specified in this format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. Maximum number of `ProducerExtension` resources to return per call. */
   pageSize?: number | undefined;
-  /** Optional. The value returned by the last `ListProducerExtensionsResponse` Indicates that this is a continuation of a prior `ListProducerExtensions` call, and that the system should return the next page of data. */
-  pageToken?: string | undefined;
 }
 export type ProducerExtensionList = Array<ProducerExtension>;
 /** Response returned by the `ListProducerExtensions` method. */
 export interface ListProducerExtensionsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. The resource names are in the format: `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
-  unreachable?: StringList | undefined;
   /** List of `ProducerExtension` resources. */
   producerExtensions?: ProducerExtensionList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. The resource names are in the format: `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsServiceBindingsRequest {
-  /** Maximum number of ServiceBindings to return per call. */
-  pageSize?: number | undefined;
-  /** Required. The project and location from which the ServiceBindings should be listed, specified in the format `projects/*\/locations/*`. */
-  parent: string;
   /** The value returned by the last `ListServiceBindingsResponse` Indicates that this is a continuation of a prior `ListRouters` call, and that the system should return the next page of data. */
   pageToken?: string | undefined;
+  /** Required. The project and location from which the ServiceBindings should be listed, specified in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Maximum number of ServiceBindings to return per call. */
+  pageSize?: number | undefined;
 }
 export type ServiceBindingList = Array<ServiceBinding>;
 /** Response returned by the ListServiceBindings method. */
 export interface ListServiceBindingsResponse {
+  /** List of ServiceBinding resources. */
+  serviceBindings?: ServiceBindingList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string | undefined;
   /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
   unreachable?: StringList | undefined;
-  /** List of ServiceBinding resources. */
-  serviceBindings?: ServiceBindingList | undefined;
 }
 export interface ListProjectsLocationsServiceLbPoliciesRequest {
-  /** The value returned by the last `ListServiceLbPoliciesResponse` Indicates that this is a continuation of a prior `ListRouters` call, and that the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** Required. The project and location from which the ServiceLbPolicies should be listed, specified in the format `projects/{project}/locations/{location}`. */
   parent: string;
   /** Maximum number of ServiceLbPolicies to return per call. */
   pageSize?: number | undefined;
+  /** The value returned by the last `ListServiceLbPoliciesResponse` Indicates that this is a continuation of a prior `ListRouters` call, and that the system should return the next page of data. */
+  pageToken?: string | undefined;
 }
 export type ServiceLbPolicyList = Array<ServiceLbPolicy>;
 /** Response returned by the ListServiceLbPolicies method. */
 export interface ListServiceLbPoliciesResponse {
-  /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
-  unreachable?: StringList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string | undefined;
   /** List of ServiceLbPolicy resources. */
   serviceLbPolicies?: ServiceLbPolicyList | undefined;
+  /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsTcpRoutesRequest {
+  /** Required. The project and location from which the TcpRoutes should be listed, specified in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
   returnPartialSuccess?: boolean | undefined;
   /** Maximum number of TcpRoutes to return per call. */
   pageSize?: number | undefined;
   /** The value returned by the last `ListTcpRoutesResponse` Indicates that this is a continuation of a prior `ListTcpRoutes` call, and that the system should return the next page of data. */
   pageToken?: string | undefined;
-  /** Required. The project and location from which the TcpRoutes should be listed, specified in the format `projects/*\/locations/*`. */
-  parent: string;
 }
 export type TcpRouteList = Array<TcpRoute>;
 /** Response returned by the ListTcpRoutes method. */
 export interface ListTcpRoutesResponse {
+  /** Unreachable resources. Populated when the request opts into return_partial_success and reading across collections e.g. when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
   /** List of TcpRoute resources. */
   tcpRoutes?: TcpRouteList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string | undefined;
-  /** Unreachable resources. Populated when the request opts into return_partial_success and reading across collections e.g. when attempting to list all resources across all supported locations. */
-  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsTelemetryPoliciesRequest {
-  /** Required. The project and location from which the TelemetryPolicies should be listed, specified in the format `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Optional. A page token, received from a previous `ListTelemetryPolicies` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of policies to return. The service may return fewer than this value. If unspecified, at most 50 policies will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListTelemetryPolicies` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string | undefined;
+  /** Required. The project and location from which the TelemetryPolicies should be listed, specified in the format `projects/{project}/locations/{location}`. */
+  parent: string;
 }
 export type TelemetryPolicyList = Array<TelemetryPolicy>;
 /** Response returned by the ListTelemetryPolicies method. */
 export interface ListTelemetryPoliciesResponse {
   /** List of TelemetryPolicy resources. */
   telemetryPolicies?: TelemetryPolicyList | undefined;
-  /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
-  unreachable?: StringList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string | undefined;
+  /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsTlsRoutesRequest {
   /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
@@ -2555,49 +2577,49 @@ export interface ListTlsRoutesResponse {
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsWasmPluginsRequest {
-  /** The value returned by the last `ListWasmPluginsResponse` call. Indicates that this is a continuation of a prior `ListWasmPlugins` call, and that the next page of data is to be returned. */
-  pageToken?: string | undefined;
+  /** Optional. Maximum number of `WasmPlugin` resources to return per call. If not specified, at most 50 `WasmPlugin` resources are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
+  pageSize?: number | undefined;
   /** Required. The project and location from which the `WasmPlugin` resources are listed, specified in the following format: `projects/{project}/locations/global`. */
   parent: string;
-  /** Maximum number of `WasmPlugin` resources to return per call. If not specified, at most 50 `WasmPlugin` resources are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
-  pageSize?: number | undefined;
+  /** Optional. The value returned by the last `ListWasmPluginsResponse` call. Indicates that this is a continuation of a prior `ListWasmPlugins` call, and that the next page of data is to be returned. */
+  pageToken?: string | undefined;
 }
 export type WasmPluginList = Array<WasmPlugin>;
 /** Response returned by the `ListWasmPlugins` method. */
 export interface ListWasmPluginsResponse {
-  /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
-  unreachable?: StringList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string | undefined;
   /** List of `WasmPlugin` resources. */
   wasmPlugins?: WasmPluginList | undefined;
+  /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsWasmPluginsVersionsRequest {
-  /** Maximum number of `WasmPluginVersion` resources to return per call. If not specified, at most 50 `WasmPluginVersion` resources are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
+  /** Optional. Maximum number of `WasmPluginVersion` resources to return per call. If not specified, at most 50 `WasmPluginVersion` resources are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
   pageSize?: number | undefined;
-  /** The value returned by the last `ListWasmPluginVersionsResponse` call. Indicates that this is a continuation of a prior `ListWasmPluginVersions` call, and that the next page of data is to be returned. */
-  pageToken?: string | undefined;
   /** Required. The `WasmPlugin` resource whose `WasmPluginVersion`s are listed, specified in the following format: `projects/{project}/locations/global/wasmPlugins/{wasm_plugin}`. */
   parent: string;
+  /** Optional. The value returned by the last `ListWasmPluginVersionsResponse` call. Indicates that this is a continuation of a prior `ListWasmPluginVersions` call, and that the next page of data is to be returned. */
+  pageToken?: string | undefined;
 }
 export type WasmPluginVersionList = Array<WasmPluginVersion>;
 /** Response returned by the `ListWasmPluginVersions` method. */
 export interface ListWasmPluginVersionsResponse {
-  /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
-  unreachable?: StringList | undefined;
   /** List of `WasmPluginVersion` resources. */
   wasmPluginVersions?: WasmPluginVersionList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string | undefined;
+  /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
+  unreachable?: StringList | undefined;
 }
 export interface PatchProjectsLocationsAgentConnectivityTemplatesRequest extends Omit<
   AgentConnectivityTemplate,
   "name"
 > {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the AgentConnectivityTemplate resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string | undefined;
   /** Identifier. Name of the AgentConnectivityTemplate resource. It matches pattern `projects/*\/locations/*\/agentConnectivityTemplates/`. */
   name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the AgentConnectivityTemplate resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentGatewaysRequest extends Omit<AgentGateway, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the AgentGateway resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
@@ -2606,10 +2628,10 @@ export interface PatchProjectsLocationsAgentGatewaysRequest extends Omit<AgentGa
   name: string;
 }
 export interface PatchProjectsLocationsAuthzExtensionsRequest extends Omit<AuthzExtension, "name"> {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Optional. Used to specify the fields to be overwritten in the `AuthzExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. Identifier. Name of the `AuthzExtension` resource in the following format: `projects/{project}/locations/{location}/authzExtensions/{authz_extension}`. */
   name: string;
 }
@@ -2619,19 +2641,19 @@ export interface PatchProjectsLocationsCdnEdgeExtensionsRequest extends Omit<
 > {
   /** Required. Identifier. Name of the `CdnEdgeExtension` resource in the following format: `projects/{project}/locations/{location}/cdnEdgeExtensions/{cdn_edge_extension}`. */
   name: string;
+  /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this behavior for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that the zero UUID isn't supported (`00000000-0000-0000-0000-000000000000`). */
+  requestId?: string | undefined;
   /** Optional. Used to specify the fields to be overwritten in the `CdnEdgeExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
 export interface PatchProjectsLocationsEndpointPoliciesRequest extends Omit<
   EndpointPolicy,
   "name"
 > {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the EndpointPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string | undefined;
   /** Identifier. Name of the EndpointPolicy resource. It matches pattern `projects/{project}/locations/*\/endpointPolicies/{endpoint_policy}`. */
   name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the EndpointPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsExpressLinksRequest extends Omit<ExpressLink, "name"> {
   /** Identifier. Name of the ExpressLink resource. It matches pattern `projects/*\/locations/*\/expressLinks/`. */
@@ -2643,10 +2665,10 @@ export interface PatchProjectsLocationsExtensionBindingsRequest extends Omit<
   ExtensionBinding,
   "name"
 > {
+  /** Optional. Field mask is used to specify the fields to be overwritten in the `ExtensionBinding` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask then all fields are overwritten. */
+  updateMask?: string | undefined;
   /** Identifier. Name of the `ExtensionBinding` resource in the following format: `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
   name: string;
-  /** Optional. Field mask is used to specify the fields to be overwritten in the `ExtensionBinding` resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsGatewaysRequest extends Omit<Gateway, "name"> {
   /** Identifier. Name of the Gateway resource. It matches pattern `projects/*\/locations/*\/gateways/`. */
@@ -2681,31 +2703,31 @@ export interface PatchProjectsLocationsLbRouteExtensionsRequest extends Omit<
   LbRouteExtension,
   "name"
 > {
+  /** Optional. Used to specify the fields to be overwritten in the `LbRouteExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
+  updateMask?: string | undefined;
   /** Required. Identifier. Name of the `LbRouteExtension` resource in the following format: `projects/{project}/locations/{location}/lbRouteExtensions/{lb_route_extension}`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Optional. Used to specify the fields to be overwritten in the `LbRouteExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
-  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsLbTcpExtensionsRequest extends Omit<LbTcpExtension, "name"> {
-  /** Required. Identifier. Name of the `LbTcpExtension` resource in the following format: `projects/{project}/locations/{location}/LbTcpExtension/{lb_tcp_extension}` */
-  name: string;
   /** Optional. Used to specify the fields to be overwritten in the `LbTcpExtension` resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. Identifier. Name of the `LbTcpExtension` resource in the following format: `projects/{project}/locations/{location}/LbTcpExtension/{lb_tcp_extension}` */
+  name: string;
 }
 export interface PatchProjectsLocationsLbTrafficExtensionsRequest extends Omit<
   LbTrafficExtension,
   "name"
 > {
-  /** Required. Identifier. Name of the `LbTrafficExtension` resource in the following format: `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
-  name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Optional. Used to specify the fields to be overwritten in the `LbTrafficExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Identifier. Name of the `LbTrafficExtension` resource in the following format: `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
+  name: string;
 }
 export interface PatchProjectsLocationsMeshesRequest extends Omit<Mesh, "name"> {
   /** Identifier. Name of the Mesh resource. It matches pattern `projects/*\/locations/*\/meshes/`. */
@@ -2714,12 +2736,12 @@ export interface PatchProjectsLocationsMeshesRequest extends Omit<Mesh, "name"> 
   updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsServiceBindingsRequest extends Omit<ServiceBinding, "name"> {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Identifier. Name of the ServiceBinding resource. It matches pattern `projects/*\/locations/*\/serviceBindings/`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceBinding resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface PatchProjectsLocationsServiceLbPoliciesRequest extends Omit<
   ServiceLbPolicy,
@@ -2731,10 +2753,10 @@ export interface PatchProjectsLocationsServiceLbPoliciesRequest extends Omit<
   name: string;
 }
 export interface PatchProjectsLocationsTcpRoutesRequest extends Omit<TcpRoute, "name"> {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the TcpRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string | undefined;
   /** Identifier. Name of the TcpRoute resource. It matches pattern `projects/*\/locations/*\/tcpRoutes/tcp_route_name>`. */
   name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the TcpRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsTelemetryPoliciesRequest extends Omit<
   TelemetryPolicy,
@@ -2742,10 +2764,10 @@ export interface PatchProjectsLocationsTelemetryPoliciesRequest extends Omit<
 > {
   /** Identifier. Represents the resource name of the policy. Format: `projects/{project}/locations/{location}/telemetryPolicies/{telemetry_policy}` */
   name: string;
-  /** Optional. If set to true, and the telemetry policy is not found, a new telemetry policy will be created. In this situation, `update_mask` is ignored. */
-  allowMissing?: boolean | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the TelemetryPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the `update_mask` is not provided, the service will treat it as an implied field mask equivalent to all fields provided in the request message. This means that only the fields populated in the `telemetry_policy` field will be updated. The special value `*` can be used to indicate full replacement. */
   updateMask?: string | undefined;
+  /** Optional. If set to true, and the telemetry policy is not found, a new telemetry policy will be created. In this situation, `update_mask` is ignored. */
+  allowMissing?: boolean | undefined;
 }
 export interface PatchProjectsLocationsTlsRoutesRequest extends Omit<TlsRoute, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the TlsRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
@@ -2754,10 +2776,10 @@ export interface PatchProjectsLocationsTlsRoutesRequest extends Omit<TlsRoute, "
   name: string;
 }
 export interface PatchProjectsLocationsWasmPluginsRequest extends Omit<WasmPlugin, "name"> {
-  /** Identifier. Name of the `WasmPlugin` resource in the following format: `projects/{project}/locations/{location}/wasmPlugins/{wasm_plugin}`. */
-  name: string;
   /** Optional. Used to specify the fields to be overwritten in the `WasmPlugin` resource by the update. The fields specified in the `update_mask` field are relative to the resource, not the full request. An omitted `update_mask` field is treated as an implied `update_mask` field equivalent to all fields that are populated (that have a non-empty value). The `update_mask` field supports a special value `*`, which means that each field in the given `WasmPlugin` resource (including the empty ones) replaces the current value. */
   updateMask?: string | undefined;
+  /** Identifier. Name of the `WasmPlugin` resource in the following format: `projects/{project}/locations/{location}/wasmPlugins/{wasm_plugin}`. */
+  name: string;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -4210,7 +4232,7 @@ export const getProjectsLocationsTcpRoutes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<GetProjectsLocationsTcpRoutesRequest>,
-  output: __S(1799, __c56, 7) as any as S.Schema<TcpRoute>,
+  output: __S(1797, __c56, 5) as any as S.Schema<TcpRoute>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4227,7 +4249,7 @@ export const getProjectsLocationsTelemetryPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<GetProjectsLocationsTelemetryPoliciesRequest>,
-  output: __S(1861, __c58, 5) as any as S.Schema<TelemetryPolicy>,
+  output: __S(1862, __c58, 6) as any as S.Schema<TelemetryPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4370,7 +4392,7 @@ export const listProjectsLocationsAuthzExtensions: API.PaginatedOperationMethod<
 })) as any;
 
 export type ListProjectsLocationsCdnEdgeExtensionsError = NotFound | Forbidden | GcpOpError;
-/** Lists `CdnEdgeExtensions` resources in a given project and location. */
+/** Lists `CdnEdgeExtension` resources in a given project and location. */
 export const listProjectsLocationsCdnEdgeExtensions: API.PaginatedOperationMethod<
   ListProjectsLocationsCdnEdgeExtensionsRequest,
   ListCdnEdgeExtensionsResponse,
@@ -5298,49 +5320,48 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          services: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "ExpressLinkSource" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          vpcNetwork: S.optional(S.String),
           allowGlobalAccess: S.optional(S.Boolean),
           pscEndpointAddress: S.optional(S.String),
           forwardingRule: S.optional(S.String),
-          vpcNetwork: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpressLinkPscEndpointInfoPscEndpoint" });
-    case 1:
-      return S.Array(__S(32, __c1, 0));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          pscEndpoints: S.optional(__S(33, __c1, 1)),
-        }),
-      ).annotate({ identifier: "ExpressLinkPscEndpointInfo" });
+      return S.Array(__S(33, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          identityType: S.optional(S.String),
-          credentialType: S.optional(S.String),
+          pscEndpoints: S.optional(__S(34, __c1, 2)),
         }),
-      ).annotate({ identifier: "ExpressLinkAuthenticationMethod" });
+      ).annotate({ identifier: "ExpressLinkPscEndpointInfo" });
     case 4:
-      return S.Array(__S(35, __c1, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          serverAuthenticationMethods: S.optional(__S(36, __c1, 4)),
-          mtlsTier: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExpressLinkCloudRunSecurityInfo" });
-    case 6:
       return S.suspend(() =>
         S.Struct({
           hostname: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpressLinkMatch" });
+    case 5:
+      return S.Array(__S(36, __c1, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          credentialType: S.optional(S.String),
+          identityType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExpressLinkAuthenticationMethod" });
     case 7:
       return S.Array(__S(38, __c1, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           vpcNetwork: S.optional(S.String),
-          clientAuthenticationMethods: S.optional(__S(36, __c1, 4)),
+          clientAuthenticationMethods: S.optional(__S(39, __c1, 7)),
           workloadUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpressLinkCloudRunSourceInfoWorkloadInfo" });
@@ -5355,46 +5376,47 @@ function __c1(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          errorMessage: S.optional(S.String),
-          credentialType: S.optional(S.String),
-          workloadUri: S.optional(S.String),
-          routeType: S.optional(S.String),
-          error: S.optional(S.String),
-          hostnames: S.optional(__S(39, __c1, 7)),
+          mtlsTier: S.optional(S.String),
+          serverAuthenticationMethods: S.optional(__S(39, __c1, 7)),
         }),
-      ).annotate({ identifier: "ExpressLinkConnectionStatus" });
+      ).annotate({ identifier: "ExpressLinkCloudRunSecurityInfo" });
     case 12:
-      return S.Array(__S(43, __c1, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          services: S.optional(__S(3008, __c94, 0)),
-        }),
-      ).annotate({ identifier: "ExpressLinkSource" });
-    case 14:
       return S.suspend(() =>
         S.Struct({
           port: S.optional(S.String),
           ipAddress: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpressLinkForwardingRuleInfo" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          workloadUri: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          routeType: S.optional(S.String),
+          error: S.optional(S.String),
+          credentialType: S.optional(S.String),
+          hostnames: S.optional(__S(37, __c1, 5)),
+        }),
+      ).annotate({ identifier: "ExpressLinkConnectionStatus" });
+    case 14:
+      return S.Array(__S(45, __c1, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          pscEndpointInfo: S.optional(__S(34, __c1, 2)),
+          source: S.optional(__S(32, __c1, 0)),
+          name: S.optional(S.String),
+          pscEndpointInfo: S.optional(__S(35, __c1, 3)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          destination: S.optional(__S(32, __c1, 0)),
+          matches: S.optional(__S(37, __c1, 5)),
+          cloudRunSourceInfo: S.optional(__S(42, __c1, 10)),
+          cloudRunSecurityInfo: S.optional(__S(43, __c1, 11)),
+          etag: S.optional(S.String),
+          forwardingRuleInfo: S.optional(__S(44, __c1, 12)),
+          connectionStatus: S.optional(__S(46, __c1, 14)),
           createTime: S.optional(S.String),
           labels: S.optional(__S(2976, __c93, 0)),
-          cloudRunSecurityInfo: S.optional(__S(37, __c1, 5)),
-          matches: S.optional(__S(39, __c1, 7)),
-          etag: S.optional(S.String),
-          cloudRunSourceInfo: S.optional(__S(42, __c1, 10)),
-          connectionStatus: S.optional(__S(44, __c1, 12)),
-          updateTime: S.optional(S.String),
-          source: S.optional(__S(45, __c1, 13)),
-          forwardingRuleInfo: S.optional(__S(46, __c1, 14)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          destination: S.optional(__S(45, __c1, 13)),
         }),
       ).annotate({ identifier: "ExpressLink" });
   }
@@ -5404,9 +5426,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5420,9 +5442,9 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3008, __c94, 0)),
           nextPageToken: S.optional(S.String),
           serviceLbPolicies: S.optional(__S(65, __c2, 1)),
+          unreachable: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ListServiceLbPoliciesResponse" });
   }
@@ -5432,10 +5454,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5445,13 +5467,13 @@ function __c3(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsTcpRoutesRequest" });
     case 1:
-      return S.Array(__S(1799, __c56, 7));
+      return S.Array(__S(1797, __c56, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(3008, __c94, 0)),
           tcpRoutes: S.optional(__S(97, __c3, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ListTcpRoutesResponse" });
   }
@@ -5461,9 +5483,9 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5473,13 +5495,13 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsTelemetryPoliciesRequest" });
     case 1:
-      return S.Array(__S(1861, __c58, 5));
+      return S.Array(__S(1862, __c58, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
           telemetryPolicies: S.optional(__S(129, __c4, 1)),
-          unreachable: S.optional(__S(3008, __c94, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ListTelemetryPoliciesResponse" });
   }
@@ -5518,9 +5540,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5534,9 +5556,9 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3008, __c94, 0)),
           nextPageToken: S.optional(S.String),
           wasmPlugins: S.optional(__S(193, __c6, 1)),
+          unreachable: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ListWasmPluginsResponse" });
   }
@@ -5547,8 +5569,8 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5562,9 +5584,9 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3008, __c94, 0)),
           wasmPluginVersions: S.optional(__S(225, __c7, 1)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ListWasmPluginVersionsResponse" });
   }
@@ -5576,8 +5598,8 @@ function __c8(j: number): any {
         S.Extend(
           __S(2883, __c90, 3),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5616,8 +5638,8 @@ function __c10(j: number): any {
         S.Extend(
           __S(3904, __c122, 0),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -5638,8 +5660,8 @@ function __c11(j: number): any {
           __S(4352, __c136, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5676,83 +5698,83 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceTypes: S.optional(__S(3040, __c95, 0)),
-          parent: S.optional(S.String),
+          contains: S.optional(S.String),
+          exact: S.optional(S.String),
+          prefix: S.optional(S.String),
+          ignoreCase: S.optional(S.Boolean),
+          suffix: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ExtensionBindingTargetScope" });
+      ).annotate({ identifier: "ExtensionBindingMatchConditionStringMatch" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          resources: S.optional(__S(3008, __c94, 0)),
-          scope: S.optional(__S(416, __c13, 0)),
-        }),
-      ).annotate({ identifier: "ExtensionBindingTarget" });
+      return S.Array(__S(416, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          suffix: S.optional(S.String),
-          ignoreCase: S.optional(S.Boolean),
-          exact: S.optional(S.String),
-          contains: S.optional(S.String),
-          prefix: S.optional(S.String),
+          name: S.optional(S.String),
+          value: S.optional(__S(416, __c13, 0)),
         }),
-      ).annotate({ identifier: "ExtensionBindingMatchConditionStringMatch" });
+      ).annotate({ identifier: "ExtensionBindingMatchConditionHeaderMatch" });
     case 3:
       return S.Array(__S(418, __c13, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(__S(418, __c13, 2)),
+          headers: S.optional(__S(419, __c13, 3)),
         }),
-      ).annotate({ identifier: "ExtensionBindingMatchConditionHeaderMatch" });
+      ).annotate({ identifier: "ExtensionBindingMatchConditionToDestinationHeaderSet" });
     case 5:
-      return S.Array(__S(420, __c13, 4));
+      return S.suspend(() =>
+        S.Struct({
+          paths: S.optional(__S(417, __c13, 1)),
+          resources: S.optional(__S(417, __c13, 1)),
+          headerSet: S.optional(__S(420, __c13, 4)),
+          hosts: S.optional(__S(417, __c13, 1)),
+        }),
+      ).annotate({ identifier: "ExtensionBindingMatchConditionToDestination" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(__S(421, __c13, 5)),
+          notDestination: S.optional(__S(421, __c13, 5)),
+          destination: S.optional(__S(421, __c13, 5)),
         }),
-      ).annotate({ identifier: "ExtensionBindingMatchConditionToDestinationHeaderSet" });
+      ).annotate({ identifier: "ExtensionBindingMatchConditionTo" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(419, __c13, 3)),
-          headerSet: S.optional(__S(422, __c13, 6)),
-          paths: S.optional(__S(419, __c13, 3)),
-          hosts: S.optional(__S(419, __c13, 3)),
+          to: S.optional(__S(422, __c13, 6)),
         }),
-      ).annotate({ identifier: "ExtensionBindingMatchConditionToDestination" });
+      ).annotate({ identifier: "ExtensionBindingMatchCondition" });
     case 8:
-      return S.suspend(() =>
-        S.Struct({
-          destination: S.optional(__S(423, __c13, 7)),
-          notDestination: S.optional(__S(423, __c13, 7)),
-        }),
-      ).annotate({ identifier: "ExtensionBindingMatchConditionTo" });
+      return S.Array(__S(423, __c13, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          to: S.optional(__S(424, __c13, 8)),
+          parent: S.optional(S.String),
+          resourceTypes: S.optional(__S(3040, __c95, 0)),
         }),
-      ).annotate({ identifier: "ExtensionBindingMatchCondition" });
+      ).annotate({ identifier: "ExtensionBindingTargetScope" });
     case 10:
-      return S.Array(__S(425, __c13, 9));
+      return S.suspend(() =>
+        S.Struct({
+          resources: S.optional(__S(3008, __c94, 0)),
+          scope: S.optional(__S(425, __c13, 9)),
+        }),
+      ).annotate({ identifier: "ExtensionBindingTarget" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(2976, __c93, 0)),
           name: S.optional(S.String),
-          etag: S.optional(S.String),
-          priority: S.optional(S.Number),
-          target: S.optional(__S(417, __c13, 1)),
-          matchConditions: S.optional(__S(426, __c13, 10)),
+          labels: S.optional(__S(2976, __c93, 0)),
           producerExtension: S.optional(S.String),
+          matchConditions: S.optional(__S(424, __c13, 8)),
+          target: S.optional(__S(426, __c13, 10)),
           producerMetadata: S.optional(__S(2976, __c93, 0)),
-          createTime: S.optional(S.String),
+          etag: S.optional(S.String),
           failOpen: S.optional(S.Boolean),
           description: S.optional(S.String),
+          priority: S.optional(S.Number),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtensionBinding" });
   }
@@ -5764,8 +5786,8 @@ function __c14(j: number): any {
         S.Extend(
           __S(4741, __c148, 5),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5804,8 +5826,8 @@ function __c16(j: number): any {
         S.Extend(
           __S(427, __c13, 11),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -5905,9 +5927,9 @@ function __c21(j: number): any {
         S.Extend(
           __S(1344, __c42, 0),
           S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5926,9 +5948,9 @@ function __c22(j: number): any {
         S.Extend(
           __S(1408, __c44, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -5947,9 +5969,9 @@ function __c23(j: number): any {
         S.Extend(
           __S(1472, __c46, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -5988,25 +6010,25 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(2976, __c93, 0)),
-          network: S.optional(S.String),
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-          serverTlsPolicy: S.optional(S.String),
-          certificateUrls: S.optional(__S(3008, __c94, 0)),
+          allPorts: S.optional(S.Boolean),
+          selfLink: S.optional(S.String),
           updateTime: S.optional(S.String),
-          description: S.optional(S.String),
           envoyHeaders: S.optional(S.String),
           scope: S.optional(S.String),
-          createTime: S.optional(S.String),
-          allowGlobalAccess: S.optional(S.Boolean),
-          routingMode: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          certificateUrls: S.optional(__S(3008, __c94, 0)),
           gatewaySecurityPolicy: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          allPorts: S.optional(S.Boolean),
-          subnetwork: S.optional(S.String),
-          ports: S.optional(__S(800, __c25, 0)),
+          routingMode: S.optional(S.String),
+          createTime: S.optional(S.String),
+          serverTlsPolicy: S.optional(S.String),
+          name: S.optional(S.String),
+          network: S.optional(S.String),
           addresses: S.optional(__S(3008, __c94, 0)),
+          subnetwork: S.optional(S.String),
+          allowGlobalAccess: S.optional(S.Boolean),
+          labels: S.optional(__S(2976, __c93, 0)),
+          ports: S.optional(__S(800, __c25, 0)),
           ipVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "Gateway" });
@@ -6039,9 +6061,9 @@ function __c27(j: number): any {
         S.Extend(
           __S(1664, __c52, 0),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -6078,10 +6100,10 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1799, __c56, 7),
+          __S(1797, __c56, 5),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -6098,11 +6120,11 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1861, __c58, 5),
+          __S(1862, __c58, 6),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -6141,8 +6163,8 @@ function __c32(j: number): any {
         S.Extend(
           __S(1989, __c62, 5),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -6223,27 +6245,27 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
-          type: S.optional(S.String),
-          key: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GrpcRouteHeaderMatch" });
-    case 1:
-      return S.Array(__S(1152, __c36, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           caseSensitive: S.optional(S.Boolean),
-          grpcService: S.optional(S.String),
           grpcMethod: S.optional(S.String),
           type: S.optional(S.String),
+          grpcService: S.optional(S.String),
         }),
       ).annotate({ identifier: "GrpcRouteMethodMatch" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          type: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GrpcRouteHeaderMatch" });
+    case 2:
+      return S.Array(__S(1153, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(__S(1153, __c36, 1)),
-          method: S.optional(__S(1154, __c36, 2)),
+          method: S.optional(__S(1152, __c36, 0)),
+          headers: S.optional(__S(1154, __c36, 2)),
         }),
       ).annotate({ identifier: "GrpcRouteRouteMatch" });
     case 4:
@@ -6258,11 +6280,11 @@ function __c36(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          retryPolicy: S.optional(__S(1157, __c36, 5)),
+          timeout: S.optional(S.String),
           faultInjectionPolicy: S.optional(__S(1090, __c34, 2)),
           idleTimeout: S.optional(S.String),
+          retryPolicy: S.optional(__S(1157, __c36, 5)),
           destinations: S.optional(__S(1121, __c35, 1)),
-          timeout: S.optional(S.String),
           statefulSessionAffinity: S.optional(__S(1091, __c34, 3)),
         }),
       ).annotate({ identifier: "GrpcRouteRouteAction" });
@@ -6278,16 +6300,16 @@ function __c36(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          hostnames: S.optional(__S(3008, __c94, 0)),
           labels: S.optional(__S(2976, __c93, 0)),
-          createTime: S.optional(S.String),
-          gateways: S.optional(__S(3008, __c94, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
           selfLink: S.optional(S.String),
+          gateways: S.optional(__S(3008, __c94, 0)),
+          description: S.optional(S.String),
           meshes: S.optional(__S(3008, __c94, 0)),
+          hostnames: S.optional(__S(3008, __c94, 0)),
+          createTime: S.optional(S.String),
           rules: S.optional(__S(1160, __c36, 8)),
           updateTime: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GrpcRoute" });
   }
@@ -6299,9 +6321,9 @@ function __c37(j: number): any {
         S.Extend(
           __S(1235, __c38, 19),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
-            httpRouteId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            httpRouteId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -6325,14 +6347,14 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          prefixMatch: S.optional(S.String),
-          presentMatch: S.optional(S.Boolean),
-          header: S.optional(S.String),
           suffixMatch: S.optional(S.String),
-          exactMatch: S.optional(S.String),
+          presentMatch: S.optional(S.Boolean),
           regexMatch: S.optional(S.String),
+          header: S.optional(S.String),
+          exactMatch: S.optional(S.String),
           invertMatch: S.optional(S.Boolean),
           rangeMatch: S.optional(__S(1216, __c38, 0)),
+          prefixMatch: S.optional(S.String),
         }),
       ).annotate({ identifier: "HttpRouteHeaderMatch" });
     case 2:
@@ -6341,8 +6363,8 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           exactMatch: S.optional(S.String),
-          regexMatch: S.optional(S.String),
           queryParameter: S.optional(S.String),
+          regexMatch: S.optional(S.String),
           presentMatch: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "HttpRouteQueryParameterMatch" });
@@ -6351,12 +6373,12 @@ function __c38(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          fullPathMatch: S.optional(S.String),
+          headers: S.optional(__S(1218, __c38, 2)),
           regexMatch: S.optional(S.String),
           ignoreCase: S.optional(S.Boolean),
           prefixMatch: S.optional(S.String),
-          headers: S.optional(__S(1218, __c38, 2)),
           queryParameters: S.optional(__S(1220, __c38, 4)),
-          fullPathMatch: S.optional(S.String),
         }),
       ).annotate({ identifier: "HttpRouteRouteMatch" });
     case 6:
@@ -6364,93 +6386,93 @@ function __c38(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          set: S.optional(__S(2976, __c93, 0)),
-          remove: S.optional(__S(3008, __c94, 0)),
-          add: S.optional(__S(2976, __c93, 0)),
+          hostRewrite: S.optional(S.String),
+          pathPrefixRewrite: S.optional(S.String),
         }),
-      ).annotate({ identifier: "HttpRouteHeaderModifier" });
+      ).annotate({ identifier: "HttpRouteURLRewrite" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          responseHeaderModifier: S.optional(__S(1223, __c38, 7)),
-          serviceName: S.optional(S.String),
-          requestHeaderModifier: S.optional(__S(1223, __c38, 7)),
-          weight: S.optional(S.Number),
+          perTryTimeout: S.optional(S.String),
+          retryConditions: S.optional(__S(3008, __c94, 0)),
+          numRetries: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "HttpRouteDestination" });
+      ).annotate({ identifier: "HttpRouteRetryPolicy" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          destination: S.optional(__S(1224, __c38, 8)),
-          mirrorPercent: S.optional(S.Number),
+          httpsRedirect: S.optional(S.Boolean),
+          hostRedirect: S.optional(S.String),
+          portRedirect: S.optional(S.Number),
+          responseCode: S.optional(S.String),
+          stripQuery: S.optional(S.Boolean),
+          pathRedirect: S.optional(S.String),
+          prefixRewrite: S.optional(S.String),
         }),
-      ).annotate({ identifier: "HttpRouteRequestMirrorPolicy" });
+      ).annotate({ identifier: "HttpRouteRedirect" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          numRetries: S.optional(S.Number),
-          perTryTimeout: S.optional(S.String),
-          retryConditions: S.optional(__S(3008, __c94, 0)),
+          bytesBody: S.optional(S.String),
+          status: S.optional(S.Number),
+          stringBody: S.optional(S.String),
         }),
-      ).annotate({ identifier: "HttpRouteRetryPolicy" });
+      ).annotate({ identifier: "HttpRouteHttpDirectResponse" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          pathPrefixRewrite: S.optional(S.String),
-          hostRewrite: S.optional(S.String),
+          set: S.optional(__S(2976, __c93, 0)),
+          add: S.optional(__S(2976, __c93, 0)),
+          remove: S.optional(__S(3008, __c94, 0)),
         }),
-      ).annotate({ identifier: "HttpRouteURLRewrite" });
+      ).annotate({ identifier: "HttpRouteHeaderModifier" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          hostRedirect: S.optional(S.String),
-          pathRedirect: S.optional(S.String),
-          portRedirect: S.optional(S.Number),
-          prefixRewrite: S.optional(S.String),
-          httpsRedirect: S.optional(S.Boolean),
-          responseCode: S.optional(S.String),
-          stripQuery: S.optional(S.Boolean),
+          requestHeaderModifier: S.optional(__S(1227, __c38, 11)),
+          weight: S.optional(S.Number),
+          serviceName: S.optional(S.String),
+          responseHeaderModifier: S.optional(__S(1227, __c38, 11)),
         }),
-      ).annotate({ identifier: "HttpRouteRedirect" });
+      ).annotate({ identifier: "HttpRouteDestination" });
     case 13:
-      return S.Array(__S(1224, __c38, 8));
+      return S.Array(__S(1228, __c38, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          allowOriginRegexes: S.optional(__S(3008, __c94, 0)),
-          allowMethods: S.optional(__S(3008, __c94, 0)),
-          allowCredentials: S.optional(S.Boolean),
-          allowOrigins: S.optional(__S(3008, __c94, 0)),
           maxAge: S.optional(S.String),
           exposeHeaders: S.optional(__S(3008, __c94, 0)),
           allowHeaders: S.optional(__S(3008, __c94, 0)),
+          allowCredentials: S.optional(S.Boolean),
+          allowOrigins: S.optional(__S(3008, __c94, 0)),
           disabled: S.optional(S.Boolean),
+          allowMethods: S.optional(__S(3008, __c94, 0)),
+          allowOriginRegexes: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "HttpRouteCorsPolicy" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.Number),
-          bytesBody: S.optional(S.String),
-          stringBody: S.optional(S.String),
+          destination: S.optional(__S(1228, __c38, 12)),
+          mirrorPercent: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "HttpRouteHttpDirectResponse" });
+      ).annotate({ identifier: "HttpRouteRequestMirrorPolicy" });
     case 16:
       return S.suspend(() =>
         S.Struct({
+          urlRewrite: S.optional(__S(1223, __c38, 7)),
+          retryPolicy: S.optional(__S(1224, __c38, 8)),
+          redirect: S.optional(__S(1225, __c38, 9)),
+          directResponse: S.optional(__S(1226, __c38, 10)),
           timeout: S.optional(S.String),
-          requestMirrorPolicy: S.optional(__S(1225, __c38, 9)),
-          retryPolicy: S.optional(__S(1226, __c38, 10)),
-          requestHeaderModifier: S.optional(__S(1223, __c38, 7)),
-          urlRewrite: S.optional(__S(1227, __c38, 11)),
           faultInjectionPolicy: S.optional(__S(1090, __c34, 2)),
-          redirect: S.optional(__S(1228, __c38, 12)),
-          statefulSessionAffinity: S.optional(__S(1091, __c34, 3)),
-          destinations: S.optional(__S(1229, __c38, 13)),
-          responseHeaderModifier: S.optional(__S(1223, __c38, 7)),
-          corsPolicy: S.optional(__S(1230, __c38, 14)),
-          directResponse: S.optional(__S(1231, __c38, 15)),
           idleTimeout: S.optional(S.String),
+          destinations: S.optional(__S(1229, __c38, 13)),
+          corsPolicy: S.optional(__S(1230, __c38, 14)),
+          requestHeaderModifier: S.optional(__S(1227, __c38, 11)),
+          responseHeaderModifier: S.optional(__S(1227, __c38, 11)),
+          requestMirrorPolicy: S.optional(__S(1231, __c38, 15)),
+          statefulSessionAffinity: S.optional(__S(1091, __c34, 3)),
         }),
       ).annotate({ identifier: "HttpRouteRouteAction" });
     case 17:
@@ -6466,15 +6488,15 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           updateTime: S.optional(S.String),
-          rules: S.optional(__S(1234, __c38, 18)),
-          name: S.optional(S.String),
-          labels: S.optional(__S(2976, __c93, 0)),
           createTime: S.optional(S.String),
+          meshes: S.optional(__S(3008, __c94, 0)),
+          rules: S.optional(__S(1234, __c38, 18)),
           description: S.optional(S.String),
+          name: S.optional(S.String),
           selfLink: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
           gateways: S.optional(__S(3008, __c94, 0)),
           hostnames: S.optional(__S(3008, __c94, 0)),
-          meshes: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "HttpRoute" });
   }
@@ -6486,8 +6508,8 @@ function __c39(j: number): any {
         S.Extend(
           __S(1280, __c40, 0),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             lbEdgeExtensionId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -6505,14 +6527,14 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          loadBalancingScheme: S.optional(S.String),
-          forwardingRules: S.optional(__S(3008, __c94, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          extensionChains: S.optional(__S(4292, __c134, 4)),
           labels: S.optional(__S(2976, __c93, 0)),
-          description: S.optional(S.String),
+          forwardingRules: S.optional(__S(3008, __c94, 0)),
+          extensionChains: S.optional(__S(4292, __c134, 4)),
           name: S.optional(S.String),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          loadBalancingScheme: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "LbEdgeExtension" });
   }
@@ -6524,9 +6546,9 @@ function __c41(j: number): any {
         S.Extend(
           __S(1344, __c42, 0),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
             lbRouteExtensionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -6543,15 +6565,15 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
+          loadBalancingScheme: S.optional(S.String),
+          forwardingRules: S.optional(__S(3008, __c94, 0)),
+          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
           extensionChains: S.optional(__S(4292, __c134, 4)),
-          metadata: S.optional(__S(2912, __c91, 0)),
           name: S.optional(S.String),
-          forwardingRules: S.optional(__S(3008, __c94, 0)),
+          description: S.optional(S.String),
+          metadata: S.optional(__S(2912, __c91, 0)),
           labels: S.optional(__S(2976, __c93, 0)),
-          loadBalancingScheme: S.optional(S.String),
-          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "LbRouteExtension" });
   }
@@ -6563,8 +6585,8 @@ function __c43(j: number): any {
         S.Extend(
           __S(1408, __c44, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             lbTcpExtensionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -6582,14 +6604,14 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          networks: S.optional(__S(3008, __c94, 0)),
-          extensionChains: S.optional(__S(4292, __c134, 4)),
           loadBalancingScheme: S.optional(S.String),
-          description: S.optional(S.String),
+          createTime: S.optional(S.String),
           labels: S.optional(__S(2976, __c93, 0)),
+          description: S.optional(S.String),
+          extensionChains: S.optional(__S(4292, __c134, 4)),
+          networks: S.optional(__S(3008, __c94, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "LbTcpExtension" });
   }
@@ -6601,9 +6623,9 @@ function __c45(j: number): any {
         S.Extend(
           __S(1472, __c46, 0),
           S.Struct({
-            lbTrafficExtensionId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            lbTrafficExtensionId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -6620,15 +6642,15 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          forwardingRules: S.optional(__S(3008, __c94, 0)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          metadata: S.optional(__S(2912, __c91, 0)),
-          labels: S.optional(__S(2976, __c93, 0)),
-          extensionChains: S.optional(__S(4292, __c134, 4)),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
           loadBalancingScheme: S.optional(S.String),
+          extensionChains: S.optional(__S(4292, __c134, 4)),
+          name: S.optional(S.String),
+          metadata: S.optional(__S(2912, __c91, 0)),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+          createTime: S.optional(S.String),
+          forwardingRules: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "LbTrafficExtension" });
   }
@@ -6640,8 +6662,8 @@ function __c47(j: number): any {
         S.Extend(
           __S(1536, __c48, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             meshId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -6658,14 +6680,14 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          selfLink: S.optional(S.String),
           name: S.optional(S.String),
-          description: S.optional(S.String),
+          envoyHeaders: S.optional(S.String),
           createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
-          envoyHeaders: S.optional(S.String),
-          labels: S.optional(__S(2976, __c93, 0)),
+          description: S.optional(S.String),
           interceptionPort: S.optional(S.Number),
+          labels: S.optional(__S(2976, __c93, 0)),
+          selfLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "Mesh" });
   }
@@ -6697,21 +6719,21 @@ function __c50(j: number): any {
         S.Struct({
           service: S.optional(S.String),
           observabilityMode: S.optional(S.Boolean),
-          supportedEvents: S.optional(__S(3040, __c95, 0)),
           authority: S.optional(S.String),
+          supportedEvents: S.optional(__S(3040, __c95, 0)),
         }),
       ).annotate({ identifier: "ProducerExtensionExtensionSettings" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(2976, __c93, 0)),
-          name: S.optional(S.String),
           etag: S.optional(S.String),
-          extensionSettings: S.optional(__S(1600, __c50, 0)),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
           updateTime: S.optional(S.String),
-          description: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
           phase: S.optional(S.String),
+          extensionSettings: S.optional(__S(1600, __c50, 0)),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProducerExtension" });
   }
@@ -6723,9 +6745,9 @@ function __c51(j: number): any {
         S.Extend(
           __S(1664, __c52, 0),
           S.Struct({
-            serviceBindingId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            serviceBindingId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -6742,13 +6764,13 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           labels: S.optional(__S(2976, __c93, 0)),
-          service: S.optional(S.String),
-          serviceId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
           createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          serviceId: S.optional(S.String),
+          service: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceBinding" });
   }
@@ -6760,8 +6782,8 @@ function __c53(j: number): any {
         S.Extend(
           __S(1731, __c54, 3),
           S.Struct({
-            serviceLbPolicyId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            serviceLbPolicyId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -6784,28 +6806,28 @@ function __c54(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          failoverHealthThreshold: S.optional(S.Number),
+          isolationGranularity: S.optional(S.String),
+          isolationMode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ServiceLbPolicyFailoverConfig" });
+      ).annotate({ identifier: "ServiceLbPolicyIsolationConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          isolationMode: S.optional(S.String),
-          isolationGranularity: S.optional(S.String),
+          failoverHealthThreshold: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ServiceLbPolicyIsolationConfig" });
+      ).annotate({ identifier: "ServiceLbPolicyFailoverConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          autoCapacityDrain: S.optional(__S(1728, __c54, 0)),
-          failoverConfig: S.optional(__S(1729, __c54, 1)),
-          description: S.optional(S.String),
           updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          isolationConfig: S.optional(__S(1730, __c54, 2)),
-          loadBalancingAlgorithm: S.optional(S.String),
           createTime: S.optional(S.String),
+          autoCapacityDrain: S.optional(__S(1728, __c54, 0)),
+          loadBalancingAlgorithm: S.optional(S.String),
+          isolationConfig: S.optional(__S(1729, __c54, 1)),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
           labels: S.optional(__S(2976, __c93, 0)),
+          failoverConfig: S.optional(__S(1730, __c54, 2)),
         }),
       ).annotate({ identifier: "ServiceLbPolicy" });
   }
@@ -6815,7 +6837,7 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1799, __c56, 7),
+          __S(1797, __c56, 5),
           S.Struct({
             tcpRouteId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
@@ -6835,50 +6857,41 @@ function __c56(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          port: S.optional(S.String),
-          address: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TcpRouteRouteMatch" });
-    case 1:
-      return S.Array(__S(1792, __c56, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          weight: S.optional(S.Number),
-          serviceName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TcpRouteRouteDestination" });
-    case 3:
-      return S.Array(__S(1794, __c56, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          originalDestination: S.optional(S.Boolean),
-          destinations: S.optional(__S(1795, __c56, 3)),
+          destinations: S.optional(__S(1121, __c35, 1)),
           idleTimeout: S.optional(S.String),
+          originalDestination: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TcpRouteRouteAction" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.optional(S.String),
+          port: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TcpRouteRouteMatch" });
+    case 2:
+      return S.Array(__S(1793, __c56, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.optional(__S(1792, __c56, 0)),
+          matches: S.optional(__S(1794, __c56, 2)),
+        }),
+      ).annotate({ identifier: "TcpRouteRouteRule" });
+    case 4:
+      return S.Array(__S(1795, __c56, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          matches: S.optional(__S(1793, __c56, 1)),
-          action: S.optional(__S(1796, __c56, 4)),
-        }),
-      ).annotate({ identifier: "TcpRouteRouteRule" });
-    case 6:
-      return S.Array(__S(1797, __c56, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          rules: S.optional(__S(1798, __c56, 6)),
-          description: S.optional(S.String),
-          selfLink: S.optional(S.String),
           createTime: S.optional(S.String),
-          meshes: S.optional(__S(3008, __c94, 0)),
-          gateways: S.optional(__S(3008, __c94, 0)),
           updateTime: S.optional(S.String),
+          gateways: S.optional(__S(3008, __c94, 0)),
           labels: S.optional(__S(2976, __c93, 0)),
+          selfLink: S.optional(S.String),
+          rules: S.optional(__S(1796, __c56, 4)),
+          description: S.optional(S.String),
           name: S.optional(S.String),
+          meshes: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "TcpRoute" });
   }
@@ -6888,10 +6901,10 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1861, __c58, 5),
+          __S(1862, __c58, 6),
           S.Struct({
-            telemetryPolicyId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            telemetryPolicyId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -6908,50 +6921,62 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "MetricsConfiguration" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           fromHeaderValue: S.optional(S.String),
           attributeName: S.optional(S.String),
           literalValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "TracingConfigurationCustomSpanAttribute" });
+    case 1:
+      return S.Array(__S(1856, __c58, 0));
     case 2:
-      return S.Array(__S(1857, __c58, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           samplingRate: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TracingConfigurationParentBasedSampling" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           samplingRate: S.optional(S.Number),
-          customSpanAttributes: S.optional(__S(1858, __c58, 2)),
-          parentBasedSampling: S.optional(__S(1859, __c58, 3)),
+          customSpanAttributes: S.optional(__S(1857, __c58, 1)),
+          parentBasedSampling: S.optional(__S(1858, __c58, 2)),
         }),
       ).annotate({ identifier: "TracingConfiguration" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MetricsConfiguration" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          etag: S.optional(S.String),
-          metricsConfiguration: S.optional(__S(1856, __c58, 0)),
-          labels: S.optional(__S(2976, __c93, 0)),
-          telemetryTarget: S.optional(__S(4320, __c135, 0)),
-          deleteTime: S.optional(S.String),
+          loggingHttpRequestHeaders: S.optional(__S(3008, __c94, 0)),
+          enable: S.optional(S.Boolean),
+          optionalFields: S.optional(__S(3008, __c94, 0)),
+          sampleRate: S.optional(S.Number),
+          optionalMode: S.optional(S.String),
+          loggingHttpResponseHeaders: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "LoggingConfiguration" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          annotations: S.optional(__S(2976, __c93, 0)),
-          tracingConfiguration: S.optional(__S(1860, __c58, 4)),
+          tracingConfiguration: S.optional(__S(1859, __c58, 3)),
+          metricsConfiguration: S.optional(__S(1860, __c58, 4)),
+          telemetryTarget: S.optional(__S(4320, __c135, 0)),
           reconciling: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          annotations: S.optional(__S(2976, __c93, 0)),
+          loggingConfiguration: S.optional(__S(1861, __c58, 5)),
+          deleteTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+          updateTime: S.optional(S.String),
           displayName: S.optional(S.String),
+          uid: S.optional(S.String),
         }),
       ).annotate({ identifier: "TelemetryPolicy" });
   }
@@ -7006,16 +7031,16 @@ function __c60(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          rules: S.optional(__S(1924, __c60, 4)),
-          targetProxies: S.optional(__S(3008, __c94, 0)),
           gateways: S.optional(__S(3008, __c94, 0)),
-          meshes: S.optional(__S(3008, __c94, 0)),
           selfLink: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
           labels: S.optional(__S(2976, __c93, 0)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          meshes: S.optional(__S(3008, __c94, 0)),
+          targetProxies: S.optional(__S(3008, __c94, 0)),
+          rules: S.optional(__S(1924, __c60, 4)),
         }),
       ).annotate({ identifier: "TlsRoute" });
   }
@@ -7027,8 +7052,8 @@ function __c61(j: number): any {
         S.Extend(
           __S(1989, __c62, 5),
           S.Struct({
-            wasmPluginId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            wasmPluginId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -7045,31 +7070,31 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          minLogLevel: S.optional(S.String),
+          sampleRate: S.optional(S.Number),
+          enable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "WasmPluginLogConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "WasmPluginUsedBy" });
-    case 1:
-      return S.Array(__S(1984, __c62, 0));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          enable: S.optional(S.Boolean),
-          minLogLevel: S.optional(S.String),
-          sampleRate: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "WasmPluginLogConfig" });
+      return S.Array(__S(1985, __c62, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          imageDigest: S.optional(S.String),
+          pluginConfigDigest: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
           labels: S.optional(__S(2976, __c93, 0)),
           createTime: S.optional(S.String),
-          pluginConfigDigest: S.optional(S.String),
           pluginConfigData: S.optional(S.String),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          imageUri: S.optional(S.String),
-          imageDigest: S.optional(S.String),
           pluginConfigUri: S.optional(S.String),
+          imageUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "WasmPluginVersionDetails" });
     case 4:
@@ -7077,17 +7102,17 @@ function __c62(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          kmsKeyVersion: S.optional(S.String),
-          mainVersionId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          usedBy: S.optional(__S(1985, __c62, 1)),
-          logConfig: S.optional(__S(1986, __c62, 2)),
-          kmsKeyName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          versions: S.optional(__S(1988, __c62, 4)),
-          description: S.optional(S.String),
           labels: S.optional(__S(2976, __c93, 0)),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          logConfig: S.optional(__S(1984, __c62, 0)),
+          kmsKeyName: S.optional(S.String),
+          kmsKeyVersion: S.optional(S.String),
+          usedBy: S.optional(__S(1986, __c62, 2)),
+          name: S.optional(S.String),
+          mainVersionId: S.optional(S.String),
+          versions: S.optional(__S(1988, __c62, 4)),
         }),
       ).annotate({ identifier: "WasmPlugin" });
   }
@@ -7119,14 +7144,14 @@ function __c64(j: number): any {
         S.Struct({
           labels: S.optional(__S(2976, __c93, 0)),
           pluginConfigUri: S.optional(S.String),
+          imageUri: S.optional(S.String),
+          pluginConfigDigest: S.optional(S.String),
           updateTime: S.optional(S.String),
           name: S.optional(S.String),
-          pluginConfigDigest: S.optional(S.String),
-          imageDigest: S.optional(S.String),
           createTime: S.optional(S.String),
+          imageDigest: S.optional(S.String),
           pluginConfigData: S.optional(S.String),
           description: S.optional(S.String),
-          imageUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "WasmPluginVersion" });
   }
@@ -7237,8 +7262,8 @@ function __c71(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -7302,8 +7327,8 @@ function __c75(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -7359,8 +7384,8 @@ function __c79(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -7376,8 +7401,8 @@ function __c80(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -7442,8 +7467,8 @@ function __c84(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -7491,8 +7516,8 @@ function __c87(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -7526,8 +7551,8 @@ function __c89(j: number): any {
         S.Extend(
           __S(2883, __c90, 3),
           S.Struct({
-            agentConnectivityTemplateId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            agentConnectivityTemplateId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -7544,42 +7569,42 @@ function __c90(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          domains: S.optional(__S(3008, __c94, 0)),
+          targetNetwork: S.optional(S.String),
+          domain: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DnsPeeringConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           trustConfig: S.optional(S.String),
           additionalRoots: S.optional(S.String),
         }),
       ).annotate({ identifier: "EgressNetworkConfigTlsConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          domains: S.optional(__S(3008, __c94, 0)),
-          domain: S.optional(S.String),
-          targetNetwork: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DnsPeeringConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tlsConfig: S.optional(__S(2880, __c90, 0)),
+          dnsPeeringConfig: S.optional(__S(2880, __c90, 0)),
           trustConfig: S.optional(S.String),
-          networkAttachment: S.optional(S.String),
           vpcEgress: S.optional(S.String),
-          dnsPeeringConfig: S.optional(__S(2881, __c90, 1)),
+          tlsConfig: S.optional(__S(2881, __c90, 1)),
+          networkAttachment: S.optional(S.String),
         }),
       ).annotate({ identifier: "EgressNetworkConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          deploymentModel: S.optional(S.String),
-          agentCompute: S.optional(S.String),
-          accessTypes: S.optional(__S(3040, __c95, 0)),
-          egressNetworkConfig: S.optional(__S(2882, __c90, 2)),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
           etag: S.optional(S.String),
           labels: S.optional(__S(2976, __c93, 0)),
-          accessPath: S.optional(S.String),
           updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          egressNetworkConfig: S.optional(__S(2882, __c90, 2)),
+          deploymentModel: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          accessPath: S.optional(S.String),
+          accessTypes: S.optional(__S(3040, __c95, 0)),
+          agentCompute: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentConnectivityTemplate" });
   }
@@ -7597,19 +7622,19 @@ function __c92(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
           message: S.optional(S.String),
           details: S.optional(__S(2944, __c92, 0)),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          done: S.optional(S.Boolean),
-          metadata: S.optional(__S(2912, __c91, 0)),
           error: S.optional(__S(2945, __c92, 1)),
-          name: S.optional(S.String),
+          done: S.optional(S.Boolean),
           response: S.optional(__S(2912, __c91, 0)),
+          name: S.optional(S.String),
+          metadata: S.optional(__S(2912, __c91, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -7686,10 +7711,10 @@ function __c99(j: number): any {
       return S.suspend(() =>
         S.Struct({
           labels: S.optional(__S(2976, __c93, 0)),
-          metadata: S.optional(__S(2912, __c91, 0)),
+          locationId: S.optional(S.String),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          locationId: S.optional(S.String),
+          metadata: S.optional(__S(2912, __c91, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -7832,24 +7857,26 @@ function __c108(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          governedAccessPath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AgentGatewayGoogleManaged" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           resourceUris: S.optional(__S(3008, __c94, 0)),
           resourceUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentGatewaySelfManaged" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          mtlsEndpoint: S.optional(S.String),
           serviceExtensionsServiceAccount: S.optional(S.String),
+          mtlsEndpoint: S.optional(S.String),
           rootCertificates: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "AgentGatewayAgentGatewayOutputCard" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          domains: S.optional(__S(3008, __c94, 0)),
+          targetProject: S.optional(S.String),
+          targetNetwork: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AgentGatewayNetworkConfigDnsPeeringConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7859,34 +7886,32 @@ function __c108(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(3008, __c94, 0)),
-          targetProject: S.optional(S.String),
-          targetNetwork: S.optional(S.String),
+          dnsPeeringConfig: S.optional(__S(3458, __c108, 2)),
+          egress: S.optional(__S(3459, __c108, 3)),
         }),
-      ).annotate({ identifier: "AgentGatewayNetworkConfigDnsPeeringConfig" });
+      ).annotate({ identifier: "AgentGatewayNetworkConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          egress: S.optional(__S(3459, __c108, 3)),
-          dnsPeeringConfig: S.optional(__S(3460, __c108, 4)),
+          governedAccessPath: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AgentGatewayNetworkConfig" });
+      ).annotate({ identifier: "AgentGatewayGoogleManaged" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          googleManaged: S.optional(__S(3456, __c108, 0)),
+          selfManaged: S.optional(__S(3456, __c108, 0)),
           name: S.optional(S.String),
-          selfManaged: S.optional(__S(3457, __c108, 1)),
-          labels: S.optional(__S(2976, __c93, 0)),
-          agentGatewayCard: S.optional(__S(3458, __c108, 2)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          networkConfig: S.optional(__S(3461, __c108, 5)),
-          registries: S.optional(__S(3008, __c94, 0)),
           agentConnectivityTemplate: S.optional(S.String),
+          createTime: S.optional(S.String),
+          agentGatewayCard: S.optional(__S(3457, __c108, 1)),
           etag: S.optional(S.String),
-          protocols: S.optional(__S(3040, __c95, 0)),
+          networkConfig: S.optional(__S(3460, __c108, 4)),
+          labels: S.optional(__S(2976, __c93, 0)),
+          registries: S.optional(__S(3008, __c94, 0)),
+          googleManaged: S.optional(__S(3461, __c108, 5)),
           description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          protocols: S.optional(__S(3040, __c95, 0)),
         }),
       ).annotate({ identifier: "AgentGateway" });
   }
@@ -7928,10 +7953,10 @@ function __c111(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           routeProjectNumber: S.optional(S.String),
-          routeType: S.optional(S.String),
+          name: S.optional(S.String),
           routeId: S.optional(S.String),
+          routeType: S.optional(S.String),
           routeLocation: S.optional(S.String),
         }),
       ).annotate({ identifier: "GatewayRouteView" });
@@ -8070,11 +8095,11 @@ function __c120(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           routeLocation: S.optional(S.String),
-          routeProjectNumber: S.optional(S.String),
           routeId: S.optional(S.String),
           routeType: S.optional(S.String),
+          routeProjectNumber: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "MeshRouteView" });
   }
@@ -8086,8 +8111,8 @@ function __c121(j: number): any {
         S.Extend(
           __S(3904, __c122, 0),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             authzExtensionId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -8105,20 +8130,20 @@ function __c122(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(2976, __c93, 0)),
           failOpen: S.optional(S.Boolean),
-          wireFormat: S.optional(S.String),
           description: S.optional(S.String),
-          service: S.optional(S.String),
-          timeout: S.optional(S.String),
-          authority: S.optional(S.String),
-          forwardAttributes: S.optional(__S(3008, __c94, 0)),
           forwardHeaders: S.optional(__S(3008, __c94, 0)),
-          metadata: S.optional(__S(2912, __c91, 0)),
-          loadBalancingScheme: S.optional(S.String),
           createTime: S.optional(S.String),
+          metadata: S.optional(__S(2912, __c91, 0)),
+          authority: S.optional(S.String),
+          timeout: S.optional(S.String),
+          loadBalancingScheme: S.optional(S.String),
+          wireFormat: S.optional(S.String),
+          service: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          forwardAttributes: S.optional(__S(3008, __c94, 0)),
+          labels: S.optional(__S(2976, __c93, 0)),
         }),
       ).annotate({ identifier: "AuthzExtension" });
   }
@@ -8273,11 +8298,11 @@ function __c132(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(3008, __c94, 0).pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(3008, __c94, 0).pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8304,9 +8329,9 @@ function __c133(j: number): any {
         S.Extend(
           __S(4352, __c136, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             cdnEdgeExtensionId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -8323,19 +8348,19 @@ function __c134(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          forwardAttributes: S.optional(__S(3008, __c94, 0)),
-          supportedEvents: S.optional(__S(3040, __c95, 0)),
-          allowDynamicForwarding: S.optional(S.Boolean),
-          service: S.optional(S.String),
-          timeout: S.optional(S.String),
-          metadata: S.optional(__S(2912, __c91, 0)),
-          requestBodySendMode: S.optional(S.String),
-          authority: S.optional(S.String),
-          responseBodySendMode: S.optional(S.String),
           forwardHeaders: S.optional(__S(3008, __c94, 0)),
-          name: S.optional(S.String),
-          observabilityMode: S.optional(S.Boolean),
+          responseBodySendMode: S.optional(S.String),
+          service: S.optional(S.String),
           failOpen: S.optional(S.Boolean),
+          metadata: S.optional(__S(2912, __c91, 0)),
+          forwardAttributes: S.optional(__S(3008, __c94, 0)),
+          authority: S.optional(S.String),
+          observabilityMode: S.optional(S.Boolean),
+          supportedEvents: S.optional(__S(3040, __c95, 0)),
+          timeout: S.optional(S.String),
+          allowDynamicForwarding: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          requestBodySendMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtensionChainExtension" });
     case 1:
@@ -8350,8 +8375,8 @@ function __c134(j: number): any {
       return S.suspend(() =>
         S.Struct({
           extensions: S.optional(__S(4289, __c134, 1)),
-          name: S.optional(S.String),
           matchCondition: S.optional(__S(4290, __c134, 2)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtensionChain" });
     case 4:
@@ -8373,13 +8398,13 @@ function __c136(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(2976, __c93, 0)),
+          description: S.optional(S.String),
           name: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
           createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
           target: S.optional(__S(4320, __c135, 0)),
           extensionChains: S.optional(__S(4292, __c134, 4)),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "CdnEdgeExtension" });
   }
@@ -8390,9 +8415,9 @@ function __c137(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8418,11 +8443,11 @@ function __c138(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8437,8 +8462,8 @@ function __c138(j: number): any {
       return S.suspend(() =>
         S.Struct({
           unreachable: S.optional(__S(3008, __c94, 0)),
-          agentGateways: S.optional(__S(4417, __c138, 1)),
           nextPageToken: S.optional(S.String),
+          agentGateways: S.optional(__S(4417, __c138, 1)),
         }),
       ).annotate({ identifier: "ListAgentGatewaysResponse" });
   }
@@ -8448,10 +8473,10 @@ function __c139(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8478,10 +8503,10 @@ function __c140(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8497,8 +8522,8 @@ function __c140(j: number): any {
       return S.suspend(() =>
         S.Struct({
           unreachable: S.optional(__S(3008, __c94, 0)),
-          cdnEdgeExtensions: S.optional(__S(4481, __c140, 1)),
           nextPageToken: S.optional(S.String),
+          cdnEdgeExtensions: S.optional(__S(4481, __c140, 1)),
         }),
       ).annotate({ identifier: "ListCdnEdgeExtensionsResponse" });
   }
@@ -8508,10 +8533,10 @@ function __c141(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8538,9 +8563,9 @@ function __c142(j: number): any {
       return S.suspend(() =>
         S.Struct({
           view: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8566,9 +8591,9 @@ function __c143(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8594,8 +8619,8 @@ function __c144(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8610,9 +8635,9 @@ function __c144(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3008, __c94, 0)),
           gateways: S.optional(__S(4609, __c144, 1)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ListGatewaysResponse" });
   }
@@ -8623,8 +8648,8 @@ function __c145(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8639,8 +8664,8 @@ function __c145(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          gatewayRouteViews: S.optional(__S(4641, __c145, 1)),
           unreachable: S.optional(__S(3008, __c94, 0)),
+          gatewayRouteViews: S.optional(__S(4641, __c145, 1)),
         }),
       ).annotate({ identifier: "ListGatewayRouteViewsResponse" });
   }
@@ -8650,10 +8675,10 @@ function __c146(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8667,9 +8692,9 @@ function __c146(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          grpcRoutes: S.optional(__S(4673, __c146, 1)),
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(3008, __c94, 0)),
+          nextPageToken: S.optional(S.String),
+          grpcRoutes: S.optional(__S(4673, __c146, 1)),
         }),
       ).annotate({ identifier: "ListGrpcRoutesResponse" });
   }
@@ -8699,46 +8724,46 @@ function __c148(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ports: S.optional(__S(3008, __c94, 0)),
-        }),
-      ).annotate({ identifier: "TrafficPortSelector" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          labelName: S.optional(S.String),
           labelValue: S.optional(S.String),
+          labelName: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetadataLabels" });
+    case 1:
+      return S.Array(__S(4736, __c148, 0));
     case 2:
-      return S.Array(__S(4737, __c148, 1));
+      return S.suspend(() =>
+        S.Struct({
+          metadataLabelMatchCriteria: S.optional(S.String),
+          metadataLabels: S.optional(__S(4737, __c148, 1)),
+        }),
+      ).annotate({ identifier: "MetadataLabelMatcher" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metadataLabels: S.optional(__S(4738, __c148, 2)),
-          metadataLabelMatchCriteria: S.optional(S.String),
+          metadataLabelMatcher: S.optional(__S(4738, __c148, 2)),
         }),
-      ).annotate({ identifier: "MetadataLabelMatcher" });
+      ).annotate({ identifier: "EndpointMatcher" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          metadataLabelMatcher: S.optional(__S(4739, __c148, 3)),
+          ports: S.optional(__S(3008, __c94, 0)),
         }),
-      ).annotate({ identifier: "EndpointMatcher" });
+      ).annotate({ identifier: "TrafficPortSelector" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          trafficPortSelector: S.optional(__S(4736, __c148, 0)),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          serverTlsPolicy: S.optional(S.String),
-          securityPolicy: S.optional(S.String),
-          labels: S.optional(__S(2976, __c93, 0)),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          authorizationPolicy: S.optional(S.String),
-          endpointMatcher: S.optional(__S(4740, __c148, 4)),
           clientTlsPolicy: S.optional(S.String),
+          authorizationPolicy: S.optional(S.String),
+          securityPolicy: S.optional(S.String),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          endpointMatcher: S.optional(__S(4739, __c148, 3)),
+          serverTlsPolicy: S.optional(S.String),
           type: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+          trafficPortSelector: S.optional(__S(4740, __c148, 4)),
         }),
       ).annotate({ identifier: "EndpointPolicy" });
   }
@@ -8749,8 +8774,8 @@ function __c149(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
@@ -8766,9 +8791,9 @@ function __c149(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(3008, __c94, 0)),
           httpRoutes: S.optional(__S(4769, __c149, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ListHttpRoutesResponse" });
   }
@@ -8778,11 +8803,11 @@ function __c150(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8809,10 +8834,10 @@ function __c151(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8838,11 +8863,11 @@ function __c152(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8856,8 +8881,8 @@ function __c152(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          lbTcpExtensions: S.optional(__S(4865, __c152, 1)),
           unreachable: S.optional(__S(3008, __c94, 0)),
+          lbTcpExtensions: S.optional(__S(4865, __c152, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLbTcpExtensionsResponse" });
@@ -8869,10 +8894,10 @@ function __c153(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8886,9 +8911,9 @@ function __c153(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          lbTrafficExtensions: S.optional(__S(4897, __c153, 1)),
-          unreachable: S.optional(__S(3008, __c94, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          lbTrafficExtensions: S.optional(__S(4897, __c153, 1)),
         }),
       ).annotate({ identifier: "ListLbTrafficExtensionsResponse" });
   }
@@ -8899,9 +8924,9 @@ function __c154(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8915,9 +8940,9 @@ function __c154(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(3008, __c94, 0)),
           meshes: S.optional(__S(4929, __c154, 1)),
-          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMeshesResponse" });
   }
@@ -8927,9 +8952,9 @@ function __c155(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8944,8 +8969,8 @@ function __c155(j: number): any {
       return S.suspend(() =>
         S.Struct({
           unreachable: S.optional(__S(3008, __c94, 0)),
-          meshRouteViews: S.optional(__S(4961, __c155, 1)),
           nextPageToken: S.optional(S.String),
+          meshRouteViews: S.optional(__S(4961, __c155, 1)),
         }),
       ).annotate({ identifier: "ListMeshRouteViewsResponse" });
   }
@@ -8955,11 +8980,11 @@ function __c156(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8973,8 +8998,8 @@ function __c156(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           operations: S.optional(__S(4993, __c156, 1)),
+          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -8985,9 +9010,9 @@ function __c157(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9001,9 +9026,9 @@ function __c157(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3008, __c94, 0)),
           producerExtensions: S.optional(__S(5025, __c157, 1)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ListProducerExtensionsResponse" });
   }
@@ -9013,9 +9038,9 @@ function __c158(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9029,9 +9054,9 @@ function __c158(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          serviceBindings: S.optional(__S(5057, __c158, 1)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(3008, __c94, 0)),
-          serviceBindings: S.optional(__S(5057, __c158, 1)),
         }),
       ).annotate({ identifier: "ListServiceBindingsResponse" });
   }

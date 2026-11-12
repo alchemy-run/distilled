@@ -85,12 +85,12 @@ export class NotFound
 export type DocumentTypeEnum = "TYPE_UNSPECIFIED" | "PLAIN_TEXT" | "HTML";
 /** Represents the input to API methods. */
 export interface Document {
-  /** The content of the input in string format. Cloud audit logging exempt since it is based on user data. */
-  content?: string | undefined;
   /** The Google Cloud Storage URI where the file content is located. This URI must be of the form: gs://bucket_name/object_name. For more details, see https://cloud.google.com/storage/docs/reference-uris. NOTE: Cloud Storage object versioning is not supported. */
   gcsContentUri?: string | undefined;
   /** Optional. The language of the document (if not specified, the language is automatically detected). Both ISO and BCP-47 language codes are accepted. [Language Support](https://cloud.google.com/natural-language/docs/languages) lists currently supported languages for each API method. If the language (either specified by the caller or automatically detected) is not supported by the called API method, an `INVALID_ARGUMENT` error is returned. */
   languageCode?: string | undefined;
+  /** The content of the input in string format. Cloud audit logging exempt since it is based on user data. */
+  content?: string | undefined;
   /** Required. If the type is not set or is `TYPE_UNSPECIFIED`, returns an `INVALID_ARGUMENT` error. */
   type?: DocumentTypeEnum | (string & {}) | undefined;
 }
@@ -103,34 +103,6 @@ export interface AnalyzeEntitiesRequest {
   encodingType?: AnalyzeEntitiesRequestEncodingTypeEnum | (string & {}) | undefined;
 }
 export interface AnalyzeEntitiesDocumentsRequest extends AnalyzeEntitiesRequest {}
-export type StringMap = { [key: string]: string | undefined };
-/** Represents the feeling associated with the entire text or entities in the text. */
-export interface Sentiment {
-  /** Sentiment score between -1.0 (negative sentiment) and 1.0 (positive sentiment). */
-  score?: number | undefined;
-  /** A non-negative number in the [0, +inf] range, which represents the absolute magnitude of sentiment regardless of score (positive or negative). */
-  magnitude?: number | undefined;
-}
-export type EntityMentionTypeEnum = "TYPE_UNKNOWN" | "PROPER" | "COMMON";
-/** Represents a text span in the input document. */
-export interface TextSpan {
-  /** The content of the text span, which is a substring of the document. */
-  content?: string | undefined;
-  /** The API calculates the beginning offset of the content in the original document according to the EncodingType specified in the API request. */
-  beginOffset?: number | undefined;
-}
-/** Represents a mention for an entity in the text. Currently, proper noun mentions are supported. */
-export interface EntityMention {
-  /** The type of the entity mention. */
-  type?: EntityMentionTypeEnum | undefined;
-  /** Probability score associated with the entity. The score shows the probability of the entity mention being the entity type. The score is in (0, 1] range. */
-  probability?: number | undefined;
-  /** For calls to AnalyzeEntitySentiment this field will contain the sentiment expressed for this mention of the entity in the provided document. */
-  sentiment?: Sentiment | undefined;
-  /** The mention text. */
-  text?: TextSpan | undefined;
-}
-export type EntityMentionList = Array<EntityMention>;
 export type EntityTypeEnum =
   | "UNKNOWN"
   | "PERSON"
@@ -145,18 +117,46 @@ export type EntityTypeEnum =
   | "DATE"
   | "NUMBER"
   | "PRICE";
+/** Represents the feeling associated with the entire text or entities in the text. */
+export interface Sentiment {
+  /** A non-negative number in the [0, +inf] range, which represents the absolute magnitude of sentiment regardless of score (positive or negative). */
+  magnitude?: number | undefined;
+  /** Sentiment score between -1.0 (negative sentiment) and 1.0 (positive sentiment). */
+  score?: number | undefined;
+}
+export type EntityMentionTypeEnum = "TYPE_UNKNOWN" | "PROPER" | "COMMON";
+/** Represents a text span in the input document. */
+export interface TextSpan {
+  /** The content of the text span, which is a substring of the document. */
+  content?: string | undefined;
+  /** The API calculates the beginning offset of the content in the original document according to the EncodingType specified in the API request. */
+  beginOffset?: number | undefined;
+}
+/** Represents a mention for an entity in the text. Currently, proper noun mentions are supported. */
+export interface EntityMention {
+  /** Probability score associated with the entity. The score shows the probability of the entity mention being the entity type. The score is in (0, 1] range. */
+  probability?: number | undefined;
+  /** For calls to AnalyzeEntitySentiment this field will contain the sentiment expressed for this mention of the entity in the provided document. */
+  sentiment?: Sentiment | undefined;
+  /** The type of the entity mention. */
+  type?: EntityMentionTypeEnum | undefined;
+  /** The mention text. */
+  text?: TextSpan | undefined;
+}
+export type EntityMentionList = Array<EntityMention>;
+export type StringMap = { [key: string]: string | undefined };
 /** Represents a phrase in the text that is a known entity, such as a person, an organization, or location. The API associates information, such as probability and mentions, with entities. */
 export interface Entity {
-  /** Metadata associated with the entity. For the metadata associated with other entity types, see the Type table below. */
-  metadata?: StringMap | undefined;
-  /** For calls to AnalyzeEntitySentiment this field will contain the aggregate sentiment expressed for this entity in the provided document. */
-  sentiment?: Sentiment | undefined;
-  /** The representative name for the entity. */
-  name?: string | undefined;
-  /** The mentions of this entity in the input document. The API currently supports proper noun mentions. */
-  mentions?: EntityMentionList | undefined;
   /** The entity type. */
   type?: EntityTypeEnum | undefined;
+  /** The mentions of this entity in the input document. The API currently supports proper noun mentions. */
+  mentions?: EntityMentionList | undefined;
+  /** For calls to AnalyzeEntitySentiment this field will contain the aggregate sentiment expressed for this entity in the provided document. */
+  sentiment?: Sentiment | undefined;
+  /** Metadata associated with the entity. For the metadata associated with other entity types, see the Type table below. */
+  metadata?: StringMap | undefined;
+  /** The representative name for the entity. */
+  name?: string | undefined;
 }
 export type EntityList = Array<Entity>;
 /** The entity analysis response message. */
@@ -171,10 +171,10 @@ export interface AnalyzeEntitiesResponse {
 export type AnalyzeSentimentRequestEncodingTypeEnum = "NONE" | "UTF8" | "UTF16" | "UTF32";
 /** The sentiment analysis request message. */
 export interface AnalyzeSentimentRequest {
-  /** Required. Input document. */
-  document?: Document | undefined;
   /** The encoding type used by the API to calculate sentence offsets. */
   encodingType?: AnalyzeSentimentRequestEncodingTypeEnum | (string & {}) | undefined;
+  /** Required. Input document. */
+  document?: Document | undefined;
 }
 export interface AnalyzeSentimentDocumentsRequest extends AnalyzeSentimentRequest {}
 /** Represents a sentence in the input document. */
@@ -187,25 +187,25 @@ export interface Sentence {
 export type SentenceList = Array<Sentence>;
 /** The sentiment analysis response message. */
 export interface AnalyzeSentimentResponse {
+  /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language_code field for more details. */
+  languageCode?: string | undefined;
+  /** The sentiment for all the sentences in the document. */
+  sentences?: SentenceList | undefined;
   /** The overall sentiment of the input document. */
   documentSentiment?: Sentiment | undefined;
   /** Whether the language is officially supported. The API may still return a response when the language is not supported, but it is on a best effort basis. */
   languageSupported?: boolean | undefined;
-  /** The sentiment for all the sentences in the document. */
-  sentences?: SentenceList | undefined;
-  /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language_code field for more details. */
-  languageCode?: string | undefined;
 }
 /** All available features. Setting each one to true will enable that specific analysis for the input. */
 export interface AnnotateTextRequestFeatures {
-  /** Optional. Extract document-level sentiment. */
-  extractDocumentSentiment?: boolean | undefined;
-  /** Optional. Moderate the document for harmful and sensitive categories. */
-  moderateText?: boolean | undefined;
   /** Optional. Classify the full document into categories. */
   classifyText?: boolean | undefined;
+  /** Optional. Moderate the document for harmful and sensitive categories. */
+  moderateText?: boolean | undefined;
   /** Optional. Extract entities. */
   extractEntities?: boolean | undefined;
+  /** Optional. Extract document-level sentiment. */
+  extractDocumentSentiment?: boolean | undefined;
 }
 export type AnnotateTextRequestEncodingTypeEnum = "NONE" | "UTF8" | "UTF16" | "UTF32";
 /** The request message for the text annotation API, which can perform multiple analysis types in one call. */
@@ -220,30 +220,30 @@ export interface AnnotateTextRequest {
 export interface AnnotateTextDocumentsRequest extends AnnotateTextRequest {}
 /** Represents a category returned from the text classifier. */
 export interface ClassificationCategory {
+  /** The classifier's confidence of the category. Number represents how certain the classifier is that this category represents the given text. */
+  confidence?: number | undefined;
   /** Optional. The classifier's severity of the category. This is only present when the ModerateTextRequest.ModelVersion is set to MODEL_VERSION_2, and the corresponding category has a severity score. */
   severity?: number | undefined;
   /** The name of the category representing the document. */
   name?: string | undefined;
-  /** The classifier's confidence of the category. Number represents how certain the classifier is that this category represents the given text. */
-  confidence?: number | undefined;
 }
 export type ClassificationCategoryList = Array<ClassificationCategory>;
 /** The text annotations response message. */
 export interface AnnotateTextResponse {
-  /** Categories identified in the input document. */
-  categories?: ClassificationCategoryList | undefined;
-  /** Sentences in the input document. Populated if the user enables AnnotateTextRequest.Features.extract_document_sentiment. */
-  sentences?: SentenceList | undefined;
-  /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language_code field for more details. */
-  languageCode?: string | undefined;
-  /** The overall sentiment for the document. Populated if the user enables AnnotateTextRequest.Features.extract_document_sentiment. */
-  documentSentiment?: Sentiment | undefined;
   /** Whether the language is officially supported by all requested features. The API may still return a response when the language is not supported, but it is on a best effort basis. */
   languageSupported?: boolean | undefined;
   /** Harmful and sensitive categories identified in the input document. */
   moderationCategories?: ClassificationCategoryList | undefined;
+  /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language_code field for more details. */
+  languageCode?: string | undefined;
   /** Entities, along with their semantic information, in the input document. Populated if the user enables AnnotateTextRequest.Features.extract_entities . */
   entities?: EntityList | undefined;
+  /** Sentences in the input document. Populated if the user enables AnnotateTextRequest.Features.extract_document_sentiment. */
+  sentences?: SentenceList | undefined;
+  /** Categories identified in the input document. */
+  categories?: ClassificationCategoryList | undefined;
+  /** The overall sentiment for the document. Populated if the user enables AnnotateTextRequest.Features.extract_document_sentiment. */
+  documentSentiment?: Sentiment | undefined;
 }
 /** The document classification request message. */
 export interface ClassifyTextRequest {
@@ -253,12 +253,12 @@ export interface ClassifyTextRequest {
 export interface ClassifyTextDocumentsRequest extends ClassifyTextRequest {}
 /** The document classification response message. */
 export interface ClassifyTextResponse {
-  /** Categories representing the input document. */
-  categories?: ClassificationCategoryList | undefined;
   /** Whether the language is officially supported. The API may still return a response when the language is not supported, but it is on a best effort basis. */
   languageSupported?: boolean | undefined;
   /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language_code field for more details. */
   languageCode?: string | undefined;
+  /** Categories representing the input document. */
+  categories?: ClassificationCategoryList | undefined;
 }
 export type ModerateTextRequestModelVersionEnum =
   | "MODEL_VERSION_UNSPECIFIED"
@@ -266,20 +266,20 @@ export type ModerateTextRequestModelVersionEnum =
   | "MODEL_VERSION_2";
 /** The document moderation request message. */
 export interface ModerateTextRequest {
-  /** Optional. The model version to use for ModerateText. */
-  modelVersion?: ModerateTextRequestModelVersionEnum | (string & {}) | undefined;
   /** Required. Input document. */
   document?: Document | undefined;
+  /** Optional. The model version to use for ModerateText. */
+  modelVersion?: ModerateTextRequestModelVersionEnum | (string & {}) | undefined;
 }
 export interface ModerateTextDocumentsRequest extends ModerateTextRequest {}
 /** The document moderation response message. */
 export interface ModerateTextResponse {
   /** Harmful and sensitive categories representing the input document. */
   moderationCategories?: ClassificationCategoryList | undefined;
-  /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language_code field for more details. */
-  languageCode?: string | undefined;
   /** Whether the language is officially supported. The API may still return a response when the language is not supported, but it is on a best effort basis. */
   languageSupported?: boolean | undefined;
+  /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language_code field for more details. */
+  languageCode?: string | undefined;
 }
 export type AnalyzeEntitiesDocumentsError =
   | NotFound
@@ -294,8 +294,8 @@ export const analyzeEntitiesDocuments: API.OperationMethod<
   AnalyzeEntitiesDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AnalyzeEntitiesDocumentsRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<AnalyzeEntitiesResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<AnalyzeEntitiesDocumentsRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<AnalyzeEntitiesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -316,8 +316,8 @@ export const analyzeSentimentDocuments: API.OperationMethod<
   AnalyzeSentimentDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<AnalyzeSentimentDocumentsRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<AnalyzeSentimentResponse>,
+  input: __S(33, __c4, 1) as any as S.Schema<AnalyzeSentimentDocumentsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<AnalyzeSentimentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -333,8 +333,8 @@ export const annotateTextDocuments: API.OperationMethod<
   AnnotateTextDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(58, __c7, 2) as any as S.Schema<AnnotateTextDocumentsRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<AnnotateTextResponse>,
+  input: __S(50, __c6, 2) as any as S.Schema<AnnotateTextDocumentsRequest>,
+  output: __S(51, __c6, 3) as any as S.Schema<AnnotateTextResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -350,8 +350,8 @@ export const classifyTextDocuments: API.OperationMethod<
   ClassifyTextDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(73, __c9, 1) as any as S.Schema<ClassifyTextDocumentsRequest>,
-  output: __S(74, __c9, 2) as any as S.Schema<ClassifyTextResponse>,
+  input: __S(65, __c8, 1) as any as S.Schema<ClassifyTextDocumentsRequest>,
+  output: __S(66, __c8, 2) as any as S.Schema<ClassifyTextResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -367,8 +367,8 @@ export const moderateTextDocuments: API.OperationMethod<
   ModerateTextDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c10, 1) as any as S.Schema<ModerateTextDocumentsRequest>,
-  output: __S(82, __c10, 2) as any as S.Schema<ModerateTextResponse>,
+  input: __S(73, __c9, 1) as any as S.Schema<ModerateTextDocumentsRequest>,
+  output: __S(74, __c9, 2) as any as S.Schema<ModerateTextResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -381,7 +381,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Extend(__S(8, __c1, 0), S.Struct({})).pipe(
+        S.Struct({
+          document: S.optional(__S(16, __c2, 0)),
+          encodingType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AnalyzeEntitiesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/documents:analyzeEntities",
@@ -389,10 +396,10 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AnalyzeEntitiesDocumentsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          entities: S.optional(__S(36, __c4, 4)),
+          entities: S.optional(__S(28, __c3, 4)),
           languageSupported: S.optional(S.Boolean),
           languageCode: S.optional(S.String),
         }),
@@ -404,19 +411,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          document: S.optional(__S(24, __c3, 0)),
-          encodingType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AnalyzeEntitiesRequest" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          score: S.optional(S.Number),
           magnitude: S.optional(S.Number),
+          score: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Sentiment" });
     case 1:
@@ -428,53 +424,60 @@ function __c2(j: number): any {
       ).annotate({ identifier: "TextSpan" });
   }
 }
-function __c3(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(S.String),
           gcsContentUri: S.optional(S.String),
           languageCode: S.optional(S.String),
+          content: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Document" });
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
           probability: S.optional(S.Number),
-          sentiment: S.optional(__S(16, __c2, 0)),
-          text: S.optional(__S(17, __c2, 1)),
+          sentiment: S.optional(__S(8, __c1, 0)),
+          type: S.optional(S.String),
+          text: S.optional(__S(9, __c1, 1)),
         }),
       ).annotate({ identifier: "EntityMention" });
+    case 1:
+      return S.Array(__S(24, __c3, 0));
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.Record(S.String, S.String);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(32, __c4, 0)),
-          sentiment: S.optional(__S(16, __c2, 0)),
-          name: S.optional(S.String),
-          mentions: S.optional(__S(34, __c4, 2)),
           type: S.optional(S.String),
+          mentions: S.optional(__S(25, __c3, 1)),
+          sentiment: S.optional(__S(8, __c1, 0)),
+          metadata: S.optional(__S(26, __c3, 2)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Entity" });
     case 4:
-      return S.Array(__S(35, __c4, 3));
+      return S.Array(__S(27, __c3, 3));
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Extend(__S(8, __c1, 0), S.Struct({})).pipe(
+        S.Struct({
+          encodingType: S.optional(S.String),
+          document: S.optional(__S(16, __c2, 0)),
+        }),
+      ).annotate({ identifier: "AnalyzeSentimentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(32, __c4, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/documents:analyzeSentiment",
@@ -482,15 +485,28 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AnalyzeSentimentDocumentsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          documentSentiment: S.optional(__S(16, __c2, 0)),
-          languageSupported: S.optional(S.Boolean),
-          sentences: S.optional(__S(49, __c6, 1)),
           languageCode: S.optional(S.String),
+          sentences: S.optional(__S(41, __c5, 1)),
+          documentSentiment: S.optional(__S(8, __c1, 0)),
+          languageSupported: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AnalyzeSentimentResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          text: S.optional(__S(9, __c1, 1)),
+          sentiment: S.optional(__S(8, __c1, 0)),
+        }),
+      ).annotate({ identifier: "Sentence" });
+    case 1:
+      return S.Array(__S(40, __c5, 0));
   }
 }
 function __c6(j: number): any {
@@ -498,36 +514,23 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          text: S.optional(__S(17, __c2, 1)),
-          sentiment: S.optional(__S(16, __c2, 0)),
-        }),
-      ).annotate({ identifier: "Sentence" });
-    case 1:
-      return S.Array(__S(48, __c6, 0));
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          extractDocumentSentiment: S.optional(S.Boolean),
-          moderateText: S.optional(S.Boolean),
           classifyText: S.optional(S.Boolean),
+          moderateText: S.optional(S.Boolean),
           extractEntities: S.optional(S.Boolean),
+          extractDocumentSentiment: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AnnotateTextRequestFeatures" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          document: S.optional(__S(24, __c3, 0)),
-          features: S.optional(__S(56, __c7, 0)),
+          document: S.optional(__S(16, __c2, 0)),
+          features: S.optional(__S(48, __c6, 0)),
           encodingType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnnotateTextRequest" });
     case 2:
       return S.suspend(() =>
-        S.Extend(__S(57, __c7, 1), S.Struct({})).pipe(
+        S.Extend(__S(49, __c6, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/documents:annotateText",
@@ -538,15 +541,29 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(__S(65, __c8, 1)),
-          sentences: S.optional(__S(49, __c6, 1)),
-          languageCode: S.optional(S.String),
-          documentSentiment: S.optional(__S(16, __c2, 0)),
           languageSupported: S.optional(S.Boolean),
-          moderationCategories: S.optional(__S(65, __c8, 1)),
-          entities: S.optional(__S(36, __c4, 4)),
+          moderationCategories: S.optional(__S(57, __c7, 1)),
+          languageCode: S.optional(S.String),
+          entities: S.optional(__S(28, __c3, 4)),
+          sentences: S.optional(__S(41, __c5, 1)),
+          categories: S.optional(__S(57, __c7, 1)),
+          documentSentiment: S.optional(__S(8, __c1, 0)),
         }),
       ).annotate({ identifier: "AnnotateTextResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          confidence: S.optional(S.Number),
+          severity: S.optional(S.Number),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClassificationCategory" });
+    case 1:
+      return S.Array(__S(56, __c7, 0));
   }
 }
 function __c8(j: number): any {
@@ -554,26 +571,12 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          severity: S.optional(S.Number),
-          name: S.optional(S.String),
-          confidence: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ClassificationCategory" });
-    case 1:
-      return S.Array(__S(64, __c8, 0));
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          document: S.optional(__S(24, __c3, 0)),
+          document: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "ClassifyTextRequest" });
     case 1:
       return S.suspend(() =>
-        S.Extend(__S(72, __c9, 0), S.Struct({})).pipe(
+        S.Extend(__S(64, __c8, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/documents:classifyText",
@@ -584,25 +587,25 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(__S(65, __c8, 1)),
           languageSupported: S.optional(S.Boolean),
           languageCode: S.optional(S.String),
+          categories: S.optional(__S(57, __c7, 1)),
         }),
       ).annotate({ identifier: "ClassifyTextResponse" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          document: S.optional(__S(16, __c2, 0)),
           modelVersion: S.optional(S.String),
-          document: S.optional(__S(24, __c3, 0)),
         }),
       ).annotate({ identifier: "ModerateTextRequest" });
     case 1:
       return S.suspend(() =>
-        S.Extend(__S(80, __c10, 0), S.Struct({})).pipe(
+        S.Extend(__S(72, __c9, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/documents:moderateText",
@@ -613,9 +616,9 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          moderationCategories: S.optional(__S(65, __c8, 1)),
-          languageCode: S.optional(S.String),
+          moderationCategories: S.optional(__S(57, __c7, 1)),
           languageSupported: S.optional(S.Boolean),
+          languageCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "ModerateTextResponse" });
   }

@@ -85,14 +85,14 @@ export class NotFound
 
 /** Request message for 'ApplyConversionWorkspace' request. */
 export interface ApplyConversionWorkspaceRequest {
-  /** Optional. Fully qualified (Uri) name of the destination connection profile. */
-  connectionProfile?: string | undefined;
   /** Optional. Filter which entities to apply. Leaving this field empty will apply all of the entities. Supports Google AIP 160 based filtering. */
   filter?: string | undefined;
-  /** Optional. Specifies whether the conversion workspace is to be committed automatically after the apply. */
-  autoCommit?: boolean | undefined;
   /** Optional. Only validates the apply process, but doesn't change the destination database. Only works for PostgreSQL destination connection profile. */
   dryRun?: boolean | undefined;
+  /** Optional. Specifies whether the conversion workspace is to be committed automatically after the apply. */
+  autoCommit?: boolean | undefined;
+  /** Optional. Fully qualified (Uri) name of the destination connection profile. */
+  connectionProfile?: string | undefined;
 }
 export interface ApplyProjectsLocationsConversionWorkspacesRequest extends ApplyConversionWorkspaceRequest {
   /** Required. The name of the conversion workspace resource for which to apply the draft tree. Must be in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
@@ -102,25 +102,25 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -143,16 +143,63 @@ export interface CommitProjectsLocationsConversionWorkspacesRequest extends Comm
 }
 /** Request message for 'ConvertConversionWorkspace' request. */
 export interface ConvertConversionWorkspaceRequest {
-  /** Optional. Specifies whether the conversion workspace is to be committed automatically after the conversion. */
-  autoCommit?: boolean | undefined;
   /** Optional. Filter the entities to convert. Leaving this field empty will convert all of the entities. Supports Google AIP-160 style filtering. */
   filter?: string | undefined;
   /** Optional. Automatically convert the full entity path for each entity specified by the filter. For example, if the filter specifies a table, that table schema (and database if there is one) will also be converted. */
   convertFullPath?: boolean | undefined;
+  /** Optional. Specifies whether the conversion workspace is to be committed automatically after the conversion. */
+  autoCommit?: boolean | undefined;
 }
 export interface ConvertProjectsLocationsConversionWorkspacesRequest extends ConvertConversionWorkspaceRequest {
   /** Name of the conversion workspace resource to convert in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   name: string;
+}
+export type StringMap = { [key: string]: string | undefined };
+export type ConnectionProfileProviderEnum =
+  | "DATABASE_PROVIDER_UNSPECIFIED"
+  | "CLOUDSQL"
+  | "RDS"
+  | "AURORA"
+  | "ALLOYDB"
+  | "AZURE_DATABASE";
+export type ConnectionProfileStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "DRAFT"
+  | "CREATING"
+  | "READY"
+  | "UPDATING"
+  | "DELETING"
+  | "DELETED"
+  | "FAILED";
+/** [Private Service Connect connectivity](https://cloud.google.com/vpc/docs/private-service-connect#service-attachments) */
+export interface PrivateServiceConnectConnectivity {
+  /** Required. A service attachment that exposes a database, and has the following format: projects/{project}/regions/{region}/serviceAttachments/{service_attachment_name} */
+  serviceAttachment?: string | undefined;
+}
+/** Private Connectivity. */
+export interface PrivateConnectivity {
+  /** Required. The resource name (URI) of the private connection. */
+  privateConnection?: string | undefined;
+}
+/** Forward SSH Tunnel connectivity. */
+export interface ForwardSshTunnelConnectivity {
+  /** Required. Hostname for the SSH tunnel. */
+  hostname?: string | undefined;
+  /** Input only. SSH password. */
+  password?: string | undefined;
+  /** Input only. SSH private key. */
+  privateKey?: string | undefined;
+  /** Required. Username for the SSH tunnel. */
+  username?: string | undefined;
+  /** Port for the SSH tunnel, default value is 22. */
+  port?: number | undefined;
+}
+/** Specifies the backup details in Cloud Storage for homogeneous migration to Cloud SQL for SQL Server. */
+export interface SqlServerBackups {
+  /** Required. The Cloud Storage bucket that stores backups for all replicated databases. */
+  gcsBucket?: string | undefined;
+  /** Optional. Cloud Storage path inside the bucket that stores backups. */
+  gcsPrefix?: string | undefined;
 }
 export type SslConfigTypeEnum =
   | "SSL_TYPE_UNSPECIFIED"
@@ -160,78 +207,71 @@ export type SslConfigTypeEnum =
   | "SERVER_CLIENT"
   | "REQUIRED"
   | "NONE";
-export type StringMap = { [key: string]: string | undefined };
 /** SSL configuration information. */
 export interface SslConfig {
   /** Input only. The unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' field is mandatory. */
   clientKey?: string | undefined;
-  /** Optional. The ssl config type according to 'client_key', 'client_certificate' and 'ca_certificate'. */
-  type?: SslConfigTypeEnum | (string & {}) | undefined;
   /** Required. Input only. The x509 PEM-encoded certificate of the CA that signed the source database server's certificate. The replica will use this certificate to verify it's connecting to the right host. */
   caCertificate?: string | undefined;
   /** Input only. The x509 PEM-encoded certificate that will be used by the replica to authenticate against the source database server.If this field is used then the 'client_key' field is mandatory. */
   clientCertificate?: string | undefined;
   /** Optional. SSL flags used for establishing SSL connection to the source database. Only source specific flags are supported. An object containing a list of "key": "value" pairs. Examples: { "server_certificate_dn": "CN=server.com,OU=RDS,O=Amazon.com,C=US"} or { "server_certificate_hostname": "server.com"}. */
   sslFlags?: StringMap | undefined;
+  /** Optional. The ssl config type according to 'client_key', 'client_certificate' and 'ca_certificate'. */
+  type?: SslConfigTypeEnum | (string & {}) | undefined;
 }
-/** Private Connectivity. */
-export interface PrivateConnectivity {
-  /** Required. The resource name (URI) of the private connection. */
-  privateConnection?: string | undefined;
-}
-/** Static IP address connectivity configured on service project. */
-export type StaticServiceIpConnectivity = CancelOperationRequest;
-/** [Private Service Connect connectivity](https://cloud.google.com/vpc/docs/private-service-connect#service-attachments) */
-export interface PrivateServiceConnectConnectivity {
-  /** Required. A service attachment that exposes a database, and has the following format: projects/{project}/regions/{region}/serviceAttachments/{service_attachment_name} */
-  serviceAttachment?: string | undefined;
-}
-/** Specifies connection parameters required specifically for MySQL databases. */
-export interface MySqlConnectionProfile {
-  /** Required. Input only. The password for the user that Database Migration Service will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Database Migration Service. */
-  password?: string | undefined;
-  /** SSL configuration for the destination to connect to the source database. */
-  ssl?: SslConfig | undefined;
-  /** If the source is a Cloud SQL database, use this field to provide the Cloud SQL instance ID of the source. */
-  cloudSqlId?: string | undefined;
-  /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity | undefined;
-  /** Static Service IP connectivity. */
-  staticServiceIpConnectivity?: CancelOperationRequest | undefined;
+/** The source database will allow incoming connections from the public IP of the destination database. You can retrieve the public IP of the Cloud SQL instance from the Cloud SQL console or using Cloud SQL APIs. No additional configuration is required. */
+export type StaticIpConnectivity = CancelOperationRequest;
+/** Specifies connection parameters required specifically for SQL Server databases. */
+export interface SqlServerConnectionProfile {
+  /** Optional. The Database Mirroring (DBM) port of the source SQL Server instance. */
+  dbmPort?: number | undefined;
+  /** Output only. Indicates whether a new password is included in the request. */
+  passwordSet?: boolean | undefined;
   /** Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service. */
   username?: string | undefined;
-  /** Output only. Indicates If this connection profile password is stored. */
-  passwordSet?: boolean | undefined;
+  /** If the source is a Cloud SQL database, use this field to provide the Cloud SQL instance ID of the source. */
+  cloudSqlId?: string | undefined;
   /** Private Service Connect connectivity. */
   privateServiceConnectConnectivity?: PrivateServiceConnectConnectivity | undefined;
-  /** Required. The IP or hostname of the source MySQL database. */
-  host?: string | undefined;
-  /** Required. The network port of the source MySQL database. */
+  /** Private connectivity. */
+  privateConnectivity?: PrivateConnectivity | undefined;
+  /** Required. The name of the specific database within the host. */
+  database?: string | undefined;
+  /** Optional. The project id of the Cloud SQL instance. If not provided, the project id of the connection profile will be used. */
+  cloudSqlProjectId?: string | undefined;
+  /** Forward SSH tunnel connectivity. */
+  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
+  /** The backup details in Cloud Storage for homogeneous migration to Cloud SQL for SQL Server. */
+  backups?: SqlServerBackups | undefined;
+  /** SSL configuration for the destination to connect to the source database. */
+  ssl?: SslConfig | undefined;
+  /** Required. The network port of the source SQL Server database. */
   port?: number | undefined;
+  /** Static IP connectivity data (default, no additional details needed). */
+  staticIpConnectivity?: CancelOperationRequest | undefined;
+  /** Required. Input only. The password for the user that Database Migration Service will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Database Migration Service. */
+  password?: string | undefined;
+  /** Required. The IP or hostname of the source SQL Server database. */
+  host?: string | undefined;
 }
-export type ConnectionProfileRoleEnum = "ROLE_UNSPECIFIED" | "SOURCE" | "DESTINATION";
 /** The username/password for a database user. Used for specifying initial users at cluster creation time. */
 export interface UserPassword {
-  /** Output only. Indicates if the initial_user.password field has been set. */
-  passwordSet?: boolean | undefined;
-  /** The initial password for the user. */
-  password?: string | undefined;
   /** The database username. */
   user?: string | undefined;
+  /** The initial password for the user. */
+  password?: string | undefined;
+  /** Output only. Indicates if the initial_user.password field has been set. */
+  passwordSet?: boolean | undefined;
 }
-/** EncryptionConfig describes the encryption config of a cluster that is encrypted with a CMEK (customer-managed encryption key). */
-export interface EncryptionConfig {
-  /** The fully-qualified resource name of the KMS key. Each Cloud KMS key is regionalized and has the following format: projects/[PROJECT]/locations/[REGION]/keyRings/[RING]/cryptoKeys/[KEY_NAME] */
-  kmsKeyName?: string | undefined;
-}
-export type StringList = Array<string>;
-/** MachineConfig describes the configuration of a machine. */
-export interface MachineConfig {
-  /** Optional. Machine type of the VM instance. E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd". cpu_count must match the number of vCPUs in the machine type. */
-  machineType?: string | undefined;
-  /** The number of CPU's in the VM instance. */
-  cpuCount?: number | undefined;
-}
+export type AlloyDbSettingsDatabaseVersionEnum =
+  | "DATABASE_VERSION_UNSPECIFIED"
+  | "POSTGRES_14"
+  | "POSTGRES_15"
+  | "POSTGRES_16"
+  | "POSTGRES_17"
+  | "POSTGRES_18"
+  | "POSTGRES_19";
 /** AuthorizedNetwork contains metadata for an authorized network. */
 export interface AuthorizedNetwork {
   /** Optional. CIDR range for one authorzied network of the instance. */
@@ -242,57 +282,214 @@ export type AuthorizedNetworkList = Array<AuthorizedNetwork>;
 export interface InstanceNetworkConfig {
   /** Optional. Enabling public ip for the instance. */
   enablePublicIp?: boolean | undefined;
-  /** Optional. Enabling an outbound public IP address to support a database server sending requests out into the internet. */
-  enableOutboundPublicIp?: boolean | undefined;
   /** Optional. A list of external network authorized to access this instance. */
   authorizedExternalNetworks?: AuthorizedNetworkList | undefined;
+  /** Optional. Enabling an outbound public IP address to support a database server sending requests out into the internet. */
+  enableOutboundPublicIp?: boolean | undefined;
 }
+/** MachineConfig describes the configuration of a machine. */
+export interface MachineConfig {
+  /** Optional. Machine type of the VM instance. E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd". cpu_count must match the number of vCPUs in the machine type. */
+  machineType?: string | undefined;
+  /** The number of CPU's in the VM instance. */
+  cpuCount?: number | undefined;
+}
+export type StringList = Array<string>;
 /** Settings for the cluster's primary instance */
 export interface PrimaryInstanceSettings {
-  /** Output only. All outbound public IP addresses configured for the instance. */
-  outboundPublicIpAddresses?: StringList | undefined;
+  /** Required. The ID of the AlloyDB primary instance. The ID must satisfy the regex expression "[a-z0-9-]+". */
+  id?: string | undefined;
+  /** Optional. Metadata related to instance level network configuration. */
+  instanceNetworkConfig?: InstanceNetworkConfig | undefined;
   /** Configuration for the machines that host the underlying database engine. */
   machineConfig?: MachineConfig | undefined;
+  /** Output only. All outbound public IP addresses configured for the instance. */
+  outboundPublicIpAddresses?: StringList | undefined;
+  /** Output only. The private IP address for the Instance. This is the connection endpoint for an end-user application. */
+  privateIp?: string | undefined;
   /** Database flags to pass to AlloyDB when DMS is creating the AlloyDB cluster and instances. See the AlloyDB documentation for how these can be used. */
   databaseFlags?: StringMap | undefined;
   /** Labels for the AlloyDB primary instance created by DMS. An object containing a list of 'key', 'value' pairs. */
   labels?: StringMap | undefined;
-  /** Output only. The private IP address for the Instance. This is the connection endpoint for an end-user application. */
-  privateIp?: string | undefined;
-  /** Optional. Metadata related to instance level network configuration. */
-  instanceNetworkConfig?: InstanceNetworkConfig | undefined;
-  /** Required. The ID of the AlloyDB primary instance. The ID must satisfy the regex expression "[a-z0-9-]+". */
-  id?: string | undefined;
 }
-export type AlloyDbSettingsDatabaseVersionEnum =
-  | "DATABASE_VERSION_UNSPECIFIED"
-  | "POSTGRES_14"
-  | "POSTGRES_15"
-  | "POSTGRES_16"
-  | "POSTGRES_17"
-  | "POSTGRES_18"
-  | "POSTGRES_19";
+/** EncryptionConfig describes the encryption config of a cluster that is encrypted with a CMEK (customer-managed encryption key). */
+export interface EncryptionConfig {
+  /** The fully-qualified resource name of the KMS key. Each Cloud KMS key is regionalized and has the following format: projects/[PROJECT]/locations/[REGION]/keyRings/[RING]/cryptoKeys/[KEY_NAME] */
+  kmsKeyName?: string | undefined;
+}
 /** Settings for creating an AlloyDB cluster. */
 export interface AlloyDbSettings {
   /** Required. Input only. Initial user to setup during cluster creation. Required. */
   initialUser?: UserPassword | undefined;
+  /** Optional. The database engine major version. This is an optional field. If a database version is not supplied at cluster creation time, then a default database version will be used. */
+  databaseVersion?: AlloyDbSettingsDatabaseVersionEnum | (string & {}) | undefined;
+  /** Labels for the AlloyDB cluster created by DMS. An object containing a list of 'key', 'value' pairs. */
+  labels?: StringMap | undefined;
+  /** Settings for the cluster's primary instance */
+  primaryInstanceSettings?: PrimaryInstanceSettings | undefined;
   /** Required. The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster. It is specified in the form: "projects/{project_number}/global/networks/{network_id}". This is required to create a cluster. */
   vpcNetwork?: string | undefined;
   /** Optional. The encryption config can be specified to encrypt the data disks and other persistent data resources of a cluster with a customer-managed encryption key (CMEK). When this field is not specified, the cluster will then use default encryption scheme to protect the user data. */
   encryptionConfig?: EncryptionConfig | undefined;
-  /** Settings for the cluster's primary instance */
-  primaryInstanceSettings?: PrimaryInstanceSettings | undefined;
-  /** Labels for the AlloyDB cluster created by DMS. An object containing a list of 'key', 'value' pairs. */
-  labels?: StringMap | undefined;
-  /** Optional. The database engine major version. This is an optional field. If a database version is not supplied at cluster creation time, then a default database version will be used. */
-  databaseVersion?: AlloyDbSettingsDatabaseVersionEnum | (string & {}) | undefined;
 }
 /** Specifies required connection parameters, and the parameters required to create an AlloyDB destination cluster. */
 export interface AlloyDbConnectionProfile {
-  /** Required. The AlloyDB cluster ID that this connection profile is associated with. */
-  clusterId?: string | undefined;
   /** Immutable. Metadata used to create the destination AlloyDB cluster. */
   settings?: AlloyDbSettings | undefined;
+  /** Required. The AlloyDB cluster ID that this connection profile is associated with. */
+  clusterId?: string | undefined;
+}
+/** Static IP address connectivity configured on service project. */
+export type StaticServiceIpConnectivity = CancelOperationRequest;
+/** Configuration for Oracle Automatic Storage Management (ASM) connection. */
+export interface OracleAsmConfig {
+  /** Required. Hostname for the Oracle ASM connection. */
+  hostname?: string | undefined;
+  /** Optional. SSL configuration for the Oracle connection. */
+  ssl?: SslConfig | undefined;
+  /** Required. Input only. Password for the Oracle ASM connection. */
+  password?: string | undefined;
+  /** Required. ASM service name for the Oracle ASM connection. */
+  asmService?: string | undefined;
+  /** Required. Port for the Oracle ASM connection. */
+  port?: number | undefined;
+  /** Output only. Indicates whether a new password is included in the request. */
+  passwordSet?: boolean | undefined;
+  /** Required. Username for the Oracle ASM connection. */
+  username?: string | undefined;
+}
+/** Specifies connection parameters required specifically for Oracle databases. */
+export interface OracleConnectionProfile {
+  /** Output only. Indicates whether a new password is included in the request. */
+  passwordSet?: boolean | undefined;
+  /** Private connectivity. */
+  privateConnectivity?: PrivateConnectivity | undefined;
+  /** Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service. */
+  username?: string | undefined;
+  /** Required. Database service for the Oracle connection. */
+  databaseService?: string | undefined;
+  /** Required. The network port of the source Oracle database. */
+  port?: number | undefined;
+  /** SSL configuration for the connection to the source Oracle database. * Only `SERVER_ONLY` configuration is supported for Oracle SSL. * SSL is supported for Oracle versions 12 and above. */
+  ssl?: SslConfig | undefined;
+  /** Static Service IP connectivity. */
+  staticServiceIpConnectivity?: CancelOperationRequest | undefined;
+  /** Optional. Configuration for Oracle ASM connection. */
+  oracleAsmConfig?: OracleAsmConfig | undefined;
+  /** Forward SSH tunnel connectivity. */
+  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
+  /** Required. The IP or hostname of the source Oracle database. */
+  host?: string | undefined;
+  /** Required. Input only. The password for the user that Database Migration Service will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Database Migration Service. */
+  password?: string | undefined;
+}
+export type PostgreSqlConnectionProfileNetworkArchitectureEnum =
+  | "NETWORK_ARCHITECTURE_UNSPECIFIED"
+  | "NETWORK_ARCHITECTURE_OLD_CSQL_PRODUCER"
+  | "NETWORK_ARCHITECTURE_NEW_CSQL_PRODUCER";
+/** Specifies connection parameters required specifically for PostgreSQL databases. */
+export interface PostgreSqlConnectionProfile {
+  /** SSL configuration for the destination to connect to the source database. */
+  ssl?: SslConfig | undefined;
+  /** Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service. */
+  username?: string | undefined;
+  /** If the source is a Cloud SQL database, use this field to provide the Cloud SQL instance ID of the source. */
+  cloudSqlId?: string | undefined;
+  /** Output only. If the source is a Cloud SQL database, this field indicates the network architecture it's associated with. */
+  networkArchitecture?:
+    | PostgreSqlConnectionProfileNetworkArchitectureEnum
+    | (string & {})
+    | undefined;
+  /** Static ip connectivity data (default, no additional details needed). */
+  staticIpConnectivity?: CancelOperationRequest | undefined;
+  /** Optional. The name of the specific database within the host. */
+  database?: string | undefined;
+  /** Private Service Connect connectivity. */
+  privateServiceConnectConnectivity?: PrivateServiceConnectConnectivity | undefined;
+  /** Private connectivity. */
+  privateConnectivity?: PrivateConnectivity | undefined;
+  /** Required. The IP or hostname of the source PostgreSQL database. */
+  host?: string | undefined;
+  /** Optional. If true, Database Migration Service will use IAM database authentication to connect to the database. */
+  enableIamAuthentication?: boolean | undefined;
+  /** Forward SSH tunnel connectivity. */
+  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
+  /** Optional. If the destination is an AlloyDB database, use this field to provide the AlloyDB cluster ID. */
+  alloydbClusterId?: string | undefined;
+  /** Required. Input only. The password for the user that Database Migration Service will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Database Migration Service. */
+  password?: string | undefined;
+  /** Output only. Indicates If this connection profile password is stored. */
+  passwordSet?: boolean | undefined;
+  /** Required. The network port of the source PostgreSQL database. */
+  port?: number | undefined;
+}
+export type ConnectionProfileRoleEnum = "ROLE_UNSPECIFIED" | "SOURCE" | "DESTINATION";
+/** Specifies connection parameters required specifically for MySQL databases. */
+export interface MySqlConnectionProfile {
+  /** Required. Input only. The password for the user that Database Migration Service will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Database Migration Service. */
+  password?: string | undefined;
+  /** Private connectivity. */
+  privateConnectivity?: PrivateConnectivity | undefined;
+  /** Private Service Connect connectivity. */
+  privateServiceConnectConnectivity?: PrivateServiceConnectConnectivity | undefined;
+  /** Output only. Indicates If this connection profile password is stored. */
+  passwordSet?: boolean | undefined;
+  /** Required. The IP or hostname of the source MySQL database. */
+  host?: string | undefined;
+  /** Static Service IP connectivity. */
+  staticServiceIpConnectivity?: CancelOperationRequest | undefined;
+  /** If the source is a Cloud SQL database, use this field to provide the Cloud SQL instance ID of the source. */
+  cloudSqlId?: string | undefined;
+  /** SSL configuration for the destination to connect to the source database. */
+  ssl?: SslConfig | undefined;
+  /** Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service. */
+  username?: string | undefined;
+  /** Required. The network port of the source MySQL database. */
+  port?: number | undefined;
+}
+export type CloudSqlSettingsActivationPolicyEnum =
+  | "SQL_ACTIVATION_POLICY_UNSPECIFIED"
+  | "ALWAYS"
+  | "NEVER";
+export type CloudSqlSettingsAvailabilityTypeEnum =
+  | "SQL_AVAILABILITY_TYPE_UNSPECIFIED"
+  | "ZONAL"
+  | "REGIONAL";
+export type CloudSqlSettingsDataDiskTypeEnum =
+  | "SQL_DATA_DISK_TYPE_UNSPECIFIED"
+  | "PD_SSD"
+  | "PD_HDD"
+  | "HYPERDISK_BALANCED";
+/** Data cache is an optional feature available for Cloud SQL for MySQL Enterprise Plus edition only. For more information on data cache, see [Data cache overview](https://cloud.google.com/sql/help/mysql-data-cache) in Cloud SQL documentation. */
+export interface DataCacheConfig {
+  /** Optional. Whether data cache is enabled for the instance. */
+  dataCacheEnabled?: boolean | undefined;
+}
+export type CloudSqlSettingsEditionEnum = "EDITION_UNSPECIFIED" | "ENTERPRISE" | "ENTERPRISE_PLUS";
+/** An entry for an Access Control list. */
+export interface SqlAclEntry {
+  /** Input only. The time-to-leave of this access control entry. */
+  ttl?: string | undefined;
+  /** The allowlisted value for the access control list. */
+  value?: string | undefined;
+  /** A label to identify this entry. */
+  label?: string | undefined;
+  /** The time when this access control entry expires in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example: `2012-11-15T16:19:00.094Z`. */
+  expireTime?: string | undefined;
+}
+export type SqlAclEntryList = Array<SqlAclEntry>;
+/** IP Management configuration. */
+export interface SqlIpConfig {
+  /** The list of external networks that are allowed to connect to the instance using the IP. See https://en.wikipedia.org/wiki/CIDR_notation#CIDR_notation, also known as 'slash' notation (e.g. `192.168.100.0/24`). */
+  authorizedNetworks?: SqlAclEntryList | undefined;
+  /** Optional. The name of the allocated IP address range for the private IP Cloud SQL instance. This name refers to an already allocated IP range address. If set, the instance IP address will be created in the allocated range. Note that this IP address range can't be modified after the instance is created. If you change the VPC when configuring connectivity settings for the migration job, this field is not relevant. */
+  allocatedIpRange?: string | undefined;
+  /** Whether SSL connections over IP should be enforced or not. */
+  requireSsl?: boolean | undefined;
+  /** Whether the instance should be assigned an IPv4 address or not. */
+  enableIpv4?: boolean | undefined;
+  /** The resource link for the VPC network from which the Cloud SQL instance is accessible for private IP. For example, `projects/myProject/global/networks/default`. This setting can be updated, but it cannot be removed after it is set. */
+  privateNetwork?: string | undefined;
 }
 export type CloudSqlSettingsDatabaseVersionEnum =
   | "SQL_DATABASE_VERSION_UNSPECIFIED"
@@ -320,313 +517,116 @@ export type CloudSqlSettingsDatabaseVersionEnum =
   | "POSTGRES_14"
   | "POSTGRES_15"
   | "POSTGRES_16";
-export type CloudSqlSettingsDataDiskTypeEnum =
-  | "SQL_DATA_DISK_TYPE_UNSPECIFIED"
-  | "PD_SSD"
-  | "PD_HDD"
-  | "HYPERDISK_BALANCED";
-export type CloudSqlSettingsActivationPolicyEnum =
-  | "SQL_ACTIVATION_POLICY_UNSPECIFIED"
-  | "ALWAYS"
-  | "NEVER";
-export type CloudSqlSettingsAvailabilityTypeEnum =
-  | "SQL_AVAILABILITY_TYPE_UNSPECIFIED"
-  | "ZONAL"
-  | "REGIONAL";
-/** An entry for an Access Control list. */
-export interface SqlAclEntry {
-  /** The allowlisted value for the access control list. */
-  value?: string | undefined;
-  /** The time when this access control entry expires in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example: `2012-11-15T16:19:00.094Z`. */
-  expireTime?: string | undefined;
-  /** A label to identify this entry. */
-  label?: string | undefined;
-  /** Input only. The time-to-leave of this access control entry. */
-  ttl?: string | undefined;
-}
-export type SqlAclEntryList = Array<SqlAclEntry>;
-/** IP Management configuration. */
-export interface SqlIpConfig {
-  /** Whether the instance should be assigned an IPv4 address or not. */
-  enableIpv4?: boolean | undefined;
-  /** The list of external networks that are allowed to connect to the instance using the IP. See https://en.wikipedia.org/wiki/CIDR_notation#CIDR_notation, also known as 'slash' notation (e.g. `192.168.100.0/24`). */
-  authorizedNetworks?: SqlAclEntryList | undefined;
-  /** Optional. The name of the allocated IP address range for the private IP Cloud SQL instance. This name refers to an already allocated IP range address. If set, the instance IP address will be created in the allocated range. Note that this IP address range can't be modified after the instance is created. If you change the VPC when configuring connectivity settings for the migration job, this field is not relevant. */
-  allocatedIpRange?: string | undefined;
-  /** Whether SSL connections over IP should be enforced or not. */
-  requireSsl?: boolean | undefined;
-  /** The resource link for the VPC network from which the Cloud SQL instance is accessible for private IP. For example, `projects/myProject/global/networks/default`. This setting can be updated, but it cannot be removed after it is set. */
-  privateNetwork?: string | undefined;
-}
-export type CloudSqlSettingsEditionEnum = "EDITION_UNSPECIFIED" | "ENTERPRISE" | "ENTERPRISE_PLUS";
-/** Data cache is an optional feature available for Cloud SQL for MySQL Enterprise Plus edition only. For more information on data cache, see [Data cache overview](https://cloud.google.com/sql/help/mysql-data-cache) in Cloud SQL documentation. */
-export interface DataCacheConfig {
-  /** Optional. Whether data cache is enabled for the instance. */
-  dataCacheEnabled?: boolean | undefined;
-}
 /** Settings for creating a Cloud SQL database instance. */
 export interface CloudSqlSettings {
-  /** The Google Cloud Platform zone where your Cloud SQL database instance is located. */
-  zone?: string | undefined;
   /** The Database Migration Service source connection profile ID, in the format: `projects/my_project_name/locations/us-central1/connectionProfiles/connection_profile_ID` */
   sourceId?: string | undefined;
-  /** The tier (or machine type) for this instance, for example: `db-n1-standard-1` (MySQL instances) or `db-custom-1-3840` (PostgreSQL instances). For more information, see [Cloud SQL Instance Settings](https://cloud.google.com/sql/docs/mysql/instance-settings). */
-  tier?: string | undefined;
-  /** The maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit. */
-  storageAutoResizeLimit?: string | undefined;
-  /** Output only. Indicates If this connection profile root password is stored. */
-  rootPasswordSet?: boolean | undefined;
-  /** The Cloud SQL default instance level collation. */
-  collation?: string | undefined;
-  /** The database flags passed to the Cloud SQL instance at startup. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }. */
-  databaseFlags?: StringMap | undefined;
-  /** The database engine type and version. Deprecated. Use database_version_name instead. */
-  databaseVersion?: CloudSqlSettingsDatabaseVersionEnum | (string & {}) | undefined;
   /** The KMS key name used for the csql instance. */
   cmekKeyName?: string | undefined;
-  /** The storage capacity available to the database, in GB. The minimum (and default) size is 10GB. */
-  dataDiskSizeGb?: string | undefined;
-  /** Optional. Provisioned number of I/O operations per second for the data disk. This field is only used for hyperdisk-balanced disk types. */
-  dataDiskProvisionedIops?: string | undefined;
-  /** The type of storage: `PD_SSD` (default) or `PD_HDD` or `HYPERDISK_BALANCED`. */
-  dataDiskType?: CloudSqlSettingsDataDiskTypeEnum | (string & {}) | undefined;
-  /** Optional. The Google Cloud Platform zone where the failover Cloud SQL database instance is located. Used when the Cloud SQL database availability type is REGIONAL (i.e. multiple zones / highly available). */
-  secondaryZone?: string | undefined;
-  /** Input only. Initial root password. */
-  rootPassword?: string | undefined;
   /** The activation policy specifies when the instance is activated; it is applicable only when the instance state is 'RUNNABLE'. Valid values: 'ALWAYS': The instance is on, and remains so even in the absence of connection requests. `NEVER`: The instance is off; it is not activated, even if a connection request arrives. */
   activationPolicy?: CloudSqlSettingsActivationPolicyEnum | (string & {}) | undefined;
-  /** Optional. Availability type. Potential values: * `ZONAL`: The instance serves data from only one zone. Outages in that zone affect data availability. * `REGIONAL`: The instance can serve data from more than one zone in a region (it is highly available). */
-  availabilityType?: CloudSqlSettingsAvailabilityTypeEnum | (string & {}) | undefined;
-  /** The resource labels for a Cloud SQL instance to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "18kg", "count": "3" }`. */
-  userLabels?: StringMap | undefined;
-  /** The settings for IP Management. This allows to enable or disable the instance IP and manage which external networks can connect to the instance. The IPv4 address cannot be disabled. */
-  ipConfig?: SqlIpConfig | undefined;
-  /** Optional. The edition of the given Cloud SQL instance. */
-  edition?: CloudSqlSettingsEditionEnum | (string & {}) | undefined;
-  /** Optional. Provisioned throughput measured in MiB per second for the data disk. This field is only used for hyperdisk-balanced disk types. */
-  dataDiskProvisionedThroughput?: string | undefined;
-  /** Optional. Data cache is an optional feature available for Cloud SQL for MySQL Enterprise Plus edition only. For more information on data cache, see [Data cache overview](https://cloud.google.com/sql/help/mysql-data-cache) in Cloud SQL documentation. */
-  dataCacheConfig?: DataCacheConfig | undefined;
+  /** Optional. The Google Cloud Platform zone where the failover Cloud SQL database instance is located. Used when the Cloud SQL database availability type is REGIONAL (i.e. multiple zones / highly available). */
+  secondaryZone?: string | undefined;
+  /** Optional. Provisioned number of I/O operations per second for the data disk. This field is only used for hyperdisk-balanced disk types. */
+  dataDiskProvisionedIops?: string | undefined;
+  /** The Google Cloud Platform zone where your Cloud SQL database instance is located. */
+  zone?: string | undefined;
   /** [default: ON] If you enable this setting, Cloud SQL checks your available storage every 30 seconds. If the available storage falls below a threshold size, Cloud SQL automatically adds additional storage capacity. If the available storage repeatedly falls below the threshold size, Cloud SQL continues to add storage until it reaches the maximum of 30 TB. */
   autoStorageIncrease?: boolean | undefined;
+  /** Optional. Provisioned throughput measured in MiB per second for the data disk. This field is only used for hyperdisk-balanced disk types. */
+  dataDiskProvisionedThroughput?: string | undefined;
+  /** The tier (or machine type) for this instance, for example: `db-n1-standard-1` (MySQL instances) or `db-custom-1-3840` (PostgreSQL instances). For more information, see [Cloud SQL Instance Settings](https://cloud.google.com/sql/docs/mysql/instance-settings). */
+  tier?: string | undefined;
+  /** Optional. Availability type. Potential values: * `ZONAL`: The instance serves data from only one zone. Outages in that zone affect data availability. * `REGIONAL`: The instance can serve data from more than one zone in a region (it is highly available). */
+  availabilityType?: CloudSqlSettingsAvailabilityTypeEnum | (string & {}) | undefined;
+  /** The storage capacity available to the database, in GB. The minimum (and default) size is 10GB. */
+  dataDiskSizeGb?: string | undefined;
+  /** The type of storage: `PD_SSD` (default) or `PD_HDD` or `HYPERDISK_BALANCED`. */
+  dataDiskType?: CloudSqlSettingsDataDiskTypeEnum | (string & {}) | undefined;
+  /** Input only. Initial root password. */
+  rootPassword?: string | undefined;
+  /** The resource labels for a Cloud SQL instance to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "18kg", "count": "3" }`. */
+  userLabels?: StringMap | undefined;
+  /** The database flags passed to the Cloud SQL instance at startup. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }. */
+  databaseFlags?: StringMap | undefined;
   /** Optional. The database engine type and version name. */
   databaseVersionName?: string | undefined;
+  /** The maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit. */
+  storageAutoResizeLimit?: string | undefined;
+  /** The Cloud SQL default instance level collation. */
+  collation?: string | undefined;
+  /** Output only. Indicates If this connection profile root password is stored. */
+  rootPasswordSet?: boolean | undefined;
+  /** Optional. Data cache is an optional feature available for Cloud SQL for MySQL Enterprise Plus edition only. For more information on data cache, see [Data cache overview](https://cloud.google.com/sql/help/mysql-data-cache) in Cloud SQL documentation. */
+  dataCacheConfig?: DataCacheConfig | undefined;
+  /** Optional. The edition of the given Cloud SQL instance. */
+  edition?: CloudSqlSettingsEditionEnum | (string & {}) | undefined;
+  /** The settings for IP Management. This allows to enable or disable the instance IP and manage which external networks can connect to the instance. The IPv4 address cannot be disabled. */
+  ipConfig?: SqlIpConfig | undefined;
+  /** The database engine type and version. Deprecated. Use database_version_name instead. */
+  databaseVersion?: CloudSqlSettingsDatabaseVersionEnum | (string & {}) | undefined;
 }
 /** Specifies required connection parameters, and, optionally, the parameters required to create a Cloud SQL destination database instance. */
 export interface CloudSqlConnectionProfile {
-  /** Output only. The Cloud SQL instance ID that this connection profile is associated with. */
-  cloudSqlId?: string | undefined;
-  /** Output only. The Cloud SQL database instance's private IP. */
-  privateIp?: string | undefined;
-  /** Output only. The Cloud SQL database instance's additional (outgoing) public IP. Used when the Cloud SQL database availability type is REGIONAL (i.e. multiple zones / highly available). */
-  additionalPublicIp?: string | undefined;
-  /** Immutable. Metadata used to create the destination Cloud SQL database. */
-  settings?: CloudSqlSettings | undefined;
   /** Output only. The Cloud SQL database instance's public IP. */
   publicIp?: string | undefined;
-}
-/** Forward SSH Tunnel connectivity. */
-export interface ForwardSshTunnelConnectivity {
-  /** Port for the SSH tunnel, default value is 22. */
-  port?: number | undefined;
-  /** Required. Hostname for the SSH tunnel. */
-  hostname?: string | undefined;
-  /** Required. Username for the SSH tunnel. */
-  username?: string | undefined;
-  /** Input only. SSH password. */
-  password?: string | undefined;
-  /** Input only. SSH private key. */
-  privateKey?: string | undefined;
-}
-/** Configuration for Oracle Automatic Storage Management (ASM) connection. */
-export interface OracleAsmConfig {
-  /** Optional. SSL configuration for the Oracle connection. */
-  ssl?: SslConfig | undefined;
-  /** Required. Input only. Password for the Oracle ASM connection. */
-  password?: string | undefined;
-  /** Required. ASM service name for the Oracle ASM connection. */
-  asmService?: string | undefined;
-  /** Required. Port for the Oracle ASM connection. */
-  port?: number | undefined;
-  /** Required. Hostname for the Oracle ASM connection. */
-  hostname?: string | undefined;
-  /** Required. Username for the Oracle ASM connection. */
-  username?: string | undefined;
-  /** Output only. Indicates whether a new password is included in the request. */
-  passwordSet?: boolean | undefined;
-}
-/** Specifies connection parameters required specifically for Oracle databases. */
-export interface OracleConnectionProfile {
-  /** SSL configuration for the connection to the source Oracle database. * Only `SERVER_ONLY` configuration is supported for Oracle SSL. * SSL is supported for Oracle versions 12 and above. */
-  ssl?: SslConfig | undefined;
-  /** Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service. */
-  username?: string | undefined;
-  /** Required. Database service for the Oracle connection. */
-  databaseService?: string | undefined;
-  /** Output only. Indicates whether a new password is included in the request. */
-  passwordSet?: boolean | undefined;
-  /** Forward SSH tunnel connectivity. */
-  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
-  /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity | undefined;
-  /** Required. The IP or hostname of the source Oracle database. */
-  host?: string | undefined;
-  /** Required. The network port of the source Oracle database. */
-  port?: number | undefined;
-  /** Optional. Configuration for Oracle ASM connection. */
-  oracleAsmConfig?: OracleAsmConfig | undefined;
-  /** Static Service IP connectivity. */
-  staticServiceIpConnectivity?: CancelOperationRequest | undefined;
-  /** Required. Input only. The password for the user that Database Migration Service will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Database Migration Service. */
-  password?: string | undefined;
-}
-export type ConnectionProfileProviderEnum =
-  | "DATABASE_PROVIDER_UNSPECIFIED"
-  | "CLOUDSQL"
-  | "RDS"
-  | "AURORA"
-  | "ALLOYDB"
-  | "AZURE_DATABASE";
-/** Specifies the backup details in Cloud Storage for homogeneous migration to Cloud SQL for SQL Server. */
-export interface SqlServerBackups {
-  /** Required. The Cloud Storage bucket that stores backups for all replicated databases. */
-  gcsBucket?: string | undefined;
-  /** Optional. Cloud Storage path inside the bucket that stores backups. */
-  gcsPrefix?: string | undefined;
-}
-/** The source database will allow incoming connections from the public IP of the destination database. You can retrieve the public IP of the Cloud SQL instance from the Cloud SQL console or using Cloud SQL APIs. No additional configuration is required. */
-export type StaticIpConnectivity = CancelOperationRequest;
-/** Specifies connection parameters required specifically for SQL Server databases. */
-export interface SqlServerConnectionProfile {
-  /** The backup details in Cloud Storage for homogeneous migration to Cloud SQL for SQL Server. */
-  backups?: SqlServerBackups | undefined;
-  /** If the source is a Cloud SQL database, use this field to provide the Cloud SQL instance ID of the source. */
+  /** Output only. The Cloud SQL database instance's additional (outgoing) public IP. Used when the Cloud SQL database availability type is REGIONAL (i.e. multiple zones / highly available). */
+  additionalPublicIp?: string | undefined;
+  /** Output only. The Cloud SQL instance ID that this connection profile is associated with. */
   cloudSqlId?: string | undefined;
-  /** Optional. The Database Mirroring (DBM) port of the source SQL Server instance. */
-  dbmPort?: number | undefined;
-  /** Optional. The project id of the Cloud SQL instance. If not provided, the project id of the connection profile will be used. */
-  cloudSqlProjectId?: string | undefined;
-  /** Required. The IP or hostname of the source SQL Server database. */
-  host?: string | undefined;
-  /** Required. The network port of the source SQL Server database. */
-  port?: number | undefined;
-  /** Private Service Connect connectivity. */
-  privateServiceConnectConnectivity?: PrivateServiceConnectConnectivity | undefined;
-  /** Output only. Indicates whether a new password is included in the request. */
-  passwordSet?: boolean | undefined;
-  /** SSL configuration for the destination to connect to the source database. */
-  ssl?: SslConfig | undefined;
-  /** Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service. */
-  username?: string | undefined;
-  /** Forward SSH tunnel connectivity. */
-  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
-  /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity | undefined;
-  /** Required. The name of the specific database within the host. */
-  database?: string | undefined;
-  /** Static IP connectivity data (default, no additional details needed). */
-  staticIpConnectivity?: CancelOperationRequest | undefined;
-  /** Required. Input only. The password for the user that Database Migration Service will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Database Migration Service. */
-  password?: string | undefined;
+  /** Immutable. Metadata used to create the destination Cloud SQL database. */
+  settings?: CloudSqlSettings | undefined;
+  /** Output only. The Cloud SQL database instance's private IP. */
+  privateIp?: string | undefined;
 }
-export type PostgreSqlConnectionProfileNetworkArchitectureEnum =
-  | "NETWORK_ARCHITECTURE_UNSPECIFIED"
-  | "NETWORK_ARCHITECTURE_OLD_CSQL_PRODUCER"
-  | "NETWORK_ARCHITECTURE_NEW_CSQL_PRODUCER";
-/** Specifies connection parameters required specifically for PostgreSQL databases. */
-export interface PostgreSqlConnectionProfile {
-  /** Output only. If the source is a Cloud SQL database, this field indicates the network architecture it's associated with. */
-  networkArchitecture?:
-    | PostgreSqlConnectionProfileNetworkArchitectureEnum
-    | (string & {})
-    | undefined;
-  /** SSL configuration for the destination to connect to the source database. */
-  ssl?: SslConfig | undefined;
-  /** Required. The IP or hostname of the source PostgreSQL database. */
-  host?: string | undefined;
-  /** Required. The network port of the source PostgreSQL database. */
-  port?: number | undefined;
-  /** Static ip connectivity data (default, no additional details needed). */
-  staticIpConnectivity?: CancelOperationRequest | undefined;
-  /** Optional. If the destination is an AlloyDB database, use this field to provide the AlloyDB cluster ID. */
-  alloydbClusterId?: string | undefined;
-  /** Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service. */
-  username?: string | undefined;
-  /** Forward SSH tunnel connectivity. */
-  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
-  /** Optional. If true, Database Migration Service will use IAM database authentication to connect to the database. */
-  enableIamAuthentication?: boolean | undefined;
-  /** Optional. The name of the specific database within the host. */
-  database?: string | undefined;
-  /** Private Service Connect connectivity. */
-  privateServiceConnectConnectivity?: PrivateServiceConnectConnectivity | undefined;
-  /** Output only. Indicates If this connection profile password is stored. */
-  passwordSet?: boolean | undefined;
-  /** If the source is a Cloud SQL database, use this field to provide the Cloud SQL instance ID of the source. */
-  cloudSqlId?: string | undefined;
-  /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity | undefined;
-  /** Required. Input only. The password for the user that Database Migration Service will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Database Migration Service. */
-  password?: string | undefined;
-}
-export type ConnectionProfileStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "DRAFT"
-  | "CREATING"
-  | "READY"
-  | "UPDATING"
-  | "DELETING"
-  | "DELETED"
-  | "FAILED";
 /** A connection profile definition. */
 export interface ConnectionProfile {
-  /** A MySQL database connection profile. */
-  mysql?: MySqlConnectionProfile | undefined;
-  /** Optional. The connection profile role. */
-  role?: ConnectionProfileRoleEnum | (string & {}) | undefined;
-  /** An AlloyDB cluster connection profile. */
-  alloydb?: AlloyDbConnectionProfile | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** A CloudSQL database connection profile. */
-  cloudsql?: CloudSqlConnectionProfile | undefined;
-  /** An Oracle database connection profile. */
-  oracle?: OracleConnectionProfile | undefined;
-  /** The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
-  name?: string | undefined;
-  /** Output only. The timestamp when the resource was created. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  createTime?: string | undefined;
-  /** The database provider. */
-  provider?: ConnectionProfileProviderEnum | (string & {}) | undefined;
-  /** Connection profile for a SQL Server data source. */
-  sqlserver?: SqlServerConnectionProfile | undefined;
-  /** Output only. The timestamp when the resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  updateTime?: string | undefined;
-  /** The connection profile display name. */
-  displayName?: string | undefined;
   /** The resource labels for connection profile to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
   labels?: StringMap | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** A PostgreSQL database connection profile. */
-  postgresql?: PostgreSqlConnectionProfile | undefined;
+  /** The database provider. */
+  provider?: ConnectionProfileProviderEnum | (string & {}) | undefined;
   /** The current connection profile state (e.g. DRAFT, READY, or FAILED). */
   state?: ConnectionProfileStateEnum | (string & {}) | undefined;
+  /** Connection profile for a SQL Server data source. */
+  sqlserver?: SqlServerConnectionProfile | undefined;
+  /** An AlloyDB cluster connection profile. */
+  alloydb?: AlloyDbConnectionProfile | undefined;
+  /** An Oracle database connection profile. */
+  oracle?: OracleConnectionProfile | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
   /** Output only. The error details in case of state FAILED. */
   error?: Status | undefined;
+  /** A PostgreSQL database connection profile. */
+  postgresql?: PostgreSqlConnectionProfile | undefined;
+  /** Optional. The connection profile role. */
+  role?: ConnectionProfileRoleEnum | (string & {}) | undefined;
+  /** Output only. The timestamp when the resource was created. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
+  createTime?: string | undefined;
+  /** A MySQL database connection profile. */
+  mysql?: MySqlConnectionProfile | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. The timestamp when the resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
+  updateTime?: string | undefined;
+  /** The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
+  name?: string | undefined;
+  /** The connection profile display name. */
+  displayName?: string | undefined;
+  /** A CloudSQL database connection profile. */
+  cloudsql?: CloudSqlConnectionProfile | undefined;
 }
 export interface CreateProjectsLocationsConnectionProfilesRequest extends ConnectionProfile {
   /** Optional. Create the connection profile without validating it. The default is false. Only supported for Oracle connection profiles. */
   skipValidation?: boolean | undefined;
-  /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string | undefined;
+  /** Required. The connection profile identifier. */
+  connectionProfileId?: string | undefined;
   /** Required. The parent which owns this collection of connection profiles. */
   parent: string;
   /** Optional. Only validate the connection profile, but don't create any resources. The default is false. Only supported for Oracle connection profiles. */
   validateOnly?: boolean | undefined;
-  /** Required. The connection profile identifier. */
-  connectionProfileId?: string | undefined;
+  /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
+  requestId?: string | undefined;
 }
 export type DatabaseEngineInfoEngineEnum =
   | "DATABASE_ENGINE_UNSPECIFIED"
@@ -641,14 +641,14 @@ export interface DatabaseEngineInfo {
   /** Required. Engine version, for example "12.c.1". */
   version?: string | undefined;
 }
-export type ConversionWorkspaceDestinationProviderEnum =
+export type ConversionWorkspaceSourceProviderEnum =
   | "DATABASE_PROVIDER_UNSPECIFIED"
   | "CLOUDSQL"
   | "RDS"
   | "AURORA"
   | "ALLOYDB"
   | "AZURE_DATABASE";
-export type ConversionWorkspaceSourceProviderEnum =
+export type ConversionWorkspaceDestinationProviderEnum =
   | "DATABASE_PROVIDER_UNSPECIFIED"
   | "CLOUDSQL"
   | "RDS"
@@ -657,34 +657,34 @@ export type ConversionWorkspaceSourceProviderEnum =
   | "AZURE_DATABASE";
 /** The main conversion workspace resource entity. */
 export interface ConversionWorkspace {
-  /** Optional. A generic list of settings for the workspace. The settings are database pair dependant and can indicate default behavior for the mapping rules engine or turn on or off specific features. Such examples can be: convert_foreign_key_to_interleave=true, skip_triggers=false, ignore_non_table_synonyms=true */
-  globalSettings?: StringMap | undefined;
+  /** Output only. The timestamp when the workspace resource was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The timestamp when the workspace was committed. */
+  latestCommitTime?: string | undefined;
   /** Required. The destination engine details. */
   destination?: DatabaseEngineInfo | undefined;
+  /** Output only. The timestamp when the workspace resource was created. */
+  createTime?: string | undefined;
+  /** Optional. The display name for the workspace. */
+  displayName?: string | undefined;
+  /** Required. The source engine details. */
+  source?: DatabaseEngineInfo | undefined;
+  /** Optional. The provider for the source database. */
+  sourceProvider?: ConversionWorkspaceSourceProviderEnum | (string & {}) | undefined;
   /** Optional. The provider for the destination database. */
   destinationProvider?: ConversionWorkspaceDestinationProviderEnum | (string & {}) | undefined;
-  /** Output only. The latest commit ID. */
-  latestCommitId?: string | undefined;
+  /** Optional. A generic list of settings for the workspace. The settings are database pair dependant and can indicate default behavior for the mapping rules engine or turn on or off specific features. Such examples can be: convert_foreign_key_to_interleave=true, skip_triggers=false, ignore_non_table_synonyms=true */
+  globalSettings?: StringMap | undefined;
+  /** Optional. Output only. The timestamp when the workspace was last applied. */
+  latestApplyTime?: string | undefined;
   /** Full name of the workspace resource, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   name?: string | undefined;
   /** Output only. Whether the workspace has uncommitted changes (changes which were made after the workspace was committed). */
   hasUncommittedChanges?: boolean | undefined;
-  /** Optional. The provider for the source database. */
-  sourceProvider?: ConversionWorkspaceSourceProviderEnum | (string & {}) | undefined;
-  /** Output only. The timestamp when the workspace resource was last updated. */
-  updateTime?: string | undefined;
+  /** Output only. The latest commit ID. */
+  latestCommitId?: string | undefined;
   /** Optional. Output only. The timestamp when the workspace was last converted. */
   latestConvertTime?: string | undefined;
-  /** Optional. Output only. The timestamp when the workspace was last applied. */
-  latestApplyTime?: string | undefined;
-  /** Output only. The timestamp when the workspace resource was created. */
-  createTime?: string | undefined;
-  /** Required. The source engine details. */
-  source?: DatabaseEngineInfo | undefined;
-  /** Optional. The display name for the workspace. */
-  displayName?: string | undefined;
-  /** Output only. The timestamp when the workspace was committed. */
-  latestCommitTime?: string | undefined;
 }
 export interface CreateProjectsLocationsConversionWorkspacesRequest extends ConversionWorkspace {
   /** Required. The parent which owns this collection of conversion workspaces. */
@@ -694,33 +694,72 @@ export interface CreateProjectsLocationsConversionWorkspacesRequest extends Conv
   /** Required. The ID of the conversion workspace to create. */
   conversionWorkspaceId?: string | undefined;
 }
+/** Options to configure rule type SinglePackageChange. The rule is used to alter the sql code for a package entities. The rule filter field can refer to one entity. The rule scope can be: Package */
+export interface SinglePackageChange {
+  /** Optional. Sql code for package body */
+  packageBody?: string | undefined;
+  /** Optional. Sql code for package description */
+  packageDescription?: string | undefined;
+}
+/** Deprecated: Options to configure rule type SetTablePrimaryKey. The rule is used to specify the columns and name to configure/alter the primary key of a table. The rule filter field can refer to one entity. The rule scope can be one of: Table. */
+export interface SetTablePrimaryKey {
+  /** Required. List of column names for the primary key */
+  primaryKeyColumns?: StringList | undefined;
+  /** Optional. Name for the primary key */
+  primaryKey?: string | undefined;
+}
+/** Options to configure rule type SingleColumnChange. The rule is used to change the properties of a column. The rule filter field can refer to one entity. The rule scope can be one of: Column. When using this rule, if a field is not specified than the destination column's configuration will be the same as the one in the source column.. */
+export interface SingleColumnChange {
+  /** Optional. Column data type name. */
+  dataType?: string | undefined;
+  /** Optional. Is the column nullable. */
+  nullable?: boolean | undefined;
+  /** Optional. Comment associated with the column. */
+  comment?: string | undefined;
+  /** Optional. Specifies the list of values allowed in the column. */
+  setValues?: StringList | undefined;
+  /** Optional. Is the column a UDT (User-defined Type). */
+  udt?: boolean | undefined;
+  /** Optional. Column scale - e.g. 2 as in double (8,2) - when relevant. */
+  scale?: number | undefined;
+  /** Optional. Column fractional seconds precision - e.g. 2 as in timestamp (2) - when relevant. */
+  fractionalSecondsPrecision?: number | undefined;
+  /** Optional. Column length - e.g. 50 as in varchar (50) - when relevant. */
+  length?: string | undefined;
+  /** Optional. Is the column auto-generated/identity. */
+  autoGenerated?: boolean | undefined;
+  /** Optional. Is the column of array type. */
+  array?: boolean | undefined;
+  /** Optional. Charset override - instead of table level charset. */
+  charset?: string | undefined;
+  /** Optional. Custom engine specific features. */
+  customFeatures?: DocumentMap | undefined;
+  /** Optional. Collation override - instead of table level collation. */
+  collation?: string | undefined;
+  /** Optional. Column precision - e.g. 8 as in double (8,2) - when relevant. */
+  precision?: number | undefined;
+  /** Optional. The length of the array, only relevant if the column type is an array. */
+  arrayLength?: number | undefined;
+}
 /** A filter defining the entities that a mapping rule should be applied to. When more than one field is specified, the rule is applied only to entities which match all the fields. */
 export interface MappingRuleFilter {
+  /** Optional. The rule should be applied to entities whose parent entity (fully qualified name) matches the given value. For example, if the rule applies to a table entity, the expected value should be a schema (schema). If the rule applies to a column or index entity, the expected value can be either a schema (schema) or a table (schema.table) */
+  parentEntity?: string | undefined;
   /** Optional. The rule should be applied to entities whose non-qualified name starts with the given prefix. */
   entityNamePrefix?: string | undefined;
-  /** Optional. The rule should be applied to entities whose non-qualified name ends with the given suffix. */
-  entityNameSuffix?: string | undefined;
   /** Optional. The rule should be applied to entities whose non-qualified name contains the given string. */
   entityNameContains?: string | undefined;
   /** Optional. The rule should be applied to specific entities defined by their fully qualified names. */
   entities?: StringList | undefined;
-  /** Optional. The rule should be applied to entities whose parent entity (fully qualified name) matches the given value. For example, if the rule applies to a table entity, the expected value should be a schema (schema). If the rule applies to a column or index entity, the expected value can be either a schema (schema) or a table (schema.table) */
-  parentEntity?: string | undefined;
+  /** Optional. The rule should be applied to entities whose non-qualified name ends with the given suffix. */
+  entityNameSuffix?: string | undefined;
 }
-/** Options to configure rule type SinglePackageChange. The rule is used to alter the sql code for a package entities. The rule filter field can refer to one entity. The rule scope can be: Package */
-export interface SinglePackageChange {
-  /** Optional. Sql code for package description */
-  packageDescription?: string | undefined;
-  /** Optional. Sql code for package body */
-  packageBody?: string | undefined;
+/** Options to configure rule type ConvertROWIDToColumn. The rule is used to add column rowid to destination tables based on an Oracle rowid function/property. The rule filter field can refer to one or more entities. The rule scope can be one of: Table. This rule requires additional filter to be specified beyond the basic rule filter field, which is whether or not to work on tables which already have a primary key defined. */
+export interface ConvertRowIdToColumn {
+  /** Required. Only work on tables without primary key defined */
+  onlyIfNoPrimaryKey?: boolean | undefined;
 }
-/** Filter for text-based data types like varchar. */
-export interface SourceTextFilter {
-  /** Optional. The filter will match columns with length smaller than or equal to this number. */
-  sourceMaxLengthFilter?: string | undefined;
-  /** Optional. The filter will match columns with length greater than or equal to this number. */
-  sourceMinLengthFilter?: string | undefined;
-}
+export type MappingRuleStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED" | "DELETED";
 export type SourceNumericFilterNumericFilterOptionEnum =
   | "NUMERIC_FILTER_OPTION_UNSPECIFIED"
   | "NUMERIC_FILTER_OPTION_ALL"
@@ -728,96 +767,44 @@ export type SourceNumericFilterNumericFilterOptionEnum =
   | "NUMERIC_FILTER_OPTION_LIMITLESS";
 /** Filter for fixed point number data types such as NUMERIC/NUMBER */
 export interface SourceNumericFilter {
+  /** Optional. The filter will match columns with scale greater than or equal to this number. */
+  sourceMinScaleFilter?: number | undefined;
+  /** Optional. The filter will match columns with precision greater than or equal to this number. */
+  sourceMinPrecisionFilter?: number | undefined;
   /** Optional. The filter will match columns with precision smaller than or equal to this number. */
   sourceMaxPrecisionFilter?: number | undefined;
   /** Optional. The filter will match columns with scale smaller than or equal to this number. */
   sourceMaxScaleFilter?: number | undefined;
-  /** Optional. The filter will match columns with precision greater than or equal to this number. */
-  sourceMinPrecisionFilter?: number | undefined;
   /** Required. Enum to set the option defining the datatypes numeric filter has to be applied to */
   numericFilterOption?: SourceNumericFilterNumericFilterOptionEnum | (string & {}) | undefined;
-  /** Optional. The filter will match columns with scale greater than or equal to this number. */
-  sourceMinScaleFilter?: number | undefined;
+}
+/** Filter for text-based data types like varchar. */
+export interface SourceTextFilter {
+  /** Optional. The filter will match columns with length greater than or equal to this number. */
+  sourceMinLengthFilter?: string | undefined;
+  /** Optional. The filter will match columns with length smaller than or equal to this number. */
+  sourceMaxLengthFilter?: string | undefined;
 }
 /** Options to configure rule type MultiColumnDatatypeChange. The rule is used to change the data type and associated properties of multiple columns at once. The rule filter field can refer to one or more entities. The rule scope can be one of:Column. This rule requires additional filters to be specified beyond the basic rule filter field, which is the source data type, but the rule supports additional filtering capabilities such as the minimum and maximum field length. All additional filters which are specified are required to be met in order for the rule to be applied (logical AND between the fields). */
 export interface MultiColumnDatatypeChange {
   /** Required. Filter on source data type. */
   sourceDataTypeFilter?: string | undefined;
-  /** Optional. Column precision - when relevant - if not specified and relevant uses the source column precision. */
-  overridePrecision?: number | undefined;
-  /** Optional. Column length - e.g. varchar (50) - if not specified and relevant uses the source column length. */
-  overrideLength?: string | undefined;
-  /** Optional. Custom engine specific features. */
-  customFeatures?: DocumentMap | undefined;
-  /** Optional. Filter for text-based data types like varchar. */
-  sourceTextFilter?: SourceTextFilter | undefined;
-  /** Required. New data type. */
-  newDataType?: string | undefined;
-  /** Optional. Column scale - when relevant - if not specified and relevant uses the source column scale. */
-  overrideScale?: number | undefined;
-  /** Optional. Filter for fixed point number data types such as NUMERIC/NUMBER. */
-  sourceNumericFilter?: SourceNumericFilter | undefined;
   /** Optional. Column fractional seconds precision - used only for timestamp based datatypes - if not specified and relevant uses the source column fractional seconds precision. */
   overrideFractionalSecondsPrecision?: number | undefined;
-}
-/** Options to configure rule type SingleEntityRename. The rule is used to rename an entity. The rule filter field can refer to only one entity. The rule scope can be one of: Database, Schema, Table, Column, Constraint, Index, View, Function, Stored Procedure, Materialized View, Sequence, UDT, Synonym */
-export interface SingleEntityRename {
-  /** Required. The new name of the destination entity */
-  newName?: string | undefined;
-}
-/** Options to configure rule type SingleColumnChange. The rule is used to change the properties of a column. The rule filter field can refer to one entity. The rule scope can be one of: Column. When using this rule, if a field is not specified than the destination column's configuration will be the same as the one in the source column.. */
-export interface SingleColumnChange {
-  /** Optional. Column fractional seconds precision - e.g. 2 as in timestamp (2) - when relevant. */
-  fractionalSecondsPrecision?: number | undefined;
-  /** Optional. Is the column nullable. */
-  nullable?: boolean | undefined;
-  /** Optional. Charset override - instead of table level charset. */
-  charset?: string | undefined;
-  /** Optional. The length of the array, only relevant if the column type is an array. */
-  arrayLength?: number | undefined;
-  /** Optional. Collation override - instead of table level collation. */
-  collation?: string | undefined;
   /** Optional. Custom engine specific features. */
   customFeatures?: DocumentMap | undefined;
-  /** Optional. Column precision - e.g. 8 as in double (8,2) - when relevant. */
-  precision?: number | undefined;
-  /** Optional. Is the column auto-generated/identity. */
-  autoGenerated?: boolean | undefined;
-  /** Optional. Column scale - e.g. 2 as in double (8,2) - when relevant. */
-  scale?: number | undefined;
-  /** Optional. Column length - e.g. 50 as in varchar (50) - when relevant. */
-  length?: string | undefined;
-  /** Optional. Specifies the list of values allowed in the column. */
-  setValues?: StringList | undefined;
-  /** Optional. Is the column a UDT (User-defined Type). */
-  udt?: boolean | undefined;
-  /** Optional. Column data type name. */
-  dataType?: string | undefined;
-  /** Optional. Is the column of array type. */
-  array?: boolean | undefined;
-  /** Optional. Comment associated with the column. */
-  comment?: string | undefined;
-}
-/** Options to configure rule type FilterTableColumns. The rule is used to filter the list of columns to include or exclude from a table. The rule filter field can refer to one entity. The rule scope can be: Table Only one of the two lists can be specified for the rule. */
-export interface FilterTableColumns {
-  /** Optional. List of columns to be included for a particular table. */
-  includeColumns?: StringList | undefined;
-  /** Optional. List of columns to be excluded for a particular table. */
-  excludeColumns?: StringList | undefined;
-}
-export type MappingRuleStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED" | "DELETED";
-export type DoubleComparisonFilterValueComparisonEnum =
-  | "VALUE_COMPARISON_UNSPECIFIED"
-  | "VALUE_COMPARISON_IF_VALUE_SMALLER_THAN"
-  | "VALUE_COMPARISON_IF_VALUE_SMALLER_EQUAL_THAN"
-  | "VALUE_COMPARISON_IF_VALUE_LARGER_THAN"
-  | "VALUE_COMPARISON_IF_VALUE_LARGER_EQUAL_THAN";
-/** Filter based on relation between source value and compare value of type double in ConditionalColumnSetValue */
-export interface DoubleComparisonFilter {
-  /** Required. Relation between source value and compare value */
-  valueComparison?: DoubleComparisonFilterValueComparisonEnum | (string & {}) | undefined;
-  /** Required. Double compare value to be used */
-  value?: number | undefined;
+  /** Required. New data type. */
+  newDataType?: string | undefined;
+  /** Optional. Column length - e.g. varchar (50) - if not specified and relevant uses the source column length. */
+  overrideLength?: string | undefined;
+  /** Optional. Filter for fixed point number data types such as NUMERIC/NUMBER. */
+  sourceNumericFilter?: SourceNumericFilter | undefined;
+  /** Optional. Column precision - when relevant - if not specified and relevant uses the source column precision. */
+  overridePrecision?: number | undefined;
+  /** Optional. Filter for text-based data types like varchar. */
+  sourceTextFilter?: SourceTextFilter | undefined;
+  /** Optional. Column scale - when relevant - if not specified and relevant uses the source column scale. */
+  overrideScale?: number | undefined;
 }
 /** Set to a specific value (value is converted to fit the target data type) */
 export interface AssignSpecificValue {
@@ -833,6 +820,19 @@ export interface RoundToScale {
 export interface ApplyHash {
   /** Optional. Generate UUID from the data's byte array */
   uuidFromBytes?: Empty | undefined;
+}
+export type DoubleComparisonFilterValueComparisonEnum =
+  | "VALUE_COMPARISON_UNSPECIFIED"
+  | "VALUE_COMPARISON_IF_VALUE_SMALLER_THAN"
+  | "VALUE_COMPARISON_IF_VALUE_SMALLER_EQUAL_THAN"
+  | "VALUE_COMPARISON_IF_VALUE_LARGER_THAN"
+  | "VALUE_COMPARISON_IF_VALUE_LARGER_EQUAL_THAN";
+/** Filter based on relation between source value and compare value of type double in ConditionalColumnSetValue */
+export interface DoubleComparisonFilter {
+  /** Required. Double compare value to be used */
+  value?: number | undefined;
+  /** Required. Relation between source value and compare value */
+  valueComparison?: DoubleComparisonFilterValueComparisonEnum | (string & {}) | undefined;
 }
 export type IntComparisonFilterValueComparisonEnum =
   | "VALUE_COMPARISON_UNSPECIFIED"
@@ -853,56 +853,74 @@ export type ValueListFilterValuePresentListEnum =
   | "VALUE_PRESENT_IN_LIST_IF_VALUE_NOT_LIST";
 /** A list of values to filter by in ConditionalColumnSetValue */
 export interface ValueListFilter {
-  /** Required. Indicates whether the filter matches rows with values that are present in the list or those with values not present in it. */
-  valuePresentList?: ValueListFilterValuePresentListEnum | (string & {}) | undefined;
-  /** Required. The list to be used to filter by */
-  values?: StringList | undefined;
   /** Required. Whether to ignore case when filtering by values. Defaults to false */
   ignoreCase?: boolean | undefined;
+  /** Required. The list to be used to filter by */
+  values?: StringList | undefined;
+  /** Required. Indicates whether the filter matches rows with values that are present in the list or those with values not present in it. */
+  valuePresentList?: ValueListFilterValuePresentListEnum | (string & {}) | undefined;
 }
 /** Description of data transformation during migration as part of the ConditionalColumnSetValue. */
 export interface ValueTransformation {
-  /** Optional. Filter on relation between source value and compare value of type double. */
-  doubleComparison?: DoubleComparisonFilter | undefined;
-  /** Optional. Set to min_value - if integer or numeric, will use int.minvalue, etc */
-  assignMinValue?: Empty | undefined;
   /** Optional. Set to a specific value (value is converted to fit the target data type) */
   assignSpecificValue?: AssignSpecificValue | undefined;
   /** Optional. Allows the data to change scale */
   roundScale?: RoundToScale | undefined;
+  /** Optional. Set to min_value - if integer or numeric, will use int.minvalue, etc */
+  assignMinValue?: Empty | undefined;
   /** Optional. Applies a hash function on the data */
   applyHash?: ApplyHash | undefined;
-  /** Optional. Filter on relation between source value and compare value of type integer. */
-  intComparison?: IntComparisonFilter | undefined;
+  /** Optional. Filter on relation between source value and compare value of type double. */
+  doubleComparison?: DoubleComparisonFilter | undefined;
   /** Optional. Set to null */
   assignNull?: Empty | undefined;
   /** Optional. Set to max_value - if integer or numeric, will use int.maxvalue, etc */
   assignMaxValue?: Empty | undefined;
-  /** Optional. Value is found in the specified list. */
-  valueList?: ValueListFilter | undefined;
+  /** Optional. Filter on relation between source value and compare value of type integer. */
+  intComparison?: IntComparisonFilter | undefined;
   /** Optional. Value is null */
   isNull?: Empty | undefined;
+  /** Optional. Value is found in the specified list. */
+  valueList?: ValueListFilter | undefined;
 }
 /** Options to configure rule type ConditionalColumnSetValue. The rule is used to transform the data which is being replicated/migrated. The rule filter field can refer to one or more entities. The rule scope can be one of: Column. */
 export interface ConditionalColumnSetValue {
   /** Optional. Optional filter on source column precision and scale. Used for fixed point numbers such as NUMERIC/NUMBER data types. */
   sourceNumericFilter?: SourceNumericFilter | undefined;
+  /** Required. Description of data transformation during migration. */
+  valueTransformation?: ValueTransformation | undefined;
   /** Optional. Optional filter on source column length. Used for text based data types like varchar. */
   sourceTextFilter?: SourceTextFilter | undefined;
   /** Optional. Custom engine specific features. */
   customFeatures?: DocumentMap | undefined;
-  /** Required. Description of data transformation during migration. */
-  valueTransformation?: ValueTransformation | undefined;
 }
-/** Options to configure rule type EntityMove. The rule is used to move an entity to a new schema. The rule filter field can refer to one or more entities. The rule scope can be one of: Table, Column, Constraint, Index, View, Function, Stored Procedure, Materialized View, Sequence, UDT */
-export interface EntityMove {
-  /** Required. The new schema */
-  newSchema?: string | undefined;
+export type MultiEntityRenameSourceNameTransformationEnum =
+  | "ENTITY_NAME_TRANSFORMATION_UNSPECIFIED"
+  | "ENTITY_NAME_TRANSFORMATION_NO_TRANSFORMATION"
+  | "ENTITY_NAME_TRANSFORMATION_LOWER_CASE"
+  | "ENTITY_NAME_TRANSFORMATION_UPPER_CASE"
+  | "ENTITY_NAME_TRANSFORMATION_CAPITALIZED_CASE";
+/** Options to configure rule type MultiEntityRename. The rule is used to rename multiple entities. The rule filter field can refer to one or more entities. The rule scope can be one of: Database, Schema, Table, Column, Constraint, Index, View, Function, Stored Procedure, Materialized View, Sequence, UDT */
+export interface MultiEntityRename {
+  /** Optional. The pattern used to generate the new entity's name. This pattern must include the characters '{name}', which will be replaced with the name of the original entity. For example, the pattern 't_{name}' for an entity name jobs would be converted to 't_jobs'. If unspecified, the default value for this field is '{name}' */
+  newNamePattern?: string | undefined;
+  /** Optional. Additional transformation that can be done on the source entity name before it is being used by the new_name_pattern, for example lower case. If no transformation is desired, use NO_TRANSFORMATION */
+  sourceNameTransformation?:
+    | MultiEntityRenameSourceNameTransformationEnum
+    | (string & {})
+    | undefined;
 }
-/** Options to configure rule type SourceSqlChange. The rule is used to alter the sql code for database entities. The rule filter field can refer to one entity. The rule scope can be: StoredProcedure, Function, Trigger, View */
-export interface SourceSqlChange {
-  /** Required. Sql code for source (stored procedure, function, trigger or view) */
-  sqlCode?: string | undefined;
+/** Options to configure rule type SingleEntityRename. The rule is used to rename an entity. The rule filter field can refer to only one entity. The rule scope can be one of: Database, Schema, Table, Column, Constraint, Index, View, Function, Stored Procedure, Materialized View, Sequence, UDT, Synonym */
+export interface SingleEntityRename {
+  /** Required. The new name of the destination entity */
+  newName?: string | undefined;
+}
+/** Options to configure rule type FilterTableColumns. The rule is used to filter the list of columns to include or exclude from a table. The rule filter field can refer to one entity. The rule scope can be: Table Only one of the two lists can be specified for the rule. */
+export interface FilterTableColumns {
+  /** Optional. List of columns to be included for a particular table. */
+  includeColumns?: StringList | undefined;
+  /** Optional. List of columns to be excluded for a particular table. */
+  excludeColumns?: StringList | undefined;
 }
 export type MappingRuleRuleScopeEnum =
   | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
@@ -921,98 +939,76 @@ export type MappingRuleRuleScopeEnum =
   | "DATABASE_ENTITY_TYPE_UDT"
   | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
   | "DATABASE_ENTITY_TYPE_DATABASE";
-export type MultiEntityRenameSourceNameTransformationEnum =
-  | "ENTITY_NAME_TRANSFORMATION_UNSPECIFIED"
-  | "ENTITY_NAME_TRANSFORMATION_NO_TRANSFORMATION"
-  | "ENTITY_NAME_TRANSFORMATION_LOWER_CASE"
-  | "ENTITY_NAME_TRANSFORMATION_UPPER_CASE"
-  | "ENTITY_NAME_TRANSFORMATION_CAPITALIZED_CASE";
-/** Options to configure rule type MultiEntityRename. The rule is used to rename multiple entities. The rule filter field can refer to one or more entities. The rule scope can be one of: Database, Schema, Table, Column, Constraint, Index, View, Function, Stored Procedure, Materialized View, Sequence, UDT */
-export interface MultiEntityRename {
-  /** Optional. Additional transformation that can be done on the source entity name before it is being used by the new_name_pattern, for example lower case. If no transformation is desired, use NO_TRANSFORMATION */
-  sourceNameTransformation?:
-    | MultiEntityRenameSourceNameTransformationEnum
-    | (string & {})
-    | undefined;
-  /** Optional. The pattern used to generate the new entity's name. This pattern must include the characters '{name}', which will be replaced with the name of the original entity. For example, the pattern 't_{name}' for an entity name jobs would be converted to 't_jobs'. If unspecified, the default value for this field is '{name}' */
-  newNamePattern?: string | undefined;
+/** Options to configure rule type EntityMove. The rule is used to move an entity to a new schema. The rule filter field can refer to one or more entities. The rule scope can be one of: Table, Column, Constraint, Index, View, Function, Stored Procedure, Materialized View, Sequence, UDT */
+export interface EntityMove {
+  /** Required. The new schema */
+  newSchema?: string | undefined;
 }
-/** Options to configure rule type ConvertROWIDToColumn. The rule is used to add column rowid to destination tables based on an Oracle rowid function/property. The rule filter field can refer to one or more entities. The rule scope can be one of: Table. This rule requires additional filter to be specified beyond the basic rule filter field, which is whether or not to work on tables which already have a primary key defined. */
-export interface ConvertRowIdToColumn {
-  /** Required. Only work on tables without primary key defined */
-  onlyIfNoPrimaryKey?: boolean | undefined;
-}
-/** Deprecated: Options to configure rule type SetTablePrimaryKey. The rule is used to specify the columns and name to configure/alter the primary key of a table. The rule filter field can refer to one entity. The rule scope can be one of: Table. */
-export interface SetTablePrimaryKey {
-  /** Optional. Name for the primary key */
-  primaryKey?: string | undefined;
-  /** Required. List of column names for the primary key */
-  primaryKeyColumns?: StringList | undefined;
+/** Options to configure rule type SourceSqlChange. The rule is used to alter the sql code for database entities. The rule filter field can refer to one entity. The rule scope can be: StoredProcedure, Function, Trigger, View */
+export interface SourceSqlChange {
+  /** Required. Sql code for source (stored procedure, function, trigger or view) */
+  sqlCode?: string | undefined;
 }
 /** Definition of a transformation that is to be applied to a group of entities in the source schema. Several such transformations can be applied to an entity sequentially to define the corresponding entity in the target schema. */
 export interface MappingRule {
-  /** Full name of the mapping rule resource, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{set}/mappingRule/{rule}. */
-  name?: string | undefined;
-  /** Required. The rule filter */
-  filter?: MappingRuleFilter | undefined;
   /** Optional. Rule to specify how a single package is converted. */
   singlePackageChange?: SinglePackageChange | undefined;
-  /** Required. The order in which the rule is applied. Lower order rules are applied before higher value rules so they may end up being overridden. */
-  ruleOrder?: string | undefined;
-  /** Optional. Rule to specify how multiple columns should be converted to a different data type. */
-  multiColumnDataTypeChange?: MultiColumnDatatypeChange | undefined;
-  /** Optional. Rule to specify how a single entity should be renamed. */
-  singleEntityRename?: SingleEntityRename | undefined;
-  /** Optional. A human readable name */
-  displayName?: string | undefined;
-  /** Optional. Rule to specify how a single column is converted. */
-  singleColumnChange?: SingleColumnChange | undefined;
-  /** Optional. Rule to specify the list of columns to include or exclude from a table. */
-  filterTableColumns?: FilterTableColumns | undefined;
+  /** Optional. Deprecated: This rule is no longer supported. */
+  setTablePrimaryKey?: SetTablePrimaryKey | undefined;
+  /** Full name of the mapping rule resource, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{set}/mappingRule/{rule}. */
+  name?: string | undefined;
   /** Output only. The revision ID of the mapping rule. A new revision is committed whenever the mapping rule is changed in any way. The format is an 8-character hexadecimal string. */
   revisionId?: string | undefined;
-  /** Output only. The timestamp that the revision was created. */
-  revisionCreateTime?: string | undefined;
+  /** Optional. Rule to specify how a single column is converted. */
+  singleColumnChange?: SingleColumnChange | undefined;
+  /** Required. The rule filter */
+  filter?: MappingRuleFilter | undefined;
+  /** Optional. A human readable name */
+  displayName?: string | undefined;
+  /** Optional. Rule to specify how multiple tables should be converted with an additional rowid column. */
+  convertRowidColumn?: ConvertRowIdToColumn | undefined;
+  /** Required. The order in which the rule is applied. Lower order rules are applied before higher value rules so they may end up being overridden. */
+  ruleOrder?: string | undefined;
   /** Optional. The mapping rule state */
   state?: MappingRuleStateEnum | (string & {}) | undefined;
+  /** Optional. Rule to specify how multiple columns should be converted to a different data type. */
+  multiColumnDataTypeChange?: MultiColumnDatatypeChange | undefined;
   /** Optional. Rule to specify how the data contained in a column should be transformed (such as trimmed, rounded, etc) provided that the data meets certain criteria. */
   conditionalColumnSetValue?: ConditionalColumnSetValue | undefined;
+  /** Optional. Rule to specify how multiple entities should be renamed. */
+  multiEntityRename?: MultiEntityRename | undefined;
+  /** Optional. Rule to specify how a single entity should be renamed. */
+  singleEntityRename?: SingleEntityRename | undefined;
+  /** Output only. The timestamp that the revision was created. */
+  revisionCreateTime?: string | undefined;
+  /** Optional. Rule to specify the list of columns to include or exclude from a table. */
+  filterTableColumns?: FilterTableColumns | undefined;
+  /** Required. The rule scope */
+  ruleScope?: MappingRuleRuleScopeEnum | (string & {}) | undefined;
   /** Optional. Rule to specify how multiple entities should be relocated into a different schema. */
   entityMove?: EntityMove | undefined;
   /** Optional. Rule to change the sql code for an entity, for example, function, procedure. */
   sourceSqlChange?: SourceSqlChange | undefined;
-  /** Required. The rule scope */
-  ruleScope?: MappingRuleRuleScopeEnum | (string & {}) | undefined;
-  /** Optional. Rule to specify how multiple entities should be renamed. */
-  multiEntityRename?: MultiEntityRename | undefined;
-  /** Optional. Rule to specify how multiple tables should be converted with an additional rowid column. */
-  convertRowidColumn?: ConvertRowIdToColumn | undefined;
-  /** Optional. Deprecated: This rule is no longer supported. */
-  setTablePrimaryKey?: SetTablePrimaryKey | undefined;
 }
 export interface CreateProjectsLocationsConversionWorkspacesMappingRulesRequest extends MappingRule {
-  /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string | undefined;
   /** Required. The parent which owns this collection of mapping rules. */
   parent: string;
+  /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
+  requestId?: string | undefined;
   /** Required. The ID of the rule to create. */
   mappingRuleId?: string | undefined;
 }
-export type MigrationJobPhaseEnum =
-  | "PHASE_UNSPECIFIED"
-  | "FULL_DUMP"
-  | "CDC"
-  | "PROMOTE_IN_PROGRESS"
-  | "WAITING_FOR_SOURCE_WRITES_TO_STOP"
-  | "PREPARING_THE_DUMP"
-  | "READY_FOR_PROMOTE"
-  | "PHASE_FAILBACK";
-export type DatabaseTypeEngineEnum =
-  | "DATABASE_ENGINE_UNSPECIFIED"
-  | "MYSQL"
-  | "POSTGRESQL"
-  | "SQLSERVER"
-  | "ORACLE";
+/** The details needed to configure a reverse SSH tunnel between the source and destination databases. These details will be used when calling the generateSshScript method (see https://cloud.google.com/database-migration/docs/reference/rest/v1/projects.locations.migrationJobs/generateSshScript) to produce the script that will help set up the reverse SSH tunnel, and to set up the VPC peering between the Cloud SQL private network and the VPC. */
+export interface ReverseSshConnectivity {
+  /** The name of the VPC to peer with the Cloud SQL private network. */
+  vpc?: string | undefined;
+  /** Required. The IP of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
+  vmIp?: string | undefined;
+  /** Required. The forwarding port of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
+  vmPort?: number | undefined;
+  /** The name of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
+  vm?: string | undefined;
+}
 export type DatabaseTypeProviderEnum =
   | "DATABASE_PROVIDER_UNSPECIFIED"
   | "CLOUDSQL"
@@ -1020,53 +1016,25 @@ export type DatabaseTypeProviderEnum =
   | "AURORA"
   | "ALLOYDB"
   | "AZURE_DATABASE";
+export type DatabaseTypeEngineEnum =
+  | "DATABASE_ENGINE_UNSPECIFIED"
+  | "MYSQL"
+  | "POSTGRESQL"
+  | "SQLSERVER"
+  | "ORACLE";
 /** A message defining the database engine and provider. */
 export interface DatabaseType {
-  /** The database engine. */
-  engine?: DatabaseTypeEngineEnum | (string & {}) | undefined;
   /** The database provider. */
   provider?: DatabaseTypeProviderEnum | (string & {}) | undefined;
+  /** The database engine. */
+  engine?: DatabaseTypeEngineEnum | (string & {}) | undefined;
 }
-/** Configuration for MySQL to MySQL migrations. */
-export interface MySqlHomogeneousConfig {
-  /** Optional. Whether the destination for the migration job is a primary instance. */
-  isPrimaryDestination?: boolean | undefined;
+export type MigrationJobPurposeEnum = "PURPOSE_UNSPECIFIED" | "MIGRATE" | "FAILBACK";
+/** The details of the VPC where the source database is located in Google Cloud. We will use this information to set up the VPC peering connection between Cloud SQL and this VPC. */
+export interface VpcPeeringConnectivity {
+  /** The name of the VPC network to peer with the Cloud SQL private network. */
+  vpc?: string | undefined;
 }
-export type MigrationJobDumpTypeEnum = "DUMP_TYPE_UNSPECIFIED" | "LOGICAL" | "PHYSICAL";
-export type PerformanceConfigDumpParallelLevelEnum =
-  | "DUMP_PARALLEL_LEVEL_UNSPECIFIED"
-  | "MIN"
-  | "OPTIMAL"
-  | "MAX";
-export type PerformanceConfigLoadParallelLevelEnum =
-  | "LOAD_PARALLEL_LEVEL_UNSPECIFIED"
-  | "LOAD_MIN"
-  | "LOAD_OPTIMAL"
-  | "LOAD_MAX";
-/** Performance configuration definition. */
-export interface PerformanceConfig {
-  /** Initial dump parallelism level. */
-  dumpParallelLevel?: PerformanceConfigDumpParallelLevelEnum | (string & {}) | undefined;
-  /** Optional. Initial load parallelism level. */
-  loadParallelLevel?: PerformanceConfigLoadParallelLevelEnum | (string & {}) | undefined;
-}
-export type MigrationJobStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "MAINTENANCE"
-  | "DRAFT"
-  | "CREATING"
-  | "NOT_STARTED"
-  | "RUNNING"
-  | "FAILED"
-  | "COMPLETED"
-  | "DELETING"
-  | "STOPPING"
-  | "STOPPED"
-  | "DELETED"
-  | "UPDATING"
-  | "STARTING"
-  | "RESTARTING"
-  | "RESUMING";
 /** Dump flag definition. */
 export interface DumpFlag {
   /** The value of the flag. */
@@ -1080,53 +1048,12 @@ export interface DumpFlags {
   /** The flags for the initial dump. */
   dumpFlags?: DumpFlagList | undefined;
 }
-/** Encryption settings for the SQL Server database. */
-export interface SqlServerEncryptionOptions {
-  /** Required. Input only. Password that encrypts the private key. */
-  pvkPassword?: string | undefined;
-  /** Required. Path to the Certificate Private Key (.pvk) in Cloud Storage, in the form `gs://bucketName/fileName`. The instance must have write permissions to the bucket and read access to the file. */
-  pvkPath?: string | undefined;
-  /** Required. Path to the Certificate (.cer) in Cloud Storage, in the form `gs://bucketName/fileName`. The instance must have write permissions to the bucket and read access to the file. */
-  certPath?: string | undefined;
-}
-/** Specifies the backup details for a single database in Cloud Storage for homogeneous migration to Cloud SQL for SQL Server. */
-export interface SqlServerDatabaseBackup {
-  /** Required. Name of a SQL Server database for which to define backup configuration. */
-  database?: string | undefined;
-  /** Optional. Encryption settings for the database. Required if provided database backups are encrypted. Encryption settings include path to certificate, path to certificate private key, and key password. */
-  encryptionOptions?: SqlServerEncryptionOptions | undefined;
-}
-export type SqlServerDatabaseBackupList = Array<SqlServerDatabaseBackup>;
-/** Configuration for distributed availability group (DAG) for the SQL Server homogeneous migration. */
-export interface SqlServerDagConfig {
-  /** Required. The name of the linked server that points to the source SQL Server instance. Only used by DAG migrations. */
-  linkedServer?: string | undefined;
-  /** Required. The name of the source availability group. Only used by DAG migrations. */
-  sourceAg?: string | undefined;
-}
-/** Configuration for homogeneous migration to Cloud SQL for SQL Server. */
-export interface SqlServerHomogeneousMigrationJobConfig {
-  /** Optional. Enable differential backups. */
-  useDiffBackup?: boolean | undefined;
-  /** Required. Backup details per database in Cloud Storage. */
-  databaseBackups?: SqlServerDatabaseBackupList | undefined;
-  /** Required. Pattern that describes the default backup naming strategy. The specified pattern should ensure lexicographical order of backups. The pattern must define one of the following capture group sets: Capture group set #1 yy/yyyy - year, 2 or 4 digits mm - month number, 1-12 dd - day of month, 1-31 hh - hour of day, 00-23 mi - minutes, 00-59 ss - seconds, 00-59 Example: For backup file TestDB_20230802_155400.trn, use pattern: (?.*)_backup_(?\d{4})(?\d{2})(?\d{2})_(?\d{2})(?\d{2})(?\d{2}).trn Capture group set #2 timestamp - unix timestamp Example: For backup file TestDB.1691448254.trn, use pattern: (?.*)\.(?\d*).trn or (?.*)\.(?\d*).trn */
-  backupFilePattern?: string | undefined;
-  /** Optional. Configuration for distributed availability group (DAG) for the SQL Server homogeneous migration. */
-  dagConfig?: SqlServerDagConfig | undefined;
-  /** Optional. Promote databases when ready. */
-  promoteWhenReady?: boolean | undefined;
-}
-/** The details needed to configure a reverse SSH tunnel between the source and destination databases. These details will be used when calling the generateSshScript method (see https://cloud.google.com/database-migration/docs/reference/rest/v1/projects.locations.migrationJobs/generateSshScript) to produce the script that will help set up the reverse SSH tunnel, and to set up the VPC peering between the Cloud SQL private network and the VPC. */
-export interface ReverseSshConnectivity {
-  /** Required. The forwarding port of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
-  vmPort?: number | undefined;
-  /** The name of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
-  vm?: string | undefined;
-  /** Required. The IP of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
-  vmIp?: string | undefined;
-  /** The name of the VPC to peer with the Cloud SQL private network. */
-  vpc?: string | undefined;
+/** Configuration for PostgreSQL to PostgreSQL migrations. */
+export interface PostgresHomogeneousConfig {
+  /** Required. Whether the migration is native logical. */
+  isNativeLogical?: boolean | undefined;
+  /** Optional. Maximum number of additional subscriptions to use for the migration job. */
+  maxAdditionalSubscriptions?: number | undefined;
 }
 /** Configuration for SQL Server as a destination in a migration. */
 export interface SqlServerDestinationConfig {
@@ -1147,72 +1074,137 @@ export interface PostgresToSqlServerConfig {
   /** Optional. Configuration for PostgreSQL source. */
   postgresSourceConfig?: PostgresSourceConfig | undefined;
 }
-/** Configuration for SQL Server as a source in a migration. */
-export interface SqlServerSourceConfig {
-  /** Optional. Maximum number of connections Database Migration Service will open to the source for CDC phase. */
-  maxConcurrentCdcConnections?: number | undefined;
-  /** Optional. The log sequence number (LSN) to start CDC data migration from. */
+export type PerformanceConfigLoadParallelLevelEnum =
+  | "LOAD_PARALLEL_LEVEL_UNSPECIFIED"
+  | "LOAD_MIN"
+  | "LOAD_OPTIMAL"
+  | "LOAD_MAX";
+export type PerformanceConfigDumpParallelLevelEnum =
+  | "DUMP_PARALLEL_LEVEL_UNSPECIFIED"
+  | "MIN"
+  | "OPTIMAL"
+  | "MAX";
+/** Performance configuration definition. */
+export interface PerformanceConfig {
+  /** Optional. Initial load parallelism level. */
+  loadParallelLevel?: PerformanceConfigLoadParallelLevelEnum | (string & {}) | undefined;
+  /** Initial dump parallelism level. */
+  dumpParallelLevel?: PerformanceConfigDumpParallelLevelEnum | (string & {}) | undefined;
+}
+export type MigrationJobPhaseEnum =
+  | "PHASE_UNSPECIFIED"
+  | "FULL_DUMP"
+  | "CDC"
+  | "PROMOTE_IN_PROGRESS"
+  | "WAITING_FOR_SOURCE_WRITES_TO_STOP"
+  | "PREPARING_THE_DUMP"
+  | "READY_FOR_PROMOTE"
+  | "PHASE_FAILBACK";
+/** Configuration for Postgres as a destination in a migration. */
+export type PostgresDestinationConfig = SqlServerDestinationConfig;
+/** Configuration to use Oracle ASM to access the log files. */
+export type OracleAsmLogFileAccess = CancelOperationRequest;
+/** Configuration to specify the Oracle directories to access the log files. */
+export interface LogFileDirectories {
+  /** Required. Oracle directory for online logs. */
+  onlineLogDirectory?: string | undefined;
+  /** Required. Oracle directory for archived logs. */
+  archivedLogDirectory?: string | undefined;
+}
+/** Configuration to use Binary Log Parser CDC technique. */
+export interface BinaryLogParser {
+  /** Use Oracle ASM. */
+  oracleAsmLogFileAccess?: CancelOperationRequest | undefined;
+  /** Use Oracle directories. */
+  logFileDirectories?: LogFileDirectories | undefined;
+}
+/** Configuration to use LogMiner CDC method. */
+export type LogMiner = CancelOperationRequest;
+/** Configuration for Oracle as a source in a migration. */
+export interface OracleSourceConfig {
+  /** Optional. The schema change number (SCN) to start CDC data migration from. */
   cdcStartPosition?: string | undefined;
-  /** Optional. Whether to skip full dump or not. */
-  skipFullDump?: boolean | undefined;
   /** Optional. Maximum number of connections Database Migration Service will open to the source for full dump phase. */
   maxConcurrentFullDumpConnections?: number | undefined;
+  /** Use Binary Log Parser. */
+  binaryLogParser?: BinaryLogParser | undefined;
+  /** Optional. Maximum number of connections Database Migration Service will open to the source for CDC phase. */
+  maxConcurrentCdcConnections?: number | undefined;
+  /** Use LogMiner. */
+  logMiner?: CancelOperationRequest | undefined;
+  /** Optional. Whether to skip full dump or not. */
+  skipFullDump?: boolean | undefined;
 }
-/** Configuration for Postgres as a destination in a migration. */
-export interface PostgresDestinationConfig {
-  /** Optional. Timeout for data migration transactions. */
-  transactionTimeout?: string | undefined;
-  /** Optional. Maximum number of connections Database Migration Service will open to the destination for data migration. */
-  maxConcurrentConnections?: number | undefined;
+/** Configuration for heterogeneous **Oracle to Cloud SQL for PostgreSQL** and **Oracle to AlloyDB for PostgreSQL** migrations. */
+export interface OracleToPostgresConfig {
+  /** Optional. Configuration for Postgres destination. */
+  postgresDestinationConfig?: SqlServerDestinationConfig | undefined;
+  /** Optional. Configuration for Oracle source. */
+  oracleSourceConfig?: OracleSourceConfig | undefined;
+}
+export type MigrationJobDumpTypeEnum = "DUMP_TYPE_UNSPECIFIED" | "LOGICAL" | "PHYSICAL";
+/** Configuration for SQL Server as a source in a migration. */
+export interface SqlServerSourceConfig {
+  /** Optional. Whether to skip full dump or not. */
+  skipFullDump?: boolean | undefined;
+  /** Optional. The log sequence number (LSN) to start CDC data migration from. */
+  cdcStartPosition?: string | undefined;
+  /** Optional. Maximum number of connections Database Migration Service will open to the source for CDC phase. */
+  maxConcurrentCdcConnections?: number | undefined;
+  /** Optional. Maximum number of connections Database Migration Service will open to the source for full dump phase. */
+  maxConcurrentFullDumpConnections?: number | undefined;
 }
 /** Configuration for heterogeneous **SQL Server to Cloud SQL for PostgreSQL** migrations. */
 export interface SqlServerToPostgresConfig {
   /** Optional. Configuration for SQL Server source. */
   sqlserverSourceConfig?: SqlServerSourceConfig | undefined;
   /** Optional. Configuration for Postgres destination. */
-  postgresDestinationConfig?: PostgresDestinationConfig | undefined;
+  postgresDestinationConfig?: SqlServerDestinationConfig | undefined;
 }
-/** Configuration to use LogMiner CDC method. */
-export type LogMiner = CancelOperationRequest;
-/** Configuration to specify the Oracle directories to access the log files. */
-export interface LogFileDirectories {
-  /** Required. Oracle directory for archived logs. */
-  archivedLogDirectory?: string | undefined;
-  /** Required. Oracle directory for online logs. */
-  onlineLogDirectory?: string | undefined;
+/** A conversion workspace's version. */
+export interface ConversionWorkspaceInfo {
+  /** The resource name (URI) of the conversion workspace. */
+  name?: string | undefined;
+  /** The commit ID of the conversion workspace. */
+  commitId?: string | undefined;
 }
-/** Configuration to use Oracle ASM to access the log files. */
-export type OracleAsmLogFileAccess = CancelOperationRequest;
-/** Configuration to use Binary Log Parser CDC technique. */
-export interface BinaryLogParser {
-  /** Use Oracle directories. */
-  logFileDirectories?: LogFileDirectories | undefined;
-  /** Use Oracle ASM. */
-  oracleAsmLogFileAccess?: CancelOperationRequest | undefined;
+/** Encryption settings for the SQL Server database. */
+export interface SqlServerEncryptionOptions {
+  /** Required. Path to the Certificate Private Key (.pvk) in Cloud Storage, in the form `gs://bucketName/fileName`. The instance must have write permissions to the bucket and read access to the file. */
+  pvkPath?: string | undefined;
+  /** Required. Path to the Certificate (.cer) in Cloud Storage, in the form `gs://bucketName/fileName`. The instance must have write permissions to the bucket and read access to the file. */
+  certPath?: string | undefined;
+  /** Required. Input only. Password that encrypts the private key. */
+  pvkPassword?: string | undefined;
 }
-/** Configuration for Oracle as a source in a migration. */
-export interface OracleSourceConfig {
-  /** Optional. Whether to skip full dump or not. */
-  skipFullDump?: boolean | undefined;
-  /** Use LogMiner. */
-  logMiner?: CancelOperationRequest | undefined;
-  /** Use Binary Log Parser. */
-  binaryLogParser?: BinaryLogParser | undefined;
-  /** Optional. The schema change number (SCN) to start CDC data migration from. */
-  cdcStartPosition?: string | undefined;
-  /** Optional. Maximum number of connections Database Migration Service will open to the source for CDC phase. */
-  maxConcurrentCdcConnections?: number | undefined;
-  /** Optional. Maximum number of connections Database Migration Service will open to the source for full dump phase. */
-  maxConcurrentFullDumpConnections?: number | undefined;
+/** Specifies the backup details for a single database in Cloud Storage for homogeneous migration to Cloud SQL for SQL Server. */
+export interface SqlServerDatabaseBackup {
+  /** Required. Name of a SQL Server database for which to define backup configuration. */
+  database?: string | undefined;
+  /** Optional. Encryption settings for the database. Required if provided database backups are encrypted. Encryption settings include path to certificate, path to certificate private key, and key password. */
+  encryptionOptions?: SqlServerEncryptionOptions | undefined;
 }
-/** Configuration for heterogeneous **Oracle to Cloud SQL for PostgreSQL** and **Oracle to AlloyDB for PostgreSQL** migrations. */
-export interface OracleToPostgresConfig {
-  /** Optional. Configuration for Postgres destination. */
-  postgresDestinationConfig?: PostgresDestinationConfig | undefined;
-  /** Optional. Configuration for Oracle source. */
-  oracleSourceConfig?: OracleSourceConfig | undefined;
+export type SqlServerDatabaseBackupList = Array<SqlServerDatabaseBackup>;
+/** Configuration for distributed availability group (DAG) for the SQL Server homogeneous migration. */
+export interface SqlServerDagConfig {
+  /** Required. The name of the source availability group. Only used by DAG migrations. */
+  sourceAg?: string | undefined;
+  /** Required. The name of the linked server that points to the source SQL Server instance. Only used by DAG migrations. */
+  linkedServer?: string | undefined;
 }
-export type MigrationJobPurposeEnum = "PURPOSE_UNSPECIFIED" | "MIGRATE" | "FAILBACK";
+/** Configuration for homogeneous migration to Cloud SQL for SQL Server. */
+export interface SqlServerHomogeneousMigrationJobConfig {
+  /** Required. Backup details per database in Cloud Storage. */
+  databaseBackups?: SqlServerDatabaseBackupList | undefined;
+  /** Optional. Configuration for distributed availability group (DAG) for the SQL Server homogeneous migration. */
+  dagConfig?: SqlServerDagConfig | undefined;
+  /** Optional. Promote databases when ready. */
+  promoteWhenReady?: boolean | undefined;
+  /** Optional. Enable differential backups. */
+  useDiffBackup?: boolean | undefined;
+  /** Required. Pattern that describes the default backup naming strategy. The specified pattern should ensure lexicographical order of backups. The pattern must define one of the following capture group sets: Capture group set #1 yy/yyyy - year, 2 or 4 digits mm - month number, 1-12 dd - day of month, 1-31 hh - hour of day, 00-23 mi - minutes, 00-59 ss - seconds, 00-59 Example: For backup file TestDB_20230802_155400.trn, use pattern: (?.*)_backup_(?\d{4})(?\d{2})(?\d{2})_(?\d{2})(?\d{2})(?\d{2}).trn Capture group set #2 timestamp - unix timestamp Example: For backup file TestDB.1691448254.trn, use pattern: (?.*)\.(?\d*).trn or (?.*)\.(?\d*).trn */
+  backupFilePattern?: string | undefined;
+}
 export type SourceObjectIdentifierTypeEnum =
   | "MIGRATION_JOB_OBJECT_TYPE_UNSPECIFIED"
   | "DATABASE"
@@ -1220,14 +1212,14 @@ export type SourceObjectIdentifierTypeEnum =
   | "TABLE";
 /** An identifier for the Migration Job Object. */
 export interface SourceObjectIdentifier {
-  /** Optional. The schema name. This will be required only if the object uses a schema name as part of its unique identifier. */
-  schema?: string | undefined;
-  /** Required. The type of the migration job object. */
-  type?: SourceObjectIdentifierTypeEnum | (string & {}) | undefined;
   /** Optional. The database name. This will be required only if the object uses a database name as part of its unique identifier. */
   database?: string | undefined;
   /** Optional. The table name. This will be required only if the object is a level below database or schema. */
   table?: string | undefined;
+  /** Optional. The schema name. This will be required only if the object uses a schema name as part of its unique identifier. */
+  schema?: string | undefined;
+  /** Required. The type of the migration job object. */
+  type?: SourceObjectIdentifierTypeEnum | (string & {}) | undefined;
 }
 /** Config for a single migration job object. */
 export interface SourceObjectConfig {
@@ -1243,125 +1235,135 @@ export type SourceObjectsConfigObjectsSelectionTypeEnum =
 export interface SourceObjectsConfig {
   /** Optional. The list of the objects to be excluded from the migration. Exclusion takes precedence over inclusion in `object_configs`. */
   excludedObjectConfigs?: SourceObjectConfigList | undefined;
-  /** Optional. The list of the objects to be included in the migration. */
-  objectConfigs?: SourceObjectConfigList | undefined;
   /** Optional. The objects selection type of the migration job. */
   objectsSelectionType?: SourceObjectsConfigObjectsSelectionTypeEnum | (string & {}) | undefined;
+  /** Optional. The list of the objects to be included in the migration. */
+  objectConfigs?: SourceObjectConfigList | undefined;
 }
 /** Configuration for the objects to be migrated. */
 export interface MigrationJobObjectsConfig {
   /** The list of the migration job objects. */
   sourceObjectsConfig?: SourceObjectsConfig | undefined;
 }
-/** A conversion workspace's version. */
-export interface ConversionWorkspaceInfo {
-  /** The resource name (URI) of the conversion workspace. */
-  name?: string | undefined;
-  /** The commit ID of the conversion workspace. */
-  commitId?: string | undefined;
-}
+export type MigrationJobStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "MAINTENANCE"
+  | "DRAFT"
+  | "CREATING"
+  | "NOT_STARTED"
+  | "RUNNING"
+  | "FAILED"
+  | "COMPLETED"
+  | "DELETING"
+  | "STOPPING"
+  | "STOPPED"
+  | "DELETED"
+  | "UPDATING"
+  | "STARTING"
+  | "RESTARTING"
+  | "RESUMING";
 export type MigrationJobTypeEnum = "TYPE_UNSPECIFIED" | "ONE_TIME" | "CONTINUOUS";
-/** The details of the VPC where the source database is located in Google Cloud. We will use this information to set up the VPC peering connection between Cloud SQL and this VPC. */
-export interface VpcPeeringConnectivity {
-  /** The name of the VPC network to peer with the Cloud SQL private network. */
-  vpc?: string | undefined;
-}
-/** Configuration for PostgreSQL to PostgreSQL migrations. */
-export interface PostgresHomogeneousConfig {
-  /** Required. Whether the migration is native logical. */
-  isNativeLogical?: boolean | undefined;
-  /** Optional. Maximum number of additional subscriptions to use for the migration job. */
-  maxAdditionalSubscriptions?: number | undefined;
+/** Configuration for MySQL to MySQL migrations. */
+export interface MySqlHomogeneousConfig {
+  /** Optional. Whether the destination for the migration job is a primary instance. */
+  isPrimaryDestination?: boolean | undefined;
 }
 /** Represents a Database Migration Service migration job object. */
 export interface MigrationJob {
-  /** Output only. The duration of the migration job (in seconds). A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". */
-  duration?: string | undefined;
-  /** Output only. The current migration job phase. */
-  phase?: MigrationJobPhaseEnum | (string & {}) | undefined;
-  /** The database engine type and provider of the destination. */
-  destinationDatabase?: DatabaseType | undefined;
-  /** Output only. The timestamp when the migration job resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  updateTime?: string | undefined;
-  /** Optional. Configuration for MySQL homogeneous migration. */
-  mysqlHomogeneousConfig?: MySqlHomogeneousConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** The path to the dump file in Google Cloud Storage, in the format: (gs://[BUCKET_NAME]/[OBJECT_NAME]). This field and the "dump_flags" field are mutually exclusive. */
-  dumpPath?: string | undefined;
-  /** Optional. The type of the data dump. Supported for MySQL to CloudSQL for MySQL migrations only. */
-  dumpType?: MigrationJobDumpTypeEnum | (string & {}) | undefined;
-  /** Optional. A failback replication pointer to the resource name (URI) of the original migration job. */
-  originalMigrationName?: string | undefined;
-  /** Optional. Data dump and load parallelism settings used by the migration. */
-  performanceConfig?: PerformanceConfig | undefined;
-  /** Output only. The error details in case of state FAILED. */
-  error?: Status | undefined;
-  /** The current migration job state. */
-  state?: MigrationJobStateEnum | (string & {}) | undefined;
-  /** This field can be used to select the entities to migrate as part of the migration job. It uses AIP-160 notation to select a subset of the entities configured on the associated conversion-workspace. This field should not be set on migration-jobs that are not associated with a conversion workspace. */
-  filter?: string | undefined;
-  /** Output only. The timestamp when the migration job resource was created. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  createTime?: string | undefined;
-  /** The resource labels for migration job to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
-  labels?: StringMap | undefined;
-  /** The initial dump flags. This field and the "dump_path" field are mutually exclusive. */
-  dumpFlags?: DumpFlags | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. If the migration job is completed, the time when it was completed. */
-  endTime?: string | undefined;
-  /** Required. The resource name (URI) of the source connection profile. */
-  source?: string | undefined;
-  /** The database engine type and provider of the source. */
-  sourceDatabase?: DatabaseType | undefined;
-  /** Optional. Configuration for SQL Server homogeneous migration. */
-  sqlserverHomogeneousMigrationJobConfig?: SqlServerHomogeneousMigrationJobConfig | undefined;
   /** The details needed to communicate to the source over Reverse SSH tunnel connectivity. */
   reverseSshConnectivity?: ReverseSshConnectivity | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
+  /** The database engine type and provider of the source. */
+  sourceDatabase?: DatabaseType | undefined;
+  /** The path to the dump file in Google Cloud Storage, in the format: (gs://[BUCKET_NAME]/[OBJECT_NAME]). This field and the "dump_flags" field are mutually exclusive. */
+  dumpPath?: string | undefined;
+  /** This field can be used to select the entities to migrate as part of the migration job. It uses AIP-160 notation to select a subset of the entities configured on the associated conversion-workspace. This field should not be set on migration-jobs that are not associated with a conversion workspace. */
+  filter?: string | undefined;
+  /** Output only. Migration job mode. Migration jobs can be standard forward jobs or failback migration jobs. */
+  purpose?: MigrationJobPurposeEnum | (string & {}) | undefined;
+  /** The details of the VPC network that the source database is located in. */
+  vpcPeeringConnectivity?: VpcPeeringConnectivity | undefined;
+  /** The initial dump flags. This field and the "dump_path" field are mutually exclusive. */
+  dumpFlags?: DumpFlags | undefined;
+  /** Optional. Configuration for PostgreSQL homogeneous migration. */
+  postgresHomogeneousConfig?: PostgresHomogeneousConfig | undefined;
   /** static ip connectivity data (default, no additional details needed). */
   staticIpConnectivity?: CancelOperationRequest | undefined;
   /** Configuration for heterogeneous failback migrations from **PostgreSQL to SQL Server**. */
   postgresToSqlserverConfig?: PostgresToSqlServerConfig | undefined;
-  /** Configuration for heterogeneous **SQL Server to Cloud SQL for PostgreSQL** migrations. */
-  sqlserverToPostgresConfig?: SqlServerToPostgresConfig | undefined;
-  /** Configuration for heterogeneous **Oracle to Cloud SQL for PostgreSQL** and **Oracle to AlloyDB for PostgreSQL** migrations. */
-  oracleToPostgresConfig?: OracleToPostgresConfig | undefined;
-  /** The migration job display name. */
-  displayName?: string | undefined;
-  /** Output only. Migration job mode. Migration jobs can be standard forward jobs or failback migration jobs. */
-  purpose?: MigrationJobPurposeEnum | (string & {}) | undefined;
-  /** Optional. The objects that need to be migrated. */
-  objectsConfig?: MigrationJobObjectsConfig | undefined;
-  /** The conversion workspace used by the migration. */
-  conversionWorkspace?: ConversionWorkspaceInfo | undefined;
-  /** Required. The migration job type. */
-  type?: MigrationJobTypeEnum | (string & {}) | undefined;
+  /** The resource labels for migration job to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
+  labels?: StringMap | undefined;
+  /** Output only. The error details in case of state FAILED. */
+  error?: Status | undefined;
+  /** Output only. If the migration job is completed, the time when it was completed. */
+  endTime?: string | undefined;
   /** The CMEK (customer-managed encryption key) fully qualified key name used for the migration job. This field supports all migration jobs types except for: * Mysql to Mysql (use the cmek field in the cloudsql connection profile instead). * PostrgeSQL to PostgreSQL (use the cmek field in the cloudsql connection profile instead). * PostgreSQL to AlloyDB (use the kms_key_name field in the alloydb connection profile instead). Each Cloud CMEK key has the following format: projects/[PROJECT]/locations/[REGION]/keyRings/[RING]/cryptoKeys/[KEY_NAME] */
   cmekKeyName?: string | undefined;
-  /** The details of the VPC network that the source database is located in. */
-  vpcPeeringConnectivity?: VpcPeeringConnectivity | undefined;
-  /** Optional. Configuration for PostgreSQL homogeneous migration. */
-  postgresHomogeneousConfig?: PostgresHomogeneousConfig | undefined;
-  /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
-  name?: string | undefined;
+  /** Output only. The timestamp when the migration job resource was created. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
+  createTime?: string | undefined;
+  /** Output only. The timestamp when the migration job resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
+  updateTime?: string | undefined;
+  /** Required. The resource name (URI) of the source connection profile. */
+  source?: string | undefined;
+  /** Optional. A failback replication pointer to the resource name (URI) of the original migration job. */
+  originalMigrationName?: string | undefined;
+  /** Optional. Data dump and load parallelism settings used by the migration. */
+  performanceConfig?: PerformanceConfig | undefined;
+  /** Output only. The duration of the migration job (in seconds). A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". */
+  duration?: string | undefined;
+  /** Output only. The current migration job phase. */
+  phase?: MigrationJobPhaseEnum | (string & {}) | undefined;
+  /** Configuration for heterogeneous **Oracle to Cloud SQL for PostgreSQL** and **Oracle to AlloyDB for PostgreSQL** migrations. */
+  oracleToPostgresConfig?: OracleToPostgresConfig | undefined;
+  /** Optional. The type of the data dump. Supported for MySQL to CloudSQL for MySQL migrations only. */
+  dumpType?: MigrationJobDumpTypeEnum | (string & {}) | undefined;
+  /** The database engine type and provider of the destination. */
+  destinationDatabase?: DatabaseType | undefined;
+  /** Configuration for heterogeneous **SQL Server to Cloud SQL for PostgreSQL** migrations. */
+  sqlserverToPostgresConfig?: SqlServerToPostgresConfig | undefined;
+  /** The conversion workspace used by the migration. */
+  conversionWorkspace?: ConversionWorkspaceInfo | undefined;
+  /** Optional. Configuration for SQL Server homogeneous migration. */
+  sqlserverHomogeneousMigrationJobConfig?: SqlServerHomogeneousMigrationJobConfig | undefined;
+  /** Optional. The objects that need to be migrated. */
+  objectsConfig?: MigrationJobObjectsConfig | undefined;
+  /** The current migration job state. */
+  state?: MigrationJobStateEnum | (string & {}) | undefined;
   /** Required. The resource name (URI) of the destination connection profile. */
   destination?: string | undefined;
+  /** The migration job display name. */
+  displayName?: string | undefined;
+  /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
+  name?: string | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Required. The migration job type. */
+  type?: MigrationJobTypeEnum | (string & {}) | undefined;
+  /** Optional. Configuration for MySQL homogeneous migration. */
+  mysqlHomogeneousConfig?: MySqlHomogeneousConfig | undefined;
 }
 export interface CreateProjectsLocationsMigrationJobsRequest extends MigrationJob {
-  /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string | undefined;
   /** Required. The parent which owns this collection of migration jobs. */
   parent: string;
+  /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
+  requestId?: string | undefined;
   /** Required. The ID of the instance to create. */
   migrationJobId?: string | undefined;
 }
 /** The VPC peering configuration is used to create VPC peering with the consumer's VPC. */
 export interface VpcPeeringConfig {
-  /** Required. A free subnet for peering. (CIDR of /29) */
-  subnet?: string | undefined;
   /** Required. Fully qualified name of the VPC that Database Migration Service will peer to. */
   vpcName?: string | undefined;
+  /** Required. A free subnet for peering. (CIDR of /29) */
+  subnet?: string | undefined;
+}
+/** Reserved Public IP configuration. */
+export interface ReservedPublicIpConfig {
+  /** Output only. The reserved public IPs. */
+  egressPublicIps?: StringList | undefined;
+  /** Optional. Number of static public IP addresses to reserve. */
+  natIpsCount?: number | undefined;
 }
 /** The PSC Interface configuration is used to create PSC Interface between DMS's internal VPC and the consumer's PSC. */
 export interface PscInterfaceConfig {
@@ -1376,79 +1378,72 @@ export type PrivateConnectionStateEnum =
   | "DELETING"
   | "FAILED_TO_DELETE"
   | "DELETED";
-/** Reserved Public IP configuration. */
-export interface ReservedPublicIpConfig {
-  /** Output only. The reserved public IPs. */
-  egressPublicIps?: StringList | undefined;
-  /** Optional. Number of static public IP addresses to reserve. */
-  natIpsCount?: number | undefined;
-}
 /** The PrivateConnection resource is used to establish private connectivity with the customer's network. */
 export interface PrivateConnection {
+  /** VPC peering configuration. */
+  vpcPeeringConfig?: VpcPeeringConfig | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
   /** The resource labels for private connections to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
   labels?: StringMap | undefined;
+  /** Output only. The error details in case of state FAILED. */
+  error?: Status | undefined;
+  /** Reserved Public IP configuration. */
+  reservedPublicIpConfig?: ReservedPublicIpConfig | undefined;
+  /** Output only. The last update time of the resource. */
+  updateTime?: string | undefined;
   /** Output only. The create time of the resource. */
   createTime?: string | undefined;
   /** The name of the resource. */
   name?: string | undefined;
-  /** VPC peering configuration. */
-  vpcPeeringConfig?: VpcPeeringConfig | undefined;
-  /** Output only. The error details in case of state FAILED. */
-  error?: Status | undefined;
-  /** PSC Interface configuration. */
-  pscInterfaceConfig?: PscInterfaceConfig | undefined;
-  /** Output only. The state of the private connection. */
-  state?: PrivateConnectionStateEnum | (string & {}) | undefined;
-  /** The private connection display name. */
-  displayName?: string | undefined;
   /** Output only. Reserved for future use. */
   satisfiesPzs?: boolean | undefined;
-  /** Reserved Public IP configuration. */
-  reservedPublicIpConfig?: ReservedPublicIpConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. The last update time of the resource. */
-  updateTime?: string | undefined;
+  /** PSC Interface configuration. */
+  pscInterfaceConfig?: PscInterfaceConfig | undefined;
+  /** The private connection display name. */
+  displayName?: string | undefined;
+  /** Output only. The state of the private connection. */
+  state?: PrivateConnectionStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsPrivateConnectionsRequest extends PrivateConnection {
-  /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string | undefined;
-  /** Required. The private connection identifier. */
-  privateConnectionId?: string | undefined;
-  /** Optional. If set to true, will skip validations. */
-  skipValidation?: boolean | undefined;
-  /** Optional. For PSC Interface only - get the tenant project before creating the resource. */
-  validateOnly?: boolean | undefined;
   /** Required. The parent that owns the collection of PrivateConnections. */
   parent: string;
+  /** Optional. For PSC Interface only - get the tenant project before creating the resource. */
+  validateOnly?: boolean | undefined;
+  /** Required. The private connection identifier. */
+  privateConnectionId?: string | undefined;
+  /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
+  requestId?: string | undefined;
+  /** Optional. If set to true, will skip validations. */
+  skipValidation?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsConnectionProfilesRequest {
   /** A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
-  /** Required. Name of the connection profile resource to delete. */
-  name: string;
   /** In case of force delete, the CloudSQL replica database is also deleted (only for CloudSQL connection profile). */
   force?: boolean | undefined;
+  /** Required. Name of the connection profile resource to delete. */
+  name: string;
 }
 export interface DeleteProjectsLocationsConversionWorkspacesRequest {
-  /** Required. Name of the conversion workspace resource to delete. */
-  name: string;
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
   /** Optional. Force delete the conversion workspace, even if there's a running migration that is using the workspace. */
   force?: boolean | undefined;
-}
-export interface DeleteProjectsLocationsConversionWorkspacesMappingRulesRequest {
-  /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string | undefined;
-  /** Required. Name of the mapping rule resource to delete. */
+  /** Required. Name of the conversion workspace resource to delete. */
   name: string;
 }
-export interface DeleteProjectsLocationsMigrationJobsRequest {
+export interface DeleteProjectsLocationsConversionWorkspacesMappingRulesRequest {
+  /** Required. Name of the mapping rule resource to delete. */
+  name: string;
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
+}
+export interface DeleteProjectsLocationsMigrationJobsRequest {
   /** Optional. The destination CloudSQL connection profile is always deleted with the migration job. In case of force delete, the destination CloudSQL replica database is also deleted. */
   force?: boolean | undefined;
+  /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
+  requestId?: string | undefined;
   /** Required. Name of the migration job resource to delete. */
   name: string;
 }
@@ -1482,33 +1477,18 @@ export interface DescribeConversionWorkspaceRevisionsResponse {
   /** The list of conversion workspace revisions. */
   revisions?: ConversionWorkspaceList | undefined;
 }
-export type DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesTreeEnum =
-  | "DB_TREE_TYPE_UNSPECIFIED"
-  | "SOURCE_TREE"
-  | "DRAFT_TREE"
-  | "DESTINATION_TREE";
 export type DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesViewEnum =
   | "DATABASE_ENTITY_VIEW_UNSPECIFIED"
   | "DATABASE_ENTITY_VIEW_BASIC"
   | "DATABASE_ENTITY_VIEW_FULL"
   | "DATABASE_ENTITY_VIEW_ROOT_SUMMARY"
   | "DATABASE_ENTITY_VIEW_FULL_COMPACT";
+export type DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesTreeEnum =
+  | "DB_TREE_TYPE_UNSPECIFIED"
+  | "SOURCE_TREE"
+  | "DRAFT_TREE"
+  | "DESTINATION_TREE";
 export interface DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesRequest {
-  /** Optional. The nextPageToken value received in the previous call to conversionWorkspace.describeDatabaseEntities, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to conversionWorkspace.describeDatabaseEntities must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Required. The tree to fetch. */
-  tree?:
-    | DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesTreeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Request a specific commit ID. If not specified, the entities from the latest commit are returned. */
-  commitId?: string | undefined;
-  /** Required. Name of the conversion workspace resource whose database entities are described. Must be in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
-  conversionWorkspace: string;
-  /** Optional. Filter the returned entities based on AIP-160 standard. */
-  filter?: string | undefined;
-  /** Optional. Whether to retrieve the latest committed version of the entities or the latest version. This field is ignored if a specific commit_id is specified. */
-  uncommitted?: boolean | undefined;
   /** Optional. Results view based on AIP-157 */
   view?:
     | DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesViewEnum
@@ -1516,118 +1496,55 @@ export interface DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesRe
     | undefined;
   /** Optional. The maximum number of entities to return. The service may return fewer entities than the value specifies. */
   pageSize?: number | undefined;
+  /** Optional. The nextPageToken value received in the previous call to conversionWorkspace.describeDatabaseEntities, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to conversionWorkspace.describeDatabaseEntities must match the call that provided the page token. */
+  pageToken?: string | undefined;
+  /** Optional. Filter the returned entities based on AIP-160 standard. */
+  filter?: string | undefined;
+  /** Required. The tree to fetch. */
+  tree?:
+    | DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesTreeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Request a specific commit ID. If not specified, the entities from the latest commit are returned. */
+  commitId?: string | undefined;
+  /** Optional. Whether to retrieve the latest committed version of the entities or the latest version. This field is ignored if a specific commit_id is specified. */
+  uncommitted?: boolean | undefined;
+  /** Required. Name of the conversion workspace resource whose database entities are described. Must be in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
+  conversionWorkspace: string;
 }
-/** Trigger is not used as an independent entity, it is retrieved as part of a Table entity. */
-export interface TriggerEntity {
-  /** The SQL code which creates the trigger. */
-  sqlCode?: string | undefined;
-  /** The DML, DDL, or database events that fire the trigger, for example INSERT, UPDATE. */
-  triggeringEvents?: StringList | undefined;
+export type DatabaseEntityTreeEnum = "TREE_TYPE_UNSPECIFIED" | "SOURCE" | "DRAFT" | "DESTINATION";
+export type SynonymEntitySourceTypeEnum =
+  | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
+  | "DATABASE_ENTITY_TYPE_SCHEMA"
+  | "DATABASE_ENTITY_TYPE_TABLE"
+  | "DATABASE_ENTITY_TYPE_COLUMN"
+  | "DATABASE_ENTITY_TYPE_CONSTRAINT"
+  | "DATABASE_ENTITY_TYPE_INDEX"
+  | "DATABASE_ENTITY_TYPE_TRIGGER"
+  | "DATABASE_ENTITY_TYPE_VIEW"
+  | "DATABASE_ENTITY_TYPE_SEQUENCE"
+  | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE"
+  | "DATABASE_ENTITY_TYPE_FUNCTION"
+  | "DATABASE_ENTITY_TYPE_SYNONYM"
+  | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE"
+  | "DATABASE_ENTITY_TYPE_UDT"
+  | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
+  | "DATABASE_ENTITY_TYPE_DATABASE";
+/** Synonym's parent is a schema. */
+export interface SynonymEntity {
+  /** The type of the entity for which the synonym is being created (usually a table or a sequence). */
+  sourceType?: SynonymEntitySourceTypeEnum | undefined;
   /** Custom engine specific features. */
   customFeatures?: DocumentMap | undefined;
-  /** The name of the trigger. */
-  name?: string | undefined;
-  /** Indicates when the trigger fires, for example BEFORE STATEMENT, AFTER EACH ROW. */
-  triggerType?: string | undefined;
+  /** The name of the entity for which the synonym is being created (the source). */
+  sourceEntity?: string | undefined;
 }
-export type TriggerEntityList = Array<TriggerEntity>;
-/** Column is not used as an independent entity, it is retrieved as part of a Table entity. */
-export interface ColumnEntity {
-  /** Column length - e.g. varchar (50). */
-  length?: string | undefined;
-  /** Charset override - instead of table level charset. */
-  charset?: string | undefined;
-  /** Column precision - when relevant. */
-  precision?: number | undefined;
-  /** Column fractional second precision - used for timestamp based datatypes. */
-  fractionalSecondsPrecision?: number | undefined;
-  /** Collation override - instead of table level collation. */
-  collation?: string | undefined;
-  /** Custom engine specific features. */
-  customFeatures?: DocumentMap | undefined;
-  /** Column name. */
-  name?: string | undefined;
-  /** Column scale - when relevant. */
-  scale?: number | undefined;
-  /** If the column is array, of which length. */
-  arrayLength?: number | undefined;
-  /** Default value of the column. */
-  defaultValue?: string | undefined;
-  /** Is the column auto-generated/identity. */
-  autoGenerated?: boolean | undefined;
-  /** Is the column nullable. */
-  nullable?: boolean | undefined;
-  /** Column data type. */
-  dataType?: string | undefined;
-  /** Column order in the table. */
-  ordinalPosition?: number | undefined;
-  /** Is the column a UDT. */
-  udt?: boolean | undefined;
-  /** Is the column a computed column. */
-  computed?: boolean | undefined;
-  /** Specifies the list of values allowed in the column. Only used for set data type. */
-  setValues?: StringList | undefined;
-  /** Is the column of array type. */
-  array?: boolean | undefined;
-  /** Comment associated with the column. */
-  comment?: string | undefined;
-}
-export type ColumnEntityList = Array<ColumnEntity>;
-/** Constraint is not used as an independent entity, it is retrieved as part of another entity such as Table or View. */
-export interface ConstraintEntity {
-  /** Table which is associated with the constraint. In case the constraint is defined on a table, this field is left empty as this information is stored in parent_name. However, if constraint is defined on a view, this field stores the table name on which the view is defined. */
-  tableName?: string | undefined;
-  /** Table columns used as part of the Constraint, for example primary key constraint should list the columns which constitutes the key. */
-  tableColumns?: StringList | undefined;
-  /** Reference columns which may be associated with the constraint. For example, if the constraint is a FOREIGN_KEY, this represents the list of full names of referenced columns by the foreign key. */
-  referenceColumns?: StringList | undefined;
-  /** Custom engine specific features. */
-  customFeatures?: DocumentMap | undefined;
-  /** The name of the table constraint. */
-  name?: string | undefined;
-  /** Type of constraint, for example unique, primary key, foreign key (currently only primary key is supported). */
-  type?: string | undefined;
-  /** Reference table which may be associated with the constraint. For example, if the constraint is a FOREIGN_KEY, this represents the list of full name of the referenced table by the foreign key. */
-  referenceTable?: string | undefined;
-}
-export type ConstraintEntityList = Array<ConstraintEntity>;
-export type BooleanList = Array<boolean>;
-/** Index is not used as an independent entity, it is retrieved as part of a Table entity. */
-export interface IndexEntity {
-  /** Table columns used as part of the Index, for example B-TREE index should list the columns which constitutes the index. */
-  tableColumns?: StringList | undefined;
-  /** The name of the index. */
-  name?: string | undefined;
-  /** Type of index, for example B-TREE. */
-  type?: string | undefined;
-  /** Boolean value indicating whether the index is unique. */
-  unique?: boolean | undefined;
-  /** Custom engine specific features. */
-  customFeatures?: DocumentMap | undefined;
-  /** For each table_column, mark whether it's sorting order is ascending (false) or descending (true). If no value is defined, assume all columns are sorted in ascending order. Otherwise, the number of items must match that of table_columns with each value specifying the direction of the matched column by its index. */
-  tableColumnsDescending?: BooleanList | undefined;
-}
-export type IndexEntityList = Array<IndexEntity>;
-/** Table's parent is a schema. */
-export interface TableEntity {
-  /** Custom engine specific features. */
-  customFeatures?: DocumentMap | undefined;
-  /** Table triggers. */
-  triggers?: TriggerEntityList | undefined;
-  /** Table columns. */
-  columns?: ColumnEntityList | undefined;
-  /** Table constraints. */
-  constraints?: ConstraintEntityList | undefined;
-  /** Table indices. */
-  indices?: IndexEntityList | undefined;
-  /** Comment associated with the table. */
-  comment?: string | undefined;
-}
-/** Schema typically has no parent entity, but can have a parent entity DatabaseInstance (for database engines which support it). For some database engines, the terms schema and user can be used interchangeably when they refer to a namespace or a collection of other database entities. Can store additional information which is schema specific. */
-export interface SchemaEntity {
-  /** Custom engine specific features. */
-  customFeatures?: DocumentMap | undefined;
-}
+export type EntityDdlDdlKindEnum =
+  | "DDL_KIND_UNSPECIFIED"
+  | "SOURCE"
+  | "DETERMINISTIC"
+  | "AI"
+  | "USER_EDIT";
 export type EntityDdlEditedDdlKindEnum =
   | "DDL_KIND_UNSPECIFIED"
   | "SOURCE"
@@ -1651,31 +1568,43 @@ export type EntityDdlEntityTypeEnum =
   | "DATABASE_ENTITY_TYPE_UDT"
   | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
   | "DATABASE_ENTITY_TYPE_DATABASE";
-export type EntityDdlDdlKindEnum =
-  | "DDL_KIND_UNSPECIFIED"
-  | "SOURCE"
-  | "DETERMINISTIC"
-  | "AI"
-  | "USER_EDIT";
 /** A single DDL statement for a specific entity */
 export interface EntityDdl {
+  /** EntityIssues found for this ddl. */
+  issueId?: StringList | undefined;
+  /** The name of the database entity the ddl refers to. */
+  entity?: string | undefined;
+  /** The DDL Kind selected for apply, or UNSPECIFIED if the entity wasn't converted yet. */
+  ddlKind?: EntityDdlDdlKindEnum | undefined;
   /** If ddl_kind is USER_EDIT, this holds the DDL kind of the original content - DETERMINISTIC or AI. Otherwise, this is DDL_KIND_UNSPECIFIED. */
   editedDdlKind?: EntityDdlEditedDdlKindEnum | undefined;
   /** The entity type (if the DDL is for a sub entity). */
   entityType?: EntityDdlEntityTypeEnum | undefined;
   /** Type of DDL (Create, Alter). */
   ddlType?: string | undefined;
-  /** The DDL Kind selected for apply, or UNSPECIFIED if the entity wasn't converted yet. */
-  ddlKind?: EntityDdlDdlKindEnum | undefined;
-  /** The name of the database entity the ddl refers to. */
-  entity?: string | undefined;
-  /** EntityIssues found for this ddl. */
-  issueId?: StringList | undefined;
   /** The actual ddl code. */
   ddl?: string | undefined;
 }
 export type EntityDdlList = Array<EntityDdl>;
-export type SynonymEntitySourceTypeEnum =
+/** UDT's parent is a schema. */
+export interface UDTEntity {
+  /** The SQL code which creates the udt body. */
+  udtBody?: string | undefined;
+  /** The SQL code which creates the udt. */
+  udtSqlCode?: string | undefined;
+  /** Custom engine specific features. */
+  customFeatures?: DocumentMap | undefined;
+}
+/** Package's parent is a schema. */
+export interface PackageEntity {
+  /** Custom engine specific features. */
+  customFeatures?: DocumentMap | undefined;
+  /** The SQL code which creates the package. */
+  packageSqlCode?: string | undefined;
+  /** The SQL code which creates the package body. If the package specification has cursors or subprograms, then the package body is mandatory. */
+  packageBody?: string | undefined;
+}
+export type DatabaseEntityEntityTypeEnum =
   | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
   | "DATABASE_ENTITY_TYPE_SCHEMA"
   | "DATABASE_ENTITY_TYPE_TABLE"
@@ -1692,41 +1621,32 @@ export type SynonymEntitySourceTypeEnum =
   | "DATABASE_ENTITY_TYPE_UDT"
   | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
   | "DATABASE_ENTITY_TYPE_DATABASE";
-/** Synonym's parent is a schema. */
-export interface SynonymEntity {
-  /** The name of the entity for which the synonym is being created (the source). */
-  sourceEntity?: string | undefined;
-  /** Custom engine specific features. */
-  customFeatures?: DocumentMap | undefined;
-  /** The type of the entity for which the synonym is being created (usually a table or a sequence). */
-  sourceType?: SynonymEntitySourceTypeEnum | undefined;
-}
-export type DatabaseEntityTreeEnum = "TREE_TYPE_UNSPECIFIED" | "SOURCE" | "DRAFT" | "DESTINATION";
-/** UDT's parent is a schema. */
-export interface UDTEntity {
-  /** The SQL code which creates the udt. */
-  udtSqlCode?: string | undefined;
-  /** The SQL code which creates the udt body. */
-  udtBody?: string | undefined;
+/** Constraint is not used as an independent entity, it is retrieved as part of another entity such as Table or View. */
+export interface ConstraintEntity {
+  /** The name of the table constraint. */
+  name?: string | undefined;
+  /** Table which is associated with the constraint. In case the constraint is defined on a table, this field is left empty as this information is stored in parent_name. However, if constraint is defined on a view, this field stores the table name on which the view is defined. */
+  tableName?: string | undefined;
+  /** Table columns used as part of the Constraint, for example primary key constraint should list the columns which constitutes the key. */
+  tableColumns?: StringList | undefined;
+  /** Reference table which may be associated with the constraint. For example, if the constraint is a FOREIGN_KEY, this represents the list of full name of the referenced table by the foreign key. */
+  referenceTable?: string | undefined;
+  /** Type of constraint, for example unique, primary key, foreign key (currently only primary key is supported). */
+  type?: string | undefined;
+  /** Reference columns which may be associated with the constraint. For example, if the constraint is a FOREIGN_KEY, this represents the list of full names of referenced columns by the foreign key. */
+  referenceColumns?: StringList | undefined;
   /** Custom engine specific features. */
   customFeatures?: DocumentMap | undefined;
 }
-/** Sequence's parent is a schema. */
-export interface SequenceEntity {
-  /** Start number for the sequence represented as bytes to accommodate large. numbers */
-  startValue?: string | undefined;
-  /** Maximum number for the sequence represented as bytes to accommodate large. numbers */
-  maxValue?: string | undefined;
-  /** Indicates number of entries to cache / precreate. */
-  cache?: string | undefined;
+export type ConstraintEntityList = Array<ConstraintEntity>;
+/** View's parent is a schema. */
+export interface ViewEntity {
+  /** The SQL code which creates the view. */
+  sqlCode?: string | undefined;
+  /** View constraints. */
+  constraints?: ConstraintEntityList | undefined;
   /** Custom engine specific features. */
   customFeatures?: DocumentMap | undefined;
-  /** Increment value for the sequence. */
-  increment?: string | undefined;
-  /** Minimum number for the sequence represented as bytes to accommodate large. numbers */
-  minValue?: string | undefined;
-  /** Indicates whether the sequence value should cycle through. */
-  cycle?: boolean | undefined;
 }
 /** Stored procedure's parent is a schema. */
 export interface StoredProcedureEntity {
@@ -1735,18 +1655,193 @@ export interface StoredProcedureEntity {
   /** Custom engine specific features. */
   customFeatures?: DocumentMap | undefined;
 }
-/** DatabaseInstance acts as a parent entity to other database entities. */
-export type DatabaseInstanceEntity = SchemaEntity;
-/** A single record of a rule which was used for a mapping. */
-export interface EntityMappingLogEntry {
-  /** Rule revision ID. */
-  ruleRevisionId?: string | undefined;
-  /** Which rule caused this log entry. */
-  ruleId?: string | undefined;
-  /** Comment. */
-  mappingComment?: string | undefined;
+export type BooleanList = Array<boolean>;
+/** Index is not used as an independent entity, it is retrieved as part of a Table entity. */
+export interface IndexEntity {
+  /** Table columns used as part of the Index, for example B-TREE index should list the columns which constitutes the index. */
+  tableColumns?: StringList | undefined;
+  /** For each table_column, mark whether it's sorting order is ascending (false) or descending (true). If no value is defined, assume all columns are sorted in ascending order. Otherwise, the number of items must match that of table_columns with each value specifying the direction of the matched column by its index. */
+  tableColumnsDescending?: BooleanList | undefined;
+  /** Custom engine specific features. */
+  customFeatures?: DocumentMap | undefined;
+  /** Type of index, for example B-TREE. */
+  type?: string | undefined;
+  /** The name of the index. */
+  name?: string | undefined;
+  /** Boolean value indicating whether the index is unique. */
+  unique?: boolean | undefined;
 }
-export type EntityMappingLogEntryList = Array<EntityMappingLogEntry>;
+export type IndexEntityList = Array<IndexEntity>;
+/** Column is not used as an independent entity, it is retrieved as part of a Table entity. */
+export interface ColumnEntity {
+  /** If the column is array, of which length. */
+  arrayLength?: number | undefined;
+  /** Is the column a computed column. */
+  computed?: boolean | undefined;
+  /** Is the column a UDT. */
+  udt?: boolean | undefined;
+  /** Charset override - instead of table level charset. */
+  charset?: string | undefined;
+  /** Collation override - instead of table level collation. */
+  collation?: string | undefined;
+  /** Column precision - when relevant. */
+  precision?: number | undefined;
+  /** Column scale - when relevant. */
+  scale?: number | undefined;
+  /** Specifies the list of values allowed in the column. Only used for set data type. */
+  setValues?: StringList | undefined;
+  /** Is the column nullable. */
+  nullable?: boolean | undefined;
+  /** Column data type. */
+  dataType?: string | undefined;
+  /** Custom engine specific features. */
+  customFeatures?: DocumentMap | undefined;
+  /** Is the column of array type. */
+  array?: boolean | undefined;
+  /** Column name. */
+  name?: string | undefined;
+  /** Is the column auto-generated/identity. */
+  autoGenerated?: boolean | undefined;
+  /** Default value of the column. */
+  defaultValue?: string | undefined;
+  /** Column length - e.g. varchar (50). */
+  length?: string | undefined;
+  /** Column fractional second precision - used for timestamp based datatypes. */
+  fractionalSecondsPrecision?: number | undefined;
+  /** Column order in the table. */
+  ordinalPosition?: number | undefined;
+  /** Comment associated with the column. */
+  comment?: string | undefined;
+}
+export type ColumnEntityList = Array<ColumnEntity>;
+/** Trigger is not used as an independent entity, it is retrieved as part of a Table entity. */
+export interface TriggerEntity {
+  /** The DML, DDL, or database events that fire the trigger, for example INSERT, UPDATE. */
+  triggeringEvents?: StringList | undefined;
+  /** The name of the trigger. */
+  name?: string | undefined;
+  /** The SQL code which creates the trigger. */
+  sqlCode?: string | undefined;
+  /** Custom engine specific features. */
+  customFeatures?: DocumentMap | undefined;
+  /** Indicates when the trigger fires, for example BEFORE STATEMENT, AFTER EACH ROW. */
+  triggerType?: string | undefined;
+}
+export type TriggerEntityList = Array<TriggerEntity>;
+/** Table's parent is a schema. */
+export interface TableEntity {
+  /** Table constraints. */
+  constraints?: ConstraintEntityList | undefined;
+  /** Comment associated with the table. */
+  comment?: string | undefined;
+  /** Table indices. */
+  indices?: IndexEntityList | undefined;
+  /** Table columns. */
+  columns?: ColumnEntityList | undefined;
+  /** Table triggers. */
+  triggers?: TriggerEntityList | undefined;
+  /** Custom engine specific features. */
+  customFeatures?: DocumentMap | undefined;
+}
+/** DatabaseInstance acts as a parent entity to other database entities. */
+export interface DatabaseInstanceEntity {
+  /** Custom engine specific features. */
+  customFeatures?: DocumentMap | undefined;
+}
+export type EntityIssueEntityTypeEnum =
+  | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
+  | "DATABASE_ENTITY_TYPE_SCHEMA"
+  | "DATABASE_ENTITY_TYPE_TABLE"
+  | "DATABASE_ENTITY_TYPE_COLUMN"
+  | "DATABASE_ENTITY_TYPE_CONSTRAINT"
+  | "DATABASE_ENTITY_TYPE_INDEX"
+  | "DATABASE_ENTITY_TYPE_TRIGGER"
+  | "DATABASE_ENTITY_TYPE_VIEW"
+  | "DATABASE_ENTITY_TYPE_SEQUENCE"
+  | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE"
+  | "DATABASE_ENTITY_TYPE_FUNCTION"
+  | "DATABASE_ENTITY_TYPE_SYNONYM"
+  | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE"
+  | "DATABASE_ENTITY_TYPE_UDT"
+  | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
+  | "DATABASE_ENTITY_TYPE_DATABASE";
+export type EntityIssueSeverityEnum =
+  | "ISSUE_SEVERITY_UNSPECIFIED"
+  | "ISSUE_SEVERITY_INFO"
+  | "ISSUE_SEVERITY_WARNING"
+  | "ISSUE_SEVERITY_ERROR";
+export type EntityIssueTypeEnum =
+  | "ISSUE_TYPE_UNSPECIFIED"
+  | "ISSUE_TYPE_DDL"
+  | "ISSUE_TYPE_APPLY"
+  | "ISSUE_TYPE_CONVERT"
+  | "ISSUE_TYPE_PULL_SCHEMA";
+/** Issue position. */
+export interface Position {
+  /** Issue line number */
+  line?: number | undefined;
+  /** Issue column number */
+  column?: number | undefined;
+  /** Issue offset */
+  offset?: number | undefined;
+  /** Issue length */
+  length?: number | undefined;
+}
+/** Issue related to the entity. */
+export interface EntityIssue {
+  /** The entity type (if the DDL is for a sub entity). */
+  entityType?: EntityIssueEntityTypeEnum | undefined;
+  /** Severity of the issue */
+  severity?: EntityIssueSeverityEnum | undefined;
+  /** The type of the issue. */
+  type?: EntityIssueTypeEnum | undefined;
+  /** Error/Warning code */
+  code?: string | undefined;
+  /** Unique Issue ID. */
+  id?: string | undefined;
+  /** The ddl which caused the issue, if relevant. */
+  ddl?: string | undefined;
+  /** The position of the issue found, if relevant. */
+  position?: Position | undefined;
+  /** Issue detailed message */
+  message?: string | undefined;
+}
+export type EntityIssueList = Array<EntityIssue>;
+/** MaterializedView's parent is a schema. */
+export interface MaterializedViewEntity {
+  /** View indices. */
+  indices?: IndexEntityList | undefined;
+  /** Custom engine specific features. */
+  customFeatures?: DocumentMap | undefined;
+  /** The SQL code which creates the view. */
+  sqlCode?: string | undefined;
+}
+/** Function's parent is a schema. */
+export interface FunctionEntity {
+  /** The SQL code which creates the function. */
+  sqlCode?: string | undefined;
+  /** Custom engine specific features. */
+  customFeatures?: DocumentMap | undefined;
+}
+/** Sequence's parent is a schema. */
+export interface SequenceEntity {
+  /** Indicates number of entries to cache / precreate. */
+  cache?: string | undefined;
+  /** Minimum number for the sequence represented as bytes to accommodate large. numbers */
+  minValue?: string | undefined;
+  /** Custom engine specific features. */
+  customFeatures?: DocumentMap | undefined;
+  /** Maximum number for the sequence represented as bytes to accommodate large. numbers */
+  maxValue?: string | undefined;
+  /** Start number for the sequence represented as bytes to accommodate large. numbers */
+  startValue?: string | undefined;
+  /** Indicates whether the sequence value should cycle through. */
+  cycle?: boolean | undefined;
+  /** Increment value for the sequence. */
+  increment?: string | undefined;
+}
+/** Schema typically has no parent entity, but can have a parent entity DatabaseInstance (for database engines which support it). For some database engines, the terms schema and user can be used interchangeably when they refer to a namespace or a collection of other database entities. Can store additional information which is schema specific. */
+export type SchemaEntity = DatabaseInstanceEntity;
 export type EntityMappingSourceTypeEnum =
   | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
   | "DATABASE_ENTITY_TYPE_SCHEMA"
@@ -1781,168 +1876,68 @@ export type EntityMappingDraftTypeEnum =
   | "DATABASE_ENTITY_TYPE_UDT"
   | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
   | "DATABASE_ENTITY_TYPE_DATABASE";
+/** A single record of a rule which was used for a mapping. */
+export interface EntityMappingLogEntry {
+  /** Rule revision ID. */
+  ruleRevisionId?: string | undefined;
+  /** Comment. */
+  mappingComment?: string | undefined;
+  /** Which rule caused this log entry. */
+  ruleId?: string | undefined;
+}
+export type EntityMappingLogEntryList = Array<EntityMappingLogEntry>;
 /** Details of the mappings of a database entity. */
 export interface EntityMapping {
-  /** Source entity full name. The source entity can also be a column, index or constraint using the same naming notation schema.table.column. */
-  sourceEntity?: string | undefined;
-  /** Entity mapping log entries. Multiple rules can be effective and contribute changes to a converted entity, such as a rule can handle the entity name, another rule can handle an entity type. In addition, rules which did not change the entity are also logged along with the reason preventing them to do so. */
-  mappingLog?: EntityMappingLogEntryList | undefined;
-  /** Target entity full name. The draft entity can also include a column, index or constraint using the same naming notation schema.table.column. */
-  draftEntity?: string | undefined;
   /** Type of source entity. */
   sourceType?: EntityMappingSourceTypeEnum | undefined;
   /** Type of draft entity. */
   draftType?: EntityMappingDraftTypeEnum | undefined;
+  /** Target entity full name. The draft entity can also include a column, index or constraint using the same naming notation schema.table.column. */
+  draftEntity?: string | undefined;
+  /** Source entity full name. The source entity can also be a column, index or constraint using the same naming notation schema.table.column. */
+  sourceEntity?: string | undefined;
+  /** Entity mapping log entries. Multiple rules can be effective and contribute changes to a converted entity, such as a rule can handle the entity name, another rule can handle an entity type. In addition, rules which did not change the entity are also logged along with the reason preventing them to do so. */
+  mappingLog?: EntityMappingLogEntryList | undefined;
 }
 export type EntityMappingList = Array<EntityMapping>;
-/** Function's parent is a schema. */
-export interface FunctionEntity {
-  /** The SQL code which creates the function. */
-  sqlCode?: string | undefined;
-  /** Custom engine specific features. */
-  customFeatures?: DocumentMap | undefined;
-}
-/** View's parent is a schema. */
-export interface ViewEntity {
-  /** Custom engine specific features. */
-  customFeatures?: DocumentMap | undefined;
-  /** View constraints. */
-  constraints?: ConstraintEntityList | undefined;
-  /** The SQL code which creates the view. */
-  sqlCode?: string | undefined;
-}
-export type DatabaseEntityEntityTypeEnum =
-  | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
-  | "DATABASE_ENTITY_TYPE_SCHEMA"
-  | "DATABASE_ENTITY_TYPE_TABLE"
-  | "DATABASE_ENTITY_TYPE_COLUMN"
-  | "DATABASE_ENTITY_TYPE_CONSTRAINT"
-  | "DATABASE_ENTITY_TYPE_INDEX"
-  | "DATABASE_ENTITY_TYPE_TRIGGER"
-  | "DATABASE_ENTITY_TYPE_VIEW"
-  | "DATABASE_ENTITY_TYPE_SEQUENCE"
-  | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE"
-  | "DATABASE_ENTITY_TYPE_FUNCTION"
-  | "DATABASE_ENTITY_TYPE_SYNONYM"
-  | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE"
-  | "DATABASE_ENTITY_TYPE_UDT"
-  | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
-  | "DATABASE_ENTITY_TYPE_DATABASE";
-/** MaterializedView's parent is a schema. */
-export interface MaterializedViewEntity {
-  /** Custom engine specific features. */
-  customFeatures?: DocumentMap | undefined;
-  /** The SQL code which creates the view. */
-  sqlCode?: string | undefined;
-  /** View indices. */
-  indices?: IndexEntityList | undefined;
-}
-export type EntityIssueSeverityEnum =
-  | "ISSUE_SEVERITY_UNSPECIFIED"
-  | "ISSUE_SEVERITY_INFO"
-  | "ISSUE_SEVERITY_WARNING"
-  | "ISSUE_SEVERITY_ERROR";
-export type EntityIssueTypeEnum =
-  | "ISSUE_TYPE_UNSPECIFIED"
-  | "ISSUE_TYPE_DDL"
-  | "ISSUE_TYPE_APPLY"
-  | "ISSUE_TYPE_CONVERT"
-  | "ISSUE_TYPE_PULL_SCHEMA";
-export type EntityIssueEntityTypeEnum =
-  | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
-  | "DATABASE_ENTITY_TYPE_SCHEMA"
-  | "DATABASE_ENTITY_TYPE_TABLE"
-  | "DATABASE_ENTITY_TYPE_COLUMN"
-  | "DATABASE_ENTITY_TYPE_CONSTRAINT"
-  | "DATABASE_ENTITY_TYPE_INDEX"
-  | "DATABASE_ENTITY_TYPE_TRIGGER"
-  | "DATABASE_ENTITY_TYPE_VIEW"
-  | "DATABASE_ENTITY_TYPE_SEQUENCE"
-  | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE"
-  | "DATABASE_ENTITY_TYPE_FUNCTION"
-  | "DATABASE_ENTITY_TYPE_SYNONYM"
-  | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE"
-  | "DATABASE_ENTITY_TYPE_UDT"
-  | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
-  | "DATABASE_ENTITY_TYPE_DATABASE";
-/** Issue position. */
-export interface Position {
-  /** Issue offset */
-  offset?: number | undefined;
-  /** Issue length */
-  length?: number | undefined;
-  /** Issue line number */
-  line?: number | undefined;
-  /** Issue column number */
-  column?: number | undefined;
-}
-/** Issue related to the entity. */
-export interface EntityIssue {
-  /** Severity of the issue */
-  severity?: EntityIssueSeverityEnum | undefined;
-  /** Error/Warning code */
-  code?: string | undefined;
-  /** The ddl which caused the issue, if relevant. */
-  ddl?: string | undefined;
-  /** The type of the issue. */
-  type?: EntityIssueTypeEnum | undefined;
-  /** Unique Issue ID. */
-  id?: string | undefined;
-  /** The entity type (if the DDL is for a sub entity). */
-  entityType?: EntityIssueEntityTypeEnum | undefined;
-  /** Issue detailed message */
-  message?: string | undefined;
-  /** The position of the issue found, if relevant. */
-  position?: Position | undefined;
-}
-export type EntityIssueList = Array<EntityIssue>;
-/** Package's parent is a schema. */
-export interface PackageEntity {
-  /** The SQL code which creates the package. */
-  packageSqlCode?: string | undefined;
-  /** Custom engine specific features. */
-  customFeatures?: DocumentMap | undefined;
-  /** The SQL code which creates the package body. If the package specification has cursors or subprograms, then the package body is mandatory. */
-  packageBody?: string | undefined;
-}
 /** The base entity type for all the database related entities. The message contains the entity name, the name of its parent, the entity type, and the specific details per entity type. */
 export interface DatabaseEntity {
-  /** Table. */
-  table?: TableEntity | undefined;
-  /** Schema. */
-  schema?: SchemaEntity | undefined;
-  /** Details about the entity DDL script. Multiple DDL scripts are provided for child entities such as a table entity will have one DDL for the table with additional DDLs for each index, constraint and such. */
-  entityDdl?: EntityDdlList | undefined;
-  /** Synonym. */
-  synonym?: SynonymEntity | undefined;
   /** The type of tree the entity belongs to. */
   tree?: DatabaseEntityTreeEnum | undefined;
+  /** Synonym. */
+  synonym?: SynonymEntity | undefined;
+  /** Details about the entity DDL script. Multiple DDL scripts are provided for child entities such as a table entity will have one DDL for the table with additional DDLs for each index, constraint and such. */
+  entityDdl?: EntityDdlList | undefined;
   /** UDT. */
   udt?: UDTEntity | undefined;
-  /** Sequence. */
-  sequence?: SequenceEntity | undefined;
-  /** Stored procedure. */
-  storedProcedure?: StoredProcedureEntity | undefined;
-  /** Database. */
-  database?: SchemaEntity | undefined;
-  /** Details about entity mappings. For source tree entities, this holds the draft entities which were generated by the mapping rules. For draft tree entities, this holds the source entities which were converted to form the draft entity. Destination entities will have no mapping details. */
-  mappings?: EntityMappingList | undefined;
-  /** Function. */
-  databaseFunction?: FunctionEntity | undefined;
-  /** View. */
-  view?: ViewEntity | undefined;
-  /** The type of the database entity (table, view, index, ...). */
-  entityType?: DatabaseEntityEntityTypeEnum | undefined;
-  /** The short name (e.g. table name) of the entity. */
-  shortName?: string | undefined;
-  /** Materialized view. */
-  materializedView?: MaterializedViewEntity | undefined;
-  /** The full name of the parent entity (e.g. schema name). */
-  parentEntity?: string | undefined;
-  /** Details about the various issues found for the entity. */
-  issues?: EntityIssueList | undefined;
   /** Package. */
   databasePackage?: PackageEntity | undefined;
+  /** The type of the database entity (table, view, index, ...). */
+  entityType?: DatabaseEntityEntityTypeEnum | undefined;
+  /** View. */
+  view?: ViewEntity | undefined;
+  /** Stored procedure. */
+  storedProcedure?: StoredProcedureEntity | undefined;
+  /** Table. */
+  table?: TableEntity | undefined;
+  /** The full name of the parent entity (e.g. schema name). */
+  parentEntity?: string | undefined;
+  /** Database. */
+  database?: DatabaseInstanceEntity | undefined;
+  /** Details about the various issues found for the entity. */
+  issues?: EntityIssueList | undefined;
+  /** Materialized view. */
+  materializedView?: MaterializedViewEntity | undefined;
+  /** Function. */
+  databaseFunction?: FunctionEntity | undefined;
+  /** Sequence. */
+  sequence?: SequenceEntity | undefined;
+  /** Schema. */
+  schema?: DatabaseInstanceEntity | undefined;
+  /** Details about entity mappings. For source tree entities, this holds the draft entities which were generated by the mapping rules. For draft tree entities, this holds the source entities which were converted to form the draft entity. Destination entities will have no mapping details. */
+  mappings?: EntityMappingList | undefined;
+  /** The short name (e.g. table name) of the entity. */
+  shortName?: string | undefined;
 }
 export type DatabaseEntityList = Array<DatabaseEntity>;
 /** Response message for 'DescribeDatabaseEntities' request. */
@@ -1962,41 +1957,35 @@ export type FetchEntitiesStatusViewProjectsLocationsConversionWorkspacesTreeEnum
   | "SOURCE_TREE"
   | "DRAFT_TREE";
 export interface FetchEntitiesStatusViewProjectsLocationsConversionWorkspacesRequest {
+  /** Required. Name of the conversion workspace resource whose database entities are described. Must be in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
+  conversionWorkspace: string;
+  /** Optional. The maximum number of entities to return. The service may return fewer entities than the value specifies. Default is 100000. */
+  pageSize?: number | undefined;
   /** Optional. The view to fetch. If not specified, FULL is used. */
   fetchView?:
     | FetchEntitiesStatusViewProjectsLocationsConversionWorkspacesFetchViewEnum
     | (string & {})
     | undefined;
+  /** Optional. The nextPageToken value received in the previous call to conversionWorkspace.FetchEntitiesStatusView, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to conversionWorkspace.FetchEntitiesStatusView must match the call that provided the page token, except for the page_size parameter. */
+  pageToken?: string | undefined;
   /** Required. The tree to fetch. */
   tree?:
     | FetchEntitiesStatusViewProjectsLocationsConversionWorkspacesTreeEnum
     | (string & {})
     | undefined;
-  /** Optional. The nextPageToken value received in the previous call to conversionWorkspace.FetchEntitiesStatusView, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to conversionWorkspace.FetchEntitiesStatusView must match the call that provided the page token, except for the page_size parameter. */
-  pageToken?: string | undefined;
-  /** Optional. The maximum number of entities to return. The service may return fewer entities than the value specifies. Default is 100000. */
-  pageSize?: number | undefined;
   /** Optional. Filter the returned entities based on AIP-160 standard. */
   filter?: string | undefined;
-  /** Required. Name of the conversion workspace resource whose database entities are described. Must be in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
-  conversionWorkspace: string;
 }
-export type EntityStatusViewDraftDdlKindEnum =
-  | "DDL_KIND_UNSPECIFIED"
-  | "SOURCE"
-  | "DETERMINISTIC"
-  | "AI"
-  | "USER_EDIT";
 /** Aggregate issue information. */
 export interface IssueAggregateData {
+  /** Number of info issues. */
+  infoCount?: number | undefined;
   /** Number of error issues. */
   errorCount?: number | undefined;
   /** Number of warning issues. */
   warningCount?: number | undefined;
-  /** Number of info issues. */
-  infoCount?: number | undefined;
 }
-export type EntityIdTypeEnum =
+export type EntityIdParentTypeEnum =
   | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
   | "DATABASE_ENTITY_TYPE_SCHEMA"
   | "DATABASE_ENTITY_TYPE_TABLE"
@@ -2013,7 +2002,7 @@ export type EntityIdTypeEnum =
   | "DATABASE_ENTITY_TYPE_UDT"
   | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
   | "DATABASE_ENTITY_TYPE_DATABASE";
-export type EntityIdParentTypeEnum =
+export type EntityIdTypeEnum =
   | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
   | "DATABASE_ENTITY_TYPE_SCHEMA"
   | "DATABASE_ENTITY_TYPE_TABLE"
@@ -2032,14 +2021,14 @@ export type EntityIdParentTypeEnum =
   | "DATABASE_ENTITY_TYPE_DATABASE";
 /** An entity identifier. */
 export interface EntityId {
-  /** The parent entity full name. */
-  parentName?: string | undefined;
+  /** The type of the database entity (schema, table, view, ...). */
+  parentType?: EntityIdParentTypeEnum | undefined;
   /** The short name (e.g. table name) of the entity. */
   shortName?: string | undefined;
   /** The type of the database entity (schema, table, view, index, ...). */
   type?: EntityIdTypeEnum | undefined;
-  /** The type of the database entity (schema, table, view, ...). */
-  parentType?: EntityIdParentTypeEnum | undefined;
+  /** The parent entity full name. */
+  parentName?: string | undefined;
 }
 export type EntityIdList = Array<EntityId>;
 export type EntityStatusViewEditedDdlKindEnum =
@@ -2048,26 +2037,32 @@ export type EntityStatusViewEditedDdlKindEnum =
   | "DETERMINISTIC"
   | "AI"
   | "USER_EDIT";
+export type EntityStatusViewDraftDdlKindEnum =
+  | "DDL_KIND_UNSPECIFIED"
+  | "SOURCE"
+  | "DETERMINISTIC"
+  | "AI"
+  | "USER_EDIT";
 /** A single entity for the UI view. */
 export interface EntityStatusView {
-  /** The DDL Kind selected for apply. If UNSPECIFIED, the entity wasn't converted yet. For SUMMARY view, this rolls up from descendants with the logic of UNSPECIFIED < DETERMINISTIC < AI. USER_EDIT is not propagated. */
-  draftDdlKind?: EntityStatusViewDraftDdlKindEnum | undefined;
-  /** Resolved issues information according to the current Draft DdlKind. */
-  resolvedIssues?: IssueAggregateData | undefined;
-  /** Unresolved issues information according to the current Draft DdlKind. */
-  issues?: IssueAggregateData | undefined;
-  /** The entity short name and type from the DRAFT tree. */
-  draftEntity?: EntityId | undefined;
-  /** Optional. The set of entities that this entity directly depends on, i.e., it does not include transitive dependencies. Provided only for FULL_WITH_DEPENDENCIES view. Dependencies are provided according to the request tree type. */
-  dependencies?: EntityIdList | undefined;
-  /** If ddl_kind is USER_EDIT, this holds the DDL kind of the original content - DETERMINISTIC or AI. Otherwise, this is DDL_KIND_UNSPECIFIED. Relevant only for FULL view. */
-  editedDdlKind?: EntityStatusViewEditedDdlKindEnum | undefined;
-  /** The entity short name and type from the SOURCE tree. */
-  sourceEntity?: EntityId | undefined;
   /** Was the entity applied on the destination. Relevant only for FULL view. */
   wasApplied?: boolean | undefined;
+  /** Unresolved issues information according to the current Draft DdlKind. */
+  issues?: IssueAggregateData | undefined;
+  /** Optional. The set of entities that this entity directly depends on, i.e., it does not include transitive dependencies. Provided only for FULL_WITH_DEPENDENCIES view. Dependencies are provided according to the request tree type. */
+  dependencies?: EntityIdList | undefined;
   /** Optional. Whether the entity has successfully generated and executed validation tests. */
   testedEntity?: boolean | undefined;
+  /** Resolved issues information according to the current Draft DdlKind. */
+  resolvedIssues?: IssueAggregateData | undefined;
+  /** If ddl_kind is USER_EDIT, this holds the DDL kind of the original content - DETERMINISTIC or AI. Otherwise, this is DDL_KIND_UNSPECIFIED. Relevant only for FULL view. */
+  editedDdlKind?: EntityStatusViewEditedDdlKindEnum | undefined;
+  /** The DDL Kind selected for apply. If UNSPECIFIED, the entity wasn't converted yet. For SUMMARY view, this rolls up from descendants with the logic of UNSPECIFIED < DETERMINISTIC < AI. USER_EDIT is not propagated. */
+  draftDdlKind?: EntityStatusViewDraftDdlKindEnum | undefined;
+  /** The entity short name and type from the DRAFT tree. */
+  draftEntity?: EntityId | undefined;
+  /** The entity short name and type from the SOURCE tree. */
+  sourceEntity?: EntityId | undefined;
 }
 export type EntityStatusViewList = Array<EntityStatusView>;
 /** Response message for DataMigrationService.FetchEntitiesStatusView. */
@@ -2082,19 +2077,63 @@ export type FetchIssuesProjectsLocationsConversionWorkspacesTreeEnum =
   | "SOURCE"
   | "DRAFT";
 export interface FetchIssuesProjectsLocationsConversionWorkspacesRequest {
-  /** Optional. The maximum number of issues to return. The service may return fewer issues than the value specifies. */
-  pageSize?: number | undefined;
   /** Optional. The tree to fetch issues from. If not specified, source tree is assumed. */
   tree?: FetchIssuesProjectsLocationsConversionWorkspacesTreeEnum | (string & {}) | undefined;
-  /** Optional. AIP-160 standard filter. Supporting both entity and issue fields. Supported fields: - `name` / `fullname`: The entity full name. - `type`: The entity type (e.g. `TABLE`, `VIEW`, `INDEX`, `TRIGGER`). - `ddlkind`: The kind of DDL (e.g. `DDL_KIND_SOURCE`, `DDL_KIND_AI`, `DDL_KIND_DETERMINISTIC`). - `issue.severity`: The severity of the issue (e.g. `INFO`, `WARNING`, `ERROR`). - `issue.state`: The state of the issue (e.g. `OPEN`, `RESOLVED`). - `issue.origin`: The origin of the issue (e.g. `DETERMINISTIC`, `AI`). - `issue.category_id`: The category ID of the issue. - `issue.group_id`: The group ID of the issue. */
-  filter?: string | undefined;
+  /** Optional. The maximum number of issues to return. The service may return fewer issues than the value specifies. */
+  pageSize?: number | undefined;
   /** Required. Conversion workspace with issues to fetch. Must be in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   conversionWorkspace: string;
-  /** Optional. If 'true', gets all issues matching the filter. Otherwise, for each entity only the issues matching the DdlKind chosen for application on the destination are returned. */
-  allIssues?: boolean | undefined;
+  /** Optional. AIP-160 standard filter. Supporting both entity and issue fields. Supported fields: - `name` / `fullname`: The entity full name. - `type`: The entity type (e.g. `TABLE`, `VIEW`, `INDEX`, `TRIGGER`). - `ddlkind`: The kind of DDL (e.g. `DDL_KIND_SOURCE`, `DDL_KIND_AI`, `DDL_KIND_DETERMINISTIC`). - `issue.severity`: The severity of the issue (e.g. `INFO`, `WARNING`, `ERROR`). - `issue.state`: The state of the issue (e.g. `OPEN`, `RESOLVED`). - `issue.origin`: The origin of the issue (e.g. `DETERMINISTIC`, `AI`). - `issue.category_id`: The category ID of the issue. - `issue.group_id`: The group ID of the issue. */
+  filter?: string | undefined;
   /** Optional. The FetchIssuesResponse.next_page_token value received in the previous call to FetchIssues, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to FetchIssues must match the call that provided the page token, except for the page_size parameter. */
   pageToken?: string | undefined;
+  /** Optional. If 'true', gets all issues matching the filter. Otherwise, for each entity only the issues matching the DdlKind chosen for application on the destination are returned. */
+  allIssues?: boolean | undefined;
 }
+/** Issue position. */
+export interface FetchIssuesResponseIssuePosition {
+  /** Issue column number. */
+  column?: number | undefined;
+  /** Issue offset. */
+  offset?: number | undefined;
+  /** Issue length. */
+  length?: number | undefined;
+  /** Issue line number. */
+  line?: number | undefined;
+}
+export type IssueSeverityEnum =
+  | "ISSUE_SEVERITY_UNSPECIFIED"
+  | "ISSUE_SEVERITY_INFO"
+  | "ISSUE_SEVERITY_WARNING"
+  | "ISSUE_SEVERITY_ERROR";
+export type IssueIssueOriginEnum =
+  | "ISSUE_ORIGIN_UNSPECIFIED"
+  | "ISSUE_ORIGIN_DETERMINISTIC"
+  | "ISSUE_ORIGIN_AI"
+  | "ISSUE_ORIGIN_AI_FROM_DETERMINISTIC";
+export type IssueCategoryIdEnum =
+  | "ISSUE_CATEGORY_ID_UNSPECIFIED"
+  | "ISSUE_CATEGORY_ID_CW00"
+  | "ISSUE_CATEGORY_ID_CW01"
+  | "ISSUE_CATEGORY_ID_CW02"
+  | "ISSUE_CATEGORY_ID_CW03"
+  | "ISSUE_CATEGORY_ID_CW04"
+  | "ISSUE_CATEGORY_ID_CW05"
+  | "ISSUE_CATEGORY_ID_CW06"
+  | "ISSUE_CATEGORY_ID_CW07"
+  | "ISSUE_CATEGORY_ID_CW08"
+  | "ISSUE_CATEGORY_ID_CW99"
+  | "ISSUE_CATEGORY_ID_QA00"
+  | "ISSUE_CATEGORY_ID_AP00";
+export type IssueTypeEnum =
+  | "ISSUE_TYPE_UNSPECIFIED"
+  | "ISSUE_TYPE_CONVERSION"
+  | "ISSUE_TYPE_PULL_SCHEMA"
+  | "ISSUE_TYPE_APPLY";
+export type IssueIssueStateEnum =
+  | "ISSUE_STATE_UNSPECIFIED"
+  | "ISSUE_STATE_OPEN"
+  | "ISSUE_STATE_RESOLVED";
 export type IssueEntityTypeEnum =
   | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
   | "DATABASE_ENTITY_TYPE_SCHEMA"
@@ -2213,96 +2252,52 @@ export type IssueGroupIdEnum =
   | "ISSUE_GROUP_ID_CW_AI9901"
   | "ISSUE_GROUP_ID_CW_AI9902"
   | "ISSUE_GROUP_ID_CW_AP0000";
-/** Issue position. */
-export interface FetchIssuesResponseIssuePosition {
-  /** Issue line number. */
-  line?: number | undefined;
-  /** Issue offset. */
-  offset?: number | undefined;
-  /** Issue length. */
-  length?: number | undefined;
-  /** Issue column number. */
-  column?: number | undefined;
-}
-export type IssueCategoryIdEnum =
-  | "ISSUE_CATEGORY_ID_UNSPECIFIED"
-  | "ISSUE_CATEGORY_ID_CW00"
-  | "ISSUE_CATEGORY_ID_CW01"
-  | "ISSUE_CATEGORY_ID_CW02"
-  | "ISSUE_CATEGORY_ID_CW03"
-  | "ISSUE_CATEGORY_ID_CW04"
-  | "ISSUE_CATEGORY_ID_CW05"
-  | "ISSUE_CATEGORY_ID_CW06"
-  | "ISSUE_CATEGORY_ID_CW07"
-  | "ISSUE_CATEGORY_ID_CW08"
-  | "ISSUE_CATEGORY_ID_CW99"
-  | "ISSUE_CATEGORY_ID_QA00"
-  | "ISSUE_CATEGORY_ID_AP00";
-export type IssueSeverityEnum =
-  | "ISSUE_SEVERITY_UNSPECIFIED"
-  | "ISSUE_SEVERITY_INFO"
-  | "ISSUE_SEVERITY_WARNING"
-  | "ISSUE_SEVERITY_ERROR";
-export type IssueIssueStateEnum =
-  | "ISSUE_STATE_UNSPECIFIED"
-  | "ISSUE_STATE_OPEN"
-  | "ISSUE_STATE_RESOLVED";
-export type IssueIssueOriginEnum =
-  | "ISSUE_ORIGIN_UNSPECIFIED"
-  | "ISSUE_ORIGIN_DETERMINISTIC"
-  | "ISSUE_ORIGIN_AI"
-  | "ISSUE_ORIGIN_AI_FROM_DETERMINISTIC";
-export type IssueTypeEnum =
-  | "ISSUE_TYPE_UNSPECIFIED"
-  | "ISSUE_TYPE_CONVERSION"
-  | "ISSUE_TYPE_PULL_SCHEMA"
-  | "ISSUE_TYPE_APPLY";
 /** Issue related to the entity. */
 export interface Issue {
-  /** The entity type (if the DDL is for a sub entity). */
-  entityType?: IssueEntityTypeEnum | undefined;
-  /** Unique Issue ID. Use this ID when referencing a specific issue in other API calls, such as DataMigrationService.SetIssuesState. */
-  id?: string | undefined;
-  /** The group ID. */
-  groupId?: IssueGroupIdEnum | undefined;
   /** The position of the issue found, if relevant. */
   position?: FetchIssuesResponseIssuePosition | undefined;
-  /** The category ID. */
-  categoryId?: IssueCategoryIdEnum | undefined;
   /** Severity of the issue. */
   severity?: IssueSeverityEnum | undefined;
-  /** Output only. The state of the issue (open, resolved, etc). */
-  issueState?: IssueIssueStateEnum | undefined;
   /** The source of the issue (deterministic, gemini, etc). */
   issueOrigin?: IssueIssueOriginEnum | undefined;
-  /** The type of the issue. */
-  type?: IssueTypeEnum | undefined;
+  /** Unique Issue ID. Use this ID when referencing a specific issue in other API calls, such as DataMigrationService.SetIssuesState. */
+  id?: string | undefined;
   /** Entity full name. */
   entityFullName?: string | undefined;
+  /** The category ID. */
+  categoryId?: IssueCategoryIdEnum | undefined;
   /** Issue detailed message. */
   message?: string | undefined;
+  /** The type of the issue. */
+  type?: IssueTypeEnum | undefined;
+  /** Output only. The state of the issue (open, resolved, etc). */
+  issueState?: IssueIssueStateEnum | undefined;
+  /** The entity type (if the DDL is for a sub entity). */
+  entityType?: IssueEntityTypeEnum | undefined;
+  /** The group ID. */
+  groupId?: IssueGroupIdEnum | undefined;
 }
 export type IssueList = Array<Issue>;
 /** Response for fetching issues of a conversion workspace. */
 export interface FetchIssuesResponse {
-  /** The list of issues for the conversion workspace. */
-  issues?: IssueList | undefined;
   /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The list of issues for the conversion workspace. */
+  issues?: IssueList | undefined;
 }
 export interface FetchSourceObjectsProjectsLocationsMigrationJobsRequest {
   /** Required. The resource name for the migration job for which source objects should be returned. */
   name: string;
 }
 export interface FetchStaticIpsProjectsLocationsRequest {
-  /** Optional. Indicates whether to fetch the reserved public IP addresses allocated for private connections in this location. If false or not set, fetches the shared external static IP addresses instead. */
-  fetchReservedPublicIps?: boolean | undefined;
-  /** Required. The resource name for the location for which static IPs should be returned. Must be in the format `projects/*\/locations/*`. */
-  name: string;
-  /** Optional. A page token, received from a previous `FetchStaticIps` call. */
-  pageToken?: string | undefined;
   /** Optional. Maximum number of IPs to return. */
   pageSize?: number | undefined;
+  /** Required. The resource name for the location for which static IPs should be returned. Must be in the format `projects/*\/locations/*`. */
+  name: string;
+  /** Optional. Indicates whether to fetch the reserved public IP addresses allocated for private connections in this location. If false or not set, fetches the shared external static IP addresses instead. */
+  fetchReservedPublicIps?: boolean | undefined;
+  /** Optional. A page token, received from a previous `FetchStaticIps` call. */
+  pageToken?: string | undefined;
 }
 /** Response message for a 'FetchStaticIps' request. */
 export interface FetchStaticIpsResponse {
@@ -2310,6 +2305,11 @@ export interface FetchStaticIpsResponse {
   nextPageToken?: string | undefined;
   /** List of static IPs. */
   staticIps?: StringList | undefined;
+}
+/** VM selection configuration message */
+export interface VmSelectionConfig {
+  /** Required. The Google Cloud Platform zone the VM is located. */
+  vmZone?: string | undefined;
 }
 /** VM creation configuration message */
 export interface VmCreationConfig {
@@ -2320,19 +2320,14 @@ export interface VmCreationConfig {
   /** The subnet name the vm needs to be created in. */
   subnet?: string | undefined;
 }
-/** VM selection configuration message */
-export interface VmSelectionConfig {
-  /** Required. The Google Cloud Platform zone the VM is located. */
-  vmZone?: string | undefined;
-}
 /** Request message for 'GenerateSshScript' request. */
 export interface GenerateSshScriptRequest {
+  /** The VM selection configuration */
+  vmSelectionConfig?: VmSelectionConfig | undefined;
   /** The VM creation configuration */
   vmCreationConfig?: VmCreationConfig | undefined;
   /** Required. Bastion VM Instance name to use or to create. */
   vm?: string | undefined;
-  /** The VM selection configuration */
-  vmSelectionConfig?: VmSelectionConfig | undefined;
   /** The port that will be open on the bastion host. */
   vmPort?: number | undefined;
 }
@@ -2347,14 +2342,14 @@ export interface SshScript {
 }
 /** Request message for 'GenerateTcpProxyScript' request. */
 export interface GenerateTcpProxyScriptRequest {
-  /** Required. The name of the subnet the Compute instance will use for private connectivity. Must be supplied in the form of projects/{project}/regions/{region}/subnetworks/{subnetwork}. Note: the region for the subnet must match the Compute instance region. */
-  vmSubnet?: string | undefined;
+  /** Required. The name of the Compute instance that will host the proxy. */
+  vmName?: string | undefined;
   /** Required. The type of the Compute instance that will host the proxy. */
   vmMachineType?: string | undefined;
   /** Optional. The Google Cloud Platform zone to create the VM in. The fully qualified name of the zone must be specified, including the region name, for example "us-central1-b". If not specified, uses the "-b" zone of the destination Connection Profile's region. */
   vmZone?: string | undefined;
-  /** Required. The name of the Compute instance that will host the proxy. */
-  vmName?: string | undefined;
+  /** Required. The name of the subnet the Compute instance will use for private connectivity. Must be supplied in the form of projects/{project}/regions/{region}/subnetworks/{subnetwork}. Note: the region for the subnet must match the Compute instance region. */
+  vmSubnet?: string | undefined;
 }
 export interface GenerateTcpProxyScriptProjectsLocationsMigrationJobsRequest extends GenerateTcpProxyScriptRequest {
   /** Name of the migration job resource to generate the TCP Proxy script. */
@@ -2371,27 +2366,6 @@ export interface GetIamPolicyProjectsLocationsConnectionProfilesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
-}
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList | undefined;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string | undefined;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr | undefined;
-}
-export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -2399,10 +2373,10 @@ export type AuditLogConfigLogTypeEnum =
   | "DATA_READ";
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList | undefined;
   /** The log type that this config enables. */
   logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
@@ -2413,22 +2387,43 @@ export interface AuditConfig {
   service?: string | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
+}
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string | undefined;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr | undefined;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList | undefined;
+}
+export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList | undefined;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList | undefined;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsConversionWorkspacesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export interface GetIamPolicyProjectsLocationsMigrationJobsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -2437,10 +2432,10 @@ export interface GetIamPolicyProjectsLocationsMigrationJobsRequest {
   "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsMigrationJobsObjectsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export interface GetIamPolicyProjectsLocationsPrivateConnectionsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -2454,16 +2449,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string | undefined;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string | undefined;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsConnectionProfilesRequest {
   /** Required. Name of the connection profile resource to get. */
@@ -2513,22 +2508,22 @@ export type MigrationJobObjectStateEnum =
   | "COMPLETED";
 /** A specific Migration Job Object (e.g. a specifc DB Table) */
 export interface MigrationJobObject {
-  /** Output only. The last update time of the migration job object. */
-  updateTime?: string | undefined;
-  /** The object's name. */
-  name?: string | undefined;
-  /** The object identifier in the data source. */
-  sourceObject?: SourceObjectIdentifier | undefined;
   /** Output only. The creation time of the migration job object. */
   createTime?: string | undefined;
-  /** Output only. The error details in case of failure. */
-  error?: Status | undefined;
   /** Output only. The phase of the migration job object. */
   phase?: MigrationJobObjectPhaseEnum | undefined;
   /** Output only. Metadata for heterogeneous migration jobs objects. */
   heterogeneousMetadata?: HeterogeneousMetadata | undefined;
+  /** Output only. The error details in case of failure. */
+  error?: Status | undefined;
+  /** The object identifier in the data source. */
+  sourceObject?: SourceObjectIdentifier | undefined;
   /** The state of the migration job object. */
   state?: MigrationJobObjectStateEnum | undefined;
+  /** The object's name. */
+  name?: string | undefined;
+  /** Output only. The last update time of the migration job object. */
+  updateTime?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -2538,6 +2533,10 @@ export interface GetProjectsLocationsPrivateConnectionsRequest {
   /** Required. The name of the private connection to get. */
   name: string;
 }
+export type ImportMappingRulesRequestRulesFormatEnum =
+  | "IMPORT_RULES_FILE_FORMAT_UNSPECIFIED"
+  | "IMPORT_RULES_FILE_FORMAT_HARBOUR_BRIDGE_SESSION_FILE"
+  | "IMPORT_RULES_FILE_FORMAT_ORATOPG_CONFIG_FILE";
 /** Details of a single rules file. */
 export interface RulesFile {
   /** Required. The filename of the rules that needs to be converted. The filename is used mainly so that future logs of the import rules job contain it, and can therefore be searched by it. */
@@ -2546,91 +2545,87 @@ export interface RulesFile {
   rulesContent?: string | undefined;
 }
 export type RulesFileList = Array<RulesFile>;
-export type ImportMappingRulesRequestRulesFormatEnum =
-  | "IMPORT_RULES_FILE_FORMAT_UNSPECIFIED"
-  | "IMPORT_RULES_FILE_FORMAT_HARBOUR_BRIDGE_SESSION_FILE"
-  | "IMPORT_RULES_FILE_FORMAT_ORATOPG_CONFIG_FILE";
 /** Request message for 'ImportMappingRules' request. */
 export interface ImportMappingRulesRequest {
-  /** Required. One or more rules files. */
-  rulesFiles?: RulesFileList | undefined;
-  /** Required. The format of the rules content file. */
-  rulesFormat?: ImportMappingRulesRequestRulesFormatEnum | (string & {}) | undefined;
   /** Required. Should the conversion workspace be committed automatically after the import operation. */
   autoCommit?: boolean | undefined;
+  /** Required. The format of the rules content file. */
+  rulesFormat?: ImportMappingRulesRequestRulesFormatEnum | (string & {}) | undefined;
+  /** Required. One or more rules files. */
+  rulesFiles?: RulesFileList | undefined;
 }
 export interface ImportProjectsLocationsConversionWorkspacesMappingRulesRequest extends ImportMappingRulesRequest {
   /** Required. Name of the conversion workspace resource to import the rules to in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   parent: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList | undefined;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsConnectionProfilesRequest {
-  /** Optional. A filter expression that filters connection profiles listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either =, !=, >, or <. For example, list connection profiles created this year by specifying **createTime %gt; 2020-01-01T00:00:00.000000000Z**. You can also filter nested fields. For example, you could specify **mySql.username = %lt;my_username%gt;** to list all connection profiles configured to connect with a specific username. */
-  filter?: string | undefined;
+  /** Optional. A comma-separated list of fields to order results according to. */
+  orderBy?: string | undefined;
+  /** Optional. A page token, received from a previous `ListConnectionProfiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectionProfiles` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. The parent which owns this collection of connection profiles. */
   parent: string;
   /** The maximum number of connection profiles to return. The service may return fewer than this value. If unspecified, at most 50 connection profiles will be returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
   pageSize?: number | undefined;
-  /** Optional. A page token, received from a previous `ListConnectionProfiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectionProfiles` must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Optional. A comma-separated list of fields to order results according to. */
-  orderBy?: string | undefined;
+  /** Optional. A filter expression that filters connection profiles listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either =, !=, >, or <. For example, list connection profiles created this year by specifying **createTime %gt; 2020-01-01T00:00:00.000000000Z**. You can also filter nested fields. For example, you could specify **mySql.username = %lt;my_username%gt;** to list all connection profiles configured to connect with a specific username. */
+  filter?: string | undefined;
 }
 export type ConnectionProfileList = Array<ConnectionProfile>;
 /** Response message for 'ListConnectionProfiles' request. */
 export interface ListConnectionProfilesResponse {
-  /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
+  /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
   /** The response list of connection profiles. */
   connectionProfiles?: ConnectionProfileList | undefined;
 }
 export interface ListProjectsLocationsConversionWorkspacesRequest {
-  /** Optional. The nextPageToken value received in the previous call to conversionWorkspaces.list, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to conversionWorkspaces.list must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Optional. A filter expression that filters conversion workspaces listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either =, !=, >, or <. For example, list conversion workspaces created this year by specifying **createTime %gt; 2020-01-01T00:00:00.000000000Z.** You can also filter nested fields. For example, you could specify **source.version = "12.c.1"** to select all conversion workspaces with source database version equal to 12.c.1. */
-  filter?: string | undefined;
   /** Optional. The maximum number of conversion workspaces to return. The service may return fewer than this value. If unspecified, at most 50 sets are returned. */
   pageSize?: number | undefined;
   /** Required. The parent which owns this collection of conversion workspaces. */
   parent: string;
+  /** Optional. A filter expression that filters conversion workspaces listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either =, !=, >, or <. For example, list conversion workspaces created this year by specifying **createTime %gt; 2020-01-01T00:00:00.000000000Z.** You can also filter nested fields. For example, you could specify **source.version = "12.c.1"** to select all conversion workspaces with source database version equal to 12.c.1. */
+  filter?: string | undefined;
+  /** Optional. The nextPageToken value received in the previous call to conversionWorkspaces.list, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to conversionWorkspaces.list must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 /** Response message for 'ListConversionWorkspaces' request. */
 export interface ListConversionWorkspacesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
-  /** The list of conversion workspace objects. */
-  conversionWorkspaces?: ConversionWorkspaceList | undefined;
   /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The list of conversion workspace objects. */
+  conversionWorkspaces?: ConversionWorkspaceList | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsConversionWorkspacesMappingRulesRequest {
-  /** Optional. The maximum number of rules to return. The service may return fewer than this value. */
-  pageSize?: number | undefined;
   /** Optional. The nextPageToken value received in the previous call to mappingRules.list, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to mappingRules.list must match the call that provided the page token. */
   pageToken?: string | undefined;
   /** Required. Name of the conversion workspace resource whose mapping rules are listed in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   parent: string;
+  /** Optional. The maximum number of rules to return. The service may return fewer than this value. */
+  pageSize?: number | undefined;
 }
 export type MappingRuleList = Array<MappingRule>;
 /** Response message for 'ListMappingRulesRequest' request. */
@@ -2641,34 +2636,34 @@ export interface ListMappingRulesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsMigrationJobsRequest {
-  /** Optional. The maximum number of migration jobs to return. The service may return fewer than this value. If unspecified, at most 50 migration jobs will be returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
-  pageSize?: number | undefined;
   /** Optional. A filter expression that filters migration jobs listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either =, !=, >, or <. For example, list migration jobs created this year by specifying **createTime %gt; 2020-01-01T00:00:00.000000000Z.** You can also filter nested fields. For example, you could specify **reverseSshConnectivity.vmIp = "1.2.3.4"** to select all migration jobs connecting through the specific SSH tunnel bastion. */
   filter?: string | undefined;
-  /** Required. The parent which owns this collection of migrationJobs. */
-  parent: string;
   /** Optional. The nextPageToken value received in the previous call to migrationJobs.list, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to migrationJobs.list must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of migration jobs to return. The service may return fewer than this value. If unspecified, at most 50 migration jobs will be returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
+  pageSize?: number | undefined;
   /** Optional. Sort the results based on the migration job name. Valid values are: "name", "name asc", and "name desc". */
   orderBy?: string | undefined;
+  /** Required. The parent which owns this collection of migrationJobs. */
+  parent: string;
 }
 export type MigrationJobList = Array<MigrationJob>;
 /** Response message for 'ListMigrationJobs' request. */
 export interface ListMigrationJobsResponse {
-  /** The list of migration jobs objects. */
-  migrationJobs?: MigrationJobList | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
+  /** The list of migration jobs objects. */
+  migrationJobs?: MigrationJobList | undefined;
   /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsMigrationJobsObjectsRequest {
+  /** Optional. Page token received from a previous `ListMigrationJObObjectsRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMigrationJobObjectsRequest` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. The parent migration job that owns the collection of objects. */
   parent: string;
   /** Optional. Maximum number of objects to return. Default is 50. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
-  /** Optional. Page token received from a previous `ListMigrationJObObjectsRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMigrationJobObjectsRequest` must match the call that provided the page token. */
-  pageToken?: string | undefined;
 }
 export type MigrationJobObjectList = Array<MigrationJobObject>;
 /** Response containing the objects for a migration job. */
@@ -2679,46 +2674,46 @@ export interface ListMigrationJobObjectsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list filter. */
-  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
 }
 export interface ListProjectsLocationsPrivateConnectionsRequest {
   /** Optional. Page token received from a previous `ListPrivateConnections` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateConnections` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** Optional. A filter expression that filters private connections listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either =, !=, >, or <. For example, list private connections created this year by specifying **createTime %gt; 2021-01-01T00:00:00.000000000Z**. */
-  filter?: string | undefined;
-  /** Optional. Maximum number of private connections to return. If unspecified, at most 50 private connections that are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
-  pageSize?: number | undefined;
   /** Required. The parent that owns the collection of private connections. */
   parent: string;
+  /** Optional. Maximum number of private connections to return. If unspecified, at most 50 private connections that are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
+  pageSize?: number | undefined;
+  /** Optional. A filter expression that filters private connections listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either =, !=, >, or <. For example, list private connections created this year by specifying **createTime %gt; 2021-01-01T00:00:00.000000000Z**. */
+  filter?: string | undefined;
   /** Optional. Order by fields for the result. */
   orderBy?: string | undefined;
 }
 export type PrivateConnectionList = Array<PrivateConnection>;
 /** Response message for 'ListPrivateConnections' request. */
 export interface ListPrivateConnectionsResponse {
-  /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** List of private connections. */
   privateConnections?: PrivateConnectionList | undefined;
+  /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
@@ -2735,35 +2730,35 @@ export interface PatchProjectsLocationsConnectionProfilesRequest extends Omit<
   ConnectionProfile,
   "name"
 > {
+  /** Optional. Update the connection profile without validating it. The default is false. Only supported for Oracle connection profiles. */
+  skipValidation?: boolean | undefined;
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
+  /** Optional. Only validate the connection profile, but don't update any resources. The default is false. Only supported for Oracle connection profiles. */
+  validateOnly?: boolean | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the conversion workspace resource. */
   updateMask?: string | undefined;
   /** The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
   name: string;
-  /** Optional. Update the connection profile without validating it. The default is false. Only supported for Oracle connection profiles. */
-  skipValidation?: boolean | undefined;
-  /** Optional. Only validate the connection profile, but don't update any resources. The default is false. Only supported for Oracle connection profiles. */
-  validateOnly?: boolean | undefined;
 }
 export interface PatchProjectsLocationsConversionWorkspacesRequest extends Omit<
   ConversionWorkspace,
   "name"
 > {
-  /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the conversion workspace resource. */
   updateMask?: string | undefined;
+  /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
+  requestId?: string | undefined;
   /** Full name of the workspace resource, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   name: string;
 }
 export interface PatchProjectsLocationsMigrationJobsRequest extends Omit<MigrationJob, "name"> {
-  /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
-  name: string;
-  /** Required. Field mask is used to specify the fields to be overwritten by the update in the conversion workspace resource. */
-  updateMask?: string | undefined;
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
+  /** Required. Field mask is used to specify the fields to be overwritten by the update in the conversion workspace resource. */
+  updateMask?: string | undefined;
+  /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
+  name: string;
 }
 /** Request message for 'PromoteMigrationJob' request. */
 export interface PromoteMigrationJobRequest {
@@ -2780,10 +2775,10 @@ export interface PromoteProjectsLocationsMigrationJobsRequest extends PromoteMig
 export interface RestartMigrationJobRequest {
   /** Optional. The object filter to apply to the migration job. */
   objectsFilter?: MigrationJobObjectsConfig | undefined;
-  /** Optional. Restart the migration job without running prior configuration verification. Defaults to `false`. */
-  skipValidation?: boolean | undefined;
   /** Optional. If true, only failed objects will be restarted. */
   restartFailedObjects?: boolean | undefined;
+  /** Optional. Restart the migration job without running prior configuration verification. Defaults to `false`. */
+  skipValidation?: boolean | undefined;
 }
 export interface RestartProjectsLocationsMigrationJobsRequest extends RestartMigrationJobRequest {
   /** Name of the migration job resource to restart. */
@@ -2807,77 +2802,77 @@ export interface RollbackProjectsLocationsConversionWorkspacesRequest {
   body?: CancelOperationRequest | undefined;
 }
 export interface SearchBackgroundJobsProjectsLocationsConversionWorkspacesRequest {
-  /** Optional. Whether or not to return just the most recent job per job type, */
-  returnMostRecentPerJobType?: boolean | undefined;
-  /** Required. Name of the conversion workspace resource whose jobs are listed, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
-  conversionWorkspace: string;
   /** Optional. If provided, only returns jobs that completed until (not including) the given timestamp. */
   completedUntilTime?: string | undefined;
   /** Optional. The maximum number of jobs to return. The service may return fewer than this value. If unspecified, at most 100 jobs are returned. The maximum value is 100; values above 100 are coerced to 100. */
   maxSize?: number | undefined;
-}
-/** Details regarding a Convert background job. */
-export interface ConvertJobDetails {
-  /** Output only. AIP-160 based filter used to specify the entities to convert */
-  filter?: string | undefined;
-}
-export type BackgroundJobLogEntryJobTypeEnum =
-  | "BACKGROUND_JOB_TYPE_UNSPECIFIED"
-  | "BACKGROUND_JOB_TYPE_SOURCE_SEED"
-  | "BACKGROUND_JOB_TYPE_CONVERT"
-  | "BACKGROUND_JOB_TYPE_APPLY_DESTINATION"
-  | "BACKGROUND_JOB_TYPE_IMPORT_RULES_FILE";
-/** Details regarding an Apply background job. */
-export interface ApplyJobDetails {
-  /** Output only. The connection profile which was used for the apply job. */
-  connectionProfile?: string | undefined;
-  /** Output only. AIP-160 based filter used to specify the entities to apply */
-  filter?: string | undefined;
-}
-export type BackgroundJobLogEntryCompletionStateEnum =
-  | "JOB_COMPLETION_STATE_UNSPECIFIED"
-  | "SUCCEEDED"
-  | "FAILED";
-export type ImportRulesJobDetailsFileFormatEnum =
-  | "IMPORT_RULES_FILE_FORMAT_UNSPECIFIED"
-  | "IMPORT_RULES_FILE_FORMAT_HARBOUR_BRIDGE_SESSION_FILE"
-  | "IMPORT_RULES_FILE_FORMAT_ORATOPG_CONFIG_FILE";
-/** Details regarding an Import Rules background job. */
-export interface ImportRulesJobDetails {
-  /** Output only. The requested file format. */
-  fileFormat?: ImportRulesJobDetailsFileFormatEnum | undefined;
-  /** Output only. File names used for the import rules job. */
-  files?: StringList | undefined;
+  /** Optional. Whether or not to return just the most recent job per job type, */
+  returnMostRecentPerJobType?: boolean | undefined;
+  /** Required. Name of the conversion workspace resource whose jobs are listed, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
+  conversionWorkspace: string;
 }
 /** Details regarding a Seed background job. */
 export interface SeedJobDetails {
   /** Output only. The connection profile which was used for the seed job. */
   connectionProfile?: string | undefined;
 }
+export type BackgroundJobLogEntryCompletionStateEnum =
+  | "JOB_COMPLETION_STATE_UNSPECIFIED"
+  | "SUCCEEDED"
+  | "FAILED";
+export type BackgroundJobLogEntryJobTypeEnum =
+  | "BACKGROUND_JOB_TYPE_UNSPECIFIED"
+  | "BACKGROUND_JOB_TYPE_SOURCE_SEED"
+  | "BACKGROUND_JOB_TYPE_CONVERT"
+  | "BACKGROUND_JOB_TYPE_APPLY_DESTINATION"
+  | "BACKGROUND_JOB_TYPE_IMPORT_RULES_FILE";
+/** Details regarding a Convert background job. */
+export interface ConvertJobDetails {
+  /** Output only. AIP-160 based filter used to specify the entities to convert */
+  filter?: string | undefined;
+}
+/** Details regarding an Apply background job. */
+export interface ApplyJobDetails {
+  /** Output only. AIP-160 based filter used to specify the entities to apply */
+  filter?: string | undefined;
+  /** Output only. The connection profile which was used for the apply job. */
+  connectionProfile?: string | undefined;
+}
+export type ImportRulesJobDetailsFileFormatEnum =
+  | "IMPORT_RULES_FILE_FORMAT_UNSPECIFIED"
+  | "IMPORT_RULES_FILE_FORMAT_HARBOUR_BRIDGE_SESSION_FILE"
+  | "IMPORT_RULES_FILE_FORMAT_ORATOPG_CONFIG_FILE";
+/** Details regarding an Import Rules background job. */
+export interface ImportRulesJobDetails {
+  /** Output only. File names used for the import rules job. */
+  files?: StringList | undefined;
+  /** Output only. The requested file format. */
+  fileFormat?: ImportRulesJobDetailsFileFormatEnum | undefined;
+}
 /** Execution log of a background job. */
 export interface BackgroundJobLogEntry {
-  /** Output only. Job completion comment, such as how many entities were seeded, how many warnings were found during conversion, and similar information. */
-  completionComment?: string | undefined;
-  /** Output only. Convert job details. */
-  convertJobDetails?: ConvertJobDetails | undefined;
-  /** The type of job that was executed. */
-  jobType?: BackgroundJobLogEntryJobTypeEnum | undefined;
-  /** The background job log entry ID. */
-  id?: string | undefined;
-  /** The timestamp when the background job was started. */
-  startTime?: string | undefined;
-  /** Output only. Apply job details. */
-  applyJobDetails?: ApplyJobDetails | undefined;
-  /** The timestamp when the background job was finished. */
-  finishTime?: string | undefined;
-  /** Output only. Job completion state, i.e. the final state after the job completed. */
-  completionState?: BackgroundJobLogEntryCompletionStateEnum | undefined;
-  /** Output only. Import rules job details. */
-  importRulesJobDetails?: ImportRulesJobDetails | undefined;
   /** Output only. Seed job details. */
   seedJobDetails?: SeedJobDetails | undefined;
+  /** Output only. Job completion state, i.e. the final state after the job completed. */
+  completionState?: BackgroundJobLogEntryCompletionStateEnum | undefined;
+  /** The timestamp when the background job was started. */
+  startTime?: string | undefined;
+  /** The type of job that was executed. */
+  jobType?: BackgroundJobLogEntryJobTypeEnum | undefined;
+  /** The timestamp when the background job was finished. */
+  finishTime?: string | undefined;
+  /** Output only. Convert job details. */
+  convertJobDetails?: ConvertJobDetails | undefined;
+  /** Output only. Apply job details. */
+  applyJobDetails?: ApplyJobDetails | undefined;
+  /** Output only. Job completion comment, such as how many entities were seeded, how many warnings were found during conversion, and similar information. */
+  completionComment?: string | undefined;
+  /** Output only. Import rules job details. */
+  importRulesJobDetails?: ImportRulesJobDetails | undefined;
   /** Output only. Whether the client requested the conversion workspace to be committed after a successful completion of the job. */
   requestAutocommit?: boolean | undefined;
+  /** The background job log entry ID. */
+  id?: string | undefined;
 }
 export type BackgroundJobLogEntryList = Array<BackgroundJobLogEntry>;
 /** Response message for 'SearchBackgroundJobs' request. */
@@ -2894,25 +2889,19 @@ export interface GcsSource {
 }
 /** Request message for 'SeedConversionWorkspace' request. */
 export interface SeedConversionWorkspaceRequest {
-  /** Should the conversion workspace be committed automatically after the seed operation. */
-  autoCommit?: boolean | undefined;
-  /** Optional. Fully qualified (Uri) name of the destination connection profile. */
-  destinationConnectionProfile?: string | undefined;
   /** Optional. Fully qualified (Uri) name of the source connection profile. */
   sourceConnectionProfile?: string | undefined;
+  /** Should the conversion workspace be committed automatically after the seed operation. */
+  autoCommit?: boolean | undefined;
   /** Optional. Cloud Storage source details for seeding. */
   gcsSource?: GcsSource | undefined;
+  /** Optional. Fully qualified (Uri) name of the destination connection profile. */
+  destinationConnectionProfile?: string | undefined;
 }
 export interface SeedProjectsLocationsConversionWorkspacesRequest extends SeedConversionWorkspaceRequest {
   /** Name of the conversion workspace resource to seed with new database structure, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   name: string;
 }
-export type SetDraftEntityDdlRequestBasedOnDdlKindEnum =
-  | "DDL_KIND_UNSPECIFIED"
-  | "SOURCE"
-  | "DETERMINISTIC"
-  | "AI"
-  | "USER_EDIT";
 export type SetDraftEntityDdlRequestEntityTypeEnum =
   | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
   | "DATABASE_ENTITY_TYPE_SCHEMA"
@@ -2930,6 +2919,12 @@ export type SetDraftEntityDdlRequestEntityTypeEnum =
   | "DATABASE_ENTITY_TYPE_UDT"
   | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
   | "DATABASE_ENTITY_TYPE_DATABASE";
+export type SetDraftEntityDdlRequestBasedOnDdlKindEnum =
+  | "DDL_KIND_UNSPECIFIED"
+  | "SOURCE"
+  | "DETERMINISTIC"
+  | "AI"
+  | "USER_EDIT";
 export type SetDraftEntityDdlRequestDdlKindEnum =
   | "DDL_KIND_UNSPECIFIED"
   | "SOURCE"
@@ -2938,18 +2933,18 @@ export type SetDraftEntityDdlRequestDdlKindEnum =
   | "USER_EDIT";
 /** Request message for DataMigrationService.SetDraftEntityDdl. */
 export interface SetDraftEntityDdlRequest {
+  /** Required. The type of the database entity (table, view, index, ...). */
+  entityType?: SetDraftEntityDdlRequestEntityTypeEnum | (string & {}) | undefined;
   /** Required. The DDL to set. */
   ddl?: string | undefined;
   /** Optional. Which DDL (Deterministic/AI) the updated DDL is based on. Defaults to DETERMINISTIC if not specified. */
   basedOnDdlKind?: SetDraftEntityDdlRequestBasedOnDdlKindEnum | (string & {}) | undefined;
-  /** Required. The type of the database entity (table, view, index, ...). */
-  entityType?: SetDraftEntityDdlRequestEntityTypeEnum | (string & {}) | undefined;
   /** Optional. The updated DDL Kind. Can be either USER_EDIT (default) or AI. */
   ddlKind?: SetDraftEntityDdlRequestDdlKindEnum | (string & {}) | undefined;
-  /** Optional. An optional explanation of the generated DDL if ddl_kind is AI. */
-  explanation?: string | undefined;
   /** Required. The draft entity full name from the tree. . */
   entityName?: string | undefined;
+  /** Optional. An optional explanation of the generated DDL if ddl_kind is AI. */
+  explanation?: string | undefined;
 }
 export interface SetDraftEntityDdlProjectsLocationsConversionWorkspacesRequest extends SetDraftEntityDdlRequest {
   /** Required. Name of the conversion workspace resource in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
@@ -3033,10 +3028,10 @@ export interface TestIamPermissionsProjectsLocationsPrivateConnectionsRequest ex
 }
 /** Request message for 'VerifyMigrationJob' request. */
 export interface VerifyMigrationJobRequest {
-  /** Optional. Field mask is used to specify the changed fields to be verified. It will not update the migration job. */
-  updateMask?: string | undefined;
   /** Optional. The changed migration job parameters to verify. It will not update the migration job. */
   migrationJob?: MigrationJob | undefined;
+  /** Optional. Field mask is used to specify the changed fields to be verified. It will not update the migration job. */
+  updateMask?: string | undefined;
 }
 export interface VerifyProjectsLocationsMigrationJobsRequest extends VerifyMigrationJobRequest {
   /** Name of the migration job resource to verify. */
@@ -3804,7 +3799,7 @@ export const getProjectsLocationsMigrationJobs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetProjectsLocationsMigrationJobsRequest>,
-  output: __S(185, __c5, 25) as any as S.Schema<MigrationJob>,
+  output: __S(184, __c5, 24) as any as S.Schema<MigrationJob>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4630,8 +4625,8 @@ function __c0(j: number): any {
         S.Extend(
           __S(53, __c1, 21),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
             mappingRuleId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -4649,109 +4644,109 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          entityNamePrefix: S.optional(S.String),
-          entityNameSuffix: S.optional(S.String),
-          entityNameContains: S.optional(S.String),
-          entities: S.optional(__S(2752, __c86, 0)),
-          parentEntity: S.optional(S.String),
+          packageBody: S.optional(S.String),
+          packageDescription: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MappingRuleFilter" });
+      ).annotate({ identifier: "SinglePackageChange" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          packageDescription: S.optional(S.String),
-          packageBody: S.optional(S.String),
+          primaryKeyColumns: S.optional(__S(2752, __c86, 0)),
+          primaryKey: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SinglePackageChange" });
+      ).annotate({ identifier: "SetTablePrimaryKey" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sourceMaxLengthFilter: S.optional(S.String),
-          sourceMinLengthFilter: S.optional(S.String),
+          dataType: S.optional(S.String),
+          nullable: S.optional(S.Boolean),
+          comment: S.optional(S.String),
+          setValues: S.optional(__S(2752, __c86, 0)),
+          udt: S.optional(S.Boolean),
+          scale: S.optional(S.Number),
+          fractionalSecondsPrecision: S.optional(S.Number),
+          length: S.optional(S.String),
+          autoGenerated: S.optional(S.Boolean),
+          array: S.optional(S.Boolean),
+          charset: S.optional(S.String),
+          customFeatures: S.optional(__S(1312, __c41, 0)),
+          collation: S.optional(S.String),
+          precision: S.optional(S.Number),
+          arrayLength: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "SourceTextFilter" });
+      ).annotate({ identifier: "SingleColumnChange" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sourceMaxPrecisionFilter: S.optional(S.Number),
-          sourceMaxScaleFilter: S.optional(S.Number),
-          sourceMinPrecisionFilter: S.optional(S.Number),
-          numericFilterOption: S.optional(S.String),
-          sourceMinScaleFilter: S.optional(S.Number),
+          parentEntity: S.optional(S.String),
+          entityNamePrefix: S.optional(S.String),
+          entityNameContains: S.optional(S.String),
+          entities: S.optional(__S(2752, __c86, 0)),
+          entityNameSuffix: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SourceNumericFilter" });
+      ).annotate({ identifier: "MappingRuleFilter" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          sourceDataTypeFilter: S.optional(S.String),
-          overridePrecision: S.optional(S.Number),
-          overrideLength: S.optional(S.String),
-          customFeatures: S.optional(__S(1312, __c41, 0)),
-          sourceTextFilter: S.optional(__S(34, __c1, 2)),
-          newDataType: S.optional(S.String),
-          overrideScale: S.optional(S.Number),
-          sourceNumericFilter: S.optional(__S(35, __c1, 3)),
-          overrideFractionalSecondsPrecision: S.optional(S.Number),
+          onlyIfNoPrimaryKey: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "MultiColumnDatatypeChange" });
+      ).annotate({ identifier: "ConvertRowIdToColumn" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          newName: S.optional(S.String),
+          sourceMinScaleFilter: S.optional(S.Number),
+          sourceMinPrecisionFilter: S.optional(S.Number),
+          sourceMaxPrecisionFilter: S.optional(S.Number),
+          sourceMaxScaleFilter: S.optional(S.Number),
+          numericFilterOption: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SingleEntityRename" });
+      ).annotate({ identifier: "SourceNumericFilter" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          fractionalSecondsPrecision: S.optional(S.Number),
-          nullable: S.optional(S.Boolean),
-          charset: S.optional(S.String),
-          arrayLength: S.optional(S.Number),
-          collation: S.optional(S.String),
-          customFeatures: S.optional(__S(1312, __c41, 0)),
-          precision: S.optional(S.Number),
-          autoGenerated: S.optional(S.Boolean),
-          scale: S.optional(S.Number),
-          length: S.optional(S.String),
-          setValues: S.optional(__S(2752, __c86, 0)),
-          udt: S.optional(S.Boolean),
-          dataType: S.optional(S.String),
-          array: S.optional(S.Boolean),
-          comment: S.optional(S.String),
+          sourceMinLengthFilter: S.optional(S.String),
+          sourceMaxLengthFilter: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SingleColumnChange" });
+      ).annotate({ identifier: "SourceTextFilter" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          includeColumns: S.optional(__S(2752, __c86, 0)),
-          excludeColumns: S.optional(__S(2752, __c86, 0)),
+          sourceDataTypeFilter: S.optional(S.String),
+          overrideFractionalSecondsPrecision: S.optional(S.Number),
+          customFeatures: S.optional(__S(1312, __c41, 0)),
+          newDataType: S.optional(S.String),
+          overrideLength: S.optional(S.String),
+          sourceNumericFilter: S.optional(__S(37, __c1, 5)),
+          overridePrecision: S.optional(S.Number),
+          sourceTextFilter: S.optional(__S(38, __c1, 6)),
+          overrideScale: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "FilterTableColumns" });
+      ).annotate({ identifier: "MultiColumnDatatypeChange" });
     case 8:
-      return S.suspend(() =>
-        S.Struct({
-          valueComparison: S.optional(S.String),
-          value: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "DoubleComparisonFilter" });
-    case 9:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "AssignSpecificValue" });
-    case 10:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           scale: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RoundToScale" });
-    case 11:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           uuidFromBytes: S.optional(__S(1760, __c55, 0)),
         }),
       ).annotate({ identifier: "ApplyHash" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.Number),
+          valueComparison: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DoubleComparisonFilter" });
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -4762,89 +4757,89 @@ function __c1(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          valuePresentList: S.optional(S.String),
-          values: S.optional(__S(2752, __c86, 0)),
           ignoreCase: S.optional(S.Boolean),
+          values: S.optional(__S(2752, __c86, 0)),
+          valuePresentList: S.optional(S.String),
         }),
       ).annotate({ identifier: "ValueListFilter" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          doubleComparison: S.optional(__S(40, __c1, 8)),
+          assignSpecificValue: S.optional(__S(40, __c1, 8)),
+          roundScale: S.optional(__S(41, __c1, 9)),
           assignMinValue: S.optional(__S(1760, __c55, 0)),
-          assignSpecificValue: S.optional(__S(41, __c1, 9)),
-          roundScale: S.optional(__S(42, __c1, 10)),
-          applyHash: S.optional(__S(43, __c1, 11)),
-          intComparison: S.optional(__S(44, __c1, 12)),
+          applyHash: S.optional(__S(42, __c1, 10)),
+          doubleComparison: S.optional(__S(43, __c1, 11)),
           assignNull: S.optional(__S(1760, __c55, 0)),
           assignMaxValue: S.optional(__S(1760, __c55, 0)),
-          valueList: S.optional(__S(45, __c1, 13)),
+          intComparison: S.optional(__S(44, __c1, 12)),
           isNull: S.optional(__S(1760, __c55, 0)),
+          valueList: S.optional(__S(45, __c1, 13)),
         }),
       ).annotate({ identifier: "ValueTransformation" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          sourceNumericFilter: S.optional(__S(35, __c1, 3)),
-          sourceTextFilter: S.optional(__S(34, __c1, 2)),
-          customFeatures: S.optional(__S(1312, __c41, 0)),
+          sourceNumericFilter: S.optional(__S(37, __c1, 5)),
           valueTransformation: S.optional(__S(46, __c1, 14)),
+          sourceTextFilter: S.optional(__S(38, __c1, 6)),
+          customFeatures: S.optional(__S(1312, __c41, 0)),
         }),
       ).annotate({ identifier: "ConditionalColumnSetValue" });
     case 16:
       return S.suspend(() =>
         S.Struct({
+          newNamePattern: S.optional(S.String),
+          sourceNameTransformation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MultiEntityRename" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          newName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SingleEntityRename" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          includeColumns: S.optional(__S(2752, __c86, 0)),
+          excludeColumns: S.optional(__S(2752, __c86, 0)),
+        }),
+      ).annotate({ identifier: "FilterTableColumns" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
           newSchema: S.optional(S.String),
         }),
       ).annotate({ identifier: "EntityMove" });
-    case 17:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           sqlCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceSqlChange" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          sourceNameTransformation: S.optional(S.String),
-          newNamePattern: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MultiEntityRename" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          onlyIfNoPrimaryKey: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ConvertRowIdToColumn" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          primaryKey: S.optional(S.String),
-          primaryKeyColumns: S.optional(__S(2752, __c86, 0)),
-        }),
-      ).annotate({ identifier: "SetTablePrimaryKey" });
     case 21:
       return S.suspend(() =>
         S.Struct({
+          singlePackageChange: S.optional(__S(32, __c1, 0)),
+          setTablePrimaryKey: S.optional(__S(33, __c1, 1)),
           name: S.optional(S.String),
-          filter: S.optional(__S(32, __c1, 0)),
-          singlePackageChange: S.optional(__S(33, __c1, 1)),
-          ruleOrder: S.optional(S.String),
-          multiColumnDataTypeChange: S.optional(__S(36, __c1, 4)),
-          singleEntityRename: S.optional(__S(37, __c1, 5)),
-          displayName: S.optional(S.String),
-          singleColumnChange: S.optional(__S(38, __c1, 6)),
-          filterTableColumns: S.optional(__S(39, __c1, 7)),
           revisionId: S.optional(S.String),
-          revisionCreateTime: S.optional(S.String),
+          singleColumnChange: S.optional(__S(34, __c1, 2)),
+          filter: S.optional(__S(35, __c1, 3)),
+          displayName: S.optional(S.String),
+          convertRowidColumn: S.optional(__S(36, __c1, 4)),
+          ruleOrder: S.optional(S.String),
           state: S.optional(S.String),
+          multiColumnDataTypeChange: S.optional(__S(39, __c1, 7)),
           conditionalColumnSetValue: S.optional(__S(47, __c1, 15)),
-          entityMove: S.optional(__S(48, __c1, 16)),
-          sourceSqlChange: S.optional(__S(49, __c1, 17)),
+          multiEntityRename: S.optional(__S(48, __c1, 16)),
+          singleEntityRename: S.optional(__S(49, __c1, 17)),
+          revisionCreateTime: S.optional(S.String),
+          filterTableColumns: S.optional(__S(50, __c1, 18)),
           ruleScope: S.optional(S.String),
-          multiEntityRename: S.optional(__S(50, __c1, 18)),
-          convertRowidColumn: S.optional(__S(51, __c1, 19)),
-          setTablePrimaryKey: S.optional(__S(52, __c1, 20)),
+          entityMove: S.optional(__S(51, __c1, 19)),
+          sourceSqlChange: S.optional(__S(52, __c1, 20)),
         }),
       ).annotate({ identifier: "MappingRule" });
   }
@@ -4854,10 +4849,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(185, __c5, 25),
+          __S(184, __c5, 24),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
             migrationJobId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -4875,10 +4870,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          schema: S.optional(S.String),
-          type: S.optional(S.String),
           database: S.optional(S.String),
           table: S.optional(S.String),
+          schema: S.optional(S.String),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceObjectIdentifier" });
   }
@@ -4897,8 +4892,8 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           excludedObjectConfigs: S.optional(__S(129, __c4, 1)),
-          objectConfigs: S.optional(__S(129, __c4, 1)),
           objectsSelectionType: S.optional(S.String),
+          objectConfigs: S.optional(__S(129, __c4, 1)),
         }),
       ).annotate({ identifier: "SourceObjectsConfig" });
     case 3:
@@ -4914,23 +4909,25 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          engine: S.optional(S.String),
-          provider: S.optional(S.String),
+          vpc: S.optional(S.String),
+          vmIp: S.optional(S.String),
+          vmPort: S.optional(S.Number),
+          vm: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DatabaseType" });
+      ).annotate({ identifier: "ReverseSshConnectivity" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          isPrimaryDestination: S.optional(S.Boolean),
+          provider: S.optional(S.String),
+          engine: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MySqlHomogeneousConfig" });
+      ).annotate({ identifier: "DatabaseType" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dumpParallelLevel: S.optional(S.String),
-          loadParallelLevel: S.optional(S.String),
+          vpc: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PerformanceConfig" });
+      ).annotate({ identifier: "VpcPeeringConnectivity" });
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4949,180 +4946,171 @@ function __c5(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          pvkPassword: S.optional(S.String),
-          pvkPath: S.optional(S.String),
-          certPath: S.optional(S.String),
+          isNativeLogical: S.optional(S.Boolean),
+          maxAdditionalSubscriptions: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "SqlServerEncryptionOptions" });
+      ).annotate({ identifier: "PostgresHomogeneousConfig" });
     case 7:
-      return S.suspend(() =>
-        S.Struct({
-          database: S.optional(S.String),
-          encryptionOptions: S.optional(__S(166, __c5, 6)),
-        }),
-      ).annotate({ identifier: "SqlServerDatabaseBackup" });
-    case 8:
-      return S.Array(__S(167, __c5, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          linkedServer: S.optional(S.String),
-          sourceAg: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SqlServerDagConfig" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          useDiffBackup: S.optional(S.Boolean),
-          databaseBackups: S.optional(__S(168, __c5, 8)),
-          backupFilePattern: S.optional(S.String),
-          dagConfig: S.optional(__S(169, __c5, 9)),
-          promoteWhenReady: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "SqlServerHomogeneousMigrationJobConfig" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          vmPort: S.optional(S.Number),
-          vm: S.optional(S.String),
-          vmIp: S.optional(S.String),
-          vpc: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReverseSshConnectivity" });
-    case 12:
       return S.suspend(() =>
         S.Struct({
           maxConcurrentConnections: S.optional(S.Number),
           transactionTimeout: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlServerDestinationConfig" });
-    case 13:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           skipFullDump: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PostgresSourceConfig" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          sqlserverDestinationConfig: S.optional(__S(167, __c5, 7)),
+          postgresSourceConfig: S.optional(__S(168, __c5, 8)),
+        }),
+      ).annotate({ identifier: "PostgresToSqlServerConfig" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          loadParallelLevel: S.optional(S.String),
+          dumpParallelLevel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PerformanceConfig" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          onlineLogDirectory: S.optional(S.String),
+          archivedLogDirectory: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LogFileDirectories" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          oracleAsmLogFileAccess: S.optional(__S(1760, __c55, 0)),
+          logFileDirectories: S.optional(__S(171, __c5, 11)),
+        }),
+      ).annotate({ identifier: "BinaryLogParser" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          cdcStartPosition: S.optional(S.String),
+          maxConcurrentFullDumpConnections: S.optional(S.Number),
+          binaryLogParser: S.optional(__S(172, __c5, 12)),
+          maxConcurrentCdcConnections: S.optional(S.Number),
+          logMiner: S.optional(__S(1760, __c55, 0)),
+          skipFullDump: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "OracleSourceConfig" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          sqlserverDestinationConfig: S.optional(__S(172, __c5, 12)),
-          postgresSourceConfig: S.optional(__S(173, __c5, 13)),
+          postgresDestinationConfig: S.optional(__S(167, __c5, 7)),
+          oracleSourceConfig: S.optional(__S(173, __c5, 13)),
         }),
-      ).annotate({ identifier: "PostgresToSqlServerConfig" });
+      ).annotate({ identifier: "OracleToPostgresConfig" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          maxConcurrentCdcConnections: S.optional(S.Number),
-          cdcStartPosition: S.optional(S.String),
           skipFullDump: S.optional(S.Boolean),
+          cdcStartPosition: S.optional(S.String),
+          maxConcurrentCdcConnections: S.optional(S.Number),
           maxConcurrentFullDumpConnections: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SqlServerSourceConfig" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          transactionTimeout: S.optional(S.String),
-          maxConcurrentConnections: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "PostgresDestinationConfig" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
           sqlserverSourceConfig: S.optional(__S(175, __c5, 15)),
-          postgresDestinationConfig: S.optional(__S(176, __c5, 16)),
+          postgresDestinationConfig: S.optional(__S(167, __c5, 7)),
         }),
       ).annotate({ identifier: "SqlServerToPostgresConfig" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          archivedLogDirectory: S.optional(S.String),
-          onlineLogDirectory: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LogFileDirectories" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          logFileDirectories: S.optional(__S(178, __c5, 18)),
-          oracleAsmLogFileAccess: S.optional(__S(1760, __c55, 0)),
-        }),
-      ).annotate({ identifier: "BinaryLogParser" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          skipFullDump: S.optional(S.Boolean),
-          logMiner: S.optional(__S(1760, __c55, 0)),
-          binaryLogParser: S.optional(__S(179, __c5, 19)),
-          cdcStartPosition: S.optional(S.String),
-          maxConcurrentCdcConnections: S.optional(S.Number),
-          maxConcurrentFullDumpConnections: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "OracleSourceConfig" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          postgresDestinationConfig: S.optional(__S(176, __c5, 16)),
-          oracleSourceConfig: S.optional(__S(180, __c5, 20)),
-        }),
-      ).annotate({ identifier: "OracleToPostgresConfig" });
-    case 22:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           commitId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConversionWorkspaceInfo" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          pvkPath: S.optional(S.String),
+          certPath: S.optional(S.String),
+          pvkPassword: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SqlServerEncryptionOptions" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          database: S.optional(S.String),
+          encryptionOptions: S.optional(__S(178, __c5, 18)),
+        }),
+      ).annotate({ identifier: "SqlServerDatabaseBackup" });
+    case 20:
+      return S.Array(__S(179, __c5, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          sourceAg: S.optional(S.String),
+          linkedServer: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SqlServerDagConfig" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          databaseBackups: S.optional(__S(180, __c5, 20)),
+          dagConfig: S.optional(__S(181, __c5, 21)),
+          promoteWhenReady: S.optional(S.Boolean),
+          useDiffBackup: S.optional(S.Boolean),
+          backupFilePattern: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SqlServerHomogeneousMigrationJobConfig" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          vpc: S.optional(S.String),
+          isPrimaryDestination: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "VpcPeeringConnectivity" });
+      ).annotate({ identifier: "MySqlHomogeneousConfig" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          isNativeLogical: S.optional(S.Boolean),
-          maxAdditionalSubscriptions: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "PostgresHomogeneousConfig" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
+          reverseSshConnectivity: S.optional(__S(160, __c5, 0)),
+          satisfiesPzi: S.optional(S.Boolean),
+          sourceDatabase: S.optional(__S(161, __c5, 1)),
+          dumpPath: S.optional(S.String),
+          filter: S.optional(S.String),
+          purpose: S.optional(S.String),
+          vpcPeeringConnectivity: S.optional(__S(162, __c5, 2)),
+          dumpFlags: S.optional(__S(165, __c5, 5)),
+          postgresHomogeneousConfig: S.optional(__S(166, __c5, 6)),
+          staticIpConnectivity: S.optional(__S(1760, __c55, 0)),
+          postgresToSqlserverConfig: S.optional(__S(169, __c5, 9)),
+          labels: S.optional(__S(2816, __c88, 0)),
+          error: S.optional(__S(1345, __c42, 1)),
+          endTime: S.optional(S.String),
+          cmekKeyName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          source: S.optional(S.String),
+          originalMigrationName: S.optional(S.String),
+          performanceConfig: S.optional(__S(170, __c5, 10)),
           duration: S.optional(S.String),
           phase: S.optional(S.String),
-          destinationDatabase: S.optional(__S(160, __c5, 0)),
-          updateTime: S.optional(S.String),
-          mysqlHomogeneousConfig: S.optional(__S(161, __c5, 1)),
-          satisfiesPzs: S.optional(S.Boolean),
-          dumpPath: S.optional(S.String),
+          oracleToPostgresConfig: S.optional(__S(174, __c5, 14)),
           dumpType: S.optional(S.String),
-          originalMigrationName: S.optional(S.String),
-          performanceConfig: S.optional(__S(162, __c5, 2)),
-          error: S.optional(__S(1345, __c42, 1)),
-          state: S.optional(S.String),
-          filter: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(2816, __c88, 0)),
-          dumpFlags: S.optional(__S(165, __c5, 5)),
-          satisfiesPzi: S.optional(S.Boolean),
-          endTime: S.optional(S.String),
-          source: S.optional(S.String),
-          sourceDatabase: S.optional(__S(160, __c5, 0)),
-          sqlserverHomogeneousMigrationJobConfig: S.optional(__S(170, __c5, 10)),
-          reverseSshConnectivity: S.optional(__S(171, __c5, 11)),
-          staticIpConnectivity: S.optional(__S(1760, __c55, 0)),
-          postgresToSqlserverConfig: S.optional(__S(174, __c5, 14)),
-          sqlserverToPostgresConfig: S.optional(__S(177, __c5, 17)),
-          oracleToPostgresConfig: S.optional(__S(181, __c5, 21)),
-          displayName: S.optional(S.String),
-          purpose: S.optional(S.String),
+          destinationDatabase: S.optional(__S(161, __c5, 1)),
+          sqlserverToPostgresConfig: S.optional(__S(176, __c5, 16)),
+          conversionWorkspace: S.optional(__S(177, __c5, 17)),
+          sqlserverHomogeneousMigrationJobConfig: S.optional(__S(182, __c5, 22)),
           objectsConfig: S.optional(__S(131, __c4, 3)),
-          conversionWorkspace: S.optional(__S(182, __c5, 22)),
-          type: S.optional(S.String),
-          cmekKeyName: S.optional(S.String),
-          vpcPeeringConnectivity: S.optional(__S(183, __c5, 23)),
-          postgresHomogeneousConfig: S.optional(__S(184, __c5, 24)),
-          name: S.optional(S.String),
+          state: S.optional(S.String),
           destination: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          mysqlHomogeneousConfig: S.optional(__S(183, __c5, 23)),
         }),
       ).annotate({ identifier: "MigrationJob" });
   }
@@ -5134,11 +5122,11 @@ function __c6(j: number): any {
         S.Extend(
           __S(227, __c7, 3),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
-            privateConnectionId: S.optional(S.String.pipe(T.Query())),
-            skipValidation: S.optional(S.Boolean.pipe(T.Query())),
-            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            privateConnectionId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            skipValidation: S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5155,38 +5143,38 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subnet: S.optional(S.String),
           vpcName: S.optional(S.String),
+          subnet: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcPeeringConfig" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          networkAttachment: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PscInterfaceConfig" });
-    case 2:
       return S.suspend(() =>
         S.Struct({
           egressPublicIps: S.optional(__S(2752, __c86, 0)),
           natIpsCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ReservedPublicIpConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          networkAttachment: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PscInterfaceConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
+          vpcPeeringConfig: S.optional(__S(224, __c7, 0)),
+          satisfiesPzi: S.optional(S.Boolean),
           labels: S.optional(__S(2816, __c88, 0)),
+          error: S.optional(__S(1345, __c42, 1)),
+          reservedPublicIpConfig: S.optional(__S(225, __c7, 1)),
+          updateTime: S.optional(S.String),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
-          vpcPeeringConfig: S.optional(__S(224, __c7, 0)),
-          error: S.optional(__S(1345, __c42, 1)),
-          pscInterfaceConfig: S.optional(__S(225, __c7, 1)),
-          state: S.optional(S.String),
-          displayName: S.optional(S.String),
           satisfiesPzs: S.optional(S.Boolean),
-          reservedPublicIpConfig: S.optional(__S(226, __c7, 2)),
-          satisfiesPzi: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
+          pscInterfaceConfig: S.optional(__S(226, __c7, 2)),
+          displayName: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateConnection" });
   }
@@ -5197,8 +5185,8 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5214,9 +5202,9 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5232,8 +5220,8 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5249,8 +5237,8 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -5349,14 +5337,14 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          tree: S.optional(S.String.pipe(T.Query())),
-          commitId: S.optional(S.String.pipe(T.Query())),
-          conversionWorkspace: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-          uncommitted: S.optional(S.Boolean.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          tree: S.optional(S.String.pipe(T.Query())),
+          commitId: S.optional(S.String.pipe(T.Query())),
+          uncommitted: S.optional(S.Boolean.pipe(T.Query())),
+          conversionWorkspace: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5370,227 +5358,227 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sqlCode: S.optional(S.String),
-          triggeringEvents: S.optional(__S(2752, __c86, 0)),
+          sourceType: S.optional(S.String),
           customFeatures: S.optional(__S(1312, __c41, 0)),
-          name: S.optional(S.String),
-          triggerType: S.optional(S.String),
+          sourceEntity: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TriggerEntity" });
+      ).annotate({ identifier: "SynonymEntity" });
     case 2:
-      return S.Array(__S(545, __c17, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          length: S.optional(S.String),
-          charset: S.optional(S.String),
-          precision: S.optional(S.Number),
-          fractionalSecondsPrecision: S.optional(S.Number),
-          collation: S.optional(S.String),
-          customFeatures: S.optional(__S(1312, __c41, 0)),
-          name: S.optional(S.String),
-          scale: S.optional(S.Number),
-          arrayLength: S.optional(S.Number),
-          defaultValue: S.optional(S.String),
-          autoGenerated: S.optional(S.Boolean),
-          nullable: S.optional(S.Boolean),
-          dataType: S.optional(S.String),
-          ordinalPosition: S.optional(S.Number),
-          udt: S.optional(S.Boolean),
-          computed: S.optional(S.Boolean),
-          setValues: S.optional(__S(2752, __c86, 0)),
-          array: S.optional(S.Boolean),
-          comment: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ColumnEntity" });
-    case 4:
-      return S.Array(__S(547, __c17, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          tableName: S.optional(S.String),
-          tableColumns: S.optional(__S(2752, __c86, 0)),
-          referenceColumns: S.optional(__S(2752, __c86, 0)),
-          customFeatures: S.optional(__S(1312, __c41, 0)),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          referenceTable: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConstraintEntity" });
-    case 6:
-      return S.Array(__S(549, __c17, 5));
-    case 7:
-      return S.Array(S.Boolean);
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          tableColumns: S.optional(__S(2752, __c86, 0)),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          unique: S.optional(S.Boolean),
-          customFeatures: S.optional(__S(1312, __c41, 0)),
-          tableColumnsDescending: S.optional(__S(551, __c17, 7)),
-        }),
-      ).annotate({ identifier: "IndexEntity" });
-    case 9:
-      return S.Array(__S(552, __c17, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          customFeatures: S.optional(__S(1312, __c41, 0)),
-          triggers: S.optional(__S(546, __c17, 2)),
-          columns: S.optional(__S(548, __c17, 4)),
-          constraints: S.optional(__S(550, __c17, 6)),
-          indices: S.optional(__S(553, __c17, 9)),
-          comment: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TableEntity" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          customFeatures: S.optional(__S(1312, __c41, 0)),
-        }),
-      ).annotate({ identifier: "SchemaEntity" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
+          issueId: S.optional(__S(2752, __c86, 0)),
+          entity: S.optional(S.String),
+          ddlKind: S.optional(S.String),
           editedDdlKind: S.optional(S.String),
           entityType: S.optional(S.String),
           ddlType: S.optional(S.String),
-          ddlKind: S.optional(S.String),
-          entity: S.optional(S.String),
-          issueId: S.optional(__S(2752, __c86, 0)),
           ddl: S.optional(S.String),
         }),
       ).annotate({ identifier: "EntityDdl" });
-    case 13:
-      return S.Array(__S(556, __c17, 12));
-    case 14:
+    case 3:
+      return S.Array(__S(546, __c17, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          sourceEntity: S.optional(S.String),
-          customFeatures: S.optional(__S(1312, __c41, 0)),
-          sourceType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SynonymEntity" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          udtSqlCode: S.optional(S.String),
           udtBody: S.optional(S.String),
+          udtSqlCode: S.optional(S.String),
           customFeatures: S.optional(__S(1312, __c41, 0)),
         }),
       ).annotate({ identifier: "UDTEntity" });
-    case 16:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          startValue: S.optional(S.String),
-          maxValue: S.optional(S.String),
-          cache: S.optional(S.String),
           customFeatures: S.optional(__S(1312, __c41, 0)),
-          increment: S.optional(S.String),
-          minValue: S.optional(S.String),
-          cycle: S.optional(S.Boolean),
+          packageSqlCode: S.optional(S.String),
+          packageBody: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SequenceEntity" });
-    case 17:
+      ).annotate({ identifier: "PackageEntity" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          tableName: S.optional(S.String),
+          tableColumns: S.optional(__S(2752, __c86, 0)),
+          referenceTable: S.optional(S.String),
+          type: S.optional(S.String),
+          referenceColumns: S.optional(__S(2752, __c86, 0)),
+          customFeatures: S.optional(__S(1312, __c41, 0)),
+        }),
+      ).annotate({ identifier: "ConstraintEntity" });
+    case 7:
+      return S.Array(__S(550, __c17, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          sqlCode: S.optional(S.String),
+          constraints: S.optional(__S(551, __c17, 7)),
+          customFeatures: S.optional(__S(1312, __c41, 0)),
+        }),
+      ).annotate({ identifier: "ViewEntity" });
+    case 9:
       return S.suspend(() =>
         S.Struct({
           sqlCode: S.optional(S.String),
           customFeatures: S.optional(__S(1312, __c41, 0)),
         }),
       ).annotate({ identifier: "StoredProcedureEntity" });
+    case 10:
+      return S.Array(S.Boolean);
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          tableColumns: S.optional(__S(2752, __c86, 0)),
+          tableColumnsDescending: S.optional(__S(554, __c17, 10)),
+          customFeatures: S.optional(__S(1312, __c41, 0)),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          unique: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "IndexEntity" });
+    case 12:
+      return S.Array(__S(555, __c17, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          arrayLength: S.optional(S.Number),
+          computed: S.optional(S.Boolean),
+          udt: S.optional(S.Boolean),
+          charset: S.optional(S.String),
+          collation: S.optional(S.String),
+          precision: S.optional(S.Number),
+          scale: S.optional(S.Number),
+          setValues: S.optional(__S(2752, __c86, 0)),
+          nullable: S.optional(S.Boolean),
+          dataType: S.optional(S.String),
+          customFeatures: S.optional(__S(1312, __c41, 0)),
+          array: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          autoGenerated: S.optional(S.Boolean),
+          defaultValue: S.optional(S.String),
+          length: S.optional(S.String),
+          fractionalSecondsPrecision: S.optional(S.Number),
+          ordinalPosition: S.optional(S.Number),
+          comment: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ColumnEntity" });
+    case 14:
+      return S.Array(__S(557, __c17, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          triggeringEvents: S.optional(__S(2752, __c86, 0)),
+          name: S.optional(S.String),
+          sqlCode: S.optional(S.String),
+          customFeatures: S.optional(__S(1312, __c41, 0)),
+          triggerType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TriggerEntity" });
+    case 16:
+      return S.Array(__S(559, __c17, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          constraints: S.optional(__S(551, __c17, 7)),
+          comment: S.optional(S.String),
+          indices: S.optional(__S(556, __c17, 12)),
+          columns: S.optional(__S(558, __c17, 14)),
+          triggers: S.optional(__S(560, __c17, 16)),
+          customFeatures: S.optional(__S(1312, __c41, 0)),
+        }),
+      ).annotate({ identifier: "TableEntity" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          ruleRevisionId: S.optional(S.String),
-          ruleId: S.optional(S.String),
-          mappingComment: S.optional(S.String),
+          customFeatures: S.optional(__S(1312, __c41, 0)),
         }),
-      ).annotate({ identifier: "EntityMappingLogEntry" });
+      ).annotate({ identifier: "DatabaseInstanceEntity" });
     case 19:
-      return S.Array(__S(562, __c17, 18));
+      return S.suspend(() =>
+        S.Struct({
+          line: S.optional(S.Number),
+          column: S.optional(S.Number),
+          offset: S.optional(S.Number),
+          length: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Position" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          sourceEntity: S.optional(S.String),
-          mappingLog: S.optional(__S(563, __c17, 19)),
-          draftEntity: S.optional(S.String),
-          sourceType: S.optional(S.String),
-          draftType: S.optional(S.String),
+          entityType: S.optional(S.String),
+          severity: S.optional(S.String),
+          type: S.optional(S.String),
+          code: S.optional(S.String),
+          id: S.optional(S.String),
+          ddl: S.optional(S.String),
+          position: S.optional(__S(563, __c17, 19)),
+          message: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EntityMapping" });
+      ).annotate({ identifier: "EntityIssue" });
     case 21:
       return S.Array(__S(564, __c17, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
+          indices: S.optional(__S(556, __c17, 12)),
           customFeatures: S.optional(__S(1312, __c41, 0)),
-          constraints: S.optional(__S(550, __c17, 6)),
           sqlCode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ViewEntity" });
+      ).annotate({ identifier: "MaterializedViewEntity" });
     case 23:
       return S.suspend(() =>
         S.Struct({
+          cache: S.optional(S.String),
+          minValue: S.optional(S.String),
           customFeatures: S.optional(__S(1312, __c41, 0)),
-          sqlCode: S.optional(S.String),
-          indices: S.optional(__S(553, __c17, 9)),
+          maxValue: S.optional(S.String),
+          startValue: S.optional(S.String),
+          cycle: S.optional(S.Boolean),
+          increment: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MaterializedViewEntity" });
+      ).annotate({ identifier: "SequenceEntity" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          offset: S.optional(S.Number),
-          length: S.optional(S.Number),
-          line: S.optional(S.Number),
-          column: S.optional(S.Number),
+          ruleRevisionId: S.optional(S.String),
+          mappingComment: S.optional(S.String),
+          ruleId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Position" });
+      ).annotate({ identifier: "EntityMappingLogEntry" });
     case 25:
-      return S.suspend(() =>
-        S.Struct({
-          severity: S.optional(S.String),
-          code: S.optional(S.String),
-          ddl: S.optional(S.String),
-          type: S.optional(S.String),
-          id: S.optional(S.String),
-          entityType: S.optional(S.String),
-          message: S.optional(S.String),
-          position: S.optional(__S(568, __c17, 24)),
-        }),
-      ).annotate({ identifier: "EntityIssue" });
+      return S.Array(__S(568, __c17, 24));
     case 26:
-      return S.Array(__S(569, __c17, 25));
-    case 27:
       return S.suspend(() =>
         S.Struct({
-          packageSqlCode: S.optional(S.String),
-          customFeatures: S.optional(__S(1312, __c41, 0)),
-          packageBody: S.optional(S.String),
+          sourceType: S.optional(S.String),
+          draftType: S.optional(S.String),
+          draftEntity: S.optional(S.String),
+          sourceEntity: S.optional(S.String),
+          mappingLog: S.optional(__S(569, __c17, 25)),
         }),
-      ).annotate({ identifier: "PackageEntity" });
+      ).annotate({ identifier: "EntityMapping" });
+    case 27:
+      return S.Array(__S(570, __c17, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          table: S.optional(__S(554, __c17, 10)),
-          schema: S.optional(__S(555, __c17, 11)),
-          entityDdl: S.optional(__S(557, __c17, 13)),
-          synonym: S.optional(__S(558, __c17, 14)),
           tree: S.optional(S.String),
-          udt: S.optional(__S(559, __c17, 15)),
-          sequence: S.optional(__S(560, __c17, 16)),
-          storedProcedure: S.optional(__S(561, __c17, 17)),
-          database: S.optional(__S(555, __c17, 11)),
-          mappings: S.optional(__S(565, __c17, 21)),
-          databaseFunction: S.optional(__S(561, __c17, 17)),
-          view: S.optional(__S(566, __c17, 22)),
+          synonym: S.optional(__S(545, __c17, 1)),
+          entityDdl: S.optional(__S(547, __c17, 3)),
+          udt: S.optional(__S(548, __c17, 4)),
+          databasePackage: S.optional(__S(549, __c17, 5)),
           entityType: S.optional(S.String),
-          shortName: S.optional(S.String),
-          materializedView: S.optional(__S(567, __c17, 23)),
+          view: S.optional(__S(552, __c17, 8)),
+          storedProcedure: S.optional(__S(553, __c17, 9)),
+          table: S.optional(__S(561, __c17, 17)),
           parentEntity: S.optional(S.String),
-          issues: S.optional(__S(570, __c17, 26)),
-          databasePackage: S.optional(__S(571, __c17, 27)),
+          database: S.optional(__S(562, __c17, 18)),
+          issues: S.optional(__S(565, __c17, 21)),
+          materializedView: S.optional(__S(566, __c17, 22)),
+          databaseFunction: S.optional(__S(553, __c17, 9)),
+          sequence: S.optional(__S(567, __c17, 23)),
+          schema: S.optional(__S(562, __c17, 18)),
+          mappings: S.optional(__S(571, __c17, 27)),
+          shortName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseEntity" });
     case 29:
@@ -5609,12 +5597,12 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fetchView: S.optional(S.String.pipe(T.Query())),
-          tree: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           conversionWorkspace: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          fetchView: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          tree: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5628,18 +5616,18 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          infoCount: S.optional(S.Number),
           errorCount: S.optional(S.Number),
           warningCount: S.optional(S.Number),
-          infoCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IssueAggregateData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          parentName: S.optional(S.String),
+          parentType: S.optional(S.String),
           shortName: S.optional(S.String),
           type: S.optional(S.String),
-          parentType: S.optional(S.String),
+          parentName: S.optional(S.String),
         }),
       ).annotate({ identifier: "EntityId" });
     case 3:
@@ -5647,15 +5635,15 @@ function __c18(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          draftDdlKind: S.optional(S.String),
-          resolvedIssues: S.optional(__S(577, __c18, 1)),
-          issues: S.optional(__S(577, __c18, 1)),
-          draftEntity: S.optional(__S(578, __c18, 2)),
-          dependencies: S.optional(__S(579, __c18, 3)),
-          editedDdlKind: S.optional(S.String),
-          sourceEntity: S.optional(__S(578, __c18, 2)),
           wasApplied: S.optional(S.Boolean),
+          issues: S.optional(__S(577, __c18, 1)),
+          dependencies: S.optional(__S(579, __c18, 3)),
           testedEntity: S.optional(S.Boolean),
+          resolvedIssues: S.optional(__S(577, __c18, 1)),
+          editedDdlKind: S.optional(S.String),
+          draftDdlKind: S.optional(S.String),
+          draftEntity: S.optional(__S(578, __c18, 2)),
+          sourceEntity: S.optional(__S(578, __c18, 2)),
         }),
       ).annotate({ identifier: "EntityStatusView" });
     case 5:
@@ -5674,12 +5662,12 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           tree: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           conversionWorkspace: S.String.pipe(T.Label()),
-          allIssues: S.optional(S.Boolean.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          allIssues: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5691,26 +5679,26 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          line: S.optional(S.Number),
+          column: S.optional(S.Number),
           offset: S.optional(S.Number),
           length: S.optional(S.Number),
-          column: S.optional(S.Number),
+          line: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FetchIssuesResponseIssuePosition" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          entityType: S.optional(S.String),
-          id: S.optional(S.String),
-          groupId: S.optional(S.String),
           position: S.optional(__S(609, __c19, 1)),
-          categoryId: S.optional(S.String),
           severity: S.optional(S.String),
-          issueState: S.optional(S.String),
           issueOrigin: S.optional(S.String),
-          type: S.optional(S.String),
+          id: S.optional(S.String),
           entityFullName: S.optional(S.String),
+          categoryId: S.optional(S.String),
           message: S.optional(S.String),
+          type: S.optional(S.String),
+          issueState: S.optional(S.String),
+          entityType: S.optional(S.String),
+          groupId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Issue" });
     case 3:
@@ -5718,8 +5706,8 @@ function __c19(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          issues: S.optional(__S(611, __c19, 3)),
           nextPageToken: S.optional(S.String),
+          issues: S.optional(__S(611, __c19, 3)),
         }),
       ).annotate({ identifier: "FetchIssuesResponse" });
   }
@@ -5745,10 +5733,10 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fetchReservedPublicIps: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          fetchReservedPublicIps: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5771,23 +5759,23 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          vmZone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VmSelectionConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           vmMachineType: S.optional(S.String),
           vmZone: S.optional(S.String),
           subnet: S.optional(S.String),
         }),
       ).annotate({ identifier: "VmCreationConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          vmZone: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VmSelectionConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          vmCreationConfig: S.optional(__S(704, __c22, 0)),
+          vmSelectionConfig: S.optional(__S(704, __c22, 0)),
+          vmCreationConfig: S.optional(__S(705, __c22, 1)),
           vm: S.optional(S.String),
-          vmSelectionConfig: S.optional(__S(705, __c22, 1)),
           vmPort: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GenerateSshScriptRequest" });
@@ -5823,10 +5811,10 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          vmSubnet: S.optional(S.String),
+          vmName: S.optional(S.String),
           vmMachineType: S.optional(S.String),
           vmZone: S.optional(S.String),
-          vmName: S.optional(S.String),
+          vmSubnet: S.optional(S.String),
         }),
       ).annotate({ identifier: "GenerateTcpProxyScriptRequest" });
     case 1:
@@ -5868,47 +5856,47 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          title: S.optional(S.String),
-          description: S.optional(S.String),
-          expression: S.optional(S.String),
-          location: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Expr" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          members: S.optional(__S(2752, __c86, 0)),
-          role: S.optional(S.String),
-          condition: S.optional(__S(832, __c26, 0)),
-        }),
-      ).annotate({ identifier: "Binding" });
-    case 2:
-      return S.Array(__S(833, __c26, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          exemptedMembers: S.optional(__S(2752, __c86, 0)),
           logType: S.optional(S.String),
+          exemptedMembers: S.optional(__S(2752, __c86, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
-    case 4:
-      return S.Array(__S(835, __c26, 3));
-    case 5:
+    case 1:
+      return S.Array(__S(832, __c26, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(836, __c26, 4)),
+          auditLogConfigs: S.optional(__S(833, __c26, 1)),
           service: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditConfig" });
+    case 3:
+      return S.Array(__S(834, __c26, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          expression: S.optional(S.String),
+          description: S.optional(S.String),
+          location: S.optional(S.String),
+          title: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Expr" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          role: S.optional(S.String),
+          condition: S.optional(__S(836, __c26, 4)),
+          members: S.optional(__S(2752, __c86, 0)),
+        }),
+      ).annotate({ identifier: "Binding" });
     case 6:
       return S.Array(__S(837, __c26, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(834, __c26, 2)),
-          auditConfigs: S.optional(__S(838, __c26, 6)),
-          version: S.optional(S.Number),
+          auditConfigs: S.optional(__S(835, __c26, 3)),
           etag: S.optional(S.String),
+          bindings: S.optional(__S(838, __c26, 6)),
+          version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Policy" });
   }
@@ -5918,8 +5906,8 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+          resource: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5952,8 +5940,8 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+          resource: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6002,11 +5990,11 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          metadata: S.optional(__S(1312, __c41, 0)),
           labels: S.optional(__S(2816, __c88, 0)),
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(1312, __c41, 0)),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -6102,14 +6090,14 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          sourceObject: S.optional(__S(96, __c3, 0)),
           createTime: S.optional(S.String),
-          error: S.optional(__S(1345, __c42, 1)),
           phase: S.optional(S.String),
           heterogeneousMetadata: S.optional(__S(1216, __c38, 0)),
+          error: S.optional(__S(1345, __c42, 1)),
+          sourceObject: S.optional(__S(96, __c3, 0)),
           state: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "MigrationJobObject" });
   }
@@ -6135,10 +6123,10 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          connectionProfile: S.optional(S.String),
           filter: S.optional(S.String),
-          autoCommit: S.optional(S.Boolean),
           dryRun: S.optional(S.Boolean),
+          autoCommit: S.optional(S.Boolean),
+          connectionProfile: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplyConversionWorkspaceRequest" });
     case 1:
@@ -6171,9 +6159,9 @@ function __c42(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
-          details: S.optional(__S(1344, __c42, 0)),
           code: S.optional(S.Number),
+          details: S.optional(__S(1344, __c42, 0)),
+          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
   }
@@ -6183,11 +6171,11 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          metadata: S.optional(__S(1312, __c41, 0)),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(1312, __c41, 0)),
+          metadata: S.optional(__S(1312, __c41, 0)),
           error: S.optional(__S(1345, __c42, 1)),
+          response: S.optional(__S(1312, __c41, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -6222,9 +6210,9 @@ function __c45(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          rulesFiles: S.optional(__S(1441, __c45, 1)),
-          rulesFormat: S.optional(S.String),
           autoCommit: S.optional(S.Boolean),
+          rulesFormat: S.optional(S.String),
+          rulesFiles: S.optional(__S(1441, __c45, 1)),
         }),
       ).annotate({ identifier: "ImportMappingRulesRequest" });
     case 3:
@@ -6249,10 +6237,10 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extraLocationTypes: S.optional(__S(2752, __c86, 0).pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(2752, __c86, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -6267,8 +6255,8 @@ function __c46(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           locations: S.optional(__S(1473, __c46, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -6278,11 +6266,11 @@ function __c47(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6296,8 +6284,8 @@ function __c47(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(2752, __c86, 0)),
+          nextPageToken: S.optional(S.String),
           connectionProfiles: S.optional(__S(1505, __c47, 1)),
         }),
       ).annotate({ identifier: "ListConnectionProfilesResponse" });
@@ -6308,10 +6296,10 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6323,9 +6311,9 @@ function __c48(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2752, __c86, 0)),
-          conversionWorkspaces: S.optional(__S(512, __c16, 0)),
           nextPageToken: S.optional(S.String),
+          conversionWorkspaces: S.optional(__S(512, __c16, 0)),
+          unreachable: S.optional(__S(2752, __c86, 0)),
         }),
       ).annotate({ identifier: "ListConversionWorkspacesResponse" });
   }
@@ -6335,9 +6323,9 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6362,11 +6350,11 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6376,12 +6364,12 @@ function __c50(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsMigrationJobsRequest" });
     case 1:
-      return S.Array(__S(185, __c5, 25));
+      return S.Array(__S(184, __c5, 24));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          migrationJobs: S.optional(__S(1601, __c50, 1)),
           unreachable: S.optional(__S(2752, __c86, 0)),
+          migrationJobs: S.optional(__S(1601, __c50, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMigrationJobsResponse" });
@@ -6392,9 +6380,9 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6419,11 +6407,11 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6437,9 +6425,9 @@ function __c52(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(1665, __c52, 1)),
-          unreachable: S.optional(__S(2752, __c86, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(2752, __c86, 0)),
+          operations: S.optional(__S(1665, __c52, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -6450,9 +6438,9 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -6467,8 +6455,8 @@ function __c53(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           privateConnections: S.optional(__S(1697, __c53, 1)),
+          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(2752, __c86, 0)),
         }),
       ).annotate({ identifier: "ListPrivateConnectionsResponse" });
@@ -6529,11 +6517,11 @@ function __c57(j: number): any {
         S.Extend(
           __S(2809, __c87, 25),
           S.Struct({
+            skipValidation: S.optional(S.Boolean.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            skipValidation: S.optional(S.Boolean.pipe(T.Query())),
-            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -6552,8 +6540,8 @@ function __c58(j: number): any {
         S.Extend(
           __S(2881, __c90, 1),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -6571,11 +6559,11 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(185, __c5, 25),
+          __S(184, __c5, 24),
           S.Struct({
-            name: S.String.pipe(T.Label()),
-            updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -6619,8 +6607,8 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           objectsFilter: S.optional(__S(131, __c4, 3)),
-          skipValidation: S.optional(S.Boolean),
           restartFailedObjects: S.optional(S.Boolean),
+          skipValidation: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "RestartMigrationJobRequest" });
     case 1:
@@ -6691,10 +6679,10 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          returnMostRecentPerJobType: S.optional(S.Boolean.pipe(T.Query())),
-          conversionWorkspace: S.String.pipe(T.Label()),
           completedUntilTime: S.optional(S.String.pipe(T.Query())),
           maxSize: S.optional(S.Number.pipe(T.Query())),
+          returnMostRecentPerJobType: S.optional(S.Boolean.pipe(T.Query())),
+          conversionWorkspace: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6708,43 +6696,43 @@ function __c65(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConvertJobDetails" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          connectionProfile: S.optional(S.String),
-          filter: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApplyJobDetails" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          fileFormat: S.optional(S.String),
-          files: S.optional(__S(2752, __c86, 0)),
-        }),
-      ).annotate({ identifier: "ImportRulesJobDetails" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           connectionProfile: S.optional(S.String),
         }),
       ).annotate({ identifier: "SeedJobDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConvertJobDetails" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.String),
+          connectionProfile: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApplyJobDetails" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          files: S.optional(__S(2752, __c86, 0)),
+          fileFormat: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImportRulesJobDetails" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          completionComment: S.optional(S.String),
-          convertJobDetails: S.optional(__S(2081, __c65, 1)),
-          jobType: S.optional(S.String),
-          id: S.optional(S.String),
-          startTime: S.optional(S.String),
-          applyJobDetails: S.optional(__S(2082, __c65, 2)),
-          finishTime: S.optional(S.String),
+          seedJobDetails: S.optional(__S(2081, __c65, 1)),
           completionState: S.optional(S.String),
-          importRulesJobDetails: S.optional(__S(2083, __c65, 3)),
-          seedJobDetails: S.optional(__S(2084, __c65, 4)),
+          startTime: S.optional(S.String),
+          jobType: S.optional(S.String),
+          finishTime: S.optional(S.String),
+          convertJobDetails: S.optional(__S(2082, __c65, 2)),
+          applyJobDetails: S.optional(__S(2083, __c65, 3)),
+          completionComment: S.optional(S.String),
+          importRulesJobDetails: S.optional(__S(2084, __c65, 4)),
           requestAutocommit: S.optional(S.Boolean),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "BackgroundJobLogEntry" });
     case 6:
@@ -6769,10 +6757,10 @@ function __c66(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          autoCommit: S.optional(S.Boolean),
-          destinationConnectionProfile: S.optional(S.String),
           sourceConnectionProfile: S.optional(S.String),
+          autoCommit: S.optional(S.Boolean),
           gcsSource: S.optional(__S(2112, __c66, 0)),
+          destinationConnectionProfile: S.optional(S.String),
         }),
       ).annotate({ identifier: "SeedConversionWorkspaceRequest" });
     case 2:
@@ -6822,12 +6810,12 @@ function __c68(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          entityType: S.optional(S.String),
           ddl: S.optional(S.String),
           basedOnDdlKind: S.optional(S.String),
-          entityType: S.optional(S.String),
           ddlKind: S.optional(S.String),
-          explanation: S.optional(S.String),
           entityName: S.optional(S.String),
+          explanation: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetDraftEntityDdlRequest" });
     case 1:
@@ -7042,9 +7030,9 @@ function __c80(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          autoCommit: S.optional(S.Boolean),
           filter: S.optional(S.String),
           convertFullPath: S.optional(S.Boolean),
+          autoCommit: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ConvertConversionWorkspaceRequest" });
     case 1:
@@ -7126,8 +7114,8 @@ function __c84(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          migrationJob: S.optional(__S(184, __c5, 24)),
           updateMask: S.optional(S.String),
-          migrationJob: S.optional(__S(185, __c5, 25)),
         }),
       ).annotate({ identifier: "VerifyMigrationJobRequest" });
     case 1:
@@ -7155,10 +7143,10 @@ function __c85(j: number): any {
           __S(2809, __c87, 25),
           S.Struct({
             skipValidation: S.optional(S.Boolean.pipe(T.Query())),
-            requestId: S.optional(S.String.pipe(T.Query())),
+            connectionProfileId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            connectionProfileId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -7181,13 +7169,9 @@ function __c87(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientKey: S.optional(S.String),
-          type: S.optional(S.String),
-          caCertificate: S.optional(S.String),
-          clientCertificate: S.optional(S.String),
-          sslFlags: S.optional(__S(2816, __c88, 0)),
+          serviceAttachment: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SslConfig" });
+      ).annotate({ identifier: "PrivateServiceConnectConnectivity" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -7197,45 +7181,58 @@ function __c87(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          serviceAttachment: S.optional(S.String),
+          hostname: S.optional(S.String),
+          password: S.optional(S.String),
+          privateKey: S.optional(S.String),
+          username: S.optional(S.String),
+          port: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "PrivateServiceConnectConnectivity" });
+      ).annotate({ identifier: "ForwardSshTunnelConnectivity" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          password: S.optional(S.String),
-          ssl: S.optional(__S(2784, __c87, 0)),
-          cloudSqlId: S.optional(S.String),
-          privateConnectivity: S.optional(__S(2785, __c87, 1)),
-          staticServiceIpConnectivity: S.optional(__S(1760, __c55, 0)),
-          username: S.optional(S.String),
-          passwordSet: S.optional(S.Boolean),
-          privateServiceConnectConnectivity: S.optional(__S(2786, __c87, 2)),
-          host: S.optional(S.String),
-          port: S.optional(S.Number),
+          gcsBucket: S.optional(S.String),
+          gcsPrefix: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MySqlConnectionProfile" });
+      ).annotate({ identifier: "SqlServerBackups" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          passwordSet: S.optional(S.Boolean),
-          password: S.optional(S.String),
-          user: S.optional(S.String),
+          clientKey: S.optional(S.String),
+          caCertificate: S.optional(S.String),
+          clientCertificate: S.optional(S.String),
+          sslFlags: S.optional(__S(2816, __c88, 0)),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UserPassword" });
+      ).annotate({ identifier: "SslConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          kmsKeyName: S.optional(S.String),
+          dbmPort: S.optional(S.Number),
+          passwordSet: S.optional(S.Boolean),
+          username: S.optional(S.String),
+          cloudSqlId: S.optional(S.String),
+          privateServiceConnectConnectivity: S.optional(__S(2784, __c87, 0)),
+          privateConnectivity: S.optional(__S(2785, __c87, 1)),
+          database: S.optional(S.String),
+          cloudSqlProjectId: S.optional(S.String),
+          forwardSshConnectivity: S.optional(__S(2786, __c87, 2)),
+          backups: S.optional(__S(2787, __c87, 3)),
+          ssl: S.optional(__S(2788, __c87, 4)),
+          port: S.optional(S.Number),
+          staticIpConnectivity: S.optional(__S(1760, __c55, 0)),
+          password: S.optional(S.String),
+          host: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EncryptionConfig" });
+      ).annotate({ identifier: "SqlServerConnectionProfile" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          machineType: S.optional(S.String),
-          cpuCount: S.optional(S.Number),
+          user: S.optional(S.String),
+          password: S.optional(S.String),
+          passwordSet: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "MachineConfig" });
+      ).annotate({ identifier: "UserPassword" });
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -7248,210 +7245,201 @@ function __c87(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enablePublicIp: S.optional(S.Boolean),
-          enableOutboundPublicIp: S.optional(S.Boolean),
           authorizedExternalNetworks: S.optional(__S(2792, __c87, 8)),
+          enableOutboundPublicIp: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "InstanceNetworkConfig" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          outboundPublicIpAddresses: S.optional(__S(2752, __c86, 0)),
-          machineConfig: S.optional(__S(2790, __c87, 6)),
-          databaseFlags: S.optional(__S(2816, __c88, 0)),
-          labels: S.optional(__S(2816, __c88, 0)),
-          privateIp: S.optional(S.String),
-          instanceNetworkConfig: S.optional(__S(2793, __c87, 9)),
-          id: S.optional(S.String),
+          machineType: S.optional(S.String),
+          cpuCount: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "PrimaryInstanceSettings" });
+      ).annotate({ identifier: "MachineConfig" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          initialUser: S.optional(__S(2788, __c87, 4)),
-          vpcNetwork: S.optional(S.String),
-          encryptionConfig: S.optional(__S(2789, __c87, 5)),
-          primaryInstanceSettings: S.optional(__S(2794, __c87, 10)),
+          id: S.optional(S.String),
+          instanceNetworkConfig: S.optional(__S(2793, __c87, 9)),
+          machineConfig: S.optional(__S(2794, __c87, 10)),
+          outboundPublicIpAddresses: S.optional(__S(2752, __c86, 0)),
+          privateIp: S.optional(S.String),
+          databaseFlags: S.optional(__S(2816, __c88, 0)),
           labels: S.optional(__S(2816, __c88, 0)),
-          databaseVersion: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AlloyDbSettings" });
+      ).annotate({ identifier: "PrimaryInstanceSettings" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          clusterId: S.optional(S.String),
-          settings: S.optional(__S(2795, __c87, 11)),
+          kmsKeyName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AlloyDbConnectionProfile" });
+      ).annotate({ identifier: "EncryptionConfig" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          label: S.optional(S.String),
-          ttl: S.optional(S.String),
+          initialUser: S.optional(__S(2790, __c87, 6)),
+          databaseVersion: S.optional(S.String),
+          labels: S.optional(__S(2816, __c88, 0)),
+          primaryInstanceSettings: S.optional(__S(2795, __c87, 11)),
+          vpcNetwork: S.optional(S.String),
+          encryptionConfig: S.optional(__S(2796, __c87, 12)),
         }),
-      ).annotate({ identifier: "SqlAclEntry" });
+      ).annotate({ identifier: "AlloyDbSettings" });
     case 14:
-      return S.Array(__S(2797, __c87, 13));
+      return S.suspend(() =>
+        S.Struct({
+          settings: S.optional(__S(2797, __c87, 13)),
+          clusterId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AlloyDbConnectionProfile" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          enableIpv4: S.optional(S.Boolean),
-          authorizedNetworks: S.optional(__S(2798, __c87, 14)),
-          allocatedIpRange: S.optional(S.String),
-          requireSsl: S.optional(S.Boolean),
-          privateNetwork: S.optional(S.String),
+          hostname: S.optional(S.String),
+          ssl: S.optional(__S(2788, __c87, 4)),
+          password: S.optional(S.String),
+          asmService: S.optional(S.String),
+          port: S.optional(S.Number),
+          passwordSet: S.optional(S.Boolean),
+          username: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SqlIpConfig" });
+      ).annotate({ identifier: "OracleAsmConfig" });
     case 16:
+      return S.suspend(() =>
+        S.Struct({
+          passwordSet: S.optional(S.Boolean),
+          privateConnectivity: S.optional(__S(2785, __c87, 1)),
+          username: S.optional(S.String),
+          databaseService: S.optional(S.String),
+          port: S.optional(S.Number),
+          ssl: S.optional(__S(2788, __c87, 4)),
+          staticServiceIpConnectivity: S.optional(__S(1760, __c55, 0)),
+          oracleAsmConfig: S.optional(__S(2799, __c87, 15)),
+          forwardSshConnectivity: S.optional(__S(2786, __c87, 2)),
+          host: S.optional(S.String),
+          password: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OracleConnectionProfile" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          ssl: S.optional(__S(2788, __c87, 4)),
+          username: S.optional(S.String),
+          cloudSqlId: S.optional(S.String),
+          networkArchitecture: S.optional(S.String),
+          staticIpConnectivity: S.optional(__S(1760, __c55, 0)),
+          database: S.optional(S.String),
+          privateServiceConnectConnectivity: S.optional(__S(2784, __c87, 0)),
+          privateConnectivity: S.optional(__S(2785, __c87, 1)),
+          host: S.optional(S.String),
+          enableIamAuthentication: S.optional(S.Boolean),
+          forwardSshConnectivity: S.optional(__S(2786, __c87, 2)),
+          alloydbClusterId: S.optional(S.String),
+          password: S.optional(S.String),
+          passwordSet: S.optional(S.Boolean),
+          port: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PostgreSqlConnectionProfile" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          password: S.optional(S.String),
+          privateConnectivity: S.optional(__S(2785, __c87, 1)),
+          privateServiceConnectConnectivity: S.optional(__S(2784, __c87, 0)),
+          passwordSet: S.optional(S.Boolean),
+          host: S.optional(S.String),
+          staticServiceIpConnectivity: S.optional(__S(1760, __c55, 0)),
+          cloudSqlId: S.optional(S.String),
+          ssl: S.optional(__S(2788, __c87, 4)),
+          username: S.optional(S.String),
+          port: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "MySqlConnectionProfile" });
+    case 19:
       return S.suspend(() =>
         S.Struct({
           dataCacheEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DataCacheConfig" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          zone: S.optional(S.String),
-          sourceId: S.optional(S.String),
-          tier: S.optional(S.String),
-          storageAutoResizeLimit: S.optional(S.String),
-          rootPasswordSet: S.optional(S.Boolean),
-          collation: S.optional(S.String),
-          databaseFlags: S.optional(__S(2816, __c88, 0)),
-          databaseVersion: S.optional(S.String),
-          cmekKeyName: S.optional(S.String),
-          dataDiskSizeGb: S.optional(S.String),
-          dataDiskProvisionedIops: S.optional(S.String),
-          dataDiskType: S.optional(S.String),
-          secondaryZone: S.optional(S.String),
-          rootPassword: S.optional(S.String),
-          activationPolicy: S.optional(S.String),
-          availabilityType: S.optional(S.String),
-          userLabels: S.optional(__S(2816, __c88, 0)),
-          ipConfig: S.optional(__S(2799, __c87, 15)),
-          edition: S.optional(S.String),
-          dataDiskProvisionedThroughput: S.optional(S.String),
-          dataCacheConfig: S.optional(__S(2800, __c87, 16)),
-          autoStorageIncrease: S.optional(S.Boolean),
-          databaseVersionName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloudSqlSettings" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          cloudSqlId: S.optional(S.String),
-          privateIp: S.optional(S.String),
-          additionalPublicIp: S.optional(S.String),
-          settings: S.optional(__S(2801, __c87, 17)),
-          publicIp: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloudSqlConnectionProfile" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          port: S.optional(S.Number),
-          hostname: S.optional(S.String),
-          username: S.optional(S.String),
-          password: S.optional(S.String),
-          privateKey: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ForwardSshTunnelConnectivity" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          ssl: S.optional(__S(2784, __c87, 0)),
-          password: S.optional(S.String),
-          asmService: S.optional(S.String),
-          port: S.optional(S.Number),
-          hostname: S.optional(S.String),
-          username: S.optional(S.String),
-          passwordSet: S.optional(S.Boolean),
+          ttl: S.optional(S.String),
+          value: S.optional(S.String),
+          label: S.optional(S.String),
+          expireTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OracleAsmConfig" });
+      ).annotate({ identifier: "SqlAclEntry" });
     case 21:
-      return S.suspend(() =>
-        S.Struct({
-          ssl: S.optional(__S(2784, __c87, 0)),
-          username: S.optional(S.String),
-          databaseService: S.optional(S.String),
-          passwordSet: S.optional(S.Boolean),
-          forwardSshConnectivity: S.optional(__S(2803, __c87, 19)),
-          privateConnectivity: S.optional(__S(2785, __c87, 1)),
-          host: S.optional(S.String),
-          port: S.optional(S.Number),
-          oracleAsmConfig: S.optional(__S(2804, __c87, 20)),
-          staticServiceIpConnectivity: S.optional(__S(1760, __c55, 0)),
-          password: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OracleConnectionProfile" });
+      return S.Array(__S(2804, __c87, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          gcsBucket: S.optional(S.String),
-          gcsPrefix: S.optional(S.String),
+          authorizedNetworks: S.optional(__S(2805, __c87, 21)),
+          allocatedIpRange: S.optional(S.String),
+          requireSsl: S.optional(S.Boolean),
+          enableIpv4: S.optional(S.Boolean),
+          privateNetwork: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SqlServerBackups" });
+      ).annotate({ identifier: "SqlIpConfig" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          backups: S.optional(__S(2806, __c87, 22)),
-          cloudSqlId: S.optional(S.String),
-          dbmPort: S.optional(S.Number),
-          cloudSqlProjectId: S.optional(S.String),
-          host: S.optional(S.String),
-          port: S.optional(S.Number),
-          privateServiceConnectConnectivity: S.optional(__S(2786, __c87, 2)),
-          passwordSet: S.optional(S.Boolean),
-          ssl: S.optional(__S(2784, __c87, 0)),
-          username: S.optional(S.String),
-          forwardSshConnectivity: S.optional(__S(2803, __c87, 19)),
-          privateConnectivity: S.optional(__S(2785, __c87, 1)),
-          database: S.optional(S.String),
-          staticIpConnectivity: S.optional(__S(1760, __c55, 0)),
-          password: S.optional(S.String),
+          sourceId: S.optional(S.String),
+          cmekKeyName: S.optional(S.String),
+          activationPolicy: S.optional(S.String),
+          secondaryZone: S.optional(S.String),
+          dataDiskProvisionedIops: S.optional(S.String),
+          zone: S.optional(S.String),
+          autoStorageIncrease: S.optional(S.Boolean),
+          dataDiskProvisionedThroughput: S.optional(S.String),
+          tier: S.optional(S.String),
+          availabilityType: S.optional(S.String),
+          dataDiskSizeGb: S.optional(S.String),
+          dataDiskType: S.optional(S.String),
+          rootPassword: S.optional(S.String),
+          userLabels: S.optional(__S(2816, __c88, 0)),
+          databaseFlags: S.optional(__S(2816, __c88, 0)),
+          databaseVersionName: S.optional(S.String),
+          storageAutoResizeLimit: S.optional(S.String),
+          collation: S.optional(S.String),
+          rootPasswordSet: S.optional(S.Boolean),
+          dataCacheConfig: S.optional(__S(2803, __c87, 19)),
+          edition: S.optional(S.String),
+          ipConfig: S.optional(__S(2806, __c87, 22)),
+          databaseVersion: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SqlServerConnectionProfile" });
+      ).annotate({ identifier: "CloudSqlSettings" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          networkArchitecture: S.optional(S.String),
-          ssl: S.optional(__S(2784, __c87, 0)),
-          host: S.optional(S.String),
-          port: S.optional(S.Number),
-          staticIpConnectivity: S.optional(__S(1760, __c55, 0)),
-          alloydbClusterId: S.optional(S.String),
-          username: S.optional(S.String),
-          forwardSshConnectivity: S.optional(__S(2803, __c87, 19)),
-          enableIamAuthentication: S.optional(S.Boolean),
-          database: S.optional(S.String),
-          privateServiceConnectConnectivity: S.optional(__S(2786, __c87, 2)),
-          passwordSet: S.optional(S.Boolean),
+          publicIp: S.optional(S.String),
+          additionalPublicIp: S.optional(S.String),
           cloudSqlId: S.optional(S.String),
-          privateConnectivity: S.optional(__S(2785, __c87, 1)),
-          password: S.optional(S.String),
+          settings: S.optional(__S(2807, __c87, 23)),
+          privateIp: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PostgreSqlConnectionProfile" });
+      ).annotate({ identifier: "CloudSqlConnectionProfile" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          mysql: S.optional(__S(2787, __c87, 3)),
-          role: S.optional(S.String),
-          alloydb: S.optional(__S(2796, __c87, 12)),
-          satisfiesPzs: S.optional(S.Boolean),
-          cloudsql: S.optional(__S(2802, __c87, 18)),
-          oracle: S.optional(__S(2805, __c87, 21)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          provider: S.optional(S.String),
-          sqlserver: S.optional(__S(2807, __c87, 23)),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
           labels: S.optional(__S(2816, __c88, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-          postgresql: S.optional(__S(2808, __c87, 24)),
+          provider: S.optional(S.String),
           state: S.optional(S.String),
+          sqlserver: S.optional(__S(2789, __c87, 5)),
+          alloydb: S.optional(__S(2798, __c87, 14)),
+          oracle: S.optional(__S(2800, __c87, 16)),
+          satisfiesPzi: S.optional(S.Boolean),
           error: S.optional(__S(1345, __c42, 1)),
+          postgresql: S.optional(__S(2801, __c87, 17)),
+          role: S.optional(S.String),
+          createTime: S.optional(S.String),
+          mysql: S.optional(__S(2802, __c87, 18)),
+          satisfiesPzs: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          cloudsql: S.optional(__S(2808, __c87, 24)),
         }),
       ).annotate({ identifier: "ConnectionProfile" });
   }
@@ -7495,20 +7483,20 @@ function __c90(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          globalSettings: S.optional(__S(2816, __c88, 0)),
+          updateTime: S.optional(S.String),
+          latestCommitTime: S.optional(S.String),
           destination: S.optional(__S(2880, __c90, 0)),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          source: S.optional(__S(2880, __c90, 0)),
+          sourceProvider: S.optional(S.String),
           destinationProvider: S.optional(S.String),
-          latestCommitId: S.optional(S.String),
+          globalSettings: S.optional(__S(2816, __c88, 0)),
+          latestApplyTime: S.optional(S.String),
           name: S.optional(S.String),
           hasUncommittedChanges: S.optional(S.Boolean),
-          sourceProvider: S.optional(S.String),
-          updateTime: S.optional(S.String),
+          latestCommitId: S.optional(S.String),
           latestConvertTime: S.optional(S.String),
-          latestApplyTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          source: S.optional(__S(2880, __c90, 0)),
-          displayName: S.optional(S.String),
-          latestCommitTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConversionWorkspace" });
   }

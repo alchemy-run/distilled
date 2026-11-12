@@ -129,17 +129,17 @@ export interface GetWebResourceRequest {
   id: string;
 }
 export interface SiteVerificationWebResourceResourceSite {
-  /** The site identifier. If the type is set to SITE, the identifier is a URL. If the type is set to INET_DOMAIN, the site identifier is a domain name. */
-  identifier?: string | undefined;
   /** The site type. Can be SITE or INET_DOMAIN (domain name). */
   type?: string | undefined;
+  /** The site identifier. If the type is set to SITE, the identifier is a URL. If the type is set to INET_DOMAIN, the site identifier is a domain name. */
+  identifier?: string | undefined;
 }
 export type StringList = Array<string>;
 export interface SiteVerificationWebResourceResource {
-  /** The address and type of a site that is verified or will be verified. */
-  site?: SiteVerificationWebResourceResourceSite | undefined;
   /** The string used to identify this site. This value should be used in the "id" portion of the REST URL for the Get, Update, and Delete operations. */
   id?: string | undefined;
+  /** The address and type of a site that is verified or will be verified. */
+  site?: SiteVerificationWebResourceResourceSite | undefined;
   /** The email addresses of all verified owners. */
   owners?: StringList | undefined;
 }
@@ -205,8 +205,8 @@ export const getTokenWebResource: API.OperationMethod<
   GetTokenWebResourceError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13, __c3, 1) as any as S.Schema<GetTokenWebResourceRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<SiteVerificationWebResourceGettokenResponse>,
+  input: __S(14, __c3, 2) as any as S.Schema<GetTokenWebResourceRequest>,
+  output: __S(15, __c3, 3) as any as S.Schema<SiteVerificationWebResourceGettokenResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -233,8 +233,8 @@ export const getWebResource: API.OperationMethod<
   GetWebResourceError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetWebResourceRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<SiteVerificationWebResourceResource>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetWebResourceRequest>,
+  output: __S(22, __c5, 2) as any as S.Schema<SiteVerificationWebResourceResource>,
   errors: [NotFound, Forbidden, InsufficientAuthenticationScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -256,8 +256,8 @@ export const insertWebResource: API.OperationMethod<
   InsertWebResourceError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<InsertWebResourceRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<SiteVerificationWebResourceResource>,
+  input: __S(24, __c6, 0) as any as S.Schema<InsertWebResourceRequest>,
+  output: __S(22, __c5, 2) as any as S.Schema<SiteVerificationWebResourceResource>,
   errors: [
     NotFound,
     Forbidden,
@@ -284,8 +284,8 @@ export const listWebResource: API.OperationMethod<
   ListWebResourceError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<ListWebResourceRequest>,
-  output: __S(34, __c8, 2) as any as S.Schema<SiteVerificationWebResourceListResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<ListWebResourceRequest>,
+  output: __S(30, __c7, 2) as any as S.Schema<SiteVerificationWebResourceListResponse>,
   errors: [NotFound, Forbidden, InsufficientAuthenticationScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -308,7 +308,7 @@ export const patchWebResource: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<PatchWebResourceRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<SiteVerificationWebResourceResource>,
+  output: __S(22, __c5, 2) as any as S.Schema<SiteVerificationWebResourceResource>,
   errors: [
     NotFound,
     Forbidden,
@@ -338,7 +338,7 @@ export const updateWebResource: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<UpdateWebResourceRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<SiteVerificationWebResourceResource>,
+  output: __S(22, __c5, 2) as any as S.Schema<SiteVerificationWebResourceResource>,
   errors: [
     NotFound,
     Forbidden,
@@ -359,7 +359,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(25, __c6, 1),
+          __S(22, __c5, 2),
           S.Struct({
             id: S.String.pipe(T.Label()),
           }),
@@ -378,7 +378,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(25, __c6, 1),
+          __S(22, __c5, 2),
           S.Struct({
             id: S.String.pipe(T.Label()),
           }),
@@ -415,13 +415,20 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          site: S.optional(__S(16, __c4, 0)),
+          identifier: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SiteVerificationWebResourceGettokenRequestSite" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          site: S.optional(__S(12, __c3, 0)),
           verificationMethod: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteVerificationWebResourceGettokenRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
-        S.Extend(__S(12, __c3, 0), S.Struct({})).pipe(
+        S.Extend(__S(13, __c3, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "token",
@@ -429,7 +436,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetTokenWebResourceRequest" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           method: S.optional(S.String),
@@ -439,17 +446,6 @@ function __c3(j: number): any {
   }
 }
 function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          identifier: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SiteVerificationWebResourceGettokenRequestSite" });
-  }
-}
-function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -465,26 +461,33 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetWebResourceRequest" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          site: S.optional(__S(16, __c4, 0)),
+          type: S.optional(S.String),
+          identifier: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SiteVerificationWebResourceResourceSite" });
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.String),
-          owners: S.optional(__S(24, __c6, 0)),
+          site: S.optional(__S(20, __c5, 0)),
+          owners: S.optional(__S(21, __c5, 1)),
         }),
       ).annotate({ identifier: "SiteVerificationWebResourceResource" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(25, __c6, 1),
+          __S(22, __c5, 2),
           S.Struct({
             verificationMethod: S.String.pipe(T.Query()),
           }),
@@ -498,7 +501,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "InsertWebResourceRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -511,11 +514,11 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListWebResourceRequest" });
     case 1:
-      return S.Array(__S(25, __c6, 1));
+      return S.Array(__S(22, __c5, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(33, __c8, 1)),
+          items: S.optional(__S(29, __c7, 1)),
         }),
       ).annotate({ identifier: "SiteVerificationWebResourceListResponse" });
   }

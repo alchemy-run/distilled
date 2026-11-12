@@ -93,27 +93,27 @@ export interface CancelAccountsAppsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export type GoogleChecksAisafetyV1alphaClassifyContentRequestClassifierVersionEnum =
-  | "CLASSIFIER_VERSION_UNSPECIFIED"
-  | "STABLE"
-  | "LATEST";
+/** Context about the input that will be used to help on the classification. */
+export interface GoogleChecksAisafetyV1alphaClassifyContentRequestContext {
+  /** Optional. Prompt that generated the model response. */
+  prompt?: string | undefined;
+}
 /** Text input to be classified. */
 export interface GoogleChecksAisafetyV1alphaTextInput {
-  /** Actual piece of text to be classified. */
-  content?: string | undefined;
   /** Optional. Language of the text in ISO 639-1 format. If the language is invalid or not specified, the system will try to detect it. */
   languageCode?: string | undefined;
+  /** Actual piece of text to be classified. */
+  content?: string | undefined;
 }
 /** Content to be classified. */
 export interface GoogleChecksAisafetyV1alphaClassifyContentRequestInputContent {
   /** Content in text format. */
   textInput?: GoogleChecksAisafetyV1alphaTextInput | undefined;
 }
-/** Context about the input that will be used to help on the classification. */
-export interface GoogleChecksAisafetyV1alphaClassifyContentRequestContext {
-  /** Optional. Prompt that generated the model response. */
-  prompt?: string | undefined;
-}
+export type GoogleChecksAisafetyV1alphaClassifyContentRequestClassifierVersionEnum =
+  | "CLASSIFIER_VERSION_UNSPECIFIED"
+  | "STABLE"
+  | "LATEST";
 export type GoogleChecksAisafetyV1alphaClassifyContentRequestPolicyConfigPolicyTypeEnum =
   | "POLICY_TYPE_UNSPECIFIED"
   | "DANGEROUS_CONTENT"
@@ -138,15 +138,15 @@ export type GoogleChecksAisafetyV1alphaClassifyContentRequestPolicyConfigList =
   Array<GoogleChecksAisafetyV1alphaClassifyContentRequestPolicyConfig>;
 /** Request proto for ClassifyContent RPC. */
 export interface GoogleChecksAisafetyV1alphaClassifyContentRequest {
+  /** Optional. Context about the input that will be used to help on the classification. */
+  context?: GoogleChecksAisafetyV1alphaClassifyContentRequestContext | undefined;
+  /** Required. Content to be classified. */
+  input?: GoogleChecksAisafetyV1alphaClassifyContentRequestInputContent | undefined;
   /** Optional. Version of the classifier to use. If not specified, the latest version will be used. */
   classifierVersion?:
     | GoogleChecksAisafetyV1alphaClassifyContentRequestClassifierVersionEnum
     | (string & {})
     | undefined;
-  /** Required. Content to be classified. */
-  input?: GoogleChecksAisafetyV1alphaClassifyContentRequestInputContent | undefined;
-  /** Optional. Context about the input that will be used to help on the classification. */
-  context?: GoogleChecksAisafetyV1alphaClassifyContentRequestContext | undefined;
   /** Required. List of policies to classify against. */
   policies?: GoogleChecksAisafetyV1alphaClassifyContentRequestPolicyConfigList | undefined;
 }
@@ -172,12 +172,12 @@ export interface GoogleChecksAisafetyV1alphaClassifyContentResponsePolicyResult 
   policyType?:
     | GoogleChecksAisafetyV1alphaClassifyContentResponsePolicyResultPolicyTypeEnum
     | undefined;
-  /** Final score for the results of this policy. */
-  score?: number | undefined;
   /** Result of the classification for the policy. */
   violationResult?:
     | GoogleChecksAisafetyV1alphaClassifyContentResponsePolicyResultViolationResultEnum
     | undefined;
+  /** Final score for the results of this policy. */
+  score?: number | undefined;
 }
 export type GoogleChecksAisafetyV1alphaClassifyContentResponsePolicyResultList =
   Array<GoogleChecksAisafetyV1alphaClassifyContentResponsePolicyResult>;
@@ -189,17 +189,6 @@ export interface GoogleChecksAisafetyV1alphaClassifyContentResponse {
 export interface DeleteAccountsAppsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
-}
-/** Contains source code from a repo. */
-export interface GoogleChecksRepoScanV1alphaSourceCode {
-  /** Required. Start line number (1-based). */
-  startLine?: number | undefined;
-  /** Required. Source code. */
-  code?: string | undefined;
-  /** Required. Path of the file. */
-  path?: string | undefined;
-  /** Required. End line number (1-based). */
-  endLine?: number | undefined;
 }
 export type GoogleChecksRepoScanV1alphaCodeScanDataTypeClassificationDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -243,26 +232,48 @@ export type GoogleChecksRepoScanV1alphaCodeScanDataTypeClassificationDataTypeEnu
   | "DATA_TYPE_DEVICE_OR_OTHER_IDS";
 /** A request to classify data types. */
 export interface GoogleChecksRepoScanV1alphaCodeScanDataTypeClassification {
-  /** Required. Line number (1-based). */
-  lineNumber?: number | undefined;
   /** Required. Candidate data type. */
   dataType?:
     | GoogleChecksRepoScanV1alphaCodeScanDataTypeClassificationDataTypeEnum
     | (string & {})
     | undefined;
+  /** Required. Line number (1-based). */
+  lineNumber?: number | undefined;
 }
 export type GoogleChecksRepoScanV1alphaCodeScanDataTypeClassificationList =
   Array<GoogleChecksRepoScanV1alphaCodeScanDataTypeClassification>;
+/** Contains source code from a repo. */
+export interface GoogleChecksRepoScanV1alphaSourceCode {
+  /** Required. Path of the file. */
+  path?: string | undefined;
+  /** Required. Source code. */
+  code?: string | undefined;
+  /** Required. Start line number (1-based). */
+  startLine?: number | undefined;
+  /** Required. End line number (1-based). */
+  endLine?: number | undefined;
+}
 /** A requested analysis of source code. Contains the source code and processing state. */
 export interface GoogleChecksRepoScanV1alphaCodeScan {
-  /** Required. Source code to analyze. */
-  sourceCode?: GoogleChecksRepoScanV1alphaSourceCode | undefined;
   /** Optional. Data type classification requests. */
   dataTypeClassifications?:
     | GoogleChecksRepoScanV1alphaCodeScanDataTypeClassificationList
     | undefined;
+  /** Required. Source code to analyze. */
+  sourceCode?: GoogleChecksRepoScanV1alphaSourceCode | undefined;
 }
 export type GoogleChecksRepoScanV1alphaCodeScanList = Array<GoogleChecksRepoScanV1alphaCodeScan>;
+/** Source code attribution. */
+export interface GoogleChecksRepoScanV1alphaCodeAttribution {
+  /** Required. Line number (1-based). */
+  lineNumber?: number | undefined;
+  /** Required. Path of the file. */
+  path?: string | undefined;
+  /** Optional. Start line number of the code excerpt (1-based). */
+  startLineNumber?: number | undefined;
+  /** Optional. Code excerpt where the source was detected along with surrounding code. */
+  codeExcerpt?: string | undefined;
+}
 export type GoogleChecksRepoScanV1alphaSourceDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
   | "DATA_TYPE_APPROXIMATE_LOCATION"
@@ -303,25 +314,14 @@ export type GoogleChecksRepoScanV1alphaSourceDataTypeEnum =
   | "DATA_TYPE_PERFORMANCE_DIAGNOSTICS"
   | "DATA_TYPE_OTHER_APP_PERFORMANCE_DATA"
   | "DATA_TYPE_DEVICE_OR_OTHER_IDS";
-/** Source code attribution. */
-export interface GoogleChecksRepoScanV1alphaCodeAttribution {
-  /** Optional. Code excerpt where the source was detected along with surrounding code. */
-  codeExcerpt?: string | undefined;
-  /** Required. Path of the file. */
-  path?: string | undefined;
-  /** Optional. Start line number of the code excerpt (1-based). */
-  startLineNumber?: number | undefined;
-  /** Required. Line number (1-based). */
-  lineNumber?: number | undefined;
-}
 /** Represents a data source finding. */
 export interface GoogleChecksRepoScanV1alphaSource {
-  /** Optional. Whether the finding was marked as a false positive. */
-  falsePositive?: boolean | undefined;
-  /** Required. Data type. */
-  dataType?: GoogleChecksRepoScanV1alphaSourceDataTypeEnum | (string & {}) | undefined;
   /** Optional. Source code attribution for the finding. */
   codeAttribution?: GoogleChecksRepoScanV1alphaCodeAttribution | undefined;
+  /** Required. Data type. */
+  dataType?: GoogleChecksRepoScanV1alphaSourceDataTypeEnum | (string & {}) | undefined;
+  /** Optional. Whether the finding was marked as a false positive. */
+  falsePositive?: boolean | undefined;
 }
 export type GoogleChecksRepoScanV1alphaSourceList = Array<GoogleChecksRepoScanV1alphaSource>;
 /** The results of a Code Compliance CLI analysis. */
@@ -333,32 +333,32 @@ export interface GoogleChecksRepoScanV1alphaCliAnalysis {
 }
 /** Pull request info. */
 export interface GoogleChecksRepoScanV1alphaPullRequest {
-  /** Required. This can be supplied by the user or parsed automatically from predefined CI environment variables. */
-  prNumber?: string | undefined;
   /** Required. For PR analysis, we compare against the most recent scan of the base branch to highlight new issues. */
   baseBranch?: string | undefined;
+  /** Required. This can be supplied by the user or parsed automatically from predefined CI environment variables. */
+  prNumber?: string | undefined;
 }
 /** SCM metadata. */
 export interface GoogleChecksRepoScanV1alphaScmMetadata {
-  /** Required. Branch name. */
-  branch?: string | undefined;
   /** Optional. Contains info about the associated pull request. This is only populated for pull request scans. */
   pullRequest?: GoogleChecksRepoScanV1alphaPullRequest | undefined;
-  /** Required. Git remote URL. */
-  remoteUri?: string | undefined;
   /** Required. Revision ID, e.g. Git commit hash. */
   revisionId?: string | undefined;
+  /** Required. Git remote URL. */
+  remoteUri?: string | undefined;
+  /** Required. Branch name. */
+  branch?: string | undefined;
 }
 /** The request message for RepoScanService.GenerateScan. */
 export interface GoogleChecksRepoScanV1alphaGenerateScanRequest {
   /** Required. CLI analysis results. */
   cliAnalysis?: GoogleChecksRepoScanV1alphaCliAnalysis | undefined;
+  /** Required. CLI version. */
+  cliVersion?: string | undefined;
   /** Required. Local scan path. */
   localScanPath?: string | undefined;
   /** Required. SCM metadata. */
   scmMetadata?: GoogleChecksRepoScanV1alphaScmMetadata | undefined;
-  /** Required. CLI version. */
-  cliVersion?: string | undefined;
 }
 export interface GenerateAccountsReposScansRequest extends GoogleChecksRepoScanV1alphaGenerateScanRequest {
   /** Required. Resource name of the repo. Example: `accounts/123/repos/456` */
@@ -368,25 +368,25 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
 }
 export interface GetAccountsAppsRequest {
   /** Required. Resource name of the app. Example: `accounts/123/apps/456` */
@@ -511,13 +511,103 @@ export type GoogleChecksReportV1alphaCheckStateMetadataBadgesItemEnumList =
   Array<GoogleChecksReportV1alphaCheckStateMetadataBadgesItemEnum>;
 /** Additional information about the check state in relation to past reports. */
 export interface GoogleChecksReportV1alphaCheckStateMetadata {
-  /** The last time the check failed. */
-  lastFailingTime?: string | undefined;
-  /** Indicators related to the check state. */
-  badges?: GoogleChecksReportV1alphaCheckStateMetadataBadgesItemEnumList | undefined;
   /** The time when the check first started failing. */
   firstFailingTime?: string | undefined;
+  /** Indicators related to the check state. */
+  badges?: GoogleChecksReportV1alphaCheckStateMetadataBadgesItemEnumList | undefined;
+  /** The last time the check failed. */
+  lastFailingTime?: string | undefined;
 }
+export type GoogleChecksReportV1alphaCheckStateEnum =
+  | "CHECK_STATE_UNSPECIFIED"
+  | "PASSED"
+  | "FAILED"
+  | "UNCHECKED";
+export type StringList = Array<string>;
+/** Information about an endpoint. */
+export interface GoogleChecksReportV1alphaEndpoint {
+  /** Domain name (e.g. ads.google.com). */
+  domain?: string | undefined;
+}
+/** Evidence concerning an endpoint that was contacted by your app. */
+export interface GoogleChecksReportV1alphaCheckEndpointEvidence {
+  /** The endpoint that was contacted by your app. */
+  endpoint?: GoogleChecksReportV1alphaEndpoint | undefined;
+}
+export type GoogleChecksReportV1alphaCheckEndpointEvidenceList =
+  Array<GoogleChecksReportV1alphaCheckEndpointEvidence>;
+/** Information about an SDK. */
+export interface GoogleChecksReportV1alphaSdk {
+  /** SDK identifier. */
+  id?: string | undefined;
+}
+/** Evidence conerning an SDK that was found in your app. */
+export interface GoogleChecksReportV1alphaCheckSdkEvidence {
+  /** The SDK that was found in your app. */
+  sdk?: GoogleChecksReportV1alphaSdk | undefined;
+}
+export type GoogleChecksReportV1alphaCheckSdkEvidenceList =
+  Array<GoogleChecksReportV1alphaCheckSdkEvidence>;
+/** Details of the SDK in violation. */
+export interface GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidenceSdkDetails {
+  /** The SDK in violation. */
+  sdk?: GoogleChecksReportV1alphaSdk | undefined;
+}
+export type GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidenceSdkDetailsList =
+  Array<GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidenceSdkDetails>;
+/** Evidence collected from SDK restriction violation analysis. */
+export interface GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidence {
+  /** SDKs in violation. */
+  sdkDetails?:
+    | GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidenceSdkDetailsList
+    | undefined;
+}
+export type GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidenceList =
+  Array<GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidence>;
+/** Evidence related to data in transit detected in your app. */
+export interface GoogleChecksReportV1alphaCheckDataSecurityEvidenceDataInTransitInfo {
+  /** The URL contacted by your app. This includes the protocol, domain, and URL parameters. */
+  uri?: string | undefined;
+}
+export type GoogleChecksReportV1alphaCheckDataSecurityEvidenceDataInTransitInfoList =
+  Array<GoogleChecksReportV1alphaCheckDataSecurityEvidenceDataInTransitInfo>;
+/** Evidence concerning data security. */
+export interface GoogleChecksReportV1alphaCheckDataSecurityEvidence {
+  /** Evidence related to data in transit. */
+  dataInTransitInfo?:
+    | GoogleChecksReportV1alphaCheckDataSecurityEvidenceDataInTransitInfoList
+    | undefined;
+}
+/** Information about a permission. */
+export interface GoogleChecksReportV1alphaPermission {
+  /** Permission identifier. */
+  id?: string | undefined;
+}
+/** Details of the permission in violation. */
+export interface GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidencePermissionDetails {
+  /** The permission in violation. */
+  permission?: GoogleChecksReportV1alphaPermission | undefined;
+}
+export type GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidencePermissionDetailsList =
+  Array<GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidencePermissionDetails>;
+/** Evidence collected from permission restriction violation analysis. */
+export interface GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidence {
+  /** Permissions in violation. */
+  permissionDetails?:
+    | GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidencePermissionDetailsList
+    | undefined;
+}
+export type GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidenceList =
+  Array<GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidence>;
+/** Evidence concerning an SDK issue. */
+export interface GoogleChecksReportV1alphaCheckSdkIssueEvidence {
+  /** The SDK version. */
+  sdkVersion?: string | undefined;
+  /** The SDK with an issue. */
+  sdk?: GoogleChecksReportV1alphaSdk | undefined;
+}
+export type GoogleChecksReportV1alphaCheckSdkIssueEvidenceList =
+  Array<GoogleChecksReportV1alphaCheckSdkIssueEvidence>;
 export type GoogleChecksReportV1alphaCheckDataTypeEvidenceDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
   | "DATA_TYPE_APPROXIMATE_LOCATION"
@@ -572,11 +662,6 @@ export interface GoogleChecksReportV1alphaDataTypePrivacyPolicyTextEvidence {
 }
 export type GoogleChecksReportV1alphaDataTypePrivacyPolicyTextEvidenceList =
   Array<GoogleChecksReportV1alphaDataTypePrivacyPolicyTextEvidence>;
-/** Information about a permission. */
-export interface GoogleChecksReportV1alphaPermission {
-  /** Permission identifier. */
-  id?: string | undefined;
-}
 /** Evidence based on the inclusion of a permission. */
 export interface GoogleChecksReportV1alphaDataTypePermissionEvidence {
   /** Permission declared by your app. */
@@ -584,18 +669,13 @@ export interface GoogleChecksReportV1alphaDataTypePermissionEvidence {
 }
 export type GoogleChecksReportV1alphaDataTypePermissionEvidenceList =
   Array<GoogleChecksReportV1alphaDataTypePermissionEvidence>;
-/** Information about an SDK. */
-export interface GoogleChecksReportV1alphaSdk {
-  /** SDK identifier. */
-  id?: string | undefined;
+/** Details of the endpoint the data type was sent to. */
+export interface GoogleChecksReportV1alphaDataTypeEndpointEvidenceEndpointDetails {
+  /** Endpoint the data type was sent to. */
+  endpoint?: GoogleChecksReportV1alphaEndpoint | undefined;
 }
-/** Details of SDK that is attributed to the exfiltration. */
-export interface GoogleChecksReportV1alphaDataTypeEndpointEvidenceAttributedSdk {
-  /** SDK that is attributed to the exfiltration. */
-  sdk?: GoogleChecksReportV1alphaSdk | undefined;
-}
-export type GoogleChecksReportV1alphaDataTypeEndpointEvidenceAttributedSdkList =
-  Array<GoogleChecksReportV1alphaDataTypeEndpointEvidenceAttributedSdk>;
+export type GoogleChecksReportV1alphaDataTypeEndpointEvidenceEndpointDetailsList =
+  Array<GoogleChecksReportV1alphaDataTypeEndpointEvidenceEndpointDetails>;
 export type GoogleChecksReportV1alphaDataTypeEndpointEvidenceExfiltratedDataTypeEnum =
   | "EXFILTRATED_DATA_TYPE_UNSPECIFIED"
   | "EXFILTRATED_DATA_TYPE_PHONE_NUMBER"
@@ -616,30 +696,25 @@ export type GoogleChecksReportV1alphaDataTypeEndpointEvidenceExfiltratedDataType
   | "EXFILTRATED_DATA_TYPE_ACCOUNT"
   | "EXFILTRATED_DATA_TYPE_EXTERNAL_ACCOUNT"
   | "EXFILTRATED_DATA_TYPE_INSTALLED_PACKAGES";
-/** Information about an endpoint. */
-export interface GoogleChecksReportV1alphaEndpoint {
-  /** Domain name (e.g. ads.google.com). */
-  domain?: string | undefined;
+/** Details of SDK that is attributed to the exfiltration. */
+export interface GoogleChecksReportV1alphaDataTypeEndpointEvidenceAttributedSdk {
+  /** SDK that is attributed to the exfiltration. */
+  sdk?: GoogleChecksReportV1alphaSdk | undefined;
 }
-/** Details of the endpoint the data type was sent to. */
-export interface GoogleChecksReportV1alphaDataTypeEndpointEvidenceEndpointDetails {
-  /** Endpoint the data type was sent to. */
-  endpoint?: GoogleChecksReportV1alphaEndpoint | undefined;
-}
-export type GoogleChecksReportV1alphaDataTypeEndpointEvidenceEndpointDetailsList =
-  Array<GoogleChecksReportV1alphaDataTypeEndpointEvidenceEndpointDetails>;
+export type GoogleChecksReportV1alphaDataTypeEndpointEvidenceAttributedSdkList =
+  Array<GoogleChecksReportV1alphaDataTypeEndpointEvidenceAttributedSdk>;
 /** Evidence based on an endpoint that data was sent to. */
 export interface GoogleChecksReportV1alphaDataTypeEndpointEvidence {
-  /** Set of SDKs that are attributed to the exfiltration. */
-  attributedSdks?: GoogleChecksReportV1alphaDataTypeEndpointEvidenceAttributedSdkList | undefined;
-  /** Type of data that was exfiltrated. */
-  exfiltratedDataType?:
-    | GoogleChecksReportV1alphaDataTypeEndpointEvidenceExfiltratedDataTypeEnum
-    | undefined;
   /** Endpoints the data type was sent to. */
   endpointDetails?:
     | GoogleChecksReportV1alphaDataTypeEndpointEvidenceEndpointDetailsList
     | undefined;
+  /** Type of data that was exfiltrated. */
+  exfiltratedDataType?:
+    | GoogleChecksReportV1alphaDataTypeEndpointEvidenceExfiltratedDataTypeEnum
+    | undefined;
+  /** Set of SDKs that are attributed to the exfiltration. */
+  attributedSdks?: GoogleChecksReportV1alphaDataTypeEndpointEvidenceAttributedSdkList | undefined;
 }
 export type GoogleChecksReportV1alphaDataTypeEndpointEvidenceList =
   Array<GoogleChecksReportV1alphaDataTypeEndpointEvidence>;
@@ -661,38 +736,6 @@ export interface GoogleChecksReportV1alphaCheckDataTypeEvidence {
 }
 export type GoogleChecksReportV1alphaCheckDataTypeEvidenceList =
   Array<GoogleChecksReportV1alphaCheckDataTypeEvidence>;
-/** Evidence concerning an endpoint that was contacted by your app. */
-export interface GoogleChecksReportV1alphaCheckEndpointEvidence {
-  /** The endpoint that was contacted by your app. */
-  endpoint?: GoogleChecksReportV1alphaEndpoint | undefined;
-}
-export type GoogleChecksReportV1alphaCheckEndpointEvidenceList =
-  Array<GoogleChecksReportV1alphaCheckEndpointEvidence>;
-/** Evidence concerning an SDK issue. */
-export interface GoogleChecksReportV1alphaCheckSdkIssueEvidence {
-  /** The SDK version. */
-  sdkVersion?: string | undefined;
-  /** The SDK with an issue. */
-  sdk?: GoogleChecksReportV1alphaSdk | undefined;
-}
-export type GoogleChecksReportV1alphaCheckSdkIssueEvidenceList =
-  Array<GoogleChecksReportV1alphaCheckSdkIssueEvidence>;
-/** Details of the SDK in violation. */
-export interface GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidenceSdkDetails {
-  /** The SDK in violation. */
-  sdk?: GoogleChecksReportV1alphaSdk | undefined;
-}
-export type GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidenceSdkDetailsList =
-  Array<GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidenceSdkDetails>;
-/** Evidence collected from SDK restriction violation analysis. */
-export interface GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidence {
-  /** SDKs in violation. */
-  sdkDetails?:
-    | GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidenceSdkDetailsList
-    | undefined;
-}
-export type GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidenceList =
-  Array<GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidence>;
 /** Details of the endpoint in violation. */
 export interface GoogleChecksReportV1alphaCheckEndpointRestrictionViolationEvidenceEndpointDetails {
   /** The endpoint in violation. */
@@ -709,22 +752,6 @@ export interface GoogleChecksReportV1alphaCheckEndpointRestrictionViolationEvide
 }
 export type GoogleChecksReportV1alphaCheckEndpointRestrictionViolationEvidenceList =
   Array<GoogleChecksReportV1alphaCheckEndpointRestrictionViolationEvidence>;
-/** Details of the permission in violation. */
-export interface GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidencePermissionDetails {
-  /** The permission in violation. */
-  permission?: GoogleChecksReportV1alphaPermission | undefined;
-}
-export type GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidencePermissionDetailsList =
-  Array<GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidencePermissionDetails>;
-/** Evidence collected from permission restriction violation analysis. */
-export interface GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidence {
-  /** Permissions in violation. */
-  permissionDetails?:
-    | GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidencePermissionDetailsList
-    | undefined;
-}
-export type GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidenceList =
-  Array<GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidence>;
 /** Evidence collected from your privacy policy(s). */
 export interface GoogleChecksReportV1alphaCheckPrivacyPolicyTextEvidence {
   /** The privacy policy fragment that was used during the check. */
@@ -739,55 +766,34 @@ export interface GoogleChecksReportV1alphaCheckPermissionEvidence {
 }
 export type GoogleChecksReportV1alphaCheckPermissionEvidenceList =
   Array<GoogleChecksReportV1alphaCheckPermissionEvidence>;
-/** Evidence related to data in transit detected in your app. */
-export interface GoogleChecksReportV1alphaCheckDataSecurityEvidenceDataInTransitInfo {
-  /** The URL contacted by your app. This includes the protocol, domain, and URL parameters. */
-  uri?: string | undefined;
-}
-export type GoogleChecksReportV1alphaCheckDataSecurityEvidenceDataInTransitInfoList =
-  Array<GoogleChecksReportV1alphaCheckDataSecurityEvidenceDataInTransitInfo>;
-/** Evidence concerning data security. */
-export interface GoogleChecksReportV1alphaCheckDataSecurityEvidence {
-  /** Evidence related to data in transit. */
-  dataInTransitInfo?:
-    | GoogleChecksReportV1alphaCheckDataSecurityEvidenceDataInTransitInfoList
-    | undefined;
-}
-/** Evidence conerning an SDK that was found in your app. */
-export interface GoogleChecksReportV1alphaCheckSdkEvidence {
-  /** The SDK that was found in your app. */
-  sdk?: GoogleChecksReportV1alphaSdk | undefined;
-}
-export type GoogleChecksReportV1alphaCheckSdkEvidenceList =
-  Array<GoogleChecksReportV1alphaCheckSdkEvidence>;
 /** Evidence for a check. */
 export interface GoogleChecksReportV1alphaCheckEvidence {
-  /** Evidence concerning data types found in your app. */
-  dataTypes?: GoogleChecksReportV1alphaCheckDataTypeEvidenceList | undefined;
   /** Evidence concerning endpoints that were contacted by your app. */
   endpoints?: GoogleChecksReportV1alphaCheckEndpointEvidenceList | undefined;
-  /** Evidence concerning SDK issues. */
-  sdkIssues?: GoogleChecksReportV1alphaCheckSdkIssueEvidenceList | undefined;
+  /** Evidence concerning SDKs that were found in your app. */
+  sdks?: GoogleChecksReportV1alphaCheckSdkEvidenceList | undefined;
   /** Evidence collected from SDK restriction violation analysis. */
   sdkRestrictionViolations?:
     | GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidenceList
     | undefined;
-  /** Evidence collected from endpoint restriction violation analysis. */
-  endpointRestrictionViolations?:
-    | GoogleChecksReportV1alphaCheckEndpointRestrictionViolationEvidenceList
-    | undefined;
+  /** Evidence concerning data security. */
+  dataSecurity?: GoogleChecksReportV1alphaCheckDataSecurityEvidence | undefined;
   /** Evidence collected from permission restriction violation analysis. */
   permissionRestrictionViolations?:
     | GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidenceList
+    | undefined;
+  /** Evidence concerning SDK issues. */
+  sdkIssues?: GoogleChecksReportV1alphaCheckSdkIssueEvidenceList | undefined;
+  /** Evidence concerning data types found in your app. */
+  dataTypes?: GoogleChecksReportV1alphaCheckDataTypeEvidenceList | undefined;
+  /** Evidence collected from endpoint restriction violation analysis. */
+  endpointRestrictionViolations?:
+    | GoogleChecksReportV1alphaCheckEndpointRestrictionViolationEvidenceList
     | undefined;
   /** Evidence collected from your privacy policy(s). */
   privacyPolicyTexts?: GoogleChecksReportV1alphaCheckPrivacyPolicyTextEvidenceList | undefined;
   /** Evidence concerning permissions that were found in your app. */
   permissions?: GoogleChecksReportV1alphaCheckPermissionEvidenceList | undefined;
-  /** Evidence concerning data security. */
-  dataSecurity?: GoogleChecksReportV1alphaCheckDataSecurityEvidence | undefined;
-  /** Evidence concerning SDKs that were found in your app. */
-  sdks?: GoogleChecksReportV1alphaCheckSdkEvidenceList | undefined;
 }
 export type GoogleChecksReportV1alphaCheckSeverityEnum =
   | "CHECK_SEVERITY_UNSPECIFIED"
@@ -829,47 +835,24 @@ export interface GoogleChecksReportV1alphaCheckCitation {
 }
 export type GoogleChecksReportV1alphaCheckCitationList =
   Array<GoogleChecksReportV1alphaCheckCitation>;
-export type StringList = Array<string>;
-export type GoogleChecksReportV1alphaCheckStateEnum =
-  | "CHECK_STATE_UNSPECIFIED"
-  | "PASSED"
-  | "FAILED"
-  | "UNCHECKED";
 /** A check that was run on your app. */
 export interface GoogleChecksReportV1alphaCheck {
   /** The type of check that was run. A type will only appear once in a report's list of checks. */
   type?: GoogleChecksReportV1alphaCheckTypeEnum | undefined;
   /** Additional information about the check state in relation to past reports. */
   stateMetadata?: GoogleChecksReportV1alphaCheckStateMetadata | undefined;
+  /** The result after running the check. */
+  state?: GoogleChecksReportV1alphaCheckStateEnum | undefined;
+  /** Regions that are impacted by the check. For more info, see https://google.aip.dev/143#countries-and-regions. */
+  regionCodes?: StringList | undefined;
   /** Evidence that substantiates the check result. */
   evidence?: GoogleChecksReportV1alphaCheckEvidence | undefined;
   /** The urgency or risk level of the check. */
   severity?: GoogleChecksReportV1alphaCheckSeverityEnum | undefined;
   /** Regulations and policies that serve as the legal basis for the check. */
   citations?: GoogleChecksReportV1alphaCheckCitationList | undefined;
-  /** Regions that are impacted by the check. For more info, see https://google.aip.dev/143#countries-and-regions. */
-  regionCodes?: StringList | undefined;
-  /** The result after running the check. */
-  state?: GoogleChecksReportV1alphaCheckStateEnum | undefined;
 }
 export type GoogleChecksReportV1alphaCheckList = Array<GoogleChecksReportV1alphaCheck>;
-export type GoogleChecksReportV1alphaAppBundleReleaseTypeEnum =
-  | "APP_BUNDLE_RELEASE_TYPE_UNSPECIFIED"
-  | "PUBLIC"
-  | "PRE_RELEASE";
-/** Information about the analyzed app bundle. */
-export interface GoogleChecksReportV1alphaAppBundle {
-  /** The version used throughout the operating system and store to identify the build such as the Android `versionCode` or iOS `CFBundleVersion`. */
-  versionId?: string | undefined;
-  /** Git commit hash or changelist number associated with the release. */
-  codeReferenceId?: string | undefined;
-  /** The user-visible version of the bundle such as the Android `versionName` or iOS `CFBundleShortVersionString`. For example: "7.21.1". */
-  version?: string | undefined;
-  /** Identifies the type of release. */
-  releaseType?: GoogleChecksReportV1alphaAppBundleReleaseTypeEnum | undefined;
-  /** Unique id of the bundle. For example: "com.google.Gmail". */
-  bundleId?: string | undefined;
-}
 export type GoogleChecksReportV1alphaDataMonitoringResultMetadataBadgesItemEnum =
   | "DATA_MONITORING_RESULT_BADGE_UNSPECIFIED"
   | "NEW";
@@ -877,35 +860,33 @@ export type GoogleChecksReportV1alphaDataMonitoringResultMetadataBadgesItemEnumL
   Array<GoogleChecksReportV1alphaDataMonitoringResultMetadataBadgesItemEnum>;
 /** Information about a data monitoring result. */
 export interface GoogleChecksReportV1alphaDataMonitoringResultMetadata {
-  /** Badges that apply to this result. */
-  badges?: GoogleChecksReportV1alphaDataMonitoringResultMetadataBadgesItemEnumList | undefined;
-  /** The timestamp when this result was last detected within the last 8 weeks. If not set, it wasn't detected within the last 8 weeks. */
-  lastDetectedTime?: string | undefined;
   /** Your app's version name when this result was last detected within the last 8 weeks. If not set, it wasn't detected within the last 8 weeks. */
   lastDetectedAppVersion?: string | undefined;
+  /** The timestamp when this result was last detected within the last 8 weeks. If not set, it wasn't detected within the last 8 weeks. */
+  lastDetectedTime?: string | undefined;
   /** The timestamp when this result was first detected within the last 8 weeks. If not set, it wasn't detected within the last 8 weeks. */
   firstDetectedTime?: string | undefined;
+  /** Badges that apply to this result. */
+  badges?: GoogleChecksReportV1alphaDataMonitoringResultMetadataBadgesItemEnumList | undefined;
 }
-/** Information about an SDK that was found in your app. */
-export interface GoogleChecksReportV1alphaDataMonitoringSdkResult {
-  /** The SDK that was found in your app. */
-  sdk?: GoogleChecksReportV1alphaSdk | undefined;
+/** Information about a permission that was found in your app. */
+export interface GoogleChecksReportV1alphaDataMonitoringPermissionResult {
   /** Metadata about the result. */
   metadata?: GoogleChecksReportV1alphaDataMonitoringResultMetadata | undefined;
+  /** The permission that was found in your app. */
+  permission?: GoogleChecksReportV1alphaPermission | undefined;
+}
+export type GoogleChecksReportV1alphaDataMonitoringPermissionResultList =
+  Array<GoogleChecksReportV1alphaDataMonitoringPermissionResult>;
+/** Information about an SDK that was found in your app. */
+export interface GoogleChecksReportV1alphaDataMonitoringSdkResult {
+  /** Metadata about the result. */
+  metadata?: GoogleChecksReportV1alphaDataMonitoringResultMetadata | undefined;
+  /** The SDK that was found in your app. */
+  sdk?: GoogleChecksReportV1alphaSdk | undefined;
 }
 export type GoogleChecksReportV1alphaDataMonitoringSdkResultList =
   Array<GoogleChecksReportV1alphaDataMonitoringSdkResult>;
-/** Information about an endpoint that was contacted by your app. */
-export interface GoogleChecksReportV1alphaDataMonitoringEndpointResult {
-  /** The endpoint that was contacted by your app. */
-  endpoint?: GoogleChecksReportV1alphaEndpoint | undefined;
-  /** Metadata about the result. */
-  metadata?: GoogleChecksReportV1alphaDataMonitoringResultMetadata | undefined;
-  /** The number of times this endpoint was contacted by your app. */
-  hitCount?: number | undefined;
-}
-export type GoogleChecksReportV1alphaDataMonitoringEndpointResultList =
-  Array<GoogleChecksReportV1alphaDataMonitoringEndpointResult>;
 export type GoogleChecksReportV1alphaDataMonitoringDataTypeResultDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
   | "DATA_TYPE_APPROXIMATE_LOCATION"
@@ -948,47 +929,66 @@ export type GoogleChecksReportV1alphaDataMonitoringDataTypeResultDataTypeEnum =
   | "DATA_TYPE_DEVICE_OR_OTHER_IDS";
 /** Information about a data type that was found in your app. */
 export interface GoogleChecksReportV1alphaDataMonitoringDataTypeResult {
+  /** Evidence collected about the data type. */
+  dataTypeEvidence?: GoogleChecksReportV1alphaDataTypeEvidence | undefined;
   /** Metadata about the result. */
   metadata?: GoogleChecksReportV1alphaDataMonitoringResultMetadata | undefined;
   /** The data type that was shared or collected by your app. */
   dataType?: GoogleChecksReportV1alphaDataMonitoringDataTypeResultDataTypeEnum | undefined;
-  /** Evidence collected about the data type. */
-  dataTypeEvidence?: GoogleChecksReportV1alphaDataTypeEvidence | undefined;
 }
 export type GoogleChecksReportV1alphaDataMonitoringDataTypeResultList =
   Array<GoogleChecksReportV1alphaDataMonitoringDataTypeResult>;
-/** Information about a permission that was found in your app. */
-export interface GoogleChecksReportV1alphaDataMonitoringPermissionResult {
-  /** The permission that was found in your app. */
-  permission?: GoogleChecksReportV1alphaPermission | undefined;
+/** Information about an endpoint that was contacted by your app. */
+export interface GoogleChecksReportV1alphaDataMonitoringEndpointResult {
+  /** The endpoint that was contacted by your app. */
+  endpoint?: GoogleChecksReportV1alphaEndpoint | undefined;
+  /** The number of times this endpoint was contacted by your app. */
+  hitCount?: number | undefined;
   /** Metadata about the result. */
   metadata?: GoogleChecksReportV1alphaDataMonitoringResultMetadata | undefined;
 }
-export type GoogleChecksReportV1alphaDataMonitoringPermissionResultList =
-  Array<GoogleChecksReportV1alphaDataMonitoringPermissionResult>;
+export type GoogleChecksReportV1alphaDataMonitoringEndpointResultList =
+  Array<GoogleChecksReportV1alphaDataMonitoringEndpointResult>;
 /** Represents the data monitoring section of the report. */
 export interface GoogleChecksReportV1alphaDataMonitoring {
-  /** SDKs that your app uses. */
-  sdks?: GoogleChecksReportV1alphaDataMonitoringSdkResultList | undefined;
-  /** Endpoints that were found by dynamic analysis of your app. */
-  endpoints?: GoogleChecksReportV1alphaDataMonitoringEndpointResultList | undefined;
-  /** Data types that your app shares or collects. */
-  dataTypes?: GoogleChecksReportV1alphaDataMonitoringDataTypeResultList | undefined;
   /** Permissions that your app uses. */
   permissions?: GoogleChecksReportV1alphaDataMonitoringPermissionResultList | undefined;
+  /** SDKs that your app uses. */
+  sdks?: GoogleChecksReportV1alphaDataMonitoringSdkResultList | undefined;
+  /** Data types that your app shares or collects. */
+  dataTypes?: GoogleChecksReportV1alphaDataMonitoringDataTypeResultList | undefined;
+  /** Endpoints that were found by dynamic analysis of your app. */
+  endpoints?: GoogleChecksReportV1alphaDataMonitoringEndpointResultList | undefined;
+}
+export type GoogleChecksReportV1alphaAppBundleReleaseTypeEnum =
+  | "APP_BUNDLE_RELEASE_TYPE_UNSPECIFIED"
+  | "PUBLIC"
+  | "PRE_RELEASE";
+/** Information about the analyzed app bundle. */
+export interface GoogleChecksReportV1alphaAppBundle {
+  /** Git commit hash or changelist number associated with the release. */
+  codeReferenceId?: string | undefined;
+  /** Identifies the type of release. */
+  releaseType?: GoogleChecksReportV1alphaAppBundleReleaseTypeEnum | undefined;
+  /** Unique id of the bundle. For example: "com.google.Gmail". */
+  bundleId?: string | undefined;
+  /** The user-visible version of the bundle such as the Android `versionName` or iOS `CFBundleShortVersionString`. For example: "7.21.1". */
+  version?: string | undefined;
+  /** The version used throughout the operating system and store to identify the build such as the Android `versionCode` or iOS `CFBundleVersion`. */
+  versionId?: string | undefined;
 }
 /** Privacy report. */
 export interface GoogleChecksReportV1alphaReport {
   /** List of checks that were run on the app bundle. */
   checks?: GoogleChecksReportV1alphaCheckList | undefined;
-  /** Resource name of the report. */
-  name?: string | undefined;
-  /** Information about the analyzed app bundle. */
-  appBundle?: GoogleChecksReportV1alphaAppBundle | undefined;
-  /** Information related to data monitoring. */
-  dataMonitoring?: GoogleChecksReportV1alphaDataMonitoring | undefined;
   /** A URL to view results. */
   resultsUri?: string | undefined;
+  /** Information related to data monitoring. */
+  dataMonitoring?: GoogleChecksReportV1alphaDataMonitoring | undefined;
+  /** Information about the analyzed app bundle. */
+  appBundle?: GoogleChecksReportV1alphaAppBundle | undefined;
+  /** Resource name of the report. */
+  name?: string | undefined;
 }
 export interface GetAccountsReposOperationsRequest {
   /** The name of the operation resource. */
@@ -1000,86 +1000,86 @@ export interface GetAccountsReposScansRequest {
 }
 /** Repo scan. */
 export interface GoogleChecksRepoScanV1alphaRepoScan {
-  /** Local scan path. */
-  localScanPath?: string | undefined;
-  /** CLI version. */
-  cliVersion?: string | undefined;
-  /** SCM metadata. */
-  scmMetadata?: GoogleChecksRepoScanV1alphaScmMetadata | undefined;
-  /** Data sources detected. */
-  sources?: GoogleChecksRepoScanV1alphaSourceList | undefined;
   /** Identifier. Resource name of the scan. */
   name?: string | undefined;
+  /** CLI version. */
+  cliVersion?: string | undefined;
   /** A URL to view results. */
   resultsUri?: string | undefined;
+  /** SCM metadata. */
+  scmMetadata?: GoogleChecksRepoScanV1alphaScmMetadata | undefined;
+  /** Local scan path. */
+  localScanPath?: string | undefined;
+  /** Data sources detected. */
+  sources?: GoogleChecksRepoScanV1alphaSourceList | undefined;
 }
 export interface ListAccountsAppsRequest {
-  /** Optional. A page token received from a previous `ListApps` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of results to return. The server may further constrain the maximum number of results returned in a single page. If unspecified, the server will decide the number of results to be returned. */
   pageSize?: number | undefined;
   /** Required. The parent account. Example: `accounts/123` */
   parent: string;
+  /** Optional. A page token received from a previous `ListApps` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string | undefined;
 }
 export type GoogleChecksAccountV1alphaAppList = Array<GoogleChecksAccountV1alphaApp>;
 /** The response message for AccountService.ListApps. */
 export interface GoogleChecksAccountV1alphaListAppsResponse {
-  /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The apps. */
   apps?: GoogleChecksAccountV1alphaAppList | undefined;
+  /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsAppsOperationsRequest {
-  /** The standard list page size. */
-  pageSize?: number | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
 }
 export interface ListAccountsAppsReportsRequest {
+  /** Optional. An [AIP-160](https://google.aip.dev/160) filter string to filter checks within reports. Only checks that match the filter string are included in the response. Example: `state = FAILED` */
+  checksFilter?: string | undefined;
+  /** Optional. The maximum number of reports to return. If unspecified, at most 10 reports will be returned. The maximum value is 50; values above 50 will be coerced to 50. */
+  pageSize?: number | undefined;
   /** Required. Resource name of the app. Example: `accounts/123/apps/456` */
   parent: string;
   /** Optional. An [AIP-160](https://google.aip.dev/160) filter string to filter reports. Example: `appBundle.releaseType = PRE_RELEASE` */
   filter?: string | undefined;
-  /** Optional. The maximum number of reports to return. If unspecified, at most 10 reports will be returned. The maximum value is 50; values above 50 will be coerced to 50. */
-  pageSize?: number | undefined;
-  /** Optional. An [AIP-160](https://google.aip.dev/160) filter string to filter checks within reports. Only checks that match the filter string are included in the response. Example: `state = FAILED` */
-  checksFilter?: string | undefined;
   /** Optional. A page token received from a previous `ListReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReports` must match the call that provided the page token. */
   pageToken?: string | undefined;
 }
 export type GoogleChecksReportV1alphaReportList = Array<GoogleChecksReportV1alphaReport>;
 /** The response message for ReportService.ListReports. */
 export interface GoogleChecksReportV1alphaListReportsResponse {
-  /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The reports for the specified app. */
   reports?: GoogleChecksReportV1alphaReportList | undefined;
+  /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsReposScansRequest {
-  /** Required. Resource name of the repo. Example: `accounts/123/repos/456` */
-  parent: string;
-  /** Optional. The maximum number of repo scans to return. If unspecified, at most 10 repo scans will be returned. The maximum value is 50; values above 50 will be coerced to 50. */
-  pageSize?: number | undefined;
   /** Optional. A page token received from a previous `ListRepoScans` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListRepoScans` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of repo scans to return. If unspecified, at most 10 repo scans will be returned. The maximum value is 50; values above 50 will be coerced to 50. */
+  pageSize?: number | undefined;
   /** Optional. An [AIP-160](https://google.aip.dev/160) filter string to filter repo scans. Example: `scmMetadata.branch = main` */
   filter?: string | undefined;
+  /** Required. Resource name of the repo. Example: `accounts/123/repos/456` */
+  parent: string;
 }
 export type GoogleChecksRepoScanV1alphaRepoScanList = Array<GoogleChecksRepoScanV1alphaRepoScan>;
 /** The response message for RepoScanService.ListRepoScans. */
@@ -1436,24 +1436,23 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          lastFailingTime: S.optional(S.String),
-          badges: S.optional(__S(64, __c2, 0)),
           firstFailingTime: S.optional(S.String),
+          badges: S.optional(__S(64, __c2, 0)),
+          lastFailingTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleChecksReportV1alphaCheckStateMetadata" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sourceUri: S.optional(S.String),
-          htmlContent: S.optional(S.String),
+          domain: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaPolicyFragment" });
+      ).annotate({ identifier: "GoogleChecksReportV1alphaEndpoint" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          policyFragment: S.optional(__S(66, __c2, 2)),
+          endpoint: S.optional(__S(66, __c2, 2)),
         }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaDataTypePrivacyPolicyTextEvidence" });
+      ).annotate({ identifier: "GoogleChecksReportV1alphaCheckEndpointEvidence" });
     case 4:
       return S.Array(__S(67, __c2, 3));
     case 5:
@@ -1461,104 +1460,24 @@ function __c2(j: number): any {
         S.Struct({
           id: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaPermission" });
+      ).annotate({ identifier: "GoogleChecksReportV1alphaSdk" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          permission: S.optional(__S(69, __c2, 5)),
+          sdk: S.optional(__S(69, __c2, 5)),
         }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaDataTypePermissionEvidence" });
+      ).annotate({ identifier: "GoogleChecksReportV1alphaCheckSdkEvidence" });
     case 7:
       return S.Array(__S(70, __c2, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          sdk: S.optional(__S(69, __c2, 5)),
+          sdkDetails: S.optional(__S(71, __c2, 7)),
         }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaDataTypeEndpointEvidenceAttributedSdk" });
+      ).annotate({ identifier: "GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidence" });
     case 9:
       return S.Array(__S(72, __c2, 8));
     case 10:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaEndpoint" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          endpoint: S.optional(__S(74, __c2, 10)),
-        }),
-      ).annotate({
-        identifier: "GoogleChecksReportV1alphaDataTypeEndpointEvidenceEndpointDetails",
-      });
-    case 12:
-      return S.Array(__S(75, __c2, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          attributedSdks: S.optional(__S(73, __c2, 9)),
-          exfiltratedDataType: S.optional(S.String),
-          endpointDetails: S.optional(__S(76, __c2, 12)),
-        }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaDataTypeEndpointEvidence" });
-    case 14:
-      return S.Array(__S(77, __c2, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          privacyPolicyTexts: S.optional(__S(68, __c2, 4)),
-          permissions: S.optional(__S(71, __c2, 7)),
-          endpoints: S.optional(__S(78, __c2, 14)),
-        }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaDataTypeEvidence" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          dataType: S.optional(S.String),
-          dataTypeEvidence: S.optional(__S(79, __c2, 15)),
-        }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaCheckDataTypeEvidence" });
-    case 17:
-      return S.Array(__S(80, __c2, 16));
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          sdkVersion: S.optional(S.String),
-          sdk: S.optional(__S(69, __c2, 5)),
-        }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaCheckSdkIssueEvidence" });
-    case 19:
-      return S.Array(__S(82, __c2, 18));
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          sdkDetails: S.optional(__S(73, __c2, 9)),
-        }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidence" });
-    case 21:
-      return S.Array(__S(84, __c2, 20));
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          endpointDetails: S.optional(__S(76, __c2, 12)),
-        }),
-      ).annotate({
-        identifier: "GoogleChecksReportV1alphaCheckEndpointRestrictionViolationEvidence",
-      });
-    case 23:
-      return S.Array(__S(86, __c2, 22));
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          permissionDetails: S.optional(__S(71, __c2, 7)),
-        }),
-      ).annotate({
-        identifier: "GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidence",
-      });
-    case 25:
-      return S.Array(__S(88, __c2, 24));
-    case 26:
       return S.suspend(() =>
         S.Struct({
           uri: S.optional(S.String),
@@ -1566,27 +1485,109 @@ function __c2(j: number): any {
       ).annotate({
         identifier: "GoogleChecksReportV1alphaCheckDataSecurityEvidenceDataInTransitInfo",
       });
-    case 27:
-      return S.Array(__S(90, __c2, 26));
-    case 28:
+    case 11:
+      return S.Array(__S(74, __c2, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          dataInTransitInfo: S.optional(__S(91, __c2, 27)),
+          dataInTransitInfo: S.optional(__S(75, __c2, 11)),
         }),
       ).annotate({ identifier: "GoogleChecksReportV1alphaCheckDataSecurityEvidence" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          permission: S.optional(__S(69, __c2, 5)),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidencePermissionDetails",
+      });
+    case 14:
+      return S.Array(__S(77, __c2, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          permissionDetails: S.optional(__S(78, __c2, 14)),
+        }),
+      ).annotate({
+        identifier: "GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidence",
+      });
+    case 16:
+      return S.Array(__S(79, __c2, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          sdkVersion: S.optional(S.String),
+          sdk: S.optional(__S(69, __c2, 5)),
+        }),
+      ).annotate({ identifier: "GoogleChecksReportV1alphaCheckSdkIssueEvidence" });
+    case 18:
+      return S.Array(__S(81, __c2, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          sourceUri: S.optional(S.String),
+          htmlContent: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleChecksReportV1alphaPolicyFragment" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          policyFragment: S.optional(__S(83, __c2, 19)),
+        }),
+      ).annotate({ identifier: "GoogleChecksReportV1alphaDataTypePrivacyPolicyTextEvidence" });
+    case 21:
+      return S.Array(__S(84, __c2, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          endpointDetails: S.optional(__S(68, __c2, 4)),
+          exfiltratedDataType: S.optional(S.String),
+          attributedSdks: S.optional(__S(71, __c2, 7)),
+        }),
+      ).annotate({ identifier: "GoogleChecksReportV1alphaDataTypeEndpointEvidence" });
+    case 23:
+      return S.Array(__S(86, __c2, 22));
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          privacyPolicyTexts: S.optional(__S(85, __c2, 21)),
+          permissions: S.optional(__S(78, __c2, 14)),
+          endpoints: S.optional(__S(87, __c2, 23)),
+        }),
+      ).annotate({ identifier: "GoogleChecksReportV1alphaDataTypeEvidence" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          dataType: S.optional(S.String),
+          dataTypeEvidence: S.optional(__S(88, __c2, 24)),
+        }),
+      ).annotate({ identifier: "GoogleChecksReportV1alphaCheckDataTypeEvidence" });
+    case 26:
+      return S.Array(__S(89, __c2, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          endpointDetails: S.optional(__S(68, __c2, 4)),
+        }),
+      ).annotate({
+        identifier: "GoogleChecksReportV1alphaCheckEndpointRestrictionViolationEvidence",
+      });
+    case 28:
+      return S.Array(__S(91, __c2, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          dataTypes: S.optional(__S(81, __c2, 17)),
-          endpoints: S.optional(__S(76, __c2, 12)),
-          sdkIssues: S.optional(__S(83, __c2, 19)),
-          sdkRestrictionViolations: S.optional(__S(85, __c2, 21)),
-          endpointRestrictionViolations: S.optional(__S(87, __c2, 23)),
-          permissionRestrictionViolations: S.optional(__S(89, __c2, 25)),
-          privacyPolicyTexts: S.optional(__S(68, __c2, 4)),
-          permissions: S.optional(__S(71, __c2, 7)),
-          dataSecurity: S.optional(__S(92, __c2, 28)),
-          sdks: S.optional(__S(73, __c2, 9)),
+          endpoints: S.optional(__S(68, __c2, 4)),
+          sdks: S.optional(__S(71, __c2, 7)),
+          sdkRestrictionViolations: S.optional(__S(73, __c2, 9)),
+          dataSecurity: S.optional(__S(76, __c2, 12)),
+          permissionRestrictionViolations: S.optional(__S(80, __c2, 16)),
+          sdkIssues: S.optional(__S(82, __c2, 18)),
+          dataTypes: S.optional(__S(90, __c2, 26)),
+          endpointRestrictionViolations: S.optional(__S(92, __c2, 28)),
+          privacyPolicyTexts: S.optional(__S(85, __c2, 21)),
+          permissions: S.optional(__S(78, __c2, 14)),
         }),
       ).annotate({ identifier: "GoogleChecksReportV1alphaCheckEvidence" });
     case 30:
@@ -1606,11 +1607,11 @@ function __c3(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           stateMetadata: S.optional(__S(65, __c2, 1)),
+          state: S.optional(S.String),
+          regionCodes: S.optional(__S(32, __c1, 0)),
           evidence: S.optional(__S(93, __c2, 29)),
           severity: S.optional(S.String),
           citations: S.optional(__S(95, __c2, 31)),
-          regionCodes: S.optional(__S(32, __c1, 0)),
-          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleChecksReportV1alphaCheck" });
     case 1:
@@ -1618,77 +1619,77 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          versionId: S.optional(S.String),
-          codeReferenceId: S.optional(S.String),
-          version: S.optional(S.String),
-          releaseType: S.optional(S.String),
-          bundleId: S.optional(S.String),
+          lastDetectedAppVersion: S.optional(S.String),
+          lastDetectedTime: S.optional(S.String),
+          firstDetectedTime: S.optional(S.String),
+          badges: S.optional(__S(64, __c2, 0)),
         }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaAppBundle" });
+      ).annotate({ identifier: "GoogleChecksReportV1alphaDataMonitoringResultMetadata" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          badges: S.optional(__S(64, __c2, 0)),
-          lastDetectedTime: S.optional(S.String),
-          lastDetectedAppVersion: S.optional(S.String),
-          firstDetectedTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaDataMonitoringResultMetadata" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          sdk: S.optional(__S(69, __c2, 5)),
-          metadata: S.optional(__S(99, __c3, 3)),
-        }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaDataMonitoringSdkResult" });
-    case 5:
-      return S.Array(__S(100, __c3, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          endpoint: S.optional(__S(74, __c2, 10)),
-          metadata: S.optional(__S(99, __c3, 3)),
-          hitCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaDataMonitoringEndpointResult" });
-    case 7:
-      return S.Array(__S(102, __c3, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          metadata: S.optional(__S(99, __c3, 3)),
-          dataType: S.optional(S.String),
-          dataTypeEvidence: S.optional(__S(79, __c2, 15)),
-        }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaDataMonitoringDataTypeResult" });
-    case 9:
-      return S.Array(__S(104, __c3, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
+          metadata: S.optional(__S(98, __c3, 2)),
           permission: S.optional(__S(69, __c2, 5)),
-          metadata: S.optional(__S(99, __c3, 3)),
         }),
       ).annotate({ identifier: "GoogleChecksReportV1alphaDataMonitoringPermissionResult" });
+    case 4:
+      return S.Array(__S(99, __c3, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          metadata: S.optional(__S(98, __c3, 2)),
+          sdk: S.optional(__S(69, __c2, 5)),
+        }),
+      ).annotate({ identifier: "GoogleChecksReportV1alphaDataMonitoringSdkResult" });
+    case 6:
+      return S.Array(__S(101, __c3, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          dataTypeEvidence: S.optional(__S(88, __c2, 24)),
+          metadata: S.optional(__S(98, __c3, 2)),
+          dataType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleChecksReportV1alphaDataMonitoringDataTypeResult" });
+    case 8:
+      return S.Array(__S(103, __c3, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          endpoint: S.optional(__S(66, __c2, 2)),
+          hitCount: S.optional(S.Number),
+          metadata: S.optional(__S(98, __c3, 2)),
+        }),
+      ).annotate({ identifier: "GoogleChecksReportV1alphaDataMonitoringEndpointResult" });
+    case 10:
+      return S.Array(__S(105, __c3, 9));
     case 11:
-      return S.Array(__S(106, __c3, 10));
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(100, __c3, 4)),
+          sdks: S.optional(__S(102, __c3, 6)),
+          dataTypes: S.optional(__S(104, __c3, 8)),
+          endpoints: S.optional(__S(106, __c3, 10)),
+        }),
+      ).annotate({ identifier: "GoogleChecksReportV1alphaDataMonitoring" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          sdks: S.optional(__S(101, __c3, 5)),
-          endpoints: S.optional(__S(103, __c3, 7)),
-          dataTypes: S.optional(__S(105, __c3, 9)),
-          permissions: S.optional(__S(107, __c3, 11)),
+          codeReferenceId: S.optional(S.String),
+          releaseType: S.optional(S.String),
+          bundleId: S.optional(S.String),
+          version: S.optional(S.String),
+          versionId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleChecksReportV1alphaDataMonitoring" });
+      ).annotate({ identifier: "GoogleChecksReportV1alphaAppBundle" });
     case 13:
       return S.suspend(() =>
         S.Struct({
           checks: S.optional(__S(97, __c3, 1)),
-          name: S.optional(S.String),
-          appBundle: S.optional(__S(98, __c3, 2)),
-          dataMonitoring: S.optional(__S(108, __c3, 12)),
           resultsUri: S.optional(S.String),
+          dataMonitoring: S.optional(__S(107, __c3, 11)),
+          appBundle: S.optional(__S(108, __c3, 12)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleChecksReportV1alphaReport" });
   }
@@ -1730,12 +1731,12 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          localScanPath: S.optional(S.String),
-          cliVersion: S.optional(S.String),
-          scmMetadata: S.optional(__S(580, __c18, 4)),
-          sources: S.optional(__S(578, __c18, 2)),
           name: S.optional(S.String),
+          cliVersion: S.optional(S.String),
           resultsUri: S.optional(S.String),
+          scmMetadata: S.optional(__S(580, __c18, 4)),
+          localScanPath: S.optional(S.String),
+          sources: S.optional(__S(578, __c18, 2)),
         }),
       ).annotate({ identifier: "GoogleChecksRepoScanV1alphaRepoScan" });
   }
@@ -1745,9 +1746,9 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1761,8 +1762,8 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           apps: S.optional(__S(225, __c7, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleChecksAccountV1alphaListAppsResponse" });
   }
@@ -1772,11 +1773,11 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1790,9 +1791,9 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(32, __c1, 0)),
           operations: S.optional(__S(257, __c8, 1)),
-          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -1802,10 +1803,10 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          checksFilter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          checksFilter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1820,8 +1821,8 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           reports: S.optional(__S(289, __c9, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleChecksReportV1alphaListReportsResponse" });
   }
@@ -1831,10 +1832,10 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1933,22 +1934,22 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(S.String),
-          languageCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleChecksAisafetyV1alphaTextInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          textInput: S.optional(__S(480, __c15, 0)),
-        }),
-      ).annotate({ identifier: "GoogleChecksAisafetyV1alphaClassifyContentRequestInputContent" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           prompt: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleChecksAisafetyV1alphaClassifyContentRequestContext" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          languageCode: S.optional(S.String),
+          content: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleChecksAisafetyV1alphaTextInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          textInput: S.optional(__S(481, __c15, 1)),
+        }),
+      ).annotate({ identifier: "GoogleChecksAisafetyV1alphaClassifyContentRequestInputContent" });
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1961,9 +1962,9 @@ function __c15(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          context: S.optional(__S(480, __c15, 0)),
+          input: S.optional(__S(482, __c15, 2)),
           classifierVersion: S.optional(S.String),
-          input: S.optional(__S(481, __c15, 1)),
-          context: S.optional(__S(482, __c15, 2)),
           policies: S.optional(__S(484, __c15, 4)),
         }),
       ).annotate({ identifier: "GoogleChecksAisafetyV1alphaClassifyContentRequest" });
@@ -1981,8 +1982,8 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           policyType: S.optional(S.String),
-          score: S.optional(S.Number),
           violationResult: S.optional(S.String),
+          score: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleChecksAisafetyV1alphaClassifyContentResponsePolicyResult" });
     case 8:
@@ -2016,26 +2017,26 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          startLine: S.optional(S.Number),
-          code: S.optional(S.String),
+          dataType: S.optional(S.String),
+          lineNumber: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleChecksRepoScanV1alphaCodeScanDataTypeClassification" });
+    case 1:
+      return S.Array(__S(544, __c17, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           path: S.optional(S.String),
+          code: S.optional(S.String),
+          startLine: S.optional(S.Number),
           endLine: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleChecksRepoScanV1alphaSourceCode" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          lineNumber: S.optional(S.Number),
-          dataType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleChecksRepoScanV1alphaCodeScanDataTypeClassification" });
-    case 2:
-      return S.Array(__S(545, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sourceCode: S.optional(__S(544, __c17, 0)),
-          dataTypeClassifications: S.optional(__S(546, __c17, 2)),
+          dataTypeClassifications: S.optional(__S(545, __c17, 1)),
+          sourceCode: S.optional(__S(546, __c17, 2)),
         }),
       ).annotate({ identifier: "GoogleChecksRepoScanV1alphaCodeScan" });
     case 4:
@@ -2051,9 +2052,9 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cliAnalysis: S.optional(__S(549, __c17, 5)),
+          cliVersion: S.optional(S.String),
           localScanPath: S.optional(S.String),
           scmMetadata: S.optional(__S(580, __c18, 4)),
-          cliVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleChecksRepoScanV1alphaGenerateScanRequest" });
     case 7:
@@ -2078,18 +2079,18 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          codeExcerpt: S.optional(S.String),
+          lineNumber: S.optional(S.Number),
           path: S.optional(S.String),
           startLineNumber: S.optional(S.Number),
-          lineNumber: S.optional(S.Number),
+          codeExcerpt: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleChecksRepoScanV1alphaCodeAttribution" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          falsePositive: S.optional(S.Boolean),
-          dataType: S.optional(S.String),
           codeAttribution: S.optional(__S(576, __c18, 0)),
+          dataType: S.optional(S.String),
+          falsePositive: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleChecksRepoScanV1alphaSource" });
     case 2:
@@ -2097,17 +2098,17 @@ function __c18(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          prNumber: S.optional(S.String),
           baseBranch: S.optional(S.String),
+          prNumber: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleChecksRepoScanV1alphaPullRequest" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          branch: S.optional(S.String),
           pullRequest: S.optional(__S(579, __c18, 3)),
-          remoteUri: S.optional(S.String),
           revisionId: S.optional(S.String),
+          remoteUri: S.optional(S.String),
+          branch: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleChecksRepoScanV1alphaScmMetadata" });
   }
@@ -2121,19 +2122,19 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
           message: S.optional(S.String),
+          code: S.optional(S.Number),
           details: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          done: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          error: S.optional(__S(610, __c19, 2)),
-          metadata: S.optional(__S(608, __c19, 0)),
           response: S.optional(__S(608, __c19, 0)),
+          done: S.optional(S.Boolean),
+          metadata: S.optional(__S(608, __c19, 0)),
+          error: S.optional(__S(610, __c19, 2)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }

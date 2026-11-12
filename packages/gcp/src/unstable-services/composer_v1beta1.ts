@@ -96,125 +96,71 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
 }
-export type StringMap = { [key: string]: string | undefined };
-/** The configuration for data storage in the environment. */
-export interface StorageConfig {
-  /** Optional. The name of the Cloud Storage bucket used by the environment. No `gs://` prefix. */
-  bucket?: string | undefined;
-}
-/** The configuration settings for Cloud Composer maintenance window. The following example: ``` { "startTime":"2019-08-01T01:00:00Z" "endTime":"2019-08-01T07:00:00Z" "recurrence":"FREQ=WEEKLY;BYDAY=TU,WE" } ``` would define a maintenance window between 01 and 07 hours UTC during each Tuesday and Wednesday. */
-export interface MaintenanceWindow {
-  /** Required. Maintenance window end time. It is used only to calculate the duration of the maintenance window. The value for end_time must be in the future, relative to `start_time`. */
-  endTime?: string | undefined;
-  /** Required. Maintenance window recurrence. Format is a subset of [RFC-5545](https://tools.ietf.org/html/rfc5545) `RRULE`. The only allowed values for `FREQ` field are `FREQ=DAILY` and `FREQ=WEEKLY;BYDAY=...` Example values: `FREQ=WEEKLY;BYDAY=TU,WE`, `FREQ=DAILY`. */
-  recurrence?: string | undefined;
-  /** Required. Start time of the first recurrence of the maintenance window. */
-  startTime?: string | undefined;
-}
-export type StringList = Array<string>;
-/** The configuration for hibernating and resuming the environment on a schedule. Supported for environments in the development mode. */
-export interface ScheduledHibernationConfig {
-  /** Optional. Whether hibernating and resuming the environment on a schedule is enabled. */
-  enabled?: boolean | undefined;
-  /** Optional. The cron expressions representing the times when the environment will automatically resume, entering the RUNNING state. */
-  resumptionSchedules?: StringList | undefined;
-  /** Optional. Time zone that sets the context to interpret the schedule expressions. Expected format is "UTC+05", "UTC-03", etc. */
-  timeZone?: string | undefined;
-  /** Optional. The cron expressions representing the times when the environment will automatically hibernate, entering the HIBERNATED state. */
-  hibernationSchedules?: StringList | undefined;
-}
-/** CIDR block with an optional name. */
-export interface CidrBlock {
-  /** User-defined name that identifies the CIDR block. */
-  displayName?: string | undefined;
-  /** CIDR block that must be specified in CIDR notation. */
-  cidrBlock?: string | undefined;
-}
-export type CidrBlockList = Array<CidrBlock>;
-/** Configuration options for the master authorized networks feature. Enabled master authorized networks will disallow all external traffic to access Kubernetes master through HTTPS except traffic from the given CIDR blocks, Google Compute Engine Public IPs and Google Prod IPs. */
-export interface MasterAuthorizedNetworksConfig {
-  /** Up to 50 external networks that could access Kubernetes master through HTTPS. */
-  cidrBlocks?: CidrBlockList | undefined;
-  /** Optional. Whether or not master authorized networks feature is enabled. */
-  enabled?: boolean | undefined;
-}
-/** Configuration for Cloud Data Lineage integration. */
-export interface CloudDataLineageIntegration {
-  /** Optional. Whether or not Cloud Data Lineage integration is enabled. */
-  enabled?: boolean | undefined;
-}
-export type SoftwareConfigWebServerPluginsModeEnum =
-  | "WEB_SERVER_PLUGINS_MODE_UNSPECIFIED"
-  | "PLUGINS_DISABLED"
-  | "PLUGINS_ENABLED";
-export type SoftwareConfigAuditLogsReplicationModeEnum =
-  | "AUDIT_LOGS_REPLICATION_MODE_UNSPECIFIED"
-  | "AUDIT_LOGS_REPLICATION_DISABLED"
-  | "AUDIT_LOGS_REPLICATION_ENABLED";
-/** The image version an environment can be rolled back to. */
-export interface ImageVersionRollbackTarget {
-  /** Output only. The last time when the environment was running this image version. */
-  lastActiveTime?: string | undefined;
-  /** Output only. The image version the environment can be rolled back to. */
-  imageVersion?: string | undefined;
-}
-export type ImageVersionRollbackTargetList = Array<ImageVersionRollbackTarget>;
-/** Specifies the selection and configuration of software inside the environment. */
-export interface SoftwareConfig {
-  /** Optional. The configuration for Cloud Data Lineage integration. */
-  cloudDataLineageIntegration?: CloudDataLineageIntegration | undefined;
-  /** Optional. Whether or not the web server uses custom plugins. If unspecified, the field defaults to `PLUGINS_ENABLED`. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-  webServerPluginsMode?: SoftwareConfigWebServerPluginsModeEnum | (string & {}) | undefined;
-  /** Optional. The number of schedulers for Airflow. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-2.*.*. */
-  schedulerCount?: number | undefined;
-  /** Optional. Additional environment variables to provide to the Apache Airflow scheduler, worker, and webserver processes. Environment variable names must match the regular expression `a-zA-Z_*`. They cannot specify Apache Airflow software configuration overrides (they cannot match the regular expression `AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+`), and they cannot match any of the following reserved names: * `AIRFLOW_HOME` * `C_FORCE_ROOT` * `CONTAINER_NAME` * `DAGS_FOLDER` * `GCP_PROJECT` * `GCS_BUCKET` * `GKE_CLUSTER_NAME` * `SQL_DATABASE` * `SQL_INSTANCE` * `SQL_PASSWORD` * `SQL_PROJECT` * `SQL_REGION` * `SQL_USER` */
-  envVariables?: StringMap | undefined;
-  /** Optional. The selected mode of audit logs replication. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-  auditLogsReplicationMode?: SoftwareConfigAuditLogsReplicationModeEnum | (string & {}) | undefined;
-  /** Optional. Apache Airflow configuration properties to override. Property keys contain the section and property names, separated by a hyphen, for example "core-dags_are_paused_at_creation". Section names must not contain hyphens ("-"), opening square brackets ("["), or closing square brackets ("]"). The property name must not be empty and must not contain an equals sign ("=") or semicolon (";"). Section and property names must not contain a period ("."). Apache Airflow configuration property names must be written in [snake_case](https://en.wikipedia.org/wiki/Snake_case). Property values can contain any character, and can be written in any lower/upper case format. Certain Apache Airflow configuration property values are [blocked](/composer/docs/concepts/airflow-configurations), and cannot be overridden. */
-  airflowConfigOverrides?: StringMap | undefined;
-  /** Optional. Custom Python Package Index (PyPI) packages to be installed in the environment. Keys refer to the lowercase package name such as "numpy" and values are the lowercase extras and version specifier such as "==1.12.0", "[devel,gcp_api]", or "[devel]>=1.8.2, <1.9.2". To specify a package without pinning it to a version specifier, use the empty string as the value. */
-  pypiPackages?: StringMap | undefined;
-  /** Output only. The list of image versions the environment can be rolled back to, sorted by last_active_time in descending order (most recent first). This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-  imageVersionRollbackTargets?: ImageVersionRollbackTargetList | undefined;
-  /** Optional. The version of the software running in the environment. This encapsulates both the version of Cloud Composer functionality and the version of Apache Airflow. It must match the regular expression `composer-([0-9]+(\.[0-9]+\.[0-9]+(-preview\.[0-9]+)?)?|latest)-airflow-([0-9]+(\.[0-9]+(\.[0-9]+)?)?)`. When used as input, the server also checks if the provided version is supported and denies the request for an unsupported version. The Cloud Composer portion of the image version is a full [semantic version](https://semver.org), or an alias in the form of major version number or `latest`. When an alias is provided, the server replaces it with the current Cloud Composer version that satisfies the alias. The Apache Airflow portion of the image version is a full semantic version that points to one of the supported Apache Airflow versions, or an alias in the form of only major or major.minor versions specified. When an alias is provided, the server replaces it with the latest Apache Airflow version that satisfies the alias and is supported in the given Cloud Composer version. In all cases, the resolved image version is stored in the same field. See also [version list](/composer/docs/concepts/versioning/composer-versions) and [versioning overview](/composer/docs/concepts/versioning/composer-versioning-overview). */
-  imageVersion?: string | undefined;
-  /** Optional. The major version of Python used to run the Apache Airflow scheduler, worker, and webserver processes. Can be set to '2' or '3'. If not specified, the default is '3'. Cannot be updated. This field is only supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. Environments in newer versions always use Python major version 3. */
-  pythonVersion?: string | undefined;
-}
-/** The configuration of Cloud SQL instance that is used by the Apache Airflow software. */
-export interface DatabaseConfig {
-  /** Optional. Cloud SQL machine type used by Airflow database. It has to be one of: db-n1-standard-2, db-n1-standard-4, db-n1-standard-8 or db-n1-standard-16. If not specified, db-n1-standard-2 will be used. Supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
+/** The configuration settings for the Airflow web server App Engine instance. Supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
+export interface WebServerConfig {
+  /** Optional. Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2, composer-n1-webserver-4 or composer-n1-webserver-8. If not specified, composer-n1-webserver-2 will be used. Value custom is returned only in response, if Airflow web server parameters were manually changed to a non-standard values. */
   machineType?: string | undefined;
-  /** Optional. The Compute Engine zone where the Airflow database is created. If zone is provided, it must be in the region selected for the environment. If zone is not provided, a zone is automatically selected. The zone can only be set during environment creation. Supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.*. */
-  zone?: string | undefined;
+}
+/** The encryption options for the Cloud Composer environment and its dependencies. Supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
+export interface EncryptionConfig {
+  /** Optional. Customer-managed Encryption Key available through Google's Key Management Service. Cannot be updated. If not specified, Google-managed key will be used. */
+  kmsKeyName?: string | undefined;
+}
+export type TaskLogsRetentionConfigStorageModeEnum =
+  | "TASK_LOGS_STORAGE_MODE_UNSPECIFIED"
+  | "CLOUD_LOGGING_AND_CLOUD_STORAGE"
+  | "CLOUD_LOGGING_ONLY";
+/** The configuration setting for Task Logs. */
+export interface TaskLogsRetentionConfig {
+  /** Optional. The mode of storage for Airflow workers task logs. */
+  storageMode?: TaskLogsRetentionConfigStorageModeEnum | (string & {}) | undefined;
+}
+export type AirflowMetadataRetentionPolicyConfigRetentionModeEnum =
+  | "RETENTION_MODE_UNSPECIFIED"
+  | "RETENTION_MODE_ENABLED"
+  | "RETENTION_MODE_DISABLED";
+/** The policy for airflow metadata database retention. */
+export interface AirflowMetadataRetentionPolicyConfig {
+  /** Optional. How many days data should be retained for. */
+  retentionDays?: number | undefined;
+  /** Optional. Retention can be either enabled or disabled. */
+  retentionMode?: AirflowMetadataRetentionPolicyConfigRetentionModeEnum | (string & {}) | undefined;
+}
+/** The configuration setting for Airflow database data retention mechanism. */
+export interface DataRetentionConfig {
+  /** Optional. The number of days describing for how long to store event-based records in airflow database. If the retention mechanism is enabled this value must be a positive integer otherwise, value should be set to 0. */
+  airflowDatabaseRetentionDays?: number | undefined;
+  /** Optional. The configuration settings for task logs retention */
+  taskLogsRetentionConfig?: TaskLogsRetentionConfig | undefined;
+  /** Optional. The retention policy for airflow metadata database. */
+  airflowMetadataRetentionConfig?: AirflowMetadataRetentionPolicyConfig | undefined;
 }
 /** Allowed IP range with user-provided description. */
 export interface AllowedIpRange {
-  /** Optional. User-provided description. It must contain at most 300 characters. */
-  description?: string | undefined;
   /** IP address or range, defined using CIDR notation, of requests that this rule applies to. Examples: `192.168.1.1` or `192.168.0.0/16` or `2001:db8::/32` or `2001:0db8:0000:0042:0000:8a2e:0370:7334`. IP range prefixes should be properly truncated. For example, `1.2.3.4/24` should be truncated to `1.2.3.0/24`. Similarly, for IPv6, `2001:db8::1/32` should be truncated to `2001:db8::/32`. */
   value?: string | undefined;
+  /** Optional. User-provided description. It must contain at most 300 characters. */
+  description?: string | undefined;
 }
 export type AllowedIpRangeList = Array<AllowedIpRange>;
 /** Network-level access control policy for the Airflow web server. */
@@ -222,149 +168,81 @@ export interface WebServerNetworkAccessControl {
   /** A collection of allowed IP ranges with descriptions. */
   allowedIpRanges?: AllowedIpRangeList | undefined;
 }
-export type EnvironmentConfigEnvironmentSizeEnum =
-  | "ENVIRONMENT_SIZE_UNSPECIFIED"
-  | "ENVIRONMENT_SIZE_SMALL"
-  | "ENVIRONMENT_SIZE_MEDIUM"
-  | "ENVIRONMENT_SIZE_LARGE"
-  | "ENVIRONMENT_SIZE_EXTRA_LARGE"
-  | "ENVIRONMENT_SIZE_X_EXTRA_LARGE";
-export type NetworkingConfigConnectionTypeEnum =
-  | "CONNECTION_TYPE_UNSPECIFIED"
-  | "VPC_PEERING"
-  | "PRIVATE_SERVICE_CONNECT";
-/** Configuration options for networking connections in the Composer 2 environment. */
-export interface NetworkingConfig {
-  /** Optional. Indicates the user requested specific connection type between Tenant and Customer projects. You cannot set networking connection type in public IP environment. */
-  connectionType?: NetworkingConfigConnectionTypeEnum | (string & {}) | undefined;
+export type SoftwareConfigAuditLogsReplicationModeEnum =
+  | "AUDIT_LOGS_REPLICATION_MODE_UNSPECIFIED"
+  | "AUDIT_LOGS_REPLICATION_DISABLED"
+  | "AUDIT_LOGS_REPLICATION_ENABLED";
+/** Configuration for Cloud Data Lineage integration. */
+export interface CloudDataLineageIntegration {
+  /** Optional. Whether or not Cloud Data Lineage integration is enabled. */
+  enabled?: boolean | undefined;
 }
-export type PrivateEnvironmentConfigNetworkingTypeEnum =
-  | "NETWORKING_TYPE_UNSPECIFIED"
-  | "PRIVATE"
-  | "PUBLIC";
-/** Configuration options for the private GKE cluster in a Cloud Composer environment. */
-export interface PrivateClusterConfig {
-  /** Output only. The IP range in CIDR notation to use for the hosted master network. This range is used for assigning internal IP addresses to the cluster master or set of masters and to the internal load balancer virtual IP. This range must not overlap with any other ranges in use within the cluster's network. */
-  masterIpv4ReservedRange?: string | undefined;
-  /** Optional. If `true`, access to the public endpoint of the GKE cluster is denied. */
-  enablePrivateEndpoint?: boolean | undefined;
-  /** Optional. The CIDR block from which IPv4 range for GKE master will be reserved. If left blank, the default value of '172.16.0.0/23' is used. */
-  masterIpv4CidrBlock?: string | undefined;
+/** The image version an environment can be rolled back to. */
+export interface ImageVersionRollbackTarget {
+  /** Output only. The image version the environment can be rolled back to. */
+  imageVersion?: string | undefined;
+  /** Output only. The last time when the environment was running this image version. */
+  lastActiveTime?: string | undefined;
 }
-/** The configuration information for configuring a Private IP Cloud Composer environment. */
-export interface PrivateEnvironmentConfig {
-  /** Optional. If `true`, builds performed during operations that install Python packages have only private connectivity to Google services (including Artifact Registry) and VPC network (if either `NodeConfig.network` and `NodeConfig.subnetwork` fields or `NodeConfig.composer_network_attachment` field are specified). If `false`, the builds also have access to the internet. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-  enablePrivateBuildsOnly?: boolean | undefined;
-  /** Optional. Configuration for the network connections configuration in the environment. */
-  networkingConfig?: NetworkingConfig | undefined;
-  /** Optional. The CIDR block from which IP range for web server will be reserved. Needs to be disjoint from private_cluster_config.master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
-  webServerIpv4CidrBlock?: string | undefined;
-  /** Optional. When enabled, IPs from public (non-RFC1918) ranges can be used for `IPAllocationPolicy.cluster_ipv4_cidr_block` and `IPAllocationPolicy.service_ipv4_cidr_block`. */
-  enablePrivatelyUsedPublicIps?: boolean | undefined;
-  /** Optional. The CIDR block from which IP range in tenant project will be reserved for Cloud SQL. Needs to be disjoint from web_server_ipv4_cidr_block */
-  cloudSqlIpv4CidrBlock?: string | undefined;
-  /** Output only. The IP range reserved for the tenant project's App Engine VMs. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
-  webServerIpv4ReservedRange?: string | undefined;
-  /** Optional. Networking type for the environment, either private or public. */
-  networkingType?: PrivateEnvironmentConfigNetworkingTypeEnum | (string & {}) | undefined;
-  /** Optional. Configuration for the private GKE cluster for a Private IP Cloud Composer environment. */
-  privateClusterConfig?: PrivateClusterConfig | undefined;
-  /** Optional. If `true`, a Private IP Cloud Composer environment is created. If this field is set to true, `IPAllocationPolicy.use_ip_aliases` must be set to true for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. This field is going to be deprecated. Use `networking_type` instead. */
-  enablePrivateEnvironment?: boolean | undefined;
-  /** Optional. The CIDR block from which IP range for Cloud Composer Network in tenant project will be reserved. Needs to be disjoint from private_cluster_config.master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block. This field is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
-  cloudComposerNetworkIpv4CidrBlock?: string | undefined;
-  /** Optional. When specified, the environment will use Private Service Connect instead of VPC peerings to connect to Cloud SQL in the Tenant Project, and the PSC endpoint in the Customer Project will use an IP address from this subnetwork. */
-  cloudComposerConnectionSubnetwork?: string | undefined;
-  /** Output only. The IP range reserved for the tenant project's Cloud Composer network. This field is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
-  cloudComposerNetworkIpv4ReservedRange?: string | undefined;
+export type ImageVersionRollbackTargetList = Array<ImageVersionRollbackTarget>;
+export type StringMap = { [key: string]: string | undefined };
+export type SoftwareConfigWebServerPluginsModeEnum =
+  | "WEB_SERVER_PLUGINS_MODE_UNSPECIFIED"
+  | "PLUGINS_DISABLED"
+  | "PLUGINS_ENABLED";
+/** Specifies the selection and configuration of software inside the environment. */
+export interface SoftwareConfig {
+  /** Optional. The number of schedulers for Airflow. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-2.*.*. */
+  schedulerCount?: number | undefined;
+  /** Optional. The selected mode of audit logs replication. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
+  auditLogsReplicationMode?: SoftwareConfigAuditLogsReplicationModeEnum | (string & {}) | undefined;
+  /** Optional. The configuration for Cloud Data Lineage integration. */
+  cloudDataLineageIntegration?: CloudDataLineageIntegration | undefined;
+  /** Output only. The list of image versions the environment can be rolled back to, sorted by last_active_time in descending order (most recent first). This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
+  imageVersionRollbackTargets?: ImageVersionRollbackTargetList | undefined;
+  /** Optional. Additional environment variables to provide to the Apache Airflow scheduler, worker, and webserver processes. Environment variable names must match the regular expression `a-zA-Z_*`. They cannot specify Apache Airflow software configuration overrides (they cannot match the regular expression `AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+`), and they cannot match any of the following reserved names: * `AIRFLOW_HOME` * `C_FORCE_ROOT` * `CONTAINER_NAME` * `DAGS_FOLDER` * `GCP_PROJECT` * `GCS_BUCKET` * `GKE_CLUSTER_NAME` * `SQL_DATABASE` * `SQL_INSTANCE` * `SQL_PASSWORD` * `SQL_PROJECT` * `SQL_REGION` * `SQL_USER` */
+  envVariables?: StringMap | undefined;
+  /** Optional. The version of the software running in the environment. This encapsulates both the version of Cloud Composer functionality and the version of Apache Airflow. It must match the regular expression `composer-([0-9]+(\.[0-9]+\.[0-9]+(-preview\.[0-9]+)?)?|latest)-airflow-([0-9]+(\.[0-9]+(\.[0-9]+)?)?)`. When used as input, the server also checks if the provided version is supported and denies the request for an unsupported version. The Cloud Composer portion of the image version is a full [semantic version](https://semver.org), or an alias in the form of major version number or `latest`. When an alias is provided, the server replaces it with the current Cloud Composer version that satisfies the alias. The Apache Airflow portion of the image version is a full semantic version that points to one of the supported Apache Airflow versions, or an alias in the form of only major or major.minor versions specified. When an alias is provided, the server replaces it with the latest Apache Airflow version that satisfies the alias and is supported in the given Cloud Composer version. In all cases, the resolved image version is stored in the same field. See also [version list](/composer/docs/concepts/versioning/composer-versions) and [versioning overview](/composer/docs/concepts/versioning/composer-versioning-overview). */
+  imageVersion?: string | undefined;
+  /** Optional. Custom Python Package Index (PyPI) packages to be installed in the environment. Keys refer to the lowercase package name such as "numpy" and values are the lowercase extras and version specifier such as "==1.12.0", "[devel,gcp_api]", or "[devel]>=1.8.2, <1.9.2". To specify a package without pinning it to a version specifier, use the empty string as the value. */
+  pypiPackages?: StringMap | undefined;
+  /** Optional. The major version of Python used to run the Apache Airflow scheduler, worker, and webserver processes. Can be set to '2' or '3'. If not specified, the default is '3'. Cannot be updated. This field is only supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. Environments in newer versions always use Python major version 3. */
+  pythonVersion?: string | undefined;
+  /** Optional. Apache Airflow configuration properties to override. Property keys contain the section and property names, separated by a hyphen, for example "core-dags_are_paused_at_creation". Section names must not contain hyphens ("-"), opening square brackets ("["), or closing square brackets ("]"). The property name must not be empty and must not contain an equals sign ("=") or semicolon (";"). Section and property names must not contain a period ("."). Apache Airflow configuration property names must be written in [snake_case](https://en.wikipedia.org/wiki/Snake_case). Property values can contain any character, and can be written in any lower/upper case format. Certain Apache Airflow configuration property values are [blocked](/composer/docs/concepts/airflow-configurations), and cannot be overridden. */
+  airflowConfigOverrides?: StringMap | undefined;
+  /** Optional. Whether or not the web server uses custom plugins. If unspecified, the field defaults to `PLUGINS_ENABLED`. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
+  webServerPluginsMode?: SoftwareConfigWebServerPluginsModeEnum | (string & {}) | undefined;
 }
-/** Configuration for resources used by Airflow workers. */
-export interface WorkerResource {
-  /** Optional. Maximum number of workers for autoscaling. */
-  maxCount?: number | undefined;
-  /** Optional. Memory (GB) request and limit for a single Airflow worker replica. */
-  memoryGb?: number | undefined;
-  /** Optional. Minimum number of workers for autoscaling. */
-  minCount?: number | undefined;
-  /** Optional. Storage (GB) request and limit for a single Airflow worker replica. */
-  storageGb?: number | undefined;
-  /** Optional. CPU request and limit for a single Airflow worker replica. */
-  cpu?: number | undefined;
-}
-/** Configuration for resources used by Airflow web server. */
-export interface WebServerResource {
-  /** Optional. Storage (GB) request and limit for Airflow web server. */
-  storageGb?: number | undefined;
-  /** Optional. CPU request and limit for Airflow web server. */
-  cpu?: number | undefined;
-  /** Optional. Memory (GB) request and limit for Airflow web server. */
-  memoryGb?: number | undefined;
-}
-/** Configuration for resources used by Airflow triggerers. */
-export interface TriggererResource {
-  /** Optional. Memory (GB) request and limit for a single Airflow triggerer replica. */
-  memoryGb?: number | undefined;
-  /** Optional. The number of triggerers. */
-  count?: number | undefined;
-  /** Optional. CPU request and limit for a single Airflow triggerer replica. */
-  cpu?: number | undefined;
-}
-/** Configuration for resources used by Airflow schedulers. */
-export interface SchedulerResource {
-  /** Optional. The number of schedulers. */
-  count?: number | undefined;
-  /** Optional. CPU request and limit for a single Airflow scheduler replica. */
-  cpu?: number | undefined;
-  /** Optional. Memory (GB) request and limit for a single Airflow scheduler replica. */
-  memoryGb?: number | undefined;
-  /** Optional. Storage (GB) request and limit for a single Airflow scheduler replica. */
-  storageGb?: number | undefined;
-}
-/** Configuration for resources used by Airflow DAG processors. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-export interface DagProcessorResource {
-  /** Optional. CPU request and limit for a single Airflow DAG processor replica. */
-  cpu?: number | undefined;
-  /** Optional. Storage (GB) request and limit for a single Airflow DAG processor replica. */
-  storageGb?: number | undefined;
-  /** Optional. Memory (GB) request and limit for a single Airflow DAG processor replica. */
-  memoryGb?: number | undefined;
-  /** Optional. The number of DAG processors. If not provided or set to 0, a single DAG processor instance will be created. */
-  count?: number | undefined;
-}
-/** The Kubernetes workloads configuration for GKE cluster associated with the Cloud Composer environment. Supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
-export interface WorkloadsConfig {
-  /** Optional. Resources used by Airflow workers. */
-  worker?: WorkerResource | undefined;
-  /** Optional. Resources used by Airflow web server. */
-  webServer?: WebServerResource | undefined;
-  /** Optional. Resources used by Airflow triggerers. */
-  triggerer?: TriggererResource | undefined;
-  /** Optional. Resources used by Airflow schedulers. */
-  scheduler?: SchedulerResource | undefined;
-  /** Optional. Resources used by Airflow DAG processors. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-  dagProcessor?: DagProcessorResource | undefined;
+export type StringList = Array<string>;
+/** The configuration for hibernating and resuming the environment on a schedule. Supported for environments in the development mode. */
+export interface ScheduledHibernationConfig {
+  /** Optional. The cron expressions representing the times when the environment will automatically resume, entering the RUNNING state. */
+  resumptionSchedules?: StringList | undefined;
+  /** Optional. Time zone that sets the context to interpret the schedule expressions. Expected format is "UTC+05", "UTC-03", etc. */
+  timeZone?: string | undefined;
+  /** Optional. Whether hibernating and resuming the environment on a schedule is enabled. */
+  enabled?: boolean | undefined;
+  /** Optional. The cron expressions representing the times when the environment will automatically hibernate, entering the HIBERNATED state. */
+  hibernationSchedules?: StringList | undefined;
 }
 export type EnvironmentConfigResilienceModeEnum = "RESILIENCE_MODE_UNSPECIFIED" | "HIGH_RESILIENCE";
-/** The encryption options for the Cloud Composer environment and its dependencies. Supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
-export interface EncryptionConfig {
-  /** Optional. Customer-managed Encryption Key available through Google's Key Management Service. Cannot be updated. If not specified, Google-managed key will be used. */
-  kmsKeyName?: string | undefined;
-}
-/** The configuration settings for the Airflow web server App Engine instance. Supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
-export interface WebServerConfig {
-  /** Optional. Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2, composer-n1-webserver-4 or composer-n1-webserver-8. If not specified, composer-n1-webserver-2 will be used. Value custom is returned only in response, if Airflow web server parameters were manually changed to a non-standard values. */
+/** The configuration of Cloud SQL instance that is used by the Apache Airflow software. */
+export interface DatabaseConfig {
+  /** Optional. The Compute Engine zone where the Airflow database is created. If zone is provided, it must be in the region selected for the environment. If zone is not provided, a zone is automatically selected. The zone can only be set during environment creation. Supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.*. */
+  zone?: string | undefined;
+  /** Optional. Cloud SQL machine type used by Airflow database. It has to be one of: db-n1-standard-2, db-n1-standard-4, db-n1-standard-8 or db-n1-standard-16. If not specified, db-n1-standard-2 will be used. Supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
   machineType?: string | undefined;
 }
 /** Configuration for controlling how IPs are allocated in the GKE cluster. */
 export interface IPAllocationPolicy {
+  /** Optional. The name of the cluster's secondary range used to allocate IP addresses to pods. Specify either `cluster_secondary_range_name` or `cluster_ipv4_cidr_block` but not both. For Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*, this field is applicable only when `use_ip_aliases` is true. */
+  clusterSecondaryRangeName?: string | undefined;
   /** Optional. The IP address range used to allocate IP addresses to pods in the cluster. For Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*, this field is applicable only when `use_ip_aliases` is true. Set to blank to have GKE choose a range with the default size. Set to /netmask (e.g. `/14`) to have GKE choose a range with a specific netmask. Set to a [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. Specify `cluster_secondary_range_name` or `cluster_ipv4_cidr_block` but not both. */
   clusterIpv4CidrBlock?: string | undefined;
   /** Optional. Whether or not to enable Alias IPs in the GKE cluster. If `true`, a VPC-native cluster is created. This field is only supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. Environments in newer versions always use VPC-native GKE clusters. */
   useIpAliases?: boolean | undefined;
   /** Optional. The IP address range of the services IP addresses in this cluster. For Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*, this field is applicable only when `use_ip_aliases` is true. Set to blank to have GKE choose a range with the default size. Set to /netmask (e.g. `/14`) to have GKE choose a range with a specific netmask. Set to a [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. Specify `services_secondary_range_name` or `services_ipv4_cidr_block` but not both. */
   servicesIpv4CidrBlock?: string | undefined;
-  /** Optional. The name of the cluster's secondary range used to allocate IP addresses to pods. Specify either `cluster_secondary_range_name` or `cluster_ipv4_cidr_block` but not both. For Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*, this field is applicable only when `use_ip_aliases` is true. */
-  clusterSecondaryRangeName?: string | undefined;
   /** Optional. The name of the services' secondary range used to allocate IP addresses to the cluster. Specify either `services_secondary_range_name` or `services_ipv4_cidr_block` but not both. For Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*, this field is applicable only when `use_ip_aliases` is true. */
   servicesSecondaryRangeName?: string | undefined;
 }
@@ -382,123 +260,241 @@ export interface TrafficRoutingConfig {
 }
 /** The configuration information for the Kubernetes Engine nodes running the Apache Airflow software. */
 export interface NodeConfig {
-  /** Optional. The maximum number of pods per node in the Cloud Composer GKE cluster. The value must be between 8 and 110 and it can be set only if the environment is VPC-native. The default value is 32. Values of this field will be propagated both to the `default-pool` node pool of the newly created GKE cluster, and to the default "Maximum Pods per Node" value which is used for newly created node pools if their value is not explicitly set during node pool creation. For more information, see [Optimizing IP address allocation] (https://cloud.google.com/kubernetes-engine/docs/how-to/flexible-pod-cidr). Cannot be updated. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
-  maxPodsPerNode?: number | undefined;
-  /** Optional. Deploys 'ip-masq-agent' daemon set in the GKE cluster and defines nonMasqueradeCIDRs equals to pod IP range so IP masquerading is used for all destination addresses, except between pods traffic. See: https://cloud.google.com/kubernetes-engine/docs/how-to/ip-masquerade-agent */
-  enableIpMasqAgent?: boolean | undefined;
+  /** Optional. The Compute Engine [machine type](/compute/docs/machine-types) used for cluster instances, specified as a [relative resource name](/apis/design/resource_names#relative_resource_name). For example: "projects/{projectId}/zones/{zoneId}/machineTypes/{machineTypeId}". The `machineType` must belong to the enclosing environment's project and location. If both this field and `nodeConfig.location` are specified, this `machineType` must belong to the `nodeConfig.location`; if both are unspecified, the service will pick a zone in the Compute Engine region corresponding to the Cloud Composer location, and propagate that choice to both fields. If exactly one of this field and `nodeConfig.location` is specified, the location information from the specified field will be propagated to the unspecified field. The `machineTypeId` must not be a [shared-core machine type](/compute/docs/machine-types#sharedcore). If this field is unspecified, the `machineTypeId` defaults to "n1-standard-1". This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
+  machineType?: string | undefined;
+  /** Optional. The list of instance tags applied to all node VMs. Tags are used to identify valid sources or targets for network firewalls. Each tag within the list must comply with [RFC1035](https://www.ietf.org/rfc/rfc1035.txt). Cannot be updated. */
+  tags?: StringList | undefined;
   /** Optional. The IPAllocationPolicy fields for the GKE cluster. */
   ipAllocationPolicy?: IPAllocationPolicy | undefined;
+  /** Optional. Configures how the environment routes traffic to other services. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
+  trafficRoutingConfig?: TrafficRoutingConfig | undefined;
+  /** Optional. The disk size in GB used for node VMs. Minimum size is 30GB. If unspecified, defaults to 100GB. Cannot be updated. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
+  diskSizeGb?: number | undefined;
+  /** Optional. The set of Google API scopes to be made available on all node VMs. If `oauth_scopes` is empty, defaults to ["https://www.googleapis.com/auth/cloud-platform"]. Cannot be updated. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
+  oauthScopes?: StringList | undefined;
   /** Optional. The IP range in CIDR notation to use internally by Cloud Composer. IP addresses are not reserved - and the same range can be used by multiple Cloud Composer environments. In case of overlap, IPs from this range will not be accessible in the user's VPC network. Cannot be updated. If not specified, the default value of '100.64.128.0/20' is used. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
   composerInternalIpv4CidrBlock?: string | undefined;
+  /** Optional. The Compute Engine subnetwork to be used for machine communications, specified as a [relative resource name](/apis/design/resource_names#relative_resource_name). For example: "projects/{projectId}/regions/{regionId}/subnetworks/{subnetworkId}" If a subnetwork is provided, `nodeConfig.network` must also be provided, and the subnetwork must belong to the enclosing environment's project and location. */
+  subnetwork?: string | undefined;
   /** Optional. Network Attachment that Cloud Composer environment is connected to, which provides connectivity with a user's VPC network. Takes precedence over network and subnetwork settings. If not provided, but network and subnetwork are defined during environment, it will be provisioned. If not provided and network and subnetwork are also empty, then connectivity to user's VPC network is disabled. Network attachment must be provided in format projects/{project}/regions/{region}/networkAttachments/{networkAttachment}. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
   composerNetworkAttachment?: string | undefined;
   /** Optional. The Compute Engine [zone](/compute/docs/regions-zones) in which to deploy the VMs used to run the Apache Airflow software, specified as a [relative resource name](/apis/design/resource_names#relative_resource_name). For example: "projects/{projectId}/zones/{zoneId}". This `location` must belong to the enclosing environment's project and location. If both this field and `nodeConfig.machineType` are specified, `nodeConfig.machineType` must belong to this `location`; if both are unspecified, the service will pick a zone in the Compute Engine region corresponding to the Cloud Composer location, and propagate that choice to both fields. If only one field (`location` or `nodeConfig.machineType`) is specified, the location information from the specified field will be propagated to the unspecified field. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
   location?: string | undefined;
-  /** Optional. The Compute Engine [machine type](/compute/docs/machine-types) used for cluster instances, specified as a [relative resource name](/apis/design/resource_names#relative_resource_name). For example: "projects/{projectId}/zones/{zoneId}/machineTypes/{machineTypeId}". The `machineType` must belong to the enclosing environment's project and location. If both this field and `nodeConfig.location` are specified, this `machineType` must belong to the `nodeConfig.location`; if both are unspecified, the service will pick a zone in the Compute Engine region corresponding to the Cloud Composer location, and propagate that choice to both fields. If exactly one of this field and `nodeConfig.location` is specified, the location information from the specified field will be propagated to the unspecified field. The `machineTypeId` must not be a [shared-core machine type](/compute/docs/machine-types#sharedcore). If this field is unspecified, the `machineTypeId` defaults to "n1-standard-1". This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
-  machineType?: string | undefined;
-  /** Optional. The Compute Engine network to be used for machine communications, specified as a [relative resource name](/apis/design/resource_names#relative_resource_name). For example: "projects/{projectId}/global/networks/{networkId}". If unspecified, the default network in the environment's project is used. If a [Custom Subnet Network](/vpc/docs/vpc#vpc_networks_and_subnets) is provided, `nodeConfig.subnetwork` must also be provided. For [Shared VPC](/vpc/docs/shared-vpc) subnetwork requirements, see `nodeConfig.subnetwork`. */
-  network?: string | undefined;
-  /** Optional. Configures how the environment routes traffic to other services. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-  trafficRoutingConfig?: TrafficRoutingConfig | undefined;
-  /** Optional. The set of Google API scopes to be made available on all node VMs. If `oauth_scopes` is empty, defaults to ["https://www.googleapis.com/auth/cloud-platform"]. Cannot be updated. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
-  oauthScopes?: StringList | undefined;
-  /** Optional. The Compute Engine subnetwork to be used for machine communications, specified as a [relative resource name](/apis/design/resource_names#relative_resource_name). For example: "projects/{projectId}/regions/{regionId}/subnetworks/{subnetworkId}" If a subnetwork is provided, `nodeConfig.network` must also be provided, and the subnetwork must belong to the enclosing environment's project and location. */
-  subnetwork?: string | undefined;
-  /** Optional. The disk size in GB used for node VMs. Minimum size is 30GB. If unspecified, defaults to 100GB. Cannot be updated. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
-  diskSizeGb?: number | undefined;
   /** Optional. The Google Cloud Platform Service Account to be used by the workloads. If a service account is not specified, the "default" Compute Engine service account is used. Cannot be updated. */
   serviceAccount?: string | undefined;
-  /** Optional. The list of instance tags applied to all node VMs. Tags are used to identify valid sources or targets for network firewalls. Each tag within the list must comply with [RFC1035](https://www.ietf.org/rfc/rfc1035.txt). Cannot be updated. */
-  tags?: StringList | undefined;
+  /** Optional. The Compute Engine network to be used for machine communications, specified as a [relative resource name](/apis/design/resource_names#relative_resource_name). For example: "projects/{projectId}/global/networks/{networkId}". If unspecified, the default network in the environment's project is used. If a [Custom Subnet Network](/vpc/docs/vpc#vpc_networks_and_subnets) is provided, `nodeConfig.subnetwork` must also be provided. For [Shared VPC](/vpc/docs/shared-vpc) subnetwork requirements, see `nodeConfig.subnetwork`. */
+  network?: string | undefined;
+  /** Optional. Deploys 'ip-masq-agent' daemon set in the GKE cluster and defines nonMasqueradeCIDRs equals to pod IP range so IP masquerading is used for all destination addresses, except between pods traffic. See: https://cloud.google.com/kubernetes-engine/docs/how-to/ip-masquerade-agent */
+  enableIpMasqAgent?: boolean | undefined;
+  /** Optional. The maximum number of pods per node in the Cloud Composer GKE cluster. The value must be between 8 and 110 and it can be set only if the environment is VPC-native. The default value is 32. Values of this field will be propagated both to the `default-pool` node pool of the newly created GKE cluster, and to the default "Maximum Pods per Node" value which is used for newly created node pools if their value is not explicitly set during node pool creation. For more information, see [Optimizing IP address allocation] (https://cloud.google.com/kubernetes-engine/docs/how-to/flexible-pod-cidr). Cannot be updated. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
+  maxPodsPerNode?: number | undefined;
+}
+export type PrivateEnvironmentConfigNetworkingTypeEnum =
+  | "NETWORKING_TYPE_UNSPECIFIED"
+  | "PRIVATE"
+  | "PUBLIC";
+/** Configuration options for the private GKE cluster in a Cloud Composer environment. */
+export interface PrivateClusterConfig {
+  /** Optional. The CIDR block from which IPv4 range for GKE master will be reserved. If left blank, the default value of '172.16.0.0/23' is used. */
+  masterIpv4CidrBlock?: string | undefined;
+  /** Optional. If `true`, access to the public endpoint of the GKE cluster is denied. */
+  enablePrivateEndpoint?: boolean | undefined;
+  /** Output only. The IP range in CIDR notation to use for the hosted master network. This range is used for assigning internal IP addresses to the cluster master or set of masters and to the internal load balancer virtual IP. This range must not overlap with any other ranges in use within the cluster's network. */
+  masterIpv4ReservedRange?: string | undefined;
+}
+export type NetworkingConfigConnectionTypeEnum =
+  | "CONNECTION_TYPE_UNSPECIFIED"
+  | "VPC_PEERING"
+  | "PRIVATE_SERVICE_CONNECT";
+/** Configuration options for networking connections in the Composer 2 environment. */
+export interface NetworkingConfig {
+  /** Optional. Indicates the user requested specific connection type between Tenant and Customer projects. You cannot set networking connection type in public IP environment. */
+  connectionType?: NetworkingConfigConnectionTypeEnum | (string & {}) | undefined;
+}
+/** The configuration information for configuring a Private IP Cloud Composer environment. */
+export interface PrivateEnvironmentConfig {
+  /** Optional. When specified, the environment will use Private Service Connect instead of VPC peerings to connect to Cloud SQL in the Tenant Project, and the PSC endpoint in the Customer Project will use an IP address from this subnetwork. */
+  cloudComposerConnectionSubnetwork?: string | undefined;
+  /** Optional. If `true`, a Private IP Cloud Composer environment is created. If this field is set to true, `IPAllocationPolicy.use_ip_aliases` must be set to true for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. This field is going to be deprecated. Use `networking_type` instead. */
+  enablePrivateEnvironment?: boolean | undefined;
+  /** Optional. The CIDR block from which IP range for web server will be reserved. Needs to be disjoint from private_cluster_config.master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
+  webServerIpv4CidrBlock?: string | undefined;
+  /** Optional. Networking type for the environment, either private or public. */
+  networkingType?: PrivateEnvironmentConfigNetworkingTypeEnum | (string & {}) | undefined;
+  /** Optional. When enabled, IPs from public (non-RFC1918) ranges can be used for `IPAllocationPolicy.cluster_ipv4_cidr_block` and `IPAllocationPolicy.service_ipv4_cidr_block`. */
+  enablePrivatelyUsedPublicIps?: boolean | undefined;
+  /** Optional. Configuration for the private GKE cluster for a Private IP Cloud Composer environment. */
+  privateClusterConfig?: PrivateClusterConfig | undefined;
+  /** Output only. The IP range reserved for the tenant project's Cloud Composer network. This field is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
+  cloudComposerNetworkIpv4ReservedRange?: string | undefined;
+  /** Optional. If `true`, builds performed during operations that install Python packages have only private connectivity to Google services (including Artifact Registry) and VPC network (if either `NodeConfig.network` and `NodeConfig.subnetwork` fields or `NodeConfig.composer_network_attachment` field are specified). If `false`, the builds also have access to the internet. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
+  enablePrivateBuildsOnly?: boolean | undefined;
+  /** Optional. The CIDR block from which IP range in tenant project will be reserved for Cloud SQL. Needs to be disjoint from web_server_ipv4_cidr_block */
+  cloudSqlIpv4CidrBlock?: string | undefined;
+  /** Optional. Configuration for the network connections configuration in the environment. */
+  networkingConfig?: NetworkingConfig | undefined;
+  /** Output only. The IP range reserved for the tenant project's App Engine VMs. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
+  webServerIpv4ReservedRange?: string | undefined;
+  /** Optional. The CIDR block from which IP range for Cloud Composer Network in tenant project will be reserved. Needs to be disjoint from private_cluster_config.master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block. This field is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
+  cloudComposerNetworkIpv4CidrBlock?: string | undefined;
+}
+/** CIDR block with an optional name. */
+export interface CidrBlock {
+  /** CIDR block that must be specified in CIDR notation. */
+  cidrBlock?: string | undefined;
+  /** User-defined name that identifies the CIDR block. */
+  displayName?: string | undefined;
+}
+export type CidrBlockList = Array<CidrBlock>;
+/** Configuration options for the master authorized networks feature. Enabled master authorized networks will disallow all external traffic to access Kubernetes master through HTTPS except traffic from the given CIDR blocks, Google Compute Engine Public IPs and Google Prod IPs. */
+export interface MasterAuthorizedNetworksConfig {
+  /** Up to 50 external networks that could access Kubernetes master through HTTPS. */
+  cidrBlocks?: CidrBlockList | undefined;
+  /** Optional. Whether or not master authorized networks feature is enabled. */
+  enabled?: boolean | undefined;
+}
+/** Configuration for resources used by Airflow DAG processors. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
+export interface DagProcessorResource {
+  /** Optional. Storage (GB) request and limit for a single Airflow DAG processor replica. */
+  storageGb?: number | undefined;
+  /** Optional. The number of DAG processors. If not provided or set to 0, a single DAG processor instance will be created. */
+  count?: number | undefined;
+  /** Optional. Memory (GB) request and limit for a single Airflow DAG processor replica. */
+  memoryGb?: number | undefined;
+  /** Optional. CPU request and limit for a single Airflow DAG processor replica. */
+  cpu?: number | undefined;
+}
+/** Configuration for resources used by Airflow workers. */
+export interface WorkerResource {
+  /** Optional. Storage (GB) request and limit for a single Airflow worker replica. */
+  storageGb?: number | undefined;
+  /** Optional. Memory (GB) request and limit for a single Airflow worker replica. */
+  memoryGb?: number | undefined;
+  /** Optional. Maximum number of workers for autoscaling. */
+  maxCount?: number | undefined;
+  /** Optional. Minimum number of workers for autoscaling. */
+  minCount?: number | undefined;
+  /** Optional. CPU request and limit for a single Airflow worker replica. */
+  cpu?: number | undefined;
+}
+/** Configuration for resources used by Airflow web server. */
+export interface WebServerResource {
+  /** Optional. Storage (GB) request and limit for Airflow web server. */
+  storageGb?: number | undefined;
+  /** Optional. CPU request and limit for Airflow web server. */
+  cpu?: number | undefined;
+  /** Optional. Memory (GB) request and limit for Airflow web server. */
+  memoryGb?: number | undefined;
+}
+/** Configuration for resources used by Airflow schedulers. */
+export interface SchedulerResource {
+  /** Optional. CPU request and limit for a single Airflow scheduler replica. */
+  cpu?: number | undefined;
+  /** Optional. The number of schedulers. */
+  count?: number | undefined;
+  /** Optional. Memory (GB) request and limit for a single Airflow scheduler replica. */
+  memoryGb?: number | undefined;
+  /** Optional. Storage (GB) request and limit for a single Airflow scheduler replica. */
+  storageGb?: number | undefined;
+}
+/** Configuration for resources used by Airflow triggerers. */
+export interface TriggererResource {
+  /** Optional. The number of triggerers. */
+  count?: number | undefined;
+  /** Optional. Memory (GB) request and limit for a single Airflow triggerer replica. */
+  memoryGb?: number | undefined;
+  /** Optional. CPU request and limit for a single Airflow triggerer replica. */
+  cpu?: number | undefined;
+}
+/** The Kubernetes workloads configuration for GKE cluster associated with the Cloud Composer environment. Supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
+export interface WorkloadsConfig {
+  /** Optional. Resources used by Airflow DAG processors. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
+  dagProcessor?: DagProcessorResource | undefined;
+  /** Optional. Resources used by Airflow workers. */
+  worker?: WorkerResource | undefined;
+  /** Optional. Resources used by Airflow web server. */
+  webServer?: WebServerResource | undefined;
+  /** Optional. Resources used by Airflow schedulers. */
+  scheduler?: SchedulerResource | undefined;
+  /** Optional. Resources used by Airflow triggerers. */
+  triggerer?: TriggererResource | undefined;
+}
+export type EnvironmentConfigEnvironmentSizeEnum =
+  | "ENVIRONMENT_SIZE_UNSPECIFIED"
+  | "ENVIRONMENT_SIZE_SMALL"
+  | "ENVIRONMENT_SIZE_MEDIUM"
+  | "ENVIRONMENT_SIZE_LARGE"
+  | "ENVIRONMENT_SIZE_EXTRA_LARGE"
+  | "ENVIRONMENT_SIZE_X_EXTRA_LARGE";
+/** The configuration settings for Cloud Composer maintenance window. The following example: ``` { "startTime":"2019-08-01T01:00:00Z" "endTime":"2019-08-01T07:00:00Z" "recurrence":"FREQ=WEEKLY;BYDAY=TU,WE" } ``` would define a maintenance window between 01 and 07 hours UTC during each Tuesday and Wednesday. */
+export interface MaintenanceWindow {
+  /** Required. Start time of the first recurrence of the maintenance window. */
+  startTime?: string | undefined;
+  /** Required. Maintenance window recurrence. Format is a subset of [RFC-5545](https://tools.ietf.org/html/rfc5545) `RRULE`. The only allowed values for `FREQ` field are `FREQ=DAILY` and `FREQ=WEEKLY;BYDAY=...` Example values: `FREQ=WEEKLY;BYDAY=TU,WE`, `FREQ=DAILY`. */
+  recurrence?: string | undefined;
+  /** Required. Maintenance window end time. It is used only to calculate the duration of the maintenance window. The value for end_time must be in the future, relative to `start_time`. */
+  endTime?: string | undefined;
 }
 /** The configuration for scheduled snapshot creation mechanism. */
 export interface ScheduledSnapshotsConfig {
-  /** Optional. Whether scheduled snapshots creation is enabled. */
-  enabled?: boolean | undefined;
-  /** Optional. The Cloud Storage location for storing automatically created snapshots. */
-  snapshotLocation?: string | undefined;
   /** Optional. Time zone that sets the context to interpret snapshot_creation_schedule. */
   timeZone?: string | undefined;
   /** Optional. The cron expression representing the time when snapshots creation mechanism runs. This field is subject to additional validation around frequency of execution. */
   snapshotCreationSchedule?: string | undefined;
+  /** Optional. Whether scheduled snapshots creation is enabled. */
+  enabled?: boolean | undefined;
+  /** Optional. The Cloud Storage location for storing automatically created snapshots. */
+  snapshotLocation?: string | undefined;
 }
 /** The Recovery settings of an environment. */
 export interface RecoveryConfig {
   /** Optional. The configuration for scheduled snapshot creation mechanism. */
   scheduledSnapshotsConfig?: ScheduledSnapshotsConfig | undefined;
 }
-export type AirflowMetadataRetentionPolicyConfigRetentionModeEnum =
-  | "RETENTION_MODE_UNSPECIFIED"
-  | "RETENTION_MODE_ENABLED"
-  | "RETENTION_MODE_DISABLED";
-/** The policy for airflow metadata database retention. */
-export interface AirflowMetadataRetentionPolicyConfig {
-  /** Optional. Retention can be either enabled or disabled. */
-  retentionMode?: AirflowMetadataRetentionPolicyConfigRetentionModeEnum | (string & {}) | undefined;
-  /** Optional. How many days data should be retained for. */
-  retentionDays?: number | undefined;
-}
-export type TaskLogsRetentionConfigStorageModeEnum =
-  | "TASK_LOGS_STORAGE_MODE_UNSPECIFIED"
-  | "CLOUD_LOGGING_AND_CLOUD_STORAGE"
-  | "CLOUD_LOGGING_ONLY";
-/** The configuration setting for Task Logs. */
-export interface TaskLogsRetentionConfig {
-  /** Optional. The mode of storage for Airflow workers task logs. */
-  storageMode?: TaskLogsRetentionConfigStorageModeEnum | (string & {}) | undefined;
-}
-/** The configuration setting for Airflow database data retention mechanism. */
-export interface DataRetentionConfig {
-  /** Optional. The retention policy for airflow metadata database. */
-  airflowMetadataRetentionConfig?: AirflowMetadataRetentionPolicyConfig | undefined;
-  /** Optional. The configuration settings for task logs retention */
-  taskLogsRetentionConfig?: TaskLogsRetentionConfig | undefined;
-  /** Optional. The number of days describing for how long to store event-based records in airflow database. If the retention mechanism is enabled this value must be a positive integer otherwise, value should be set to 0. */
-  airflowDatabaseRetentionDays?: number | undefined;
-}
 /** Configuration information for an environment. */
 export interface EnvironmentConfig {
-  /** Output only. The Cloud Storage prefix of the DAGs for this environment. Although Cloud Storage objects reside in a flat namespace, a hierarchical file tree can be simulated using "/"-delimited object name prefixes. DAG objects for this environment reside in a simulated directory with the given prefix. */
-  dagGcsPrefix?: string | undefined;
-  /** Output only. The URI of the Apache Airflow Web UI hosted within this environment (see [Airflow web interface](/composer/docs/how-to/accessing/airflow-web-interface)). */
-  airflowUri?: string | undefined;
-  /** Optional. The maintenance window is the period when Cloud Composer components may undergo maintenance. It is defined so that maintenance is not executed during peak hours or critical time periods. The system will not be under maintenance for every occurrence of this window, but when maintenance is planned, it will be scheduled during the window. The maintenance window period must encompass at least 12 hours per week. This may be split into multiple chunks, each with a size of at least 4 hours. If this value is omitted, the default value for maintenance window is applied. By default, maintenance windows are from 00:00:00 to 04:00:00 (GMT) on Friday, Saturday, and Sunday every week. */
-  maintenanceWindow?: MaintenanceWindow | undefined;
-  /** Optional. The configuration for hibernating and resuming the environment on a schedule. Supported for environments that have `mode` set to `DEVELOPMENT`. */
-  scheduledHibernationConfig?: ScheduledHibernationConfig | undefined;
-  /** Optional. The configuration options for GKE cluster master authorized networks. By default master authorized networks feature is: - in case of private environment: enabled with no external networks allowlisted. - in case of public environment: disabled. */
-  masterAuthorizedNetworksConfig?: MasterAuthorizedNetworksConfig | undefined;
-  /** Optional. The configuration settings for software inside the environment. */
-  softwareConfig?: SoftwareConfig | undefined;
-  /** Optional. The configuration settings for Cloud SQL instance used internally by Apache Airflow software. */
-  databaseConfig?: DatabaseConfig | undefined;
-  /** Optional. The network-level access control policy for the Airflow web server. If unspecified, no network-level access restrictions will be applied. */
-  webServerNetworkAccessControl?: WebServerNetworkAccessControl | undefined;
-  /** Optional. The size of the Cloud Composer environment. This field is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
-  environmentSize?: EnvironmentConfigEnvironmentSizeEnum | (string & {}) | undefined;
-  /** Optional. The configuration used for the Private IP Cloud Composer environment. */
-  privateEnvironmentConfig?: PrivateEnvironmentConfig | undefined;
-  /** Output only. The Kubernetes Engine cluster used to run this environment. */
-  gkeCluster?: string | undefined;
-  /** Optional. The workloads configuration settings for the GKE cluster associated with the Cloud Composer environment. The GKE cluster runs Airflow scheduler, web server and workers workloads. This field is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
-  workloadsConfig?: WorkloadsConfig | undefined;
-  /** Optional. Resilience mode of the Cloud Composer Environment. This field is supported for Cloud Composer environments in versions composer-2.2.0-airflow-*.*.* and newer. */
-  resilienceMode?: EnvironmentConfigResilienceModeEnum | (string & {}) | undefined;
-  /** Optional. The encryption options for the Cloud Composer environment and its dependencies. Cannot be updated. */
-  encryptionConfig?: EncryptionConfig | undefined;
   /** Optional. The configuration settings for the Airflow web server App Engine instance. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
   webServerConfig?: WebServerConfig | undefined;
+  /** Optional. The encryption options for the Cloud Composer environment and its dependencies. Cannot be updated. */
+  encryptionConfig?: EncryptionConfig | undefined;
+  /** The number of nodes in the Kubernetes Engine cluster that will be used to run this environment. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
+  nodeCount?: number | undefined;
+  /** Output only. The Cloud Storage prefix of the DAGs for this environment. Although Cloud Storage objects reside in a flat namespace, a hierarchical file tree can be simulated using "/"-delimited object name prefixes. DAG objects for this environment reside in a simulated directory with the given prefix. */
+  dagGcsPrefix?: string | undefined;
+  /** Optional. The configuration setting for Airflow database data retention mechanism. */
+  dataRetentionConfig?: DataRetentionConfig | undefined;
+  /** Optional. The network-level access control policy for the Airflow web server. If unspecified, no network-level access restrictions will be applied. */
+  webServerNetworkAccessControl?: WebServerNetworkAccessControl | undefined;
+  /** Output only. The URI of the Apache Airflow Web UI hosted within this environment (see [Airflow web interface](/composer/docs/how-to/accessing/airflow-web-interface)). */
+  airflowUri?: string | undefined;
+  /** Optional. The configuration settings for software inside the environment. */
+  softwareConfig?: SoftwareConfig | undefined;
+  /** Optional. The configuration for hibernating and resuming the environment on a schedule. Supported for environments that have `mode` set to `DEVELOPMENT`. */
+  scheduledHibernationConfig?: ScheduledHibernationConfig | undefined;
+  /** Optional. Resilience mode of the Cloud Composer Environment. This field is supported for Cloud Composer environments in versions composer-2.2.0-airflow-*.*.* and newer. */
+  resilienceMode?: EnvironmentConfigResilienceModeEnum | (string & {}) | undefined;
+  /** Optional. The configuration settings for Cloud SQL instance used internally by Apache Airflow software. */
+  databaseConfig?: DatabaseConfig | undefined;
+  /** Output only. The Kubernetes Engine cluster used to run this environment. */
+  gkeCluster?: string | undefined;
   /** Optional. The configuration used for the Kubernetes Engine cluster. */
   nodeConfig?: NodeConfig | undefined;
+  /** Optional. The configuration used for the Private IP Cloud Composer environment. */
+  privateEnvironmentConfig?: PrivateEnvironmentConfig | undefined;
+  /** Optional. The configuration options for GKE cluster master authorized networks. By default master authorized networks feature is: - in case of private environment: enabled with no external networks allowlisted. - in case of public environment: disabled. */
+  masterAuthorizedNetworksConfig?: MasterAuthorizedNetworksConfig | undefined;
+  /** Optional. The workloads configuration settings for the GKE cluster associated with the Cloud Composer environment. The GKE cluster runs Airflow scheduler, web server and workers workloads. This field is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
+  workloadsConfig?: WorkloadsConfig | undefined;
+  /** Optional. The size of the Cloud Composer environment. This field is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
+  environmentSize?: EnvironmentConfigEnvironmentSizeEnum | (string & {}) | undefined;
+  /** Optional. The maintenance window is the period when Cloud Composer components may undergo maintenance. It is defined so that maintenance is not executed during peak hours or critical time periods. The system will not be under maintenance for every occurrence of this window, but when maintenance is planned, it will be scheduled during the window. The maintenance window period must encompass at least 12 hours per week. This may be split into multiple chunks, each with a size of at least 4 hours. If this value is omitted, the default value for maintenance window is applied. By default, maintenance windows are from 00:00:00 to 04:00:00 (GMT) on Friday, Saturday, and Sunday every week. */
+  maintenanceWindow?: MaintenanceWindow | undefined;
   /** Output only. The 'bring your own identity' variant of the URI of the Apache Airflow Web UI hosted within this environment, to be accessed with external identities using workforce identity federation (see [Access environments with workforce identity federation](/composer/docs/composer-2/access-environments-with-workforce-identity-federation)). */
   airflowByoidUri?: string | undefined;
   /** Optional. The Recovery settings configuration of an environment. This field is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
   recoveryConfig?: RecoveryConfig | undefined;
-  /** Optional. The configuration setting for Airflow database data retention mechanism. */
-  dataRetentionConfig?: DataRetentionConfig | undefined;
-  /** The number of nodes in the Kubernetes Engine cluster that will be used to run this environment. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
-  nodeCount?: number | undefined;
 }
+export type EnvironmentModeEnum = "MODE_UNSPECIFIED" | "DEVELOPMENT";
 export type EnvironmentStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -507,31 +503,35 @@ export type EnvironmentStateEnum =
   | "HIBERNATED"
   | "DELETING"
   | "ERROR";
-export type EnvironmentModeEnum = "MODE_UNSPECIFIED" | "DEVELOPMENT";
+/** The configuration for data storage in the environment. */
+export interface StorageConfig {
+  /** Optional. The name of the Cloud Storage bucket used by the environment. No `gs://` prefix. */
+  bucket?: string | undefined;
+}
 /** An environment for running orchestration tasks. */
 export interface Environment {
-  /** Output only. The time at which this environment was created. */
-  createTime?: string | undefined;
-  /** Optional. User-defined labels for this environment. The labels map can contain no more than 64 entries. Entries of the labels map are UTF8 strings that comply with the following restrictions: * Keys must conform to regexp: \p{Ll}\p{Lo}{0,62} * Values must conform to regexp: [\p{Ll}\p{Lo}\p{N}_-]{0,63} * Both keys and values are additionally constrained to be <= 128 bytes in size. */
-  labels?: StringMap | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. Storage configuration for this environment. */
-  storageConfig?: StorageConfig | undefined;
-  /** Identifier. The resource name of the environment, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" EnvironmentId must start with a lowercase letter followed by up to 63 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
-  name?: string | undefined;
   /** Optional. Configuration parameters for this environment. */
   config?: EnvironmentConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** The current state of the environment. */
-  state?: EnvironmentStateEnum | (string & {}) | undefined;
+  /** Output only. The UUID (Universally Unique IDentifier) associated with this environment. This value is generated when the environment is created. */
+  uuid?: string | undefined;
+  /** Optional. User-defined labels for this environment. The labels map can contain no more than 64 entries. Entries of the labels map are UTF8 strings that comply with the following restrictions: * Keys must conform to regexp: \p{Ll}\p{Lo}{0,62} * Values must conform to regexp: [\p{Ll}\p{Lo}\p{N}_-]{0,63} * Both keys and values are additionally constrained to be <= 128 bytes in size. */
+  labels?: StringMap | undefined;
   /** Output only. The time at which this environment was last modified. */
   updateTime?: string | undefined;
   /** Optional. Selects the environment mode that determines what settings are customizable and what features are available in the environment. */
   mode?: EnvironmentModeEnum | (string & {}) | undefined;
-  /** Output only. The UUID (Universally Unique IDentifier) associated with this environment. This value is generated when the environment is created. */
-  uuid?: string | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
+  /** The current state of the environment. */
+  state?: EnvironmentStateEnum | (string & {}) | undefined;
+  /** Output only. The time at which this environment was created. */
+  createTime?: string | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Optional. Storage configuration for this environment. */
+  storageConfig?: StorageConfig | undefined;
+  /** Identifier. The resource name of the environment, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" EnvironmentId must start with a lowercase letter followed by up to 63 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsEnvironmentsRequest extends Environment {
   /** The parent must be of the form "projects/{projectId}/locations/{locationId}". */
@@ -550,12 +550,12 @@ export interface CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsReque
 }
 /** User workloads Secret used by Airflow tasks that run with Kubernetes executor or KubernetesPodOperator. */
 export interface UserWorkloadsSecret {
+  /** Optional. The "data" field of Kubernetes Secret, organized in key-value pairs, which can contain sensitive values such as a password, a token, or a key. The values for all keys have to be base64-encoded strings. For details see: https://kubernetes.io/docs/concepts/configuration/secret/ Example: { "example": "ZXhhbXBsZV92YWx1ZQ==", "another-example": "YW5vdGhlcl9leGFtcGxlX3ZhbHVl" } */
+  data?: StringMap | undefined;
   /** Optional. The "type" field of Kubernetes Secret. For details see: https://kubernetes.io/docs/concepts/configuration/secret/#secret-types */
   type?: string | undefined;
   /** Identifier. The resource name of the Secret, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsSecrets/{userWorkloadsSecretId}" */
   name?: string | undefined;
-  /** Optional. The "data" field of Kubernetes Secret, organized in key-value pairs, which can contain sensitive values such as a password, a token, or a key. The values for all keys have to be base64-encoded strings. For details see: https://kubernetes.io/docs/concepts/configuration/secret/ Example: { "example": "ZXhhbXBsZV92YWx1ZQ==", "another-example": "YW5vdGhlcl9leGFtcGxlX3ZhbHVl" } */
-  data?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest extends UserWorkloadsSecret {
   /** Required. The environment name to create a Secret for, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
@@ -589,12 +589,12 @@ export interface DeleteProjectsLocationsOperationsRequest {
 }
 /** Execute Airflow Command request. */
 export interface ExecuteAirflowCommandRequest {
+  /** Airflow command. */
+  command?: string | undefined;
   /** Airflow subcommand. */
   subcommand?: string | undefined;
   /** Parameters for the Airflow command/subcommand as an array of arguments. It may contain positional arguments like `["my-dag-id"]`, key-value parameters like `["--foo=bar"]` or `["--foo","bar"]`, or other flags like `["-f"]`. */
   parameters?: StringList | undefined;
-  /** Airflow command. */
-  command?: string | undefined;
 }
 export interface ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest extends ExecuteAirflowCommandRequest {
   /** The resource name of the environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}". */
@@ -602,14 +602,14 @@ export interface ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest exten
 }
 /** Response to ExecuteAirflowCommandRequest. */
 export interface ExecuteAirflowCommandResponse {
-  /** The namespace of the pod where the command is executed. */
-  podNamespace?: string | undefined;
   /** The name of the pod where the command is executed. */
   pod?: string | undefined;
-  /** The unique ID of the command execution for polling. */
-  executionId?: string | undefined;
   /** Error message. Empty if there was no error. */
   error?: string | undefined;
+  /** The namespace of the pod where the command is executed. */
+  podNamespace?: string | undefined;
+  /** The unique ID of the command execution for polling. */
+  executionId?: string | undefined;
 }
 export interface FetchDatabasePropertiesProjectsLocationsEnvironmentsRequest {
   /** Required. The resource name of the environment, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
@@ -617,12 +617,12 @@ export interface FetchDatabasePropertiesProjectsLocationsEnvironmentsRequest {
 }
 /** Response for FetchDatabasePropertiesRequest. */
 export interface FetchDatabasePropertiesResponse {
+  /** The availability status of the failover replica. A false status indicates that the failover replica is out of sync. The primary instance can only fail over to the failover replica when the status is true. */
+  isFailoverReplicaAvailable?: boolean | undefined;
   /** The Compute Engine zone that the failover instance is currently serving from for a regional Cloud SQL instance. */
   secondaryGceZone?: string | undefined;
   /** The Compute Engine zone that the instance is currently serving from. */
   primaryGceZone?: string | undefined;
-  /** The availability status of the failover replica. A false status indicates that the failover replica is out of sync. The primary instance can only fail over to the failover replica when the status is true. */
-  isFailoverReplicaAvailable?: boolean | undefined;
 }
 export interface GetProjectsLocationsEnvironmentsRequest {
   /** The resource name of the environment to get, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
@@ -651,42 +651,42 @@ export interface HibernateProjectsLocationsEnvironmentsRequest {
 export interface ListProjectsLocationsEnvironmentsRequest {
   /** The maximum number of environments to return. */
   pageSize?: number | undefined;
-  /** List environments in the given project and location, in the form: "projects/{projectId}/locations/{locationId}" */
-  parent: string;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string | undefined;
+  /** List environments in the given project and location, in the form: "projects/{projectId}/locations/{locationId}" */
+  parent: string;
 }
 export type EnvironmentList = Array<Environment>;
 /** The environments in a project and location. */
 export interface ListEnvironmentsResponse {
-  /** The page token used to query for the next page if one exists. */
-  nextPageToken?: string | undefined;
   /** The list of environments returned by a ListEnvironmentsRequest. */
   environments?: EnvironmentList | undefined;
+  /** The page token used to query for the next page if one exists. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest {
-  /** Optional. The maximum number of ConfigMaps to return. */
-  pageSize?: number | undefined;
-  /** Optional. The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string | undefined;
   /** Required. List ConfigMaps in the given environment, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   parent: string;
+  /** Optional. The next_page_token value returned from a previous List request, if any. */
+  pageToken?: string | undefined;
+  /** Optional. The maximum number of ConfigMaps to return. */
+  pageSize?: number | undefined;
 }
 export type UserWorkloadsConfigMapList = Array<UserWorkloadsConfigMap>;
 /** The user workloads ConfigMaps for a given environment. */
 export interface ListUserWorkloadsConfigMapsResponse {
-  /** The list of ConfigMaps returned by a ListUserWorkloadsConfigMapsRequest. */
-  userWorkloadsConfigMaps?: UserWorkloadsConfigMapList | undefined;
   /** The page token used to query for the next page if one exists. */
   nextPageToken?: string | undefined;
+  /** The list of ConfigMaps returned by a ListUserWorkloadsConfigMapsRequest. */
+  userWorkloadsConfigMaps?: UserWorkloadsConfigMapList | undefined;
 }
 export interface ListProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest {
+  /** Optional. The next_page_token value returned from a previous List request, if any. */
+  pageToken?: string | undefined;
   /** Required. List Secrets in the given environment, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   parent: string;
   /** Optional. The maximum number of Secrets to return. */
   pageSize?: number | undefined;
-  /** Optional. The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string | undefined;
 }
 export type UserWorkloadsSecretList = Array<UserWorkloadsSecret>;
 /** The user workloads Secrets for a given environment. */
@@ -699,12 +699,12 @@ export interface ListUserWorkloadsSecretsResponse {
 export interface ListProjectsLocationsEnvironmentsWorkloadsRequest {
   /** Optional. The maximum number of environments to return. */
   pageSize?: number | undefined;
-  /** Optional. The list filter. Currently only supports equality on the type field. The value of a field specified in the filter expression must be one ComposerWorkloadType enum option. It's possible to get multiple types using "OR" operator, e.g.: "type=SCHEDULER OR type=CELERY_WORKER". If not specified, all items are returned. */
-  filter?: string | undefined;
-  /** Optional. The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string | undefined;
   /** Required. The environment name to get workloads for, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   parent: string;
+  /** Optional. The next_page_token value returned from a previous List request, if any. */
+  pageToken?: string | undefined;
+  /** Optional. The list filter. Currently only supports equality on the type field. The value of a field specified in the filter expression must be one ComposerWorkloadType enum option. It's possible to get multiple types using "OR" operator, e.g.: "type=SCHEDULER OR type=CELERY_WORKER". If not specified, all items are returned. */
+  filter?: string | undefined;
 }
 export type ComposerWorkloadStatusStateEnum =
   | "COMPOSER_WORKLOAD_STATE_UNSPECIFIED"
@@ -718,10 +718,10 @@ export type ComposerWorkloadStatusStateEnum =
 export interface ComposerWorkloadStatus {
   /** Output only. Detailed message of the status. */
   detailedStatusMessage?: string | undefined;
-  /** Output only. Text to provide more descriptive status. */
-  statusMessage?: string | undefined;
   /** Output only. Workload state. */
   state?: ComposerWorkloadStatusStateEnum | undefined;
+  /** Output only. Text to provide more descriptive status. */
+  statusMessage?: string | undefined;
 }
 export type ComposerWorkloadTypeEnum =
   | "COMPOSER_WORKLOAD_TYPE_UNSPECIFIED"
@@ -755,36 +755,36 @@ export interface ListProjectsLocationsImageVersionsRequest {
   parent: string;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string | undefined;
-  /** Whether or not image versions from old releases should be included. */
-  includePastReleases?: boolean | undefined;
   /** The maximum number of image_versions to return. */
   pageSize?: number | undefined;
+  /** Whether or not image versions from old releases should be included. */
+  includePastReleases?: boolean | undefined;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Composer_Date {
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   day?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   month?: number | undefined;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
 }
 /** Image Version information */
 export interface ImageVersion {
-  /** Whether this is the default ImageVersion used by Composer during environment creation if no input ImageVersion is specified. */
-  isDefault?: boolean | undefined;
   /** supported python versions */
   supportedPythonVersions?: StringList | undefined;
   /** The string identifier of the ImageVersion, in the form: "composer-x.y.z-airflow-a.b.c" */
   imageVersionId?: string | undefined;
-  /** Whether it is impossible to upgrade an environment running with the image version. */
-  upgradeDisabled?: boolean | undefined;
+  /** Whether this is the default ImageVersion used by Composer during environment creation if no input ImageVersion is specified. */
+  isDefault?: boolean | undefined;
   /** Whether it is impossible to create an environment with the image version. */
   creationDisabled?: boolean | undefined;
-  /** The date of the version release. */
-  releaseDate?: Composer_Date | undefined;
   /** Whether it is possible to create an environment in the `DEVELOPMENT` mode with the image version. */
   devModeSupported?: boolean | undefined;
+  /** Whether it is impossible to upgrade an environment running with the image version. */
+  upgradeDisabled?: boolean | undefined;
+  /** The date of the version release. */
+  releaseDate?: Composer_Date | undefined;
 }
 export type ImageVersionList = Array<ImageVersion>;
 /** The ImageVersions in a project and location. */
@@ -795,37 +795,37 @@ export interface ListImageVersionsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string | undefined;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
 }
 /** Request to load a snapshot into a Cloud Composer environment. */
 export interface LoadSnapshotRequest {
+  /** Whether or not to skip installing Pypi packages when loading the environment's state. */
+  skipPypiPackagesInstallation?: boolean | undefined;
   /** Whether or not to skip copying Cloud Storage data when loading the environment's state. */
   skipGcsDataCopying?: boolean | undefined;
   /** A Cloud Storage path to a snapshot to load, e.g.: "gs://my-bucket/snapshots/project_location_environment_timestamp". */
   snapshotPath?: string | undefined;
   /** Whether or not to skip setting Airflow overrides when loading the environment's state. */
   skipAirflowOverridesSetting?: boolean | undefined;
-  /** Whether or not to skip installing Pypi packages when loading the environment's state. */
-  skipPypiPackagesInstallation?: boolean | undefined;
   /** Whether or not to skip setting environment variables when loading the environment's state. */
   skipEnvironmentVariablesSetting?: boolean | undefined;
 }
@@ -841,14 +841,14 @@ export interface PatchProjectsLocationsEnvironmentsRequest extends Omit<Environm
 }
 /** Poll Airflow Command request. */
 export interface PollAirflowCommandRequest {
+  /** The namespace of the pod where the command is executed. */
+  podNamespace?: string | undefined;
+  /** The name of the pod where the command is executed. */
+  pod?: string | undefined;
   /** Line number from which new logs should be fetched. */
   nextLineNumber?: number | undefined;
   /** The unique ID of the command execution. */
   executionId?: string | undefined;
-  /** The name of the pod where the command is executed. */
-  pod?: string | undefined;
-  /** The namespace of the pod where the command is executed. */
-  podNamespace?: string | undefined;
 }
 export interface PollAirflowCommandProjectsLocationsEnvironmentsRequest extends PollAirflowCommandRequest {
   /** The resource name of the environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
@@ -856,27 +856,27 @@ export interface PollAirflowCommandProjectsLocationsEnvironmentsRequest extends 
 }
 /** Information about how a command ended. */
 export interface ExitInfo {
-  /** The exit code from the command execution. */
-  exitCode?: number | undefined;
   /** Error message. Empty if there was no error. */
   error?: string | undefined;
+  /** The exit code from the command execution. */
+  exitCode?: number | undefined;
 }
 /** Contains information about a single line from logs. */
 export interface Line {
-  /** Text content of the log line. */
-  content?: string | undefined;
   /** Number of the line. */
   lineNumber?: number | undefined;
+  /** Text content of the log line. */
+  content?: string | undefined;
 }
 export type LineList = Array<Line>;
 /** Response to PollAirflowCommandRequest. */
 export interface PollAirflowCommandResponse {
+  /** Whether the command execution has finished and there is no more output. */
+  outputEnd?: boolean | undefined;
   /** The result exit status of the command. */
   exitInfo?: ExitInfo | undefined;
   /** Output from the command execution. It may not contain the full output and the caller may need to poll for more lines. */
   output?: LineList | undefined;
-  /** Whether the command execution has finished and there is no more output. */
-  outputEnd?: boolean | undefined;
 }
 /** Restart Airflow web server. */
 export type RestartWebServerRequest = DatabaseFailoverRequest;
@@ -905,14 +905,14 @@ export interface SaveSnapshotProjectsLocationsEnvironmentsRequest extends SaveSn
 }
 /** Stop Airflow Command request. */
 export interface StopAirflowCommandRequest {
-  /** The name of the pod where the command is executed. */
-  pod?: string | undefined;
-  /** If true, the execution is terminated forcefully (SIGKILL). If false, the execution is stopped gracefully, giving it time for cleanup. */
-  force?: boolean | undefined;
-  /** The namespace of the pod where the command is executed. */
-  podNamespace?: string | undefined;
   /** The unique ID of the command execution. */
   executionId?: string | undefined;
+  /** The name of the pod where the command is executed. */
+  pod?: string | undefined;
+  /** The namespace of the pod where the command is executed. */
+  podNamespace?: string | undefined;
+  /** If true, the execution is terminated forcefully (SIGKILL). If false, the execution is stopped gracefully, giving it time for cleanup. */
+  force?: boolean | undefined;
 }
 export interface StopAirflowCommandProjectsLocationsEnvironmentsRequest extends StopAirflowCommandRequest {
   /** The resource name of the environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}". */
@@ -1713,9 +1713,9 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          command: S.optional(S.String),
           subcommand: S.optional(S.String),
           parameters: S.optional(__S(896, __c28, 0)),
-          command: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExecuteAirflowCommandRequest" });
     case 1:
@@ -1736,10 +1736,10 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          podNamespace: S.optional(S.String),
           pod: S.optional(S.String),
-          executionId: S.optional(S.String),
           error: S.optional(S.String),
+          podNamespace: S.optional(S.String),
+          executionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExecuteAirflowCommandResponse" });
   }
@@ -1761,9 +1761,9 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          isFailoverReplicaAvailable: S.optional(S.Boolean),
           secondaryGceZone: S.optional(S.String),
           primaryGceZone: S.optional(S.String),
-          isFailoverReplicaAvailable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "FetchDatabasePropertiesResponse" });
   }
@@ -1855,8 +1855,8 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1870,8 +1870,8 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           environments: S.optional(__S(321, __c10, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEnvironmentsResponse" });
   }
@@ -1881,9 +1881,9 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1897,8 +1897,8 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          userWorkloadsConfigMaps: S.optional(__S(353, __c11, 1)),
           nextPageToken: S.optional(S.String),
+          userWorkloadsConfigMaps: S.optional(__S(353, __c11, 1)),
         }),
       ).annotate({ identifier: "ListUserWorkloadsConfigMapsResponse" });
   }
@@ -1908,9 +1908,9 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1936,9 +1936,9 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1951,8 +1951,8 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           detailedStatusMessage: S.optional(S.String),
-          statusMessage: S.optional(S.String),
           state: S.optional(S.String),
+          statusMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "ComposerWorkloadStatus" });
     case 2:
@@ -1981,8 +1981,8 @@ function __c14(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          includePastReleases: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          includePastReleases: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1994,21 +1994,21 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          year: S.optional(S.Number),
           day: S.optional(S.Number),
           month: S.optional(S.Number),
-          year: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Composer_Date" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          isDefault: S.optional(S.Boolean),
           supportedPythonVersions: S.optional(__S(896, __c28, 0)),
           imageVersionId: S.optional(S.String),
-          upgradeDisabled: S.optional(S.Boolean),
+          isDefault: S.optional(S.Boolean),
           creationDisabled: S.optional(S.Boolean),
-          releaseDate: S.optional(__S(449, __c14, 1)),
           devModeSupported: S.optional(S.Boolean),
+          upgradeDisabled: S.optional(S.Boolean),
+          releaseDate: S.optional(__S(449, __c14, 1)),
         }),
       ).annotate({ identifier: "ImageVersion" });
     case 3:
@@ -2027,10 +2027,10 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -2045,9 +2045,9 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          operations: S.optional(__S(481, __c15, 1)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(896, __c28, 0)),
-          operations: S.optional(__S(481, __c15, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -2057,10 +2057,10 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          skipPypiPackagesInstallation: S.optional(S.Boolean),
           skipGcsDataCopying: S.optional(S.Boolean),
           snapshotPath: S.optional(S.String),
           skipAirflowOverridesSetting: S.optional(S.Boolean),
-          skipPypiPackagesInstallation: S.optional(S.Boolean),
           skipEnvironmentVariablesSetting: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "LoadSnapshotRequest" });
@@ -2106,10 +2106,10 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          podNamespace: S.optional(S.String),
+          pod: S.optional(S.String),
           nextLineNumber: S.optional(S.Number),
           executionId: S.optional(S.String),
-          pod: S.optional(S.String),
-          podNamespace: S.optional(S.String),
         }),
       ).annotate({ identifier: "PollAirflowCommandRequest" });
     case 1:
@@ -2130,15 +2130,15 @@ function __c18(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          exitCode: S.optional(S.Number),
           error: S.optional(S.String),
+          exitCode: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ExitInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(S.String),
           lineNumber: S.optional(S.Number),
+          content: S.optional(S.String),
         }),
       ).annotate({ identifier: "Line" });
     case 4:
@@ -2146,9 +2146,9 @@ function __c18(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          outputEnd: S.optional(S.Boolean),
           exitInfo: S.optional(__S(578, __c18, 2)),
           output: S.optional(__S(580, __c18, 4)),
-          outputEnd: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PollAirflowCommandResponse" });
   }
@@ -2217,10 +2217,10 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pod: S.optional(S.String),
-          force: S.optional(S.Boolean),
-          podNamespace: S.optional(S.String),
           executionId: S.optional(S.String),
+          pod: S.optional(S.String),
+          podNamespace: S.optional(S.String),
+          force: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "StopAirflowCommandRequest" });
     case 1:
@@ -2321,19 +2321,19 @@ function __c26(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(833, __c26, 1)),
-          code: S.optional(S.Number),
           message: S.optional(S.String),
+          code: S.optional(S.Number),
+          details: S.optional(__S(833, __c26, 1)),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           response: S.optional(__S(832, __c26, 0)),
           error: S.optional(__S(834, __c26, 2)),
-          done: S.optional(S.Boolean),
+          name: S.optional(S.String),
           metadata: S.optional(__S(832, __c26, 0)),
+          done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -2368,136 +2368,199 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bucket: S.optional(S.String),
+          machineType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "StorageConfig" });
+      ).annotate({ identifier: "WebServerConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(S.String),
-          recurrence: S.optional(S.String),
-          startTime: S.optional(S.String),
+          kmsKeyName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MaintenanceWindow" });
+      ).annotate({ identifier: "EncryptionConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
-          resumptionSchedules: S.optional(__S(896, __c28, 0)),
-          timeZone: S.optional(S.String),
-          hibernationSchedules: S.optional(__S(896, __c28, 0)),
+          storageMode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ScheduledHibernationConfig" });
+      ).annotate({ identifier: "TaskLogsRetentionConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          cidrBlock: S.optional(S.String),
+          retentionDays: S.optional(S.Number),
+          retentionMode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CidrBlock" });
+      ).annotate({ identifier: "AirflowMetadataRetentionPolicyConfig" });
     case 4:
-      return S.Array(__S(931, __c29, 3));
+      return S.suspend(() =>
+        S.Struct({
+          airflowDatabaseRetentionDays: S.optional(S.Number),
+          taskLogsRetentionConfig: S.optional(__S(930, __c29, 2)),
+          airflowMetadataRetentionConfig: S.optional(__S(931, __c29, 3)),
+        }),
+      ).annotate({ identifier: "DataRetentionConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          cidrBlocks: S.optional(__S(932, __c29, 4)),
-          enabled: S.optional(S.Boolean),
+          value: S.optional(S.String),
+          description: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MasterAuthorizedNetworksConfig" });
+      ).annotate({ identifier: "AllowedIpRange" });
     case 6:
+      return S.Array(__S(933, __c29, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          allowedIpRanges: S.optional(__S(934, __c29, 6)),
+        }),
+      ).annotate({ identifier: "WebServerNetworkAccessControl" });
+    case 8:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CloudDataLineageIntegration" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          lastActiveTime: S.optional(S.String),
-          imageVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ImageVersionRollbackTarget" });
-    case 8:
-      return S.Array(__S(935, __c29, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          cloudDataLineageIntegration: S.optional(__S(934, __c29, 6)),
-          webServerPluginsMode: S.optional(S.String),
-          schedulerCount: S.optional(S.Number),
-          envVariables: S.optional(__S(992, __c31, 0)),
-          auditLogsReplicationMode: S.optional(S.String),
-          airflowConfigOverrides: S.optional(__S(992, __c31, 0)),
-          pypiPackages: S.optional(__S(992, __c31, 0)),
-          imageVersionRollbackTargets: S.optional(__S(936, __c29, 8)),
           imageVersion: S.optional(S.String),
-          pythonVersion: S.optional(S.String),
+          lastActiveTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SoftwareConfig" });
+      ).annotate({ identifier: "ImageVersionRollbackTarget" });
     case 10:
-      return S.suspend(() =>
-        S.Struct({
-          machineType: S.optional(S.String),
-          zone: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DatabaseConfig" });
+      return S.Array(__S(937, __c29, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          value: S.optional(S.String),
+          schedulerCount: S.optional(S.Number),
+          auditLogsReplicationMode: S.optional(S.String),
+          cloudDataLineageIntegration: S.optional(__S(936, __c29, 8)),
+          imageVersionRollbackTargets: S.optional(__S(938, __c29, 10)),
+          envVariables: S.optional(__S(992, __c31, 0)),
+          imageVersion: S.optional(S.String),
+          pypiPackages: S.optional(__S(992, __c31, 0)),
+          pythonVersion: S.optional(S.String),
+          airflowConfigOverrides: S.optional(__S(992, __c31, 0)),
+          webServerPluginsMode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AllowedIpRange" });
+      ).annotate({ identifier: "SoftwareConfig" });
     case 12:
-      return S.Array(__S(939, __c29, 11));
+      return S.suspend(() =>
+        S.Struct({
+          resumptionSchedules: S.optional(__S(896, __c28, 0)),
+          timeZone: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          hibernationSchedules: S.optional(__S(896, __c28, 0)),
+        }),
+      ).annotate({ identifier: "ScheduledHibernationConfig" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          allowedIpRanges: S.optional(__S(940, __c29, 12)),
+          zone: S.optional(S.String),
+          machineType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "WebServerNetworkAccessControl" });
+      ).annotate({ identifier: "DatabaseConfig" });
     case 14:
+      return S.suspend(() =>
+        S.Struct({
+          clusterSecondaryRangeName: S.optional(S.String),
+          clusterIpv4CidrBlock: S.optional(S.String),
+          useIpAliases: S.optional(S.Boolean),
+          servicesIpv4CidrBlock: S.optional(S.String),
+          servicesSecondaryRangeName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IPAllocationPolicy" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          cloudRunFunctionsRouting: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TrafficRoutingConfig" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          machineType: S.optional(S.String),
+          tags: S.optional(__S(896, __c28, 0)),
+          ipAllocationPolicy: S.optional(__S(942, __c29, 14)),
+          trafficRoutingConfig: S.optional(__S(943, __c29, 15)),
+          diskSizeGb: S.optional(S.Number),
+          oauthScopes: S.optional(__S(896, __c28, 0)),
+          composerInternalIpv4CidrBlock: S.optional(S.String),
+          subnetwork: S.optional(S.String),
+          composerNetworkAttachment: S.optional(S.String),
+          location: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          network: S.optional(S.String),
+          enableIpMasqAgent: S.optional(S.Boolean),
+          maxPodsPerNode: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NodeConfig" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          masterIpv4CidrBlock: S.optional(S.String),
+          enablePrivateEndpoint: S.optional(S.Boolean),
+          masterIpv4ReservedRange: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateClusterConfig" });
+    case 18:
       return S.suspend(() =>
         S.Struct({
           connectionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkingConfig" });
-    case 15:
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          masterIpv4ReservedRange: S.optional(S.String),
-          enablePrivateEndpoint: S.optional(S.Boolean),
-          masterIpv4CidrBlock: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivateClusterConfig" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          enablePrivateBuildsOnly: S.optional(S.Boolean),
-          networkingConfig: S.optional(__S(942, __c29, 14)),
-          webServerIpv4CidrBlock: S.optional(S.String),
-          enablePrivatelyUsedPublicIps: S.optional(S.Boolean),
-          cloudSqlIpv4CidrBlock: S.optional(S.String),
-          webServerIpv4ReservedRange: S.optional(S.String),
-          networkingType: S.optional(S.String),
-          privateClusterConfig: S.optional(__S(943, __c29, 15)),
-          enablePrivateEnvironment: S.optional(S.Boolean),
-          cloudComposerNetworkIpv4CidrBlock: S.optional(S.String),
           cloudComposerConnectionSubnetwork: S.optional(S.String),
+          enablePrivateEnvironment: S.optional(S.Boolean),
+          webServerIpv4CidrBlock: S.optional(S.String),
+          networkingType: S.optional(S.String),
+          enablePrivatelyUsedPublicIps: S.optional(S.Boolean),
+          privateClusterConfig: S.optional(__S(945, __c29, 17)),
           cloudComposerNetworkIpv4ReservedRange: S.optional(S.String),
+          enablePrivateBuildsOnly: S.optional(S.Boolean),
+          cloudSqlIpv4CidrBlock: S.optional(S.String),
+          networkingConfig: S.optional(__S(946, __c29, 18)),
+          webServerIpv4ReservedRange: S.optional(S.String),
+          cloudComposerNetworkIpv4CidrBlock: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEnvironmentConfig" });
-    case 17:
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          maxCount: S.optional(S.Number),
-          memoryGb: S.optional(S.Number),
-          minCount: S.optional(S.Number),
+          cidrBlock: S.optional(S.String),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CidrBlock" });
+    case 21:
+      return S.Array(__S(948, __c29, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          cidrBlocks: S.optional(__S(949, __c29, 21)),
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MasterAuthorizedNetworksConfig" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
           storageGb: S.optional(S.Number),
+          count: S.optional(S.Number),
+          memoryGb: S.optional(S.Number),
+          cpu: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DagProcessorResource" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          storageGb: S.optional(S.Number),
+          memoryGb: S.optional(S.Number),
+          maxCount: S.optional(S.Number),
+          minCount: S.optional(S.Number),
           cpu: S.optional(S.Number),
         }),
       ).annotate({ identifier: "WorkerResource" });
-    case 18:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           storageGb: S.optional(S.Number),
@@ -2505,117 +2568,56 @@ function __c29(j: number): any {
           memoryGb: S.optional(S.Number),
         }),
       ).annotate({ identifier: "WebServerResource" });
-    case 19:
+    case 26:
       return S.suspend(() =>
         S.Struct({
-          memoryGb: S.optional(S.Number),
-          count: S.optional(S.Number),
           cpu: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TriggererResource" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
           count: S.optional(S.Number),
-          cpu: S.optional(S.Number),
           memoryGb: S.optional(S.Number),
           storageGb: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SchedulerResource" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          cpu: S.optional(S.Number),
-          storageGb: S.optional(S.Number),
-          memoryGb: S.optional(S.Number),
-          count: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "DagProcessorResource" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          worker: S.optional(__S(945, __c29, 17)),
-          webServer: S.optional(__S(946, __c29, 18)),
-          triggerer: S.optional(__S(947, __c29, 19)),
-          scheduler: S.optional(__S(948, __c29, 20)),
-          dagProcessor: S.optional(__S(949, __c29, 21)),
-        }),
-      ).annotate({ identifier: "WorkloadsConfig" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          kmsKeyName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EncryptionConfig" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          machineType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WebServerConfig" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          clusterIpv4CidrBlock: S.optional(S.String),
-          useIpAliases: S.optional(S.Boolean),
-          servicesIpv4CidrBlock: S.optional(S.String),
-          clusterSecondaryRangeName: S.optional(S.String),
-          servicesSecondaryRangeName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IPAllocationPolicy" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          cloudRunFunctionsRouting: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TrafficRoutingConfig" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          maxPodsPerNode: S.optional(S.Number),
-          enableIpMasqAgent: S.optional(S.Boolean),
-          ipAllocationPolicy: S.optional(__S(953, __c29, 25)),
-          composerInternalIpv4CidrBlock: S.optional(S.String),
-          composerNetworkAttachment: S.optional(S.String),
-          location: S.optional(S.String),
-          machineType: S.optional(S.String),
-          network: S.optional(S.String),
-          trafficRoutingConfig: S.optional(__S(954, __c29, 26)),
-          oauthScopes: S.optional(__S(896, __c28, 0)),
-          subnetwork: S.optional(S.String),
-          diskSizeGb: S.optional(S.Number),
-          serviceAccount: S.optional(S.String),
-          tags: S.optional(__S(896, __c28, 0)),
+          count: S.optional(S.Number),
+          memoryGb: S.optional(S.Number),
+          cpu: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "NodeConfig" });
+      ).annotate({ identifier: "TriggererResource" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
-          snapshotLocation: S.optional(S.String),
-          timeZone: S.optional(S.String),
-          snapshotCreationSchedule: S.optional(S.String),
+          dagProcessor: S.optional(__S(951, __c29, 23)),
+          worker: S.optional(__S(952, __c29, 24)),
+          webServer: S.optional(__S(953, __c29, 25)),
+          scheduler: S.optional(__S(954, __c29, 26)),
+          triggerer: S.optional(__S(955, __c29, 27)),
         }),
-      ).annotate({ identifier: "ScheduledSnapshotsConfig" });
+      ).annotate({ identifier: "WorkloadsConfig" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          scheduledSnapshotsConfig: S.optional(__S(956, __c29, 28)),
+          startTime: S.optional(S.String),
+          recurrence: S.optional(S.String),
+          endTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RecoveryConfig" });
+      ).annotate({ identifier: "MaintenanceWindow" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          retentionMode: S.optional(S.String),
-          retentionDays: S.optional(S.Number),
+          timeZone: S.optional(S.String),
+          snapshotCreationSchedule: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          snapshotLocation: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AirflowMetadataRetentionPolicyConfig" });
+      ).annotate({ identifier: "ScheduledSnapshotsConfig" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          storageMode: S.optional(S.String),
+          scheduledSnapshotsConfig: S.optional(__S(958, __c29, 30)),
         }),
-      ).annotate({ identifier: "TaskLogsRetentionConfig" });
+      ).annotate({ identifier: "RecoveryConfig" });
   }
 }
 function __c30(j: number): any {
@@ -2623,50 +2625,48 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          airflowMetadataRetentionConfig: S.optional(__S(958, __c29, 30)),
-          taskLogsRetentionConfig: S.optional(__S(959, __c29, 31)),
-          airflowDatabaseRetentionDays: S.optional(S.Number),
+          webServerConfig: S.optional(__S(928, __c29, 0)),
+          encryptionConfig: S.optional(__S(929, __c29, 1)),
+          nodeCount: S.optional(S.Number),
+          dagGcsPrefix: S.optional(S.String),
+          dataRetentionConfig: S.optional(__S(932, __c29, 4)),
+          webServerNetworkAccessControl: S.optional(__S(935, __c29, 7)),
+          airflowUri: S.optional(S.String),
+          softwareConfig: S.optional(__S(939, __c29, 11)),
+          scheduledHibernationConfig: S.optional(__S(940, __c29, 12)),
+          resilienceMode: S.optional(S.String),
+          databaseConfig: S.optional(__S(941, __c29, 13)),
+          gkeCluster: S.optional(S.String),
+          nodeConfig: S.optional(__S(944, __c29, 16)),
+          privateEnvironmentConfig: S.optional(__S(947, __c29, 19)),
+          masterAuthorizedNetworksConfig: S.optional(__S(950, __c29, 22)),
+          workloadsConfig: S.optional(__S(956, __c29, 28)),
+          environmentSize: S.optional(S.String),
+          maintenanceWindow: S.optional(__S(957, __c29, 29)),
+          airflowByoidUri: S.optional(S.String),
+          recoveryConfig: S.optional(__S(959, __c29, 31)),
         }),
-      ).annotate({ identifier: "DataRetentionConfig" });
+      ).annotate({ identifier: "EnvironmentConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dagGcsPrefix: S.optional(S.String),
-          airflowUri: S.optional(S.String),
-          maintenanceWindow: S.optional(__S(929, __c29, 1)),
-          scheduledHibernationConfig: S.optional(__S(930, __c29, 2)),
-          masterAuthorizedNetworksConfig: S.optional(__S(933, __c29, 5)),
-          softwareConfig: S.optional(__S(937, __c29, 9)),
-          databaseConfig: S.optional(__S(938, __c29, 10)),
-          webServerNetworkAccessControl: S.optional(__S(941, __c29, 13)),
-          environmentSize: S.optional(S.String),
-          privateEnvironmentConfig: S.optional(__S(944, __c29, 16)),
-          gkeCluster: S.optional(S.String),
-          workloadsConfig: S.optional(__S(950, __c29, 22)),
-          resilienceMode: S.optional(S.String),
-          encryptionConfig: S.optional(__S(951, __c29, 23)),
-          webServerConfig: S.optional(__S(952, __c29, 24)),
-          nodeConfig: S.optional(__S(955, __c29, 27)),
-          airflowByoidUri: S.optional(S.String),
-          recoveryConfig: S.optional(__S(957, __c29, 29)),
-          dataRetentionConfig: S.optional(__S(960, __c30, 0)),
-          nodeCount: S.optional(S.Number),
+          bucket: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EnvironmentConfig" });
+      ).annotate({ identifier: "StorageConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
+          config: S.optional(__S(960, __c30, 0)),
+          uuid: S.optional(S.String),
           labels: S.optional(__S(992, __c31, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-          storageConfig: S.optional(__S(928, __c29, 0)),
-          name: S.optional(S.String),
-          config: S.optional(__S(961, __c30, 1)),
-          satisfiesPzs: S.optional(S.Boolean),
-          state: S.optional(S.String),
           updateTime: S.optional(S.String),
           mode: S.optional(S.String),
-          uuid: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          storageConfig: S.optional(__S(961, __c30, 1)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Environment" });
   }
@@ -2733,9 +2733,9 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          data: S.optional(__S(992, __c31, 0)),
           type: S.optional(S.String),
           name: S.optional(S.String),
-          data: S.optional(__S(992, __c31, 0)),
         }),
       ).annotate({ identifier: "UserWorkloadsSecret" });
   }

@@ -105,24 +105,24 @@ export type StringMap = { [key: string]: string | undefined };
 export interface ApigatewayApi {
   /** Output only. State of the API. */
   state?: ApigatewayApiStateEnum | (string & {}) | undefined;
+  /** Output only. Created time. */
+  createTime?: string | undefined;
   /** Output only. Updated time. */
   updateTime?: string | undefined;
   /** Identifier. Resource name of the API. Format: projects/{project}/locations/global/apis/{api} */
   name?: string | undefined;
   /** Optional. Display name. */
   displayName?: string | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
   /** Optional. Immutable. The name of a Google Managed Service ( https://cloud.google.com/service-infrastructure/docs/glossary#managed). If not specified, a new Service will automatically be created in the same project as this API. */
   managedService?: string | undefined;
+  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsApisRequest extends ApigatewayApi {
-  /** Required. Identifier to assign to the API. Must be unique within scope of the parent resource. */
-  apiId?: string | undefined;
   /** Required. Parent resource of the API, of the form: `projects/*\/locations/global` */
   parent: string;
+  /** Required. Identifier to assign to the API. Must be unique within scope of the parent resource. */
+  apiId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -130,24 +130,38 @@ export type DocumentMapList = Array<DocumentMap>;
 export interface ApigatewayStatus {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface ApigatewayOperation {
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: ApigatewayStatus | undefined;
 }
+/** A lightweight description of a file. */
+export interface ApigatewayApiConfigFile {
+  /** The bytes that constitute the file. */
+  contents?: string | undefined;
+  /** The file path (full or relative path). This is typically the path of the file when it is uploaded. */
+  path?: string | undefined;
+}
+export type ApigatewayApiConfigFileList = Array<ApigatewayApiConfigFile>;
+/** An OpenAPI Specification Document describing an API. */
+export interface ApigatewayApiConfigOpenApiDocument {
+  /** The OpenAPI Specification document file. */
+  document?: ApigatewayApiConfigFile | undefined;
+}
+export type ApigatewayApiConfigOpenApiDocumentList = Array<ApigatewayApiConfigOpenApiDocument>;
 export type ApigatewayApiConfigStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -156,53 +170,39 @@ export type ApigatewayApiConfigStateEnum =
   | "DELETING"
   | "UPDATING"
   | "ACTIVATING";
-/** A lightweight description of a file. */
-export interface ApigatewayApiConfigFile {
-  /** The file path (full or relative path). This is typically the path of the file when it is uploaded. */
-  path?: string | undefined;
-  /** The bytes that constitute the file. */
-  contents?: string | undefined;
-}
-export type ApigatewayApiConfigFileList = Array<ApigatewayApiConfigFile>;
 /** A gRPC service definition. */
 export interface ApigatewayApiConfigGrpcServiceDefinition {
-  /** Input only. File descriptor set, generated by protoc. To generate, use protoc with imports and source info included. For an example test.proto file, the following command would put the value in a new file named out.pb. $ protoc --include_imports --include_source_info test.proto -o out.pb */
-  fileDescriptorSet?: ApigatewayApiConfigFile | undefined;
   /** Optional. Uncompiled proto files associated with the descriptor set, used for display purposes (server-side compilation is not supported). These should match the inputs to 'protoc' command used to generate file_descriptor_set. */
   source?: ApigatewayApiConfigFileList | undefined;
+  /** Input only. File descriptor set, generated by protoc. To generate, use protoc with imports and source info included. For an example test.proto file, the following command would put the value in a new file named out.pb. $ protoc --include_imports --include_source_info test.proto -o out.pb */
+  fileDescriptorSet?: ApigatewayApiConfigFile | undefined;
 }
 export type ApigatewayApiConfigGrpcServiceDefinitionList =
   Array<ApigatewayApiConfigGrpcServiceDefinition>;
-/** An OpenAPI Specification Document describing an API. */
-export interface ApigatewayApiConfigOpenApiDocument {
-  /** The OpenAPI Specification document file. */
-  document?: ApigatewayApiConfigFile | undefined;
-}
-export type ApigatewayApiConfigOpenApiDocumentList = Array<ApigatewayApiConfigOpenApiDocument>;
 /** An API Configuration is a combination of settings for both the Managed Service and Gateways serving this API Config. */
 export interface ApigatewayApiConfig {
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Output only. State of the API Config. */
-  state?: ApigatewayApiConfigStateEnum | (string & {}) | undefined;
   /** Optional. Service Configuration files. At least one must be included when using gRPC service definitions. See https://cloud.google.com/endpoints/docs/grpc/grpc-service-config#service_configuration_overview for the expected file contents. If multiple files are specified, the files are merged with the following rules: * All singular scalar fields are merged using "last one wins" semantics in the order of the files uploaded. * Repeated fields are concatenated. * Singular embedded messages are merged using these rules for nested fields. */
   managedServiceConfigs?: ApigatewayApiConfigFileList | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Optional. gRPC service definition files. If specified, openapi_documents must not be included. */
-  grpcServices?: ApigatewayApiConfigGrpcServiceDefinitionList | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
+  /** Optional. OpenAPI specification documents. If specified, grpc_services and managed_service_configs must not be included. */
+  openapiDocuments?: ApigatewayApiConfigOpenApiDocumentList | undefined;
+  /** Optional. Display name. */
+  displayName?: string | undefined;
   /** Immutable. The Google Cloud IAM Service Account that Gateways serving this config should use to authenticate to other services. This may either be the Service Account's email (`{ACCOUNT_ID}@{PROJECT}.iam.gserviceaccount.com`) or its full resource name (`projects/{PROJECT}/accounts/{UNIQUE_ID}`). This is most often used when the service is a GCP resource such as a Cloud Run Service or an IAP-secured service. */
   gatewayServiceAccount?: string | undefined;
   /** Identifier. Resource name of the API Config. Format: projects/{project}/locations/global/apis/{api}/configs/{api_config} */
   name?: string | undefined;
-  /** Optional. Display name. */
-  displayName?: string | undefined;
-  /** Optional. OpenAPI specification documents. If specified, grpc_services and managed_service_configs must not be included. */
-  openapiDocuments?: ApigatewayApiConfigOpenApiDocumentList | undefined;
+  /** Output only. State of the API Config. */
+  state?: ApigatewayApiConfigStateEnum | (string & {}) | undefined;
   /** Output only. The ID of the associated Service Config ( https://cloud.google.com/service-infrastructure/docs/glossary#config). */
   serviceConfigId?: string | undefined;
+  /** Output only. Updated time. */
+  updateTime?: string | undefined;
+  /** Output only. Created time. */
+  createTime?: string | undefined;
+  /** Optional. gRPC service definition files. If specified, openapi_documents must not be included. */
+  grpcServices?: ApigatewayApiConfigGrpcServiceDefinitionList | undefined;
+  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsApisConfigsRequest extends ApigatewayApiConfig {
   /** Required. Identifier to assign to the API Config. Must be unique within scope of the parent resource. */
@@ -210,13 +210,6 @@ export interface CreateProjectsLocationsApisConfigsRequest extends ApigatewayApi
   /** Required. Parent resource of the API Config, of the form: `projects/*\/locations/global/apis/*` */
   parent: string;
 }
-export type ApigatewayGatewayStreamingModeEnum =
-  | "STREAMING_MODE_UNSPECIFIED"
-  | "STREAMING_MODE_ENABLED";
-export type ApigatewayGatewayEffectiveStreamingModeEnum =
-  | "EFFECTIVE_STREAMING_MODE_UNSPECIFIED"
-  | "EFFECTIVE_STREAMING_MODE_DISABLED"
-  | "EFFECTIVE_STREAMING_MODE_ENABLED";
 export type ApigatewayGatewayStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -224,34 +217,41 @@ export type ApigatewayGatewayStateEnum =
   | "FAILED"
   | "DELETING"
   | "UPDATING";
+export type ApigatewayGatewayStreamingModeEnum =
+  | "STREAMING_MODE_UNSPECIFIED"
+  | "STREAMING_MODE_ENABLED";
+export type ApigatewayGatewayEffectiveStreamingModeEnum =
+  | "EFFECTIVE_STREAMING_MODE_UNSPECIFIED"
+  | "EFFECTIVE_STREAMING_MODE_DISABLED"
+  | "EFFECTIVE_STREAMING_MODE_ENABLED";
 /** A Gateway is an API-aware HTTP proxy. It performs API-Method and/or API-Consumer specific actions based on an API Config such as authentication, policy enforcement, and backend selection. */
 export interface ApigatewayGateway {
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Optional. Immutable. Requests streaming for a new gateway. An attempt to change it on update is rejected. If unset, the service selects the mode. This field records only what was requested and is never modified by the service; read `effective_streaming_mode` for the mode the gateway is served with. */
-  streamingMode?: ApigatewayGatewayStreamingModeEnum | (string & {}) | undefined;
-  /** Output only. The streaming mode this gateway is actually served with, which the service resolves at creation from `streaming_mode`, the referenced API Config, and the platform default at the time. Read this rather than `streaming_mode` to determine whether a gateway supports streaming. */
-  effectiveStreamingMode?: ApigatewayGatewayEffectiveStreamingModeEnum | (string & {}) | undefined;
   /** Output only. The current state of the Gateway. */
   state?: ApigatewayGatewayStateEnum | (string & {}) | undefined;
-  /** Output only. The default hostname that serves traffic for this Gateway. */
-  defaultHostname?: string | undefined;
   /** Output only. Updated time. */
   updateTime?: string | undefined;
-  /** Optional. Display name. */
-  displayName?: string | undefined;
-  /** Identifier. Resource name of the Gateway. Format: projects/{project}/locations/{location}/gateways/{gateway} */
-  name?: string | undefined;
+  /** Optional. Immutable. Requests streaming for a new gateway. An attempt to change it on update is rejected. If unset, the service selects the mode. This field records only what was requested and is never modified by the service; read `effective_streaming_mode` for the mode the gateway is served with. */
+  streamingMode?: ApigatewayGatewayStreamingModeEnum | (string & {}) | undefined;
   /** Output only. Created time. */
   createTime?: string | undefined;
+  /** Output only. The default hostname that serves traffic for this Gateway. */
+  defaultHostname?: string | undefined;
   /** Required. Resource name of the API Config for this Gateway. Format: projects/{project}/locations/global/apis/{api}/configs/{apiConfig} */
   apiConfig?: string | undefined;
+  /** Identifier. Resource name of the Gateway. Format: projects/{project}/locations/{location}/gateways/{gateway} */
+  name?: string | undefined;
+  /** Output only. The streaming mode this gateway is actually served with, which the service resolves at creation from `streaming_mode`, the referenced API Config, and the platform default at the time. Read this rather than `streaming_mode` to determine whether a gateway supports streaming. */
+  effectiveStreamingMode?: ApigatewayGatewayEffectiveStreamingModeEnum | (string & {}) | undefined;
+  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
+  labels?: StringMap | undefined;
+  /** Optional. Display name. */
+  displayName?: string | undefined;
 }
 export interface CreateProjectsLocationsGatewaysRequest extends ApigatewayGateway {
-  /** Required. Parent resource of the Gateway, of the form: `projects/*\/locations/*` */
-  parent: string;
   /** Required. Identifier to assign to the Gateway. Must be unique within scope of the parent resource. */
   gatewayId?: string | undefined;
+  /** Required. Parent resource of the Gateway, of the form: `projects/*\/locations/*` */
+  parent: string;
 }
 export interface DeleteProjectsLocationsApisRequest {
   /** Required. Resource name of the form: `projects/*\/locations/global/apis/*` */
@@ -270,31 +270,31 @@ export interface DeleteProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface GetIamPolicyProjectsLocationsApisRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number | undefined;
 }
-export type StringList = Array<string>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface ApigatewayExpr {
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string | undefined;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
   expression?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
 }
+export type StringList = Array<string>;
 /** Associates `members`, or principals, with a `role`. */
 export interface ApigatewayBinding {
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string | undefined;
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList | undefined;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   condition?: ApigatewayExpr | undefined;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList | undefined;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string | undefined;
 }
 export type ApigatewayBindingList = Array<ApigatewayBinding>;
 export type ApigatewayAuditLogConfigLogTypeEnum =
@@ -304,10 +304,10 @@ export type ApigatewayAuditLogConfigLogTypeEnum =
   | "DATA_READ";
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface ApigatewayAuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList | undefined;
   /** The log type that this config enables. */
   logType?: ApigatewayAuditLogConfigLogTypeEnum | (string & {}) | undefined;
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList | undefined;
 }
 export type ApigatewayAuditLogConfigList = Array<ApigatewayAuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
@@ -320,26 +320,26 @@ export interface ApigatewayAuditConfig {
 export type ApigatewayAuditConfigList = Array<ApigatewayAuditConfig>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface ApigatewayPolicy {
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: ApigatewayBindingList | undefined;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: ApigatewayAuditConfigList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsApisConfigsRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsGatewaysRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -347,16 +347,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface ApigatewayLocation {
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap | undefined;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string | undefined;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsApisRequest {
   /** Required. Resource name of the form: `projects/*\/locations/global/apis/*` */
@@ -364,10 +364,10 @@ export interface GetProjectsLocationsApisRequest {
 }
 export type GetProjectsLocationsApisConfigsViewEnum = "CONFIG_VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 export interface GetProjectsLocationsApisConfigsRequest {
-  /** Required. Resource name of the form: `projects/*\/locations/global/apis/*\/configs/*` */
-  name: string;
   /** Optional. Specifies which fields of the API Config are returned in the response. Defaults to `BASIC` view. */
   view?: GetProjectsLocationsApisConfigsViewEnum | (string & {}) | undefined;
+  /** Required. Resource name of the form: `projects/*\/locations/global/apis/*\/configs/*` */
+  name: string;
 }
 export interface GetProjectsLocationsGatewaysRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/gateways/*` */
@@ -378,16 +378,16 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
 }
 export type ApigatewayLocationList = Array<ApigatewayLocation>;
 /** The response message for Locations.ListLocations. */
@@ -398,12 +398,12 @@ export interface ApigatewayListLocationsResponse {
   locations?: ApigatewayLocationList | undefined;
 }
 export interface ListProjectsLocationsApisRequest {
-  /** Optional. Page token. */
-  pageToken?: string | undefined;
-  /** Required. Parent resource of the API, of the form: `projects/*\/locations/global` */
-  parent: string;
   /** Optional. Page size. */
   pageSize?: number | undefined;
+  /** Required. Parent resource of the API, of the form: `projects/*\/locations/global` */
+  parent: string;
+  /** Optional. Page token. */
+  pageToken?: string | undefined;
   /** Optional. Order by parameters. */
   orderBy?: string | undefined;
   /** Optional. Filter. */
@@ -414,22 +414,22 @@ export type ApigatewayApiList = Array<ApigatewayApi>;
 export interface ApigatewayListApisResponse {
   /** Locations that could not be reached. */
   unreachableLocations?: StringList | undefined;
-  /** Next page token. */
-  nextPageToken?: string | undefined;
   /** APIs. */
   apis?: ApigatewayApiList | undefined;
+  /** Next page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsApisConfigsRequest {
-  /** Optional. Order by parameters. */
-  orderBy?: string | undefined;
-  /** Optional. Page token. */
-  pageToken?: string | undefined;
   /** Required. Parent resource of the API Config, of the form: `projects/*\/locations/global/apis/*` */
   parent: string;
-  /** Optional. Filter. */
-  filter?: string | undefined;
+  /** Optional. Order by parameters. */
+  orderBy?: string | undefined;
   /** Optional. Page size. */
   pageSize?: number | undefined;
+  /** Optional. Filter. */
+  filter?: string | undefined;
+  /** Optional. Page token. */
+  pageToken?: string | undefined;
 }
 export type ApigatewayApiConfigList = Array<ApigatewayApiConfig>;
 /** Response message for ApiGatewayService.ListApiConfigs */
@@ -442,38 +442,38 @@ export interface ApigatewayListApiConfigsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsGatewaysRequest {
-  /** Optional. Page size. */
-  pageSize?: number | undefined;
-  /** Optional. Page token. */
-  pageToken?: string | undefined;
-  /** Optional. Filter. */
-  filter?: string | undefined;
   /** Optional. Order by parameters. */
   orderBy?: string | undefined;
   /** Required. Parent resource of the Gateway, of the form: `projects/*\/locations/*` */
   parent: string;
+  /** Optional. Filter. */
+  filter?: string | undefined;
+  /** Optional. Page size. */
+  pageSize?: number | undefined;
+  /** Optional. Page token. */
+  pageToken?: string | undefined;
 }
 export type ApigatewayGatewayList = Array<ApigatewayGateway>;
 /** Response message for ApiGatewayService.ListGateways */
 export interface ApigatewayListGatewaysResponse {
-  /** Locations that could not be reached. */
-  unreachableLocations?: StringList | undefined;
   /** Gateways. */
   gateways?: ApigatewayGatewayList | undefined;
+  /** Locations that could not be reached. */
+  unreachableLocations?: StringList | undefined;
   /** Next page token. */
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list filter. */
-  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export type ApigatewayOperationList = Array<ApigatewayOperation>;
 /** The response message for Operations.ListOperations. */
@@ -495,16 +495,16 @@ export interface PatchProjectsLocationsApisConfigsRequest extends Omit<
   ApigatewayApiConfig,
   "name"
 > {
-  /** Identifier. Resource name of the API Config. Format: projects/{project}/locations/global/apis/{api}/configs/{api_config} */
-  name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ApiConfig resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The request fails if `update_mask` is missing or empty. */
   updateMask?: string | undefined;
+  /** Identifier. Resource name of the API Config. Format: projects/{project}/locations/global/apis/{api}/configs/{api_config} */
+  name: string;
 }
 export interface PatchProjectsLocationsGatewaysRequest extends Omit<ApigatewayGateway, "name"> {
-  /** Identifier. Resource name of the Gateway. Format: projects/{project}/locations/{location}/gateways/{gateway} */
-  name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Gateway resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The request fails if `update_mask` is missing or empty. */
   updateMask?: string | undefined;
+  /** Identifier. Resource name of the Gateway. Format: projects/{project}/locations/{location}/gateways/{gateway} */
+  name: string;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface ApigatewaySetIamPolicyRequest {
@@ -1194,8 +1194,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
           resource: S.String.pipe(T.Label()),
+          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1218,17 +1218,17 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
-          location: S.optional(S.String),
           description: S.optional(S.String),
           expression: S.optional(S.String),
+          location: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApigatewayExpr" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          role: S.optional(S.String),
-          members: S.optional(__S(24, __c3, 0)),
           condition: S.optional(__S(32, __c4, 0)),
+          members: S.optional(__S(24, __c3, 0)),
+          role: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApigatewayBinding" });
     case 2:
@@ -1236,8 +1236,8 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(24, __c3, 0)),
           logType: S.optional(S.String),
+          exemptedMembers: S.optional(__S(24, __c3, 0)),
         }),
       ).annotate({ identifier: "ApigatewayAuditLogConfig" });
     case 4:
@@ -1254,8 +1254,8 @@ function __c4(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
           bindings: S.optional(__S(34, __c4, 2)),
+          etag: S.optional(S.String),
           auditConfigs: S.optional(__S(38, __c4, 6)),
           version: S.optional(S.Number),
         }),
@@ -1267,8 +1267,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
           resource: S.String.pipe(T.Label()),
+          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1284,8 +1284,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
           resource: S.String.pipe(T.Label()),
+          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1317,11 +1317,11 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          labels: S.optional(__S(264, __c33, 0)),
+          displayName: S.optional(S.String),
           name: S.optional(S.String),
           metadata: S.optional(__S(272, __c34, 0)),
-          labels: S.optional(__S(264, __c33, 0)),
           locationId: S.optional(S.String),
-          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApigatewayLocation" });
   }
@@ -1347,8 +1347,8 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1396,11 +1396,11 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(24, __c3, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(24, __c3, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1425,9 +1425,9 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -1444,8 +1444,8 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           unreachableLocations: S.optional(__S(24, __c3, 0)),
-          nextPageToken: S.optional(S.String),
           apis: S.optional(__S(113, __c14, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApigatewayListApisResponse" });
   }
@@ -1455,11 +1455,11 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1485,11 +1485,11 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1503,8 +1503,8 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachableLocations: S.optional(__S(24, __c3, 0)),
           gateways: S.optional(__S(129, __c16, 1)),
+          unreachableLocations: S.optional(__S(24, __c3, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApigatewayListGatewaysResponse" });
@@ -1515,11 +1515,11 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1567,8 +1567,8 @@ function __c19(j: number): any {
         S.Extend(
           __S(302, __c37, 6),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1587,8 +1587,8 @@ function __c20(j: number): any {
         S.Extend(
           __S(312, __c39, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1767,8 +1767,8 @@ function __c31(j: number): any {
         S.Extend(
           __S(256, __c32, 0),
           S.Struct({
-            apiId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            apiId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1786,12 +1786,12 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
+          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          labels: S.optional(__S(264, __c33, 0)),
-          createTime: S.optional(S.String),
           managedService: S.optional(S.String),
+          labels: S.optional(__S(264, __c33, 0)),
         }),
       ).annotate({ identifier: "ApigatewayApi" });
   }
@@ -1816,17 +1816,17 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(280, __c35, 0)),
           code: S.optional(S.Number),
+          details: S.optional(__S(280, __c35, 0)),
         }),
       ).annotate({ identifier: "ApigatewayStatus" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+          done: S.optional(S.Boolean),
           metadata: S.optional(__S(272, __c34, 0)),
           response: S.optional(__S(272, __c34, 0)),
-          done: S.optional(S.Boolean),
-          name: S.optional(S.String),
           error: S.optional(__S(281, __c35, 1)),
         }),
       ).annotate({ identifier: "ApigatewayOperation" });
@@ -1857,8 +1857,8 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          path: S.optional(S.String),
           contents: S.optional(S.String),
+          path: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApigatewayApiConfigFile" });
     case 1:
@@ -1866,34 +1866,34 @@ function __c37(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          fileDescriptorSet: S.optional(__S(296, __c37, 0)),
-          source: S.optional(__S(297, __c37, 1)),
+          document: S.optional(__S(296, __c37, 0)),
         }),
-      ).annotate({ identifier: "ApigatewayApiConfigGrpcServiceDefinition" });
+      ).annotate({ identifier: "ApigatewayApiConfigOpenApiDocument" });
     case 3:
       return S.Array(__S(298, __c37, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          document: S.optional(__S(296, __c37, 0)),
+          source: S.optional(__S(297, __c37, 1)),
+          fileDescriptorSet: S.optional(__S(296, __c37, 0)),
         }),
-      ).annotate({ identifier: "ApigatewayApiConfigOpenApiDocument" });
+      ).annotate({ identifier: "ApigatewayApiConfigGrpcServiceDefinition" });
     case 5:
       return S.Array(__S(300, __c37, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
           managedServiceConfigs: S.optional(__S(297, __c37, 1)),
-          labels: S.optional(__S(264, __c33, 0)),
-          grpcServices: S.optional(__S(299, __c37, 3)),
-          updateTime: S.optional(S.String),
+          openapiDocuments: S.optional(__S(299, __c37, 3)),
+          displayName: S.optional(S.String),
           gatewayServiceAccount: S.optional(S.String),
           name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          openapiDocuments: S.optional(__S(301, __c37, 5)),
+          state: S.optional(S.String),
           serviceConfigId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          grpcServices: S.optional(__S(301, __c37, 5)),
+          labels: S.optional(__S(264, __c33, 0)),
         }),
       ).annotate({ identifier: "ApigatewayApiConfig" });
   }
@@ -1905,8 +1905,8 @@ function __c38(j: number): any {
         S.Extend(
           __S(312, __c39, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             gatewayId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1923,16 +1923,16 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(264, __c33, 0)),
-          streamingMode: S.optional(S.String),
-          effectiveStreamingMode: S.optional(S.String),
           state: S.optional(S.String),
-          defaultHostname: S.optional(S.String),
           updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
+          streamingMode: S.optional(S.String),
           createTime: S.optional(S.String),
+          defaultHostname: S.optional(S.String),
           apiConfig: S.optional(S.String),
+          name: S.optional(S.String),
+          effectiveStreamingMode: S.optional(S.String),
+          labels: S.optional(__S(264, __c33, 0)),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApigatewayGateway" });
   }

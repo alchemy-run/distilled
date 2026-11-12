@@ -83,114 +83,39 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type AggregatedProjectsJobsFilterEnum = "UNKNOWN" | "ALL" | "TERMINATED" | "ACTIVE";
 export type AggregatedProjectsJobsViewEnum =
   | "JOB_VIEW_UNKNOWN"
   | "JOB_VIEW_SUMMARY"
   | "JOB_VIEW_ALL"
   | "JOB_VIEW_DESCRIPTION";
-export type AggregatedProjectsJobsFilterEnum = "UNKNOWN" | "ALL" | "TERMINATED" | "ACTIVE";
 export interface AggregatedProjectsJobsRequest {
-  /** The project which owns the jobs. */
-  projectId: string;
-  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  "terminationTimeRange.startTime"?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
   location?: string | undefined;
-  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  "terminationTimeRange.endTime"?: string | undefined;
-  /** If there are many jobs, limit response to at most this many. The actual number of jobs returned will be the lesser of max_responses and an unspecified server-defined limit. */
-  pageSize?: number | undefined;
+  /** The kind of filter to use. */
+  filter?: AggregatedProjectsJobsFilterEnum | (string & {}) | undefined;
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  "terminationTimeRange.startTime"?: string | undefined;
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  "createTimeRange.startTime"?: string | undefined;
   /** Optional. The job name. */
   name?: string | undefined;
-  /** Set this to the 'next_page_token' field of a previous response to request additional results in a long list. */
-  pageToken?: string | undefined;
+  /** The project which owns the jobs. */
+  projectId: string;
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  "createTimeRange.endTime"?: string | undefined;
   /** Deprecated. ListJobs always returns summaries now. Use GetJob for other JobViews. */
   view?: AggregatedProjectsJobsViewEnum | (string & {}) | undefined;
   /** Optional. */
   regionalFanoutRequested?: boolean | undefined;
+  /** Set this to the 'next_page_token' field of a previous response to request additional results in a long list. */
+  pageToken?: string | undefined;
+  /** If there are many jobs, limit response to at most this many. The actual number of jobs returned will be the lesser of max_responses and an unspecified server-defined limit. */
+  pageSize?: number | undefined;
   /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  "createTimeRange.endTime"?: string | undefined;
-  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  "createTimeRange.startTime"?: string | undefined;
-  /** The kind of filter to use. */
-  filter?: AggregatedProjectsJobsFilterEnum | (string & {}) | undefined;
+  "terminationTimeRange.endTime"?: string | undefined;
 }
-/** Metadata for a File connector used by the job. */
-export interface FileIODetails {
-  /** File Pattern used to access files by the connector. */
-  filePattern?: string | undefined;
-}
-export type FileIODetailsList = Array<FileIODetails>;
-/** Metadata for a Pub/Sub connector used by the job. */
-export interface PubSubIODetails {
-  /** Subscription used in the connection. */
-  subscription?: string | undefined;
-  /** Topic accessed in the connection. */
-  topic?: string | undefined;
-}
-export type PubSubIODetailsList = Array<PubSubIODetails>;
-/** Metadata for a BigQuery connector used by the job. */
-export interface BigQueryIODetails {
-  /** Dataset accessed in the connection. */
-  dataset?: string | undefined;
-  /** Table accessed in the connection. */
-  table?: string | undefined;
-  /** Project accessed in the connection. */
-  projectId?: string | undefined;
-  /** Query used to access data in the connection. */
-  query?: string | undefined;
-}
-export type BigQueryIODetailsList = Array<BigQueryIODetails>;
 export type StringMap = { [key: string]: string | undefined };
-/** Metadata for a Spanner connector used by the job. */
-export interface SpannerIODetails {
-  /** ProjectId accessed in the connection. */
-  projectId?: string | undefined;
-  /** InstanceId accessed in the connection. */
-  instanceId?: string | undefined;
-  /** DatabaseId accessed in the connection. */
-  databaseId?: string | undefined;
-}
-export type SpannerIODetailsList = Array<SpannerIODetails>;
-/** Metadata for a Cloud Bigtable connector used by the job. */
-export interface BigTableIODetails {
-  /** ProjectId accessed in the connection. */
-  projectId?: string | undefined;
-  /** TableId accessed in the connection. */
-  tableId?: string | undefined;
-  /** InstanceId accessed in the connection. */
-  instanceId?: string | undefined;
-}
-export type BigTableIODetailsList = Array<BigTableIODetails>;
-export type SdkVersionSdkSupportStatusEnum =
-  | "UNKNOWN"
-  | "SUPPORTED"
-  | "STALE"
-  | "DEPRECATED"
-  | "UNSUPPORTED";
-export type SdkBugTypeEnum = "TYPE_UNSPECIFIED" | "GENERAL" | "PERFORMANCE" | "DATALOSS";
-export type SdkBugSeverityEnum = "SEVERITY_UNSPECIFIED" | "NOTICE" | "WARNING" | "SEVERE";
-/** A bug found in the Dataflow SDK. */
-export interface SdkBug {
-  /** Output only. Link to more information on the bug. */
-  uri?: string | undefined;
-  /** Output only. Describes the impact of this SDK bug. */
-  type?: SdkBugTypeEnum | (string & {}) | undefined;
-  /** Output only. How severe the SDK bug is. */
-  severity?: SdkBugSeverityEnum | (string & {}) | undefined;
-}
-export type SdkBugList = Array<SdkBug>;
-/** The version of the SDK used to run the job. */
-export interface SdkVersion {
-  /** A readable string describing the version of the SDK. */
-  versionDisplayName?: string | undefined;
-  /** The support status for this SDK version. */
-  sdkSupportStatus?: SdkVersionSdkSupportStatusEnum | (string & {}) | undefined;
-  /** The version of the SDK used to run the job. */
-  version?: string | undefined;
-  /** Output only. Known bugs found in this SDK version. */
-  bugs?: SdkBugList | undefined;
-}
 /** Metadata for a Datastore connector used by the job. */
 export interface DatastoreIODetails {
   /** Namespace used in the connection. */
@@ -199,164 +124,170 @@ export interface DatastoreIODetails {
   projectId?: string | undefined;
 }
 export type DatastoreIODetailsList = Array<DatastoreIODetails>;
+/** Metadata for a Cloud Bigtable connector used by the job. */
+export interface BigTableIODetails {
+  /** ProjectId accessed in the connection. */
+  projectId?: string | undefined;
+  /** InstanceId accessed in the connection. */
+  instanceId?: string | undefined;
+  /** TableId accessed in the connection. */
+  tableId?: string | undefined;
+}
+export type BigTableIODetailsList = Array<BigTableIODetails>;
+/** Metadata for a Spanner connector used by the job. */
+export interface SpannerIODetails {
+  /** InstanceId accessed in the connection. */
+  instanceId?: string | undefined;
+  /** ProjectId accessed in the connection. */
+  projectId?: string | undefined;
+  /** DatabaseId accessed in the connection. */
+  databaseId?: string | undefined;
+}
+export type SpannerIODetailsList = Array<SpannerIODetails>;
+/** Metadata for a Pub/Sub connector used by the job. */
+export interface PubSubIODetails {
+  /** Topic accessed in the connection. */
+  topic?: string | undefined;
+  /** Subscription used in the connection. */
+  subscription?: string | undefined;
+}
+export type PubSubIODetailsList = Array<PubSubIODetails>;
+/** Metadata for a BigQuery connector used by the job. */
+export interface BigQueryIODetails {
+  /** Query used to access data in the connection. */
+  query?: string | undefined;
+  /** Project accessed in the connection. */
+  projectId?: string | undefined;
+  /** Table accessed in the connection. */
+  table?: string | undefined;
+  /** Dataset accessed in the connection. */
+  dataset?: string | undefined;
+}
+export type BigQueryIODetailsList = Array<BigQueryIODetails>;
+export type SdkBugSeverityEnum = "SEVERITY_UNSPECIFIED" | "NOTICE" | "WARNING" | "SEVERE";
+export type SdkBugTypeEnum = "TYPE_UNSPECIFIED" | "GENERAL" | "PERFORMANCE" | "DATALOSS";
+/** A bug found in the Dataflow SDK. */
+export interface SdkBug {
+  /** Output only. How severe the SDK bug is. */
+  severity?: SdkBugSeverityEnum | (string & {}) | undefined;
+  /** Output only. Link to more information on the bug. */
+  uri?: string | undefined;
+  /** Output only. Describes the impact of this SDK bug. */
+  type?: SdkBugTypeEnum | (string & {}) | undefined;
+}
+export type SdkBugList = Array<SdkBug>;
+export type SdkVersionSdkSupportStatusEnum =
+  | "UNKNOWN"
+  | "SUPPORTED"
+  | "STALE"
+  | "DEPRECATED"
+  | "UNSUPPORTED";
+/** The version of the SDK used to run the job. */
+export interface SdkVersion {
+  /** A readable string describing the version of the SDK. */
+  versionDisplayName?: string | undefined;
+  /** Output only. Known bugs found in this SDK version. */
+  bugs?: SdkBugList | undefined;
+  /** The support status for this SDK version. */
+  sdkSupportStatus?: SdkVersionSdkSupportStatusEnum | (string & {}) | undefined;
+  /** The version of the SDK used to run the job. */
+  version?: string | undefined;
+}
+/** Metadata for a File connector used by the job. */
+export interface FileIODetails {
+  /** File Pattern used to access files by the connector. */
+  filePattern?: string | undefined;
+}
+export type FileIODetailsList = Array<FileIODetails>;
 /** Metadata available primarily for filtering jobs. Will be included in the ListJob response and Job SUMMARY view. */
 export interface JobMetadata {
-  /** Identification of a File source used in the Dataflow job. */
-  fileDetails?: FileIODetailsList | undefined;
+  /** List of display properties to help UI filter jobs. */
+  userDisplayProperties?: StringMap | undefined;
+  /** Identification of a Datastore source used in the Dataflow job. */
+  datastoreDetails?: DatastoreIODetailsList | undefined;
+  /** Identification of a Cloud Bigtable source used in the Dataflow job. */
+  bigTableDetails?: BigTableIODetailsList | undefined;
+  /** Identification of a Spanner source used in the Dataflow job. */
+  spannerDetails?: SpannerIODetailsList | undefined;
   /** Identification of a Pub/Sub source used in the Dataflow job. */
   pubsubDetails?: PubSubIODetailsList | undefined;
   /** Identification of a BigQuery source used in the Dataflow job. */
   bigqueryDetails?: BigQueryIODetailsList | undefined;
-  /** List of display properties to help UI filter jobs. */
-  userDisplayProperties?: StringMap | undefined;
-  /** Identification of a Spanner source used in the Dataflow job. */
-  spannerDetails?: SpannerIODetailsList | undefined;
-  /** Identification of a Cloud Bigtable source used in the Dataflow job. */
-  bigTableDetails?: BigTableIODetailsList | undefined;
   /** The SDK version used to run the job. */
   sdkVersion?: SdkVersion | undefined;
-  /** Identification of a Datastore source used in the Dataflow job. */
-  datastoreDetails?: DatastoreIODetailsList | undefined;
+  /** Identification of a File source used in the Dataflow job. */
+  fileDetails?: FileIODetailsList | undefined;
 }
-/** Data provided with a pipeline or transform to provide descriptive info. */
-export interface DisplayData {
-  /** Contains value if the data is of duration type. */
-  durationValue?: string | undefined;
-  /** A possible additional shorter value to display. For example a java_class_name_value of com.mypackage.MyDoFn will be stored with MyDoFn as the short_str_value and com.mypackage.MyDoFn as the java_class_name value. short_str_value can be displayed and java_class_name_value will be displayed as a tooltip. */
-  shortStrValue?: string | undefined;
-  /** The namespace for the key. This is usually a class name or programming language namespace (i.e. python module) which defines the display data. This allows a dax monitoring system to specially handle the data and perform custom rendering. */
-  namespace?: string | undefined;
-  /** Contains value if the data is of java class type. */
-  javaClassValue?: string | undefined;
-  /** Contains value if the data is of int64 type. */
-  int64Value?: string | undefined;
-  /** Contains value if the data is of a boolean type. */
-  boolValue?: boolean | undefined;
-  /** Contains value if the data is of timestamp type. */
-  timestampValue?: string | undefined;
-  /** The key identifying the display data. This is intended to be used as a label for the display data when viewed in a dax monitoring system. */
-  key?: string | undefined;
-  /** Contains value if the data is of string type. */
-  strValue?: string | undefined;
-  /** An optional full URL. */
-  url?: string | undefined;
-  /** Contains value if the data is of float type. */
-  floatValue?: number | undefined;
-  /** An optional label to display in a dax UI for the element. */
-  label?: string | undefined;
-}
-export type DisplayDataList = Array<DisplayData>;
-/** Description of an input or output of an execution stage. */
-export interface StageSource {
-  /** Dataflow service generated name for this source. */
-  name?: string | undefined;
-  /** User name for the original user transform or collection with which this source is most closely associated. */
-  originalTransformOrCollection?: string | undefined;
-  /** Human-readable name for this source; may be user or system generated. */
-  userName?: string | undefined;
-  /** Size of the source, if measurable. */
-  sizeBytes?: string | undefined;
-}
-export type StageSourceList = Array<StageSource>;
-export type ExecutionStageSummaryKindEnum =
-  | "UNKNOWN_KIND"
-  | "PAR_DO_KIND"
-  | "GROUP_BY_KEY_KIND"
-  | "FLATTEN_KIND"
-  | "READ_KIND"
-  | "WRITE_KIND"
-  | "CONSTANT_KIND"
-  | "SINGLETON_KIND"
-  | "SHUFFLE_KIND";
-/** Description of an interstitial value between transforms in an execution stage. */
-export interface ComponentSource {
-  /** User name for the original user transform or collection with which this source is most closely associated. */
-  originalTransformOrCollection?: string | undefined;
-  /** Human-readable name for this transform; may be user or system generated. */
-  userName?: string | undefined;
-  /** Dataflow service generated name for this source. */
-  name?: string | undefined;
-}
-export type ComponentSourceList = Array<ComponentSource>;
-/** Description of a transform executed as part of an execution stage. */
-export interface ComponentTransform {
-  /** Human-readable name for this transform; may be user or system generated. */
-  userName?: string | undefined;
-  /** Dataflow service generated name for this source. */
-  name?: string | undefined;
-  /** User name for the original user transform with which this transform is most closely associated. */
-  originalTransform?: string | undefined;
-}
-export type ComponentTransformList = Array<ComponentTransform>;
 export type StringList_ = Array<string>;
-/** Description of the composing transforms, names/ids, and input/outputs of a stage of execution. Some composing transforms and sources may have been generated by the Dataflow service during execution planning. */
-export interface ExecutionStageSummary {
-  /** Output sources for this stage. */
-  outputSource?: StageSourceList | undefined;
-  /** Input sources for this stage. */
-  inputSource?: StageSourceList | undefined;
-  /** Dataflow service generated id for this stage. */
-  id?: string | undefined;
-  /** Dataflow service generated name for this stage. */
-  name?: string | undefined;
-  /** Type of transform this stage is executing. */
-  kind?: ExecutionStageSummaryKindEnum | (string & {}) | undefined;
-  /** Collections produced and consumed by component transforms of this stage. */
-  componentSource?: ComponentSourceList | undefined;
-  /** Transforms that comprise this execution stage. */
-  componentTransform?: ComponentTransformList | undefined;
-  /** Other stages that must complete before this stage can run. */
-  prerequisiteStage?: StringList_ | undefined;
+/** Contains information about how a particular google.dataflow.v1beta3.Step will be executed. */
+export interface JobExecutionStageInfo {
+  /** The steps associated with the execution stage. Note that stages may have several steps, and that a given step might be run by more than one stage. */
+  stepName?: StringList_ | undefined;
 }
-export type ExecutionStageSummaryList = Array<ExecutionStageSummary>;
-export type TransformSummaryKindEnum =
-  | "UNKNOWN_KIND"
-  | "PAR_DO_KIND"
-  | "GROUP_BY_KEY_KIND"
-  | "FLATTEN_KIND"
-  | "READ_KIND"
-  | "WRITE_KIND"
-  | "CONSTANT_KIND"
-  | "SINGLETON_KIND"
-  | "SHUFFLE_KIND";
-/** Description of the type, names/ids, and input/outputs for a transform. */
-export interface TransformSummary {
-  /** User provided name for this transform instance. */
-  name?: string | undefined;
-  /** Type of transform. */
-  kind?: TransformSummaryKindEnum | (string & {}) | undefined;
-  /** SDK generated id of this transform instance. */
-  id?: string | undefined;
-  /** User names for all collection inputs to this transform. */
-  inputCollectionName?: StringList_ | undefined;
-  /** Transform-specific display data. */
-  displayData?: DisplayDataList | undefined;
-  /** User names for all collection outputs to this transform. */
-  outputCollectionName?: StringList_ | undefined;
-}
-export type TransformSummaryList = Array<TransformSummary>;
-/** A descriptive representation of submitted pipeline as well as the executed form. This data is provided by the Dataflow service for ease of visualizing the pipeline and interpreting Dataflow provided metrics. */
-export interface PipelineDescription {
-  /** Pipeline level display data. */
-  displayData?: DisplayDataList | undefined;
-  /** Description of each stage of execution of the pipeline. */
-  executionPipelineStage?: ExecutionStageSummaryList | undefined;
-  /** A hash value of the submitted pipeline portable graph step names if exists. */
-  stepNamesHash?: string | undefined;
-  /** Description of each transform in the pipeline and collections between them. */
-  originalPipelineTransform?: TransformSummaryList | undefined;
+export type JobExecutionStageInfoMap = { [key: string]: JobExecutionStageInfo | undefined };
+/** Additional information about how a Cloud Dataflow job will be executed that isn't contained in the submitted job. */
+export interface JobExecutionInfo {
+  /** A mapping from each stage to the information about that stage. */
+  stages?: JobExecutionStageInfoMap | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 /** Defines a particular step within a Cloud Dataflow job. A job consists of multiple steps, each of which performs some specific operation as part of the overall job. Data is typically passed from one step to another as part of the job. **Note:** The properties of this object are not stable and might change. Here's an example of a sequence of steps which together implement a Map-Reduce job: * Read a collection of data from some source, parsing the collection's elements. * Validate the elements. * Apply a user-defined function to map each element to some value and extract an element-specific key value. * Group elements with the same key into a single element with that key, transforming a multiply-keyed collection into a uniquely-keyed collection. * Write the elements out to some data sink. Note that the Cloud Dataflow service may be used to run many different types of jobs, not just Map-Reduce. */
 export interface Step {
   /** Named properties associated with the step. Each kind of predefined step has its own required set of properties. Must be provided on Create. Only retrieved with JOB_VIEW_ALL. */
   properties?: DocumentMap | undefined;
-  /** The name that identifies the step. This must be unique for each step with respect to all other steps in the Cloud Dataflow job. */
-  name?: string | undefined;
   /** The kind of step in the Cloud Dataflow job. */
   kind?: string | undefined;
+  /** The name that identifies the step. This must be unique for each step with respect to all other steps in the Cloud Dataflow job. */
+  name?: string | undefined;
 }
 export type StepList = Array<Step>;
+/** The parameters to use for autoscaling when this schedule is active. */
+export interface Parameters {
+  /** Optional. The maximum number of workers for this schedule. */
+  maxWorkerCount?: number | undefined;
+  /** Optional. The minimum number of workers for this schedule. */
+  minWorkerCount?: number | undefined;
+  /** Optional. The target CPU utilization for this schedule. */
+  cpuUtilizationTarget?: number | undefined;
+  /** Optional. The target latency for this schedule. */
+  latencyTarget?: string | undefined;
+}
+/** A schedule for autoscaling. */
+export interface AutoscalingSchedule {
+  /** Optional. Specifies the priority of the schedule. If two schedules overlap, the one with the higher priority will be used. The higher the value, the higher the priority of the schedule. The value must be non-negative; the lowest priority is `0`, which is the default. */
+  priority?: string | undefined;
+  /** Optional. The name of the schedule. */
+  name?: string | undefined;
+  /** Output only. When the customer last updated the schedule. */
+  updateTime?: string | undefined;
+  /** Optional. The parameters to use for autoscaling when this schedule is active. */
+  parameters?: Parameters | undefined;
+  /** Optional. The duration for which the parameter overrides for this schedule will be applied when triggered by the crontab. */
+  duration?: string | undefined;
+  /** Optional. The time zone for the schedule. The value of this field must be a time zone name from the [tz database](http://en.wikipedia.org/wiki/Tz_database). The default value is UTC. */
+  timeZone?: string | undefined;
+  /** Optional. A crontab specification of when this schedule should trigger applying overrides. The overrides will be applied from the trigger time until the specified duration elapses. */
+  crontab?: string | undefined;
+}
+export type AutoscalingScheduleList = Array<AutoscalingSchedule>;
+/** Additional job parameters that can only be updated during runtime using the projects.jobs.update method. These fields have no effect when specified during job creation. */
+export interface RuntimeUpdatableParams {
+  /** Optional. The backlog threshold tier for autoscaling. Value must be one of "low-latency", "medium-latency", or "high-latency". */
+  latencyTier?: string | undefined;
+  /** Optional. The schedule for autoscaling. */
+  schedules?: AutoscalingScheduleList | undefined;
+  /** The minimum number of workers to scale down to. This field is currently only supported for Streaming Engine jobs. */
+  minNumWorkers?: number | undefined;
+  /** Optional. Deprecated: Use `latency_tier` instead. The backlog threshold tier for autoscaling. Value must be one of "low-latency", "medium-latency", or "high-latency". */
+  autoscalingTier?: string | undefined;
+  /** The maximum number of workers to cap autoscaling at. This field is currently only supported for Streaming Engine jobs. */
+  maxNumWorkers?: number | undefined;
+  /** Optional. Deprecated: Use `latency_tier` instead. The backlog threshold duration in seconds for autoscaling. Value must be non-negative. */
+  acceptableBacklogDuration?: string | undefined;
+  /** Target worker utilization, compared against the aggregate utilization of the worker pool by autoscaler, to determine upscaling and downscaling when absent other constraints such as backlog. For more information, see [Update an existing pipeline](https://cloud.google.com/dataflow/docs/guides/updating-a-pipeline). */
+  workerUtilizationHint?: number | undefined;
+}
+export type JobTypeEnum = "JOB_TYPE_UNKNOWN" | "JOB_TYPE_BATCH" | "JOB_TYPE_STREAMING";
 export type JobCurrentStateEnum =
   | "JOB_STATE_UNKNOWN"
   | "JOB_STATE_STOPPED"
@@ -373,206 +304,176 @@ export type JobCurrentStateEnum =
   | "JOB_STATE_RESOURCE_CLEANING_UP"
   | "JOB_STATE_PAUSING"
   | "JOB_STATE_PAUSED";
-export type JobTypeEnum = "JOB_TYPE_UNKNOWN" | "JOB_TYPE_BATCH" | "JOB_TYPE_STREAMING";
-export type ExecutionStageStateExecutionStageStateEnum =
-  | "JOB_STATE_UNKNOWN"
-  | "JOB_STATE_STOPPED"
-  | "JOB_STATE_RUNNING"
-  | "JOB_STATE_DONE"
-  | "JOB_STATE_FAILED"
-  | "JOB_STATE_CANCELLED"
-  | "JOB_STATE_UPDATED"
-  | "JOB_STATE_DRAINING"
-  | "JOB_STATE_DRAINED"
-  | "JOB_STATE_PENDING"
-  | "JOB_STATE_CANCELLING"
-  | "JOB_STATE_QUEUED"
-  | "JOB_STATE_RESOURCE_CLEANING_UP"
-  | "JOB_STATE_PAUSING"
-  | "JOB_STATE_PAUSED";
-/** A message describing the state of a particular execution stage. */
-export interface ExecutionStageState {
-  /** Executions stage states allow the same set of values as JobState. */
-  executionStageState?: ExecutionStageStateExecutionStageStateEnum | (string & {}) | undefined;
-  /** The name of the execution stage. */
-  executionStageName?: string | undefined;
-  /** The time at which the stage transitioned to this state. */
-  currentStateTime?: string | undefined;
-}
-export type ExecutionStageStateList = Array<ExecutionStageState>;
-export type WorkerPoolDefaultPackageSetEnum =
-  | "DEFAULT_PACKAGE_SET_UNKNOWN"
-  | "DEFAULT_PACKAGE_SET_NONE"
-  | "DEFAULT_PACKAGE_SET_JAVA"
-  | "DEFAULT_PACKAGE_SET_PYTHON";
-export type AutoscalingSettingsAlgorithmEnum =
-  | "AUTOSCALING_ALGORITHM_UNKNOWN"
-  | "AUTOSCALING_ALGORITHM_NONE"
-  | "AUTOSCALING_ALGORITHM_BASIC";
-/** Settings for WorkerPool autoscaling. */
-export interface AutoscalingSettings {
-  /** The maximum number of workers to cap scaling at. */
-  maxNumWorkers?: number | undefined;
-  /** The algorithm to use for autoscaling. */
-  algorithm?: AutoscalingSettingsAlgorithmEnum | (string & {}) | undefined;
-}
+export type EnvironmentFlexResourceSchedulingGoalEnum =
+  | "FLEXRS_UNSPECIFIED"
+  | "FLEXRS_SPEED_OPTIMIZED"
+  | "FLEXRS_COST_OPTIMIZED";
 export type WorkerPoolIpConfigurationEnum =
   | "WORKER_IP_UNSPECIFIED"
   | "WORKER_IP_PUBLIC"
   | "WORKER_IP_PRIVATE";
-/** Provides data to pass through to the worker harness. */
-export interface WorkerSettings {
-  /** The prefix of the resources the system should use for temporary storage. The supported resource type is: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
-  tempStoragePrefix?: string | undefined;
-  /** Whether to send work progress updates to the service. */
-  reportingEnabled?: boolean | undefined;
-  /** The Shuffle service path relative to the root URL, for example, "shuffle/v1beta1". */
-  shuffleServicePath?: string | undefined;
-  /** The ID of the worker running this pipeline. */
-  workerId?: string | undefined;
-  /** The base URL for accessing Google Cloud APIs. When workers access Google Cloud APIs, they logically do so via relative URLs. If this field is specified, it supplies the base URL to use for resolving these relative URLs. The normative algorithm used is defined by RFC 1808, "Relative Uniform Resource Locators". If not specified, the default value is "http://www.googleapis.com/" */
-  baseUrl?: string | undefined;
-  /** The Cloud Dataflow service path relative to the root URL, for example, "dataflow/v1b3/projects". */
-  servicePath?: string | undefined;
+/** Describes the data disk used by a workflow job. */
+export interface Disk {
+  /** Directory in a VM where disk is mounted. */
+  mountPoint?: string | undefined;
+  /** Disk storage type, as defined by Google Compute Engine. This must be a disk type appropriate to the project and zone in which the workers will run. If unknown or unspecified, the service will attempt to choose a reasonable default. For example, the standard persistent disk type is a resource name typically ending in "pd-standard". If SSD persistent disks are available, the resource name typically ends with "pd-ssd". The actual valid values are defined the Google Compute Engine API, not by the Cloud Dataflow API; consult the Google Compute Engine documentation for more information about determining the set of available disk types for a particular project and zone. Google Compute Engine Disk types are local to a particular project in a particular zone, and so the resource name will typically look something like this: compute.googleapis.com/projects/project-id/zones/zone/diskTypes/pd-standard */
+  diskType?: string | undefined;
+  /** Size of disk in GB. If zero or unspecified, the service will attempt to choose a reasonable default. */
+  sizeGb?: number | undefined;
 }
-/** Taskrunner configuration settings. */
-export interface TaskRunnerSettings {
-  /** The streaming worker main class name. */
-  streamingWorkerMainClass?: string | undefined;
-  /** The base URL for the taskrunner to use when accessing Google Cloud APIs. When workers access Google Cloud APIs, they logically do so via relative URLs. If this field is specified, it supplies the base URL to use for resolving these relative URLs. The normative algorithm used is defined by RFC 1808, "Relative Uniform Resource Locators". If not specified, the default value is "http://www.googleapis.com/" */
-  baseUrl?: string | undefined;
-  /** The settings to pass to the parallel worker harness. */
-  parallelWorkerSettings?: WorkerSettings | undefined;
-  /** The directory on the VM to store logs. */
-  logDir?: string | undefined;
-  /** The suggested backend language. */
-  languageHint?: string | undefined;
-  /** The UNIX group ID on the worker VM to use for tasks launched by taskrunner; e.g. "wheel". */
-  taskGroup?: string | undefined;
-  /** Indicates where to put logs. If this is not specified, the logs will not be uploaded. The supported resource type is: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
-  logUploadLocation?: string | undefined;
-  /** The command to launch the worker harness. */
-  harnessCommand?: string | undefined;
-  /** The UNIX user ID on the worker VM to use for tasks launched by taskrunner; e.g. "root". */
-  taskUser?: string | undefined;
-  /** The API version of endpoint, e.g. "v1b3" */
-  dataflowApiVersion?: string | undefined;
-  /** The prefix of the resources the taskrunner should use for temporary storage. The supported resource type is: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
-  tempStoragePrefix?: string | undefined;
-  /** The file to store preprocessing commands in. */
-  commandlinesFileName?: string | undefined;
-  /** Whether to send taskrunner log info to Google Compute Engine VM serial console. */
-  logToSerialconsole?: boolean | undefined;
-  /** Whether to continue taskrunner if an exception is hit. */
-  continueOnException?: boolean | undefined;
-  /** The ID string of the VM. */
-  vmId?: string | undefined;
-  /** Whether to also send taskrunner log info to stderr. */
-  alsologtostderr?: boolean | undefined;
-  /** The OAuth2 scopes to be requested by the taskrunner in order to access the Cloud Dataflow API. */
-  oauthScopes?: StringList_ | undefined;
-  /** The file to store the workflow in. */
-  workflowFileName?: string | undefined;
-  /** The location on the worker for task-specific subdirectories. */
-  baseTaskDir?: string | undefined;
-}
-export type WorkerPoolTeardownPolicyEnum =
-  | "TEARDOWN_POLICY_UNKNOWN"
-  | "TEARDOWN_ALWAYS"
-  | "TEARDOWN_ON_SUCCESS"
-  | "TEARDOWN_NEVER";
+export type DiskList = Array<Disk>;
 /** Defines an SDK harness container for executing Dataflow pipelines. */
 export interface SdkHarnessContainerImage {
-  /** Environment ID for the Beam runner API proto Environment that corresponds to the current SDK Harness. */
-  environmentId?: string | undefined;
   /** If true, recommends the Dataflow service to use only one core per SDK container instance with this image. If false (or unset) recommends using more than one core per SDK container instance with this image for efficiency. Note that Dataflow service may choose to override this property if needed. */
   useSingleCorePerContainer?: boolean | undefined;
+  /** Environment ID for the Beam runner API proto Environment that corresponds to the current SDK Harness. */
+  environmentId?: string | undefined;
   /** The set of capabilities enumerated in the above Environment proto. See also [beam_runner_api.proto](https://github.com/apache/beam/blob/master/model/pipeline/src/main/proto/org/apache/beam/model/pipeline/v1/beam_runner_api.proto) */
   capabilities?: StringList_ | undefined;
   /** A docker container image that resides in Google Container Registry. */
   containerImage?: string | undefined;
 }
 export type SdkHarnessContainerImageList = Array<SdkHarnessContainerImage>;
+export type AutoscalingSettingsAlgorithmEnum =
+  | "AUTOSCALING_ALGORITHM_UNKNOWN"
+  | "AUTOSCALING_ALGORITHM_NONE"
+  | "AUTOSCALING_ALGORITHM_BASIC";
+/** Settings for WorkerPool autoscaling. */
+export interface AutoscalingSettings {
+  /** The algorithm to use for autoscaling. */
+  algorithm?: AutoscalingSettingsAlgorithmEnum | (string & {}) | undefined;
+  /** The maximum number of workers to cap scaling at. */
+  maxNumWorkers?: number | undefined;
+}
+export type WorkerPoolTeardownPolicyEnum =
+  | "TEARDOWN_POLICY_UNKNOWN"
+  | "TEARDOWN_ALWAYS"
+  | "TEARDOWN_ON_SUCCESS"
+  | "TEARDOWN_NEVER";
 /** The packages that must be installed in order for a worker to run the steps of the Cloud Dataflow job that will be assigned to its worker pool. This is the mechanism by which the Cloud Dataflow SDK causes code to be loaded onto the workers. For example, the Cloud Dataflow Java SDK might use this to install jars containing the user's code and all of the various dependencies (libraries, data files, etc.) required in order for that code to run. */
 export interface Package {
-  /** The name of the package. */
-  name?: string | undefined;
   /** The resource to read the package from. The supported resource type is: Google Cloud Storage: storage.googleapis.com/{bucket} bucket.storage.googleapis.com/ */
   location?: string | undefined;
+  /** The name of the package. */
+  name?: string | undefined;
   /** Optional. The hex-encoded SHA256 checksum of the package. If the checksum is provided, the worker will verify the checksum of the package before using it. If the checksum does not match, the worker will fail to start. */
   sha256?: string | undefined;
 }
 export type PackageList = Array<Package>;
-/** Describes the data disk used by a workflow job. */
-export interface Disk {
-  /** Size of disk in GB. If zero or unspecified, the service will attempt to choose a reasonable default. */
-  sizeGb?: number | undefined;
-  /** Disk storage type, as defined by Google Compute Engine. This must be a disk type appropriate to the project and zone in which the workers will run. If unknown or unspecified, the service will attempt to choose a reasonable default. For example, the standard persistent disk type is a resource name typically ending in "pd-standard". If SSD persistent disks are available, the resource name typically ends with "pd-ssd". The actual valid values are defined the Google Compute Engine API, not by the Cloud Dataflow API; consult the Google Compute Engine documentation for more information about determining the set of available disk types for a particular project and zone. Google Compute Engine Disk types are local to a particular project in a particular zone, and so the resource name will typically look something like this: compute.googleapis.com/projects/project-id/zones/zone/diskTypes/pd-standard */
-  diskType?: string | undefined;
-  /** Directory in a VM where disk is mounted. */
-  mountPoint?: string | undefined;
+export type WorkerPoolDefaultPackageSetEnum =
+  | "DEFAULT_PACKAGE_SET_UNKNOWN"
+  | "DEFAULT_PACKAGE_SET_NONE"
+  | "DEFAULT_PACKAGE_SET_JAVA"
+  | "DEFAULT_PACKAGE_SET_PYTHON";
+/** Provides data to pass through to the worker harness. */
+export interface WorkerSettings {
+  /** Whether to send work progress updates to the service. */
+  reportingEnabled?: boolean | undefined;
+  /** The ID of the worker running this pipeline. */
+  workerId?: string | undefined;
+  /** The Cloud Dataflow service path relative to the root URL, for example, "dataflow/v1b3/projects". */
+  servicePath?: string | undefined;
+  /** The prefix of the resources the system should use for temporary storage. The supported resource type is: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
+  tempStoragePrefix?: string | undefined;
+  /** The Shuffle service path relative to the root URL, for example, "shuffle/v1beta1". */
+  shuffleServicePath?: string | undefined;
+  /** The base URL for accessing Google Cloud APIs. When workers access Google Cloud APIs, they logically do so via relative URLs. If this field is specified, it supplies the base URL to use for resolving these relative URLs. The normative algorithm used is defined by RFC 1808, "Relative Uniform Resource Locators". If not specified, the default value is "http://www.googleapis.com/" */
+  baseUrl?: string | undefined;
 }
-export type DiskList = Array<Disk>;
+/** Taskrunner configuration settings. */
+export interface TaskRunnerSettings {
+  /** The settings to pass to the parallel worker harness. */
+  parallelWorkerSettings?: WorkerSettings | undefined;
+  /** Whether to continue taskrunner if an exception is hit. */
+  continueOnException?: boolean | undefined;
+  /** The file to store the workflow in. */
+  workflowFileName?: string | undefined;
+  /** The directory on the VM to store logs. */
+  logDir?: string | undefined;
+  /** Indicates where to put logs. If this is not specified, the logs will not be uploaded. The supported resource type is: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
+  logUploadLocation?: string | undefined;
+  /** The streaming worker main class name. */
+  streamingWorkerMainClass?: string | undefined;
+  /** The location on the worker for task-specific subdirectories. */
+  baseTaskDir?: string | undefined;
+  /** The command to launch the worker harness. */
+  harnessCommand?: string | undefined;
+  /** The OAuth2 scopes to be requested by the taskrunner in order to access the Cloud Dataflow API. */
+  oauthScopes?: StringList_ | undefined;
+  /** The ID string of the VM. */
+  vmId?: string | undefined;
+  /** The UNIX user ID on the worker VM to use for tasks launched by taskrunner; e.g. "root". */
+  taskUser?: string | undefined;
+  /** Whether to send taskrunner log info to Google Compute Engine VM serial console. */
+  logToSerialconsole?: boolean | undefined;
+  /** The base URL for the taskrunner to use when accessing Google Cloud APIs. When workers access Google Cloud APIs, they logically do so via relative URLs. If this field is specified, it supplies the base URL to use for resolving these relative URLs. The normative algorithm used is defined by RFC 1808, "Relative Uniform Resource Locators". If not specified, the default value is "http://www.googleapis.com/" */
+  baseUrl?: string | undefined;
+  /** The UNIX group ID on the worker VM to use for tasks launched by taskrunner; e.g. "wheel". */
+  taskGroup?: string | undefined;
+  /** Whether to also send taskrunner log info to stderr. */
+  alsologtostderr?: boolean | undefined;
+  /** The suggested backend language. */
+  languageHint?: string | undefined;
+  /** The API version of endpoint, e.g. "v1b3" */
+  dataflowApiVersion?: string | undefined;
+  /** The prefix of the resources the taskrunner should use for temporary storage. The supported resource type is: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
+  tempStoragePrefix?: string | undefined;
+  /** The file to store preprocessing commands in. */
+  commandlinesFileName?: string | undefined;
+}
 /** Describes one particular pool of Cloud Dataflow workers to be instantiated by the Cloud Dataflow service in order to perform the computations required by a job. Note that a workflow job may use multiple pools, in order to match the various computational requirements of the various stages of the job. */
 export interface WorkerPool {
-  /** Optional. IOPS provisioned for the root disk for VMs. */
-  diskProvisionedIops?: string | undefined;
-  /** Size of root disk for VMs, in GB. If zero or unspecified, the service will attempt to choose a reasonable default. */
-  diskSizeGb?: number | undefined;
+  /** Number of Google Compute Engine workers in this pool needed to execute the job. If zero or unspecified, the service will attempt to choose a reasonable default. */
+  numWorkers?: number | undefined;
   /** Type of root disk for VMs. If empty or unspecified, the service will attempt to choose a reasonable default. */
   diskType?: string | undefined;
-  /** Required. Docker container image that executes the Cloud Dataflow worker harness, residing in Google Container Registry. Deprecated for the Fn API path. Use sdk_harness_container_images instead. */
-  workerHarnessContainerImage?: string | undefined;
-  /** Optional. Throughput provisioned for the root disk for VMs. */
-  diskProvisionedThroughputMibps?: string | undefined;
-  /** The default package set to install. This allows the service to select a default set of packages which are useful to worker harnesses written in a particular language. */
-  defaultPackageSet?: WorkerPoolDefaultPackageSetEnum | (string & {}) | undefined;
-  /** Settings for autoscaling of this WorkerPool. */
-  autoscalingSettings?: AutoscalingSettings | undefined;
-  /** The action to take on host maintenance, as defined by the Google Compute Engine API. */
-  onHostMaintenance?: string | undefined;
-  /** Zone to run the worker pools in. If empty or unspecified, the service will attempt to choose a reasonable default. */
-  zone?: string | undefined;
   /** Configuration for VM IPs. */
   ipConfiguration?: WorkerPoolIpConfigurationEnum | (string & {}) | undefined;
-  /** Settings passed through to Google Compute Engine workers when using the standard Dataflow task runner. Users should ignore this field. */
-  taskrunnerSettings?: TaskRunnerSettings | undefined;
-  /** Sets the policy for determining when to turndown worker pool. Allowed values are: `TEARDOWN_ALWAYS`, `TEARDOWN_ON_SUCCESS`, and `TEARDOWN_NEVER`. `TEARDOWN_ALWAYS` means workers are always torn down regardless of whether the job succeeds. `TEARDOWN_ON_SUCCESS` means workers are torn down if the job succeeds. `TEARDOWN_NEVER` means the workers are never torn down. If the workers are not torn down by the service, they will continue to run and use Google Compute Engine VM resources in the user's project until they are explicitly terminated by the user. Because of this, Google recommends using the `TEARDOWN_ALWAYS` policy except for small, manually supervised test jobs. If unknown or unspecified, the service will attempt to choose a reasonable default. */
-  teardownPolicy?: WorkerPoolTeardownPolicyEnum | (string & {}) | undefined;
+  /** The action to take on host maintenance, as defined by the Google Compute Engine API. */
+  onHostMaintenance?: string | undefined;
+  /** The number of threads per worker harness. If empty or unspecified, the service will choose a number of threads (according to the number of cores on the selected machine type for batch, or 1 by convention for streaming). */
+  numThreadsPerWorker?: number | undefined;
+  /** Data disks that are used by a VM in this workflow. */
+  dataDisks?: DiskList | undefined;
+  /** Extra arguments for this worker pool. */
+  poolArgs?: DocumentMap | undefined;
+  /** Required. Docker container image that executes the Cloud Dataflow worker harness, residing in Google Container Registry. Deprecated for the Fn API path. Use sdk_harness_container_images instead. */
+  workerHarnessContainerImage?: string | undefined;
+  /** Network to which VMs will be assigned. If empty or unspecified, the service will use the network "default". */
+  network?: string | undefined;
   /** Set of SDK harness containers needed to execute this pipeline. This will only be set in the Fn API path. For non-cross-language pipelines this should have only one entry. Cross-language pipelines will have two or more entries. */
   sdkHarnessContainerImages?: SdkHarnessContainerImageList | undefined;
   /** Machine type (e.g. "n1-standard-1"). If empty or unspecified, the service will attempt to choose a reasonable default. */
   machineType?: string | undefined;
+  /** Settings for autoscaling of this WorkerPool. */
+  autoscalingSettings?: AutoscalingSettings | undefined;
+  /** Size of root disk for VMs, in GB. If zero or unspecified, the service will attempt to choose a reasonable default. */
+  diskSizeGb?: number | undefined;
+  /** Subnetwork to which VMs will be assigned, if desired. Expected to be of the form "regions/REGION/subnetworks/SUBNETWORK". */
+  subnetwork?: string | undefined;
   /** Metadata to set on the Google Compute Engine VMs. */
   metadata?: StringMap | undefined;
   /** Fully qualified source image for disks. */
   diskSourceImage?: string | undefined;
-  /** Number of Google Compute Engine workers in this pool needed to execute the job. If zero or unspecified, the service will attempt to choose a reasonable default. */
-  numWorkers?: number | undefined;
-  /** The kind of the worker pool; currently only `harness` and `shuffle` are supported. */
-  kind?: string | undefined;
+  /** Sets the policy for determining when to turndown worker pool. Allowed values are: `TEARDOWN_ALWAYS`, `TEARDOWN_ON_SUCCESS`, and `TEARDOWN_NEVER`. `TEARDOWN_ALWAYS` means workers are always torn down regardless of whether the job succeeds. `TEARDOWN_ON_SUCCESS` means workers are torn down if the job succeeds. `TEARDOWN_NEVER` means the workers are never torn down. If the workers are not torn down by the service, they will continue to run and use Google Compute Engine VM resources in the user's project until they are explicitly terminated by the user. Because of this, Google recommends using the `TEARDOWN_ALWAYS` policy except for small, manually supervised test jobs. If unknown or unspecified, the service will attempt to choose a reasonable default. */
+  teardownPolicy?: WorkerPoolTeardownPolicyEnum | (string & {}) | undefined;
   /** Packages to be installed on workers. */
   packages?: PackageList | undefined;
-  /** Subnetwork to which VMs will be assigned, if desired. Expected to be of the form "regions/REGION/subnetworks/SUBNETWORK". */
-  subnetwork?: string | undefined;
-  /** Network to which VMs will be assigned. If empty or unspecified, the service will use the network "default". */
-  network?: string | undefined;
-  /** Extra arguments for this worker pool. */
-  poolArgs?: DocumentMap | undefined;
-  /** Data disks that are used by a VM in this workflow. */
-  dataDisks?: DiskList | undefined;
-  /** The number of threads per worker harness. If empty or unspecified, the service will choose a number of threads (according to the number of cores on the selected machine type for batch, or 1 by convention for streaming). */
-  numThreadsPerWorker?: number | undefined;
+  /** The kind of the worker pool; currently only `harness` and `shuffle` are supported. */
+  kind?: string | undefined;
+  /** The default package set to install. This allows the service to select a default set of packages which are useful to worker harnesses written in a particular language. */
+  defaultPackageSet?: WorkerPoolDefaultPackageSetEnum | (string & {}) | undefined;
+  /** Zone to run the worker pools in. If empty or unspecified, the service will attempt to choose a reasonable default. */
+  zone?: string | undefined;
+  /** Optional. Throughput provisioned for the root disk for VMs. */
+  diskProvisionedThroughputMibps?: string | undefined;
+  /** Settings passed through to Google Compute Engine workers when using the standard Dataflow task runner. Users should ignore this field. */
+  taskrunnerSettings?: TaskRunnerSettings | undefined;
+  /** Optional. IOPS provisioned for the root disk for VMs. */
+  diskProvisionedIops?: string | undefined;
 }
 export type WorkerPoolList = Array<WorkerPool>;
-export type EnvironmentStreamingModeEnum =
-  | "STREAMING_MODE_UNSPECIFIED"
-  | "STREAMING_MODE_EXACTLY_ONCE"
-  | "STREAMING_MODE_AT_LEAST_ONCE";
-export type EnvironmentFlexResourceSchedulingGoalEnum =
-  | "FLEXRS_UNSPECIFIED"
-  | "FLEXRS_SPEED_OPTIMIZED"
-  | "FLEXRS_COST_OPTIMIZED";
+export type EnvironmentShuffleModeEnum = "SHUFFLE_MODE_UNSPECIFIED" | "VM_BASED" | "SERVICE_BASED";
 export type DataSamplingConfigBehaviorsItemEnum =
   | "DATA_SAMPLING_BEHAVIOR_UNSPECIFIED"
   | "DISABLED"
@@ -593,25 +494,18 @@ export interface DebugOptions {
   /** Configuration options for sampling elements from a running pipeline. */
   dataSampling?: DataSamplingConfig | undefined;
 }
-export type EnvironmentShuffleModeEnum = "SHUFFLE_MODE_UNSPECIFIED" | "VM_BASED" | "SERVICE_BASED";
+export type EnvironmentStreamingModeEnum =
+  | "STREAMING_MODE_UNSPECIFIED"
+  | "STREAMING_MODE_EXACTLY_ONCE"
+  | "STREAMING_MODE_AT_LEAST_ONCE";
 /** Describes the environment in which a Dataflow Job runs. */
 export interface Environment {
-  /** The list of experiments to enable. This field should be used for SDK related experiments and not for service related experiments. The proper field for service related experiments is service_options. */
-  experiments?: StringList_ | undefined;
   /** Optional. The list of service options to enable. This field should be used for service related experiments only. These experiments, when graduating to GA, should be replaced by dedicated fields or become default (i.e. always on). */
   serviceOptions?: StringList_ | undefined;
-  /** Optional. The Compute Engine zone (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1-a". Mutually exclusive with worker_region. If neither worker_region nor worker_zone is specified, a zone in the control plane's region is chosen based on available capacity. */
-  workerZone?: string | undefined;
-  /** The prefix of the resources the system should use for temporary storage. The system will append the suffix "/temp-{JOBNAME} to this resource prefix, where {JOBNAME} is the value of the job_name field. The resulting bucket and object prefix is used as the prefix of the resources used to store temporary data needed during the job execution. NOTE: This will override the value in taskrunner_settings. The supported resource type is: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
-  tempStoragePrefix?: string | undefined;
-  /** The type of cluster manager API to use. If unknown or unspecified, the service will attempt to choose a reasonable default. This should be in the form of the API service name, e.g. "compute.googleapis.com". */
-  clusterManagerApiService?: string | undefined;
   /** Optional. Identity to run virtual machines as. Defaults to the default account. */
   serviceAccountEmail?: string | undefined;
-  /** The worker pools. At least one "harness" worker pool must be specified in order for the job to have workers. */
-  workerPools?: WorkerPoolList | undefined;
-  /** Optional. Specifies the Streaming Engine message processing guarantees. Reduces cost and latency but might result in duplicate messages committed to storage. Designed to run simple mapping streaming ETL jobs at the lowest cost. For example, Change Data Capture (CDC) to BigQuery is a canonical use case. For more information, see [Set the pipeline streaming mode](https://cloud.google.com/dataflow/docs/guides/streaming-modes). */
-  streamingMode?: EnvironmentStreamingModeEnum | (string & {}) | undefined;
+  /** Optional. True when any worker pool that uses public IPs is present. */
+  usePublicIps?: boolean | undefined;
   /** The Cloud Dataflow SDK pipeline options specified by the user. These options are passed through the service and are used to recreate the SDK pipeline options on the worker in a language agnostic and platform independent way. */
   sdkPipelineOptions?: DocumentMap | undefined;
   /** Optional. Which Flexible Resource Scheduling mode to run in. */
@@ -619,88 +513,36 @@ export interface Environment {
     | EnvironmentFlexResourceSchedulingGoalEnum
     | (string & {})
     | undefined;
-  /** Experimental settings. */
-  internalExperiments?: DocumentMap | undefined;
+  /** The worker pools. At least one "harness" worker pool must be specified in order for the job to have workers. */
+  workerPools?: WorkerPoolList | undefined;
   /** Output only. Whether the job uses the Streaming Engine resource-based billing model. */
   useStreamingEngineResourceBasedBilling?: boolean | undefined;
-  /** Optional. Any debugging options to be supplied to the job. */
-  debugOptions?: DebugOptions | undefined;
-  /** Optional. The dataset for the current project where various workflow related tables are stored. The supported resource type is: Google BigQuery: bigquery.googleapis.com/{dataset} */
-  dataset?: string | undefined;
   /** Output only. The shuffle mode used for the job. */
   shuffleMode?: EnvironmentShuffleModeEnum | (string & {}) | undefined;
-  /** Optional. True when any worker pool that uses public IPs is present. */
-  usePublicIps?: boolean | undefined;
   /** Optional. The Compute Engine region (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1". Mutually exclusive with worker_zone. If neither worker_region nor worker_zone is specified, default to the control plane's region. */
   workerRegion?: string | undefined;
-  /** A structure describing which components and their versions of the service are required in order to run the job. */
-  version?: DocumentMap | undefined;
-  /** Optional. A description of the process that generated the request. */
-  userAgent?: DocumentMap | undefined;
   /** Optional. If set, contains the Cloud KMS key identifier used to encrypt data at rest, AKA a Customer Managed Encryption Key (CMEK). Format: projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/KEY */
   serviceKmsKeyName?: string | undefined;
-}
-/** Resources used by the Dataflow Service to run the job. */
-export interface ServiceResources {
-  /** Output only. List of Cloud Zones being used by the Dataflow Service for this job. Example: us-central1-c */
-  zones?: StringList_ | undefined;
-}
-/** The parameters to use for autoscaling when this schedule is active. */
-export interface Parameters {
-  /** Optional. The target CPU utilization for this schedule. */
-  cpuUtilizationTarget?: number | undefined;
-  /** Optional. The minimum number of workers for this schedule. */
-  minWorkerCount?: number | undefined;
-  /** Optional. The maximum number of workers for this schedule. */
-  maxWorkerCount?: number | undefined;
-  /** Optional. The target latency for this schedule. */
-  latencyTarget?: string | undefined;
-}
-/** A schedule for autoscaling. */
-export interface AutoscalingSchedule {
-  /** Optional. Specifies the priority of the schedule. If two schedules overlap, the one with the higher priority will be used. The higher the value, the higher the priority of the schedule. The value must be non-negative; the lowest priority is `0`, which is the default. */
-  priority?: string | undefined;
-  /** Optional. The duration for which the parameter overrides for this schedule will be applied when triggered by the crontab. */
-  duration?: string | undefined;
-  /** Optional. The name of the schedule. */
-  name?: string | undefined;
-  /** Optional. The time zone for the schedule. The value of this field must be a time zone name from the [tz database](http://en.wikipedia.org/wiki/Tz_database). The default value is UTC. */
-  timeZone?: string | undefined;
-  /** Output only. When the customer last updated the schedule. */
-  updateTime?: string | undefined;
-  /** Optional. The parameters to use for autoscaling when this schedule is active. */
-  parameters?: Parameters | undefined;
-  /** Optional. A crontab specification of when this schedule should trigger applying overrides. The overrides will be applied from the trigger time until the specified duration elapses. */
-  crontab?: string | undefined;
-}
-export type AutoscalingScheduleList = Array<AutoscalingSchedule>;
-/** Additional job parameters that can only be updated during runtime using the projects.jobs.update method. These fields have no effect when specified during job creation. */
-export interface RuntimeUpdatableParams {
-  /** Optional. Deprecated: Use `latency_tier` instead. The backlog threshold duration in seconds for autoscaling. Value must be non-negative. */
-  acceptableBacklogDuration?: string | undefined;
-  /** The maximum number of workers to cap autoscaling at. This field is currently only supported for Streaming Engine jobs. */
-  maxNumWorkers?: number | undefined;
-  /** The minimum number of workers to scale down to. This field is currently only supported for Streaming Engine jobs. */
-  minNumWorkers?: number | undefined;
-  /** Optional. The backlog threshold tier for autoscaling. Value must be one of "low-latency", "medium-latency", or "high-latency". */
-  latencyTier?: string | undefined;
-  /** Target worker utilization, compared against the aggregate utilization of the worker pool by autoscaler, to determine upscaling and downscaling when absent other constraints such as backlog. For more information, see [Update an existing pipeline](https://cloud.google.com/dataflow/docs/guides/updating-a-pipeline). */
-  workerUtilizationHint?: number | undefined;
-  /** Optional. The schedule for autoscaling. */
-  schedules?: AutoscalingScheduleList | undefined;
-  /** Optional. Deprecated: Use `latency_tier` instead. The backlog threshold tier for autoscaling. Value must be one of "low-latency", "medium-latency", or "high-latency". */
-  autoscalingTier?: string | undefined;
-}
-/** Contains information about how a particular google.dataflow.v1beta3.Step will be executed. */
-export interface JobExecutionStageInfo {
-  /** The steps associated with the execution stage. Note that stages may have several steps, and that a given step might be run by more than one stage. */
-  stepName?: StringList_ | undefined;
-}
-export type JobExecutionStageInfoMap = { [key: string]: JobExecutionStageInfo | undefined };
-/** Additional information about how a Cloud Dataflow job will be executed that isn't contained in the submitted job. */
-export interface JobExecutionInfo {
-  /** A mapping from each stage to the information about that stage. */
-  stages?: JobExecutionStageInfoMap | undefined;
+  /** A structure describing which components and their versions of the service are required in order to run the job. */
+  version?: DocumentMap | undefined;
+  /** The prefix of the resources the system should use for temporary storage. The system will append the suffix "/temp-{JOBNAME} to this resource prefix, where {JOBNAME} is the value of the job_name field. The resulting bucket and object prefix is used as the prefix of the resources used to store temporary data needed during the job execution. NOTE: This will override the value in taskrunner_settings. The supported resource type is: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
+  tempStoragePrefix?: string | undefined;
+  /** Optional. The dataset for the current project where various workflow related tables are stored. The supported resource type is: Google BigQuery: bigquery.googleapis.com/{dataset} */
+  dataset?: string | undefined;
+  /** Optional. Any debugging options to be supplied to the job. */
+  debugOptions?: DebugOptions | undefined;
+  /** Experimental settings. */
+  internalExperiments?: DocumentMap | undefined;
+  /** The list of experiments to enable. This field should be used for SDK related experiments and not for service related experiments. The proper field for service related experiments is service_options. */
+  experiments?: StringList_ | undefined;
+  /** Optional. Specifies the Streaming Engine message processing guarantees. Reduces cost and latency but might result in duplicate messages committed to storage. Designed to run simple mapping streaming ETL jobs at the lowest cost. For example, Change Data Capture (CDC) to BigQuery is a canonical use case. For more information, see [Set the pipeline streaming mode](https://cloud.google.com/dataflow/docs/guides/streaming-modes). */
+  streamingMode?: EnvironmentStreamingModeEnum | (string & {}) | undefined;
+  /** Optional. The Compute Engine zone (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1-a". Mutually exclusive with worker_region. If neither worker_region nor worker_zone is specified, a zone in the control plane's region is chosen based on available capacity. */
+  workerZone?: string | undefined;
+  /** The type of cluster manager API to use. If unknown or unspecified, the service will attempt to choose a reasonable default. This should be in the form of the API service name, e.g. "compute.googleapis.com". */
+  clusterManagerApiService?: string | undefined;
+  /** Optional. A description of the process that generated the request. */
+  userAgent?: DocumentMap | undefined;
 }
 export type JobRequestedStateEnum =
   | "JOB_STATE_UNKNOWN"
@@ -718,66 +560,224 @@ export type JobRequestedStateEnum =
   | "JOB_STATE_RESOURCE_CLEANING_UP"
   | "JOB_STATE_PAUSING"
   | "JOB_STATE_PAUSED";
+export type ExecutionStageStateExecutionStageStateEnum =
+  | "JOB_STATE_UNKNOWN"
+  | "JOB_STATE_STOPPED"
+  | "JOB_STATE_RUNNING"
+  | "JOB_STATE_DONE"
+  | "JOB_STATE_FAILED"
+  | "JOB_STATE_CANCELLED"
+  | "JOB_STATE_UPDATED"
+  | "JOB_STATE_DRAINING"
+  | "JOB_STATE_DRAINED"
+  | "JOB_STATE_PENDING"
+  | "JOB_STATE_CANCELLING"
+  | "JOB_STATE_QUEUED"
+  | "JOB_STATE_RESOURCE_CLEANING_UP"
+  | "JOB_STATE_PAUSING"
+  | "JOB_STATE_PAUSED";
+/** A message describing the state of a particular execution stage. */
+export interface ExecutionStageState {
+  /** The name of the execution stage. */
+  executionStageName?: string | undefined;
+  /** The time at which the stage transitioned to this state. */
+  currentStateTime?: string | undefined;
+  /** Executions stage states allow the same set of values as JobState. */
+  executionStageState?: ExecutionStageStateExecutionStageStateEnum | (string & {}) | undefined;
+}
+export type ExecutionStageStateList = Array<ExecutionStageState>;
+/** Data provided with a pipeline or transform to provide descriptive info. */
+export interface DisplayData {
+  /** Contains value if the data is of int64 type. */
+  int64Value?: string | undefined;
+  /** Contains value if the data is of java class type. */
+  javaClassValue?: string | undefined;
+  /** The key identifying the display data. This is intended to be used as a label for the display data when viewed in a dax monitoring system. */
+  key?: string | undefined;
+  /** An optional label to display in a dax UI for the element. */
+  label?: string | undefined;
+  /** The namespace for the key. This is usually a class name or programming language namespace (i.e. python module) which defines the display data. This allows a dax monitoring system to specially handle the data and perform custom rendering. */
+  namespace?: string | undefined;
+  /** Contains value if the data is of string type. */
+  strValue?: string | undefined;
+  /** Contains value if the data is of a boolean type. */
+  boolValue?: boolean | undefined;
+  /** An optional full URL. */
+  url?: string | undefined;
+  /** Contains value if the data is of float type. */
+  floatValue?: number | undefined;
+  /** Contains value if the data is of timestamp type. */
+  timestampValue?: string | undefined;
+  /** Contains value if the data is of duration type. */
+  durationValue?: string | undefined;
+  /** A possible additional shorter value to display. For example a java_class_name_value of com.mypackage.MyDoFn will be stored with MyDoFn as the short_str_value and com.mypackage.MyDoFn as the java_class_name value. short_str_value can be displayed and java_class_name_value will be displayed as a tooltip. */
+  shortStrValue?: string | undefined;
+}
+export type DisplayDataList = Array<DisplayData>;
+export type TransformSummaryKindEnum =
+  | "UNKNOWN_KIND"
+  | "PAR_DO_KIND"
+  | "GROUP_BY_KEY_KIND"
+  | "FLATTEN_KIND"
+  | "READ_KIND"
+  | "WRITE_KIND"
+  | "CONSTANT_KIND"
+  | "SINGLETON_KIND"
+  | "SHUFFLE_KIND";
+/** Description of the type, names/ids, and input/outputs for a transform. */
+export interface TransformSummary {
+  /** User provided name for this transform instance. */
+  name?: string | undefined;
+  /** User names for all collection outputs to this transform. */
+  outputCollectionName?: StringList_ | undefined;
+  /** Transform-specific display data. */
+  displayData?: DisplayDataList | undefined;
+  /** User names for all collection inputs to this transform. */
+  inputCollectionName?: StringList_ | undefined;
+  /** SDK generated id of this transform instance. */
+  id?: string | undefined;
+  /** Type of transform. */
+  kind?: TransformSummaryKindEnum | (string & {}) | undefined;
+}
+export type TransformSummaryList = Array<TransformSummary>;
+/** Description of a transform executed as part of an execution stage. */
+export interface ComponentTransform {
+  /** Human-readable name for this transform; may be user or system generated. */
+  userName?: string | undefined;
+  /** User name for the original user transform with which this transform is most closely associated. */
+  originalTransform?: string | undefined;
+  /** Dataflow service generated name for this source. */
+  name?: string | undefined;
+}
+export type ComponentTransformList = Array<ComponentTransform>;
+export type ExecutionStageSummaryKindEnum =
+  | "UNKNOWN_KIND"
+  | "PAR_DO_KIND"
+  | "GROUP_BY_KEY_KIND"
+  | "FLATTEN_KIND"
+  | "READ_KIND"
+  | "WRITE_KIND"
+  | "CONSTANT_KIND"
+  | "SINGLETON_KIND"
+  | "SHUFFLE_KIND";
+/** Description of an input or output of an execution stage. */
+export interface StageSource {
+  /** User name for the original user transform or collection with which this source is most closely associated. */
+  originalTransformOrCollection?: string | undefined;
+  /** Size of the source, if measurable. */
+  sizeBytes?: string | undefined;
+  /** Dataflow service generated name for this source. */
+  name?: string | undefined;
+  /** Human-readable name for this source; may be user or system generated. */
+  userName?: string | undefined;
+}
+export type StageSourceList = Array<StageSource>;
+/** Description of an interstitial value between transforms in an execution stage. */
+export interface ComponentSource {
+  /** Human-readable name for this transform; may be user or system generated. */
+  userName?: string | undefined;
+  /** User name for the original user transform or collection with which this source is most closely associated. */
+  originalTransformOrCollection?: string | undefined;
+  /** Dataflow service generated name for this source. */
+  name?: string | undefined;
+}
+export type ComponentSourceList = Array<ComponentSource>;
+/** Description of the composing transforms, names/ids, and input/outputs of a stage of execution. Some composing transforms and sources may have been generated by the Dataflow service during execution planning. */
+export interface ExecutionStageSummary {
+  /** Transforms that comprise this execution stage. */
+  componentTransform?: ComponentTransformList | undefined;
+  /** Other stages that must complete before this stage can run. */
+  prerequisiteStage?: StringList_ | undefined;
+  /** Type of transform this stage is executing. */
+  kind?: ExecutionStageSummaryKindEnum | (string & {}) | undefined;
+  /** Input sources for this stage. */
+  inputSource?: StageSourceList | undefined;
+  /** Dataflow service generated id for this stage. */
+  id?: string | undefined;
+  /** Collections produced and consumed by component transforms of this stage. */
+  componentSource?: ComponentSourceList | undefined;
+  /** Dataflow service generated name for this stage. */
+  name?: string | undefined;
+  /** Output sources for this stage. */
+  outputSource?: StageSourceList | undefined;
+}
+export type ExecutionStageSummaryList = Array<ExecutionStageSummary>;
+/** A descriptive representation of submitted pipeline as well as the executed form. This data is provided by the Dataflow service for ease of visualizing the pipeline and interpreting Dataflow provided metrics. */
+export interface PipelineDescription {
+  /** A hash value of the submitted pipeline portable graph step names if exists. */
+  stepNamesHash?: string | undefined;
+  /** Description of each transform in the pipeline and collections between them. */
+  originalPipelineTransform?: TransformSummaryList | undefined;
+  /** Pipeline level display data. */
+  displayData?: DisplayDataList | undefined;
+  /** Description of each stage of execution of the pipeline. */
+  executionPipelineStage?: ExecutionStageSummaryList | undefined;
+}
+/** Resources used by the Dataflow Service to run the job. */
+export interface ServiceResources {
+  /** Output only. List of Cloud Zones being used by the Dataflow Service for this job. Example: us-central1-c */
+  zones?: StringList_ | undefined;
+}
 /** Defines a job to be run by the Cloud Dataflow service. Do not enter confidential information when you supply string values using the API. */
 export interface Job {
-  /** The client's unique identifier of the job, re-used across retried attempts. If this field is set, the service will ensure its uniqueness. The request to create a job will fail if the service has knowledge of a previously submitted job with the same client's ID and job name. The caller may use this field to ensure idempotence of job creation across retried attempts to create a job. By default, the field is empty and, in that case, the service ignores it. */
-  clientRequestId?: string | undefined;
   /** This field is populated by the Dataflow service to support filtering jobs by the metadata values provided here. Populated for ListJobs and all GetJob views SUMMARY and higher. */
   jobMetadata?: JobMetadata | undefined;
-  /** If this is specified, the job's initial state is populated from the given snapshot. */
-  createdFromSnapshotId?: string | undefined;
-  /** Optional. The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
-  location?: string | undefined;
-  /** Preliminary field: The format of this data may change at any time. A description of the user pipeline and stages through which it is executed. Created by Cloud Dataflow service. Only retrieved with JOB_VIEW_DESCRIPTION or JOB_VIEW_ALL. */
-  pipelineDescription?: PipelineDescription | undefined;
-  /** The ID of the Google Cloud project that the job belongs to. */
-  projectId?: string | undefined;
+  /** The Cloud Storage location where the steps are stored. */
+  stepsLocation?: string | undefined;
+  /** The unique ID of this job. This field is set by the Dataflow service when the job is created, and is immutable for the life of the job. */
+  id?: string | undefined;
   /** Optional. The user-specified Dataflow job name. Only one active job with a given name can exist in a project within one region at any given time. Jobs in different regions can have the same name. If a caller attempts to create a job with the same name as an active job that already exists, the attempt returns the existing job. The name must match the regular expression `[a-z]([-a-z0-9]{0,1022}[a-z0-9])?` */
   name?: string | undefined;
+  /** Deprecated. */
+  executionInfo?: JobExecutionInfo | undefined;
+  /** The ID of the Google Cloud project that the job belongs to. */
+  projectId?: string | undefined;
   /** Exactly one of step or steps_location should be specified. The top-level steps that constitute the entire job. Only retrieved with JOB_VIEW_ALL. */
   steps?: StepList | undefined;
-  /** User-defined labels for this job. The labels map can contain no more than 64 entries. Entries of the labels map are UTF8 strings that comply with the following restrictions: * Keys must conform to regexp: \p{Ll}\p{Lo}{0,62} * Values must conform to regexp: [\p{Ll}\p{Lo}\p{N}_-]{0,63} * Both keys and values are additionally constrained to be <= 128 bytes in size. */
-  labels?: StringMap | undefined;
-  /** The current state of the job. Jobs are created in the `JOB_STATE_STOPPED` state unless otherwise specified. A job in the `JOB_STATE_RUNNING` state may asynchronously enter a terminal state. After a job has reached a terminal state, no further state updates may be made. This field might be mutated by the Dataflow service; callers cannot mutate it. */
-  currentState?: JobCurrentStateEnum | (string & {}) | undefined;
+  /** If this is specified, the job's initial state is populated from the given snapshot. */
+  createdFromSnapshotId?: string | undefined;
+  /** This field may ONLY be modified at runtime using the projects.jobs.update method to adjust job behavior. This field has no effect when specified at job creation. */
+  runtimeUpdatableParams?: RuntimeUpdatableParams | undefined;
   /** Optional. The type of Dataflow job. */
   type?: JobTypeEnum | (string & {}) | undefined;
-  /** A set of files the system should be aware of that are used for temporary storage. These temporary files will be removed on job completion. No duplicates are allowed. No file patterns are supported. The supported files are: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
-  tempFiles?: StringList_ | undefined;
-  /** The timestamp when the job was started (transitioned to JOB_STATE_PENDING). Flexible resource scheduling jobs are started with some delay after job creation, so start_time is unset before start and is updated when the job is started by the Cloud Dataflow service. For other jobs, start_time always equals to create_time and is immutable and set by the Cloud Dataflow service. */
-  startTime?: string | undefined;
-  /** Optional. The map of transform name prefixes of the job to be replaced to the corresponding name prefixes of the new job. */
-  transformNameMapping?: StringMap | undefined;
-  /** Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
-  satisfiesPzs?: boolean | undefined;
-  /** This field may be mutated by the Cloud Dataflow service; callers cannot mutate it. */
-  stageStates?: ExecutionStageStateList | undefined;
+  /** The current state of the job. Jobs are created in the `JOB_STATE_STOPPED` state unless otherwise specified. A job in the `JOB_STATE_RUNNING` state may asynchronously enter a terminal state. After a job has reached a terminal state, no further state updates may be made. This field might be mutated by the Dataflow service; callers cannot mutate it. */
+  currentState?: JobCurrentStateEnum | (string & {}) | undefined;
   /** Output only. Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
   satisfiesPzi?: boolean | undefined;
-  /** Output only. Indicates whether the job can be paused. */
-  pausable?: boolean | undefined;
-  /** If another job is an update of this job (and thus, this job is in `JOB_STATE_UPDATED`), this field contains the ID of that job. */
-  replacedByJobId?: string | undefined;
+  /** The client's unique identifier of the job, re-used across retried attempts. If this field is set, the service will ensure its uniqueness. The request to create a job will fail if the service has knowledge of a previously submitted job with the same client's ID and job name. The caller may use this field to ensure idempotence of job creation across retried attempts to create a job. By default, the field is empty and, in that case, the service ignores it. */
+  clientRequestId?: string | undefined;
+  /** A set of files the system should be aware of that are used for temporary storage. These temporary files will be removed on job completion. No duplicates are allowed. No file patterns are supported. The supported files are: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
+  tempFiles?: StringList_ | undefined;
   /** The timestamp associated with the current state. */
   currentStateTime?: string | undefined;
   /** Optional. The environment for the job. */
   environment?: Environment | undefined;
-  /** Output only. Resources used by the Dataflow Service to run the job. */
-  serviceResources?: ServiceResources | undefined;
-  /** The unique ID of this job. This field is set by the Dataflow service when the job is created, and is immutable for the life of the job. */
-  id?: string | undefined;
-  /** This field may ONLY be modified at runtime using the projects.jobs.update method to adjust job behavior. This field has no effect when specified at job creation. */
-  runtimeUpdatableParams?: RuntimeUpdatableParams | undefined;
-  /** Deprecated. */
-  executionInfo?: JobExecutionInfo | undefined;
-  /** The timestamp when the job was initially created. Immutable and set by the Cloud Dataflow service. */
-  createTime?: string | undefined;
   /** The job's requested state. Applies to `UpdateJob` requests. Set `requested_state` with `UpdateJob` requests to switch between the states `JOB_STATE_STOPPED` and `JOB_STATE_RUNNING`. You can also use `UpdateJob` requests to change a job's state from `JOB_STATE_RUNNING` to `JOB_STATE_CANCELLED`, `JOB_STATE_DONE`, or `JOB_STATE_DRAINED`. These states irrevocably terminate the job if it hasn't already reached a terminal state. This field has no effect on `CreateJob` requests. */
   requestedState?: JobRequestedStateEnum | (string & {}) | undefined;
-  /** The Cloud Storage location where the steps are stored. */
-  stepsLocation?: string | undefined;
   /** If this job is an update of an existing job, this field is the job ID of the job it replaced. When sending a `CreateJobRequest`, you can update a job by specifying it here. The job named here is stopped, and its intermediate state is transferred to this job. */
   replaceJobId?: string | undefined;
+  /** Optional. The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
+  location?: string | undefined;
+  /** Optional. The map of transform name prefixes of the job to be replaced to the corresponding name prefixes of the new job. */
+  transformNameMapping?: StringMap | undefined;
+  /** This field may be mutated by the Cloud Dataflow service; callers cannot mutate it. */
+  stageStates?: ExecutionStageStateList | undefined;
+  /** User-defined labels for this job. The labels map can contain no more than 64 entries. Entries of the labels map are UTF8 strings that comply with the following restrictions: * Keys must conform to regexp: \p{Ll}\p{Lo}{0,62} * Values must conform to regexp: [\p{Ll}\p{Lo}\p{N}_-]{0,63} * Both keys and values are additionally constrained to be <= 128 bytes in size. */
+  labels?: StringMap | undefined;
+  /** Preliminary field: The format of this data may change at any time. A description of the user pipeline and stages through which it is executed. Created by Cloud Dataflow service. Only retrieved with JOB_VIEW_DESCRIPTION or JOB_VIEW_ALL. */
+  pipelineDescription?: PipelineDescription | undefined;
+  /** The timestamp when the job was started (transitioned to JOB_STATE_PENDING). Flexible resource scheduling jobs are started with some delay after job creation, so start_time is unset before start and is updated when the job is started by the Cloud Dataflow service. For other jobs, start_time always equals to create_time and is immutable and set by the Cloud Dataflow service. */
+  startTime?: string | undefined;
+  /** Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. Indicates whether the job can be paused. */
+  pausable?: boolean | undefined;
+  /** The timestamp when the job was initially created. Immutable and set by the Cloud Dataflow service. */
+  createTime?: string | undefined;
+  /** If another job is an update of this job (and thus, this job is in `JOB_STATE_UPDATED`), this field contains the ID of that job. */
+  replacedByJobId?: string | undefined;
+  /** Output only. Resources used by the Dataflow Service to run the job. */
+  serviceResources?: ServiceResources | undefined;
 }
 export type JobList = Array<Job>;
 /** Indicates which [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) failed to respond to a request for data. */
@@ -790,10 +790,10 @@ export type FailedLocationList = Array<FailedLocation>;
 export interface ListJobsResponse {
   /** A subset of the requested job information. */
   jobs?: JobList | undefined;
-  /** Set if there may be more results than fit in this response. */
-  nextPageToken?: string | undefined;
   /** Zero or more messages describing the [regional endpoints] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that failed to respond. */
   failedLocation?: FailedLocationList | undefined;
+  /** Set if there may be more results than fit in this response. */
+  nextPageToken?: string | undefined;
 }
 /** Represents a dynamically typed value. */
 export interface ConfigStoreSettingValue {
@@ -804,22 +804,22 @@ export interface ConfigStoreSettingValue {
 }
 /** A ConfigStoreSetting resource. */
 export interface ConfigStoreSetting {
-  /** Required. The dynamic value of the setting. */
-  value?: ConfigStoreSettingValue | undefined;
   /** Identifier. The resource name of the setting. */
   name?: string | undefined;
+  /** Required. The dynamic value of the setting. */
+  value?: ConfigStoreSettingValue | undefined;
 }
 export interface CreateFoldersLocationsConfigStoreSettingsRequest extends ConfigStoreSetting {
-  /** Required. The parent resource where this setting will be created. */
-  parent: string;
   /** Required. The ID to use for the setting. */
   configStoreSettingId?: string | undefined;
+  /** Required. The parent resource where this setting will be created. */
+  parent: string;
 }
 export interface CreateOrganizationsLocationsConfigStoreSettingsRequest extends ConfigStoreSetting {
-  /** Required. The ID to use for the setting. */
-  configStoreSettingId?: string | undefined;
   /** Required. The parent resource where this setting will be created. */
   parent: string;
+  /** Required. The ID to use for the setting. */
+  configStoreSettingId?: string | undefined;
 }
 export type CreateProjectsJobsViewEnum =
   | "JOB_VIEW_UNKNOWN"
@@ -828,16 +828,16 @@ export type CreateProjectsJobsViewEnum =
   | "JOB_VIEW_DESCRIPTION";
 export interface CreateProjectsJobsRequest extends Omit<
   Job,
-  "location" | "projectId" | "replaceJobId"
+  "projectId" | "replaceJobId" | "location"
 > {
+  /** The ID of the Cloud Platform project that the job belongs to. */
+  projectId: string;
   /** The level of information requested in response. */
   view?: CreateProjectsJobsViewEnum | (string & {}) | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
   location?: string | undefined;
   /** Deprecated. This field is now in the Job message. */
   replaceJobId?: string | undefined;
-  /** The ID of the Cloud Platform project that the job belongs to. */
-  projectId: string;
 }
 export interface CreateProjectsLocationsConfigStoreSettingsRequest extends ConfigStoreSetting {
   /** Required. The ID to use for the setting. */
@@ -852,87 +852,87 @@ export type CreateProjectsLocationsJobsViewEnum =
   | "JOB_VIEW_DESCRIPTION";
 export interface CreateProjectsLocationsJobsRequest extends Omit<
   Job,
-  "location" | "projectId" | "replaceJobId"
+  "projectId" | "replaceJobId" | "location"
 > {
-  /** Deprecated. This field is now in the Job message. */
-  replaceJobId?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
   location: string;
+  /** Deprecated. This field is now in the Job message. */
+  replaceJobId?: string | undefined;
   /** The level of information requested in response. */
   view?: CreateProjectsLocationsJobsViewEnum | (string & {}) | undefined;
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
 }
-export type RuntimeEnvironmentIpConfigurationEnum =
-  | "WORKER_IP_UNSPECIFIED"
-  | "WORKER_IP_PUBLIC"
-  | "WORKER_IP_PRIVATE";
 export type RuntimeEnvironmentStreamingModeEnum =
   | "STREAMING_MODE_UNSPECIFIED"
   | "STREAMING_MODE_EXACTLY_ONCE"
   | "STREAMING_MODE_AT_LEAST_ONCE";
+export type RuntimeEnvironmentIpConfigurationEnum =
+  | "WORKER_IP_UNSPECIFIED"
+  | "WORKER_IP_PUBLIC"
+  | "WORKER_IP_PRIVATE";
 /** The environment values to set at runtime. */
 export interface RuntimeEnvironment {
-  /** Optional. Whether to bypass the safety checks for the job's temporary directory. Use with caution. */
-  bypassTempDirValidation?: boolean | undefined;
-  /** Optional. The disk size, in gigabytes, to use on each remote Compute Engine worker instance. */
-  diskSizeGb?: number | undefined;
-  /** Optional. Additional pipeline option flags for the job. */
-  additionalPipelineOptions?: StringList_ | undefined;
-  /** Optional. The email address of the service account to run the job as. */
-  serviceAccountEmail?: string | undefined;
-  /** Optional. Additional user labels to be specified for the job. Keys and values should follow the restrictions specified in the [labeling restrictions](https://cloud.google.com/compute/docs/labeling-resources#restrictions) page. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1kg", "count": "3" }. */
-  additionalUserLabels?: StringMap | undefined;
-  /** Optional. The machine type to use for the job. Defaults to the value from the template if not specified. */
-  machineType?: string | undefined;
-  /** Optional. Whether to enable Streaming Engine for the job. */
-  enableStreamingEngine?: boolean | undefined;
-  /** Optional. The Compute Engine [availability zone](https://cloud.google.com/compute/docs/regions-zones/regions-zones) for launching worker instances to run your pipeline. In the future, worker_zone will take precedence. */
-  zone?: string | undefined;
-  /** Optional. The Compute Engine zone (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1-a". Mutually exclusive with worker_region. If neither worker_region nor worker_zone is specified, a zone in the control plane's region is chosen based on available capacity. If both `worker_zone` and `zone` are set, `worker_zone` takes precedence. */
-  workerZone?: string | undefined;
-  /** Optional. Network to which VMs will be assigned. If empty or unspecified, the service will use the network "default". */
-  network?: string | undefined;
-  /** Required. The Compute Engine region (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1". Mutually exclusive with worker_zone. If neither worker_region nor worker_zone is specified, default to the control plane's region. */
-  workerRegion?: string | undefined;
-  /** Required. The Cloud Storage path to use for temporary files. Must be a valid Cloud Storage URL, beginning with `gs://`. */
-  tempLocation?: string | undefined;
+  /** Optional. The initial number of Google Compute Engine instances for the job. The default value is 11. */
+  numWorkers?: number | undefined;
   /** Optional. The maximum number of Google Compute Engine instances to be made available to your pipeline during execution, from 1 to 1000. The default value is 1. */
   maxWorkers?: number | undefined;
-  /** Optional. Configuration for VM IPs. */
-  ipConfiguration?: RuntimeEnvironmentIpConfigurationEnum | (string & {}) | undefined;
-  /** Optional. Subnetwork to which VMs will be assigned, if desired. You can specify a subnetwork using either a complete URL or an abbreviated path. Expected to be of the form "https://www.googleapis.com/compute/v1/projects/HOST_PROJECT_ID/regions/REGION/subnetworks/SUBNETWORK" or "regions/REGION/subnetworks/SUBNETWORK". If the subnetwork is located in a Shared VPC network, you must use the complete URL. */
-  subnetwork?: string | undefined;
+  /** Optional. Network to which VMs will be assigned. If empty or unspecified, the service will use the network "default". */
+  network?: string | undefined;
   /** Optional. Additional experiment flags for the job, specified with the `--experiments` option. */
   additionalExperiments?: StringList_ | undefined;
   /** Optional. Specifies the Streaming Engine message processing guarantees. Reduces cost and latency but might result in duplicate messages committed to storage. Designed to run simple mapping streaming ETL jobs at the lowest cost. For example, Change Data Capture (CDC) to BigQuery is a canonical use case. For more information, see [Set the pipeline streaming mode](https://cloud.google.com/dataflow/docs/guides/streaming-modes). */
   streamingMode?: RuntimeEnvironmentStreamingModeEnum | (string & {}) | undefined;
-  /** Optional. The initial number of Google Compute Engine instances for the job. The default value is 11. */
-  numWorkers?: number | undefined;
+  /** Optional. The Compute Engine [availability zone](https://cloud.google.com/compute/docs/regions-zones/regions-zones) for launching worker instances to run your pipeline. In the future, worker_zone will take precedence. */
+  zone?: string | undefined;
+  /** Optional. Additional pipeline option flags for the job. */
+  additionalPipelineOptions?: StringList_ | undefined;
+  /** Optional. Subnetwork to which VMs will be assigned, if desired. You can specify a subnetwork using either a complete URL or an abbreviated path. Expected to be of the form "https://www.googleapis.com/compute/v1/projects/HOST_PROJECT_ID/regions/REGION/subnetworks/SUBNETWORK" or "regions/REGION/subnetworks/SUBNETWORK". If the subnetwork is located in a Shared VPC network, you must use the complete URL. */
+  subnetwork?: string | undefined;
+  /** Optional. The disk size, in gigabytes, to use on each remote Compute Engine worker instance. */
+  diskSizeGb?: number | undefined;
+  /** Optional. Whether to bypass the safety checks for the job's temporary directory. Use with caution. */
+  bypassTempDirValidation?: boolean | undefined;
+  /** Optional. The email address of the service account to run the job as. */
+  serviceAccountEmail?: string | undefined;
+  /** Optional. The machine type to use for the job. Defaults to the value from the template if not specified. */
+  machineType?: string | undefined;
+  /** Optional. Whether to enable Streaming Engine for the job. */
+  enableStreamingEngine?: boolean | undefined;
+  /** Optional. The Compute Engine zone (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1-a". Mutually exclusive with worker_region. If neither worker_region nor worker_zone is specified, a zone in the control plane's region is chosen based on available capacity. If both `worker_zone` and `zone` are set, `worker_zone` takes precedence. */
+  workerZone?: string | undefined;
+  /** Optional. Configuration for VM IPs. */
+  ipConfiguration?: RuntimeEnvironmentIpConfigurationEnum | (string & {}) | undefined;
+  /** Required. The Cloud Storage path to use for temporary files. Must be a valid Cloud Storage URL, beginning with `gs://`. */
+  tempLocation?: string | undefined;
+  /** Required. The Compute Engine region (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1". Mutually exclusive with worker_zone. If neither worker_region nor worker_zone is specified, default to the control plane's region. */
+  workerRegion?: string | undefined;
   /** Optional. Name for the Cloud KMS key for the job. Key format is: projects//locations//keyRings//cryptoKeys/ */
   kmsKeyName?: string | undefined;
+  /** Optional. Additional user labels to be specified for the job. Keys and values should follow the restrictions specified in the [labeling restrictions](https://cloud.google.com/compute/docs/labeling-resources#restrictions) page. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1kg", "count": "3" }. */
+  additionalUserLabels?: StringMap | undefined;
 }
 /** A request to create a Cloud Dataflow job from a template. */
 export interface CreateJobFromTemplateRequest {
-  /** Required. The job name to use for the created job. */
-  jobName?: string | undefined;
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
-  location?: string | undefined;
-  /** The runtime environment for the job. */
-  environment?: RuntimeEnvironment | undefined;
   /** Required. A Cloud Storage path to the template from which to create the job. Must be a valid Cloud Storage URL, beginning with `gs://`. */
   gcsPath?: string | undefined;
+  /** The runtime environment for the job. */
+  environment?: RuntimeEnvironment | undefined;
   /** The runtime parameters to pass to the job. */
   parameters?: StringMap | undefined;
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
+  location?: string | undefined;
+  /** Required. The job name to use for the created job. */
+  jobName?: string | undefined;
 }
 export interface CreateProjectsLocationsTemplatesRequest extends Omit<
   CreateJobFromTemplateRequest,
   "location"
 > {
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
-  location: string;
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
+  location: string;
 }
 export interface CreateProjectsTemplatesRequest extends CreateJobFromTemplateRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
@@ -953,20 +953,20 @@ export interface DeleteProjectsLocationsConfigStoreSettingsRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsSnapshotsRequest {
-  /** The ID of the snapshot. */
-  snapshotId: string;
-  /** The location that contains this snapshot. */
-  location: string;
   /** The ID of the Cloud Platform project that the snapshot belongs to. */
   projectId: string;
+  /** The location that contains this snapshot. */
+  location: string;
+  /** The ID of the snapshot. */
+  snapshotId: string;
 }
 /** Response from deleting a snapshot. */
 export interface DeleteSnapshotResponse {}
 export interface DeleteSnapshotsProjectsRequest {
-  /** The ID of the snapshot. */
-  snapshotId?: string | undefined;
   /** The location that contains this snapshot. */
   location?: string | undefined;
+  /** The ID of the snapshot. */
+  snapshotId?: string | undefined;
   /** The ID of the Cloud Platform project that the snapshot belongs to. */
   projectId: string;
 }
@@ -974,10 +974,10 @@ export interface DeleteSnapshotsProjectsRequest {
 export interface GetDebugConfigRequest {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
   location?: string | undefined;
-  /** The worker id, i.e., VM hostname. */
-  workerId?: string | undefined;
   /** The internal component id for which debug configuration is requested. */
   componentId?: string | undefined;
+  /** The worker id, i.e., VM hostname. */
+  workerId?: string | undefined;
 }
 export interface GetConfigProjectsJobsDebugRequest extends GetDebugConfigRequest {
   /** The job id. */
@@ -994,129 +994,25 @@ export interface GetConfigProjectsLocationsJobsDebugRequest extends Omit<
   GetDebugConfigRequest,
   "location"
 > {
-  /** The project id. */
-  projectId: string;
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
+  location: string;
   /** The job id. */
   jobId: string;
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
-  location: string;
+  /** The project id. */
+  projectId: string;
 }
 export interface GetExecutionDetailsProjectsLocationsJobsRequest {
-  /** The job to get execution details for. */
-  jobId: string;
   /** If specified, determines the maximum number of stages to return. If unspecified, the service may choose an appropriate default, or may return an arbitrarily large number of results. */
   pageSize?: number | undefined;
+  /** The job to get execution details for. */
+  jobId: string;
   /** A project id. */
   projectId: string;
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
-  location: string;
   /** If supplied, this should be the value of next_page_token returned by an earlier call. This will cause the next page of results to be returned. */
   pageToken?: string | undefined;
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
+  location: string;
 }
-/** Identifies a metric, by describing the source which generated the metric. */
-export interface MetricStructuredName {
-  /** Origin (namespace) of metric name. May be blank for user-define metrics; will be "dataflow" for metrics defined by the Dataflow service or SDK. */
-  origin?: string | undefined;
-  /** Worker-defined metric name. */
-  name?: string | undefined;
-  /** Zero or more labeled fields which identify the part of the job this metric is associated with, such as the name of a step or collection. For example, built-in counters associated with steps will have context['step'] = . Counters associated with PCollections in the SDK will have context['pcollection'] = . */
-  context?: StringMap | undefined;
-}
-/** Describes the state of a metric. */
-export interface MetricUpdate {
-  /** Metric aggregation kind. The possible metric aggregation kinds are "Sum", "Max", "Min", "Mean", "Set", "And", "Or", and "Distribution". The specified aggregation kind is case-insensitive. If omitted, this is not an aggregated value but instead a single metric sample value. */
-  kind?: string | undefined;
-  /** Worker-computed aggregate value for internal use by the Dataflow service. */
-  internal?: unknown | undefined;
-  /** Worker-computed aggregate value for aggregation kinds "Sum", "Max", "Min", "And", and "Or". The possible value types are Long, Double, and Boolean. */
-  scalar?: unknown | undefined;
-  /** Worker-computed aggregate value for the "Trie" aggregation kind. The only possible value type is a BoundedTrieNode. Introduced this field to avoid breaking older SDKs when Dataflow service starts to populate the `bounded_trie` field. */
-  boundedTrie?: unknown | undefined;
-  /** Timestamp associated with the metric value. Optional when workers are reporting work progress; it will be filled in responses from the metrics API. */
-  updateTime?: string | undefined;
-  /** Name of the metric. */
-  name?: MetricStructuredName | undefined;
-  /** Worker-computed aggregate value for the "Set" aggregation kind. The only possible value type is a list of Values whose type can be Long, Double, String, or BoundedTrie according to the metric's type. All Values in the list must be of the same type. */
-  set?: unknown | undefined;
-  /** Worker-computed aggregate value for the "Mean" aggregation kind. This holds the count of the aggregated values and is used in combination with mean_sum above to obtain the actual mean aggregate value. The only possible value type is Long. */
-  meanCount?: unknown | undefined;
-  /** A struct value describing properties of a Gauge. Metrics of gauge type show the value of a metric across time, and is aggregated based on the newest value. */
-  gauge?: unknown | undefined;
-  /** Worker-computed aggregate value for the "Trie" aggregation kind. The only possible value type is a BoundedTrieNode. */
-  trie?: unknown | undefined;
-  /** True if this metric is reported as the total cumulative aggregate value accumulated since the worker started working on this WorkItem. By default this is false, indicating that this metric is reported as a delta that is not associated with any WorkItem. */
-  cumulative?: boolean | undefined;
-  /** Worker-computed aggregate value for the "Mean" aggregation kind. This holds the sum of the aggregated values and is used in combination with mean_count below to obtain the actual mean aggregate value. The only possible value types are Long and Double. */
-  meanSum?: unknown | undefined;
-  /** A struct value describing properties of a distribution of numeric values. */
-  distribution?: unknown | undefined;
-}
-export type MetricUpdateList = Array<MetricUpdate>;
-/** Information about a hot key. */
-export interface HotKeyInfo {
-  /** If true, then the above key is truncated and cannot be deserialized. This occurs if the key above is populated and the key size is >5MB. */
-  keyTruncated?: boolean | undefined;
-  /** The age of the hot key measured from when it was first detected. */
-  hotKeyAge?: string | undefined;
-  /** A detected hot key that is causing limited parallelism. This field will be populated only if the following flag is set to true: "--enable_hot_key_logging". */
-  key?: string | undefined;
-}
-export type HotKeyInfoMap = { [key: string]: HotKeyInfo | undefined };
-/** Information useful for debugging a hot key detection. */
-export interface HotKeyDebuggingInfo {
-  /** Debugging information for each detected hot key. Keyed by a hash of the key. */
-  detectedHotKeys?: HotKeyInfoMap | undefined;
-}
-/** Information useful for debugging a straggler. Each type will provide specialized debugging information relevant for a particular cause. The StragglerDebuggingInfo will be 1:1 mapping to the StragglerCause enum. */
-export interface StragglerDebuggingInfo {
-  /** Hot key debugging details. */
-  hotKey?: HotKeyDebuggingInfo | undefined;
-}
-export type StragglerDebuggingInfoMap = { [key: string]: StragglerDebuggingInfo | undefined };
-/** Information useful for straggler identification and debugging. */
-export interface StragglerInfo {
-  /** The time when the work item attempt became a straggler. */
-  startTime?: string | undefined;
-  /** The straggler causes, keyed by the string representation of the StragglerCause enum and contains specialized debugging information for each straggler cause. */
-  causes?: StragglerDebuggingInfoMap | undefined;
-}
-/** Information useful for streaming straggler identification and debugging. */
-export interface StreamingStragglerInfo {
-  /** The system watermark lag at the time of the straggler detection. */
-  systemWatermarkLag?: string | undefined;
-  /** Name of the worker where the straggler was detected. */
-  workerName?: string | undefined;
-  /** End time of this straggler. */
-  endTime?: string | undefined;
-  /** Start time of this straggler. */
-  startTime?: string | undefined;
-  /** The event-time watermark lag at the time of the straggler detection. */
-  dataWatermarkLag?: string | undefined;
-}
-/** Information for a straggler. */
-export interface Straggler {
-  /** Batch straggler identification and debugging information. */
-  batchStraggler?: StragglerInfo | undefined;
-  /** Streaming straggler identification and debugging information. */
-  streamingStraggler?: StreamingStragglerInfo | undefined;
-}
-export type StragglerList = Array<Straggler>;
-/** Summarized straggler identification details. */
-export interface StragglerSummary {
-  /** The most recent stragglers. */
-  recentStragglers?: StragglerList | undefined;
-  /** The total count of stragglers. */
-  totalStragglerCount?: string | undefined;
-  /** Aggregated counts of straggler causes, keyed by the string representation of the StragglerCause enum. */
-  stragglerCauseCount?: StringMap | undefined;
-}
-export type StageSummaryStateEnum =
-  | "EXECUTION_STATE_UNKNOWN"
-  | "EXECUTION_STATE_NOT_STARTED"
-  | "EXECUTION_STATE_RUNNING"
-  | "EXECUTION_STATE_SUCCEEDED"
-  | "EXECUTION_STATE_FAILED"
-  | "EXECUTION_STATE_CANCELLED";
 /** A point in the timeseries. */
 export interface Point {
   /** The timestamp of the point. */
@@ -1132,22 +1028,126 @@ export interface ProgressTimeseries {
   /** The current progress of the component, in the range [0,1]. */
   currentProgress?: number | undefined;
 }
+/** Identifies a metric, by describing the source which generated the metric. */
+export interface MetricStructuredName {
+  /** Origin (namespace) of metric name. May be blank for user-define metrics; will be "dataflow" for metrics defined by the Dataflow service or SDK. */
+  origin?: string | undefined;
+  /** Zero or more labeled fields which identify the part of the job this metric is associated with, such as the name of a step or collection. For example, built-in counters associated with steps will have context['step'] = . Counters associated with PCollections in the SDK will have context['pcollection'] = . */
+  context?: StringMap | undefined;
+  /** Worker-defined metric name. */
+  name?: string | undefined;
+}
+/** Describes the state of a metric. */
+export interface MetricUpdate {
+  /** A struct value describing properties of a Gauge. Metrics of gauge type show the value of a metric across time, and is aggregated based on the newest value. */
+  gauge?: unknown | undefined;
+  /** Worker-computed aggregate value for aggregation kinds "Sum", "Max", "Min", "And", and "Or". The possible value types are Long, Double, and Boolean. */
+  scalar?: unknown | undefined;
+  /** Worker-computed aggregate value for the "Mean" aggregation kind. This holds the count of the aggregated values and is used in combination with mean_sum above to obtain the actual mean aggregate value. The only possible value type is Long. */
+  meanCount?: unknown | undefined;
+  /** Worker-computed aggregate value for internal use by the Dataflow service. */
+  internal?: unknown | undefined;
+  /** Metric aggregation kind. The possible metric aggregation kinds are "Sum", "Max", "Min", "Mean", "Set", "And", "Or", and "Distribution". The specified aggregation kind is case-insensitive. If omitted, this is not an aggregated value but instead a single metric sample value. */
+  kind?: string | undefined;
+  /** Timestamp associated with the metric value. Optional when workers are reporting work progress; it will be filled in responses from the metrics API. */
+  updateTime?: string | undefined;
+  /** A struct value describing properties of a distribution of numeric values. */
+  distribution?: unknown | undefined;
+  /** Name of the metric. */
+  name?: MetricStructuredName | undefined;
+  /** Worker-computed aggregate value for the "Trie" aggregation kind. The only possible value type is a BoundedTrieNode. */
+  trie?: unknown | undefined;
+  /** Worker-computed aggregate value for the "Trie" aggregation kind. The only possible value type is a BoundedTrieNode. Introduced this field to avoid breaking older SDKs when Dataflow service starts to populate the `bounded_trie` field. */
+  boundedTrie?: unknown | undefined;
+  /** Worker-computed aggregate value for the "Mean" aggregation kind. This holds the sum of the aggregated values and is used in combination with mean_count below to obtain the actual mean aggregate value. The only possible value types are Long and Double. */
+  meanSum?: unknown | undefined;
+  /** Worker-computed aggregate value for the "Set" aggregation kind. The only possible value type is a list of Values whose type can be Long, Double, String, or BoundedTrie according to the metric's type. All Values in the list must be of the same type. */
+  set?: unknown | undefined;
+  /** True if this metric is reported as the total cumulative aggregate value accumulated since the worker started working on this WorkItem. By default this is false, indicating that this metric is reported as a delta that is not associated with any WorkItem. */
+  cumulative?: boolean | undefined;
+}
+export type MetricUpdateList = Array<MetricUpdate>;
+export type StageSummaryStateEnum =
+  | "EXECUTION_STATE_UNKNOWN"
+  | "EXECUTION_STATE_NOT_STARTED"
+  | "EXECUTION_STATE_RUNNING"
+  | "EXECUTION_STATE_SUCCEEDED"
+  | "EXECUTION_STATE_FAILED"
+  | "EXECUTION_STATE_CANCELLED";
+/** Information about a hot key. */
+export interface HotKeyInfo {
+  /** A detected hot key that is causing limited parallelism. This field will be populated only if the following flag is set to true: "--enable_hot_key_logging". */
+  key?: string | undefined;
+  /** The age of the hot key measured from when it was first detected. */
+  hotKeyAge?: string | undefined;
+  /** If true, then the above key is truncated and cannot be deserialized. This occurs if the key above is populated and the key size is >5MB. */
+  keyTruncated?: boolean | undefined;
+}
+export type HotKeyInfoMap = { [key: string]: HotKeyInfo | undefined };
+/** Information useful for debugging a hot key detection. */
+export interface HotKeyDebuggingInfo {
+  /** Debugging information for each detected hot key. Keyed by a hash of the key. */
+  detectedHotKeys?: HotKeyInfoMap | undefined;
+}
+/** Information useful for debugging a straggler. Each type will provide specialized debugging information relevant for a particular cause. The StragglerDebuggingInfo will be 1:1 mapping to the StragglerCause enum. */
+export interface StragglerDebuggingInfo {
+  /** Hot key debugging details. */
+  hotKey?: HotKeyDebuggingInfo | undefined;
+}
+export type StragglerDebuggingInfoMap = { [key: string]: StragglerDebuggingInfo | undefined };
+/** Information useful for straggler identification and debugging. */
+export interface StragglerInfo {
+  /** The straggler causes, keyed by the string representation of the StragglerCause enum and contains specialized debugging information for each straggler cause. */
+  causes?: StragglerDebuggingInfoMap | undefined;
+  /** The time when the work item attempt became a straggler. */
+  startTime?: string | undefined;
+}
+/** Information useful for streaming straggler identification and debugging. */
+export interface StreamingStragglerInfo {
+  /** The event-time watermark lag at the time of the straggler detection. */
+  dataWatermarkLag?: string | undefined;
+  /** Start time of this straggler. */
+  startTime?: string | undefined;
+  /** End time of this straggler. */
+  endTime?: string | undefined;
+  /** The system watermark lag at the time of the straggler detection. */
+  systemWatermarkLag?: string | undefined;
+  /** Name of the worker where the straggler was detected. */
+  workerName?: string | undefined;
+}
+/** Information for a straggler. */
+export interface Straggler {
+  /** Batch straggler identification and debugging information. */
+  batchStraggler?: StragglerInfo | undefined;
+  /** Streaming straggler identification and debugging information. */
+  streamingStraggler?: StreamingStragglerInfo | undefined;
+}
+export type StragglerList = Array<Straggler>;
+/** Summarized straggler identification details. */
+export interface StragglerSummary {
+  /** The total count of stragglers. */
+  totalStragglerCount?: string | undefined;
+  /** Aggregated counts of straggler causes, keyed by the string representation of the StragglerCause enum. */
+  stragglerCauseCount?: StringMap | undefined;
+  /** The most recent stragglers. */
+  recentStragglers?: StragglerList | undefined;
+}
 /** Information about a particular execution stage of a job. */
 export interface StageSummary {
-  /** Metrics for this stage. */
-  metrics?: MetricUpdateList | undefined;
   /** Start time of this stage. */
   startTime?: string | undefined;
-  /** Straggler summary for this stage. */
-  stragglerSummary?: StragglerSummary | undefined;
-  /** State of this stage. */
-  state?: StageSummaryStateEnum | undefined;
-  /** ID of this stage */
-  stageId?: string | undefined;
-  /** Progress for this stage. Only applicable to Batch jobs. */
-  progress?: ProgressTimeseries | undefined;
   /** End time of this stage. If the work item is completed, this is the actual end time of the stage. Otherwise, it is the predicted end time. */
   endTime?: string | undefined;
+  /** Progress for this stage. Only applicable to Batch jobs. */
+  progress?: ProgressTimeseries | undefined;
+  /** ID of this stage */
+  stageId?: string | undefined;
+  /** Metrics for this stage. */
+  metrics?: MetricUpdateList | undefined;
+  /** State of this stage. */
+  state?: StageSummaryStateEnum | undefined;
+  /** Straggler summary for this stage. */
+  stragglerSummary?: StragglerSummary | undefined;
 }
 export type StageSummaryList = Array<StageSummary>;
 /** Information about the execution of a job. */
@@ -1158,20 +1158,20 @@ export interface JobExecutionDetails {
   stages?: StageSummaryList | undefined;
 }
 export interface GetExecutionDetailsProjectsLocationsJobsStagesRequest {
-  /** Lower time bound of work items to include, by start time. */
-  startTime?: string | undefined;
-  /** If specified, determines the maximum number of work items to return. If unspecified, the service may choose an appropriate default, or may return an arbitrarily large number of results. */
-  pageSize?: number | undefined;
-  /** Upper time bound of work items to include, by start time. */
-  endTime?: string | undefined;
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
-  location: string;
   /** A project id. */
   projectId: string;
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
+  location: string;
   /** If supplied, this should be the value of next_page_token returned by an earlier call. This will cause the next page of results to be returned. */
   pageToken?: string | undefined;
+  /** If specified, determines the maximum number of work items to return. If unspecified, the service may choose an appropriate default, or may return an arbitrarily large number of results. */
+  pageSize?: number | undefined;
   /** The job to get execution details for. */
   jobId: string;
+  /** Upper time bound of work items to include, by start time. */
+  endTime?: string | undefined;
+  /** Lower time bound of work items to include, by start time. */
+  startTime?: string | undefined;
   /** The stage for which to fetch information. */
   stageId: string;
 }
@@ -1184,38 +1184,38 @@ export type WorkItemDetailsStateEnum =
   | "EXECUTION_STATE_CANCELLED";
 /** Information about an individual work item execution. */
 export interface WorkItemDetails {
-  /** Metrics for this work item. */
-  metrics?: MetricUpdateList | undefined;
-  /** State of this work item. */
-  state?: WorkItemDetailsStateEnum | undefined;
-  /** Name of this work item. */
-  taskId?: string | undefined;
-  /** Start time of this work item attempt. */
-  startTime?: string | undefined;
   /** End time of this work item attempt. If the work item is completed, this is the actual end time of the work item. Otherwise, it is the predicted end time. */
   endTime?: string | undefined;
-  /** Progress of this work item. */
-  progress?: ProgressTimeseries | undefined;
-  /** Information about straggler detections for this work item. */
-  stragglerInfo?: StragglerInfo | undefined;
   /** Attempt ID of this work item */
   attemptId?: string | undefined;
+  /** Start time of this work item attempt. */
+  startTime?: string | undefined;
+  /** Metrics for this work item. */
+  metrics?: MetricUpdateList | undefined;
+  /** Information about straggler detections for this work item. */
+  stragglerInfo?: StragglerInfo | undefined;
+  /** Name of this work item. */
+  taskId?: string | undefined;
+  /** State of this work item. */
+  state?: WorkItemDetailsStateEnum | undefined;
+  /** Progress of this work item. */
+  progress?: ProgressTimeseries | undefined;
 }
 export type WorkItemDetailsList = Array<WorkItemDetails>;
 /** Information about a worker */
 export interface WorkerDetails {
-  /** Work items processed by this worker, sorted by time. */
-  workItems?: WorkItemDetailsList | undefined;
   /** Name of this worker */
   workerName?: string | undefined;
+  /** Work items processed by this worker, sorted by time. */
+  workItems?: WorkItemDetailsList | undefined;
 }
 export type WorkerDetailsList = Array<WorkerDetails>;
 /** Information about the workers and work items within a stage. */
 export interface StageExecutionDetails {
-  /** If present, this response does not contain all requested tasks. To obtain the next page of results, repeat the request with page_token set to this value. */
-  nextPageToken?: string | undefined;
   /** Workers that have done work on the stage. */
   workers?: WorkerDetailsList | undefined;
+  /** If present, this response does not contain all requested tasks. To obtain the next page of results, repeat the request with page_token set to this value. */
+  nextPageToken?: string | undefined;
 }
 export interface GetFoldersLocationsConfigStoreSettingsRequest {
   /** Required. The name of the ConfigStoreSetting to retrieve. */
@@ -1226,10 +1226,10 @@ export interface GetMetricsProjectsJobsRequest {
   projectId: string;
   /** Return only metric data that has changed since this time. Default is to return all information about all metrics for the job. */
   startTime?: string | undefined;
-  /** The job to get metrics for. */
-  jobId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
   location?: string | undefined;
+  /** The job to get metrics for. */
+  jobId: string;
 }
 /** JobMetrics contains a collection of metrics describing the detailed progress of a Dataflow job. Metrics correspond to user-defined and system-defined metrics in the job. For more information, see [Dataflow job metrics] (https://cloud.google.com/dataflow/docs/guides/using-monitoring-intf). This resource captures only the most recent values of each metric; time-series data can be queried for them (under the same metric names) from Cloud Monitoring. */
 export interface JobMetrics {
@@ -1239,14 +1239,14 @@ export interface JobMetrics {
   metrics?: MetricUpdateList | undefined;
 }
 export interface GetMetricsProjectsLocationsJobsRequest {
-  /** The job to get metrics for. */
-  jobId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
   location: string;
   /** A project id. */
   projectId: string;
   /** Return only metric data that has changed since this time. Default is to return all information about all metrics for the job. */
   startTime?: string | undefined;
+  /** The job to get metrics for. */
+  jobId: string;
 }
 export interface GetOrganizationsLocationsConfigStoreSettingsRequest {
   /** Required. The name of the ConfigStoreSetting to retrieve. */
@@ -1260,10 +1260,10 @@ export type GetProjectsJobsViewEnum =
 export interface GetProjectsJobsRequest {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
   location?: string | undefined;
-  /** The level of information requested in response. */
-  view?: GetProjectsJobsViewEnum | (string & {}) | undefined;
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
+  /** The level of information requested in response. */
+  view?: GetProjectsJobsViewEnum | (string & {}) | undefined;
   /** The job ID. */
   jobId: string;
 }
@@ -1277,20 +1277,20 @@ export type GetProjectsLocationsJobsViewEnum =
   | "JOB_VIEW_ALL"
   | "JOB_VIEW_DESCRIPTION";
 export interface GetProjectsLocationsJobsRequest {
-  /** The job ID. */
-  jobId: string;
-  /** The ID of the Cloud Platform project that the job belongs to. */
-  projectId: string;
   /** The level of information requested in response. */
   view?: GetProjectsLocationsJobsViewEnum | (string & {}) | undefined;
+  /** The ID of the Cloud Platform project that the job belongs to. */
+  projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
   location: string;
+  /** The job ID. */
+  jobId: string;
 }
 export interface GetProjectsLocationsSnapshotsRequest {
-  /** The ID of the Cloud Platform project that the snapshot belongs to. */
-  projectId: string;
   /** The ID of the snapshot. */
   snapshotId: string;
+  /** The ID of the Cloud Platform project that the snapshot belongs to. */
+  projectId: string;
   /** The location that contains this snapshot. */
   location: string;
 }
@@ -1298,10 +1298,10 @@ export interface GetProjectsLocationsSnapshotsRequest {
 export interface PubsubSnapshotMetadata {
   /** The name of the Pubsub topic. */
   topicName?: string | undefined;
-  /** The name of the Pubsub snapshot. */
-  snapshotName?: string | undefined;
   /** The expire time of the Pubsub snapshot. */
   expireTime?: string | undefined;
+  /** The name of the Pubsub snapshot. */
+  snapshotName?: string | undefined;
 }
 export type PubsubSnapshotMetadataList = Array<PubsubSnapshotMetadata>;
 export type SnapshotStateEnum =
@@ -1313,45 +1313,37 @@ export type SnapshotStateEnum =
   | "DELETED";
 /** Represents a snapshot of a job. */
 export interface Snapshot {
-  /** The job this snapshot was created from. */
-  sourceJobId?: string | undefined;
+  /** Cloud region where this snapshot lives in, e.g., "us-central1". */
+  region?: string | undefined;
+  /** User specified description of the snapshot. Maybe empty. */
+  description?: string | undefined;
+  /** The disk byte size of the snapshot. Only available for snapshots in READY state. */
+  diskSizeBytes?: string | undefined;
   /** Pub/Sub snapshot metadata. */
   pubsubMetadata?: PubsubSnapshotMetadataList | undefined;
+  /** The project this snapshot belongs to. */
+  projectId?: string | undefined;
   /** State of the snapshot. */
   state?: SnapshotStateEnum | undefined;
   /** The time this snapshot was created. */
   creationTime?: string | undefined;
-  /** The time after which this snapshot will be automatically deleted. */
-  ttl?: string | undefined;
-  /** The disk byte size of the snapshot. Only available for snapshots in READY state. */
-  diskSizeBytes?: string | undefined;
-  /** Cloud region where this snapshot lives in, e.g., "us-central1". */
-  region?: string | undefined;
   /** The unique ID of this snapshot. */
   id?: string | undefined;
-  /** The project this snapshot belongs to. */
-  projectId?: string | undefined;
-  /** User specified description of the snapshot. Maybe empty. */
-  description?: string | undefined;
+  /** The job this snapshot was created from. */
+  sourceJobId?: string | undefined;
+  /** The time after which this snapshot will be automatically deleted. */
+  ttl?: string | undefined;
 }
 export type GetProjectsLocationsTemplatesViewEnum = "METADATA_ONLY";
 export interface GetProjectsLocationsTemplatesRequest {
-  /** The view to retrieve. Defaults to METADATA_ONLY. */
-  view?: GetProjectsLocationsTemplatesViewEnum | (string & {}) | undefined;
-  /** Required. The ID of the Cloud Platform project that the job belongs to. */
-  projectId: string;
-  /** Required. A Cloud Storage path to the template from which to create the job. Must be valid Cloud Storage URL, beginning with 'gs://'. */
-  gcsPath?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
   location: string;
-}
-export type SDKInfoLanguageEnum = "UNKNOWN" | "JAVA" | "PYTHON" | "GO" | "YAML";
-/** SDK Information. */
-export interface SDKInfo {
-  /** Optional. The SDK version. */
-  version?: string | undefined;
-  /** Required. The SDK Language. */
-  language?: SDKInfoLanguageEnum | (string & {}) | undefined;
+  /** Required. A Cloud Storage path to the template from which to create the job. Must be valid Cloud Storage URL, beginning with 'gs://'. */
+  gcsPath?: string | undefined;
+  /** Required. The ID of the Cloud Platform project that the job belongs to. */
+  projectId: string;
+  /** The view to retrieve. Defaults to METADATA_ONLY. */
+  view?: GetProjectsLocationsTemplatesViewEnum | (string & {}) | undefined;
 }
 export type ParameterMetadataParamTypeEnum =
   | "DEFAULT"
@@ -1381,42 +1373,80 @@ export type ParameterMetadataParamTypeEnum =
 export interface ParameterMetadataEnumOption {
   /** Required. The value of the enum option. */
   value?: string | undefined;
-  /** Optional. The label to display for the enum option. */
-  label?: string | undefined;
   /** Optional. The description to display for the enum option. */
   description?: string | undefined;
+  /** Optional. The label to display for the enum option. */
+  label?: string | undefined;
 }
 export type ParameterMetadataEnumOptionList = Array<ParameterMetadataEnumOption>;
 /** Metadata for a specific parameter. */
 export interface ParameterMetadata {
-  /** Required. The name of the parameter. */
-  name?: string | undefined;
-  /** Optional. Additional metadata for describing this parameter. */
-  customMetadata?: StringMap | undefined;
-  /** Optional. Whether the parameter should be hidden in the UI. */
-  hiddenUi?: boolean | undefined;
-  /** Required. The label to display for the parameter. */
-  label?: string | undefined;
-  /** Optional. The default values will pre-populate the parameter with the given value from the proto. If default_value is left empty, the parameter will be populated with a default of the relevant type, e.g. false for a boolean. */
-  defaultValue?: string | undefined;
-  /** Optional. Regexes that the parameter must match. */
-  regexes?: StringList_ | undefined;
-  /** Optional. The type of the parameter. Used for selecting input picker. */
-  paramType?: ParameterMetadataParamTypeEnum | (string & {}) | undefined;
-  /** Optional. The value(s) of the 'parent_name' parameter which will trigger this parameter to be shown. If left empty, ANY non-empty value in parent_name will trigger this parameter to be shown. Only considered when this parameter is conditional (when 'parent_name' has been provided). */
-  parentTriggerValues?: StringList_ | undefined;
-  /** Optional. The options shown when ENUM ParameterType is specified. */
-  enumOptions?: ParameterMetadataEnumOptionList | undefined;
   /** Optional. Whether the parameter is optional. Defaults to false. */
   isOptional?: boolean | undefined;
+  /** Optional. The type of the parameter. Used for selecting input picker. */
+  paramType?: ParameterMetadataParamTypeEnum | (string & {}) | undefined;
+  /** Optional. Whether the parameter should be hidden in the UI. */
+  hiddenUi?: boolean | undefined;
   /** Optional. Specifies a group name for this parameter to be rendered under. Group header text will be rendered exactly as specified in this field. Only considered when parent_name is NOT provided. */
   groupName?: string | undefined;
+  /** Optional. The value(s) of the 'parent_name' parameter which will trigger this parameter to be shown. If left empty, ANY non-empty value in parent_name will trigger this parameter to be shown. Only considered when this parameter is conditional (when 'parent_name' has been provided). */
+  parentTriggerValues?: StringList_ | undefined;
+  /** Optional. The default values will pre-populate the parameter with the given value from the proto. If default_value is left empty, the parameter will be populated with a default of the relevant type, e.g. false for a boolean. */
+  defaultValue?: string | undefined;
   /** Required. The help text to display for the parameter. */
   helpText?: string | undefined;
+  /** Required. The label to display for the parameter. */
+  label?: string | undefined;
+  /** Optional. Additional metadata for describing this parameter. */
+  customMetadata?: StringMap | undefined;
+  /** Optional. Regexes that the parameter must match. */
+  regexes?: StringList_ | undefined;
   /** Optional. Specifies the name of the parent parameter. Used in conjunction with 'parent_trigger_values' to make this parameter conditional (will only be rendered conditionally). Should be mappable to a ParameterMetadata.name field. */
   parentName?: string | undefined;
+  /** Required. The name of the parameter. */
+  name?: string | undefined;
+  /** Optional. The options shown when ENUM ParameterType is specified. */
+  enumOptions?: ParameterMetadataEnumOptionList | undefined;
 }
 export type ParameterMetadataList = Array<ParameterMetadata>;
+/** Metadata describing a template. */
+export interface TemplateMetadata {
+  /** Optional. For future use. */
+  yamlDefinition?: string | undefined;
+  /** Optional. Indicates if the streaming template supports at least once mode. */
+  supportsAtLeastOnce?: boolean | undefined;
+  /** Optional. Indicates if the streaming template supports exactly once mode. */
+  supportsExactlyOnce?: boolean | undefined;
+  /** Required. The name of the template. */
+  name?: string | undefined;
+  /** Optional. Indicates the default streaming mode for a streaming template. Only valid if both supports_at_least_once and supports_exactly_once are true. Possible values: UNSPECIFIED, EXACTLY_ONCE and AT_LEAST_ONCE */
+  defaultStreamingMode?: string | undefined;
+  /** Optional. A description of the template. */
+  description?: string | undefined;
+  /** Optional. Indicates if the template is streaming or not. */
+  streaming?: boolean | undefined;
+  /** The parameters for the template. */
+  parameters?: ParameterMetadataList | undefined;
+}
+export type GetTemplateResponseTemplateTypeEnum = "UNKNOWN" | "LEGACY" | "FLEX";
+export type DocumentMapList = Array<DocumentMap>;
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+}
+export type SDKInfoLanguageEnum = "UNKNOWN" | "JAVA" | "PYTHON" | "GO" | "YAML";
+/** SDK Information. */
+export interface SDKInfo {
+  /** Required. The SDK Language. */
+  language?: SDKInfoLanguageEnum | (string & {}) | undefined;
+  /** Optional. The SDK version. */
+  version?: string | undefined;
+}
 /** RuntimeMetadata describing a runtime environment. */
 export interface RuntimeMetadata {
   /** SDK Info for the template. */
@@ -1424,101 +1454,71 @@ export interface RuntimeMetadata {
   /** The parameters for the template. */
   parameters?: ParameterMetadataList | undefined;
 }
-export type DocumentMapList = Array<DocumentMap>;
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
-}
-/** Metadata describing a template. */
-export interface TemplateMetadata {
-  /** The parameters for the template. */
-  parameters?: ParameterMetadataList | undefined;
-  /** Optional. Indicates if the streaming template supports exactly once mode. */
-  supportsExactlyOnce?: boolean | undefined;
-  /** Optional. Indicates if the streaming template supports at least once mode. */
-  supportsAtLeastOnce?: boolean | undefined;
-  /** Optional. Indicates the default streaming mode for a streaming template. Only valid if both supports_at_least_once and supports_exactly_once are true. Possible values: UNSPECIFIED, EXACTLY_ONCE and AT_LEAST_ONCE */
-  defaultStreamingMode?: string | undefined;
-  /** Optional. Indicates if the template is streaming or not. */
-  streaming?: boolean | undefined;
-  /** Optional. A description of the template. */
-  description?: string | undefined;
-  /** Required. The name of the template. */
-  name?: string | undefined;
-  /** Optional. For future use. */
-  yamlDefinition?: string | undefined;
-}
-export type GetTemplateResponseTemplateTypeEnum = "UNKNOWN" | "LEGACY" | "FLEX";
 /** The response to a GetTemplate request. */
 export interface GetTemplateResponse {
-  /** Describes the runtime metadata with SDKInfo and available parameters. */
-  runtimeMetadata?: RuntimeMetadata | undefined;
-  /** The status of the get template request. Any problems with the request will be indicated in the error_details. */
-  status?: Status | undefined;
   /** The template metadata describing the template name, available parameters, etc. */
   metadata?: TemplateMetadata | undefined;
   /** Template Type. */
   templateType?: GetTemplateResponseTemplateTypeEnum | undefined;
+  /** The status of the get template request. Any problems with the request will be indicated in the error_details. */
+  status?: Status | undefined;
+  /** Describes the runtime metadata with SDKInfo and available parameters. */
+  runtimeMetadata?: RuntimeMetadata | undefined;
 }
 export interface GetProjectsSnapshotsRequest {
-  /** The location that contains this snapshot. */
-  location?: string | undefined;
   /** The ID of the Cloud Platform project that the snapshot belongs to. */
   projectId: string;
   /** The ID of the snapshot. */
   snapshotId: string;
+  /** The location that contains this snapshot. */
+  location?: string | undefined;
 }
 export type GetProjectsTemplatesViewEnum = "METADATA_ONLY";
 export interface GetProjectsTemplatesRequest {
-  /** Required. The ID of the Cloud Platform project that the job belongs to. */
-  projectId: string;
-  /** Required. A Cloud Storage path to the template from which to create the job. Must be valid Cloud Storage URL, beginning with 'gs://'. */
-  gcsPath?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
   location?: string | undefined;
   /** The view to retrieve. Defaults to METADATA_ONLY. */
   view?: GetProjectsTemplatesViewEnum | (string & {}) | undefined;
+  /** Required. The ID of the Cloud Platform project that the job belongs to. */
+  projectId: string;
+  /** Required. A Cloud Storage path to the template from which to create the job. Must be valid Cloud Storage URL, beginning with 'gs://'. */
+  gcsPath?: string | undefined;
 }
 /** Request to get worker stacktraces from debug capture. */
 export interface GetWorkerStacktracesRequest {
-  /** The end time for the stacktrace query. The returned stacktraces will be a recent stack trace at or shortly before this time. */
-  endTime?: string | undefined;
   /** The worker for which to get stacktraces. The returned stacktraces will be for the SDK harness running on this worker. */
   workerId?: string | undefined;
+  /** The end time for the stacktrace query. The returned stacktraces will be a recent stack trace at or shortly before this time. */
+  endTime?: string | undefined;
 }
 export interface GetWorkerStacktracesProjectsLocationsJobsDebugRequest extends GetWorkerStacktracesRequest {
+  /** The project id. */
+  projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
   location: string;
   /** The job for which to get stacktraces. */
   jobId: string;
-  /** The project id. */
-  projectId: string;
 }
 /** A structuredstacktrace for a process running on the worker. */
 export interface Stack {
-  /** Thread name. For example, "CommitThread-0,10,main" */
-  threadName?: string | undefined;
   /** The state of the thread. For example, "WAITING". */
   threadState?: string | undefined;
-  /** With java thread dumps we may get collapsed stacks e.g., N threads in stack "". Instead of having to copy over the same stack trace N times, this int field captures this. */
-  threadCount?: number | undefined;
   /** The raw stack trace. */
   stackContent?: string | undefined;
   /** Timestamp at which the stack was captured. */
   timestamp?: string | undefined;
+  /** Thread name. For example, "CommitThread-0,10,main" */
+  threadName?: string | undefined;
+  /** With java thread dumps we may get collapsed stacks e.g., N threads in stack "". Instead of having to copy over the same stack trace N times, this int field captures this. */
+  threadCount?: number | undefined;
 }
 export type StackList = Array<Stack>;
 /** A structured representation of an SDK. */
 export interface Sdk {
-  /** The SDK harness id. */
-  sdkId?: string | undefined;
   /** The stacktraces for the processes running on the SDK harness. */
   stacks?: StackList | undefined;
+  /** The SDK harness id. */
+  sdkId?: string | undefined;
 }
 export type SdkList = Array<Sdk>;
 /** Response to get worker stacktraces from debug capture. */
@@ -1526,10 +1526,6 @@ export interface GetWorkerStacktracesResponse {
   /** Repeated as unified worker may have multiple SDK processes. */
   sdks?: SdkList | undefined;
 }
-export type FlexTemplateRuntimeEnvironmentFlexrsGoalEnum =
-  | "FLEXRS_UNSPECIFIED"
-  | "FLEXRS_SPEED_OPTIMIZED"
-  | "FLEXRS_COST_OPTIMIZED";
 export type FlexTemplateRuntimeEnvironmentAutoscalingAlgorithmEnum =
   | "AUTOSCALING_ALGORITHM_UNKNOWN"
   | "AUTOSCALING_ALGORITHM_NONE"
@@ -1538,103 +1534,107 @@ export type FlexTemplateRuntimeEnvironmentIpConfigurationEnum =
   | "WORKER_IP_UNSPECIFIED"
   | "WORKER_IP_PUBLIC"
   | "WORKER_IP_PRIVATE";
+export type FlexTemplateRuntimeEnvironmentFlexrsGoalEnum =
+  | "FLEXRS_UNSPECIFIED"
+  | "FLEXRS_SPEED_OPTIMIZED"
+  | "FLEXRS_COST_OPTIMIZED";
 export type FlexTemplateRuntimeEnvironmentStreamingModeEnum =
   | "STREAMING_MODE_UNSPECIFIED"
   | "STREAMING_MODE_EXACTLY_ONCE"
   | "STREAMING_MODE_AT_LEAST_ONCE";
 /** The environment values to be set at runtime for flex template. */
 export interface FlexTemplateRuntimeEnvironment {
-  /** Network to which VMs will be assigned. If empty or unspecified, the service will use the network "default". */
-  network?: string | undefined;
-  /** Set FlexRS goal for the job. https://cloud.google.com/dataflow/docs/guides/flexrs */
-  flexrsGoal?: FlexTemplateRuntimeEnvironmentFlexrsGoalEnum | (string & {}) | undefined;
-  /** Optional. Additional pipeline option flags for the job. */
-  additionalPipelineOptions?: StringList_ | undefined;
-  /** Name for the Cloud KMS key for the job. Key format is: projects//locations//keyRings//cryptoKeys/ */
-  kmsKeyName?: string | undefined;
+  /** If true, when processing time is spent almost entirely on garbage collection (GC), saves a heap dump before ending the thread or process. If false, ends the thread or process without saving a heap dump. Does not save a heap dump when the Java Virtual Machine (JVM) has an out of memory error during processing. The location of the heap file is either echoed back to the user, or the user is given the opportunity to download the heap file. */
+  dumpHeapOnOom?: boolean | undefined;
+  /** Cloud Storage bucket (directory) to upload heap dumps to. Enabling this field implies that `dump_heap_on_oom` is set to true. */
+  saveHeapDumpsToGcsPath?: string | undefined;
   /** Subnetwork to which VMs will be assigned, if desired. You can specify a subnetwork using either a complete URL or an abbreviated path. Expected to be of the form "https://www.googleapis.com/compute/v1/projects/HOST_PROJECT_ID/regions/REGION/subnetworks/SUBNETWORK" or "regions/REGION/subnetworks/SUBNETWORK". If the subnetwork is located in a Shared VPC network, you must use the complete URL. */
   subnetwork?: string | undefined;
-  /** The initial number of Google Compute Engine instances for the job. */
-  numWorkers?: number | undefined;
   /** The algorithm to use for autoscaling */
   autoscalingAlgorithm?:
     | FlexTemplateRuntimeEnvironmentAutoscalingAlgorithmEnum
     | (string & {})
     | undefined;
-  /** Whether to enable Streaming Engine for the job. */
-  enableStreamingEngine?: boolean | undefined;
-  /** The Compute Engine [availability zone](https://cloud.google.com/compute/docs/regions-zones/regions-zones) for launching worker instances to run your pipeline. In the future, worker_zone will take precedence. */
-  zone?: string | undefined;
-  /** Worker disk size, in gigabytes. */
-  diskSizeGb?: number | undefined;
-  /** The Compute Engine zone (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1-a". Mutually exclusive with worker_region. If neither worker_region nor worker_zone is specified, a zone in the control plane's region is chosen based on available capacity. If both `worker_zone` and `zone` are set, `worker_zone` takes precedence. */
-  workerZone?: string | undefined;
-  /** Docker registry location of container image to use for the 'worker harness. Default is the container for the version of the SDK. Note this field is only valid for portable pipelines. */
-  sdkContainerImage?: string | undefined;
-  /** If true, when processing time is spent almost entirely on garbage collection (GC), saves a heap dump before ending the thread or process. If false, ends the thread or process without saving a heap dump. Does not save a heap dump when the Java Virtual Machine (JVM) has an out of memory error during processing. The location of the heap file is either echoed back to the user, or the user is given the opportunity to download the heap file. */
-  dumpHeapOnOom?: boolean | undefined;
-  /** The Cloud Storage path for staging local files. Must be a valid Cloud Storage URL, beginning with `gs://`. */
-  stagingLocation?: string | undefined;
-  /** The maximum number of Google Compute Engine instances to be made available to your pipeline during execution, from 1 to 1000. */
-  maxWorkers?: number | undefined;
-  /** Cloud Storage bucket (directory) to upload heap dumps to. Enabling this field implies that `dump_heap_on_oom` is set to true. */
-  saveHeapDumpsToGcsPath?: string | undefined;
-  /** If true serial port logging will be enabled for the launcher VM. */
-  enableLauncherVmSerialPortLogging?: boolean | undefined;
-  /** Additional experiment flags for the job. */
-  additionalExperiments?: StringList_ | undefined;
   /** The email address of the service account to run the job as. */
   serviceAccountEmail?: string | undefined;
-  /** The machine type to use for launching the job. If not set, Dataflow will select a default machine type. */
-  launcherMachineType?: string | undefined;
-  /** The machine type to use for the job. Defaults to the value from the template if not specified. */
-  machineType?: string | undefined;
-  /** Additional user labels to be specified for the job. Keys and values must follow the restrictions specified in the [labeling restrictions](https://cloud.google.com/compute/docs/labeling-resources#restrictions) page. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1kg", "count": "3" }. */
-  additionalUserLabels?: StringMap | undefined;
   /** Configuration for VM IPs. */
   ipConfiguration?: FlexTemplateRuntimeEnvironmentIpConfigurationEnum | (string & {}) | undefined;
+  /** Whether to enable Streaming Engine for the job. */
+  enableStreamingEngine?: boolean | undefined;
+  /** The machine type to use for the job. Defaults to the value from the template if not specified. */
+  machineType?: string | undefined;
+  /** Name for the Cloud KMS key for the job. Key format is: projects//locations//keyRings//cryptoKeys/ */
+  kmsKeyName?: string | undefined;
+  /** If true serial port logging will be enabled for the launcher VM. */
+  enableLauncherVmSerialPortLogging?: boolean | undefined;
+  /** Docker registry location of container image to use for the 'worker harness. Default is the container for the version of the SDK. Note this field is only valid for portable pipelines. */
+  sdkContainerImage?: string | undefined;
+  /** Additional experiment flags for the job. */
+  additionalExperiments?: StringList_ | undefined;
+  /** The Compute Engine [availability zone](https://cloud.google.com/compute/docs/regions-zones/regions-zones) for launching worker instances to run your pipeline. In the future, worker_zone will take precedence. */
+  zone?: string | undefined;
+  /** Set FlexRS goal for the job. https://cloud.google.com/dataflow/docs/guides/flexrs */
+  flexrsGoal?: FlexTemplateRuntimeEnvironmentFlexrsGoalEnum | (string & {}) | undefined;
+  /** Worker disk size, in gigabytes. */
+  diskSizeGb?: number | undefined;
+  /** The machine type to use for launching the job. If not set, Dataflow will select a default machine type. */
+  launcherMachineType?: string | undefined;
+  /** The maximum number of Google Compute Engine instances to be made available to your pipeline during execution, from 1 to 1000. */
+  maxWorkers?: number | undefined;
+  /** The initial number of Google Compute Engine instances for the job. */
+  numWorkers?: number | undefined;
+  /** Additional user labels to be specified for the job. Keys and values must follow the restrictions specified in the [labeling restrictions](https://cloud.google.com/compute/docs/labeling-resources#restrictions) page. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1kg", "count": "3" }. */
+  additionalUserLabels?: StringMap | undefined;
+  /** The Cloud Storage path for staging local files. Must be a valid Cloud Storage URL, beginning with `gs://`. */
+  stagingLocation?: string | undefined;
   /** The Cloud Storage path to use for temporary files. Must be a valid Cloud Storage URL, beginning with `gs://`. */
   tempLocation?: string | undefined;
-  /** Optional. Specifies the Streaming Engine message processing guarantees. Reduces cost and latency but might result in duplicate messages committed to storage. Designed to run simple mapping streaming ETL jobs at the lowest cost. For example, Change Data Capture (CDC) to BigQuery is a canonical use case. For more information, see [Set the pipeline streaming mode](https://cloud.google.com/dataflow/docs/guides/streaming-modes). */
-  streamingMode?: FlexTemplateRuntimeEnvironmentStreamingModeEnum | (string & {}) | undefined;
+  /** Optional. Additional pipeline option flags for the job. */
+  additionalPipelineOptions?: StringList_ | undefined;
   /** The Compute Engine region (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1". Mutually exclusive with worker_zone. If neither worker_region nor worker_zone is specified, default to the control plane's region. */
   workerRegion?: string | undefined;
+  /** The Compute Engine zone (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1-a". Mutually exclusive with worker_region. If neither worker_region nor worker_zone is specified, a zone in the control plane's region is chosen based on available capacity. If both `worker_zone` and `zone` are set, `worker_zone` takes precedence. */
+  workerZone?: string | undefined;
+  /** Optional. Specifies the Streaming Engine message processing guarantees. Reduces cost and latency but might result in duplicate messages committed to storage. Designed to run simple mapping streaming ETL jobs at the lowest cost. For example, Change Data Capture (CDC) to BigQuery is a canonical use case. For more information, see [Set the pipeline streaming mode](https://cloud.google.com/dataflow/docs/guides/streaming-modes). */
+  streamingMode?: FlexTemplateRuntimeEnvironmentStreamingModeEnum | (string & {}) | undefined;
+  /** Network to which VMs will be assigned. If empty or unspecified, the service will use the network "default". */
+  network?: string | undefined;
 }
 /** Container Spec. */
 export interface ContainerSpec {
-  /** Required. SDK info of the Flex Template. */
-  sdkInfo?: SDKInfo | undefined;
   /** Name of the docker container image. E.g., gcr.io/project/some-image */
   image?: string | undefined;
-  /** Secret Manager secret id for password to authenticate to private registry. */
-  imageRepositoryPasswordSecretId?: string | undefined;
-  /** Cloud Storage path to self-signed certificate of private registry. */
-  imageRepositoryCertPath?: string | undefined;
-  /** Default runtime environment for the job. */
-  defaultEnvironment?: FlexTemplateRuntimeEnvironment | undefined;
-  /** Secret Manager secret id for username to authenticate to private registry. */
-  imageRepositoryUsernameSecretId?: string | undefined;
+  /** Required. SDK info of the Flex Template. */
+  sdkInfo?: SDKInfo | undefined;
   /** Metadata describing a template including description and validation rules. */
   metadata?: TemplateMetadata | undefined;
+  /** Secret Manager secret id for password to authenticate to private registry. */
+  imageRepositoryPasswordSecretId?: string | undefined;
+  /** Secret Manager secret id for username to authenticate to private registry. */
+  imageRepositoryUsernameSecretId?: string | undefined;
+  /** Default runtime environment for the job. */
+  defaultEnvironment?: FlexTemplateRuntimeEnvironment | undefined;
+  /** Cloud Storage path to self-signed certificate of private registry. */
+  imageRepositoryCertPath?: string | undefined;
 }
 /** Launch FlexTemplate Parameter. */
 export interface LaunchFlexTemplateParameter {
+  /** Spec about the container image to launch. */
+  containerSpec?: ContainerSpec | undefined;
+  /** The runtime environment for the FlexTemplate job */
+  environment?: FlexTemplateRuntimeEnvironment | undefined;
   /** Use this to pass transform_name_mappings for streaming update jobs. Ex:{"oldTransformName":"newTransformName",...}' */
   transformNameMappings?: StringMap | undefined;
   /** Required. The job name to use for the created job. For update job request, job name should be same as the existing running job. */
   jobName?: string | undefined;
+  /** Set this to true if you are sending a request to update a running streaming job. When set, the job name should be the same as the running job. */
+  update?: boolean | undefined;
+  /** The parameters for FlexTemplate. Ex. {"num_workers":"5"} */
+  parameters?: StringMap | undefined;
   /** Cloud Storage path to a file with json serialized ContainerSpec as content. */
   containerSpecGcsPath?: string | undefined;
   /** Launch options for this flex template job. This is a common set of options across languages and templates. This should not be used to pass job parameters. */
   launchOptions?: StringMap | undefined;
-  /** The parameters for FlexTemplate. Ex. {"num_workers":"5"} */
-  parameters?: StringMap | undefined;
-  /** The runtime environment for the FlexTemplate job */
-  environment?: FlexTemplateRuntimeEnvironment | undefined;
-  /** Spec about the container image to launch. */
-  containerSpec?: ContainerSpec | undefined;
-  /** Set this to true if you are sending a request to update a running streaming job. When set, the job name should be the same as the running job. */
-  update?: boolean | undefined;
 }
 /** A request to launch a Cloud Dataflow job from a FlexTemplate. */
 export interface LaunchFlexTemplateRequest {
@@ -1644,10 +1644,10 @@ export interface LaunchFlexTemplateRequest {
   validateOnly?: boolean | undefined;
 }
 export interface LaunchProjectsLocationsFlexTemplatesRequest extends LaunchFlexTemplateRequest {
-  /** Required. The ID of the Cloud Platform project that the job belongs to. */
-  projectId: string;
   /** Required. The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. E.g., us-central1, us-west1. */
   location: string;
+  /** Required. The ID of the Cloud Platform project that the job belongs to. */
+  projectId: string;
 }
 /** Response to the request to launch a job from Flex Template. */
 export interface LaunchFlexTemplateResponse {
@@ -1656,26 +1656,26 @@ export interface LaunchFlexTemplateResponse {
 }
 /** Parameters to provide to the template being launched. Note that the [metadata in the pipeline code] (https://cloud.google.com/dataflow/docs/guides/templates/creating-templates#metadata) determines which runtime parameters are valid. */
 export interface LaunchTemplateParameters {
+  /** Required. The job name to use for the created job. The name must match the regular expression `[a-z]([-a-z0-9]{0,1022}[a-z0-9])?` */
+  jobName?: string | undefined;
   /** The runtime parameters to pass to the job. */
   parameters?: StringMap | undefined;
-  /** The runtime environment for the job. */
-  environment?: RuntimeEnvironment | undefined;
   /** If set, replace the existing pipeline with the name specified by jobName with this pipeline, preserving state. */
   update?: boolean | undefined;
   /** Only applicable when updating a pipeline. Map of transform name prefixes of the job to be replaced to the corresponding name prefixes of the new job. */
   transformNameMapping?: StringMap | undefined;
-  /** Required. The job name to use for the created job. The name must match the regular expression `[a-z]([-a-z0-9]{0,1022}[a-z0-9])?` */
-  jobName?: string | undefined;
+  /** The runtime environment for the job. */
+  environment?: RuntimeEnvironment | undefined;
 }
 export interface LaunchProjectsLocationsTemplatesRequest extends LaunchTemplateParameters {
-  /** Path to the dynamic template specification file on Cloud Storage. The file must be a JSON serialized `DynamicTemplateFileSpec` object. */
-  "dynamicTemplate.gcsPath"?: string | undefined;
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
-  location: string;
   /** If true, the request is validated but not actually executed. Defaults to false. */
   validateOnly?: boolean | undefined;
+  /** Path to the dynamic template specification file on Cloud Storage. The file must be a JSON serialized `DynamicTemplateFileSpec` object. */
+  "dynamicTemplate.gcsPath"?: string | undefined;
   /** Cloud Storage path for staging dependencies. Must be a valid Cloud Storage URL, beginning with `gs://`. */
   "dynamicTemplate.stagingLocation"?: string | undefined;
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
+  location: string;
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** A Cloud Storage path to the template to use to create the job. Must be valid Cloud Storage URL, beginning with `gs://`. */
@@ -1687,37 +1687,37 @@ export interface LaunchTemplateResponse {
   job?: Job | undefined;
 }
 export interface LaunchProjectsTemplatesRequest extends LaunchTemplateParameters {
-  /** Path to the dynamic template specification file on Cloud Storage. The file must be a JSON serialized `DynamicTemplateFileSpec` object. */
-  "dynamicTemplate.gcsPath"?: string | undefined;
   /** A Cloud Storage path to the template to use to create the job. Must be valid Cloud Storage URL, beginning with `gs://`. */
   gcsPath?: string | undefined;
   /** Cloud Storage path for staging dependencies. Must be a valid Cloud Storage URL, beginning with `gs://`. */
   "dynamicTemplate.stagingLocation"?: string | undefined;
-  /** If true, the request is validated but not actually executed. Defaults to false. */
-  validateOnly?: boolean | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
   location?: string | undefined;
+  /** Path to the dynamic template specification file on Cloud Storage. The file must be a JSON serialized `DynamicTemplateFileSpec` object. */
+  "dynamicTemplate.gcsPath"?: string | undefined;
+  /** If true, the request is validated but not actually executed. Defaults to false. */
+  validateOnly?: boolean | undefined;
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
 }
 /** Request to lease WorkItems. */
 export interface LeaseWorkItemRequest {
-  /** The initial lease period. */
-  requestedLeaseDuration?: string | undefined;
   /** Optional. The project number of the project this worker belongs to. */
   projectNumber?: string | undefined;
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
+  location?: string | undefined;
   /** Worker capabilities. WorkItems might be limited to workers with specific capabilities. */
   workerCapabilities?: StringList_ | undefined;
   /** Filter for WorkItem type. */
   workItemTypes?: StringList_ | undefined;
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
-  location?: string | undefined;
-  /** Untranslated bag-of-bytes WorkRequest from UnifiedWorker. */
-  unifiedWorkerRequest?: DocumentMap | undefined;
-  /** Identifies the worker leasing work -- typically the ID of the virtual machine running the worker. */
-  workerId?: string | undefined;
   /** The current timestamp at the worker. */
   currentWorkerTime?: string | undefined;
+  /** Identifies the worker leasing work -- typically the ID of the virtual machine running the worker. */
+  workerId?: string | undefined;
+  /** Untranslated bag-of-bytes WorkRequest from UnifiedWorker. */
+  unifiedWorkerRequest?: DocumentMap | undefined;
+  /** The initial lease period. */
+  requestedLeaseDuration?: string | undefined;
 }
 export interface LeaseProjectsJobsWorkItemsRequest extends LeaseWorkItemRequest {
   /** Identifies the workflow job this worker belongs to. */
@@ -1725,6 +1725,22 @@ export interface LeaseProjectsJobsWorkItemsRequest extends LeaseWorkItemRequest 
   /** Identifies the project this worker belongs to. */
   projectId: string;
 }
+/** An output of an instruction. */
+export interface InstructionOutput {
+  /** For system-generated byte and mean byte metrics, certain instructions should only report the key size. */
+  onlyCountKeyBytes?: boolean | undefined;
+  /** The codec to use to encode data being written via this output. */
+  codec?: DocumentMap | undefined;
+  /** The user-provided name of this output. */
+  name?: string | undefined;
+  /** For system-generated byte and mean byte metrics, certain instructions should only report the value size. */
+  onlyCountValueBytes?: boolean | undefined;
+  /** System-defined name of this output. Unique across the workflow. */
+  systemName?: string | undefined;
+  /** System-defined name for this output in the original workflow graph. Outputs that do not contribute to an original instruction do not set this. */
+  originalName?: string | undefined;
+}
+export type InstructionOutputList = Array<InstructionOutput>;
 /** Metadata about a Source useful for automatically optimizing and tuning the pipeline, etc. */
 export interface SourceMetadata {
   /** Specifies that the size of this source is known to be infinite (this is a streaming source). */
@@ -1736,214 +1752,54 @@ export interface SourceMetadata {
 }
 /** A source that records can be read and decoded from. */
 export interface Source {
-  /** Setting this value to true hints to the framework that the source doesn't need splitting, and using SourceSplitRequest on it would yield SOURCE_SPLIT_OUTCOME_USE_CURRENT. E.g. a file splitter may set this to true when splitting a single file into a set of byte ranges of appropriate size, and set this to false when splitting a filepattern into individual files. However, for efficiency, a file splitter may decide to produce file subranges directly from the filepattern to avoid a splitting round-trip. See SourceSplitRequest for an overview of the splitting process. This field is meaningful only in the Source objects populated by the user (e.g. when filling in a DerivedSource). Source objects supplied by the framework to the user don't have this field populated. */
-  doesNotNeedSplitting?: boolean | undefined;
-  /** Optionally, metadata for this source can be supplied right away, avoiding a SourceGetMetadataOperation roundtrip (see SourceOperationRequest). This field is meaningful only in the Source objects populated by the user (e.g. when filling in a DerivedSource). Source objects supplied by the framework to the user don't have this field populated. */
-  metadata?: SourceMetadata | undefined;
   /** While splitting, sources may specify the produced bundles as differences against another source, in order to save backend-side memory and allow bigger jobs. For details, see SourceSplitRequest. To support this use case, the full set of parameters of the source is logically obtained by taking the latest explicitly specified value of each parameter in the order: base_specs (later items win), spec (overrides anything in base_specs). */
   baseSpecs?: DocumentMapList | undefined;
-  /** The source to read from, plus its parameters. */
-  spec?: DocumentMap | undefined;
+  /** Optionally, metadata for this source can be supplied right away, avoiding a SourceGetMetadataOperation roundtrip (see SourceOperationRequest). This field is meaningful only in the Source objects populated by the user (e.g. when filling in a DerivedSource). Source objects supplied by the framework to the user don't have this field populated. */
+  metadata?: SourceMetadata | undefined;
   /** The codec to use to decode data read from the source. */
   codec?: DocumentMap | undefined;
+  /** Setting this value to true hints to the framework that the source doesn't need splitting, and using SourceSplitRequest on it would yield SOURCE_SPLIT_OUTCOME_USE_CURRENT. E.g. a file splitter may set this to true when splitting a single file into a set of byte ranges of appropriate size, and set this to false when splitting a filepattern into individual files. However, for efficiency, a file splitter may decide to produce file subranges directly from the filepattern to avoid a splitting round-trip. See SourceSplitRequest for an overview of the splitting process. This field is meaningful only in the Source objects populated by the user (e.g. when filling in a DerivedSource). Source objects supplied by the framework to the user don't have this field populated. */
+  doesNotNeedSplitting?: boolean | undefined;
+  /** The source to read from, plus its parameters. */
+  spec?: DocumentMap | undefined;
 }
-/** A request to compute the SourceMetadata of a Source. */
-export interface SourceGetMetadataRequest {
-  /** Specification of the source whose metadata should be computed. */
+/** An instruction that reads records. Takes no inputs, produces one output. */
+export interface ReadInstruction {
+  /** The source to read from. */
   source?: Source | undefined;
 }
-/** Hints for splitting a Source into bundles (parts for parallel processing) using SourceSplitRequest. */
-export interface SourceSplitOptions {
-  /** The source should be split into a set of bundles where the estimated size of each is approximately this many bytes. */
-  desiredBundleSizeBytes?: string | undefined;
-  /** DEPRECATED in favor of desired_bundle_size_bytes. */
-  desiredShardSizeBytes?: string | undefined;
-}
-/** Represents the operation to split a high-level Source specification into bundles (parts for parallel processing). At a high level, splitting of a source into bundles happens as follows: SourceSplitRequest is applied to the source. If it returns SOURCE_SPLIT_OUTCOME_USE_CURRENT, no further splitting happens and the source is used "as is". Otherwise, splitting is applied recursively to each produced DerivedSource. As an optimization, for any Source, if its does_not_need_splitting is true, the framework assumes that splitting this source would return SOURCE_SPLIT_OUTCOME_USE_CURRENT, and doesn't initiate a SourceSplitRequest. This applies both to the initial source being split and to bundles produced from it. */
-export interface SourceSplitRequest {
-  /** Hints for tuning the splitting process. */
-  options?: SourceSplitOptions | undefined;
-  /** Specification of the source to be split. */
-  source?: Source | undefined;
-}
-/** A work item that represents the different operations that can be performed on a user-defined Source specification. */
-export interface SourceOperationRequest {
-  /** Information about a request to get metadata about a source. */
-  getMetadata?: SourceGetMetadataRequest | undefined;
-  /** System-defined name of the stage containing the source operation. Unique across the workflow. */
-  stageName?: string | undefined;
-  /** Information about a request to split a source. */
-  split?: SourceSplitRequest | undefined;
-  /** User-provided name of the Read instruction for this source. */
-  name?: string | undefined;
-  /** System-defined name for the Read instruction for this source in the original workflow graph. */
-  originalName?: string | undefined;
-  /** System-defined name of the Read instruction for this source. Unique across the workflow. */
-  systemName?: string | undefined;
-}
-/** Describes mounted data disk. */
-export interface MountedDataDisk {
-  /** The name of the data disk. This name is local to the Google Cloud Platform project and uniquely identifies the disk within that project, for example "myproject-1014-104817-4c2-harness-0-disk-1". */
-  dataDisk?: string | undefined;
-}
-export type MountedDataDiskList = Array<MountedDataDisk>;
-export type StreamingComputationTaskTaskTypeEnum =
-  | "STREAMING_COMPUTATION_TASK_UNKNOWN"
-  | "STREAMING_COMPUTATION_TASK_STOP"
-  | "STREAMING_COMPUTATION_TASK_START";
-/** Data disk assignment information for a specific key-range of a sharded computation. Currently we only support UTF-8 character splits to simplify encoding into JSON. */
-export interface KeyRangeDataDiskAssignment {
-  /** The name of the data disk where data for this range is stored. This name is local to the Google Cloud Platform project and uniquely identifies the disk within that project, for example "myproject-1014-104817-4c2-harness-0-disk-1". */
-  dataDisk?: string | undefined;
-  /** The start (inclusive) of the key range. */
-  start?: string | undefined;
-  /** The end (exclusive) of the key range. */
-  end?: string | undefined;
-}
-export type KeyRangeDataDiskAssignmentList = Array<KeyRangeDataDiskAssignment>;
-/** Describes full or partial data disk assignment information of the computation ranges. */
-export interface StreamingComputationRanges {
-  /** Data disk assignments for ranges from this computation. */
-  rangeAssignments?: KeyRangeDataDiskAssignmentList | undefined;
-  /** The ID of the computation. */
-  computationId?: string | undefined;
-}
-export type StreamingComputationRangesList = Array<StreamingComputationRanges>;
-/** A task which describes what action should be performed for the specified streaming computation ranges. */
-export interface StreamingComputationTask {
-  /** Describes the set of data disks this task should apply to. */
-  dataDisks?: MountedDataDiskList | undefined;
-  /** A type of streaming computation task. */
-  taskType?: StreamingComputationTaskTaskTypeEnum | undefined;
-  /** Contains ranges of a streaming computation this task should apply to. */
-  computationRanges?: StreamingComputationRangesList | undefined;
-}
-/** Data disk assignment for a given VM instance. */
-export interface DataDiskAssignment {
-  /** VM instance name the data disks mounted to, for example "myproject-1014-104817-4c2-harness-0". */
-  vmInstance?: string | undefined;
-  /** Mounted data disks. The order is important a data disk's 0-based index in this list defines which persistent directory the disk is mounted to, for example the list of { "myproject-1014-104817-4c2-harness-0-disk-0" }, { "myproject-1014-104817-4c2-harness-0-disk-1" }. */
-  dataDisks?: StringList_ | undefined;
-}
-export type DataDiskAssignmentList = Array<DataDiskAssignment>;
-/** Identifies the location of a custom souce. */
-export interface CustomSourceLocation {
-  /** Whether this source is stateful. */
-  stateful?: boolean | undefined;
-}
-/** Identifies the location of a streaming side input. */
-export interface StreamingSideInputLocation {
-  /** Identifies the particular side input within the streaming Dataflow job. */
+export type SourceList = Array<Source>;
+/** Information about a side input of a DoFn or an input of a SeqDoFn. */
+export interface SideInputInfo {
+  /** The source(s) to read element(s) from to get the value of this side input. If more than one source, then the elements are taken from the sources, in the specified order if order matters. At least one source is required. */
+  sources?: SourceList | undefined;
+  /** The id of the tag the user code will access this side input by; this should correspond to the tag of some MultiOutputInfo. */
   tag?: string | undefined;
-  /** Identifies the state family where this side input is stored. */
-  stateFamily?: string | undefined;
+  /** How to interpret the source element(s) as a side input value. */
+  kind?: DocumentMap | undefined;
 }
-/** Identifies a pubsub location to use for transferring data into or out of a streaming Dataflow job. */
-export interface PubsubLocation {
-  /** If set, contains a pubsub label from which to extract record timestamps. If left empty, record timestamps will be generated upon arrival. */
-  timestampLabel?: string | undefined;
-  /** If set, contains a pubsub label from which to extract record ids. If left empty, record deduplication will be strictly best effort. */
-  idLabel?: string | undefined;
-  /** A pubsub topic, in the form of "pubsub.googleapis.com/topics//" */
-  topic?: string | undefined;
-  /** If set, specifies the pubsub subscription that will be used for tracking custom time timestamps for watermark estimation. */
-  trackingSubscription?: string | undefined;
-  /** If true, then this location represents dynamic topics. */
-  dynamicDestinations?: boolean | undefined;
-  /** If true, then the client has requested to get pubsub attributes. */
-  withAttributes?: boolean | undefined;
-  /** Indicates whether the pipeline allows late-arriving data. */
-  dropLateData?: boolean | undefined;
-  /** A pubsub subscription, in the form of "pubsub.googleapis.com/subscriptions//" */
-  subscription?: string | undefined;
+export type SideInputInfoList = Array<SideInputInfo>;
+/** An input of an instruction, as a reference to an output of a producer instruction. */
+export interface InstructionInput {
+  /** The index (origin zero) of the parallel instruction that produces the output to be consumed by this input. This index is relative to the list of instructions in this input's instruction's containing MapTask. */
+  producerInstructionIndex?: number | undefined;
+  /** The output index (origin zero) within the producer. */
+  outputNum?: number | undefined;
 }
-/** Identifies the location of a streaming computation stage, for stage-to-stage communication. */
-export interface StreamingStageLocation {
-  /** Identifies the particular stream within the streaming Dataflow job. */
-  streamId?: string | undefined;
-}
-/** Describes a stream of data, either as input to be processed or as output of a streaming Dataflow job. */
-export interface StreamLocation {
-  /** The stream is a custom source. */
-  customSourceLocation?: CustomSourceLocation | undefined;
-  /** The stream is a streaming side input. */
-  sideInputLocation?: StreamingSideInputLocation | undefined;
-  /** The stream is a pubsub stream. */
-  pubsubLocation?: PubsubLocation | undefined;
-  /** The stream is part of another computation within the current streaming Dataflow job. */
-  streamingStageLocation?: StreamingStageLocation | undefined;
-}
-export type StreamLocationList = Array<StreamLocation>;
-/** Location information for a specific key-range of a sharded computation. Currently we only support UTF-8 character splits to simplify encoding into JSON. */
-export interface KeyRangeLocation {
-  /** The start (inclusive) of the key range. */
-  start?: string | undefined;
-  /** The name of the data disk where data for this range is stored. This name is local to the Google Cloud Platform project and uniquely identifies the disk within that project, for example "myproject-1014-104817-4c2-harness-0-disk-1". */
-  dataDisk?: string | undefined;
-  /** The physical location of this range assignment to be used for streaming computation cross-worker message delivery. */
-  deliveryEndpoint?: string | undefined;
-  /** The end (exclusive) of the key range. */
-  end?: string | undefined;
-  /** DEPRECATED. The location of the persistent state for this range, as a persistent directory in the worker local filesystem. */
-  deprecatedPersistentDirectory?: string | undefined;
-}
-export type KeyRangeLocationList = Array<KeyRangeLocation>;
-/** State family configuration. */
-export interface StateFamilyConfig {
-  /** The state family value. */
-  stateFamily?: string | undefined;
-  /** If true, this family corresponds to a read operation. */
-  isRead?: boolean | undefined;
-}
-export type StateFamilyConfigList = Array<StateFamilyConfig>;
-/** All configuration data for a particular Computation. */
-export interface ComputationTopology {
-  /** The inputs to the computation. */
-  inputs?: StreamLocationList | undefined;
-  /** The system stage name. */
-  systemStageName?: string | undefined;
-  /** The key ranges processed by the computation. */
-  keyRanges?: KeyRangeLocationList | undefined;
-  /** The state family values. */
-  stateFamilies?: StateFamilyConfigList | undefined;
-  /** The ID of the computation. */
-  computationId?: string | undefined;
-  /** The outputs from the computation. */
-  outputs?: StreamLocationList | undefined;
-}
-export type ComputationTopologyList = Array<ComputationTopology>;
-/** Global topology of the streaming Dataflow job, including all computations and their sharded locations. */
-export interface TopologyConfig {
-  /** Maps user stage names to stable computation names. */
-  userStageToComputationNameMap?: StringMap | undefined;
-  /** The disks assigned to a streaming Dataflow job. */
-  dataDiskAssignments?: DataDiskAssignmentList | undefined;
-  /** The computations associated with a streaming Dataflow job. */
-  computations?: ComputationTopologyList | undefined;
-  /** Version number for persistent state. */
-  persistentStateVersion?: number | undefined;
-  /** The size (in bits) of keys that will be assigned to source messages. */
-  forwardingKeyBits?: number | undefined;
-}
-/** Streaming appliance snapshot configuration. */
-export interface StreamingApplianceSnapshotConfig {
-  /** If set, indicates the snapshot id for the snapshot being performed. */
-  snapshotId?: string | undefined;
-  /** Indicates which endpoint is used to import appliance state. */
-  importStateEndpoint?: string | undefined;
-}
-/** A task which initializes part of a streaming Dataflow job. */
-export interface StreamingSetupTask {
-  /** The TCP port on which the worker should listen for messages from other streaming computation workers. */
-  receiveWorkPort?: number | undefined;
-  /** The global topology of the streaming Dataflow job. */
-  streamingComputationTopology?: TopologyConfig | undefined;
-  /** The user has requested drain. */
-  drain?: boolean | undefined;
-  /** Configures streaming appliance snapshot. */
-  snapshotConfig?: StreamingApplianceSnapshotConfig | undefined;
-  /** The TCP port used by the worker to communicate with the Dataflow worker harness. */
-  workerHarnessPort?: number | undefined;
+/** An instruction that does a partial group-by-key. One input and one output. */
+export interface PartialGroupByKeyInstruction {
+  /** Zero or more side inputs. */
+  sideInputs?: SideInputInfoList | undefined;
+  /** The value combining function to invoke. */
+  valueCombiningFn?: DocumentMap | undefined;
+  /** The codec to use for interpreting an element in the input PTable. */
+  inputElementCodec?: DocumentMap | undefined;
+  /** Describes the input to the partial group-by-key instruction. */
+  input?: InstructionInput | undefined;
+  /** If this instruction includes a combining function, this is the name of the CombineValues instruction lifted into this instruction. */
+  originalCombineValuesStepName?: string | undefined;
+  /** If this instruction includes a combining function this is the name of the intermediate store between the GBK and the CombineValues. */
+  originalCombineValuesInputStoreName?: string | undefined;
 }
 /** A sink that records can be encoded and written to. */
 export interface Sink {
@@ -1952,65 +1808,12 @@ export interface Sink {
   /** The sink to write to, plus its parameters. */
   spec?: DocumentMap | undefined;
 }
-/** Information about an output of a SeqMapTask. */
-export interface SeqMapTaskOutputInfo {
-  /** The id of the TupleTag the user code will tag the output value by. */
-  tag?: string | undefined;
-  /** The sink to write the output value to. */
+/** An instruction that writes records. Takes one input, produces no outputs. */
+export interface WriteInstruction {
+  /** The input. */
+  input?: InstructionInput | undefined;
+  /** The sink to write to. */
   sink?: Sink | undefined;
-}
-export type SeqMapTaskOutputInfoList = Array<SeqMapTaskOutputInfo>;
-export type SourceList = Array<Source>;
-/** Information about a side input of a DoFn or an input of a SeqDoFn. */
-export interface SideInputInfo {
-  /** How to interpret the source element(s) as a side input value. */
-  kind?: DocumentMap | undefined;
-  /** The id of the tag the user code will access this side input by; this should correspond to the tag of some MultiOutputInfo. */
-  tag?: string | undefined;
-  /** The source(s) to read element(s) from to get the value of this side input. If more than one source, then the elements are taken from the sources, in the specified order if order matters. At least one source is required. */
-  sources?: SourceList | undefined;
-}
-export type SideInputInfoList = Array<SideInputInfo>;
-/** Describes a particular function to invoke. */
-export interface SeqMapTask {
-  /** The user function to invoke. */
-  userFn?: DocumentMap | undefined;
-  /** Information about each of the outputs. */
-  outputInfos?: SeqMapTaskOutputInfoList | undefined;
-  /** System-defined name of the stage containing the SeqDo operation. Unique across the workflow. */
-  stageName?: string | undefined;
-  /** Information about each of the inputs. */
-  inputs?: SideInputInfoList | undefined;
-  /** The user-provided name of the SeqDo operation. */
-  name?: string | undefined;
-  /** System-defined name of the SeqDo operation. Unique across the workflow. */
-  systemName?: string | undefined;
-}
-/** Operational limits imposed on streaming jobs by the backend. */
-export interface StreamingOperationalLimits {
-  /** The maximum size for an element in global data. */
-  maxGlobalDataBytes?: string | undefined;
-  /** The maximum size for an element in bag state. */
-  maxBagElementBytes?: string | undefined;
-  /** The maximum size for a single output element. */
-  maxProductionOutputBytes?: string | undefined;
-  /** The maximum size allowed for a key. */
-  maxKeyBytes?: string | undefined;
-  /** The maximum size for a state tag. */
-  maxTagBytes?: string | undefined;
-  /** The maximum size for a value state field. */
-  maxValueBytes?: string | undefined;
-  /** The maximum size for a source state update. */
-  maxSourceStateBytes?: string | undefined;
-  /** The maximum size for an element in sorted list state. */
-  maxSortedListElementBytes?: string | undefined;
-}
-/** An input of an instruction, as a reference to an output of a producer instruction. */
-export interface InstructionInput {
-  /** The output index (origin zero) within the producer. */
-  outputNum?: number | undefined;
-  /** The index (origin zero) of the parallel instruction that produces the output to be consumed by this input. This index is relative to the list of instructions in this input's instruction's containing MapTask. */
-  producerInstructionIndex?: number | undefined;
 }
 export type InstructionInputList = Array<InstructionInput>;
 /** An instruction that copies its inputs (zero or more) to its (single) output. */
@@ -2028,118 +1831,292 @@ export type MultiOutputInfoList = Array<MultiOutputInfo>;
 export interface ParDoInstruction {
   /** Information about each of the outputs, if user_fn is a MultiDoFn. */
   multiOutputInfos?: MultiOutputInfoList | undefined;
+  /** Zero or more side inputs. */
+  sideInputs?: SideInputInfoList | undefined;
   /** The number of outputs. */
   numOutputs?: number | undefined;
   /** The input. */
   input?: InstructionInput | undefined;
   /** The user function to invoke. */
   userFn?: DocumentMap | undefined;
-  /** Zero or more side inputs. */
-  sideInputs?: SideInputInfoList | undefined;
 }
-/** An instruction that reads records. Takes no inputs, produces one output. */
-export interface ReadInstruction {
-  /** The source to read from. */
-  source?: Source | undefined;
-}
-/** An instruction that writes records. Takes one input, produces no outputs. */
-export interface WriteInstruction {
-  /** The sink to write to. */
-  sink?: Sink | undefined;
-  /** The input. */
-  input?: InstructionInput | undefined;
-}
-/** An instruction that does a partial group-by-key. One input and one output. */
-export interface PartialGroupByKeyInstruction {
-  /** If this instruction includes a combining function, this is the name of the CombineValues instruction lifted into this instruction. */
-  originalCombineValuesStepName?: string | undefined;
-  /** Zero or more side inputs. */
-  sideInputs?: SideInputInfoList | undefined;
-  /** Describes the input to the partial group-by-key instruction. */
-  input?: InstructionInput | undefined;
-  /** The codec to use for interpreting an element in the input PTable. */
-  inputElementCodec?: DocumentMap | undefined;
-  /** The value combining function to invoke. */
-  valueCombiningFn?: DocumentMap | undefined;
-  /** If this instruction includes a combining function this is the name of the intermediate store between the GBK and the CombineValues. */
-  originalCombineValuesInputStoreName?: string | undefined;
-}
-/** An output of an instruction. */
-export interface InstructionOutput {
-  /** The user-provided name of this output. */
-  name?: string | undefined;
-  /** System-defined name of this output. Unique across the workflow. */
-  systemName?: string | undefined;
-  /** System-defined name for this output in the original workflow graph. Outputs that do not contribute to an original instruction do not set this. */
-  originalName?: string | undefined;
-  /** The codec to use to encode data being written via this output. */
-  codec?: DocumentMap | undefined;
-  /** For system-generated byte and mean byte metrics, certain instructions should only report the key size. */
-  onlyCountKeyBytes?: boolean | undefined;
-  /** For system-generated byte and mean byte metrics, certain instructions should only report the value size. */
-  onlyCountValueBytes?: boolean | undefined;
-}
-export type InstructionOutputList = Array<InstructionOutput>;
 /** Describes a particular operation comprising a MapTask. */
 export interface ParallelInstruction {
-  /** Additional information for Flatten instructions. */
-  flatten?: FlattenInstruction | undefined;
-  /** User-provided name of this operation. */
-  name?: string | undefined;
-  /** Additional information for ParDo instructions. */
-  parDo?: ParDoInstruction | undefined;
-  /** System-defined name of this operation. Unique across the workflow. */
-  systemName?: string | undefined;
-  /** System-defined name for the operation in the original workflow graph. */
-  originalName?: string | undefined;
-  /** Additional information for Read instructions. */
-  read?: ReadInstruction | undefined;
-  /** Additional information for Write instructions. */
-  write?: WriteInstruction | undefined;
-  /** Additional information for PartialGroupByKey instructions. */
-  partialGroupByKey?: PartialGroupByKeyInstruction | undefined;
   /** Describes the outputs of the instruction. */
   outputs?: InstructionOutputList | undefined;
+  /** Additional information for Read instructions. */
+  read?: ReadInstruction | undefined;
+  /** System-defined name of this operation. Unique across the workflow. */
+  systemName?: string | undefined;
+  /** Additional information for PartialGroupByKey instructions. */
+  partialGroupByKey?: PartialGroupByKeyInstruction | undefined;
+  /** System-defined name for the operation in the original workflow graph. */
+  originalName?: string | undefined;
+  /** Additional information for Write instructions. */
+  write?: WriteInstruction | undefined;
+  /** User-provided name of this operation. */
+  name?: string | undefined;
+  /** Additional information for Flatten instructions. */
+  flatten?: FlattenInstruction | undefined;
+  /** Additional information for ParDo instructions. */
+  parDo?: ParDoInstruction | undefined;
 }
 export type ParallelInstructionList = Array<ParallelInstruction>;
 /** Configuration information for a single streaming computation. */
 export interface StreamingComputationConfig {
-  /** System defined name for this computation. */
-  systemName?: string | undefined;
+  /** Instructions that comprise the computation. */
+  instructions?: ParallelInstructionList | undefined;
   /** Stage name of this computation. */
   stageName?: string | undefined;
   /** Map from user name of stateful transforms in this stage to their state family. */
   transformUserNameToStateFamily?: StringMap | undefined;
+  /** System defined name for this computation. */
+  systemName?: string | undefined;
   /** Unique identifier for this computation. */
   computationId?: string | undefined;
-  /** Instructions that comprise the computation. */
-  instructions?: ParallelInstructionList | undefined;
 }
 export type StreamingComputationConfigList = Array<StreamingComputationConfig>;
+/** Operational limits imposed on streaming jobs by the backend. */
+export interface StreamingOperationalLimits {
+  /** The maximum size for an element in global data. */
+  maxGlobalDataBytes?: string | undefined;
+  /** The maximum size for an element in sorted list state. */
+  maxSortedListElementBytes?: string | undefined;
+  /** The maximum size for a value state field. */
+  maxValueBytes?: string | undefined;
+  /** The maximum size allowed for a key. */
+  maxKeyBytes?: string | undefined;
+  /** The maximum size for a source state update. */
+  maxSourceStateBytes?: string | undefined;
+  /** The maximum size for a state tag. */
+  maxTagBytes?: string | undefined;
+  /** The maximum size for a single output element. */
+  maxProductionOutputBytes?: string | undefined;
+  /** The maximum size for an element in bag state. */
+  maxBagElementBytes?: string | undefined;
+}
 /** A task that carries configuration information for streaming computations. */
 export interface StreamingConfigTask {
-  /** Optional. The state tag encoding format version for streaming engine jobs. */
-  streamingEngineStateTagEncodingVersion?: number | undefined;
   /** Chunk size for commit streams from the harness to windmill. */
   commitStreamChunkSizeBytes?: string | undefined;
-  /** Maximum size for work item commit supported windmill storage layer. */
-  maxWorkItemCommitBytes?: string | undefined;
-  /** Operational limits for the streaming job. Can be used by the worker to validate outputs sent to the backend. */
-  operationalLimits?: StreamingOperationalLimits | undefined;
-  /** Binary encoded proto to control runtime behavior of the runner v2 user worker. */
-  userWorkerRunnerV2Settings?: string | undefined;
+  /** Chunk size for get data streams from the harness to windmill. */
+  getDataStreamChunkSizeBytes?: string | undefined;
   /** Set of computation configuration information. */
   streamingComputationConfigs?: StreamingComputationConfigList | undefined;
-  /** If present, the worker must use this port to communicate with Windmill Service dispatchers. Only applicable when windmill_service_endpoint is specified. */
-  windmillServicePort?: string | undefined;
   /** If present, the worker must use this endpoint to communicate with Windmill Service dispatchers, otherwise the worker must continue to use whatever endpoint it had been using. */
   windmillServiceEndpoint?: string | undefined;
   /** Map from user step names to state families. */
   userStepToStateFamilyNameMap?: StringMap | undefined;
-  /** Chunk size for get data streams from the harness to windmill. */
-  getDataStreamChunkSizeBytes?: string | undefined;
+  /** Operational limits for the streaming job. Can be used by the worker to validate outputs sent to the backend. */
+  operationalLimits?: StreamingOperationalLimits | undefined;
+  /** Maximum size for work item commit supported windmill storage layer. */
+  maxWorkItemCommitBytes?: string | undefined;
   /** Binary encoded proto to control runtime behavior of the java runner v1 user worker. */
   userWorkerRunnerV1Settings?: string | undefined;
+  /** Binary encoded proto to control runtime behavior of the runner v2 user worker. */
+  userWorkerRunnerV2Settings?: string | undefined;
+  /** If present, the worker must use this port to communicate with Windmill Service dispatchers. Only applicable when windmill_service_endpoint is specified. */
+  windmillServicePort?: string | undefined;
+  /** Optional. The state tag encoding format version for streaming engine jobs. */
+  streamingEngineStateTagEncodingVersion?: number | undefined;
+}
+/** Location information for a specific key-range of a sharded computation. Currently we only support UTF-8 character splits to simplify encoding into JSON. */
+export interface KeyRangeLocation {
+  /** The end (exclusive) of the key range. */
+  end?: string | undefined;
+  /** DEPRECATED. The location of the persistent state for this range, as a persistent directory in the worker local filesystem. */
+  deprecatedPersistentDirectory?: string | undefined;
+  /** The start (inclusive) of the key range. */
+  start?: string | undefined;
+  /** The name of the data disk where data for this range is stored. This name is local to the Google Cloud Platform project and uniquely identifies the disk within that project, for example "myproject-1014-104817-4c2-harness-0-disk-1". */
+  dataDisk?: string | undefined;
+  /** The physical location of this range assignment to be used for streaming computation cross-worker message delivery. */
+  deliveryEndpoint?: string | undefined;
+}
+export type KeyRangeLocationList = Array<KeyRangeLocation>;
+/** State family configuration. */
+export interface StateFamilyConfig {
+  /** The state family value. */
+  stateFamily?: string | undefined;
+  /** If true, this family corresponds to a read operation. */
+  isRead?: boolean | undefined;
+}
+export type StateFamilyConfigList = Array<StateFamilyConfig>;
+/** Identifies the location of a streaming computation stage, for stage-to-stage communication. */
+export interface StreamingStageLocation {
+  /** Identifies the particular stream within the streaming Dataflow job. */
+  streamId?: string | undefined;
+}
+/** Identifies a pubsub location to use for transferring data into or out of a streaming Dataflow job. */
+export interface PubsubLocation {
+  /** If true, then the client has requested to get pubsub attributes. */
+  withAttributes?: boolean | undefined;
+  /** A pubsub topic, in the form of "pubsub.googleapis.com/topics//" */
+  topic?: string | undefined;
+  /** If set, contains a pubsub label from which to extract record timestamps. If left empty, record timestamps will be generated upon arrival. */
+  timestampLabel?: string | undefined;
+  /** Indicates whether the pipeline allows late-arriving data. */
+  dropLateData?: boolean | undefined;
+  /** A pubsub subscription, in the form of "pubsub.googleapis.com/subscriptions//" */
+  subscription?: string | undefined;
+  /** If true, then this location represents dynamic topics. */
+  dynamicDestinations?: boolean | undefined;
+  /** If set, specifies the pubsub subscription that will be used for tracking custom time timestamps for watermark estimation. */
+  trackingSubscription?: string | undefined;
+  /** If set, contains a pubsub label from which to extract record ids. If left empty, record deduplication will be strictly best effort. */
+  idLabel?: string | undefined;
+}
+/** Identifies the location of a streaming side input. */
+export interface StreamingSideInputLocation {
+  /** Identifies the particular side input within the streaming Dataflow job. */
+  tag?: string | undefined;
+  /** Identifies the state family where this side input is stored. */
+  stateFamily?: string | undefined;
+}
+/** Identifies the location of a custom souce. */
+export interface CustomSourceLocation {
+  /** Whether this source is stateful. */
+  stateful?: boolean | undefined;
+}
+/** Describes a stream of data, either as input to be processed or as output of a streaming Dataflow job. */
+export interface StreamLocation {
+  /** The stream is part of another computation within the current streaming Dataflow job. */
+  streamingStageLocation?: StreamingStageLocation | undefined;
+  /** The stream is a pubsub stream. */
+  pubsubLocation?: PubsubLocation | undefined;
+  /** The stream is a streaming side input. */
+  sideInputLocation?: StreamingSideInputLocation | undefined;
+  /** The stream is a custom source. */
+  customSourceLocation?: CustomSourceLocation | undefined;
+}
+export type StreamLocationList = Array<StreamLocation>;
+/** All configuration data for a particular Computation. */
+export interface ComputationTopology {
+  /** The key ranges processed by the computation. */
+  keyRanges?: KeyRangeLocationList | undefined;
+  /** The system stage name. */
+  systemStageName?: string | undefined;
+  /** The ID of the computation. */
+  computationId?: string | undefined;
+  /** The state family values. */
+  stateFamilies?: StateFamilyConfigList | undefined;
+  /** The inputs to the computation. */
+  inputs?: StreamLocationList | undefined;
+  /** The outputs from the computation. */
+  outputs?: StreamLocationList | undefined;
+}
+export type ComputationTopologyList = Array<ComputationTopology>;
+/** Data disk assignment for a given VM instance. */
+export interface DataDiskAssignment {
+  /** VM instance name the data disks mounted to, for example "myproject-1014-104817-4c2-harness-0". */
+  vmInstance?: string | undefined;
+  /** Mounted data disks. The order is important a data disk's 0-based index in this list defines which persistent directory the disk is mounted to, for example the list of { "myproject-1014-104817-4c2-harness-0-disk-0" }, { "myproject-1014-104817-4c2-harness-0-disk-1" }. */
+  dataDisks?: StringList_ | undefined;
+}
+export type DataDiskAssignmentList = Array<DataDiskAssignment>;
+/** Global topology of the streaming Dataflow job, including all computations and their sharded locations. */
+export interface TopologyConfig {
+  /** The computations associated with a streaming Dataflow job. */
+  computations?: ComputationTopologyList | undefined;
+  /** The size (in bits) of keys that will be assigned to source messages. */
+  forwardingKeyBits?: number | undefined;
+  /** The disks assigned to a streaming Dataflow job. */
+  dataDiskAssignments?: DataDiskAssignmentList | undefined;
+  /** Version number for persistent state. */
+  persistentStateVersion?: number | undefined;
+  /** Maps user stage names to stable computation names. */
+  userStageToComputationNameMap?: StringMap | undefined;
+}
+/** Streaming appliance snapshot configuration. */
+export interface StreamingApplianceSnapshotConfig {
+  /** Indicates which endpoint is used to import appliance state. */
+  importStateEndpoint?: string | undefined;
+  /** If set, indicates the snapshot id for the snapshot being performed. */
+  snapshotId?: string | undefined;
+}
+/** A task which initializes part of a streaming Dataflow job. */
+export interface StreamingSetupTask {
+  /** The user has requested drain. */
+  drain?: boolean | undefined;
+  /** The global topology of the streaming Dataflow job. */
+  streamingComputationTopology?: TopologyConfig | undefined;
+  /** Configures streaming appliance snapshot. */
+  snapshotConfig?: StreamingApplianceSnapshotConfig | undefined;
+  /** The TCP port on which the worker should listen for messages from other streaming computation workers. */
+  receiveWorkPort?: number | undefined;
+  /** The TCP port used by the worker to communicate with the Dataflow worker harness. */
+  workerHarnessPort?: number | undefined;
+}
+/** MapTask consists of an ordered set of instructions, each of which describes one particular low-level operation for the worker to perform in order to accomplish the MapTask's WorkItem. Each instruction must appear in the list before any instructions which depends on its output. */
+export interface MapTask {
+  /** System-defined name of the stage containing this MapTask. Unique across the workflow. */
+  stageName?: string | undefined;
+  /** The instructions in the MapTask. */
+  instructions?: ParallelInstructionList | undefined;
+  /** Counter prefix that can be used to prefix counters. Not currently used in Dataflow. */
+  counterPrefix?: string | undefined;
+  /** System-defined name of this MapTask. Unique across the workflow. */
+  systemName?: string | undefined;
+}
+/** Information about an output of a SeqMapTask. */
+export interface SeqMapTaskOutputInfo {
+  /** The id of the TupleTag the user code will tag the output value by. */
+  tag?: string | undefined;
+  /** The sink to write the output value to. */
+  sink?: Sink | undefined;
+}
+export type SeqMapTaskOutputInfoList = Array<SeqMapTaskOutputInfo>;
+/** Describes a particular function to invoke. */
+export interface SeqMapTask {
+  /** Information about each of the outputs. */
+  outputInfos?: SeqMapTaskOutputInfoList | undefined;
+  /** The user-provided name of the SeqDo operation. */
+  name?: string | undefined;
+  /** The user function to invoke. */
+  userFn?: DocumentMap | undefined;
+  /** Information about each of the inputs. */
+  inputs?: SideInputInfoList | undefined;
+  /** System-defined name of the stage containing the SeqDo operation. Unique across the workflow. */
+  stageName?: string | undefined;
+  /** System-defined name of the SeqDo operation. Unique across the workflow. */
+  systemName?: string | undefined;
+}
+export type StreamingComputationTaskTaskTypeEnum =
+  | "STREAMING_COMPUTATION_TASK_UNKNOWN"
+  | "STREAMING_COMPUTATION_TASK_STOP"
+  | "STREAMING_COMPUTATION_TASK_START";
+/** Data disk assignment information for a specific key-range of a sharded computation. Currently we only support UTF-8 character splits to simplify encoding into JSON. */
+export interface KeyRangeDataDiskAssignment {
+  /** The end (exclusive) of the key range. */
+  end?: string | undefined;
+  /** The start (inclusive) of the key range. */
+  start?: string | undefined;
+  /** The name of the data disk where data for this range is stored. This name is local to the Google Cloud Platform project and uniquely identifies the disk within that project, for example "myproject-1014-104817-4c2-harness-0-disk-1". */
+  dataDisk?: string | undefined;
+}
+export type KeyRangeDataDiskAssignmentList = Array<KeyRangeDataDiskAssignment>;
+/** Describes full or partial data disk assignment information of the computation ranges. */
+export interface StreamingComputationRanges {
+  /** The ID of the computation. */
+  computationId?: string | undefined;
+  /** Data disk assignments for ranges from this computation. */
+  rangeAssignments?: KeyRangeDataDiskAssignmentList | undefined;
+}
+export type StreamingComputationRangesList = Array<StreamingComputationRanges>;
+/** Describes mounted data disk. */
+export interface MountedDataDisk {
+  /** The name of the data disk. This name is local to the Google Cloud Platform project and uniquely identifies the disk within that project, for example "myproject-1014-104817-4c2-harness-0-disk-1". */
+  dataDisk?: string | undefined;
+}
+export type MountedDataDiskList = Array<MountedDataDisk>;
+/** A task which describes what action should be performed for the specified streaming computation ranges. */
+export interface StreamingComputationTask {
+  /** A type of streaming computation task. */
+  taskType?: StreamingComputationTaskTaskTypeEnum | undefined;
+  /** Contains ranges of a streaming computation this task should apply to. */
+  computationRanges?: StreamingComputationRangesList | undefined;
+  /** Describes the set of data disks this task should apply to. */
+  dataDisks?: MountedDataDiskList | undefined;
 }
 /** A task which consists of a shell command for the worker to execute. */
 export interface ShellTask {
@@ -2148,124 +2125,147 @@ export interface ShellTask {
   /** The shell command to run. */
   command?: string | undefined;
 }
-/** MapTask consists of an ordered set of instructions, each of which describes one particular low-level operation for the worker to perform in order to accomplish the MapTask's WorkItem. Each instruction must appear in the list before any instructions which depends on its output. */
-export interface MapTask {
-  /** Counter prefix that can be used to prefix counters. Not currently used in Dataflow. */
-  counterPrefix?: string | undefined;
-  /** System-defined name of this MapTask. Unique across the workflow. */
-  systemName?: string | undefined;
-  /** The instructions in the MapTask. */
-  instructions?: ParallelInstructionList | undefined;
-  /** System-defined name of the stage containing this MapTask. Unique across the workflow. */
+/** Hints for splitting a Source into bundles (parts for parallel processing) using SourceSplitRequest. */
+export interface SourceSplitOptions {
+  /** The source should be split into a set of bundles where the estimated size of each is approximately this many bytes. */
+  desiredBundleSizeBytes?: string | undefined;
+  /** DEPRECATED in favor of desired_bundle_size_bytes. */
+  desiredShardSizeBytes?: string | undefined;
+}
+/** Represents the operation to split a high-level Source specification into bundles (parts for parallel processing). At a high level, splitting of a source into bundles happens as follows: SourceSplitRequest is applied to the source. If it returns SOURCE_SPLIT_OUTCOME_USE_CURRENT, no further splitting happens and the source is used "as is". Otherwise, splitting is applied recursively to each produced DerivedSource. As an optimization, for any Source, if its does_not_need_splitting is true, the framework assumes that splitting this source would return SOURCE_SPLIT_OUTCOME_USE_CURRENT, and doesn't initiate a SourceSplitRequest. This applies both to the initial source being split and to bundles produced from it. */
+export interface SourceSplitRequest {
+  /** Specification of the source to be split. */
+  source?: Source | undefined;
+  /** Hints for tuning the splitting process. */
+  options?: SourceSplitOptions | undefined;
+}
+/** A request to compute the SourceMetadata of a Source. */
+export interface SourceGetMetadataRequest {
+  /** Specification of the source whose metadata should be computed. */
+  source?: Source | undefined;
+}
+/** A work item that represents the different operations that can be performed on a user-defined Source specification. */
+export interface SourceOperationRequest {
+  /** User-provided name of the Read instruction for this source. */
+  name?: string | undefined;
+  /** System-defined name of the stage containing the source operation. Unique across the workflow. */
   stageName?: string | undefined;
+  /** System-defined name of the Read instruction for this source. Unique across the workflow. */
+  systemName?: string | undefined;
+  /** System-defined name for the Read instruction for this source in the original workflow graph. */
+  originalName?: string | undefined;
+  /** Information about a request to split a source. */
+  split?: SourceSplitRequest | undefined;
+  /** Information about a request to get metadata about a source. */
+  getMetadata?: SourceGetMetadataRequest | undefined;
 }
 /** WorkItem represents basic information about a WorkItem to be executed in the cloud. */
 export interface WorkItem {
-  /** Additional information for source operation WorkItems. */
-  sourceOperationTask?: SourceOperationRequest | undefined;
-  /** Additional information for StreamingComputationTask WorkItems. */
-  streamingComputationTask?: StreamingComputationTask | undefined;
-  /** Identifies the cloud project this WorkItem belongs to. */
-  projectId?: string | undefined;
-  /** Recommended reporting interval. */
-  reportStatusInterval?: string | undefined;
-  /** Additional information for StreamingSetupTask WorkItems. */
-  streamingSetupTask?: StreamingSetupTask | undefined;
-  /** Any required packages that need to be fetched in order to execute this WorkItem. */
-  packages?: PackageList | undefined;
-  /** Identifies the workflow job this WorkItem belongs to. */
-  jobId?: string | undefined;
-  /** Additional information for SeqMapTask WorkItems. */
-  seqMapTask?: SeqMapTask | undefined;
   /** Additional information for StreamingConfigTask WorkItems. */
   streamingConfigTask?: StreamingConfigTask | undefined;
-  /** Additional information for ShellTask WorkItems. */
-  shellTask?: ShellTask | undefined;
+  /** Identifies the workflow job this WorkItem belongs to. */
+  jobId?: string | undefined;
   /** The initial index to use when reporting the status of the WorkItem. */
   initialReportIndex?: string | undefined;
+  /** Recommended reporting interval. */
+  reportStatusInterval?: string | undefined;
+  /** Any required packages that need to be fetched in order to execute this WorkItem. */
+  packages?: PackageList | undefined;
+  /** Additional information for StreamingSetupTask WorkItems. */
+  streamingSetupTask?: StreamingSetupTask | undefined;
   /** Time when the lease on this Work will expire. */
   leaseExpireTime?: string | undefined;
-  /** Identifies this WorkItem. */
-  id?: string | undefined;
-  /** Work item-specific configuration as an opaque blob. */
-  configuration?: string | undefined;
   /** Additional information for MapTask WorkItems. */
   mapTask?: MapTask | undefined;
+  /** Identifies the cloud project this WorkItem belongs to. */
+  projectId?: string | undefined;
+  /** Work item-specific configuration as an opaque blob. */
+  configuration?: string | undefined;
+  /** Additional information for SeqMapTask WorkItems. */
+  seqMapTask?: SeqMapTask | undefined;
+  /** Additional information for StreamingComputationTask WorkItems. */
+  streamingComputationTask?: StreamingComputationTask | undefined;
+  /** Additional information for ShellTask WorkItems. */
+  shellTask?: ShellTask | undefined;
+  /** Additional information for source operation WorkItems. */
+  sourceOperationTask?: SourceOperationRequest | undefined;
+  /** Identifies this WorkItem. */
+  id?: string | undefined;
 }
 export type WorkItemList = Array<WorkItem>;
 /** Response to a request to lease WorkItems. */
 export interface LeaseWorkItemResponse {
-  /** A list of the leased WorkItems. */
-  workItems?: WorkItemList | undefined;
   /** Untranslated bag-of-bytes WorkResponse for UnifiedWorker. */
   unifiedWorkerResponse?: DocumentMap | undefined;
+  /** A list of the leased WorkItems. */
+  workItems?: WorkItemList | undefined;
 }
 export interface LeaseProjectsLocationsJobsWorkItemsRequest extends Omit<
   LeaseWorkItemRequest,
   "location"
 > {
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
+  location: string;
   /** Identifies the workflow job this worker belongs to. */
   jobId: string;
   /** Identifies the project this worker belongs to. */
   projectId: string;
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
-  location: string;
 }
 export interface ListFoldersLocationsConfigStoreSettingsRequest {
-  /** Optional. A page token, received from a previous `ListConfigStoreSettings` call. */
-  pageToken?: string | undefined;
   /** Required. The parent resource whose settings are being listed. */
   parent: string;
+  /** Optional. A page token, received from a previous `ListConfigStoreSettings` call. */
+  pageToken?: string | undefined;
   /** Optional. The maximum number of settings to return. */
   pageSize?: number | undefined;
 }
 export type ConfigStoreSettingList = Array<ConfigStoreSetting>;
 /** Response message for ListConfigStoreSettings. */
 export interface ListConfigStoreSettingsResponse {
-  /** A token that can be sent as `page_token` to retrieve the next page. */
-  nextPageToken?: string | undefined;
   /** The list of ConfigStoreSettings. */
   configStoreSettings?: ConfigStoreSettingList | undefined;
+  /** A token that can be sent as `page_token` to retrieve the next page. */
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsConfigStoreSettingsRequest {
-  /** Optional. A page token, received from a previous `ListConfigStoreSettings` call. */
-  pageToken?: string | undefined;
-  /** Required. The parent resource whose settings are being listed. */
-  parent: string;
   /** Optional. The maximum number of settings to return. */
   pageSize?: number | undefined;
+  /** Required. The parent resource whose settings are being listed. */
+  parent: string;
+  /** Optional. A page token, received from a previous `ListConfigStoreSettings` call. */
+  pageToken?: string | undefined;
 }
+export type ListProjectsJobsFilterEnum = "UNKNOWN" | "ALL" | "TERMINATED" | "ACTIVE";
 export type ListProjectsJobsViewEnum =
   | "JOB_VIEW_UNKNOWN"
   | "JOB_VIEW_SUMMARY"
   | "JOB_VIEW_ALL"
   | "JOB_VIEW_DESCRIPTION";
-export type ListProjectsJobsFilterEnum = "UNKNOWN" | "ALL" | "TERMINATED" | "ACTIVE";
 export interface ListProjectsJobsRequest {
-  /** Deprecated. ListJobs always returns summaries now. Use GetJob for other JobViews. */
-  view?: ListProjectsJobsViewEnum | (string & {}) | undefined;
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  "createTimeRange.endTime"?: string | undefined;
+  /** If there are many jobs, limit response to at most this many. The actual number of jobs returned will be the lesser of max_responses and an unspecified server-defined limit. */
+  pageSize?: number | undefined;
   /** Set this to the 'next_page_token' field of a previous response to request additional results in a long list. */
   pageToken?: string | undefined;
+  /** The kind of filter to use. */
+  filter?: ListProjectsJobsFilterEnum | (string & {}) | undefined;
+  /** Deprecated. ListJobs always returns summaries now. Use GetJob for other JobViews. */
+  view?: ListProjectsJobsViewEnum | (string & {}) | undefined;
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
+  location?: string | undefined;
   /** Optional. The job name. */
   name?: string | undefined;
   /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  "createTimeRange.endTime"?: string | undefined;
-  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  "createTimeRange.startTime"?: string | undefined;
-  /** The kind of filter to use. */
-  filter?: ListProjectsJobsFilterEnum | (string & {}) | undefined;
-  /** If there are many jobs, limit response to at most this many. The actual number of jobs returned will be the lesser of max_responses and an unspecified server-defined limit. */
-  pageSize?: number | undefined;
+  "terminationTimeRange.endTime"?: string | undefined;
   /** Optional. */
   regionalFanoutRequested?: boolean | undefined;
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  "terminationTimeRange.startTime"?: string | undefined;
+  "createTimeRange.startTime"?: string | undefined;
   /** The project which owns the jobs. */
   projectId: string;
-  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  "terminationTimeRange.endTime"?: string | undefined;
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
-  location?: string | undefined;
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  "terminationTimeRange.startTime"?: string | undefined;
 }
 export type ListProjectsJobsMessagesMinimumImportanceEnum =
   | "JOB_MESSAGE_IMPORTANCE_UNKNOWN"
@@ -2275,23 +2275,62 @@ export type ListProjectsJobsMessagesMinimumImportanceEnum =
   | "JOB_MESSAGE_WARNING"
   | "JOB_MESSAGE_ERROR";
 export interface ListProjectsJobsMessagesRequest {
-  /** The job to get messages about. */
-  jobId: string;
   /** A project id. */
   projectId: string;
-  /** If supplied, this should be the value of next_page_token returned by an earlier call. This will cause the next page of results to be returned. */
-  pageToken?: string | undefined;
   /** If specified, determines the maximum number of messages to return. If unspecified, the service may choose an appropriate default, or may return an arbitrarily large number of results. */
   pageSize?: number | undefined;
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
-  location?: string | undefined;
-  /** Return only messages with timestamps < end_time. The default is now (i.e. return up to the latest messages available). */
-  endTime?: string | undefined;
+  /** The job to get messages about. */
+  jobId: string;
+  /** If supplied, this should be the value of next_page_token returned by an earlier call. This will cause the next page of results to be returned. */
+  pageToken?: string | undefined;
   /** Filter to only get messages with importance >= level */
   minimumImportance?: ListProjectsJobsMessagesMinimumImportanceEnum | (string & {}) | undefined;
+  /** Return only messages with timestamps < end_time. The default is now (i.e. return up to the latest messages available). */
+  endTime?: string | undefined;
   /** If specified, return only messages with timestamps >= start_time. The default is the job creation time (i.e. beginning of messages). */
   startTime?: string | undefined;
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
+  location?: string | undefined;
 }
+/** Structured data associated with this message. */
+export interface Parameter {
+  /** Value for this parameter. */
+  value?: unknown | undefined;
+  /** Key or name for this parameter. */
+  key?: string | undefined;
+}
+export type ParameterList = Array<Parameter>;
+/** A rich message format, including a human readable string, a key for identifying the message, and structured data associated with the message for programmatic consumption. */
+export interface StructuredMessage {
+  /** Human-readable version of message. */
+  messageText?: string | undefined;
+  /** Identifier for this message type. Used by external systems to internationalize or personalize message. */
+  messageKey?: string | undefined;
+  /** The structured data associated with this message. */
+  parameters?: ParameterList | undefined;
+}
+export type AutoscalingEventEventTypeEnum =
+  | "TYPE_UNKNOWN"
+  | "TARGET_NUM_WORKERS_CHANGED"
+  | "CURRENT_NUM_WORKERS_CHANGED"
+  | "ACTUATION_FAILURE"
+  | "NO_CHANGE";
+/** A structured message reporting an autoscaling decision made by the Dataflow service. */
+export interface AutoscalingEvent {
+  /** A short and friendly name for the worker pool this event refers to. */
+  workerPool?: string | undefined;
+  /** A message describing why the system decided to adjust the current number of workers, why it failed, or why the system decided to not make any changes to the number of workers. */
+  description?: StructuredMessage | undefined;
+  /** The time this event was emitted to indicate a new target or current num_workers value. */
+  time?: string | undefined;
+  /** The type of autoscaling event to report. */
+  eventType?: AutoscalingEventEventTypeEnum | undefined;
+  /** The current number of workers the job has. */
+  currentNumWorkers?: string | undefined;
+  /** The target number of workers the worker pool wants to resize to use. */
+  targetNumWorkers?: string | undefined;
+}
+export type AutoscalingEventList = Array<AutoscalingEvent>;
 export type JobMessageMessageImportanceEnum =
   | "JOB_MESSAGE_IMPORTANCE_UNKNOWN"
   | "JOB_MESSAGE_DEBUG"
@@ -2301,99 +2340,60 @@ export type JobMessageMessageImportanceEnum =
   | "JOB_MESSAGE_ERROR";
 /** A particular message pertaining to a Dataflow job. */
 export interface JobMessage {
-  /** Deprecated. */
-  id?: string | undefined;
-  /** The timestamp of the message. */
-  time?: string | undefined;
   /** The text of the message. */
   messageText?: string | undefined;
   /** Importance level of the message. */
   messageImportance?: JobMessageMessageImportanceEnum | undefined;
+  /** The timestamp of the message. */
+  time?: string | undefined;
+  /** Deprecated. */
+  id?: string | undefined;
 }
 export type JobMessageList = Array<JobMessage>;
-export type AutoscalingEventEventTypeEnum =
-  | "TYPE_UNKNOWN"
-  | "TARGET_NUM_WORKERS_CHANGED"
-  | "CURRENT_NUM_WORKERS_CHANGED"
-  | "ACTUATION_FAILURE"
-  | "NO_CHANGE";
-/** Structured data associated with this message. */
-export interface Parameter {
-  /** Key or name for this parameter. */
-  key?: string | undefined;
-  /** Value for this parameter. */
-  value?: unknown | undefined;
-}
-export type ParameterList = Array<Parameter>;
-/** A rich message format, including a human readable string, a key for identifying the message, and structured data associated with the message for programmatic consumption. */
-export interface StructuredMessage {
-  /** Identifier for this message type. Used by external systems to internationalize or personalize message. */
-  messageKey?: string | undefined;
-  /** Human-readable version of message. */
-  messageText?: string | undefined;
-  /** The structured data associated with this message. */
-  parameters?: ParameterList | undefined;
-}
-/** A structured message reporting an autoscaling decision made by the Dataflow service. */
-export interface AutoscalingEvent {
-  /** The current number of workers the job has. */
-  currentNumWorkers?: string | undefined;
-  /** The type of autoscaling event to report. */
-  eventType?: AutoscalingEventEventTypeEnum | undefined;
-  /** A short and friendly name for the worker pool this event refers to. */
-  workerPool?: string | undefined;
-  /** The target number of workers the worker pool wants to resize to use. */
-  targetNumWorkers?: string | undefined;
-  /** A message describing why the system decided to adjust the current number of workers, why it failed, or why the system decided to not make any changes to the number of workers. */
-  description?: StructuredMessage | undefined;
-  /** The time this event was emitted to indicate a new target or current num_workers value. */
-  time?: string | undefined;
-}
-export type AutoscalingEventList = Array<AutoscalingEvent>;
 /** Response to a request to list job messages. */
 export interface ListJobMessagesResponse {
-  /** Messages in ascending timestamp order. */
-  jobMessages?: JobMessageList | undefined;
   /** Autoscaling events in ascending timestamp order. */
   autoscalingEvents?: AutoscalingEventList | undefined;
+  /** Messages in ascending timestamp order. */
+  jobMessages?: JobMessageList | undefined;
   /** The token to obtain the next page of results if there are more. */
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsConfigStoreSettingsRequest {
+  /** Optional. A page token, received from a previous `ListConfigStoreSettings` call. */
+  pageToken?: string | undefined;
   /** Required. The parent resource whose settings are being listed. */
   parent: string;
   /** Optional. The maximum number of settings to return. */
   pageSize?: number | undefined;
-  /** Optional. A page token, received from a previous `ListConfigStoreSettings` call. */
-  pageToken?: string | undefined;
 }
-export type ListProjectsLocationsJobsFilterEnum = "UNKNOWN" | "ALL" | "TERMINATED" | "ACTIVE";
 export type ListProjectsLocationsJobsViewEnum =
   | "JOB_VIEW_UNKNOWN"
   | "JOB_VIEW_SUMMARY"
   | "JOB_VIEW_ALL"
   | "JOB_VIEW_DESCRIPTION";
+export type ListProjectsLocationsJobsFilterEnum = "UNKNOWN" | "ALL" | "TERMINATED" | "ACTIVE";
 export interface ListProjectsLocationsJobsRequest {
-  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  "createTimeRange.endTime"?: string | undefined;
-  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  "createTimeRange.startTime"?: string | undefined;
-  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  "terminationTimeRange.startTime"?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
   location: string;
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  "createTimeRange.endTime"?: string | undefined;
   /** Set this to the 'next_page_token' field of a previous response to request additional results in a long list. */
   pageToken?: string | undefined;
-  /** Optional. */
-  regionalFanoutRequested?: boolean | undefined;
-  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  "terminationTimeRange.endTime"?: string | undefined;
-  /** The kind of filter to use. */
-  filter?: ListProjectsLocationsJobsFilterEnum | (string & {}) | undefined;
   /** Deprecated. ListJobs always returns summaries now. Use GetJob for other JobViews. */
   view?: ListProjectsLocationsJobsViewEnum | (string & {}) | undefined;
   /** Optional. The job name. */
   name?: string | undefined;
+  /** The kind of filter to use. */
+  filter?: ListProjectsLocationsJobsFilterEnum | (string & {}) | undefined;
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  "terminationTimeRange.startTime"?: string | undefined;
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  "terminationTimeRange.endTime"?: string | undefined;
+  /** Optional. */
+  regionalFanoutRequested?: boolean | undefined;
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  "createTimeRange.startTime"?: string | undefined;
   /** If there are many jobs, limit response to at most this many. The actual number of jobs returned will be the lesser of max_responses and an unspecified server-defined limit. */
   pageSize?: number | undefined;
   /** The project which owns the jobs. */
@@ -2409,31 +2409,31 @@ export type ListProjectsLocationsJobsMessagesMinimumImportanceEnum =
 export interface ListProjectsLocationsJobsMessagesRequest {
   /** If supplied, this should be the value of next_page_token returned by an earlier call. This will cause the next page of results to be returned. */
   pageToken?: string | undefined;
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
+  location: string;
   /** A project id. */
   projectId: string;
+  /** Return only messages with timestamps < end_time. The default is now (i.e. return up to the latest messages available). */
+  endTime?: string | undefined;
+  /** The job to get messages about. */
+  jobId: string;
+  /** If specified, return only messages with timestamps >= start_time. The default is the job creation time (i.e. beginning of messages). */
+  startTime?: string | undefined;
   /** Filter to only get messages with importance >= level */
   minimumImportance?:
     | ListProjectsLocationsJobsMessagesMinimumImportanceEnum
     | (string & {})
     | undefined;
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
-  location: string;
-  /** The job to get messages about. */
-  jobId: string;
-  /** Return only messages with timestamps < end_time. The default is now (i.e. return up to the latest messages available). */
-  endTime?: string | undefined;
   /** If specified, determines the maximum number of messages to return. If unspecified, the service may choose an appropriate default, or may return an arbitrarily large number of results. */
   pageSize?: number | undefined;
-  /** If specified, return only messages with timestamps >= start_time. The default is the job creation time (i.e. beginning of messages). */
-  startTime?: string | undefined;
 }
 export interface ListProjectsLocationsJobsSnapshotsRequest {
+  /** The location to list snapshots in. */
+  location: string;
   /** The project ID to list snapshots for. */
   projectId: string;
   /** If specified, list snapshots created from this job. */
   jobId: string;
-  /** The location to list snapshots in. */
-  location: string;
 }
 export type SnapshotList = Array<Snapshot>;
 /** List of snapshots. */
@@ -2444,19 +2444,20 @@ export interface ListSnapshotsResponse {
 export interface ListProjectsLocationsSnapshotsRequest {
   /** The location to list snapshots in. */
   location: string;
-  /** The project ID to list snapshots for. */
-  projectId: string;
   /** If specified, list snapshots created from this job. */
   jobId?: string | undefined;
+  /** The project ID to list snapshots for. */
+  projectId: string;
 }
 export interface ListProjectsSnapshotsRequest {
+  /** The location to list snapshots in. */
+  location?: string | undefined;
   /** If specified, list snapshots created from this job. */
   jobId?: string | undefined;
   /** The project ID to list snapshots for. */
   projectId: string;
-  /** The location to list snapshots in. */
-  location?: string | undefined;
 }
+export type StatusList = Array<Status>;
 /** A position that encapsulates an inner position and an index for the inner position. A ConcatPosition can be used by a reader of a source that encapsulates a set of other sources. */
 export interface ConcatPosition {
   /** Index of the inner source. */
@@ -2466,18 +2467,64 @@ export interface ConcatPosition {
 }
 /** Position defines a position within a collection of data. The value can be either the end position, a key (used with ordered collections), a byte offset, or a record index. */
 export interface Position {
-  /** Position is a string key, ordered lexicographically. */
-  key?: string | undefined;
-  /** Position is past all other positions. Also useful for the end position of an unbounded range. */
-  end?: boolean | undefined;
   /** CloudPosition is a base64 encoded BatchShufflePosition (with FIXED sharding). */
   shufflePosition?: string | undefined;
-  /** CloudPosition is a concat position. */
-  concatPosition?: ConcatPosition | undefined;
   /** Position is a record index. */
   recordIndex?: string | undefined;
+  /** Position is a string key, ordered lexicographically. */
+  key?: string | undefined;
   /** Position is a byte offset. */
   byteOffset?: string | undefined;
+  /** Position is past all other positions. Also useful for the end position of an unbounded range. */
+  end?: boolean | undefined;
+  /** CloudPosition is a concat position. */
+  concatPosition?: ConcatPosition | undefined;
+}
+/** Represents the level of parallelism in a WorkItem's input, reported by the worker. */
+export interface ReportedParallelism {
+  /** Specifies the level of parallelism in case it is finite. */
+  value?: number | undefined;
+  /** Specifies whether the parallelism is infinite. If true, "value" is ignored. Infinite parallelism means the service will assume that the work item can always be split into more non-empty work items by dynamic splitting. This is a work-around for lack of support for infinity by the current JSON-based Java RPC stack. */
+  isInfinite?: boolean | undefined;
+}
+/** A progress measurement of a WorkItem by a worker. */
+export interface ApproximateReportedProgress {
+  /** Total amount of parallelism in the portion of input of this task that has already been consumed and is no longer active. In the first two examples above (see remaining_parallelism), the value should be 29 or 2 respectively. The sum of remaining_parallelism and consumed_parallelism should equal the total amount of parallelism in this work item. If specified, must be finite. */
+  consumedParallelism?: ReportedParallelism | undefined;
+  /** Completion as fraction of the input consumed, from 0.0 (beginning, nothing consumed), to 1.0 (end of the input, entire input consumed). */
+  fractionConsumed?: number | undefined;
+  /** A Position within the work to represent a progress. */
+  position?: Position | undefined;
+  /** Total amount of parallelism in the input of this task that remains, (i.e. can be delegated to this task and any new tasks via dynamic splitting). Always at least 1 for non-finished work items and 0 for finished. "Amount of parallelism" refers to how many non-empty parts of the input can be read in parallel. This does not necessarily equal number of records. An input that can be read in parallel down to the individual records is called "perfectly splittable". An example of non-perfectly parallelizable input is a block-compressed file format where a block of records has to be read as a whole, but different blocks can be read in parallel. Examples: * If we are processing record #30 (starting at 1) out of 50 in a perfectly splittable 50-record input, this value should be 21 (20 remaining + 1 current). * If we are reading through block 3 in a block-compressed file consisting of 5 blocks, this value should be 3 (since blocks 4 and 5 can be processed in parallel by new tasks via dynamic splitting and the current task remains processing block 3). * If we are reading through the last block in a block-compressed file, or reading or processing the last record in a perfectly splittable input, this value should be 1, because apart from the current task, no additional remainder can be split off. */
+  remainingParallelism?: ReportedParallelism | undefined;
+}
+export type DerivedSourceDerivationModeEnum =
+  | "SOURCE_DERIVATION_MODE_UNKNOWN"
+  | "SOURCE_DERIVATION_MODE_INDEPENDENT"
+  | "SOURCE_DERIVATION_MODE_CHILD_OF_CURRENT"
+  | "SOURCE_DERIVATION_MODE_SIBLING_OF_CURRENT";
+/** Specification of one of the bundles produced as a result of splitting a Source (e.g. when executing a SourceSplitRequest, or when splitting an active task using WorkItemStatus.dynamic_source_split), relative to the source being split. */
+export interface DerivedSource {
+  /** Specification of the source. */
+  source?: Source | undefined;
+  /** What source to base the produced source on (if any). */
+  derivationMode?: DerivedSourceDerivationModeEnum | (string & {}) | undefined;
+}
+/** When a task splits using WorkItemStatus.dynamic_source_split, this message describes the two parts of the split relative to the description of the current task's input. */
+export interface DynamicSourceSplit {
+  /** Primary part (continued to be processed by worker). Specified relative to the previously-current source. Becomes current. */
+  primary?: DerivedSource | undefined;
+  /** Residual part (returned to the pool of work). Specified relative to the previously-current source. */
+  residual?: DerivedSource | undefined;
+}
+/** Obsolete in favor of ApproximateReportedProgress and ApproximateSplitRequest. */
+export interface ApproximateProgress {
+  /** Obsolete. */
+  remainingTime?: string | undefined;
+  /** Obsolete. */
+  position?: Position | undefined;
+  /** Obsolete. */
+  percentComplete?: number | undefined;
 }
 export type SourceSplitShardDerivationModeEnum =
   | "SOURCE_DERIVATION_MODE_UNKNOWN"
@@ -2491,44 +2538,79 @@ export interface SourceSplitShard {
   /** DEPRECATED */
   source?: Source | undefined;
 }
-export type SourceSplitShardList = Array<SourceSplitShard>;
-export type SourceSplitResponseOutcomeEnum =
-  | "SOURCE_SPLIT_OUTCOME_UNKNOWN"
-  | "SOURCE_SPLIT_OUTCOME_USE_CURRENT"
-  | "SOURCE_SPLIT_OUTCOME_SPLITTING_HAPPENED";
-export type DerivedSourceDerivationModeEnum =
-  | "SOURCE_DERIVATION_MODE_UNKNOWN"
-  | "SOURCE_DERIVATION_MODE_INDEPENDENT"
-  | "SOURCE_DERIVATION_MODE_CHILD_OF_CURRENT"
-  | "SOURCE_DERIVATION_MODE_SIBLING_OF_CURRENT";
-/** Specification of one of the bundles produced as a result of splitting a Source (e.g. when executing a SourceSplitRequest, or when splitting an active task using WorkItemStatus.dynamic_source_split), relative to the source being split. */
-export interface DerivedSource {
-  /** Specification of the source. */
-  source?: Source | undefined;
-  /** What source to base the produced source on (if any). */
-  derivationMode?: DerivedSourceDerivationModeEnum | (string & {}) | undefined;
+/** DEPRECATED in favor of DynamicSourceSplit. */
+export interface SourceFork {
+  /** DEPRECATED */
+  residual?: SourceSplitShard | undefined;
+  /** DEPRECATED */
+  primary?: SourceSplitShard | undefined;
+  /** DEPRECATED */
+  primarySource?: DerivedSource | undefined;
+  /** DEPRECATED */
+  residualSource?: DerivedSource | undefined;
 }
-export type DerivedSourceList = Array<DerivedSource>;
-/** The response to a SourceSplitRequest. */
-export interface SourceSplitResponse {
-  /** DEPRECATED in favor of bundles. */
-  shards?: SourceSplitShardList | undefined;
-  /** Indicates whether splitting happened and produced a list of bundles. If this is USE_CURRENT_SOURCE_AS_IS, the current source should be processed "as is" without splitting. "bundles" is ignored in this case. If this is SPLITTING_HAPPENED, then "bundles" contains a list of bundles into which the source was split. */
-  outcome?: SourceSplitResponseOutcomeEnum | (string & {}) | undefined;
-  /** If outcome is SPLITTING_HAPPENED, then this is a list of bundles into which the source was split. Otherwise this field is ignored. This list can be empty, which means the source represents an empty input. */
-  bundles?: DerivedSourceList | undefined;
+export type CounterStructuredNameOriginEnum = "SYSTEM" | "USER";
+export type CounterStructuredNamePortionEnum = "ALL" | "KEY" | "VALUE";
+/** Identifies a counter within a per-job namespace. Counters whose structured names are the same get merged into a single value for the job. */
+export interface CounterStructuredName {
+  /** The step name requesting an operation, such as GBK. I.e. the ParDo causing a read/write from shuffle to occur, or a read from side inputs. */
+  originalRequestingStepName?: string | undefined;
+  /** Name of the optimized step being executed by the workers. */
+  componentStepName?: string | undefined;
+  /** Name of the stage. An execution step contains multiple component steps. */
+  executionStepName?: string | undefined;
+  /** One of the standard Origins defined above. */
+  origin?: CounterStructuredNameOriginEnum | (string & {}) | undefined;
+  /** Index of an input collection that's being read from/written to as a side input. The index identifies a step's side inputs starting by 1 (e.g. the first side input has input_index 1, the third has input_index 3). Side inputs are identified by a pair of (original_step_name, input_index). This field helps uniquely identify them. */
+  inputIndex?: number | undefined;
+  /** System generated name of the original step in the user's graph, before optimization. */
+  originalStepName?: string | undefined;
+  /** ID of a particular worker. */
+  workerId?: string | undefined;
+  /** Counter name. Not necessarily globally-unique, but unique within the context of the other fields. Required. */
+  name?: string | undefined;
+  /** Portion of this counter, either key or value. */
+  portion?: CounterStructuredNamePortionEnum | (string & {}) | undefined;
+  /** A string containing a more specific namespace of the counter's origin. */
+  originNamespace?: string | undefined;
 }
-/** The result of a SourceGetMetadataOperation. */
-export interface SourceGetMetadataResponse {
-  /** The computed metadata. */
-  metadata?: SourceMetadata | undefined;
+export type CounterMetadataStandardUnitsEnum =
+  | "BYTES"
+  | "BYTES_PER_SEC"
+  | "MILLISECONDS"
+  | "MICROSECONDS"
+  | "NANOSECONDS"
+  | "TIMESTAMP_MSEC"
+  | "TIMESTAMP_USEC"
+  | "TIMESTAMP_NSEC";
+export type CounterMetadataKindEnum =
+  | "INVALID"
+  | "SUM"
+  | "MAX"
+  | "MIN"
+  | "MEAN"
+  | "OR"
+  | "AND"
+  | "SET"
+  | "DISTRIBUTION"
+  | "LATEST_VALUE";
+/** CounterMetadata includes all static non-name non-value counter attributes. */
+export interface CounterMetadata {
+  /** Human-readable description of the counter semantics. */
+  description?: string | undefined;
+  /** A string referring to the unit type. */
+  otherUnits?: string | undefined;
+  /** System defined Units, see above enum. */
+  standardUnits?: CounterMetadataStandardUnitsEnum | (string & {}) | undefined;
+  /** Counter aggregation kind. */
+  kind?: CounterMetadataKindEnum | (string & {}) | undefined;
 }
-/** The result of a SourceOperationRequest, specified in ReportWorkItemStatusRequest.source_operation when the work item is completed. */
-export interface SourceOperationResponse {
-  /** A response to a request to split a source. */
-  split?: SourceSplitResponse | undefined;
-  /** A response to a request to get metadata about a source. */
-  getMetadata?: SourceGetMetadataResponse | undefined;
+/** A single message which encapsulates structured name and metadata for a given counter. */
+export interface CounterStructuredNameAndMetadata {
+  /** Structured name of the counter. */
+  name?: CounterStructuredName | undefined;
+  /** Metadata associated with a counter */
+  metadata?: CounterMetadata | undefined;
 }
 /** A representation of an int64, n, that is immune to precision loss when encoded in JSON. */
 export interface SplitInt64 {
@@ -2537,12 +2619,48 @@ export interface SplitInt64 {
   /** The low order bits: n & 0xffffffff. */
   lowBits?: number | undefined;
 }
-/** A representation of an integer mean metric contribution. */
-export interface IntegerMean {
-  /** The sum of all values being aggregated. */
-  sum?: SplitInt64 | undefined;
+/** A metric value representing temporal values of a variable. */
+export interface IntegerGauge {
+  /** The value of the variable represented by this gauge. */
+  value?: SplitInt64 | undefined;
+  /** The time at which this value was measured. Measured as msecs from epoch. */
+  timestamp?: string | undefined;
+}
+/** A representation of a floating point mean metric contribution. */
+export interface FloatingPointMean {
   /** The number of values being aggregated. */
   count?: SplitInt64 | undefined;
+  /** The sum of all values being aggregated. */
+  sum?: number | undefined;
+}
+/** A metric value representing a list of strings. */
+export interface StringList {
+  /** Elements of the list. */
+  elements?: StringList_ | undefined;
+}
+export type BoundedTrieNodeMap = { [key: string]: BoundedTrieNode | undefined };
+/** A single node in a BoundedTrie. */
+export interface BoundedTrieNode {
+  /** Children of this node. Must be empty if truncated is true. */
+  children?: BoundedTrieNodeMap | undefined;
+  /** Whether this node has been truncated. A truncated leaf represents possibly many children with the same prefix. */
+  truncated?: boolean | undefined;
+}
+/** The message type used for encoding metrics of type bounded trie. */
+export interface BoundedTrie {
+  /** The maximum number of elements to store before truncation. */
+  bound?: number | undefined;
+  /** A compact representation of all the elements in this trie. */
+  root?: BoundedTrieNode | undefined;
+  /** A more efficient representation for metrics consisting of a single value. */
+  singleton?: StringList_ | undefined;
+}
+/** A representation of an integer mean metric contribution. */
+export interface IntegerMean {
+  /** The number of values being aggregated. */
+  count?: SplitInt64 | undefined;
+  /** The sum of all values being aggregated. */
+  sum?: SplitInt64 | undefined;
 }
 export type SplitInt64List = Array<SplitInt64>;
 /** A metric value representing a list of integers. */
@@ -2559,18 +2677,24 @@ export interface Histogram {
 }
 /** A metric value representing a distribution. */
 export interface DistributionUpdate {
-  /** Use a double since the sum of squares is likely to overflow int64. */
-  sumOfSquares?: number | undefined;
-  /** (Optional) Histogram of value counts for the distribution. */
-  histogram?: Histogram | undefined;
-  /** The count of the number of elements present in the distribution. */
-  count?: SplitInt64 | undefined;
-  /** The minimum value present in the distribution. */
-  min?: SplitInt64 | undefined;
   /** The maximum value present in the distribution. */
   max?: SplitInt64 | undefined;
   /** Use an int64 since we'd prefer the added precision. If overflow is a common problem we can detect it and use an additional int64 or a double. */
   sum?: SplitInt64 | undefined;
+  /** The count of the number of elements present in the distribution. */
+  count?: SplitInt64 | undefined;
+  /** The minimum value present in the distribution. */
+  min?: SplitInt64 | undefined;
+  /** (Optional) Histogram of value counts for the distribution. */
+  histogram?: Histogram | undefined;
+  /** Use a double since the sum of squares is likely to overflow int64. */
+  sumOfSquares?: number | undefined;
+}
+export type DoubleList = Array<number>;
+/** A metric value representing a list of floating point numbers. */
+export interface FloatingPointList {
+  /** Elements of the list. */
+  elements?: DoubleList | undefined;
 }
 export type NameAndKindKindEnum =
   | "INVALID"
@@ -2585,242 +2709,118 @@ export type NameAndKindKindEnum =
   | "LATEST_VALUE";
 /** Basic metadata about a counter. */
 export interface NameAndKind {
-  /** Counter aggregation kind. */
-  kind?: NameAndKindKindEnum | (string & {}) | undefined;
   /** Name of the counter. */
   name?: string | undefined;
-}
-export type CounterMetadataKindEnum =
-  | "INVALID"
-  | "SUM"
-  | "MAX"
-  | "MIN"
-  | "MEAN"
-  | "OR"
-  | "AND"
-  | "SET"
-  | "DISTRIBUTION"
-  | "LATEST_VALUE";
-export type CounterMetadataStandardUnitsEnum =
-  | "BYTES"
-  | "BYTES_PER_SEC"
-  | "MILLISECONDS"
-  | "MICROSECONDS"
-  | "NANOSECONDS"
-  | "TIMESTAMP_MSEC"
-  | "TIMESTAMP_USEC"
-  | "TIMESTAMP_NSEC";
-/** CounterMetadata includes all static non-name non-value counter attributes. */
-export interface CounterMetadata {
   /** Counter aggregation kind. */
-  kind?: CounterMetadataKindEnum | (string & {}) | undefined;
-  /** A string referring to the unit type. */
-  otherUnits?: string | undefined;
-  /** Human-readable description of the counter semantics. */
-  description?: string | undefined;
-  /** System defined Units, see above enum. */
-  standardUnits?: CounterMetadataStandardUnitsEnum | (string & {}) | undefined;
-}
-export type CounterStructuredNamePortionEnum = "ALL" | "KEY" | "VALUE";
-export type CounterStructuredNameOriginEnum = "SYSTEM" | "USER";
-/** Identifies a counter within a per-job namespace. Counters whose structured names are the same get merged into a single value for the job. */
-export interface CounterStructuredName {
-  /** A string containing a more specific namespace of the counter's origin. */
-  originNamespace?: string | undefined;
-  /** Portion of this counter, either key or value. */
-  portion?: CounterStructuredNamePortionEnum | (string & {}) | undefined;
-  /** System generated name of the original step in the user's graph, before optimization. */
-  originalStepName?: string | undefined;
-  /** ID of a particular worker. */
-  workerId?: string | undefined;
-  /** Index of an input collection that's being read from/written to as a side input. The index identifies a step's side inputs starting by 1 (e.g. the first side input has input_index 1, the third has input_index 3). Side inputs are identified by a pair of (original_step_name, input_index). This field helps uniquely identify them. */
-  inputIndex?: number | undefined;
-  /** The step name requesting an operation, such as GBK. I.e. the ParDo causing a read/write from shuffle to occur, or a read from side inputs. */
-  originalRequestingStepName?: string | undefined;
-  /** Counter name. Not necessarily globally-unique, but unique within the context of the other fields. Required. */
-  name?: string | undefined;
-  /** One of the standard Origins defined above. */
-  origin?: CounterStructuredNameOriginEnum | (string & {}) | undefined;
-  /** Name of the optimized step being executed by the workers. */
-  componentStepName?: string | undefined;
-  /** Name of the stage. An execution step contains multiple component steps. */
-  executionStepName?: string | undefined;
-}
-/** A single message which encapsulates structured name and metadata for a given counter. */
-export interface CounterStructuredNameAndMetadata {
-  /** Metadata associated with a counter */
-  metadata?: CounterMetadata | undefined;
-  /** Structured name of the counter. */
-  name?: CounterStructuredName | undefined;
-}
-/** A metric value representing temporal values of a variable. */
-export interface IntegerGauge {
-  /** The value of the variable represented by this gauge. */
-  value?: SplitInt64 | undefined;
-  /** The time at which this value was measured. Measured as msecs from epoch. */
-  timestamp?: string | undefined;
-}
-export type DoubleList = Array<number>;
-/** A metric value representing a list of floating point numbers. */
-export interface FloatingPointList {
-  /** Elements of the list. */
-  elements?: DoubleList | undefined;
-}
-/** A metric value representing a list of strings. */
-export interface StringList {
-  /** Elements of the list. */
-  elements?: StringList_ | undefined;
-}
-export type BoundedTrieNodeMap = { [key: string]: BoundedTrieNode | undefined };
-/** A single node in a BoundedTrie. */
-export interface BoundedTrieNode {
-  /** Whether this node has been truncated. A truncated leaf represents possibly many children with the same prefix. */
-  truncated?: boolean | undefined;
-  /** Children of this node. Must be empty if truncated is true. */
-  children?: BoundedTrieNodeMap | undefined;
-}
-/** The message type used for encoding metrics of type bounded trie. */
-export interface BoundedTrie {
-  /** A compact representation of all the elements in this trie. */
-  root?: BoundedTrieNode | undefined;
-  /** The maximum number of elements to store before truncation. */
-  bound?: number | undefined;
-  /** A more efficient representation for metrics consisting of a single value. */
-  singleton?: StringList_ | undefined;
-}
-/** A representation of a floating point mean metric contribution. */
-export interface FloatingPointMean {
-  /** The number of values being aggregated. */
-  count?: SplitInt64 | undefined;
-  /** The sum of all values being aggregated. */
-  sum?: number | undefined;
+  kind?: NameAndKindKindEnum | (string & {}) | undefined;
 }
 /** An update to a Counter sent from a worker. Next ID: 17 */
 export interface CounterUpdate {
-  /** Integer value for Sum, Max, Min. */
-  integer?: SplitInt64 | undefined;
-  /** Floating point value for Sum, Max, Min. */
-  floatingPoint?: number | undefined;
-  /** Integer mean aggregation value for Mean. */
-  integerMean?: IntegerMean | undefined;
-  /** List of integers, for Set. */
-  integerList?: IntegerList | undefined;
-  /** Value for internally-defined counters used by the Dataflow service. */
-  internal?: unknown | undefined;
-  /** Distribution data */
-  distribution?: DistributionUpdate | undefined;
-  /** Counter name and aggregation type. */
-  nameAndKind?: NameAndKind | undefined;
   /** Counter structured name and metadata. */
   structuredNameAndMetadata?: CounterStructuredNameAndMetadata | undefined;
   /** Gauge data */
   integerGauge?: IntegerGauge | undefined;
-  /** List of floating point numbers, for Set. */
-  floatingPointList?: FloatingPointList | undefined;
-  /** List of strings, for Set. */
-  stringList?: StringList | undefined;
-  /** Bounded trie data */
-  boundedTrie?: BoundedTrie | undefined;
   /** Floating point mean aggregation value for Mean. */
   floatingPointMean?: FloatingPointMean | undefined;
+  /** Floating point value for Sum, Max, Min. */
+  floatingPoint?: number | undefined;
+  /** List of strings, for Set. */
+  stringList?: StringList | undefined;
   /** The service-generated short identifier for this counter. The short_id -> (name, metadata) mapping is constant for the lifetime of a job. */
   shortId?: string | undefined;
+  /** Integer value for Sum, Max, Min. */
+  integer?: SplitInt64 | undefined;
+  /** Bounded trie data */
+  boundedTrie?: BoundedTrie | undefined;
+  /** Integer mean aggregation value for Mean. */
+  integerMean?: IntegerMean | undefined;
+  /** List of integers, for Set. */
+  integerList?: IntegerList | undefined;
+  /** Distribution data */
+  distribution?: DistributionUpdate | undefined;
+  /** Value for internally-defined counters used by the Dataflow service. */
+  internal?: unknown | undefined;
   /** Boolean value for And, Or. */
   boolean?: boolean | undefined;
+  /** List of floating point numbers, for Set. */
+  floatingPointList?: FloatingPointList | undefined;
+  /** Counter name and aggregation type. */
+  nameAndKind?: NameAndKind | undefined;
   /** True if this counter is reported as the total cumulative aggregate value accumulated since the worker started working on this WorkItem. By default this is false, indicating that this counter is reported as a delta. */
   cumulative?: boolean | undefined;
 }
 export type CounterUpdateList = Array<CounterUpdate>;
-/** Obsolete in favor of ApproximateReportedProgress and ApproximateSplitRequest. */
-export interface ApproximateProgress {
-  /** Obsolete. */
-  remainingTime?: string | undefined;
-  /** Obsolete. */
-  percentComplete?: number | undefined;
-  /** Obsolete. */
-  position?: Position | undefined;
+/** The result of a SourceGetMetadataOperation. */
+export interface SourceGetMetadataResponse {
+  /** The computed metadata. */
+  metadata?: SourceMetadata | undefined;
 }
-export type StatusList = Array<Status>;
-/** DEPRECATED in favor of DynamicSourceSplit. */
-export interface SourceFork {
-  /** DEPRECATED */
-  residual?: SourceSplitShard | undefined;
-  /** DEPRECATED */
-  residualSource?: DerivedSource | undefined;
-  /** DEPRECATED */
-  primarySource?: DerivedSource | undefined;
-  /** DEPRECATED */
-  primary?: SourceSplitShard | undefined;
+export type SourceSplitShardList = Array<SourceSplitShard>;
+export type SourceSplitResponseOutcomeEnum =
+  | "SOURCE_SPLIT_OUTCOME_UNKNOWN"
+  | "SOURCE_SPLIT_OUTCOME_USE_CURRENT"
+  | "SOURCE_SPLIT_OUTCOME_SPLITTING_HAPPENED";
+export type DerivedSourceList = Array<DerivedSource>;
+/** The response to a SourceSplitRequest. */
+export interface SourceSplitResponse {
+  /** DEPRECATED in favor of bundles. */
+  shards?: SourceSplitShardList | undefined;
+  /** Indicates whether splitting happened and produced a list of bundles. If this is USE_CURRENT_SOURCE_AS_IS, the current source should be processed "as is" without splitting. "bundles" is ignored in this case. If this is SPLITTING_HAPPENED, then "bundles" contains a list of bundles into which the source was split. */
+  outcome?: SourceSplitResponseOutcomeEnum | (string & {}) | undefined;
+  /** If outcome is SPLITTING_HAPPENED, then this is a list of bundles into which the source was split. Otherwise this field is ignored. This list can be empty, which means the source represents an empty input. */
+  bundles?: DerivedSourceList | undefined;
 }
-/** When a task splits using WorkItemStatus.dynamic_source_split, this message describes the two parts of the split relative to the description of the current task's input. */
-export interface DynamicSourceSplit {
-  /** Primary part (continued to be processed by worker). Specified relative to the previously-current source. Becomes current. */
-  primary?: DerivedSource | undefined;
-  /** Residual part (returned to the pool of work). Specified relative to the previously-current source. */
-  residual?: DerivedSource | undefined;
-}
-/** Represents the level of parallelism in a WorkItem's input, reported by the worker. */
-export interface ReportedParallelism {
-  /** Specifies the level of parallelism in case it is finite. */
-  value?: number | undefined;
-  /** Specifies whether the parallelism is infinite. If true, "value" is ignored. Infinite parallelism means the service will assume that the work item can always be split into more non-empty work items by dynamic splitting. This is a work-around for lack of support for infinity by the current JSON-based Java RPC stack. */
-  isInfinite?: boolean | undefined;
-}
-/** A progress measurement of a WorkItem by a worker. */
-export interface ApproximateReportedProgress {
-  /** A Position within the work to represent a progress. */
-  position?: Position | undefined;
-  /** Completion as fraction of the input consumed, from 0.0 (beginning, nothing consumed), to 1.0 (end of the input, entire input consumed). */
-  fractionConsumed?: number | undefined;
-  /** Total amount of parallelism in the input of this task that remains, (i.e. can be delegated to this task and any new tasks via dynamic splitting). Always at least 1 for non-finished work items and 0 for finished. "Amount of parallelism" refers to how many non-empty parts of the input can be read in parallel. This does not necessarily equal number of records. An input that can be read in parallel down to the individual records is called "perfectly splittable". An example of non-perfectly parallelizable input is a block-compressed file format where a block of records has to be read as a whole, but different blocks can be read in parallel. Examples: * If we are processing record #30 (starting at 1) out of 50 in a perfectly splittable 50-record input, this value should be 21 (20 remaining + 1 current). * If we are reading through block 3 in a block-compressed file consisting of 5 blocks, this value should be 3 (since blocks 4 and 5 can be processed in parallel by new tasks via dynamic splitting and the current task remains processing block 3). * If we are reading through the last block in a block-compressed file, or reading or processing the last record in a perfectly splittable input, this value should be 1, because apart from the current task, no additional remainder can be split off. */
-  remainingParallelism?: ReportedParallelism | undefined;
-  /** Total amount of parallelism in the portion of input of this task that has already been consumed and is no longer active. In the first two examples above (see remaining_parallelism), the value should be 29 or 2 respectively. The sum of remaining_parallelism and consumed_parallelism should equal the total amount of parallelism in this work item. If specified, must be finite. */
-  consumedParallelism?: ReportedParallelism | undefined;
+/** The result of a SourceOperationRequest, specified in ReportWorkItemStatusRequest.source_operation when the work item is completed. */
+export interface SourceOperationResponse {
+  /** A response to a request to get metadata about a source. */
+  getMetadata?: SourceGetMetadataResponse | undefined;
+  /** A response to a request to split a source. */
+  split?: SourceSplitResponse | undefined;
 }
 /** Conveys a worker's progress through the work described by a WorkItem. */
 export interface WorkItemStatus {
-  /** DEPRECATED in favor of counter_updates. */
-  metricUpdates?: MetricUpdateList | undefined;
-  /** The report index. When a WorkItem is leased, the lease will contain an initial report index. When a WorkItem's status is reported to the system, the report should be sent with that report index, and the response will contain the index the worker should use for the next report. Reports received with unexpected index values will be rejected by the service. In order to preserve idempotency, the worker should not alter the contents of a report, even if the worker must submit the same report multiple times before getting back a response. The worker should not submit a subsequent report until the response for the previous report had been received from the service. */
-  reportIndex?: string | undefined;
-  /** A worker may split an active map task in two parts, "primary" and "residual", continuing to process the primary part and returning the residual part into the pool of available work. This event is called a "dynamic split" and is critical to the dynamic work rebalancing feature. The two obtained sub-tasks are called "parts" of the split. The parts, if concatenated, must represent the same input as would be read by the current task if the split did not happen. The exact way in which the original task is decomposed into the two parts is specified either as a position demarcating them (stop_position), or explicitly as two DerivedSources, if this task consumes a user-defined source type (dynamic_source_split). The "current" task is adjusted as a result of the split: after a task with range [A, B) sends a stop_position update at C, its range is considered to be [A, C), e.g.: * Progress should be interpreted relative to the new range, e.g. "75% completed" means "75% of [A, C) completed" * The worker should interpret proposed_stop_position relative to the new range, e.g. "split at 68%" should be interpreted as "split at 68% of [A, C)". * If the worker chooses to split again using stop_position, only stop_positions in [A, C) will be accepted. * Etc. dynamic_source_split has similar semantics: e.g., if a task with source S splits using dynamic_source_split into {P, R} (where P and R must be together equivalent to S), then subsequent progress and proposed_stop_position should be interpreted relative to P, and in a potential subsequent dynamic_source_split into {P', R'}, P' and R' must be together equivalent to P, etc. */
-  stopPosition?: Position | undefined;
-  /** If the work item represented a SourceOperationRequest, and the work is completed, contains the result of the operation. */
-  sourceOperationResponse?: SourceOperationResponse | undefined;
-  /** Total time the worker spent being throttled by external systems. */
-  totalThrottlerWaitTimeSeconds?: number | undefined;
-  /** Worker output counters for this WorkItem. */
-  counterUpdates?: CounterUpdateList | undefined;
-  /** True if the WorkItem was completed (successfully or unsuccessfully). */
-  completed?: boolean | undefined;
-  /** DEPRECATED in favor of reported_progress. */
-  progress?: ApproximateProgress | undefined;
   /** Specifies errors which occurred during processing. If errors are provided, and completed = true, then the WorkItem is considered to have failed. */
   errors?: StatusList | undefined;
-  /** DEPRECATED in favor of dynamic_source_split. */
-  sourceFork?: SourceFork | undefined;
-  /** Amount of time the worker requests for its lease. */
-  requestedLeaseDuration?: string | undefined;
-  /** See documentation of stop_position. */
-  dynamicSourceSplit?: DynamicSourceSplit | undefined;
-  /** The worker's progress through this WorkItem. */
-  reportedProgress?: ApproximateReportedProgress | undefined;
+  /** A worker may split an active map task in two parts, "primary" and "residual", continuing to process the primary part and returning the residual part into the pool of available work. This event is called a "dynamic split" and is critical to the dynamic work rebalancing feature. The two obtained sub-tasks are called "parts" of the split. The parts, if concatenated, must represent the same input as would be read by the current task if the split did not happen. The exact way in which the original task is decomposed into the two parts is specified either as a position demarcating them (stop_position), or explicitly as two DerivedSources, if this task consumes a user-defined source type (dynamic_source_split). The "current" task is adjusted as a result of the split: after a task with range [A, B) sends a stop_position update at C, its range is considered to be [A, C), e.g.: * Progress should be interpreted relative to the new range, e.g. "75% completed" means "75% of [A, C) completed" * The worker should interpret proposed_stop_position relative to the new range, e.g. "split at 68%" should be interpreted as "split at 68% of [A, C)". * If the worker chooses to split again using stop_position, only stop_positions in [A, C) will be accepted. * Etc. dynamic_source_split has similar semantics: e.g., if a task with source S splits using dynamic_source_split into {P, R} (where P and R must be together equivalent to S), then subsequent progress and proposed_stop_position should be interpreted relative to P, and in a potential subsequent dynamic_source_split into {P', R'}, P' and R' must be together equivalent to P, etc. */
+  stopPosition?: Position | undefined;
+  /** True if the WorkItem was completed (successfully or unsuccessfully). */
+  completed?: boolean | undefined;
   /** Identifies the WorkItem. */
   workItemId?: string | undefined;
+  /** Total time the worker spent being throttled by external systems. */
+  totalThrottlerWaitTimeSeconds?: number | undefined;
+  /** The worker's progress through this WorkItem. */
+  reportedProgress?: ApproximateReportedProgress | undefined;
+  /** See documentation of stop_position. */
+  dynamicSourceSplit?: DynamicSourceSplit | undefined;
+  /** DEPRECATED in favor of reported_progress. */
+  progress?: ApproximateProgress | undefined;
+  /** DEPRECATED in favor of dynamic_source_split. */
+  sourceFork?: SourceFork | undefined;
+  /** Worker output counters for this WorkItem. */
+  counterUpdates?: CounterUpdateList | undefined;
+  /** DEPRECATED in favor of counter_updates. */
+  metricUpdates?: MetricUpdateList | undefined;
+  /** If the work item represented a SourceOperationRequest, and the work is completed, contains the result of the operation. */
+  sourceOperationResponse?: SourceOperationResponse | undefined;
+  /** The report index. When a WorkItem is leased, the lease will contain an initial report index. When a WorkItem's status is reported to the system, the report should be sent with that report index, and the response will contain the index the worker should use for the next report. Reports received with unexpected index values will be rejected by the service. In order to preserve idempotency, the worker should not alter the contents of a report, even if the worker must submit the same report multiple times before getting back a response. The worker should not submit a subsequent report until the response for the previous report had been received from the service. */
+  reportIndex?: string | undefined;
+  /** Amount of time the worker requests for its lease. */
+  requestedLeaseDuration?: string | undefined;
 }
 export type WorkItemStatusList = Array<WorkItemStatus>;
 /** Request to report the status of WorkItems. */
 export interface ReportWorkItemStatusRequest {
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
-  location?: string | undefined;
-  /** The ID of the worker reporting the WorkItem status. If this does not match the ID of the worker which the Dataflow service believes currently has the lease on the WorkItem, the report will be dropped (with an error response). */
-  workerId?: string | undefined;
-  /** The order is unimportant, except that the order of the WorkItemServiceState messages in the ReportWorkItemStatusResponse corresponds to the order of WorkItemStatus messages here. */
-  workItemStatuses?: WorkItemStatusList | undefined;
   /** The current timestamp at the worker. */
   currentWorkerTime?: string | undefined;
   /** Untranslated bag-of-bytes WorkProgressUpdateRequest from UnifiedWorker. */
   unifiedWorkerRequest?: DocumentMap | undefined;
+  /** The order is unimportant, except that the order of the WorkItemServiceState messages in the ReportWorkItemStatusResponse corresponds to the order of WorkItemStatus messages here. */
+  workItemStatuses?: WorkItemStatusList | undefined;
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
+  location?: string | undefined;
+  /** The ID of the worker reporting the WorkItem status. If this does not match the ID of the worker which the Dataflow service believes currently has the lease on the WorkItem, the report will be dropped (with an error response). */
+  workerId?: string | undefined;
   /** Optional. The project number of the project which owns the WorkItem's job. */
   projectNumber?: string | undefined;
 }
@@ -2830,54 +2830,54 @@ export interface ReportStatusProjectsJobsWorkItemsRequest extends ReportWorkItem
   /** The project which owns the WorkItem's job. */
   projectId: string;
 }
-/** Proto describing a hot key detected on a given WorkItem. */
-export interface HotKeyDetection {
-  /** User-provided name of the step that contains this hot key. */
-  userStepName?: string | undefined;
-  /** System-defined name of the step containing this hot key. Unique across the workflow. */
-  systemName?: string | undefined;
-  /** The age of the hot key measured from when it was first detected. */
-  hotKeyAge?: string | undefined;
+/** The metric short id is returned to the user alongside an offset into ReportWorkItemStatusRequest */
+export interface MetricShortId {
+  /** The service-generated short identifier for the metric. */
+  shortId?: string | undefined;
+  /** The index of the corresponding metric in the ReportWorkItemStatusRequest. Required. */
+  metricIndex?: number | undefined;
 }
+export type MetricShortIdList = Array<MetricShortId>;
 /** A suggestion by the service to the worker to dynamically split the WorkItem. */
 export interface ApproximateSplitRequest {
-  /** The fraction of the remainder of work to split the work item at, from 0.0 (split at the current position) to 1.0 (end of the input). */
-  fractionOfRemainder?: number | undefined;
   /** A fraction at which to split the work item, from 0.0 (beginning of the input) to 1.0 (end of the input). */
   fractionConsumed?: number | undefined;
+  /** The fraction of the remainder of work to split the work item at, from 0.0 (split at the current position) to 1.0 (end of the input). */
+  fractionOfRemainder?: number | undefined;
   /** A Position at which to split the work item. */
   position?: Position | undefined;
 }
-/** The metric short id is returned to the user alongside an offset into ReportWorkItemStatusRequest */
-export interface MetricShortId {
-  /** The index of the corresponding metric in the ReportWorkItemStatusRequest. Required. */
-  metricIndex?: number | undefined;
-  /** The service-generated short identifier for the metric. */
-  shortId?: string | undefined;
+/** Proto describing a hot key detected on a given WorkItem. */
+export interface HotKeyDetection {
+  /** The age of the hot key measured from when it was first detected. */
+  hotKeyAge?: string | undefined;
+  /** System-defined name of the step containing this hot key. Unique across the workflow. */
+  systemName?: string | undefined;
+  /** User-provided name of the step that contains this hot key. */
+  userStepName?: string | undefined;
 }
-export type MetricShortIdList = Array<MetricShortId>;
 /** The Dataflow service's idea of the current state of a WorkItem being processed by a worker. */
 export interface WorkItemServiceState {
-  /** If set, a request to complete the work item with the given status. This will not be set to OK, unless supported by the specific kind of WorkItem. It can be used for the backend to indicate a WorkItem must terminate, e.g., for aborting work. */
-  completeWorkStatus?: Status | undefined;
-  /** The index value to use for the next report sent by the worker. Note: If the report call fails for whatever reason, the worker should reuse this index for subsequent report attempts. */
-  nextReportIndex?: string | undefined;
-  /** A hot key is a symptom of poor data distribution in which there are enough elements mapped to a single key to impact pipeline performance. When present, this field includes metadata associated with any hot key. */
-  hotKeyDetection?: HotKeyDetection | undefined;
-  /** Other data returned by the service, specific to the particular worker harness. */
-  harnessData?: DocumentMap | undefined;
   /** DEPRECATED in favor of split_request. */
   suggestedStopPoint?: ApproximateProgress | undefined;
-  /** Time at which the current lease will expire. */
-  leaseExpireTime?: string | undefined;
+  /** If set, a request to complete the work item with the given status. This will not be set to OK, unless supported by the specific kind of WorkItem. It can be used for the backend to indicate a WorkItem must terminate, e.g., for aborting work. */
+  completeWorkStatus?: Status | undefined;
+  /** Other data returned by the service, specific to the particular worker harness. */
+  harnessData?: DocumentMap | undefined;
+  /** The index value to use for the next report sent by the worker. Note: If the report call fails for whatever reason, the worker should reuse this index for subsequent report attempts. */
+  nextReportIndex?: string | undefined;
   /** Obsolete, always empty. */
   suggestedStopPosition?: Position | undefined;
-  /** The progress point in the WorkItem where the Dataflow service suggests that the worker truncate the task. */
-  splitRequest?: ApproximateSplitRequest | undefined;
   /** New recommended reporting interval. */
   reportStatusInterval?: string | undefined;
+  /** Time at which the current lease will expire. */
+  leaseExpireTime?: string | undefined;
   /** The short ids that workers should use in subsequent metric updates. Workers should strive to use short ids whenever possible, but it is ok to request the short_id again if a worker lost track of it (e.g. if the worker is recovering from a crash). NOTE: it is possible that the response may have short ids for a subset of the metrics. */
   metricShortId?: MetricShortIdList | undefined;
+  /** The progress point in the WorkItem where the Dataflow service suggests that the worker truncate the task. */
+  splitRequest?: ApproximateSplitRequest | undefined;
+  /** A hot key is a symptom of poor data distribution in which there are enough elements mapped to a single key to impact pipeline performance. When present, this field includes metadata associated with any hot key. */
+  hotKeyDetection?: HotKeyDetection | undefined;
 }
 export type WorkItemServiceStateList = Array<WorkItemServiceState>;
 /** Response from a request to report the status of WorkItems. */
@@ -2908,10 +2908,10 @@ export interface ResolveFoldersLocationsConfigStoreSettingsRequest {
 }
 /** Response message for ResolveConfigStoreSetting. */
 export interface ResolveConfigStoreSettingResponse {
-  /** The list of settings that were considered during resolution. */
-  choices?: ConfigStoreSettingList | undefined;
   /** The dry-run setting result. */
   setting?: ConfigStoreSetting | undefined;
+  /** The list of settings that were considered during resolution. */
+  choices?: ConfigStoreSettingList | undefined;
 }
 export interface ResolveOrganizationsLocationsConfigStoreSettingsRequest {
   /** Required. The name of the setting to resolve. */
@@ -2933,6 +2933,8 @@ export type SendDebugCaptureRequestDataFormatEnum =
   | "BROTLI";
 /** Request to send encoded debug information. Next ID: 8 */
 export interface SendDebugCaptureRequest {
+  /** Format for the data field above (id=5). */
+  dataFormat?: SendDebugCaptureRequestDataFormatEnum | (string & {}) | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
   location?: string | undefined;
   /** The worker id, i.e., VM hostname. */
@@ -2941,8 +2943,6 @@ export interface SendDebugCaptureRequest {
   data?: string | undefined;
   /** The internal component id for which debug information is sent. */
   componentId?: string | undefined;
-  /** Format for the data field above (id=5). */
-  dataFormat?: SendDebugCaptureRequestDataFormatEnum | (string & {}) | undefined;
 }
 export interface SendCaptureProjectsJobsDebugRequest extends SendDebugCaptureRequest {
   /** The project id. */
@@ -2956,190 +2956,101 @@ export interface SendCaptureProjectsLocationsJobsDebugRequest extends Omit<
   SendDebugCaptureRequest,
   "location"
 > {
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
+  location: string;
   /** The job id. */
   jobId: string;
   /** The project id. */
   projectId: string;
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
-  location: string;
 }
 /** Request to create a snapshot of a job. */
 export interface SnapshotJobRequest {
-  /** If true, perform snapshots for sources which support this. */
-  snapshotSources?: boolean | undefined;
-  /** TTL for the snapshot. */
-  ttl?: string | undefined;
   /** User specified description of the snapshot. Maybe empty. */
   description?: string | undefined;
+  /** If true, perform snapshots for sources which support this. */
+  snapshotSources?: boolean | undefined;
   /** The location that contains this job. */
   location?: string | undefined;
+  /** TTL for the snapshot. */
+  ttl?: string | undefined;
 }
 export interface SnapshotProjectsJobsRequest extends SnapshotJobRequest {
-  /** The job to be snapshotted. */
-  jobId: string;
   /** The project which owns the job to be snapshotted. */
   projectId: string;
+  /** The job to be snapshotted. */
+  jobId: string;
 }
 export interface SnapshotProjectsLocationsJobsRequest extends Omit<SnapshotJobRequest, "location"> {
-  /** The job to be snapshotted. */
-  jobId: string;
-  /** The location that contains this job. */
-  location: string;
   /** The project which owns the job to be snapshotted. */
   projectId: string;
-}
-export interface UpdateProjectsJobsRequest extends Omit<Job, "location" | "projectId"> {
-  /** The ID of the Cloud Platform project that the job belongs to. */
-  projectId: string;
-  /** The job ID. */
+  /** The location that contains this job. */
+  location: string;
+  /** The job to be snapshotted. */
   jobId: string;
+}
+export interface UpdateProjectsJobsRequest extends Omit<Job, "projectId" | "location"> {
   /** The list of fields to update relative to Job. If empty, only RequestedJobState will be considered for update. If the FieldMask is not empty and RequestedJobState is none/empty, The fields specified in the update mask will be the only ones considered for update. If both RequestedJobState and update_mask are specified, an error will be returned as we cannot update both state and mask. */
   updateMask?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
   location?: string | undefined;
-}
-export interface UpdateProjectsLocationsJobsRequest extends Omit<Job, "location" | "projectId"> {
-  /** The list of fields to update relative to Job. If empty, only RequestedJobState will be considered for update. If the FieldMask is not empty and RequestedJobState is none/empty, The fields specified in the update mask will be the only ones considered for update. If both RequestedJobState and update_mask are specified, an error will be returned as we cannot update both state and mask. */
-  updateMask?: string | undefined;
-  /** The ID of the Cloud Platform project that the job belongs to. */
-  projectId: string;
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
-  location: string;
   /** The job ID. */
   jobId: string;
+  /** The ID of the Cloud Platform project that the job belongs to. */
+  projectId: string;
+}
+export interface UpdateProjectsLocationsJobsRequest extends Omit<Job, "projectId" | "location"> {
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
+  location: string;
+  /** The list of fields to update relative to Job. If empty, only RequestedJobState will be considered for update. If the FieldMask is not empty and RequestedJobState is none/empty, The fields specified in the update mask will be the only ones considered for update. If both RequestedJobState and update_mask are specified, an error will be returned as we cannot update both state and mask. */
+  updateMask?: string | undefined;
+  /** The job ID. */
+  jobId: string;
+  /** The ID of the Cloud Platform project that the job belongs to. */
+  projectId: string;
 }
 /** WorkerHealthReport contains information about the health of a worker. The VM should be identified by the labels attached to the WorkerMessage that this health ping belongs to. */
 export interface WorkerHealthReport {
-  /** Message describing any unusual health reports. */
-  msg?: string | undefined;
-  /** The interval at which the worker is sending health reports. The default value of 0 should be interpreted as the field is not being explicitly set by the worker. */
-  reportInterval?: string | undefined;
-  /** Whether the VM is currently healthy. */
-  vmIsHealthy?: boolean | undefined;
-  /** Code to describe a specific reason, if known, that a VM has reported broken state. */
-  vmBrokenCode?: string | undefined;
   /** The pods running on the worker. See: http://kubernetes.io/v1.1/docs/api-reference/v1/definitions.html#_v1_pod This field is used by the worker to send the status of the indvidual containers running on each worker. */
   pods?: DocumentMapList | undefined;
-  /** Whether the VM is in a permanently broken state. Broken VMs should be abandoned or deleted ASAP to avoid assigning or completing any work. */
-  vmIsBroken?: boolean | undefined;
   /** The time the VM was booted. */
   vmStartupTime?: string | undefined;
-}
-/** The gauge value of a metric. */
-export interface DataflowGaugeValue {
-  /** The value of the gauge. */
-  value?: string | undefined;
-  /** The timestamp when the gauge was recorded. */
-  measuredTime?: string | undefined;
-}
-/** Exponential buckets where the growth factor between buckets is `2**(2**-scale)`. e.g. for `scale=1` growth factor is `2**(2**(-1))=sqrt(2)`. `n` buckets will have the following boundaries. - 0th: [0, gf) - i in [1, n-1]: [gf^(i), gf^(i+1)) */
-export interface Base2Exponent {
-  /** Must be between -3 and 3. This forces the growth factor of the bucket boundaries to be between `2^(1/8)` and `256`. */
-  scale?: number | undefined;
-  /** Must be greater than 0. */
-  numberOfBuckets?: number | undefined;
-}
-/** Linear buckets with the following boundaries for indices in 0 to n-1. - i in [0, n-1]: [start + (i)*width, start + (i+1)*width) */
-export interface Linear {
-  /** Must be greater than 0. */
-  numberOfBuckets?: number | undefined;
-  /** Distance between bucket boundaries. Must be greater than 0. */
-  width?: number | undefined;
-  /** Lower bound of the first bucket. */
-  start?: number | undefined;
-}
-/** `BucketOptions` describes the bucket boundaries used in the histogram. */
-export interface BucketOptions {
-  /** Bucket boundaries grow exponentially. */
-  exponential?: Base2Exponent | undefined;
-  /** Bucket boundaries grow linearly. */
-  linear?: Linear | undefined;
-}
-/** Statistics for the underflow and overflow bucket. */
-export interface OutlierStats {
-  /** Mean of values in the undeflow bucket. */
-  underflowMean?: number | undefined;
-  /** Number of values that are larger than the upper bound of the largest bucket. */
-  overflowCount?: string | undefined;
-  /** Number of values that are smaller than the lower bound of the smallest bucket. */
-  underflowCount?: string | undefined;
-  /** Mean of values in the overflow bucket. */
-  overflowMean?: number | undefined;
-}
-/** Summary statistics for a population of values. HistogramValue contains a sequence of buckets and gives a count of values that fall into each bucket. Bucket boundares are defined by a formula and bucket widths are either fixed or exponentially increasing. */
-export interface DataflowHistogramValue {
-  /** Optional. The number of values in each bucket of the histogram, as described in `bucket_options`. `bucket_counts` should contain N values, where N is the number of buckets specified in `bucket_options`. If `bucket_counts` has fewer than N values, the remaining values are assumed to be 0. */
-  bucketCounts?: StringList_ | undefined;
-  /** Number of values recorded in this histogram. */
-  count?: string | undefined;
-  /** Describes the bucket boundaries used in the histogram. */
-  bucketOptions?: BucketOptions | undefined;
-  /** Statistics on the values recorded in the histogram that fall out of the bucket boundaries. */
-  outlierStats?: OutlierStats | undefined;
-}
-/** The value of a metric along with its name and labels. */
-export interface MetricValue {
-  /** Non-cumulative int64 value of this metric. */
-  valueGauge64?: DataflowGaugeValue | undefined;
-  /** Optional. Set of metric labels for this metric. */
-  metricLabels?: StringMap | undefined;
-  /** Integer value of this metric. */
-  valueInt64?: string | undefined;
-  /** Histogram value of this metric. */
-  valueHistogram?: DataflowHistogramValue | undefined;
-  /** Base name for this metric. */
-  metric?: string | undefined;
-}
-export type MetricValueList = Array<MetricValue>;
-/** Metrics for a particular unfused step and namespace. A metric is uniquely identified by the `metrics_namespace`, `original_step`, `metric name` and `metric_labels`. */
-export interface PerStepNamespaceMetrics {
-  /** Optional. Metrics that are recorded for this namespace and unfused step. */
-  metricValues?: MetricValueList | undefined;
-  /** The namespace of these metrics on the worker. */
-  metricsNamespace?: string | undefined;
-  /** The original system name of the unfused step that these metrics are reported from. */
-  originalStep?: string | undefined;
-}
-export type PerStepNamespaceMetricsList = Array<PerStepNamespaceMetrics>;
-/** Per worker metrics. */
-export interface PerWorkerMetrics {
-  /** Optional. Metrics for a particular unfused step and namespace. */
-  perStepNamespaceMetrics?: PerStepNamespaceMetricsList | undefined;
-}
-/** Contains information about the thread scaling information of a worker. */
-export interface WorkerThreadScalingReport {
-  /** Current number of active threads in a worker. */
-  currentThreadCount?: number | undefined;
+  /** Code to describe a specific reason, if known, that a VM has reported broken state. */
+  vmBrokenCode?: string | undefined;
+  /** The interval at which the worker is sending health reports. The default value of 0 should be interpreted as the field is not being explicitly set by the worker. */
+  reportInterval?: string | undefined;
+  /** Whether the VM is in a permanently broken state. Broken VMs should be abandoned or deleted ASAP to avoid assigning or completing any work. */
+  vmIsBroken?: boolean | undefined;
+  /** Message describing any unusual health reports. */
+  msg?: string | undefined;
+  /** Whether the VM is currently healthy. */
+  vmIsHealthy?: boolean | undefined;
 }
 /** Shutdown notification from workers. This is to be sent by the shutdown script of the worker VM so that the backend knows that the VM is being shut down. */
 export interface WorkerShutdownNotice {
   /** The reason for the worker shutdown. Current possible values are: "UNKNOWN": shutdown reason is unknown. "PREEMPTION": shutdown reason is preemption. Other possible reasons may be added in the future. */
   reason?: string | undefined;
 }
-/** A message code is used to report status and error messages to the service. The message codes are intended to be machine readable. The service will take care of translating these into user understandable messages if necessary. Example use cases: 1. Worker processes reporting successful startup. 2. Worker processes reporting specific errors (e.g. package staging failure). */
-export interface WorkerMessageCode {
-  /** The code is a string intended for consumption by a machine that identifies the type of message being sent. Examples: 1. "HARNESS_STARTED" might be used to indicate the worker harness has started. 2. "GCS_DOWNLOAD_ERROR" might be used to indicate an error downloading a Cloud Storage file as part of the boot process of one of the worker containers. This is a string and not an enum to make it easy to add new codes without waiting for an API change. */
-  code?: string | undefined;
-  /** Parameters contains specific information about the code. This is a struct to allow parameters of different types. Examples: 1. For a "HARNESS_STARTED" message parameters might provide the name of the worker and additional data like timing information. 2. For a "GCS_DOWNLOAD_ERROR" parameters might contain fields listing the Cloud Storage objects being downloaded and fields containing errors. In general complex data structures should be avoided. If a worker needs to send a specific and complicated data structure then please consider defining a new proto and adding it to the data oneof in WorkerMessageResponse. Conventions: Parameters should only be used for information that isn't typically passed as a label. hostname and other worker identifiers should almost always be passed as labels since they will be included on most messages. */
-  parameters?: DocumentMap | undefined;
+/** Contains information about the thread scaling information of a worker. */
+export interface WorkerThreadScalingReport {
+  /** Current number of active threads in a worker. */
+  currentThreadCount?: number | undefined;
 }
-/** Contains per-user worker telemetry used in streaming autoscaling. */
-export interface StreamingScalingReport {
-  /** Maximum bytes. */
-  maximumBytes?: string | undefined;
-  activeBundleCount?: number | undefined;
-  /** Current outstanding bytes. */
-  outstandingBytes?: string | undefined;
-  /** Maximum bundle count. */
-  maximumBundleCount?: number | undefined;
-  outstandingBytesCount?: number | undefined;
-  /** Current outstanding bundle count. */
-  outstandingBundleCount?: number | undefined;
-  maximumBytesCount?: number | undefined;
-  /** Current acive thread count. */
-  activeThreadCount?: number | undefined;
-  /** Maximum thread count limit. */
-  maximumThreadCount?: number | undefined;
+/** Contains per-worker telemetry about the data sampling feature. */
+export interface DataSamplingReport {
+  /** Optional. Delta of number of samples taken from user code exceptions from previous report. */
+  exceptionsSampledCount?: string | undefined;
+  /** Optional. Delta of errors counts from persisting the samples from previous report. */
+  persistenceErrorsCount?: string | undefined;
+  /** Optional. Delta of number of PCollections sampled from previous report. */
+  pcollectionsSampledCount?: string | undefined;
+  /** Optional. Delta of bytes sampled from previous report. */
+  elementsSampledBytes?: string | undefined;
+  /** Optional. Delta of number of elements sampled from previous report. */
+  elementsSampledCount?: string | undefined;
+  /** Optional. Delta of errors counts from retrieving, or translating the samples from previous report. */
+  translationErrorsCount?: string | undefined;
+  /** Optional. Delta of bytes written to file from previous report. */
+  bytesWrittenDelta?: string | undefined;
 }
 export type WorkerLifecycleEventEventEnum =
   | "UNKNOWN_EVENT"
@@ -3154,37 +3065,34 @@ export type WorkerLifecycleEventEventEnum =
 export interface WorkerLifecycleEvent {
   /** The event being reported. */
   event?: WorkerLifecycleEventEventEnum | (string & {}) | undefined;
-  /** Other stats that can accompany an event. E.g. { "downloaded_bytes" : "123456" } */
-  metadata?: StringMap | undefined;
   /** The start time of this container. All events will report this so that events can be grouped together across container/VM restarts. */
   containerStartTime?: string | undefined;
+  /** Other stats that can accompany an event. E.g. { "downloaded_bytes" : "123456" } */
+  metadata?: StringMap | undefined;
 }
-/** Contains per-worker telemetry about the data sampling feature. */
-export interface DataSamplingReport {
-  /** Optional. Delta of number of PCollections sampled from previous report. */
-  pcollectionsSampledCount?: string | undefined;
-  /** Optional. Delta of errors counts from retrieving, or translating the samples from previous report. */
-  translationErrorsCount?: string | undefined;
-  /** Optional. Delta of bytes sampled from previous report. */
-  elementsSampledBytes?: string | undefined;
-  /** Optional. Delta of number of samples taken from user code exceptions from previous report. */
-  exceptionsSampledCount?: string | undefined;
-  /** Optional. Delta of number of elements sampled from previous report. */
-  elementsSampledCount?: string | undefined;
-  /** Optional. Delta of bytes written to file from previous report. */
-  bytesWrittenDelta?: string | undefined;
-  /** Optional. Delta of errors counts from persisting the samples from previous report. */
-  persistenceErrorsCount?: string | undefined;
+/** Information about the memory usage of a worker or a container within a worker. */
+export interface MemInfo {
+  /** Instantenous memory (RSS) size in bytes. */
+  currentRssBytes?: string | undefined;
+  /** Instantenous memory limit in bytes. */
+  currentLimitBytes?: string | undefined;
+  /** Total memory (RSS) usage since start up in GB * ms. */
+  totalGbMs?: string | undefined;
+  /** Number of Out of Memory (OOM) events recorded since the previous measurement. */
+  currentOoms?: string | undefined;
+  /** Timestamp of the measurement. */
+  timestamp?: string | undefined;
 }
+export type MemInfoList = Array<MemInfo>;
 export type ResourceUtilizationReportMap = { [key: string]: ResourceUtilizationReport | undefined };
 /** Modeled after information exposed by /proc/stat. */
 export interface CPUTime {
-  /** Total active CPU time across all cores (ie., non-idle) in milliseconds since start-up. */
-  totalMs?: string | undefined;
   /** Timestamp of the measurement. */
   timestamp?: string | undefined;
   /** Average CPU utilization rate (% non-idle cpu / second) since previous sample. */
   rate?: number | undefined;
+  /** Total active CPU time across all cores (ie., non-idle) in milliseconds since start-up. */
+  totalMs?: string | undefined;
 }
 export type CPUTimeList = Array<CPUTime>;
 /** Utilization details about the GPU. */
@@ -3200,99 +3108,191 @@ export interface GPUUsage {
   utilization?: GPUUtilization | undefined;
 }
 export type GPUUsageList = Array<GPUUsage>;
-/** Information about the memory usage of a worker or a container within a worker. */
-export interface MemInfo {
-  /** Total memory (RSS) usage since start up in GB * ms. */
-  totalGbMs?: string | undefined;
-  /** Instantenous memory limit in bytes. */
-  currentLimitBytes?: string | undefined;
-  /** Number of Out of Memory (OOM) events recorded since the previous measurement. */
-  currentOoms?: string | undefined;
-  /** Instantenous memory (RSS) size in bytes. */
-  currentRssBytes?: string | undefined;
-  /** Timestamp of the measurement. */
-  timestamp?: string | undefined;
-}
-export type MemInfoList = Array<MemInfo>;
 /** Worker metrics exported from workers. This contains resource utilization metrics accumulated from a variety of sources. For more information, see go/df-resource-signals. */
 export interface ResourceUtilizationReport {
+  /** Memory utilization samples. */
+  memoryInfo?: MemInfoList | undefined;
   /** Per container information. Key: container name. */
   containers?: ResourceUtilizationReportMap | undefined;
   /** CPU utilization samples. */
   cpuTime?: CPUTimeList | undefined;
   /** Optional. GPU usage samples. */
   gpuUsage?: GPUUsageList | undefined;
-  /** Memory utilization samples. */
-  memoryInfo?: MemInfoList | undefined;
+}
+/** A message code is used to report status and error messages to the service. The message codes are intended to be machine readable. The service will take care of translating these into user understandable messages if necessary. Example use cases: 1. Worker processes reporting successful startup. 2. Worker processes reporting specific errors (e.g. package staging failure). */
+export interface WorkerMessageCode {
+  /** The code is a string intended for consumption by a machine that identifies the type of message being sent. Examples: 1. "HARNESS_STARTED" might be used to indicate the worker harness has started. 2. "GCS_DOWNLOAD_ERROR" might be used to indicate an error downloading a Cloud Storage file as part of the boot process of one of the worker containers. This is a string and not an enum to make it easy to add new codes without waiting for an API change. */
+  code?: string | undefined;
+  /** Parameters contains specific information about the code. This is a struct to allow parameters of different types. Examples: 1. For a "HARNESS_STARTED" message parameters might provide the name of the worker and additional data like timing information. 2. For a "GCS_DOWNLOAD_ERROR" parameters might contain fields listing the Cloud Storage objects being downloaded and fields containing errors. In general complex data structures should be avoided. If a worker needs to send a specific and complicated data structure then please consider defining a new proto and adding it to the data oneof in WorkerMessageResponse. Conventions: Parameters should only be used for information that isn't typically passed as a label. hostname and other worker identifiers should almost always be passed as labels since they will be included on most messages. */
+  parameters?: DocumentMap | undefined;
+}
+/** Statistics for the underflow and overflow bucket. */
+export interface OutlierStats {
+  /** Number of values that are larger than the upper bound of the largest bucket. */
+  overflowCount?: string | undefined;
+  /** Number of values that are smaller than the lower bound of the smallest bucket. */
+  underflowCount?: string | undefined;
+  /** Mean of values in the overflow bucket. */
+  overflowMean?: number | undefined;
+  /** Mean of values in the undeflow bucket. */
+  underflowMean?: number | undefined;
+}
+/** Exponential buckets where the growth factor between buckets is `2**(2**-scale)`. e.g. for `scale=1` growth factor is `2**(2**(-1))=sqrt(2)`. `n` buckets will have the following boundaries. - 0th: [0, gf) - i in [1, n-1]: [gf^(i), gf^(i+1)) */
+export interface Base2Exponent {
+  /** Must be between -3 and 3. This forces the growth factor of the bucket boundaries to be between `2^(1/8)` and `256`. */
+  scale?: number | undefined;
+  /** Must be greater than 0. */
+  numberOfBuckets?: number | undefined;
+}
+/** Linear buckets with the following boundaries for indices in 0 to n-1. - i in [0, n-1]: [start + (i)*width, start + (i+1)*width) */
+export interface Linear {
+  /** Must be greater than 0. */
+  numberOfBuckets?: number | undefined;
+  /** Lower bound of the first bucket. */
+  start?: number | undefined;
+  /** Distance between bucket boundaries. Must be greater than 0. */
+  width?: number | undefined;
+}
+/** `BucketOptions` describes the bucket boundaries used in the histogram. */
+export interface BucketOptions {
+  /** Bucket boundaries grow exponentially. */
+  exponential?: Base2Exponent | undefined;
+  /** Bucket boundaries grow linearly. */
+  linear?: Linear | undefined;
+}
+/** Summary statistics for a population of values. HistogramValue contains a sequence of buckets and gives a count of values that fall into each bucket. Bucket boundares are defined by a formula and bucket widths are either fixed or exponentially increasing. */
+export interface DataflowHistogramValue {
+  /** Number of values recorded in this histogram. */
+  count?: string | undefined;
+  /** Statistics on the values recorded in the histogram that fall out of the bucket boundaries. */
+  outlierStats?: OutlierStats | undefined;
+  /** Describes the bucket boundaries used in the histogram. */
+  bucketOptions?: BucketOptions | undefined;
+  /** Optional. The number of values in each bucket of the histogram, as described in `bucket_options`. `bucket_counts` should contain N values, where N is the number of buckets specified in `bucket_options`. If `bucket_counts` has fewer than N values, the remaining values are assumed to be 0. */
+  bucketCounts?: StringList_ | undefined;
+}
+/** The gauge value of a metric. */
+export interface DataflowGaugeValue {
+  /** The timestamp when the gauge was recorded. */
+  measuredTime?: string | undefined;
+  /** The value of the gauge. */
+  value?: string | undefined;
+}
+/** The value of a metric along with its name and labels. */
+export interface MetricValue {
+  /** Histogram value of this metric. */
+  valueHistogram?: DataflowHistogramValue | undefined;
+  /** Base name for this metric. */
+  metric?: string | undefined;
+  /** Optional. Set of metric labels for this metric. */
+  metricLabels?: StringMap | undefined;
+  /** Integer value of this metric. */
+  valueInt64?: string | undefined;
+  /** Non-cumulative int64 value of this metric. */
+  valueGauge64?: DataflowGaugeValue | undefined;
+}
+export type MetricValueList = Array<MetricValue>;
+/** Metrics for a particular unfused step and namespace. A metric is uniquely identified by the `metrics_namespace`, `original_step`, `metric name` and `metric_labels`. */
+export interface PerStepNamespaceMetrics {
+  /** Optional. Metrics that are recorded for this namespace and unfused step. */
+  metricValues?: MetricValueList | undefined;
+  /** The original system name of the unfused step that these metrics are reported from. */
+  originalStep?: string | undefined;
+  /** The namespace of these metrics on the worker. */
+  metricsNamespace?: string | undefined;
+}
+export type PerStepNamespaceMetricsList = Array<PerStepNamespaceMetrics>;
+/** Per worker metrics. */
+export interface PerWorkerMetrics {
+  /** Optional. Metrics for a particular unfused step and namespace. */
+  perStepNamespaceMetrics?: PerStepNamespaceMetricsList | undefined;
+}
+/** Contains per-user worker telemetry used in streaming autoscaling. */
+export interface StreamingScalingReport {
+  /** Maximum bundle count. */
+  maximumBundleCount?: number | undefined;
+  activeBundleCount?: number | undefined;
+  /** Current outstanding bytes. */
+  outstandingBytes?: string | undefined;
+  outstandingBytesCount?: number | undefined;
+  /** Current outstanding bundle count. */
+  outstandingBundleCount?: number | undefined;
+  /** Maximum bytes. */
+  maximumBytes?: string | undefined;
+  /** Current acive thread count. */
+  activeThreadCount?: number | undefined;
+  maximumBytesCount?: number | undefined;
+  /** Maximum thread count limit. */
+  maximumThreadCount?: number | undefined;
 }
 /** WorkerMessage provides information to the backend about a worker. */
 export interface WorkerMessage {
   /** The health of a worker. */
   workerHealthReport?: WorkerHealthReport | undefined;
-  /** The timestamp of the worker_message. */
-  time?: string | undefined;
-  /** System defined metrics for this worker. */
-  perWorkerMetrics?: PerWorkerMetrics | undefined;
-  /** Thread scaling information reported by workers. */
-  workerThreadScalingReport?: WorkerThreadScalingReport | undefined;
   /** Shutdown notice by workers. */
   workerShutdownNotice?: WorkerShutdownNotice | undefined;
-  /** A worker message code. */
-  workerMessageCode?: WorkerMessageCode | undefined;
-  /** Contains per-user worker telemetry used in streaming autoscaling. */
-  streamingScalingReport?: StreamingScalingReport | undefined;
+  /** Thread scaling information reported by workers. */
+  workerThreadScalingReport?: WorkerThreadScalingReport | undefined;
+  /** The timestamp of the worker_message. */
+  time?: string | undefined;
+  /** Optional. Contains metrics related to go/dataflow-data-sampling-telemetry. */
+  dataSamplingReport?: DataSamplingReport | undefined;
   /** Labels are used to group WorkerMessages. For example, a worker_message about a particular container might have the labels: { "JOB_ID": "2015-04-22", "WORKER_ID": "wordcount-vm-2015..." "CONTAINER_TYPE": "worker", "CONTAINER_ID": "ac1234def"} Label tags typically correspond to Label enum values. However, for ease of development other strings can be used as tags. LABEL_UNSPECIFIED should not be used here. */
   labels?: StringMap | undefined;
   /** Record of worker lifecycle events. */
   workerLifecycleEvent?: WorkerLifecycleEvent | undefined;
-  /** Optional. Contains metrics related to go/dataflow-data-sampling-telemetry. */
-  dataSamplingReport?: DataSamplingReport | undefined;
   /** Resource metrics reported by workers. */
   workerMetrics?: ResourceUtilizationReport | undefined;
+  /** A worker message code. */
+  workerMessageCode?: WorkerMessageCode | undefined;
+  /** System defined metrics for this worker. */
+  perWorkerMetrics?: PerWorkerMetrics | undefined;
+  /** Contains per-user worker telemetry used in streaming autoscaling. */
+  streamingScalingReport?: StreamingScalingReport | undefined;
 }
 export type WorkerMessageList = Array<WorkerMessage>;
 /** A request for sending worker messages to the service. */
 export interface SendWorkerMessagesRequest {
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job. */
-  location?: string | undefined;
   /** The WorkerMessages to send. */
   workerMessages?: WorkerMessageList | undefined;
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job. */
+  location?: string | undefined;
 }
 export interface WorkerMessagesProjectsRequest extends SendWorkerMessagesRequest {
   /** The project to send the WorkerMessages to. */
   projectId: string;
 }
+/** Service-side response to WorkerMessage issuing shutdown notice. */
+export type WorkerShutdownNoticeResponse = ResolveConfigStoreSettingRequest;
 /** WorkerHealthReportResponse contains information returned to the worker in response to a health ping. */
 export interface WorkerHealthReportResponse {
   /** A positive value indicates the worker should change its reporting interval to the specified value. The default value of zero means no change in report rate is requested by the server. */
   reportInterval?: string | undefined;
-}
-/** Service-side response to WorkerMessage issuing shutdown notice. */
-export type WorkerShutdownNoticeResponse = ResolveConfigStoreSettingRequest;
-/** Service-side response to WorkerMessage reporting resource utilization. */
-export type ResourceUtilizationReportResponse = ResolveConfigStoreSettingRequest;
-/** Contains per-user-worker streaming scaling recommendation from the backend. */
-export interface StreamingScalingReportResponse {
-  /** Maximum thread count limit; */
-  maximumThreadCount?: number | undefined;
 }
 /** Contains the thread scaling recommendation for a worker from the backend. */
 export interface WorkerThreadScalingReportResponse {
   /** Recommended number of threads for a worker. */
   recommendedThreadCount?: number | undefined;
 }
+/** Contains per-user-worker streaming scaling recommendation from the backend. */
+export interface StreamingScalingReportResponse {
+  /** Maximum thread count limit; */
+  maximumThreadCount?: number | undefined;
+}
+/** Service-side response to WorkerMessage reporting resource utilization. */
+export type ResourceUtilizationReportResponse = ResolveConfigStoreSettingRequest;
 /** A worker_message response allows the server to pass information to the sender. */
 export interface WorkerMessageResponse {
-  /** The service's response to a worker's health report. */
-  workerHealthReportResponse?: WorkerHealthReportResponse | undefined;
   /** Service's response to shutdown notice (currently empty). */
   workerShutdownNoticeResponse?: ResolveConfigStoreSettingRequest | undefined;
-  /** Service's response to reporting worker metrics (currently empty). */
-  workerMetricsResponse?: ResolveConfigStoreSettingRequest | undefined;
-  /** Service's streaming scaling response for workers. */
-  streamingScalingReportResponse?: StreamingScalingReportResponse | undefined;
+  /** The service's response to a worker's health report. */
+  workerHealthReportResponse?: WorkerHealthReportResponse | undefined;
   /** Service's thread scaling recommendation for workers. */
   workerThreadScalingReportResponse?: WorkerThreadScalingReportResponse | undefined;
+  /** Service's streaming scaling response for workers. */
+  streamingScalingReportResponse?: StreamingScalingReportResponse | undefined;
+  /** Service's response to reporting worker metrics (currently empty). */
+  workerMetricsResponse?: ResolveConfigStoreSettingRequest | undefined;
 }
 export type WorkerMessageResponseList = Array<WorkerMessageResponse>;
 /** The response to the worker messages. */
@@ -4475,8 +4475,8 @@ function __c0(j: number): any {
         S.Extend(
           __S(32, __c1, 0),
           S.Struct({
-            location: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
+            location: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -4493,11 +4493,11 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          jobName: S.optional(S.String),
-          location: S.optional(S.String),
-          environment: S.optional(__S(64, __c2, 0)),
           gcsPath: S.optional(S.String),
+          environment: S.optional(__S(64, __c2, 0)),
           parameters: S.optional(__S(1632, __c51, 0)),
+          location: S.optional(S.String),
+          jobName: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateJobFromTemplateRequest" });
   }
@@ -4507,25 +4507,25 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bypassTempDirValidation: S.optional(S.Boolean),
-          diskSizeGb: S.optional(S.Number),
-          additionalPipelineOptions: S.optional(__S(1664, __c52, 0)),
-          serviceAccountEmail: S.optional(S.String),
-          additionalUserLabels: S.optional(__S(1632, __c51, 0)),
-          machineType: S.optional(S.String),
-          enableStreamingEngine: S.optional(S.Boolean),
-          zone: S.optional(S.String),
-          workerZone: S.optional(S.String),
-          network: S.optional(S.String),
-          workerRegion: S.optional(S.String),
-          tempLocation: S.optional(S.String),
+          numWorkers: S.optional(S.Number),
           maxWorkers: S.optional(S.Number),
-          ipConfiguration: S.optional(S.String),
-          subnetwork: S.optional(S.String),
+          network: S.optional(S.String),
           additionalExperiments: S.optional(__S(1664, __c52, 0)),
           streamingMode: S.optional(S.String),
-          numWorkers: S.optional(S.Number),
+          zone: S.optional(S.String),
+          additionalPipelineOptions: S.optional(__S(1664, __c52, 0)),
+          subnetwork: S.optional(S.String),
+          diskSizeGb: S.optional(S.Number),
+          bypassTempDirValidation: S.optional(S.Boolean),
+          serviceAccountEmail: S.optional(S.String),
+          machineType: S.optional(S.String),
+          enableStreamingEngine: S.optional(S.Boolean),
+          workerZone: S.optional(S.String),
+          ipConfiguration: S.optional(S.String),
+          tempLocation: S.optional(S.String),
+          workerRegion: S.optional(S.String),
           kmsKeyName: S.optional(S.String),
+          additionalUserLabels: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "RuntimeEnvironment" });
   }
@@ -4608,9 +4608,9 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          snapshotId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+          snapshotId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4626,8 +4626,8 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          snapshotId: S.optional(S.String.pipe(T.Query())),
           location: S.optional(S.String.pipe(T.Query())),
+          snapshotId: S.optional(S.String.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -4665,8 +4665,8 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String),
-          workerId: S.optional(S.String),
           componentId: S.optional(S.String),
+          workerId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDebugConfigRequest" });
     case 1:
@@ -4684,9 +4684,9 @@ function __c12(j: number): any {
         S.Extend(
           __S(352, __c11, 0),
           S.Struct({
-            projectId: S.String.pipe(T.Label()),
-            jobId: S.String.pipe(T.Label()),
             location: S.String.pipe(T.Label()),
+            jobId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -4703,11 +4703,11 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          jobId: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          jobId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          location: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4719,17 +4719,17 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          dataWatermarkLag: S.optional(S.String),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
           systemWatermarkLag: S.optional(S.String),
           workerName: S.optional(S.String),
-          endTime: S.optional(S.String),
-          startTime: S.optional(S.String),
-          dataWatermarkLag: S.optional(S.String),
         }),
       ).annotate({ identifier: "StreamingStragglerInfo" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          batchStraggler: S.optional(__S(453, __c14, 5)),
+          batchStraggler: S.optional(__S(456, __c14, 8)),
           streamingStraggler: S.optional(__S(417, __c13, 1)),
         }),
       ).annotate({ identifier: "Straggler" });
@@ -4738,21 +4738,21 @@ function __c13(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          recentStragglers: S.optional(__S(419, __c13, 3)),
           totalStragglerCount: S.optional(S.String),
           stragglerCauseCount: S.optional(__S(1632, __c51, 0)),
+          recentStragglers: S.optional(__S(419, __c13, 3)),
         }),
       ).annotate({ identifier: "StragglerSummary" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(482, __c15, 2)),
           startTime: S.optional(S.String),
-          stragglerSummary: S.optional(__S(420, __c13, 4)),
-          state: S.optional(S.String),
-          stageId: S.optional(S.String),
-          progress: S.optional(__S(456, __c14, 8)),
           endTime: S.optional(S.String),
+          progress: S.optional(__S(450, __c14, 2)),
+          stageId: S.optional(S.String),
+          metrics: S.optional(__S(482, __c15, 2)),
+          state: S.optional(S.String),
+          stragglerSummary: S.optional(__S(420, __c13, 4)),
         }),
       ).annotate({ identifier: "StageSummary" });
     case 6:
@@ -4771,50 +4771,50 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          keyTruncated: S.optional(S.Boolean),
-          hotKeyAge: S.optional(S.String),
-          key: S.optional(S.String),
+          time: S.optional(S.String),
+          value: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "HotKeyInfo" });
+      ).annotate({ identifier: "Point" });
     case 1:
-      return S.Record(S.String, __S(448, __c14, 0));
+      return S.Array(__S(448, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          detectedHotKeys: S.optional(__S(449, __c14, 1)),
+          dataPoints: S.optional(__S(449, __c14, 1)),
+          currentProgress: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "HotKeyDebuggingInfo" });
+      ).annotate({ identifier: "ProgressTimeseries" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          hotKey: S.optional(__S(450, __c14, 2)),
+          key: S.optional(S.String),
+          hotKeyAge: S.optional(S.String),
+          keyTruncated: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "StragglerDebuggingInfo" });
+      ).annotate({ identifier: "HotKeyInfo" });
     case 4:
       return S.Record(S.String, __S(451, __c14, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(S.String),
-          causes: S.optional(__S(452, __c14, 4)),
+          detectedHotKeys: S.optional(__S(452, __c14, 4)),
         }),
-      ).annotate({ identifier: "StragglerInfo" });
+      ).annotate({ identifier: "HotKeyDebuggingInfo" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          time: S.optional(S.String),
-          value: S.optional(S.Number),
+          hotKey: S.optional(__S(453, __c14, 5)),
         }),
-      ).annotate({ identifier: "Point" });
+      ).annotate({ identifier: "StragglerDebuggingInfo" });
     case 7:
-      return S.Array(__S(454, __c14, 6));
+      return S.Record(S.String, __S(454, __c14, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          dataPoints: S.optional(__S(455, __c14, 7)),
-          currentProgress: S.optional(S.Number),
+          causes: S.optional(__S(455, __c14, 7)),
+          startTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ProgressTimeseries" });
+      ).annotate({ identifier: "StragglerInfo" });
   }
 }
 function __c15(j: number): any {
@@ -4823,26 +4823,26 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           origin: S.optional(S.String),
-          name: S.optional(S.String),
           context: S.optional(__S(1632, __c51, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetricStructuredName" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
-          internal: S.optional(S.Unknown),
-          scalar: S.optional(S.Unknown),
-          boundedTrie: S.optional(S.Unknown),
-          updateTime: S.optional(S.String),
-          name: S.optional(__S(480, __c15, 0)),
-          set: S.optional(S.Unknown),
-          meanCount: S.optional(S.Unknown),
           gauge: S.optional(S.Unknown),
-          trie: S.optional(S.Unknown),
-          cumulative: S.optional(S.Boolean),
-          meanSum: S.optional(S.Unknown),
+          scalar: S.optional(S.Unknown),
+          meanCount: S.optional(S.Unknown),
+          internal: S.optional(S.Unknown),
+          kind: S.optional(S.String),
+          updateTime: S.optional(S.String),
           distribution: S.optional(S.Unknown),
+          name: S.optional(__S(480, __c15, 0)),
+          trie: S.optional(S.Unknown),
+          boundedTrie: S.optional(S.Unknown),
+          meanSum: S.optional(S.Unknown),
+          set: S.optional(S.Unknown),
+          cumulative: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MetricUpdate" });
     case 2:
@@ -4854,13 +4854,13 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          endTime: S.optional(S.String.pipe(T.Query())),
-          location: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           jobId: S.String.pipe(T.Label()),
+          endTime: S.optional(S.String.pipe(T.Query())),
+          startTime: S.optional(S.String.pipe(T.Query())),
           stageId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -4873,14 +4873,14 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(482, __c15, 2)),
-          state: S.optional(S.String),
-          taskId: S.optional(S.String),
-          startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          progress: S.optional(__S(456, __c14, 8)),
-          stragglerInfo: S.optional(__S(453, __c14, 5)),
           attemptId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          metrics: S.optional(__S(482, __c15, 2)),
+          stragglerInfo: S.optional(__S(456, __c14, 8)),
+          taskId: S.optional(S.String),
+          state: S.optional(S.String),
+          progress: S.optional(__S(450, __c14, 2)),
         }),
       ).annotate({ identifier: "WorkItemDetails" });
     case 2:
@@ -4888,8 +4888,8 @@ function __c16(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          workItems: S.optional(__S(514, __c16, 2)),
           workerName: S.optional(S.String),
+          workItems: S.optional(__S(514, __c16, 2)),
         }),
       ).annotate({ identifier: "WorkerDetails" });
     case 4:
@@ -4897,8 +4897,8 @@ function __c16(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           workers: S.optional(__S(516, __c16, 4)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "StageExecutionDetails" });
   }
@@ -4926,8 +4926,8 @@ function __c18(j: number): any {
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           startTime: S.optional(S.String.pipe(T.Query())),
-          jobId: S.String.pipe(T.Label()),
           location: S.optional(S.String.pipe(T.Query())),
+          jobId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4954,10 +4954,10 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          jobId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
           startTime: S.optional(S.String.pipe(T.Query())),
+          jobId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4990,8 +4990,8 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
           jobId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -5024,10 +5024,10 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          jobId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          jobId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5043,8 +5043,8 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
           snapshotId: S.String.pipe(T.Label()),
+          projectId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -5062,8 +5062,8 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           topicName: S.optional(S.String),
-          snapshotName: S.optional(S.String),
           expireTime: S.optional(S.String),
+          snapshotName: S.optional(S.String),
         }),
       ).annotate({ identifier: "PubsubSnapshotMetadata" });
     case 1:
@@ -5071,16 +5071,16 @@ function __c26(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sourceJobId: S.optional(S.String),
+          region: S.optional(S.String),
+          description: S.optional(S.String),
+          diskSizeBytes: S.optional(S.String),
           pubsubMetadata: S.optional(__S(833, __c26, 1)),
+          projectId: S.optional(S.String),
           state: S.optional(S.String),
           creationTime: S.optional(S.String),
-          ttl: S.optional(S.String),
-          diskSizeBytes: S.optional(S.String),
-          region: S.optional(S.String),
           id: S.optional(S.String),
-          projectId: S.optional(S.String),
-          description: S.optional(S.String),
+          sourceJobId: S.optional(S.String),
+          ttl: S.optional(S.String),
         }),
       ).annotate({ identifier: "Snapshot" });
   }
@@ -5090,10 +5090,10 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          gcsPath: S.optional(S.String.pipe(T.Query())),
           location: S.String.pipe(T.Label()),
+          gcsPath: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5109,17 +5109,17 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sdkInfo: S.optional(__S(928, __c29, 0)),
-          parameters: S.optional(__S(932, __c29, 4)),
+          sdkInfo: S.optional(__S(933, __c29, 5)),
+          parameters: S.optional(__S(931, __c29, 3)),
         }),
       ).annotate({ identifier: "RuntimeMetadata" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          runtimeMetadata: S.optional(__S(896, __c28, 0)),
-          status: S.optional(__S(992, __c31, 0)),
-          metadata: S.optional(__S(933, __c29, 5)),
+          metadata: S.optional(__S(932, __c29, 4)),
           templateType: S.optional(S.String),
+          status: S.optional(__S(992, __c31, 0)),
+          runtimeMetadata: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "GetTemplateResponse" });
   }
@@ -5129,53 +5129,53 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String),
-          language: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SDKInfo" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           value: S.optional(S.String),
-          label: S.optional(S.String),
           description: S.optional(S.String),
+          label: S.optional(S.String),
         }),
       ).annotate({ identifier: "ParameterMetadataEnumOption" });
+    case 1:
+      return S.Array(__S(928, __c29, 0));
     case 2:
-      return S.Array(__S(929, __c29, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          customMetadata: S.optional(__S(1632, __c51, 0)),
-          hiddenUi: S.optional(S.Boolean),
-          label: S.optional(S.String),
-          defaultValue: S.optional(S.String),
-          regexes: S.optional(__S(1664, __c52, 0)),
-          paramType: S.optional(S.String),
-          parentTriggerValues: S.optional(__S(1664, __c52, 0)),
-          enumOptions: S.optional(__S(930, __c29, 2)),
           isOptional: S.optional(S.Boolean),
+          paramType: S.optional(S.String),
+          hiddenUi: S.optional(S.Boolean),
           groupName: S.optional(S.String),
+          parentTriggerValues: S.optional(__S(1664, __c52, 0)),
+          defaultValue: S.optional(S.String),
           helpText: S.optional(S.String),
+          label: S.optional(S.String),
+          customMetadata: S.optional(__S(1632, __c51, 0)),
+          regexes: S.optional(__S(1664, __c52, 0)),
           parentName: S.optional(S.String),
+          name: S.optional(S.String),
+          enumOptions: S.optional(__S(929, __c29, 1)),
         }),
       ).annotate({ identifier: "ParameterMetadata" });
+    case 3:
+      return S.Array(__S(930, __c29, 2));
     case 4:
-      return S.Array(__S(931, __c29, 3));
+      return S.suspend(() =>
+        S.Struct({
+          yamlDefinition: S.optional(S.String),
+          supportsAtLeastOnce: S.optional(S.Boolean),
+          supportsExactlyOnce: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          defaultStreamingMode: S.optional(S.String),
+          description: S.optional(S.String),
+          streaming: S.optional(S.Boolean),
+          parameters: S.optional(__S(931, __c29, 3)),
+        }),
+      ).annotate({ identifier: "TemplateMetadata" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(932, __c29, 4)),
-          supportsExactlyOnce: S.optional(S.Boolean),
-          supportsAtLeastOnce: S.optional(S.Boolean),
-          defaultStreamingMode: S.optional(S.String),
-          streaming: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          yamlDefinition: S.optional(S.String),
+          language: S.optional(S.String),
+          version: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TemplateMetadata" });
+      ).annotate({ identifier: "SDKInfo" });
   }
 }
 function __c30(j: number): any {
@@ -5189,8 +5189,8 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
           details: S.optional(__S(960, __c30, 0)),
+          message: S.optional(S.String),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
@@ -5201,9 +5201,9 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(S.String.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
           snapshotId: S.String.pipe(T.Label()),
+          location: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5219,10 +5219,10 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          gcsPath: S.optional(S.String.pipe(T.Query())),
           location: S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
+          gcsPath: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5238,8 +5238,8 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(S.String),
           workerId: S.optional(S.String),
+          endTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWorkerStacktracesRequest" });
     case 1:
@@ -5247,9 +5247,9 @@ function __c34(j: number): any {
         S.Extend(
           __S(1088, __c34, 0),
           S.Struct({
+            projectId: S.String.pipe(T.Label()),
             location: S.String.pipe(T.Label()),
             jobId: S.String.pipe(T.Label()),
-            projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -5262,11 +5262,11 @@ function __c34(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          threadName: S.optional(S.String),
           threadState: S.optional(S.String),
-          threadCount: S.optional(S.Number),
           stackContent: S.optional(S.String),
           timestamp: S.optional(S.String),
+          threadName: S.optional(S.String),
+          threadCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Stack" });
     case 3:
@@ -5274,8 +5274,8 @@ function __c34(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          sdkId: S.optional(S.String),
           stacks: S.optional(__S(1091, __c34, 3)),
+          sdkId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Sdk" });
     case 5:
@@ -5293,57 +5293,57 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          network: S.optional(S.String),
-          flexrsGoal: S.optional(S.String),
-          additionalPipelineOptions: S.optional(__S(1664, __c52, 0)),
-          kmsKeyName: S.optional(S.String),
-          subnetwork: S.optional(S.String),
-          numWorkers: S.optional(S.Number),
-          autoscalingAlgorithm: S.optional(S.String),
-          enableStreamingEngine: S.optional(S.Boolean),
-          zone: S.optional(S.String),
-          diskSizeGb: S.optional(S.Number),
-          workerZone: S.optional(S.String),
-          sdkContainerImage: S.optional(S.String),
           dumpHeapOnOom: S.optional(S.Boolean),
-          stagingLocation: S.optional(S.String),
-          maxWorkers: S.optional(S.Number),
           saveHeapDumpsToGcsPath: S.optional(S.String),
-          enableLauncherVmSerialPortLogging: S.optional(S.Boolean),
-          additionalExperiments: S.optional(__S(1664, __c52, 0)),
+          subnetwork: S.optional(S.String),
+          autoscalingAlgorithm: S.optional(S.String),
           serviceAccountEmail: S.optional(S.String),
-          launcherMachineType: S.optional(S.String),
-          machineType: S.optional(S.String),
-          additionalUserLabels: S.optional(__S(1632, __c51, 0)),
           ipConfiguration: S.optional(S.String),
+          enableStreamingEngine: S.optional(S.Boolean),
+          machineType: S.optional(S.String),
+          kmsKeyName: S.optional(S.String),
+          enableLauncherVmSerialPortLogging: S.optional(S.Boolean),
+          sdkContainerImage: S.optional(S.String),
+          additionalExperiments: S.optional(__S(1664, __c52, 0)),
+          zone: S.optional(S.String),
+          flexrsGoal: S.optional(S.String),
+          diskSizeGb: S.optional(S.Number),
+          launcherMachineType: S.optional(S.String),
+          maxWorkers: S.optional(S.Number),
+          numWorkers: S.optional(S.Number),
+          additionalUserLabels: S.optional(__S(1632, __c51, 0)),
+          stagingLocation: S.optional(S.String),
           tempLocation: S.optional(S.String),
-          streamingMode: S.optional(S.String),
+          additionalPipelineOptions: S.optional(__S(1664, __c52, 0)),
           workerRegion: S.optional(S.String),
+          workerZone: S.optional(S.String),
+          streamingMode: S.optional(S.String),
+          network: S.optional(S.String),
         }),
       ).annotate({ identifier: "FlexTemplateRuntimeEnvironment" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sdkInfo: S.optional(__S(928, __c29, 0)),
           image: S.optional(S.String),
+          sdkInfo: S.optional(__S(933, __c29, 5)),
+          metadata: S.optional(__S(932, __c29, 4)),
           imageRepositoryPasswordSecretId: S.optional(S.String),
-          imageRepositoryCertPath: S.optional(S.String),
-          defaultEnvironment: S.optional(__S(1120, __c35, 0)),
           imageRepositoryUsernameSecretId: S.optional(S.String),
-          metadata: S.optional(__S(933, __c29, 5)),
+          defaultEnvironment: S.optional(__S(1120, __c35, 0)),
+          imageRepositoryCertPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerSpec" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          containerSpec: S.optional(__S(1121, __c35, 1)),
+          environment: S.optional(__S(1120, __c35, 0)),
           transformNameMappings: S.optional(__S(1632, __c51, 0)),
           jobName: S.optional(S.String),
+          update: S.optional(S.Boolean),
+          parameters: S.optional(__S(1632, __c51, 0)),
           containerSpecGcsPath: S.optional(S.String),
           launchOptions: S.optional(__S(1632, __c51, 0)),
-          parameters: S.optional(__S(1632, __c51, 0)),
-          environment: S.optional(__S(1120, __c35, 0)),
-          containerSpec: S.optional(__S(1121, __c35, 1)),
-          update: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "LaunchFlexTemplateParameter" });
     case 3:
@@ -5358,8 +5358,8 @@ function __c35(j: number): any {
         S.Extend(
           __S(1123, __c35, 3),
           S.Struct({
-            projectId: S.String.pipe(T.Label()),
             location: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -5388,10 +5388,10 @@ function __c37(j: number): any {
         S.Extend(
           __S(1216, __c38, 0),
           S.Struct({
-            "dynamicTemplate.gcsPath": S.optional(S.String.pipe(T.Query())),
-            location: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            "dynamicTemplate.gcsPath": S.optional(S.String.pipe(T.Query())),
             "dynamicTemplate.stagingLocation": S.optional(S.String.pipe(T.Query())),
+            location: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             gcsPath: S.optional(S.String.pipe(T.Query())),
           }),
@@ -5410,11 +5410,11 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          jobName: S.optional(S.String),
           parameters: S.optional(__S(1632, __c51, 0)),
-          environment: S.optional(__S(64, __c2, 0)),
           update: S.optional(S.Boolean),
           transformNameMapping: S.optional(__S(1632, __c51, 0)),
-          jobName: S.optional(S.String),
+          environment: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "LaunchTemplateParameters" });
   }
@@ -5426,11 +5426,11 @@ function __c39(j: number): any {
         S.Extend(
           __S(1216, __c38, 0),
           S.Struct({
-            "dynamicTemplate.gcsPath": S.optional(S.String.pipe(T.Query())),
             gcsPath: S.optional(S.String.pipe(T.Query())),
             "dynamicTemplate.stagingLocation": S.optional(S.String.pipe(T.Query())),
-            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             location: S.optional(S.String.pipe(T.Query())),
+            "dynamicTemplate.gcsPath": S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -5468,209 +5468,224 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestedLeaseDuration: S.optional(S.String),
           projectNumber: S.optional(S.String),
+          location: S.optional(S.String),
           workerCapabilities: S.optional(__S(1664, __c52, 0)),
           workItemTypes: S.optional(__S(1664, __c52, 0)),
-          location: S.optional(S.String),
-          unifiedWorkerRequest: S.optional(__S(1665, __c52, 1)),
-          workerId: S.optional(S.String),
           currentWorkerTime: S.optional(S.String),
+          workerId: S.optional(S.String),
+          unifiedWorkerRequest: S.optional(__S(1665, __c52, 1)),
+          requestedLeaseDuration: S.optional(S.String),
         }),
       ).annotate({ identifier: "LeaseWorkItemRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(1377, __c43, 1)),
+          onlyCountKeyBytes: S.optional(S.Boolean),
+          codec: S.optional(__S(1665, __c52, 1)),
+          name: S.optional(S.String),
+          onlyCountValueBytes: S.optional(S.Boolean),
+          systemName: S.optional(S.String),
+          originalName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SourceGetMetadataRequest" });
+      ).annotate({ identifier: "InstructionOutput" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          desiredBundleSizeBytes: S.optional(S.String),
-          desiredShardSizeBytes: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SourceSplitOptions" });
+      return S.Array(__S(1313, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(1314, __c41, 2)),
           source: S.optional(__S(1377, __c43, 1)),
         }),
-      ).annotate({ identifier: "SourceSplitRequest" });
+      ).annotate({ identifier: "ReadInstruction" });
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          getMetadata: S.optional(__S(1313, __c41, 1)),
-          stageName: S.optional(S.String),
-          split: S.optional(__S(1315, __c41, 3)),
-          name: S.optional(S.String),
-          originalName: S.optional(S.String),
-          systemName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SourceOperationRequest" });
+      return S.Array(__S(1377, __c43, 1));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          dataDisk: S.optional(S.String),
+          sources: S.optional(__S(1316, __c41, 4)),
+          tag: S.optional(S.String),
+          kind: S.optional(__S(1665, __c52, 1)),
         }),
-      ).annotate({ identifier: "MountedDataDisk" });
+      ).annotate({ identifier: "SideInputInfo" });
     case 6:
       return S.Array(__S(1317, __c41, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          dataDisk: S.optional(S.String),
-          start: S.optional(S.String),
-          end: S.optional(S.String),
+          producerInstructionIndex: S.optional(S.Number),
+          outputNum: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "KeyRangeDataDiskAssignment" });
+      ).annotate({ identifier: "InstructionInput" });
     case 8:
-      return S.Array(__S(1319, __c41, 7));
+      return S.suspend(() =>
+        S.Struct({
+          sideInputs: S.optional(__S(1318, __c41, 6)),
+          valueCombiningFn: S.optional(__S(1665, __c52, 1)),
+          inputElementCodec: S.optional(__S(1665, __c52, 1)),
+          input: S.optional(__S(1319, __c41, 7)),
+          originalCombineValuesStepName: S.optional(S.String),
+          originalCombineValuesInputStoreName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PartialGroupByKeyInstruction" });
     case 9:
-      return S.suspend(() =>
-        S.Struct({
-          rangeAssignments: S.optional(__S(1320, __c41, 8)),
-          computationId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StreamingComputationRanges" });
-    case 10:
-      return S.Array(__S(1321, __c41, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          dataDisks: S.optional(__S(1318, __c41, 6)),
-          taskType: S.optional(S.String),
-          computationRanges: S.optional(__S(1322, __c41, 10)),
-        }),
-      ).annotate({ identifier: "StreamingComputationTask" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          vmInstance: S.optional(S.String),
-          dataDisks: S.optional(__S(1664, __c52, 0)),
-        }),
-      ).annotate({ identifier: "DataDiskAssignment" });
-    case 13:
-      return S.Array(__S(1324, __c41, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          stateful: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "CustomSourceLocation" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          tag: S.optional(S.String),
-          stateFamily: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StreamingSideInputLocation" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          timestampLabel: S.optional(S.String),
-          idLabel: S.optional(S.String),
-          topic: S.optional(S.String),
-          trackingSubscription: S.optional(S.String),
-          dynamicDestinations: S.optional(S.Boolean),
-          withAttributes: S.optional(S.Boolean),
-          dropLateData: S.optional(S.Boolean),
-          subscription: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PubsubLocation" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          streamId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StreamingStageLocation" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          customSourceLocation: S.optional(__S(1326, __c41, 14)),
-          sideInputLocation: S.optional(__S(1327, __c41, 15)),
-          pubsubLocation: S.optional(__S(1328, __c41, 16)),
-          streamingStageLocation: S.optional(__S(1329, __c41, 17)),
-        }),
-      ).annotate({ identifier: "StreamLocation" });
-    case 19:
-      return S.Array(__S(1330, __c41, 18));
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          start: S.optional(S.String),
-          dataDisk: S.optional(S.String),
-          deliveryEndpoint: S.optional(S.String),
-          end: S.optional(S.String),
-          deprecatedPersistentDirectory: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "KeyRangeLocation" });
-    case 21:
-      return S.Array(__S(1332, __c41, 20));
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          stateFamily: S.optional(S.String),
-          isRead: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "StateFamilyConfig" });
-    case 23:
-      return S.Array(__S(1334, __c41, 22));
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          inputs: S.optional(__S(1331, __c41, 19)),
-          systemStageName: S.optional(S.String),
-          keyRanges: S.optional(__S(1333, __c41, 21)),
-          stateFamilies: S.optional(__S(1335, __c41, 23)),
-          computationId: S.optional(S.String),
-          outputs: S.optional(__S(1331, __c41, 19)),
-        }),
-      ).annotate({ identifier: "ComputationTopology" });
-    case 25:
-      return S.Array(__S(1336, __c41, 24));
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          userStageToComputationNameMap: S.optional(__S(1632, __c51, 0)),
-          dataDiskAssignments: S.optional(__S(1325, __c41, 13)),
-          computations: S.optional(__S(1337, __c41, 25)),
-          persistentStateVersion: S.optional(S.Number),
-          forwardingKeyBits: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TopologyConfig" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          snapshotId: S.optional(S.String),
-          importStateEndpoint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StreamingApplianceSnapshotConfig" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          receiveWorkPort: S.optional(S.Number),
-          streamingComputationTopology: S.optional(__S(1338, __c41, 26)),
-          drain: S.optional(S.Boolean),
-          snapshotConfig: S.optional(__S(1339, __c41, 27)),
-          workerHarnessPort: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "StreamingSetupTask" });
-    case 29:
       return S.suspend(() =>
         S.Struct({
           codec: S.optional(__S(1665, __c52, 1)),
           spec: S.optional(__S(1665, __c52, 1)),
         }),
       ).annotate({ identifier: "Sink" });
-    case 30:
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          input: S.optional(__S(1319, __c41, 7)),
+          sink: S.optional(__S(1321, __c41, 9)),
+        }),
+      ).annotate({ identifier: "WriteInstruction" });
+    case 11:
+      return S.Array(__S(1319, __c41, 7));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          inputs: S.optional(__S(1323, __c41, 11)),
+        }),
+      ).annotate({ identifier: "FlattenInstruction" });
+    case 13:
       return S.suspend(() =>
         S.Struct({
           tag: S.optional(S.String),
-          sink: S.optional(__S(1341, __c41, 29)),
         }),
-      ).annotate({ identifier: "SeqMapTaskOutputInfo" });
+      ).annotate({ identifier: "MultiOutputInfo" });
+    case 14:
+      return S.Array(__S(1325, __c41, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          multiOutputInfos: S.optional(__S(1326, __c41, 14)),
+          sideInputs: S.optional(__S(1318, __c41, 6)),
+          numOutputs: S.optional(S.Number),
+          input: S.optional(__S(1319, __c41, 7)),
+          userFn: S.optional(__S(1665, __c52, 1)),
+        }),
+      ).annotate({ identifier: "ParDoInstruction" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          outputs: S.optional(__S(1314, __c41, 2)),
+          read: S.optional(__S(1315, __c41, 3)),
+          systemName: S.optional(S.String),
+          partialGroupByKey: S.optional(__S(1320, __c41, 8)),
+          originalName: S.optional(S.String),
+          write: S.optional(__S(1322, __c41, 10)),
+          name: S.optional(S.String),
+          flatten: S.optional(__S(1324, __c41, 12)),
+          parDo: S.optional(__S(1327, __c41, 15)),
+        }),
+      ).annotate({ identifier: "ParallelInstruction" });
+    case 17:
+      return S.Array(__S(1328, __c41, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          instructions: S.optional(__S(1329, __c41, 17)),
+          stageName: S.optional(S.String),
+          transformUserNameToStateFamily: S.optional(__S(1632, __c51, 0)),
+          systemName: S.optional(S.String),
+          computationId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StreamingComputationConfig" });
+    case 19:
+      return S.Array(__S(1330, __c41, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          maxGlobalDataBytes: S.optional(S.String),
+          maxSortedListElementBytes: S.optional(S.String),
+          maxValueBytes: S.optional(S.String),
+          maxKeyBytes: S.optional(S.String),
+          maxSourceStateBytes: S.optional(S.String),
+          maxTagBytes: S.optional(S.String),
+          maxProductionOutputBytes: S.optional(S.String),
+          maxBagElementBytes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StreamingOperationalLimits" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          commitStreamChunkSizeBytes: S.optional(S.String),
+          getDataStreamChunkSizeBytes: S.optional(S.String),
+          streamingComputationConfigs: S.optional(__S(1331, __c41, 19)),
+          windmillServiceEndpoint: S.optional(S.String),
+          userStepToStateFamilyNameMap: S.optional(__S(1632, __c51, 0)),
+          operationalLimits: S.optional(__S(1332, __c41, 20)),
+          maxWorkItemCommitBytes: S.optional(S.String),
+          userWorkerRunnerV1Settings: S.optional(S.String),
+          userWorkerRunnerV2Settings: S.optional(S.String),
+          windmillServicePort: S.optional(S.String),
+          streamingEngineStateTagEncodingVersion: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StreamingConfigTask" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          end: S.optional(S.String),
+          deprecatedPersistentDirectory: S.optional(S.String),
+          start: S.optional(S.String),
+          dataDisk: S.optional(S.String),
+          deliveryEndpoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KeyRangeLocation" });
+    case 23:
+      return S.Array(__S(1334, __c41, 22));
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          stateFamily: S.optional(S.String),
+          isRead: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "StateFamilyConfig" });
+    case 25:
+      return S.Array(__S(1336, __c41, 24));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          streamId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StreamingStageLocation" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          withAttributes: S.optional(S.Boolean),
+          topic: S.optional(S.String),
+          timestampLabel: S.optional(S.String),
+          dropLateData: S.optional(S.Boolean),
+          subscription: S.optional(S.String),
+          dynamicDestinations: S.optional(S.Boolean),
+          trackingSubscription: S.optional(S.String),
+          idLabel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PubsubLocation" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          tag: S.optional(S.String),
+          stateFamily: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StreamingSideInputLocation" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          stateful: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CustomSourceLocation" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          streamingStageLocation: S.optional(__S(1338, __c41, 26)),
+          pubsubLocation: S.optional(__S(1339, __c41, 27)),
+          sideInputLocation: S.optional(__S(1340, __c41, 28)),
+          customSourceLocation: S.optional(__S(1341, __c41, 29)),
+        }),
+      ).annotate({ identifier: "StreamLocation" });
     case 31:
       return S.Array(__S(1342, __c41, 30));
   }
@@ -5678,183 +5693,168 @@ function __c41(j: number): any {
 function __c42(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1377, __c43, 1));
+      return S.suspend(() =>
+        S.Struct({
+          keyRanges: S.optional(__S(1335, __c41, 23)),
+          systemStageName: S.optional(S.String),
+          computationId: S.optional(S.String),
+          stateFamilies: S.optional(__S(1337, __c41, 25)),
+          inputs: S.optional(__S(1343, __c41, 31)),
+          outputs: S.optional(__S(1343, __c41, 31)),
+        }),
+      ).annotate({ identifier: "ComputationTopology" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.optional(__S(1665, __c52, 1)),
-          tag: S.optional(S.String),
-          sources: S.optional(__S(1344, __c42, 0)),
-        }),
-      ).annotate({ identifier: "SideInputInfo" });
+      return S.Array(__S(1344, __c42, 0));
     case 2:
-      return S.Array(__S(1345, __c42, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          userFn: S.optional(__S(1665, __c52, 1)),
-          outputInfos: S.optional(__S(1343, __c41, 31)),
-          stageName: S.optional(S.String),
-          inputs: S.optional(__S(1346, __c42, 2)),
-          name: S.optional(S.String),
-          systemName: S.optional(S.String),
+          vmInstance: S.optional(S.String),
+          dataDisks: S.optional(__S(1664, __c52, 0)),
         }),
-      ).annotate({ identifier: "SeqMapTask" });
+      ).annotate({ identifier: "DataDiskAssignment" });
+    case 3:
+      return S.Array(__S(1346, __c42, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          maxGlobalDataBytes: S.optional(S.String),
-          maxBagElementBytes: S.optional(S.String),
-          maxProductionOutputBytes: S.optional(S.String),
-          maxKeyBytes: S.optional(S.String),
-          maxTagBytes: S.optional(S.String),
-          maxValueBytes: S.optional(S.String),
-          maxSourceStateBytes: S.optional(S.String),
-          maxSortedListElementBytes: S.optional(S.String),
+          computations: S.optional(__S(1345, __c42, 1)),
+          forwardingKeyBits: S.optional(S.Number),
+          dataDiskAssignments: S.optional(__S(1347, __c42, 3)),
+          persistentStateVersion: S.optional(S.Number),
+          userStageToComputationNameMap: S.optional(__S(1632, __c51, 0)),
         }),
-      ).annotate({ identifier: "StreamingOperationalLimits" });
+      ).annotate({ identifier: "TopologyConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          outputNum: S.optional(S.Number),
-          producerInstructionIndex: S.optional(S.Number),
+          importStateEndpoint: S.optional(S.String),
+          snapshotId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InstructionInput" });
+      ).annotate({ identifier: "StreamingApplianceSnapshotConfig" });
     case 6:
-      return S.Array(__S(1349, __c42, 5));
+      return S.suspend(() =>
+        S.Struct({
+          drain: S.optional(S.Boolean),
+          streamingComputationTopology: S.optional(__S(1348, __c42, 4)),
+          snapshotConfig: S.optional(__S(1349, __c42, 5)),
+          receiveWorkPort: S.optional(S.Number),
+          workerHarnessPort: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StreamingSetupTask" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          inputs: S.optional(__S(1350, __c42, 6)),
+          stageName: S.optional(S.String),
+          instructions: S.optional(__S(1329, __c41, 17)),
+          counterPrefix: S.optional(S.String),
+          systemName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FlattenInstruction" });
+      ).annotate({ identifier: "MapTask" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           tag: S.optional(S.String),
+          sink: S.optional(__S(1321, __c41, 9)),
         }),
-      ).annotate({ identifier: "MultiOutputInfo" });
+      ).annotate({ identifier: "SeqMapTaskOutputInfo" });
     case 9:
       return S.Array(__S(1352, __c42, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          multiOutputInfos: S.optional(__S(1353, __c42, 9)),
-          numOutputs: S.optional(S.Number),
-          input: S.optional(__S(1349, __c42, 5)),
+          outputInfos: S.optional(__S(1353, __c42, 9)),
+          name: S.optional(S.String),
           userFn: S.optional(__S(1665, __c52, 1)),
-          sideInputs: S.optional(__S(1346, __c42, 2)),
+          inputs: S.optional(__S(1318, __c41, 6)),
+          stageName: S.optional(S.String),
+          systemName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ParDoInstruction" });
+      ).annotate({ identifier: "SeqMapTask" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          sink: S.optional(__S(1341, __c41, 29)),
-          input: S.optional(__S(1349, __c42, 5)),
+          end: S.optional(S.String),
+          start: S.optional(S.String),
+          dataDisk: S.optional(S.String),
         }),
-      ).annotate({ identifier: "WriteInstruction" });
+      ).annotate({ identifier: "KeyRangeDataDiskAssignment" });
     case 12:
-      return S.suspend(() =>
-        S.Struct({
-          originalCombineValuesStepName: S.optional(S.String),
-          sideInputs: S.optional(__S(1346, __c42, 2)),
-          input: S.optional(__S(1349, __c42, 5)),
-          inputElementCodec: S.optional(__S(1665, __c52, 1)),
-          valueCombiningFn: S.optional(__S(1665, __c52, 1)),
-          originalCombineValuesInputStoreName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PartialGroupByKeyInstruction" });
+      return S.Array(__S(1355, __c42, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          systemName: S.optional(S.String),
-          originalName: S.optional(S.String),
-          codec: S.optional(__S(1665, __c52, 1)),
-          onlyCountKeyBytes: S.optional(S.Boolean),
-          onlyCountValueBytes: S.optional(S.Boolean),
+          computationId: S.optional(S.String),
+          rangeAssignments: S.optional(__S(1356, __c42, 12)),
         }),
-      ).annotate({ identifier: "InstructionOutput" });
+      ).annotate({ identifier: "StreamingComputationRanges" });
     case 14:
       return S.Array(__S(1357, __c42, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          flatten: S.optional(__S(1351, __c42, 7)),
-          name: S.optional(S.String),
-          parDo: S.optional(__S(1354, __c42, 10)),
-          systemName: S.optional(S.String),
-          originalName: S.optional(S.String),
-          read: S.optional(__S(1313, __c41, 1)),
-          write: S.optional(__S(1355, __c42, 11)),
-          partialGroupByKey: S.optional(__S(1356, __c42, 12)),
-          outputs: S.optional(__S(1358, __c42, 14)),
+          dataDisk: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ParallelInstruction" });
+      ).annotate({ identifier: "MountedDataDisk" });
     case 16:
       return S.Array(__S(1359, __c42, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          systemName: S.optional(S.String),
-          stageName: S.optional(S.String),
-          transformUserNameToStateFamily: S.optional(__S(1632, __c51, 0)),
-          computationId: S.optional(S.String),
-          instructions: S.optional(__S(1360, __c42, 16)),
+          taskType: S.optional(S.String),
+          computationRanges: S.optional(__S(1358, __c42, 14)),
+          dataDisks: S.optional(__S(1360, __c42, 16)),
         }),
-      ).annotate({ identifier: "StreamingComputationConfig" });
+      ).annotate({ identifier: "StreamingComputationTask" });
     case 18:
-      return S.Array(__S(1361, __c42, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          streamingEngineStateTagEncodingVersion: S.optional(S.Number),
-          commitStreamChunkSizeBytes: S.optional(S.String),
-          maxWorkItemCommitBytes: S.optional(S.String),
-          operationalLimits: S.optional(__S(1348, __c42, 4)),
-          userWorkerRunnerV2Settings: S.optional(S.String),
-          streamingComputationConfigs: S.optional(__S(1362, __c42, 18)),
-          windmillServicePort: S.optional(S.String),
-          windmillServiceEndpoint: S.optional(S.String),
-          userStepToStateFamilyNameMap: S.optional(__S(1632, __c51, 0)),
-          getDataStreamChunkSizeBytes: S.optional(S.String),
-          userWorkerRunnerV1Settings: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StreamingConfigTask" });
-    case 20:
       return S.suspend(() =>
         S.Struct({
           exitCode: S.optional(S.Number),
           command: S.optional(S.String),
         }),
       ).annotate({ identifier: "ShellTask" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          desiredBundleSizeBytes: S.optional(S.String),
+          desiredShardSizeBytes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SourceSplitOptions" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.optional(__S(1377, __c43, 1)),
+          options: S.optional(__S(1363, __c42, 19)),
+        }),
+      ).annotate({ identifier: "SourceSplitRequest" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          counterPrefix: S.optional(S.String),
-          systemName: S.optional(S.String),
-          instructions: S.optional(__S(1360, __c42, 16)),
+          name: S.optional(S.String),
           stageName: S.optional(S.String),
+          systemName: S.optional(S.String),
+          originalName: S.optional(S.String),
+          split: S.optional(__S(1364, __c42, 20)),
+          getMetadata: S.optional(__S(1315, __c41, 3)),
         }),
-      ).annotate({ identifier: "MapTask" });
+      ).annotate({ identifier: "SourceOperationRequest" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          sourceOperationTask: S.optional(__S(1316, __c41, 4)),
-          streamingComputationTask: S.optional(__S(1323, __c41, 11)),
-          projectId: S.optional(S.String),
-          reportStatusInterval: S.optional(S.String),
-          streamingSetupTask: S.optional(__S(1340, __c41, 28)),
-          packages: S.optional(__S(1697, __c53, 1)),
+          streamingConfigTask: S.optional(__S(1333, __c41, 21)),
           jobId: S.optional(S.String),
-          seqMapTask: S.optional(__S(1347, __c42, 3)),
-          streamingConfigTask: S.optional(__S(1363, __c42, 19)),
-          shellTask: S.optional(__S(1364, __c42, 20)),
           initialReportIndex: S.optional(S.String),
+          reportStatusInterval: S.optional(S.String),
+          packages: S.optional(__S(1697, __c53, 1)),
+          streamingSetupTask: S.optional(__S(1350, __c42, 6)),
           leaseExpireTime: S.optional(S.String),
-          id: S.optional(S.String),
+          mapTask: S.optional(__S(1351, __c42, 7)),
+          projectId: S.optional(S.String),
           configuration: S.optional(S.String),
-          mapTask: S.optional(__S(1365, __c42, 21)),
+          seqMapTask: S.optional(__S(1354, __c42, 10)),
+          streamingComputationTask: S.optional(__S(1361, __c42, 17)),
+          shellTask: S.optional(__S(1362, __c42, 18)),
+          sourceOperationTask: S.optional(__S(1365, __c42, 21)),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkItem" });
     case 23:
@@ -5862,8 +5862,8 @@ function __c42(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          workItems: S.optional(__S(1367, __c42, 23)),
           unifiedWorkerResponse: S.optional(__S(1665, __c52, 1)),
+          workItems: S.optional(__S(1367, __c42, 23)),
         }),
       ).annotate({ identifier: "LeaseWorkItemResponse" });
   }
@@ -5881,11 +5881,11 @@ function __c43(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          doesNotNeedSplitting: S.optional(S.Boolean),
-          metadata: S.optional(__S(1376, __c43, 0)),
           baseSpecs: S.optional(__S(960, __c30, 0)),
-          spec: S.optional(__S(1665, __c52, 1)),
+          metadata: S.optional(__S(1376, __c43, 0)),
           codec: S.optional(__S(1665, __c52, 1)),
+          doesNotNeedSplitting: S.optional(S.Boolean),
+          spec: S.optional(__S(1665, __c52, 1)),
         }),
       ).annotate({ identifier: "Source" });
   }
@@ -5897,9 +5897,9 @@ function __c44(j: number): any {
         S.Extend(
           __S(1312, __c41, 0),
           S.Struct({
+            location: S.String.pipe(T.Label()),
             jobId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            location: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -5916,8 +5916,8 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -5934,8 +5934,8 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           configStoreSettings: S.optional(__S(1504, __c47, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConfigStoreSettingsResponse" });
   }
@@ -5951,9 +5951,9 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5969,18 +5969,18 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          "terminationTimeRange.startTime": S.optional(S.String.pipe(T.Query())),
           location: S.optional(S.String.pipe(T.Query())),
-          "terminationTimeRange.endTime": S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          "terminationTimeRange.startTime": S.optional(S.String.pipe(T.Query())),
+          "createTimeRange.startTime": S.optional(S.String.pipe(T.Query())),
           name: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
+          "createTimeRange.endTime": S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
           regionalFanoutRequested: S.optional(S.Boolean.pipe(T.Query())),
-          "createTimeRange.endTime": S.optional(S.String.pipe(T.Query())),
-          "createTimeRange.startTime": S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          "terminationTimeRange.endTime": S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6007,8 +6007,8 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           jobs: S.optional(__S(1600, __c50, 0)),
-          nextPageToken: S.optional(S.String),
           failedLocation: S.optional(__S(1602, __c50, 2)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListJobsResponse" });
   }
@@ -6032,8 +6032,8 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           location: S.optional(S.String),
+          name: S.optional(S.String),
           sha256: S.optional(S.String),
         }),
       ).annotate({ identifier: "Package" });
@@ -6046,57 +6046,58 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filePattern: S.optional(S.String),
+          namespace: S.optional(S.String),
+          projectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FileIODetails" });
+      ).annotate({ identifier: "DatastoreIODetails" });
     case 1:
       return S.Array(__S(1728, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          subscription: S.optional(S.String),
-          topic: S.optional(S.String),
+          projectId: S.optional(S.String),
+          instanceId: S.optional(S.String),
+          tableId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PubSubIODetails" });
+      ).annotate({ identifier: "BigTableIODetails" });
     case 3:
       return S.Array(__S(1730, __c54, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dataset: S.optional(S.String),
-          table: S.optional(S.String),
+          instanceId: S.optional(S.String),
           projectId: S.optional(S.String),
-          query: S.optional(S.String),
+          databaseId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BigQueryIODetails" });
+      ).annotate({ identifier: "SpannerIODetails" });
     case 5:
       return S.Array(__S(1732, __c54, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String),
-          instanceId: S.optional(S.String),
-          databaseId: S.optional(S.String),
+          topic: S.optional(S.String),
+          subscription: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SpannerIODetails" });
+      ).annotate({ identifier: "PubSubIODetails" });
     case 7:
       return S.Array(__S(1734, __c54, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
+          query: S.optional(S.String),
           projectId: S.optional(S.String),
-          tableId: S.optional(S.String),
-          instanceId: S.optional(S.String),
+          table: S.optional(S.String),
+          dataset: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BigTableIODetails" });
+      ).annotate({ identifier: "BigQueryIODetails" });
     case 9:
       return S.Array(__S(1736, __c54, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
+          severity: S.optional(S.String),
           uri: S.optional(S.String),
           type: S.optional(S.String),
-          severity: S.optional(S.String),
         }),
       ).annotate({ identifier: "SdkBug" });
     case 11:
@@ -6105,365 +6106,364 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           versionDisplayName: S.optional(S.String),
+          bugs: S.optional(__S(1739, __c54, 11)),
           sdkSupportStatus: S.optional(S.String),
           version: S.optional(S.String),
-          bugs: S.optional(__S(1739, __c54, 11)),
         }),
       ).annotate({ identifier: "SdkVersion" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          namespace: S.optional(S.String),
-          projectId: S.optional(S.String),
+          filePattern: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DatastoreIODetails" });
+      ).annotate({ identifier: "FileIODetails" });
     case 14:
       return S.Array(__S(1741, __c54, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          fileDetails: S.optional(__S(1729, __c54, 1)),
-          pubsubDetails: S.optional(__S(1731, __c54, 3)),
-          bigqueryDetails: S.optional(__S(1733, __c54, 5)),
           userDisplayProperties: S.optional(__S(1632, __c51, 0)),
-          spannerDetails: S.optional(__S(1735, __c54, 7)),
-          bigTableDetails: S.optional(__S(1737, __c54, 9)),
+          datastoreDetails: S.optional(__S(1729, __c54, 1)),
+          bigTableDetails: S.optional(__S(1731, __c54, 3)),
+          spannerDetails: S.optional(__S(1733, __c54, 5)),
+          pubsubDetails: S.optional(__S(1735, __c54, 7)),
+          bigqueryDetails: S.optional(__S(1737, __c54, 9)),
           sdkVersion: S.optional(__S(1740, __c54, 12)),
-          datastoreDetails: S.optional(__S(1742, __c54, 14)),
+          fileDetails: S.optional(__S(1742, __c54, 14)),
         }),
       ).annotate({ identifier: "JobMetadata" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          durationValue: S.optional(S.String),
-          shortStrValue: S.optional(S.String),
-          namespace: S.optional(S.String),
-          javaClassValue: S.optional(S.String),
-          int64Value: S.optional(S.String),
-          boolValue: S.optional(S.Boolean),
-          timestampValue: S.optional(S.String),
-          key: S.optional(S.String),
-          strValue: S.optional(S.String),
-          url: S.optional(S.String),
-          floatValue: S.optional(S.Number),
-          label: S.optional(S.String),
+          stepName: S.optional(__S(1664, __c52, 0)),
         }),
-      ).annotate({ identifier: "DisplayData" });
+      ).annotate({ identifier: "JobExecutionStageInfo" });
     case 17:
-      return S.Array(__S(1744, __c54, 16));
+      return S.Record(S.String, __S(1744, __c54, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          originalTransformOrCollection: S.optional(S.String),
-          userName: S.optional(S.String),
-          sizeBytes: S.optional(S.String),
+          stages: S.optional(__S(1745, __c54, 17)),
         }),
-      ).annotate({ identifier: "StageSource" });
+      ).annotate({ identifier: "JobExecutionInfo" });
     case 19:
-      return S.Array(__S(1746, __c54, 18));
-    case 20:
       return S.suspend(() =>
         S.Struct({
-          originalTransformOrCollection: S.optional(S.String),
-          userName: S.optional(S.String),
+          properties: S.optional(__S(1665, __c52, 1)),
+          kind: S.optional(S.String),
           name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ComponentSource" });
+      ).annotate({ identifier: "Step" });
+    case 20:
+      return S.Array(__S(1747, __c54, 19));
     case 21:
-      return S.Array(__S(1748, __c54, 20));
+      return S.suspend(() =>
+        S.Struct({
+          maxWorkerCount: S.optional(S.Number),
+          minWorkerCount: S.optional(S.Number),
+          cpuUtilizationTarget: S.optional(S.Number),
+          latencyTarget: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Parameters" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          userName: S.optional(S.String),
+          priority: S.optional(S.String),
           name: S.optional(S.String),
-          originalTransform: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          parameters: S.optional(__S(1749, __c54, 21)),
+          duration: S.optional(S.String),
+          timeZone: S.optional(S.String),
+          crontab: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ComponentTransform" });
+      ).annotate({ identifier: "AutoscalingSchedule" });
     case 23:
       return S.Array(__S(1750, __c54, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          outputSource: S.optional(__S(1747, __c54, 19)),
-          inputSource: S.optional(__S(1747, __c54, 19)),
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          componentSource: S.optional(__S(1749, __c54, 21)),
-          componentTransform: S.optional(__S(1751, __c54, 23)),
-          prerequisiteStage: S.optional(__S(1664, __c52, 0)),
+          latencyTier: S.optional(S.String),
+          schedules: S.optional(__S(1751, __c54, 23)),
+          minNumWorkers: S.optional(S.Number),
+          autoscalingTier: S.optional(S.String),
+          maxNumWorkers: S.optional(S.Number),
+          acceptableBacklogDuration: S.optional(S.String),
+          workerUtilizationHint: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ExecutionStageSummary" });
+      ).annotate({ identifier: "RuntimeUpdatableParams" });
     case 25:
-      return S.Array(__S(1752, __c54, 24));
+      return S.suspend(() =>
+        S.Struct({
+          mountPoint: S.optional(S.String),
+          diskType: S.optional(S.String),
+          sizeGb: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Disk" });
     case 26:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-          inputCollectionName: S.optional(__S(1664, __c52, 0)),
-          displayData: S.optional(__S(1745, __c54, 17)),
-          outputCollectionName: S.optional(__S(1664, __c52, 0)),
-        }),
-      ).annotate({ identifier: "TransformSummary" });
+      return S.Array(__S(1753, __c54, 25));
     case 27:
-      return S.Array(__S(1754, __c54, 26));
-    case 28:
       return S.suspend(() =>
         S.Struct({
-          displayData: S.optional(__S(1745, __c54, 17)),
-          executionPipelineStage: S.optional(__S(1753, __c54, 25)),
-          stepNamesHash: S.optional(S.String),
-          originalPipelineTransform: S.optional(__S(1755, __c54, 27)),
+          useSingleCorePerContainer: S.optional(S.Boolean),
+          environmentId: S.optional(S.String),
+          capabilities: S.optional(__S(1664, __c52, 0)),
+          containerImage: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PipelineDescription" });
+      ).annotate({ identifier: "SdkHarnessContainerImage" });
+    case 28:
+      return S.Array(__S(1755, __c54, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1665, __c52, 1)),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
+          algorithm: S.optional(S.String),
+          maxNumWorkers: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Step" });
+      ).annotate({ identifier: "AutoscalingSettings" });
     case 30:
-      return S.Array(__S(1757, __c54, 29));
+      return S.suspend(() =>
+        S.Struct({
+          reportingEnabled: S.optional(S.Boolean),
+          workerId: S.optional(S.String),
+          servicePath: S.optional(S.String),
+          tempStoragePrefix: S.optional(S.String),
+          shuffleServicePath: S.optional(S.String),
+          baseUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkerSettings" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          executionStageState: S.optional(S.String),
-          executionStageName: S.optional(S.String),
-          currentStateTime: S.optional(S.String),
+          parallelWorkerSettings: S.optional(__S(1758, __c54, 30)),
+          continueOnException: S.optional(S.Boolean),
+          workflowFileName: S.optional(S.String),
+          logDir: S.optional(S.String),
+          logUploadLocation: S.optional(S.String),
+          streamingWorkerMainClass: S.optional(S.String),
+          baseTaskDir: S.optional(S.String),
+          harnessCommand: S.optional(S.String),
+          oauthScopes: S.optional(__S(1664, __c52, 0)),
+          vmId: S.optional(S.String),
+          taskUser: S.optional(S.String),
+          logToSerialconsole: S.optional(S.Boolean),
+          baseUrl: S.optional(S.String),
+          taskGroup: S.optional(S.String),
+          alsologtostderr: S.optional(S.Boolean),
+          languageHint: S.optional(S.String),
+          dataflowApiVersion: S.optional(S.String),
+          tempStoragePrefix: S.optional(S.String),
+          commandlinesFileName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ExecutionStageState" });
+      ).annotate({ identifier: "TaskRunnerSettings" });
   }
 }
 function __c55(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1759, __c54, 31));
+      return S.suspend(() =>
+        S.Struct({
+          numWorkers: S.optional(S.Number),
+          diskType: S.optional(S.String),
+          ipConfiguration: S.optional(S.String),
+          onHostMaintenance: S.optional(S.String),
+          numThreadsPerWorker: S.optional(S.Number),
+          dataDisks: S.optional(__S(1754, __c54, 26)),
+          poolArgs: S.optional(__S(1665, __c52, 1)),
+          workerHarnessContainerImage: S.optional(S.String),
+          network: S.optional(S.String),
+          sdkHarnessContainerImages: S.optional(__S(1756, __c54, 28)),
+          machineType: S.optional(S.String),
+          autoscalingSettings: S.optional(__S(1757, __c54, 29)),
+          diskSizeGb: S.optional(S.Number),
+          subnetwork: S.optional(S.String),
+          metadata: S.optional(__S(1632, __c51, 0)),
+          diskSourceImage: S.optional(S.String),
+          teardownPolicy: S.optional(S.String),
+          packages: S.optional(__S(1697, __c53, 1)),
+          kind: S.optional(S.String),
+          defaultPackageSet: S.optional(S.String),
+          zone: S.optional(S.String),
+          diskProvisionedThroughputMibps: S.optional(S.String),
+          taskrunnerSettings: S.optional(__S(1759, __c54, 31)),
+          diskProvisionedIops: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkerPool" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          maxNumWorkers: S.optional(S.Number),
-          algorithm: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AutoscalingSettings" });
+      return S.Array(__S(1760, __c55, 0));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          tempStoragePrefix: S.optional(S.String),
-          reportingEnabled: S.optional(S.Boolean),
-          shuffleServicePath: S.optional(S.String),
-          workerId: S.optional(S.String),
-          baseUrl: S.optional(S.String),
-          servicePath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WorkerSettings" });
+      return S.Array(S.String);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          streamingWorkerMainClass: S.optional(S.String),
-          baseUrl: S.optional(S.String),
-          parallelWorkerSettings: S.optional(__S(1762, __c55, 2)),
-          logDir: S.optional(S.String),
-          languageHint: S.optional(S.String),
-          taskGroup: S.optional(S.String),
-          logUploadLocation: S.optional(S.String),
-          harnessCommand: S.optional(S.String),
-          taskUser: S.optional(S.String),
-          dataflowApiVersion: S.optional(S.String),
-          tempStoragePrefix: S.optional(S.String),
-          commandlinesFileName: S.optional(S.String),
-          logToSerialconsole: S.optional(S.Boolean),
-          continueOnException: S.optional(S.Boolean),
-          vmId: S.optional(S.String),
-          alsologtostderr: S.optional(S.Boolean),
-          oauthScopes: S.optional(__S(1664, __c52, 0)),
-          workflowFileName: S.optional(S.String),
-          baseTaskDir: S.optional(S.String),
+          behaviors: S.optional(__S(1762, __c55, 2)),
         }),
-      ).annotate({ identifier: "TaskRunnerSettings" });
+      ).annotate({ identifier: "DataSamplingConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          environmentId: S.optional(S.String),
-          useSingleCorePerContainer: S.optional(S.Boolean),
-          capabilities: S.optional(__S(1664, __c52, 0)),
-          containerImage: S.optional(S.String),
+          enableHotKeyLogging: S.optional(S.Boolean),
+          dataSampling: S.optional(__S(1763, __c55, 3)),
         }),
-      ).annotate({ identifier: "SdkHarnessContainerImage" });
+      ).annotate({ identifier: "DebugOptions" });
     case 5:
-      return S.Array(__S(1764, __c55, 4));
+      return S.suspend(() =>
+        S.Struct({
+          serviceOptions: S.optional(__S(1664, __c52, 0)),
+          serviceAccountEmail: S.optional(S.String),
+          usePublicIps: S.optional(S.Boolean),
+          sdkPipelineOptions: S.optional(__S(1665, __c52, 1)),
+          flexResourceSchedulingGoal: S.optional(S.String),
+          workerPools: S.optional(__S(1761, __c55, 1)),
+          useStreamingEngineResourceBasedBilling: S.optional(S.Boolean),
+          shuffleMode: S.optional(S.String),
+          workerRegion: S.optional(S.String),
+          serviceKmsKeyName: S.optional(S.String),
+          version: S.optional(__S(1665, __c52, 1)),
+          tempStoragePrefix: S.optional(S.String),
+          dataset: S.optional(S.String),
+          debugOptions: S.optional(__S(1764, __c55, 4)),
+          internalExperiments: S.optional(__S(1665, __c52, 1)),
+          experiments: S.optional(__S(1664, __c52, 0)),
+          streamingMode: S.optional(S.String),
+          workerZone: S.optional(S.String),
+          clusterManagerApiService: S.optional(S.String),
+          userAgent: S.optional(__S(1665, __c52, 1)),
+        }),
+      ).annotate({ identifier: "Environment" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          sizeGb: S.optional(S.Number),
-          diskType: S.optional(S.String),
-          mountPoint: S.optional(S.String),
+          executionStageName: S.optional(S.String),
+          currentStateTime: S.optional(S.String),
+          executionStageState: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Disk" });
+      ).annotate({ identifier: "ExecutionStageState" });
     case 7:
       return S.Array(__S(1766, __c55, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          diskProvisionedIops: S.optional(S.String),
-          diskSizeGb: S.optional(S.Number),
-          diskType: S.optional(S.String),
-          workerHarnessContainerImage: S.optional(S.String),
-          diskProvisionedThroughputMibps: S.optional(S.String),
-          defaultPackageSet: S.optional(S.String),
-          autoscalingSettings: S.optional(__S(1761, __c55, 1)),
-          onHostMaintenance: S.optional(S.String),
-          zone: S.optional(S.String),
-          ipConfiguration: S.optional(S.String),
-          taskrunnerSettings: S.optional(__S(1763, __c55, 3)),
-          teardownPolicy: S.optional(S.String),
-          sdkHarnessContainerImages: S.optional(__S(1765, __c55, 5)),
-          machineType: S.optional(S.String),
-          metadata: S.optional(__S(1632, __c51, 0)),
-          diskSourceImage: S.optional(S.String),
-          numWorkers: S.optional(S.Number),
-          kind: S.optional(S.String),
-          packages: S.optional(__S(1697, __c53, 1)),
-          subnetwork: S.optional(S.String),
-          network: S.optional(S.String),
-          poolArgs: S.optional(__S(1665, __c52, 1)),
-          dataDisks: S.optional(__S(1767, __c55, 7)),
-          numThreadsPerWorker: S.optional(S.Number),
+          int64Value: S.optional(S.String),
+          javaClassValue: S.optional(S.String),
+          key: S.optional(S.String),
+          label: S.optional(S.String),
+          namespace: S.optional(S.String),
+          strValue: S.optional(S.String),
+          boolValue: S.optional(S.Boolean),
+          url: S.optional(S.String),
+          floatValue: S.optional(S.Number),
+          timestampValue: S.optional(S.String),
+          durationValue: S.optional(S.String),
+          shortStrValue: S.optional(S.String),
         }),
-      ).annotate({ identifier: "WorkerPool" });
+      ).annotate({ identifier: "DisplayData" });
     case 9:
       return S.Array(__S(1768, __c55, 8));
     case 10:
-      return S.Array(S.String);
-    case 11:
       return S.suspend(() =>
         S.Struct({
-          behaviors: S.optional(__S(1770, __c55, 10)),
+          name: S.optional(S.String),
+          outputCollectionName: S.optional(__S(1664, __c52, 0)),
+          displayData: S.optional(__S(1769, __c55, 9)),
+          inputCollectionName: S.optional(__S(1664, __c52, 0)),
+          id: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DataSamplingConfig" });
+      ).annotate({ identifier: "TransformSummary" });
+    case 11:
+      return S.Array(__S(1770, __c55, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          enableHotKeyLogging: S.optional(S.Boolean),
-          dataSampling: S.optional(__S(1771, __c55, 11)),
+          userName: S.optional(S.String),
+          originalTransform: S.optional(S.String),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DebugOptions" });
+      ).annotate({ identifier: "ComponentTransform" });
     case 13:
-      return S.suspend(() =>
-        S.Struct({
-          experiments: S.optional(__S(1664, __c52, 0)),
-          serviceOptions: S.optional(__S(1664, __c52, 0)),
-          workerZone: S.optional(S.String),
-          tempStoragePrefix: S.optional(S.String),
-          clusterManagerApiService: S.optional(S.String),
-          serviceAccountEmail: S.optional(S.String),
-          workerPools: S.optional(__S(1769, __c55, 9)),
-          streamingMode: S.optional(S.String),
-          sdkPipelineOptions: S.optional(__S(1665, __c52, 1)),
-          flexResourceSchedulingGoal: S.optional(S.String),
-          internalExperiments: S.optional(__S(1665, __c52, 1)),
-          useStreamingEngineResourceBasedBilling: S.optional(S.Boolean),
-          debugOptions: S.optional(__S(1772, __c55, 12)),
-          dataset: S.optional(S.String),
-          shuffleMode: S.optional(S.String),
-          usePublicIps: S.optional(S.Boolean),
-          workerRegion: S.optional(S.String),
-          version: S.optional(__S(1665, __c52, 1)),
-          userAgent: S.optional(__S(1665, __c52, 1)),
-          serviceKmsKeyName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Environment" });
+      return S.Array(__S(1772, __c55, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          zones: S.optional(__S(1664, __c52, 0)),
+          originalTransformOrCollection: S.optional(S.String),
+          sizeBytes: S.optional(S.String),
+          name: S.optional(S.String),
+          userName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ServiceResources" });
+      ).annotate({ identifier: "StageSource" });
     case 15:
-      return S.suspend(() =>
-        S.Struct({
-          cpuUtilizationTarget: S.optional(S.Number),
-          minWorkerCount: S.optional(S.Number),
-          maxWorkerCount: S.optional(S.Number),
-          latencyTarget: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Parameters" });
+      return S.Array(__S(1774, __c55, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          priority: S.optional(S.String),
-          duration: S.optional(S.String),
+          userName: S.optional(S.String),
+          originalTransformOrCollection: S.optional(S.String),
           name: S.optional(S.String),
-          timeZone: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          parameters: S.optional(__S(1775, __c55, 15)),
-          crontab: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AutoscalingSchedule" });
+      ).annotate({ identifier: "ComponentSource" });
     case 17:
       return S.Array(__S(1776, __c55, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          acceptableBacklogDuration: S.optional(S.String),
-          maxNumWorkers: S.optional(S.Number),
-          minNumWorkers: S.optional(S.Number),
-          latencyTier: S.optional(S.String),
-          workerUtilizationHint: S.optional(S.Number),
-          schedules: S.optional(__S(1777, __c55, 17)),
-          autoscalingTier: S.optional(S.String),
+          componentTransform: S.optional(__S(1773, __c55, 13)),
+          prerequisiteStage: S.optional(__S(1664, __c52, 0)),
+          kind: S.optional(S.String),
+          inputSource: S.optional(__S(1775, __c55, 15)),
+          id: S.optional(S.String),
+          componentSource: S.optional(__S(1777, __c55, 17)),
+          name: S.optional(S.String),
+          outputSource: S.optional(__S(1775, __c55, 15)),
         }),
-      ).annotate({ identifier: "RuntimeUpdatableParams" });
+      ).annotate({ identifier: "ExecutionStageSummary" });
     case 19:
+      return S.Array(__S(1778, __c55, 18));
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          stepName: S.optional(__S(1664, __c52, 0)),
+          stepNamesHash: S.optional(S.String),
+          originalPipelineTransform: S.optional(__S(1771, __c55, 11)),
+          displayData: S.optional(__S(1769, __c55, 9)),
+          executionPipelineStage: S.optional(__S(1779, __c55, 19)),
         }),
-      ).annotate({ identifier: "JobExecutionStageInfo" });
-    case 20:
-      return S.Record(S.String, __S(1779, __c55, 19));
+      ).annotate({ identifier: "PipelineDescription" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          stages: S.optional(__S(1780, __c55, 20)),
+          zones: S.optional(__S(1664, __c52, 0)),
         }),
-      ).annotate({ identifier: "JobExecutionInfo" });
+      ).annotate({ identifier: "ServiceResources" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          clientRequestId: S.optional(S.String),
           jobMetadata: S.optional(__S(1743, __c54, 15)),
-          createdFromSnapshotId: S.optional(S.String),
-          location: S.optional(S.String),
-          pipelineDescription: S.optional(__S(1756, __c54, 28)),
-          projectId: S.optional(S.String),
-          name: S.optional(S.String),
-          steps: S.optional(__S(1758, __c54, 30)),
-          labels: S.optional(__S(1632, __c51, 0)),
-          currentState: S.optional(S.String),
-          type: S.optional(S.String),
-          tempFiles: S.optional(__S(1664, __c52, 0)),
-          startTime: S.optional(S.String),
-          transformNameMapping: S.optional(__S(1632, __c51, 0)),
-          satisfiesPzs: S.optional(S.Boolean),
-          stageStates: S.optional(__S(1760, __c55, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-          pausable: S.optional(S.Boolean),
-          replacedByJobId: S.optional(S.String),
-          currentStateTime: S.optional(S.String),
-          environment: S.optional(__S(1773, __c55, 13)),
-          serviceResources: S.optional(__S(1774, __c55, 14)),
-          id: S.optional(S.String),
-          runtimeUpdatableParams: S.optional(__S(1778, __c55, 18)),
-          executionInfo: S.optional(__S(1781, __c55, 21)),
-          createTime: S.optional(S.String),
-          requestedState: S.optional(S.String),
           stepsLocation: S.optional(S.String),
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          executionInfo: S.optional(__S(1746, __c54, 18)),
+          projectId: S.optional(S.String),
+          steps: S.optional(__S(1748, __c54, 20)),
+          createdFromSnapshotId: S.optional(S.String),
+          runtimeUpdatableParams: S.optional(__S(1752, __c54, 24)),
+          type: S.optional(S.String),
+          currentState: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          clientRequestId: S.optional(S.String),
+          tempFiles: S.optional(__S(1664, __c52, 0)),
+          currentStateTime: S.optional(S.String),
+          environment: S.optional(__S(1765, __c55, 5)),
+          requestedState: S.optional(S.String),
           replaceJobId: S.optional(S.String),
+          location: S.optional(S.String),
+          transformNameMapping: S.optional(__S(1632, __c51, 0)),
+          stageStates: S.optional(__S(1767, __c55, 7)),
+          labels: S.optional(__S(1632, __c51, 0)),
+          pipelineDescription: S.optional(__S(1780, __c55, 20)),
+          startTime: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          pausable: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          replacedByJobId: S.optional(S.String),
+          serviceResources: S.optional(__S(1781, __c55, 21)),
         }),
       ).annotate({ identifier: "Job" });
   }
@@ -6473,18 +6473,18 @@ function __c56(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String.pipe(T.Query())),
           "createTimeRange.endTime": S.optional(S.String.pipe(T.Query())),
-          "createTimeRange.startTime": S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          regionalFanoutRequested: S.optional(S.Boolean.pipe(T.Query())),
-          "terminationTimeRange.startTime": S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          "terminationTimeRange.endTime": S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
           location: S.optional(S.String.pipe(T.Query())),
+          name: S.optional(S.String.pipe(T.Query())),
+          "terminationTimeRange.endTime": S.optional(S.String.pipe(T.Query())),
+          regionalFanoutRequested: S.optional(S.Boolean.pipe(T.Query())),
+          "createTimeRange.startTime": S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
+          "terminationTimeRange.startTime": S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6500,14 +6500,14 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          jobId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          location: S.optional(S.String.pipe(T.Query())),
-          endTime: S.optional(S.String.pipe(T.Query())),
+          jobId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           minimumImportance: S.optional(S.String.pipe(T.Query())),
+          endTime: S.optional(S.String.pipe(T.Query())),
           startTime: S.optional(S.String.pipe(T.Query())),
+          location: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6523,49 +6523,49 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          time: S.optional(S.String),
-          messageText: S.optional(S.String),
-          messageImportance: S.optional(S.String),
+          value: S.optional(S.Unknown),
+          key: S.optional(S.String),
         }),
-      ).annotate({ identifier: "JobMessage" });
+      ).annotate({ identifier: "Parameter" });
     case 1:
       return S.Array(__S(1856, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(S.String),
-          value: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "Parameter" });
-    case 3:
-      return S.Array(__S(1858, __c58, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          messageKey: S.optional(S.String),
           messageText: S.optional(S.String),
-          parameters: S.optional(__S(1859, __c58, 3)),
+          messageKey: S.optional(S.String),
+          parameters: S.optional(__S(1857, __c58, 1)),
         }),
       ).annotate({ identifier: "StructuredMessage" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          workerPool: S.optional(S.String),
+          description: S.optional(__S(1858, __c58, 2)),
+          time: S.optional(S.String),
+          eventType: S.optional(S.String),
+          currentNumWorkers: S.optional(S.String),
+          targetNumWorkers: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutoscalingEvent" });
+    case 4:
+      return S.Array(__S(1859, __c58, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          currentNumWorkers: S.optional(S.String),
-          eventType: S.optional(S.String),
-          workerPool: S.optional(S.String),
-          targetNumWorkers: S.optional(S.String),
-          description: S.optional(__S(1860, __c58, 4)),
+          messageText: S.optional(S.String),
+          messageImportance: S.optional(S.String),
           time: S.optional(S.String),
+          id: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AutoscalingEvent" });
+      ).annotate({ identifier: "JobMessage" });
     case 6:
       return S.Array(__S(1861, __c58, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          jobMessages: S.optional(__S(1857, __c58, 1)),
-          autoscalingEvents: S.optional(__S(1862, __c58, 6)),
+          autoscalingEvents: S.optional(__S(1860, __c58, 4)),
+          jobMessages: S.optional(__S(1862, __c58, 6)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListJobMessagesResponse" });
@@ -6576,9 +6576,9 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6594,16 +6594,16 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "createTimeRange.endTime": S.optional(S.String.pipe(T.Query())),
-          "createTimeRange.startTime": S.optional(S.String.pipe(T.Query())),
-          "terminationTimeRange.startTime": S.optional(S.String.pipe(T.Query())),
           location: S.String.pipe(T.Label()),
+          "createTimeRange.endTime": S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          regionalFanoutRequested: S.optional(S.Boolean.pipe(T.Query())),
-          "terminationTimeRange.endTime": S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
           name: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          "terminationTimeRange.startTime": S.optional(S.String.pipe(T.Query())),
+          "terminationTimeRange.endTime": S.optional(S.String.pipe(T.Query())),
+          regionalFanoutRequested: S.optional(S.Boolean.pipe(T.Query())),
+          "createTimeRange.startTime": S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
         }).pipe(
@@ -6622,13 +6622,13 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          minimumImportance: S.optional(S.String.pipe(T.Query())),
           location: S.String.pipe(T.Label()),
-          jobId: S.String.pipe(T.Label()),
+          projectId: S.String.pipe(T.Label()),
           endTime: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          jobId: S.String.pipe(T.Label()),
           startTime: S.optional(S.String.pipe(T.Query())),
+          minimumImportance: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6644,9 +6644,9 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          location: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
           jobId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6675,8 +6675,8 @@ function __c64(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
           jobId: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6692,9 +6692,9 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          location: S.optional(S.String.pipe(T.Query())),
           jobId: S.optional(S.String.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6728,274 +6728,274 @@ function __c66(j: number): any {
 function __c67(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(992, __c31, 0));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           index: S.optional(S.Number),
-          position: S.optional(S.suspend(() => __S(2145, __c67, 1))),
+          position: S.optional(S.suspend(() => __S(2146, __c67, 2))),
         }),
       ).annotate({ identifier: "ConcatPosition" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.optional(S.String),
-          end: S.optional(S.Boolean),
-          shufflePosition: S.optional(S.String),
-          concatPosition: S.optional(__S(2144, __c67, 0)),
-          recordIndex: S.optional(S.String),
-          byteOffset: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Position" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          derivationMode: S.optional(S.String),
-          source: S.optional(__S(1377, __c43, 1)),
+          shufflePosition: S.optional(S.String),
+          recordIndex: S.optional(S.String),
+          key: S.optional(S.String),
+          byteOffset: S.optional(S.String),
+          end: S.optional(S.Boolean),
+          concatPosition: S.optional(__S(2145, __c67, 1)),
         }),
-      ).annotate({ identifier: "SourceSplitShard" });
+      ).annotate({ identifier: "Position" });
     case 3:
-      return S.Array(__S(2146, __c67, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          source: S.optional(__S(1377, __c43, 1)),
-          derivationMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DerivedSource" });
-    case 5:
-      return S.Array(__S(2148, __c67, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          shards: S.optional(__S(2147, __c67, 3)),
-          outcome: S.optional(S.String),
-          bundles: S.optional(__S(2149, __c67, 5)),
-        }),
-      ).annotate({ identifier: "SourceSplitResponse" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          metadata: S.optional(__S(1376, __c43, 0)),
-        }),
-      ).annotate({ identifier: "SourceGetMetadataResponse" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          split: S.optional(__S(2150, __c67, 6)),
-          getMetadata: S.optional(__S(2151, __c67, 7)),
-        }),
-      ).annotate({ identifier: "SourceOperationResponse" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          highBits: S.optional(S.Number),
-          lowBits: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SplitInt64" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          sum: S.optional(__S(2153, __c67, 9)),
-          count: S.optional(__S(2153, __c67, 9)),
-        }),
-      ).annotate({ identifier: "IntegerMean" });
-    case 11:
-      return S.Array(__S(2153, __c67, 9));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          elements: S.optional(__S(2155, __c67, 11)),
-        }),
-      ).annotate({ identifier: "IntegerList" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          firstBucketOffset: S.optional(S.Number),
-          bucketCounts: S.optional(__S(1664, __c52, 0)),
-        }),
-      ).annotate({ identifier: "Histogram" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          sumOfSquares: S.optional(S.Number),
-          histogram: S.optional(__S(2157, __c67, 13)),
-          count: S.optional(__S(2153, __c67, 9)),
-          min: S.optional(__S(2153, __c67, 9)),
-          max: S.optional(__S(2153, __c67, 9)),
-          sum: S.optional(__S(2153, __c67, 9)),
-        }),
-      ).annotate({ identifier: "DistributionUpdate" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NameAndKind" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.optional(S.String),
-          otherUnits: S.optional(S.String),
-          description: S.optional(S.String),
-          standardUnits: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CounterMetadata" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          originNamespace: S.optional(S.String),
-          portion: S.optional(S.String),
-          originalStepName: S.optional(S.String),
-          workerId: S.optional(S.String),
-          inputIndex: S.optional(S.Number),
-          originalRequestingStepName: S.optional(S.String),
-          name: S.optional(S.String),
-          origin: S.optional(S.String),
-          componentStepName: S.optional(S.String),
-          executionStepName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CounterStructuredName" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          metadata: S.optional(__S(2160, __c67, 16)),
-          name: S.optional(__S(2161, __c67, 17)),
-        }),
-      ).annotate({ identifier: "CounterStructuredNameAndMetadata" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(__S(2153, __c67, 9)),
-          timestamp: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IntegerGauge" });
-    case 20:
-      return S.Array(S.Number);
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          elements: S.optional(__S(2164, __c67, 20)),
-        }),
-      ).annotate({ identifier: "FloatingPointList" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          elements: S.optional(__S(1664, __c52, 0)),
-        }),
-      ).annotate({ identifier: "StringList" });
-    case 23:
-      return S.Record(
-        S.String,
-        /*@__PURE__*/ S.suspend(() => __S(2168, __c67, 24)),
-      );
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          truncated: S.optional(S.Boolean),
-          children: S.optional(__S(2167, __c67, 23)),
-        }),
-      ).annotate({ identifier: "BoundedTrieNode" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          root: S.optional(__S(2168, __c67, 24)),
-          bound: S.optional(S.Number),
-          singleton: S.optional(__S(1664, __c52, 0)),
-        }),
-      ).annotate({ identifier: "BoundedTrie" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(__S(2153, __c67, 9)),
-          sum: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "FloatingPointMean" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          integer: S.optional(__S(2153, __c67, 9)),
-          floatingPoint: S.optional(S.Number),
-          integerMean: S.optional(__S(2154, __c67, 10)),
-          integerList: S.optional(__S(2156, __c67, 12)),
-          internal: S.optional(S.Unknown),
-          distribution: S.optional(__S(2158, __c67, 14)),
-          nameAndKind: S.optional(__S(2159, __c67, 15)),
-          structuredNameAndMetadata: S.optional(__S(2162, __c67, 18)),
-          integerGauge: S.optional(__S(2163, __c67, 19)),
-          floatingPointList: S.optional(__S(2165, __c67, 21)),
-          stringList: S.optional(__S(2166, __c67, 22)),
-          boundedTrie: S.optional(__S(2169, __c67, 25)),
-          floatingPointMean: S.optional(__S(2170, __c67, 26)),
-          shortId: S.optional(S.String),
-          boolean: S.optional(S.Boolean),
-          cumulative: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "CounterUpdate" });
-    case 28:
-      return S.Array(__S(2171, __c67, 27));
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          remainingTime: S.optional(S.String),
-          percentComplete: S.optional(S.Number),
-          position: S.optional(__S(2145, __c67, 1)),
-        }),
-      ).annotate({ identifier: "ApproximateProgress" });
-    case 30:
-      return S.Array(__S(992, __c31, 0));
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          residual: S.optional(__S(2146, __c67, 2)),
-          residualSource: S.optional(__S(2148, __c67, 4)),
-          primarySource: S.optional(__S(2148, __c67, 4)),
-          primary: S.optional(__S(2146, __c67, 2)),
-        }),
-      ).annotate({ identifier: "SourceFork" });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          primary: S.optional(__S(2148, __c67, 4)),
-          residual: S.optional(__S(2148, __c67, 4)),
-        }),
-      ).annotate({ identifier: "DynamicSourceSplit" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.Number),
           isInfinite: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ReportedParallelism" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          consumedParallelism: S.optional(__S(2147, __c67, 3)),
+          fractionConsumed: S.optional(S.Number),
+          position: S.optional(__S(2146, __c67, 2)),
+          remainingParallelism: S.optional(__S(2147, __c67, 3)),
+        }),
+      ).annotate({ identifier: "ApproximateReportedProgress" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.optional(__S(1377, __c43, 1)),
+          derivationMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DerivedSource" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          primary: S.optional(__S(2149, __c67, 5)),
+          residual: S.optional(__S(2149, __c67, 5)),
+        }),
+      ).annotate({ identifier: "DynamicSourceSplit" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          remainingTime: S.optional(S.String),
+          position: S.optional(__S(2146, __c67, 2)),
+          percentComplete: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ApproximateProgress" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          derivationMode: S.optional(S.String),
+          source: S.optional(__S(1377, __c43, 1)),
+        }),
+      ).annotate({ identifier: "SourceSplitShard" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          residual: S.optional(__S(2152, __c67, 8)),
+          primary: S.optional(__S(2152, __c67, 8)),
+          primarySource: S.optional(__S(2149, __c67, 5)),
+          residualSource: S.optional(__S(2149, __c67, 5)),
+        }),
+      ).annotate({ identifier: "SourceFork" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          originalRequestingStepName: S.optional(S.String),
+          componentStepName: S.optional(S.String),
+          executionStepName: S.optional(S.String),
+          origin: S.optional(S.String),
+          inputIndex: S.optional(S.Number),
+          originalStepName: S.optional(S.String),
+          workerId: S.optional(S.String),
+          name: S.optional(S.String),
+          portion: S.optional(S.String),
+          originNamespace: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CounterStructuredName" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          otherUnits: S.optional(S.String),
+          standardUnits: S.optional(S.String),
+          kind: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CounterMetadata" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(__S(2154, __c67, 10)),
+          metadata: S.optional(__S(2155, __c67, 11)),
+        }),
+      ).annotate({ identifier: "CounterStructuredNameAndMetadata" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          highBits: S.optional(S.Number),
+          lowBits: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SplitInt64" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(__S(2157, __c67, 13)),
+          timestamp: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IntegerGauge" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(__S(2157, __c67, 13)),
+          sum: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FloatingPointMean" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          elements: S.optional(__S(1664, __c52, 0)),
+        }),
+      ).annotate({ identifier: "StringList" });
+    case 17:
+      return S.Record(
+        S.String,
+        /*@__PURE__*/ S.suspend(() => __S(2162, __c67, 18)),
+      );
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          children: S.optional(__S(2161, __c67, 17)),
+          truncated: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "BoundedTrieNode" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          bound: S.optional(S.Number),
+          root: S.optional(__S(2162, __c67, 18)),
+          singleton: S.optional(__S(1664, __c52, 0)),
+        }),
+      ).annotate({ identifier: "BoundedTrie" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(__S(2157, __c67, 13)),
+          sum: S.optional(__S(2157, __c67, 13)),
+        }),
+      ).annotate({ identifier: "IntegerMean" });
+    case 21:
+      return S.Array(__S(2157, __c67, 13));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          elements: S.optional(__S(2165, __c67, 21)),
+        }),
+      ).annotate({ identifier: "IntegerList" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          firstBucketOffset: S.optional(S.Number),
+          bucketCounts: S.optional(__S(1664, __c52, 0)),
+        }),
+      ).annotate({ identifier: "Histogram" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          max: S.optional(__S(2157, __c67, 13)),
+          sum: S.optional(__S(2157, __c67, 13)),
+          count: S.optional(__S(2157, __c67, 13)),
+          min: S.optional(__S(2157, __c67, 13)),
+          histogram: S.optional(__S(2167, __c67, 23)),
+          sumOfSquares: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DistributionUpdate" });
+    case 25:
+      return S.Array(S.Number);
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          elements: S.optional(__S(2169, __c67, 25)),
+        }),
+      ).annotate({ identifier: "FloatingPointList" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          kind: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NameAndKind" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          structuredNameAndMetadata: S.optional(__S(2156, __c67, 12)),
+          integerGauge: S.optional(__S(2158, __c67, 14)),
+          floatingPointMean: S.optional(__S(2159, __c67, 15)),
+          floatingPoint: S.optional(S.Number),
+          stringList: S.optional(__S(2160, __c67, 16)),
+          shortId: S.optional(S.String),
+          integer: S.optional(__S(2157, __c67, 13)),
+          boundedTrie: S.optional(__S(2163, __c67, 19)),
+          integerMean: S.optional(__S(2164, __c67, 20)),
+          integerList: S.optional(__S(2166, __c67, 22)),
+          distribution: S.optional(__S(2168, __c67, 24)),
+          internal: S.optional(S.Unknown),
+          boolean: S.optional(S.Boolean),
+          floatingPointList: S.optional(__S(2170, __c67, 26)),
+          nameAndKind: S.optional(__S(2171, __c67, 27)),
+          cumulative: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CounterUpdate" });
+    case 29:
+      return S.Array(__S(2172, __c67, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          metadata: S.optional(__S(1376, __c43, 0)),
+        }),
+      ).annotate({ identifier: "SourceGetMetadataResponse" });
+    case 31:
+      return S.Array(__S(2152, __c67, 8));
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2149, __c67, 5));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          shards: S.optional(__S(2175, __c67, 31)),
+          outcome: S.optional(S.String),
+          bundles: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "SourceSplitResponse" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          position: S.optional(__S(2145, __c67, 1)),
-          fractionConsumed: S.optional(S.Number),
-          remainingParallelism: S.optional(__S(2177, __c68, 1)),
-          consumedParallelism: S.optional(__S(2177, __c68, 1)),
+          getMetadata: S.optional(__S(2174, __c67, 30)),
+          split: S.optional(__S(2177, __c68, 1)),
         }),
-      ).annotate({ identifier: "ApproximateReportedProgress" });
+      ).annotate({ identifier: "SourceOperationResponse" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metricUpdates: S.optional(__S(482, __c15, 2)),
-          reportIndex: S.optional(S.String),
-          stopPosition: S.optional(__S(2145, __c67, 1)),
-          sourceOperationResponse: S.optional(__S(2152, __c67, 8)),
-          totalThrottlerWaitTimeSeconds: S.optional(S.Number),
-          counterUpdates: S.optional(__S(2172, __c67, 28)),
+          errors: S.optional(__S(2144, __c67, 0)),
+          stopPosition: S.optional(__S(2146, __c67, 2)),
           completed: S.optional(S.Boolean),
-          progress: S.optional(__S(2173, __c67, 29)),
-          errors: S.optional(__S(2174, __c67, 30)),
-          sourceFork: S.optional(__S(2175, __c67, 31)),
-          requestedLeaseDuration: S.optional(S.String),
-          dynamicSourceSplit: S.optional(__S(2176, __c68, 0)),
-          reportedProgress: S.optional(__S(2178, __c68, 2)),
           workItemId: S.optional(S.String),
+          totalThrottlerWaitTimeSeconds: S.optional(S.Number),
+          reportedProgress: S.optional(__S(2148, __c67, 4)),
+          dynamicSourceSplit: S.optional(__S(2150, __c67, 6)),
+          progress: S.optional(__S(2151, __c67, 7)),
+          sourceFork: S.optional(__S(2153, __c67, 9)),
+          counterUpdates: S.optional(__S(2173, __c67, 29)),
+          metricUpdates: S.optional(__S(482, __c15, 2)),
+          sourceOperationResponse: S.optional(__S(2178, __c68, 2)),
+          reportIndex: S.optional(S.String),
+          requestedLeaseDuration: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkItemStatus" });
     case 4:
@@ -7003,52 +7003,52 @@ function __c68(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(S.String),
-          workerId: S.optional(S.String),
-          workItemStatuses: S.optional(__S(2180, __c68, 4)),
           currentWorkerTime: S.optional(S.String),
           unifiedWorkerRequest: S.optional(__S(1665, __c52, 1)),
+          workItemStatuses: S.optional(__S(2180, __c68, 4)),
+          location: S.optional(S.String),
+          workerId: S.optional(S.String),
           projectNumber: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportWorkItemStatusRequest" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          userStepName: S.optional(S.String),
-          systemName: S.optional(S.String),
-          hotKeyAge: S.optional(S.String),
+          shortId: S.optional(S.String),
+          metricIndex: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "HotKeyDetection" });
+      ).annotate({ identifier: "MetricShortId" });
     case 7:
-      return S.suspend(() =>
-        S.Struct({
-          fractionOfRemainder: S.optional(S.Number),
-          fractionConsumed: S.optional(S.Number),
-          position: S.optional(__S(2145, __c67, 1)),
-        }),
-      ).annotate({ identifier: "ApproximateSplitRequest" });
+      return S.Array(__S(2182, __c68, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          metricIndex: S.optional(S.Number),
-          shortId: S.optional(S.String),
+          fractionConsumed: S.optional(S.Number),
+          fractionOfRemainder: S.optional(S.Number),
+          position: S.optional(__S(2146, __c67, 2)),
         }),
-      ).annotate({ identifier: "MetricShortId" });
+      ).annotate({ identifier: "ApproximateSplitRequest" });
     case 9:
-      return S.Array(__S(2184, __c68, 8));
+      return S.suspend(() =>
+        S.Struct({
+          hotKeyAge: S.optional(S.String),
+          systemName: S.optional(S.String),
+          userStepName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HotKeyDetection" });
     case 10:
       return S.suspend(() =>
         S.Struct({
+          suggestedStopPoint: S.optional(__S(2151, __c67, 7)),
           completeWorkStatus: S.optional(__S(992, __c31, 0)),
-          nextReportIndex: S.optional(S.String),
-          hotKeyDetection: S.optional(__S(2182, __c68, 6)),
           harnessData: S.optional(__S(1665, __c52, 1)),
-          suggestedStopPoint: S.optional(__S(2173, __c67, 29)),
-          leaseExpireTime: S.optional(S.String),
-          suggestedStopPosition: S.optional(__S(2145, __c67, 1)),
-          splitRequest: S.optional(__S(2183, __c68, 7)),
+          nextReportIndex: S.optional(S.String),
+          suggestedStopPosition: S.optional(__S(2146, __c67, 2)),
           reportStatusInterval: S.optional(S.String),
-          metricShortId: S.optional(__S(2185, __c68, 9)),
+          leaseExpireTime: S.optional(S.String),
+          metricShortId: S.optional(__S(2183, __c68, 7)),
+          splitRequest: S.optional(__S(2184, __c68, 8)),
+          hotKeyDetection: S.optional(__S(2185, __c68, 9)),
         }),
       ).annotate({ identifier: "WorkItemServiceState" });
     case 11:
@@ -7090,8 +7090,8 @@ function __c70(j: number): any {
         S.Extend(
           __S(2273, __c71, 1),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             configStoreSettingId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7115,8 +7115,8 @@ function __c71(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2272, __c71, 0)),
           name: S.optional(S.String),
+          value: S.optional(__S(2272, __c71, 0)),
         }),
       ).annotate({ identifier: "ConfigStoreSetting" });
   }
@@ -7143,8 +7143,8 @@ function __c73(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          choices: S.optional(__S(1504, __c47, 0)),
           setting: S.optional(__S(2273, __c71, 1)),
+          choices: S.optional(__S(1504, __c47, 0)),
         }),
       ).annotate({ identifier: "ResolveConfigStoreSettingResponse" });
   }
@@ -7208,11 +7208,11 @@ function __c77(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          dataFormat: S.optional(S.String),
           location: S.optional(S.String),
           workerId: S.optional(S.String),
           data: S.optional(S.String),
           componentId: S.optional(S.String),
-          dataFormat: S.optional(S.String),
         }),
       ).annotate({ identifier: "SendDebugCaptureRequest" });
   }
@@ -7224,9 +7224,9 @@ function __c78(j: number): any {
         S.Extend(
           __S(2464, __c77, 0),
           S.Struct({
+            location: S.String.pipe(T.Label()),
             jobId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            location: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7245,8 +7245,8 @@ function __c79(j: number): any {
         S.Extend(
           __S(2560, __c80, 0),
           S.Struct({
-            jobId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
+            jobId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7263,10 +7263,10 @@ function __c80(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          snapshotSources: S.optional(S.Boolean),
-          ttl: S.optional(S.String),
           description: S.optional(S.String),
+          snapshotSources: S.optional(S.Boolean),
           location: S.optional(S.String),
+          ttl: S.optional(S.String),
         }),
       ).annotate({ identifier: "SnapshotJobRequest" });
   }
@@ -7278,9 +7278,9 @@ function __c81(j: number): any {
         S.Extend(
           __S(2560, __c80, 0),
           S.Struct({
-            jobId: S.String.pipe(T.Label()),
-            location: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
+            location: S.String.pipe(T.Label()),
+            jobId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7299,10 +7299,10 @@ function __c82(j: number): any {
         S.Extend(
           __S(1782, __c55, 22),
           S.Struct({
-            projectId: S.String.pipe(T.Label()),
-            jobId: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             location: S.optional(S.String.pipe(T.Query())),
+            jobId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7321,10 +7321,10 @@ function __c83(j: number): any {
         S.Extend(
           __S(1782, __c55, 22),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
-            projectId: S.String.pipe(T.Label()),
             location: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
             jobId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7360,102 +7360,98 @@ function __c85(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          msg: S.optional(S.String),
-          reportInterval: S.optional(S.String),
-          vmIsHealthy: S.optional(S.Boolean),
-          vmBrokenCode: S.optional(S.String),
           pods: S.optional(__S(960, __c30, 0)),
-          vmIsBroken: S.optional(S.Boolean),
           vmStartupTime: S.optional(S.String),
+          vmBrokenCode: S.optional(S.String),
+          reportInterval: S.optional(S.String),
+          vmIsBroken: S.optional(S.Boolean),
+          msg: S.optional(S.String),
+          vmIsHealthy: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "WorkerHealthReport" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
-          measuredTime: S.optional(S.String),
+          reason: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DataflowGaugeValue" });
+      ).annotate({ identifier: "WorkerShutdownNotice" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          scale: S.optional(S.Number),
-          numberOfBuckets: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Base2Exponent" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          numberOfBuckets: S.optional(S.Number),
-          width: S.optional(S.Number),
-          start: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Linear" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          exponential: S.optional(__S(2722, __c85, 2)),
-          linear: S.optional(__S(2723, __c85, 3)),
-        }),
-      ).annotate({ identifier: "BucketOptions" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          underflowMean: S.optional(S.Number),
-          overflowCount: S.optional(S.String),
-          underflowCount: S.optional(S.String),
-          overflowMean: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "OutlierStats" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          bucketCounts: S.optional(__S(1664, __c52, 0)),
-          count: S.optional(S.String),
-          bucketOptions: S.optional(__S(2724, __c85, 4)),
-          outlierStats: S.optional(__S(2725, __c85, 5)),
-        }),
-      ).annotate({ identifier: "DataflowHistogramValue" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          valueGauge64: S.optional(__S(2721, __c85, 1)),
-          metricLabels: S.optional(__S(1632, __c51, 0)),
-          valueInt64: S.optional(S.String),
-          valueHistogram: S.optional(__S(2726, __c85, 6)),
-          metric: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MetricValue" });
-    case 8:
-      return S.Array(__S(2727, __c85, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          metricValues: S.optional(__S(2728, __c85, 8)),
-          metricsNamespace: S.optional(S.String),
-          originalStep: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PerStepNamespaceMetrics" });
-    case 10:
-      return S.Array(__S(2729, __c85, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          perStepNamespaceMetrics: S.optional(__S(2730, __c85, 10)),
-        }),
-      ).annotate({ identifier: "PerWorkerMetrics" });
-    case 12:
       return S.suspend(() =>
         S.Struct({
           currentThreadCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "WorkerThreadScalingReport" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          exceptionsSampledCount: S.optional(S.String),
+          persistenceErrorsCount: S.optional(S.String),
+          pcollectionsSampledCount: S.optional(S.String),
+          elementsSampledBytes: S.optional(S.String),
+          elementsSampledCount: S.optional(S.String),
+          translationErrorsCount: S.optional(S.String),
+          bytesWrittenDelta: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataSamplingReport" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          event: S.optional(S.String),
+          containerStartTime: S.optional(S.String),
+          metadata: S.optional(__S(1632, __c51, 0)),
+        }),
+      ).annotate({ identifier: "WorkerLifecycleEvent" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          currentRssBytes: S.optional(S.String),
+          currentLimitBytes: S.optional(S.String),
+          totalGbMs: S.optional(S.String),
+          currentOoms: S.optional(S.String),
+          timestamp: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MemInfo" });
+    case 6:
+      return S.Array(__S(2725, __c85, 5));
+    case 7:
+      return S.Record(
+        S.String,
+        /*@__PURE__*/ S.suspend(() => __S(2733, __c85, 13)),
+      );
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          timestamp: S.optional(S.String),
+          rate: S.optional(S.Number),
+          totalMs: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CPUTime" });
+    case 9:
+      return S.Array(__S(2728, __c85, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          rate: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GPUUtilization" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          timestamp: S.optional(S.String),
+          utilization: S.optional(__S(2730, __c85, 10)),
+        }),
+      ).annotate({ identifier: "GPUUsage" });
+    case 12:
+      return S.Array(__S(2731, __c85, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          reason: S.optional(S.String),
+          memoryInfo: S.optional(__S(2726, __c85, 6)),
+          containers: S.optional(__S(2727, __c85, 7)),
+          cpuTime: S.optional(__S(2729, __c85, 9)),
+          gpuUsage: S.optional(__S(2732, __c85, 12)),
         }),
-      ).annotate({ identifier: "WorkerShutdownNotice" });
+      ).annotate({ identifier: "ResourceUtilizationReport" });
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -7466,102 +7462,106 @@ function __c85(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          maximumBytes: S.optional(S.String),
-          activeBundleCount: S.optional(S.Number),
-          outstandingBytes: S.optional(S.String),
-          maximumBundleCount: S.optional(S.Number),
-          outstandingBytesCount: S.optional(S.Number),
-          outstandingBundleCount: S.optional(S.Number),
-          maximumBytesCount: S.optional(S.Number),
-          activeThreadCount: S.optional(S.Number),
-          maximumThreadCount: S.optional(S.Number),
+          overflowCount: S.optional(S.String),
+          underflowCount: S.optional(S.String),
+          overflowMean: S.optional(S.Number),
+          underflowMean: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "StreamingScalingReport" });
+      ).annotate({ identifier: "OutlierStats" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          event: S.optional(S.String),
-          metadata: S.optional(__S(1632, __c51, 0)),
-          containerStartTime: S.optional(S.String),
+          scale: S.optional(S.Number),
+          numberOfBuckets: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "WorkerLifecycleEvent" });
+      ).annotate({ identifier: "Base2Exponent" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          pcollectionsSampledCount: S.optional(S.String),
-          translationErrorsCount: S.optional(S.String),
-          elementsSampledBytes: S.optional(S.String),
-          exceptionsSampledCount: S.optional(S.String),
-          elementsSampledCount: S.optional(S.String),
-          bytesWrittenDelta: S.optional(S.String),
-          persistenceErrorsCount: S.optional(S.String),
+          numberOfBuckets: S.optional(S.Number),
+          start: S.optional(S.Number),
+          width: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "DataSamplingReport" });
+      ).annotate({ identifier: "Linear" });
     case 18:
-      return S.Record(
-        S.String,
-        /*@__PURE__*/ S.suspend(() => __S(2746, __c85, 26)),
-      );
+      return S.suspend(() =>
+        S.Struct({
+          exponential: S.optional(__S(2736, __c85, 16)),
+          linear: S.optional(__S(2737, __c85, 17)),
+        }),
+      ).annotate({ identifier: "BucketOptions" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          totalMs: S.optional(S.String),
-          timestamp: S.optional(S.String),
-          rate: S.optional(S.Number),
+          count: S.optional(S.String),
+          outlierStats: S.optional(__S(2735, __c85, 15)),
+          bucketOptions: S.optional(__S(2738, __c85, 18)),
+          bucketCounts: S.optional(__S(1664, __c52, 0)),
         }),
-      ).annotate({ identifier: "CPUTime" });
+      ).annotate({ identifier: "DataflowHistogramValue" });
     case 20:
-      return S.Array(__S(2739, __c85, 19));
+      return S.suspend(() =>
+        S.Struct({
+          measuredTime: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataflowGaugeValue" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          rate: S.optional(S.Number),
+          valueHistogram: S.optional(__S(2739, __c85, 19)),
+          metric: S.optional(S.String),
+          metricLabels: S.optional(__S(1632, __c51, 0)),
+          valueInt64: S.optional(S.String),
+          valueGauge64: S.optional(__S(2740, __c85, 20)),
         }),
-      ).annotate({ identifier: "GPUUtilization" });
+      ).annotate({ identifier: "MetricValue" });
     case 22:
-      return S.suspend(() =>
-        S.Struct({
-          timestamp: S.optional(S.String),
-          utilization: S.optional(__S(2741, __c85, 21)),
-        }),
-      ).annotate({ identifier: "GPUUsage" });
+      return S.Array(__S(2741, __c85, 21));
     case 23:
-      return S.Array(__S(2742, __c85, 22));
-    case 24:
       return S.suspend(() =>
         S.Struct({
-          totalGbMs: S.optional(S.String),
-          currentLimitBytes: S.optional(S.String),
-          currentOoms: S.optional(S.String),
-          currentRssBytes: S.optional(S.String),
-          timestamp: S.optional(S.String),
+          metricValues: S.optional(__S(2742, __c85, 22)),
+          originalStep: S.optional(S.String),
+          metricsNamespace: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MemInfo" });
+      ).annotate({ identifier: "PerStepNamespaceMetrics" });
+    case 24:
+      return S.Array(__S(2743, __c85, 23));
     case 25:
-      return S.Array(__S(2744, __c85, 24));
+      return S.suspend(() =>
+        S.Struct({
+          perStepNamespaceMetrics: S.optional(__S(2744, __c85, 24)),
+        }),
+      ).annotate({ identifier: "PerWorkerMetrics" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          containers: S.optional(__S(2738, __c85, 18)),
-          cpuTime: S.optional(__S(2740, __c85, 20)),
-          gpuUsage: S.optional(__S(2743, __c85, 23)),
-          memoryInfo: S.optional(__S(2745, __c85, 25)),
+          maximumBundleCount: S.optional(S.Number),
+          activeBundleCount: S.optional(S.Number),
+          outstandingBytes: S.optional(S.String),
+          outstandingBytesCount: S.optional(S.Number),
+          outstandingBundleCount: S.optional(S.Number),
+          maximumBytes: S.optional(S.String),
+          activeThreadCount: S.optional(S.Number),
+          maximumBytesCount: S.optional(S.Number),
+          maximumThreadCount: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ResourceUtilizationReport" });
+      ).annotate({ identifier: "StreamingScalingReport" });
     case 27:
       return S.suspend(() =>
         S.Struct({
           workerHealthReport: S.optional(__S(2720, __c85, 0)),
+          workerShutdownNotice: S.optional(__S(2721, __c85, 1)),
+          workerThreadScalingReport: S.optional(__S(2722, __c85, 2)),
           time: S.optional(S.String),
-          perWorkerMetrics: S.optional(__S(2731, __c85, 11)),
-          workerThreadScalingReport: S.optional(__S(2732, __c85, 12)),
-          workerShutdownNotice: S.optional(__S(2733, __c85, 13)),
-          workerMessageCode: S.optional(__S(2734, __c85, 14)),
-          streamingScalingReport: S.optional(__S(2735, __c85, 15)),
+          dataSamplingReport: S.optional(__S(2723, __c85, 3)),
           labels: S.optional(__S(1632, __c51, 0)),
-          workerLifecycleEvent: S.optional(__S(2736, __c85, 16)),
-          dataSamplingReport: S.optional(__S(2737, __c85, 17)),
-          workerMetrics: S.optional(__S(2746, __c85, 26)),
+          workerLifecycleEvent: S.optional(__S(2724, __c85, 4)),
+          workerMetrics: S.optional(__S(2733, __c85, 13)),
+          workerMessageCode: S.optional(__S(2734, __c85, 14)),
+          perWorkerMetrics: S.optional(__S(2745, __c85, 25)),
+          streamingScalingReport: S.optional(__S(2746, __c85, 26)),
         }),
       ).annotate({ identifier: "WorkerMessage" });
     case 28:
@@ -7569,8 +7569,8 @@ function __c85(j: number): any {
     case 29:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(S.String),
           workerMessages: S.optional(__S(2748, __c85, 28)),
+          location: S.optional(S.String),
         }),
       ).annotate({ identifier: "SendWorkerMessagesRequest" });
     case 30:
@@ -7582,9 +7582,9 @@ function __c85(j: number): any {
     case 31:
       return S.suspend(() =>
         S.Struct({
-          maximumThreadCount: S.optional(S.Number),
+          recommendedThreadCount: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "StreamingScalingReportResponse" });
+      ).annotate({ identifier: "WorkerThreadScalingReportResponse" });
   }
 }
 function __c86(j: number): any {
@@ -7592,17 +7592,17 @@ function __c86(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          recommendedThreadCount: S.optional(S.Number),
+          maximumThreadCount: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "WorkerThreadScalingReportResponse" });
+      ).annotate({ identifier: "StreamingScalingReportResponse" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          workerHealthReportResponse: S.optional(__S(2750, __c85, 30)),
           workerShutdownNoticeResponse: S.optional(__S(160, __c5, 0)),
+          workerHealthReportResponse: S.optional(__S(2750, __c85, 30)),
+          workerThreadScalingReportResponse: S.optional(__S(2751, __c85, 31)),
+          streamingScalingReportResponse: S.optional(__S(2752, __c86, 0)),
           workerMetricsResponse: S.optional(__S(160, __c5, 0)),
-          streamingScalingReportResponse: S.optional(__S(2751, __c85, 31)),
-          workerThreadScalingReportResponse: S.optional(__S(2752, __c86, 0)),
         }),
       ).annotate({ identifier: "WorkerMessageResponse" });
     case 2:
@@ -7622,8 +7622,8 @@ function __c87(j: number): any {
         S.Extend(
           __S(2273, __c71, 1),
           S.Struct({
-            configStoreSettingId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            configStoreSettingId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -7662,10 +7662,10 @@ function __c89(j: number): any {
         S.Extend(
           __S(1782, __c55, 22),
           S.Struct({
+            projectId: S.String.pipe(T.Label()),
             view: S.optional(S.String.pipe(T.Query())),
             location: S.optional(S.String.pipe(T.Query())),
             replaceJobId: S.optional(S.String.pipe(T.Query())),
-            projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7704,8 +7704,8 @@ function __c91(j: number): any {
         S.Extend(
           __S(1782, __c55, 22),
           S.Struct({
-            replaceJobId: S.optional(S.String.pipe(T.Query())),
             location: S.String.pipe(T.Label()),
+            replaceJobId: S.optional(S.String.pipe(T.Query())),
             view: S.optional(S.String.pipe(T.Query())),
             projectId: S.String.pipe(T.Label()),
           }),
