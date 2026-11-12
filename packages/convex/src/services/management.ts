@@ -298,6 +298,7 @@ export type CreateDeployKeyRequestAllowedActionsItem =
   | "deployment:usageLimits:write"
   | "deployment:usage:view"
   | "deployment:aiGateway:use";
+/** Optional list of allowed operations for this deploy key. If omitted, the key is allowed every action the caller is currently allowed to perform on this deployment. Must contain at least one action if provided. */
 export type CreateDeployKeyRequestAllowedActionsList = Array<
   CreateDeployKeyRequestAllowedActionsItem | (string & {})
 >;
@@ -306,6 +307,7 @@ export interface CreateDeployKeyRequest {
   deploymentName: string;
   /** Name for the deploy key. */
   name: string;
+  /** Optional list of allowed operations for this deploy key. If omitted, the key is allowed every action the caller is currently allowed to perform on this deployment. Must contain at least one action if provided. */
   allowedActions?: CreateDeployKeyRequestAllowedActionsList | undefined;
   /** Timestamp in milliseconds when this deploy key will expire. Must be at least 30 minutes in the future. */
   expiresAt?: number | null | undefined;
@@ -945,6 +947,7 @@ export type PlatformDeployKeyResponseAllowedActionsItem =
   | "deployment:usageLimits:write"
   | "deployment:usage:view"
   | "deployment:aiGateway:use";
+/** The same operations as `allowedOperations`, in the colon-based action format (e.g. `"deployment:data:view"`). Unlike `allowedOperations`, this is always present: an unrestricted key (where `allowedOperations` is omitted) lists every deployment action here. */
 export type PlatformDeployKeyResponseAllowedActionsList =
   Array<PlatformDeployKeyResponseAllowedActionsItem>;
 export interface PlatformDeployKeyResponse {
@@ -960,6 +963,7 @@ export interface PlatformDeployKeyResponse {
   expiresAt?: number | null | undefined;
   creator?: number | null | undefined;
   managedBy?: ManagedBy | null | undefined;
+  /** The same operations as `allowedOperations`, in the colon-based action format (e.g. `"deployment:data:view"`). Unlike `allowedOperations`, this is always present: an unrestricted key (where `allowedOperations` is omitted) lists every deployment action here. */
   allowedActions: PlatformDeployKeyResponseAllowedActionsList;
 }
 export type ListDeployKeysResponseBodyList = Array<PlatformDeployKeyResponse>;
