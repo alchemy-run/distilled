@@ -110,6 +110,7 @@ export interface GetDnsSettingsResponse {
   eDnsClientSubnetIpv4Override?: unknown | undefined;
   eDnsClientSubnetIpv6Override?: unknown | undefined;
   enableBlocking?: boolean | undefined;
+  enableCachePrefetch?: boolean | undefined;
   enableDnsOverHttp?: boolean | undefined;
   enableDnsOverHttp3?: boolean | undefined;
   enableDnsOverHttpHelpRedirect?: boolean | undefined;
@@ -308,6 +309,7 @@ export interface SetDnsSettingsRequest {
   cacheMaximumRecordTtl?: number | undefined;
   cacheNegativeRecordTtl?: number | undefined;
   cacheFailureRecordTtl?: number | undefined;
+  enableCachePrefetch?: boolean | undefined;
   cachePrefetchEligibility?: number | undefined;
   cachePrefetchTrigger?: number | undefined;
   enableBlocking?: boolean | undefined;
@@ -413,6 +415,7 @@ export interface SetDnsSettingsResponse {
   eDnsClientSubnetIpv4Override?: unknown | undefined;
   eDnsClientSubnetIpv6Override?: unknown | undefined;
   enableBlocking?: boolean | undefined;
+  enableCachePrefetch?: boolean | undefined;
   enableDnsOverHttp?: boolean | undefined;
   enableDnsOverHttp3?: boolean | undefined;
   enableDnsOverHttpHelpRedirect?: boolean | undefined;
@@ -703,6 +706,7 @@ function __c3(j: number): any {
           eDnsClientSubnetIpv4Override: S.optional(S.Unknown),
           eDnsClientSubnetIpv6Override: S.optional(S.Unknown),
           enableBlocking: S.optional(S.Boolean),
+          enableCachePrefetch: S.optional(S.Boolean),
           enableDnsOverHttp: S.optional(S.Boolean),
           enableDnsOverHttp3: S.optional(S.Boolean),
           enableDnsOverHttpHelpRedirect: S.optional(S.Boolean),
@@ -914,6 +918,7 @@ function __c5(j: number): any {
           cacheMaximumRecordTtl: S.optional(S.Number),
           cacheNegativeRecordTtl: S.optional(S.Number),
           cacheFailureRecordTtl: S.optional(S.Number),
+          enableCachePrefetch: S.optional(S.Boolean),
           cachePrefetchEligibility: S.optional(S.Number),
           cachePrefetchTrigger: S.optional(S.Number),
           enableBlocking: S.optional(S.Boolean),
