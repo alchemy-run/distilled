@@ -46,6 +46,8 @@ export const ResultInfo: S.Schema<ResultInfo> = /*@__PURE__*/ S.Struct({
   totalCount: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
   totalPages: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
   cursor: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
+  nextPageToken: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
+  pageToken: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
   cursors: /*@__PURE__*/ S.optional(
     /*@__PURE__*/ S.NullOr(
       /*@__PURE__*/ S.Struct({
@@ -54,8 +56,6 @@ export const ResultInfo: S.Schema<ResultInfo> = /*@__PURE__*/ S.Struct({
       }),
     ),
   ),
-  nextPageToken: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
-  pageToken: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
 }) as any as S.Schema<ResultInfo>;
 
 // =============================================================================

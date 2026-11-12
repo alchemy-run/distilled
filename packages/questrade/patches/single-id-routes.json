@@ -1,0 +1,8 @@
+{
+  "description": "GET symbols/:id and GET markets/quotes/:id take one id in the path. The pages list `ids` (and `names`) for the list form, GET symbols?ids=… and GET markets/quotes?ids=…, which listSymbols and listQuotes cover; the docs call the path id \"Mutually exclusive with 'ids' parameter\".",
+  "patches": [
+    { "op": "remove", "path": "/shapes/com.questrade.api#GetV1SymbolsIdRequest/members/ids" },
+    { "op": "remove", "path": "/shapes/com.questrade.api#GetV1SymbolsIdRequest/members/names" },
+    { "op": "remove", "path": "/shapes/com.questrade.api#GetV1MarketsQuotesIdRequest/members/ids" }
+  ]
+}

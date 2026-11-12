@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/aws",
-  "version": "1.0.0-rc.18",
+  "version": "1.0.0-rc.19",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -162,7 +162,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-11-10",
+    "generatedAt": "2026-11-11",
     "specUpdatedAt": "2026-11-09"
   }
 }

@@ -1,0 +1,12 @@
+{
+  "description": "The trail settings PATCH answers 400 `trails_enabled is required` without the field, though the spec marks it optional",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.entire.cell.repo_settings#RepoTrailSettingsRequest/members/trails_enabled/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    }
+  ]
+}

@@ -43,6 +43,15 @@ export class NamespaceAlreadyExists
     [{ status: 409, headers: { "x-rivet-error": "namespace.name_not_unique" } }],
   ) {}
 
+/** The control plane's storage host had no capacity for the command (`command_capacity`; its outcome may be unknown). Retry after a short delay. */
+export class StorageCommandCapacity
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<StorageCommandCapacity>()("StorageCommandCapacity", {
+      message: S.String,
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 400, message: { includes: "(command_capacity)" } }],
+  ) {}
+
 /** The control plane's storage refused the command (`depot.overloaded`) -- answered while the storage layer is still starting or under load. Retry after a short delay. */
 export class StorageOverloaded
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -85,6 +94,7 @@ export interface NamespaceListResponse {
 export type CreateNamespaceError =
   | NamespaceAlreadyExists
   | StorageOverloaded
+  | StorageCommandCapacity
   | CommandDeadlineElapsed
   | RivetOpError;
 /** Creates a namespace. Requires the admin token. */
@@ -96,14 +106,24 @@ export const createNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateNamespaceRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<NamespacesCreateResponse>,
-  errors: [NamespaceAlreadyExists, StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
+  errors: [
+    NamespaceAlreadyExists,
+    StorageOverloaded,
+    StorageCommandCapacity,
+    CommandDeadlineElapsed,
+    UnknownRivetError,
+  ],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateNamespace",
 }));
 
-export type ListNamespacesError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
+export type ListNamespacesError =
+  | StorageOverloaded
+  | StorageCommandCapacity
+  | CommandDeadlineElapsed
+  | RivetOpError;
 /** Lists namespaces in name order, or looks up one namespace by name. Requires the admin token. */
 export const listNamespaces: API.PaginatedOperationMethod<
   ListNamespacesRequest,
@@ -115,7 +135,7 @@ export const listNamespaces: API.PaginatedOperationMethod<
   () => ({
     input: __S(8, __c2, 0) as any as S.Schema<ListNamespacesRequest>,
     output: __S(11, __c2, 3) as any as S.Schema<NamespaceListResponse>,
-    errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
+    errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
     protocol: RivetProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
