@@ -82,3 +82,41 @@
     `/* webpackIgnore: true */` comment on the import is the likely fix
   - protobuf.ts throws its encode/decode errors (43 throws) and
     protocol-grpc.ts catches them; decide if that stays or becomes typed
+- retry policies (#932) — plan agreed 2026-11-12, PR stack in progress
+  - precedence: a `Retry` policy the user provides > the Smithy trait
+    `distilled.retry#policy` (defined in packages/dev; numbers only:
+    attempts, base delays, cap, long-poll; on a service or an operation,
+    the operation wins) > the default. Converters and `patches/` write the
+    trait. A spec value that is a generic template (73% of GCP's
+    `*_grpc_service_config.json` retry policies) does not count.
+  - what retries: only errors marked retryable — Smithy `@retryable`
+    (`throttling: true` for throttling), a patch, or core's own explicit
+    marks for never-sent network errors and its 429/503 classes. No
+    inference from a status code: codegen stops making 5xx/408/504 retry
+    triggers. No idempotency or HTTP-method rule.
+  - default: 3 attempts, full jitter `random(0,1) × min(20s, base × 2^n)`,
+    base 50 ms transient and 1 s throttling (AWS Retry Behavior 2.1).
+  - budget (AWS token bucket): 500 tokens, a transient retry costs 14, a
+    throttling retry 5, a first-try success adds 1, a successful retry is
+    refunded. Starts at 5–10 retries' worth instead of full, so many small
+    Lambdas cannot add up to 3× load. The bucket lives in the policy value;
+    each SDK's default keeps a module-level map (a global), keyed by
+    service+region for AWS and by host elsewhere, no cap. Long-poll
+    operations still back off when the budget is empty.
+  - server hints, every SDK: read `x-amz-retry-after` and
+    `x-distilled-retry-after` (integer ms, anything else ignored; take the
+    larger) and wait `clamp(hint, t, t + 5s)` with no extra jitter, as the
+    AWS Java, Python and Rust SDKs do (not the JS SDK). When either is
+    present, ignore `Retry-After`. Otherwise `Retry-After` is a minimum
+    (RFC 9110); over the cap, return the error without retrying early.
+    A hint never makes an error retryable.
+  - stack:
+    1. core: default backoff, budget, hint handling, explicit-mark-only
+       classification
+    2. codegen: `distilled.retry#policy` trait + per-operation override;
+       DynamoDB patch (25 ms, 4 attempts)
+    3. aws: header parsing at the response, modeled `retryAfterSeconds`
+       stays on the error but no longer drives timing, long-poll back-off
+    4. gcp: converter reads googleapis service configs, skips templates
+    5. alchemy: its own deploy-time policy, merged before 1 is released
+       (throttling patience drops from ~22 s to ~1.5 s)
