@@ -203,13 +203,15 @@ const appendQueryValue = (query: URLSearchParams, key: string, value: unknown): 
 };
 
 /**
- * Stripe GET-query bracket expansion (v0's `appendStripeQuery`): arrays as
- * repeated `key[]` entries, nested objects as `key[nested]`, recursively.
+ * Stripe GET-query bracket expansion: arrays as indexed `key[0]` entries,
+ * nested objects as `key[nested]`, recursively. Indices match the form
+ * bodies and Stripe's own clients; the v2 API rejects `key[]` ("Query
+ * parameters with the [] array syntax are unsupported").
  */
 const appendStripeQuery = (query: URLSearchParams, key: string, value: unknown): void => {
   if (value === undefined || value === null) return;
   if (Array.isArray(value)) {
-    for (const item of value) appendQueryValue(query, `${key}[]`, item);
+    value.forEach((item, index) => appendStripeQuery(query, `${key}[${index}]`, item));
     return;
   }
   if (typeof value === "object" && !(value instanceof Date)) {

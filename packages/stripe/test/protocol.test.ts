@@ -201,7 +201,7 @@ describe("Form encoding (POST /v1)", () => {
 });
 
 describe("Query encoding (GET /v1)", () => {
-  test("nested query objects use brackets and arrays repeat `key[]`", async () => {
+  test("nested query objects use brackets and arrays are indexed `key[0]`", async () => {
     const { result, requests } = run(
       GetCustomers({
         created: { gte: 1700000000, lt: 1800000000 },
@@ -220,8 +220,8 @@ describe("Query encoding (GET /v1)", () => {
       ["created[gte]", "1700000000"],
       ["created[lt]", "1800000000"],
       ["email", "a+b@example.test"],
-      ["expand[]", "data.default_source"],
-      ["expand[]", "data.tax"],
+      ["expand[0]", "data.default_source"],
+      ["expand[1]", "data.tax"],
       ["limit", "3"],
     ]);
     expect(request!.body._tag).toBe("Empty");
@@ -234,7 +234,7 @@ describe("Query encoding (GET /v1)", () => {
     );
     await result;
     expect(requests[0]!.url.pathname).toBe("/v1/customers/cus_123");
-    expect([...requests[0]!.url.searchParams.entries()]).toEqual([["expand[]", "sources"]]);
+    expect([...requests[0]!.url.searchParams.entries()]).toEqual([["expand[0]", "sources"]]);
   });
 
   test("GET inputs never carry a body: unknown keys flatten into the query", async () => {
@@ -248,7 +248,7 @@ describe("Query encoding (GET /v1)", () => {
     expect([...requests[0]!.url.searchParams.entries()]).toEqual([
       ["limit", "1"],
       ["extra[nested]", "true"],
-      ["tags[]", "a"],
+      ["tags[0]", "a"],
     ]);
     expect(requests[0]!.body._tag).toBe("Empty");
   });
