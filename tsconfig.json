@@ -565,9 +565,6 @@
       "path": "./packages/namespacelabs/tsconfig.json"
     },
     {
-      "path": "./packages/namespacelabs/tsconfig.test.json"
-    },
-    {
       "path": "./packages/namespacelabs/tsconfig.scripts.json"
     },
     {
