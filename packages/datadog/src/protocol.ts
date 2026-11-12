@@ -1,6 +1,10 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * DatadogProtocol -- hand-written.
@@ -90,11 +94,6 @@ export const DatadogProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
     return headers;
   },
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownDatadogError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownDatadogError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new DatadogParseError({ body, cause }),
 });

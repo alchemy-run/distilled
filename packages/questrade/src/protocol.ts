@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * Questrade protocol -- the shared REST protocol with Questrade's auth.
@@ -45,11 +45,6 @@ export const QuestradeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRe
   credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiServer,
   headers: (creds) => ({ authorization: `Bearer ${Redacted.value(creds.accessToken)}` }),
-  unknownError: ({ code, message, body }) =>
-    new UnknownQuestradeError({
-      code: code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownQuestradeError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new QuestradeParseError({ body, cause }),
 });

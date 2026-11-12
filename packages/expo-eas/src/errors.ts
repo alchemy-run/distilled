@@ -36,6 +36,7 @@ import type {
   NotFound,
   UnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -43,11 +44,10 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  * Carries the raw `errors[]` envelope and a best-effort `code` / `message`.
  */
 export class UnknownEasError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownEasError>()("UnknownEasError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownEasError>()(
+    "UnknownEasError",
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper (response body did not match the operation schema). */
 export class EasParseError

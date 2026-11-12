@@ -33,6 +33,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -40,11 +41,10 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  * a typed error or a shared HTTP status class.
  */
 export class UnknownConvexError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownConvexError>()("UnknownConvexError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownConvexError>()(
+    "UnknownConvexError",
+    UnknownErrorFields,
+  ) {}
 
 /** A 2xx body that failed response validation. */
 export class ConvexParseError

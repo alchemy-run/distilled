@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * SentryProtocol -- hand-written.
@@ -54,11 +54,6 @@ export const SentryProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
   }),
   // Sentry's error body is typically `{ detail?: string }` -- the
   // factory's default lenient envelope covers it.
-  unknownError: ({ code, message, body }) =>
-    new UnknownSentryError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownSentryError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new SentryParseError({ body, cause }),
 });

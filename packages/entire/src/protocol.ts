@@ -1,7 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 /**
  * Entire protocols -- the shared bearer-REST protocol instantiated once per
  * Entire API.
@@ -100,12 +104,7 @@ const make = (baseUrl: (creds: Config) => string): Layer.Layer<API.Protocol> =>
     }),
     errorEnvelope,
     statusMap,
-    unknownError: ({ code, message, body }) =>
-      new UnknownEntireError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownEntireError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new EntireParseError({ body, cause }),
   });
 

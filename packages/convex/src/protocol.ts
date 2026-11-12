@@ -1,6 +1,10 @@
 import type * as API from "@distilled.cloud/core/api";
 import { ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestProtocolOptions } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestProtocolOptions,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 /**
  * The three Convex protocols -- hand-written.
  *
@@ -62,12 +66,7 @@ const deploymentBaseUrl = (creds: Config, path: string): string => {
 };
 
 const shared = {
-  unknownError: ({ code, message, body }) =>
-    new UnknownConvexError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownConvexError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ConvexParseError({ body, cause }),
 } satisfies Pick<RestProtocolOptions<Config>, "unknownError" | "parseError">;
 

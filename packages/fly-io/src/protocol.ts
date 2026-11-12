@@ -4,6 +4,7 @@ import {
   InternalServerError,
   type ConfigError,
   type InvalidInput,
+  type UnknownErrorProps,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -15,6 +16,7 @@ import {
   makeRestProtocol,
   unwrapRedactedDeep,
   validateSuccess,
+  unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
@@ -140,7 +142,7 @@ const FlyIoProtocolRest: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProto
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
   }),
   errorEnvelope: flyErrorEnvelope,
-  unknownError: ({ message, body }) => new UnknownFlyIoError({ message, body }),
+  unknownError: (info) => new UnknownFlyIoError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
 });
 
@@ -172,7 +174,7 @@ export const FlyApiProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
   }),
   errorEnvelope: flyErrorEnvelope,
-  unknownError: ({ message, body }) => new UnknownFlyIoError({ message, body }),
+  unknownError: (info) => new UnknownFlyIoError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
 });
 
@@ -265,6 +267,22 @@ const haystackOf = (body: unknown, text: string): string => {
   return parts.join(" ");
 };
 
+/**
+ * The fallback for a failure nothing matched: an unmapped 5xx is a server
+ * fault worth a retry (as in core's REST protocol), anything else is
+ * {@link UnknownFlyIoError}.
+ */
+const unknownError = (
+  props: UnknownErrorProps,
+  headers: Record<string, string | undefined> | undefined,
+) =>
+  props.status >= 500
+    ? new InternalServerError({
+        message: props.message ?? `HTTP ${props.status}`,
+        retryAfter: parseRetryAfterForStatus(props.status, headers),
+      })
+    : new UnknownFlyIoError(props);
+
 const errorEnv = (body: unknown): { message?: string; code?: string } =>
   spritesErrorEnvelope(body) ?? flyErrorEnvelope(body) ?? {};
 
@@ -293,7 +311,7 @@ const failHttp = (
       }),
     );
   }
-  return fail(new UnknownFlyIoError({ message, body: body ?? text }));
+  return fail(unknownError({ status, code: env.code, message, body: body ?? text }, headers));
 };
 
 const orgFromTokensCurrent = (body: unknown): string | undefined => {
@@ -549,12 +567,7 @@ const decodeSpritesResponse = ({
           }),
         );
       }
-      return yield* fail(
-        new UnknownFlyIoError({
-          message,
-          body: nonJson ? text : json,
-        }),
-      );
+      return yield* fail(new UnknownFlyIoError({ status, message, body: nonJson ? text : json }));
     }
 
     // Strict mode checks the mapped body (or parsed exec frames) against the
@@ -636,11 +649,7 @@ const matchGraphqlError = (
       );
     }
     return fail(
-      new UnknownFlyIoError({
-        code: first.extensions?.code,
-        message,
-        body: errorBody,
-      }),
+      unknownError({ status, code: first.extensions?.code, message, body: errorBody }, headers),
     );
   }
 
@@ -658,7 +667,7 @@ const matchGraphqlError = (
       }),
     );
   }
-  return fail(new UnknownFlyIoError({ body: errorBody }));
+  return fail(unknownError({ status, body: errorBody }, headers));
 };
 
 const graphqlEncode = ({

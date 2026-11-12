@@ -37,15 +37,15 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** Unknown E2B error -- a failed response whose status has no mapped error class. */
 export class UnknownE2BError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownE2BError>()("UnknownE2BError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownE2BError>()(
+    "UnknownE2BError",
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper. */
 export class E2BParseError

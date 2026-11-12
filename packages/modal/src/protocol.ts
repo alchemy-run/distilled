@@ -2,6 +2,7 @@ import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeGrpcProtocol } from "@distilled.cloud/core/protocol-grpc";
 import type { RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import { unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ModalProtocol -- binary gRPC at Modal's method paths.
@@ -104,11 +105,6 @@ export const ModalProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeGrpcPr
     "x-modal-libmodal-version": `modal-js/${LIBMODAL_JS_VERSION}`,
   }),
   errorEnvelope,
-  unknownError: ({ status: _status, code, message, body }) =>
-    new UnknownModalError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownModalError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ModalParseError({ body, cause }),
 });

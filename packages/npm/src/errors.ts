@@ -37,6 +37,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -44,11 +45,10 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  * neither an operation's typed errors nor a shared HTTP status class.
  */
 export class UnknownNpmError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownNpmError>()("UnknownNpmError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownNpmError>()(
+    "UnknownNpmError",
+    UnknownErrorFields,
+  ) {}
 
 /** A 2xx response that does not match the operation's output schema. */
 export class NpmParseError

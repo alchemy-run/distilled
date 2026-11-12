@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
@@ -34,12 +34,7 @@ export const RevenueCatProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeR
         message: typeof message === "string" ? message : undefined,
       };
     },
-    unknownError: ({ code, message, body }) =>
-      new UnknownRevenueCatError({
-        code: code === undefined ? undefined : String(code),
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownRevenueCatError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new RevenueCatParseError({ body, cause }),
   },
 );
