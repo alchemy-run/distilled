@@ -19,6 +19,8 @@
  *     its `google.api.http` bindings, read from the .proto files next to
  *     each service config, so a generator can match a gRPC method name to a
  *     discovery method (same HTTP method and path)
+ *   ../specs/googleapis/hosts.json  – `<package>.<Service>` → its
+ *     `google.api.default_host`, which scopes that match to one API
  *
  * googleapis is pulled with a blobless, depth-1 clone: the tree listing
  * picks the directories that have a service config, and only their
@@ -141,13 +143,18 @@ interface HttpBinding {
  * `<package>.<Service>/<Method>` → the method's `google.api.http` bindings
  * (the primary one first, then `additional_bindings`) in one .proto file.
  */
-const httpRulesOf = (proto: string): Record<string, HttpBinding[]> => {
+const httpRulesOf = (
+  proto: string,
+  hosts: Record<string, string>,
+): Record<string, HttpBinding[]> => {
   const text = stripComments(proto);
   const pkg = /\bpackage\s+([\w.]+)\s*;/.exec(text)?.[1];
   const rules: Record<string, HttpBinding[]> = {};
   if (pkg === undefined) return rules;
   for (const service of text.matchAll(/\bservice\s+(\w+)\s*\{/g)) {
     const [body] = block(text, service.index + service[0].length - 1);
+    const host = /option\s*\(\s*google\.api\.default_host\s*\)\s*=\s*"([^"]+)"/.exec(body)?.[1];
+    if (host !== undefined) hosts[`${pkg}.${service[1]}`] = host;
     const rpcs = /\brpc\s+(\w+)\s*\([^)]*\)\s*returns\s*\([^)]*\)\s*([{;])/g;
     for (let rpc = rpcs.exec(body); rpc !== null; rpc = rpcs.exec(body)) {
       if (rpc[2] !== "{") continue;
@@ -200,16 +207,21 @@ async function fetchServiceConfigs() {
     // Replace rather than merge, so a config Google removed also disappears.
     await rm(dest, { recursive: true, force: true });
     const rules: Record<string, HttpBinding[]> = {};
+    const hosts: Record<string, string> = {};
     for (const path of keep) {
       if (path.endsWith(SERVICE_CONFIG_SUFFIX)) {
         await mkdir(join(dest, dirname(path)), { recursive: true });
         await cp(join(repo, path), join(dest, path));
       } else {
-        Object.assign(rules, httpRulesOf(await readFile(join(repo, path), "utf8")));
+        Object.assign(rules, httpRulesOf(await readFile(join(repo, path), "utf8"), hosts));
       }
     }
     const sorted = Object.fromEntries(Object.entries(rules).sort(([a], [b]) => a.localeCompare(b)));
     await writeFile(`${dest}/http-rules.json`, JSON.stringify(sorted, null, 2));
+    const sortedHosts = Object.fromEntries(
+      Object.entries(hosts).sort(([a], [b]) => a.localeCompare(b)),
+    );
+    await writeFile(`${dest}/hosts.json`, JSON.stringify(sortedHosts, null, 2));
     const configs = (await readdir(dest, { recursive: true })).filter((p) =>
       String(p).endsWith(SERVICE_CONFIG_SUFFIX),
     );
