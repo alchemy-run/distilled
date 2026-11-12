@@ -1,3 +1,39 @@
+## v1.0.0-rc.20
+
+### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes
+
+- **aws**:
+  - Type ec2 dry-run, instance state, hibernation and capacity errors &nbsp;-&nbsp; by **Rohan Godha** in https://github.com/alchemy-run/distilled/issues/1107 [<samp>(03ae1)</samp>](https://github.com/alchemy-run/distilled/commit/03ae11c12)
+- **boat-dev**:
+  - Type save_in_progress on saved-snapshot writes &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/1149 [<samp>(db5bb)</samp>](https://github.com/alchemy-run/distilled/commit/db5bbf89c)
+- **cloudflare**:
+  - Generate containers from the API reference &nbsp;-&nbsp; by **Michael K (Pear)** in https://github.com/alchemy-run/distilled/issues/1109 [<samp>(342fa)</samp>](https://github.com/alchemy-run/distilled/commit/342fa999e)
+  - Type ContainerApplicationNotFound on the container instance and version lists &nbsp;-&nbsp; by **Michael K (Pear)** in https://github.com/alchemy-run/distilled/issues/1157 [<samp>(8f5b4)</samp>](https://github.com/alchemy-run/distilled/commit/8f5b49d95)
+- **core**:
+  - Carry the HTTP status on every unknown error &nbsp;-&nbsp; by **Michael K (Pear)** and **Rohan Godha** in https://github.com/alchemy-run/distilled/issues/1151 [<samp>(e2c34)</samp>](https://github.com/alchemy-run/distilled/commit/e2c34f4ad)
+- **fly-io**:
+  - Type Tigris's recently-deleted-name error on createAddOn &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/1142 [<samp>(88e9b)</samp>](https://github.com/alchemy-run/distilled/commit/88e9b65aa)
+- **gcp,google-workspace**:
+  - Unknown errors use the core fields &nbsp;-&nbsp; by **Michael K (Pear)** in https://github.com/alchemy-run/distilled/issues/1156 [<samp>(183e6)</samp>](https://github.com/alchemy-run/distilled/commit/183e60d84)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **namespacelabs**:
+  - Add the Namespace SDK &nbsp;-&nbsp; by **Patt O'Brien** and **Michael K (Pear)** in https://github.com/alchemy-run/distilled/issues/1134 [<samp>(69063)</samp>](https://github.com/alchemy-run/distilled/commit/690636bf8)
+- **proxmox**:
+  - Add the Proxmox VE SDK &nbsp;-&nbsp; by **Michael K (Pear)** in https://github.com/alchemy-run/distilled/issues/1137 [<samp>(3a447)</samp>](https://github.com/alchemy-run/distilled/commit/3a447112f)
+- **technitium**:
+  - Add the Technitium DNS Server SDK &nbsp;-&nbsp; by **Kevin** and **Michael K (Pear)** in https://github.com/alchemy-run/distilled/issues/1026 [<samp>(8f674)</samp>](https://github.com/alchemy-run/distilled/commit/8f6742c50)
+  - Mirror the latest Technitium release; add its logo &nbsp;-&nbsp; by **Michael K (Pear)** in https://github.com/alchemy-run/distilled/issues/1162 [<samp>(f9cc9)</samp>](https://github.com/alchemy-run/distilled/commit/f9cc932cd)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **dev**: Proto parser attaches trailing comments to the right field &nbsp;-&nbsp; by **Patt O'Brien** and **Michael K (Pear)** in https://github.com/alchemy-run/distilled/issues/1132 [<samp>(22173)</samp>](https://github.com/alchemy-run/distilled/commit/22173ebfb)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v1.0.0-rc.19...HEAD)
+
+---
+
 ## v1.0.0-rc.19
 
 ### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes
