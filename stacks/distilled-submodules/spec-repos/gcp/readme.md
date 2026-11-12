@@ -2,6 +2,8 @@
 
 A git mirror of Google's [API Discovery Service](https://developers.google.com/discovery). All versions of all APIs are fetched and committed as JSON files so the repo serves as a versioned snapshot of the full discovery catalog.
 
+It also keeps, under `specs/googleapis/`, the retry policies Google's client libraries use, which discovery documents do not carry: every `*_grpc_service_config.json` from [googleapis/googleapis](https://github.com/googleapis/googleapis), verbatim, and `http-rules.json`, the `google.api.http` bindings of each gRPC method (read from the `.proto` files next to each config) so a method name can be matched to a discovery method.
+
 The mirror is updated every 24 hours and is designed to be used as a stable git submodule.
 
 ## Usage as a submodule
