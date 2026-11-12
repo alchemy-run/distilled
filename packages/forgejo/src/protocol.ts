@@ -1,6 +1,10 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ForgejoProtocol -- the shared bearer-REST protocol instantiated for Forgejo.
@@ -68,11 +72,6 @@ export const ForgejoProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
     Accept: "application/json",
   }),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownForgejoError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownForgejoError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ForgejoParseError({ body, cause }),
 });

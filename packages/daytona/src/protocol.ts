@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import { ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * DaytonaProtocol -- the shared bearer-REST protocol instantiated for Daytona.
@@ -128,11 +128,6 @@ export const DaytonaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
   baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
   headers: requestHeaders,
   transformResponse: stripNulls,
-  unknownError: ({ code, message, body }) =>
-    new UnknownDaytonaError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownDaytonaError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new DaytonaParseError({ body, cause }),
 });

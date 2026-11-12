@@ -1,7 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * HetznerProtocol -- the shared bearer-REST protocol instantiated for Hetzner
@@ -104,12 +108,7 @@ export const HetznerProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
     410: Gone,
     412: PreconditionFailed,
   },
-  unknownError: ({ code, message, body }) =>
-    new UnknownHetznerError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      details: errorDetails(body),
-      body,
-    }),
+  unknownError: (info) =>
+    new UnknownHetznerError({ ...unknownErrorProps(info), details: errorDetails(info.body) }),
   parseError: ({ body, cause }) => new HetznerParseError({ body, cause }),
 });

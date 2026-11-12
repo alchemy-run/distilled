@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * DokployProtocol -- the shared REST protocol instantiated for the Dokploy
@@ -49,11 +49,6 @@ export const DokployProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
   headers: (creds) => ({
     "x-api-key": Redacted.value(creds.apiKey),
   }),
-  unknownError: ({ code, message, body }) =>
-    new UnknownDokployError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownDokployError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new DokployParseError({ body, cause }),
 });

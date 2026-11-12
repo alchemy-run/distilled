@@ -1,7 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * IcebergProtocol -- the shared bearer-REST protocol instantiated for the
@@ -86,11 +90,6 @@ export const IcebergProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
     ...HTTP_STATUS_MAP,
     419: AuthenticationTimeout,
   },
-  unknownError: ({ code, message, body }) =>
-    new UnknownIcebergError({
-      code: code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownIcebergError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new IcebergParseError({ body, cause }),
 });

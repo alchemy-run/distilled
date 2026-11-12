@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ChronosphereProtocol -- hand-written.
@@ -61,11 +61,6 @@ export const ChronosphereProtocol: Layer.Layer<API.Protocol> =
       if (creds.actor) headers["Chronosphere-Actor"] = creds.actor;
       return headers;
     },
-    unknownError: ({ code, message, body }) =>
-      new UnknownChronosphereError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownChronosphereError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new ChronosphereParseError({ body, cause }),
   });

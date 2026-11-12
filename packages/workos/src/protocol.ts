@@ -1,6 +1,10 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * WorkosProtocol -- the shared bearer-REST protocol instantiated for WorkOS.
@@ -67,11 +71,6 @@ export const WorkosProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
   }),
   errorEnvelope,
-  unknownError: ({ status: _status, code, message, body }) =>
-    new UnknownWorkosError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownWorkosError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new WorkosParseError({ body, cause }),
 });

@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ElasticsearchProtocol -- hand-written.
@@ -56,11 +56,6 @@ export const ElasticsearchProtocol: Layer.Layer<API.Protocol> =
     }),
     // Elasticsearch's error body is `{ error?: { type, reason }, status? }`
     // -- the factory's default lenient envelope covers `message`/`reason`.
-    unknownError: ({ code, message, body }) =>
-      new UnknownElasticsearchError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownElasticsearchError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new ElasticsearchParseError({ body, cause }),
   });

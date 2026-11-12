@@ -1,6 +1,10 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * AdyenProtocol -- hand-written.
@@ -69,11 +73,6 @@ export const AdyenProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPr
     "X-API-Key": Redacted.value(creds.apiKey),
   }),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownAdyenError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownAdyenError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new AdyenParseError({ body, cause }),
 });

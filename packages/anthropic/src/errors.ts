@@ -39,6 +39,7 @@ import type {
   Forbidden as CoreForbidden,
   NotFound as CoreNotFound,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -47,11 +48,10 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  * `billing_error`). `code` is the body's `error.type`.
  */
 export class UnknownAnthropicError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownAnthropicError>()("UnknownAnthropicError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownAnthropicError>()(
+    "UnknownAnthropicError",
+    UnknownErrorFields,
+  ) {}
 
 /** A 2xx response that does not match the operation's output schema. */
 export class AnthropicParseError

@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * HostingerProtocol -- hand-written.
@@ -54,11 +54,6 @@ export const HostingerProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRe
   }),
   // Hostinger's error body is `{ message: string, correlation_id?: string }`
   // -- the factory's default lenient envelope covers `message`.
-  unknownError: ({ code, message, body }) =>
-    new UnknownHostingerError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownHostingerError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new HostingerParseError({ body, cause }),
 });

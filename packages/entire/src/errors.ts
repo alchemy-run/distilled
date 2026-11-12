@@ -35,6 +35,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -75,11 +76,10 @@ export class PayloadTooLarge
  * no mapped error class.
  */
 export class UnknownEntireError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownEntireError>()("UnknownEntireError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownEntireError>()(
+    "UnknownEntireError",
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper. */
 export class EntireParseError

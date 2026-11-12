@@ -55,6 +55,7 @@ import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive
  */
 import * as Telemetry from "./telemetry.ts";
 import { httpSymbol, makeAnnotation, type HttpTrait } from "./trait.ts";
+import type { UnknownErrorProps } from "./unknown-error.ts";
 
 // =============================================================================
 // Traits
@@ -126,6 +127,18 @@ export interface RestErrorInfo {
 }
 
 /**
+ * The core {@link UnknownErrorProps} of a failure, for an SDK's
+ * `unknownError`: `new UnknownNeonError(unknownErrorProps(info))`. A number
+ * code becomes its string.
+ */
+export const unknownErrorProps = (info: RestErrorInfo): UnknownErrorProps => ({
+  status: info.status,
+  code: info.code === undefined ? undefined : String(info.code),
+  message: info.message,
+  body: info.body,
+});
+
+/**
  * A 2xx body that failed strict validation, or a non-JSON 2xx body for an
  * output with sensitive members, for the `parseError` option.
  */
@@ -188,7 +201,12 @@ export interface RestProtocolOptions<C> {
    * can't express, e.g. a 403 that is a rate limit because of its headers.
    */
   readonly classifyError?: (info: RestErrorInfo) => unknown;
-  /** Fallback error for failures nothing else matched. */
+  /**
+   * Fallback error for failures nothing else matched: the SDK's
+   * `Unknown<Sdk>Error`, built from {@link unknownErrorProps}. Only non-5xx
+   * statuses reach it (unmapped 5xx are `InternalServerError`), so the class
+   * carries no retryable category.
+   */
   readonly unknownError: (info: RestErrorInfo) => unknown;
   /**
    * The SDK's `<Sdk>ParseError`, raised when a 2xx body does not match the

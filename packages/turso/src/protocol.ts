@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * TursoProtocol -- hand-written.
@@ -53,11 +53,6 @@ export const TursoProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPr
   }),
   // Turso error bodies are `{ error: string, code?: string }` -- covered by
   // the default lenient envelope (message ?? error, string codes kept).
-  unknownError: ({ code, message, body }) =>
-    new UnknownTursoError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownTursoError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new TursoParseError({ body, cause }),
 });

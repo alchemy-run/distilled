@@ -210,7 +210,7 @@ const decode = ({
       }
 
       // 5. Unknown Supabase error.
-      return yield* fail(new UnknownSupabaseError({ message, body }));
+      return yield* fail(new UnknownSupabaseError({ status, message, body }));
     }
 
     // 2xx: the response body IS the payload (no envelope). Wire->TS key

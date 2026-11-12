@@ -1,6 +1,10 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * OktaProtocol -- hand-written.
@@ -70,11 +74,6 @@ export const OktaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPro
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => formatHeaders(creds),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownOktaError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownOktaError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new OktaParseError({ body, cause }),
 });

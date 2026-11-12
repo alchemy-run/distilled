@@ -5,7 +5,7 @@ import type {
   DefaultErrors,
   InvalidInput,
 } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * MailchimpProtocol -- hand-written.
@@ -94,17 +94,15 @@ export const MailchimpProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRe
     const message = problemMessage(body);
     return message === undefined ? undefined : { message };
   },
-  unknownError: ({ status, message, body }) => {
-    const problem = isRecord(body) ? body : undefined;
+  unknownError: (info) => {
+    const problem = isRecord(info.body) ? info.body : undefined;
     const fields = {
-      status,
+      ...unknownErrorProps(info),
       type: str(problem?.type),
       title: str(problem?.title),
-      message,
       instance: str(problem?.instance),
-      body,
     };
-    return problemMessage(body) !== undefined
+    return problemMessage(info.body) !== undefined
       ? new MailchimpApiError(fields)
       : new UnknownMailchimpError(fields);
   },
@@ -156,7 +154,7 @@ const TransactionalRest: Layer.Layer<API.Protocol> =
         ? undefined
         : { message, code: typeof failure.code === "number" ? failure.code : undefined };
     },
-    unknownError: ({ status, code, message, body }) => {
+    unknownError: ({ status, code, message, body, headers }) => {
       const failure = transactionalFailure(body);
       return failure !== undefined
         ? new MailchimpTransactionalError({
@@ -166,7 +164,7 @@ const TransactionalRest: Layer.Layer<API.Protocol> =
             message,
             body,
           })
-        : new UnknownMailchimpError({ status, message, body });
+        : new UnknownMailchimpError(unknownErrorProps({ status, code, message, body, headers }));
     },
     parseError: ({ body, cause }) => new MailchimpParseError({ body, cause }),
   });

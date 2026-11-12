@@ -4,6 +4,7 @@ import {
   makeRestProtocol,
   type RestErrorEnvelope,
   type RestProtocolOptions,
+  unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
@@ -62,12 +63,7 @@ const shared = {
   // without rebuilding the layer.
   credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownExaError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownExaError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ExaParseError({ body, cause }),
 } satisfies Omit<RestProtocolOptions<Config>, "baseUrl" | "headers">;
 
